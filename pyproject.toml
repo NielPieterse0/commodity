@@ -1,0 +1,32 @@
+[build-system]
+requires = ["setuptools>=70", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "commodity-research"
+version = "0.1.0"
+description = "Reproducible ML research for natural-gas futures forecasting"
+requires-python = ">=3.11"
+dependencies = [
+  "numpy>=1.26,<3",
+  "pandas>=2.2,<3",
+  "scikit-learn>=1.5,<2",
+  "requests>=2.32,<3",
+]
+
+[project.optional-dependencies]
+market = ["yfinance>=1.0,<2"]
+kronos = ["torch>=2.3", "huggingface-hub>=0.33,<1", "einops>=0.8,<1", "safetensors>=0.6,<1", "tqdm>=4.67,<5"]
+dev = ["pytest>=8.2", "ruff>=0.6", "jsonschema>=4.23"]
+
+[project.scripts]
+commodity = "commodity.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+[tool.ruff]
+exclude = ["vendor"]

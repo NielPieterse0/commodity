@@ -1,0 +1,26 @@
+{
+  "schema_version": 1,
+  "experiment_id": "ng-next-session-return-baseline-v1",
+  "hypothesis": "Daily market state and seasonality improve next-session return forecasts versus a zero-return benchmark.",
+  "target": {
+    "name": "next_session_log_return",
+    "horizon_sessions": 1,
+    "information_cutoff": "after_current_daily_bar_close"
+  },
+  "walk_forward": {
+    "initial_train_rows": 756,
+    "retrain_every_rows": 5
+  },
+  "research_period": {
+    "start": "2010-01-01",
+    "end": "2100-01-01"
+  },
+  "controls": {
+    "leakage_check": "incomplete",
+    "reproducibility_runs": 1
+  },
+  "decision": {
+    "disposition": "repeat",
+    "rationale": "Bootstrap proxy only; canonical expiry-aware futures and point-in-time exogenous data are still pending."
+  }
+}

@@ -1,0 +1,73 @@
+{
+  "schema_version": 2,
+  "target": "CME Henry Hub Natural Gas futures",
+  "providers": {
+    "eia_api_v2": {
+      "api_base": "https://api.eia.gov/v2", "env_key": "EIA_API_KEY"
+    },
+    "cftc_public_reporting": {
+      "api_base": "https://publicreporting.cftc.gov/resource"
+    }
+  },
+  "canonical_contract_schema": {
+    "grain": "one row per trade_date and contract_id",
+    "required_columns": ["trade_date", "contract_id", "expiration", "settle"],
+    "optional_columns": ["open", "high", "low", "close", "volume", "open_interest", "available_at"],
+    "timestamp_columns": ["trade_date", "expiration", "available_at"],
+    "unique_key": ["trade_date", "contract_id"],
+    "required_metadata": [
+      "source_id", "source_sha256", "retrieved_at", "exchange", "product_code",
+      "session_timezone", "calendar", "price_semantics"
+    ],
+    "term_structure_price": "settle",
+    "continuous_contract": {
+      "status": "not_configured",
+      "roll_method": null,
+      "adjustment_method": null
+    }
+  },
+  "sources": {
+    "market_bootstrap": {
+      "provider": "yfinance", "symbol": "NG=F", "status": "research_bootstrap",
+      "purpose": "daily OHLCV proxy", "authoritative_for_execution": false
+    },
+    "market_canonical": {
+      "provider": "local_import", "status": "awaiting_approved_expiry_aware_dataset",
+      "purpose": "expiry-aware CME contract history and term structure",
+      "backtest_evidence_allowed": false
+    },
+    "eia_nymex_prompt_history": {
+      "provider": "eia_api_v2", "route": "natural-gas/pri/fut",
+      "status": "historical_term_structure_candidate",
+      "purpose": "daily NYMEX prompt-contract closes for contract ranks 1-4",
+      "coverage_end": "2024-04-05", "provides_contract_id": false,
+      "canonical_market_source": false
+    },
+    "eia_storage": {
+      "provider": "eia_api_v2", "route": "natural-gas/stor/wkly",
+      "status": "requires_free_api_key",
+      "point_in_time_required": true,
+      "availability_reconstruction_status": "historical_exceptions_incomplete"
+    },
+    "eia_fundamentals": {
+      "provider": "eia_api_v2", "status": "planned", "point_in_time_required": true,
+      "purpose": "production, supply/disposition, LNG/import-export, power demand",
+      "availability_reconstruction_status": "not_started"
+    },
+    "cftc_cot": {
+      "provider": "cftc_public_reporting",
+      "dataset": "72hh-3qpy", "contract_market_code": "023651",
+      "status": "snapshot_ready_backtest_release_time_pending",
+      "purpose": "weekly disaggregated futures-only trader positioning",
+      "point_in_time_required": true,
+      "availability_reconstruction_status": "historical_release_calendar_incomplete"
+    },
+    "weather": {
+      "provider": "noaa_ncei_gfs", "status": "historical_access_adapter_pending",
+      "product": "GFS forecast", "point_in_time_required": true,
+      "purpose": "archived forecast temperatures, issue cycles, HDD/CDD by gas-demand region",
+      "required_vintage_fields": ["issued_at", "available_at", "forecast_valid_at"],
+      "availability_reconstruction_status": "source_timestamp_required"
+    }
+  }
+}

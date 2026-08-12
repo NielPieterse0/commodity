@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "default_simulation": "placeholder_v0",
+  "simulations": {
+    "placeholder_v0": {
+      "enabled": true,
+      "canonical_evidence_allowed": false,
+      "instrument_status": "unresolved_until_expiry_aware_contract_data",
+      "cost_model": {
+        "type": "turnover_bps",
+        "turnover_bps": 2.0
+      },
+      "status": "placeholder_not_execution_calibrated"
+    }
+  }
+}

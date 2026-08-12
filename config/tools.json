@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "tools": {
+    "repo_mcp": {
+      "provider": "kis-mcp",
+      "role": "development_and_repo_operations",
+      "forecast_runtime_dependency": false
+    },
+    "llm": {
+      "role": "research_assistance_only",
+      "free_usage_only": true,
+      "allowed_as_forecast_feature": false,
+      "trading_authority": false
+    }
+  }
+}

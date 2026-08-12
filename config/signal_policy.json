@@ -1,0 +1,12 @@
+{
+  "schema_version": 1,
+  "default_policy": "sign_v0",
+  "policies": {
+    "sign_v0": {
+      "enabled": true,
+      "type": "prediction_sign",
+      "position_scale": 1.0,
+      "status": "research_example_not_canonical"
+    }
+  }
+}

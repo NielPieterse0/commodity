@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "research": {
+    "allowed": true,
+    "forward_test_required_before_live": true
+  },
+  "execution": {
+    "live_trading_allowed": false,
+    "model_may_submit_orders": false,
+    "allowed_modes": ["offline", "simulation", "paper"],
+    "approved_brokers": [],
+    "candidate_brokers": ["saxo_openapi_sim"]
+  },
+  "risk": {
+    "position_sizing_owner": "separate_policy_layer",
+    "stops_owner": "separate_policy_layer",
+    "order_submission_owner": "separate_execution_adapter"
+  }
+}

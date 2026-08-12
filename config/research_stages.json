@@ -1,0 +1,22 @@
+{
+  "schema_version": 1,
+  "owner": "commodity_research_maturity",
+  "stages": [
+    "research_candidate",
+    "backtest_candidate",
+    "simulation_candidate",
+    "forward_test_candidate",
+    "reviewed_candidate"
+  ],
+  "transitions": [
+    ["research_candidate", "backtest_candidate"],
+    ["backtest_candidate", "simulation_candidate"],
+    ["simulation_candidate", "forward_test_candidate"],
+    ["forward_test_candidate", "reviewed_candidate"]
+  ],
+  "semantics": {
+    "promotion_scope": "research_evidence_only",
+    "live_trading_authority": false,
+    "execution_permission_owner": "config/policy.json"
+  }
+}
