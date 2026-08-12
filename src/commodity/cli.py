@@ -20,7 +20,7 @@ from commodity.evaluation import evaluate_predictions, walk_forward_predict
 from commodity.features import make_supervised
 from commodity.market_data import DataContractViolation, assert_canonical_market_ready
 from commodity.massive import MassiveFuturesClient, fetch_massive_canonical_history
-from commodity.models import RidgeReturnModel, ZeroReturnModel
+from commodity.models import baseline_factory
 from commodity.policy import assert_model_cannot_submit_orders
 from commodity.provenance import sha256_file, utc_now, write_json
 from commodity.records import build_baseline_record
@@ -73,10 +73,7 @@ def _run_baseline(args: argparse.Namespace) -> None:
     frame = CsvMarketDataSource(Path(args.input)).fetch(args.start, args.end)
     x, y = make_supervised(frame)
     cfg = model_config()["models"]
-    if args.model == "ridge":
-        factory = lambda: RidgeReturnModel(alpha=float(cfg["ridge"]["alpha"]))
-    else:
-        factory = ZeroReturnModel
+    factory = baseline_factory(args.model, cfg)
     pred = walk_forward_predict(factory, x, y, args.initial_train, args.retrain_every)
     metrics = evaluate_predictions(pred)
     run_dir = Path(args.output)
@@ -151,6 +148,14 @@ def build_parser() -> argparse.ArgumentParser:
     exp = experiment_config()
     period = exp["research_period"]
     walk = exp["walk_forward"]
+    models_cfg = model_config()
+    baseline_choices = sorted(
+        name
+        for name, cfg in models_cfg["models"].items()
+        if cfg.get("enabled", False) and cfg.get("baseline_implementation")
+    )
+    if models_cfg["default_model"] not in baseline_choices:
+        raise ValueError("Default model is not configured as an enabled baseline")
     parser = argparse.ArgumentParser(prog="commodity")
     sub = parser.add_subparsers(required=True)
     fetch = sub.add_parser("fetch-market")
@@ -160,6 +165,7 @@ def build_parser() -> argparse.ArgumentParser:
     fetch.set_defaults(func=_fetch_market)
 
     canonical = sub.add_parser("fetch-canonical-market")
+    # Product code is intentionally config-owned; this command has no override flag.
     canonical.add_argument("--start", required=True)
     canonical.add_argument("--end", required=True)
     canonical.add_argument(
@@ -172,7 +178,9 @@ def build_parser() -> argparse.ArgumentParser:
     run.add_argument("--input", default=str(REPO_ROOT / "data/raw/ng_f_daily.csv"))
     run.add_argument("--start", default=period["start"])
     run.add_argument("--end", default=period["end"])
-    run.add_argument("--model", choices=["naive", "ridge"], default=model_config()["default_model"])
+    run.add_argument(
+        "--model", choices=baseline_choices, default=models_cfg["default_model"]
+    )
     run.add_argument("--initial-train", type=int, default=walk["initial_train_rows"])
     run.add_argument("--retrain-every", type=int, default=walk["retrain_every_rows"])
     run.add_argument("--output", default=str(REPO_ROOT / "artifacts/runs/baseline"))

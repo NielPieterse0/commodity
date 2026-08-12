@@ -32,7 +32,8 @@ def build_baseline_record(
     preprocessing_path = REPO_ROOT / "src/commodity/data.py"
     lock_path = REPO_ROOT / "requirements.lock.txt"
     model_cfg = models[model_name]
-    architecture = "ridge" if model_name == "ridge" else "zero_return"
+    family = model_cfg["family"]
+    architecture = model_cfg["architecture"]
     return {
         "schema_version": 2,
         "experiment_id": exp["experiment_id"],
@@ -72,7 +73,7 @@ def build_baseline_record(
             "preprocessing_sha256": sha256_file(preprocessing_path),
         },
         "model": {
-            "family": "linear_baseline",
+            "family": family,
             "architecture": architecture,
             "configuration_id": f"config/models.json#{model_name}",
             "checkpoint": None,

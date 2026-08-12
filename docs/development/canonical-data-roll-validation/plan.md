@@ -73,3 +73,16 @@
 - [x] Publish the exact verified feature tree and create/update the PR.
 - [ ] Run PR-completion readiness checks against the current PR head.
 - [ ] Do not land the PR until the PR-completion landing gate has exact-head confirmation.
+
+### Task 6: Close external review findings with TDD
+
+**Requirements:** R11–R15
+**Files:** `config/models.json`, `README.md`, `src/commodity/policy.py`, `src/commodity/evaluation.py`, `src/commodity/records.py`, `src/commodity/cli.py`, `src/commodity/kronos.py`, `tests/test_boundaries.py`, `tests/test_pipeline.py`, `tests/test_kronos.py`, `docs/development/canonical-data-roll-validation/review.md`
+
+- [x] RED: prove LIVE-mode permission is controlled by `config/policy.json`, non-positive retraining intervals fail explicitly, model identity is config-derived/fail-closed, and repeated Kronos initialization does not duplicate `sys.path`.
+- [x] Run the targeted tests and confirm each new behavior test fails for the reviewed defect.
+- [x] GREEN: make the smallest policy/evaluation/model/Kronos changes needed to satisfy those tests while leaving LIVE disabled in authoritative policy.
+- [x] Clarify governance-only configuration ownership, the `2100-01-01` open-ended research sentinel, and the intentional absence of `--product-code`; record the roll-gap suggestion as deferred pending trading-session semantics.
+- [x] Rerun targeted tests, full pytest, Ruff, and `git diff --check`.
+- [x] Run fresh code-review and modularity-assessment checkpoints over the updated diff; fix surviving blocking or worthwhile in-scope findings.
+- [ ] Commit and push the verified closeout to the existing feature branch, then rerun PR-completion readiness without landing unless the exact-head gate is satisfied.

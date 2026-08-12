@@ -13,7 +13,8 @@
   },
   "research_period": {
     "start": "2010-01-01",
-    "end": "2100-01-01"
+    "end": "2100-01-01",
+    "end_semantics": "open_ended_far_future_sentinel"
   },
   "controls": {
     "leakage_check": "incomplete",
