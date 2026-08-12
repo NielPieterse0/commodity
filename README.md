@@ -4,10 +4,15 @@ Natural-gas ML research repository. The mandate lives in [`AGENTS.md`](AGENTS.md
 
 ## Current state
 
-- Market: CME Henry Hub natural-gas forecasting; `NG=F` is bootstrap research data only. Massive Futures is selected for expiry-aware per-contract settlement/OHLCV price ingestion, but canonical backtest evidence remains blocked while account history depth is unverified and the candidate dual-liquidity roll rule lacks historical per-contract open interest. Saxo SIM remains a read-only verification candidate and its chart data is not treated as official settlement.
+- Market: CME Henry Hub natural-gas forecasting; `NG=F` is bootstrap research data only. Massive Futures is selected for expiry-aware per-contract settlement/OHLCV ingestion. The configured account history and deterministic `volume_crossover_dte_v1` roll methodology are validated; canonical backtest evidence remains blocked only because Massive non-display/backtesting rights are not verified for the current individual account. Saxo SIM remains a read-only verification candidate and its chart data is not treated as official settlement.
 - Models: zero-return benchmark + ridge baseline; Kronos-mini is an available optional CPU research model, while Ridge remains the default.
 - Evaluation: expanding-window, leakage-safe, out-of-sample forecast scoring and explicit signal/execution simulation are operational; canonical-evidence promotion remains a separate data-quality gate.
 - Execution: intentionally non-operational; LIVE trading is prohibited by `config/policy.json`.
+
+## Research direction
+
+- [Kronos + indicator fusion architecture](docs/architecture/kronos-indicator-fusion.md)
+- [Compact research roadmap](docs/roadmap.md)
 
 ## Authoritative configuration
 

@@ -213,18 +213,24 @@ def test_fetch_canonical_market_cli_rejects_product_override(capsys) -> None:
     assert "unrecognized arguments: --product-code GC" in capsys.readouterr().err
 
 
-def test_doctor_uses_full_canonical_readiness_gate(monkeypatch, capsys) -> None:
+def test_doctor_reports_canonical_readiness_layers(monkeypatch, capsys) -> None:
     import copy
     import json
 
     from commodity import cli
-    from commodity.config import data_config
+    from commodity.config import assumptions_config, data_config
 
-    cfg = copy.deepcopy(data_config())
-    cfg["sources"]["market_canonical"]["backtest_evidence_allowed"] = True
-    cfg["canonical_contract_schema"]["continuous_contract"]["default_roll_policy"] = None
-    monkeypatch.setattr(cli, "data_config", lambda: cfg)
+    data = copy.deepcopy(data_config())
+    assumptions = copy.deepcopy(assumptions_config())
+    source = data["sources"]["market_canonical"]
+    source["backtest_evidence_allowed"] = False
+    source["non_display_backtesting_rights_verified"] = False
+    monkeypatch.setattr(cli, "data_config", lambda: data)
+    monkeypatch.setattr(cli, "assumptions_config", lambda: assumptions)
     cli._doctor(None)
     report = json.loads(capsys.readouterr().out)
+    assert report["canonical_source_history_ready"] is True
+    assert report["canonical_roll_method_ready"] is True
+    assert report["canonical_licensing_ready"] is False
     assert report["canonical_market_evidence_allowed"] is False
-    assert "roll policy" in report["canonical_market_evidence_reason"]
+    assert "non-display/backtesting rights" in report["canonical_market_evidence_reason"]
