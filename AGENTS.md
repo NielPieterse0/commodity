@@ -19,13 +19,11 @@ Build a reproducible system that can:
 5. forward-test predictions through a simulated brokerage environment;
 6. measure whether model signals survive realistic execution costs and risk controls.
 
-## Hard Constraints
+## Assumptions and Policy
 
-- The final model MUST run on the target Lenovo laptop.
-- LLM usage and cloud services MUST be free.
-- The eventual execution instrument MUST be tradable by a private investor in Norway.
-- Research MUST remain separated from trading authority.
-- No model may directly authorize LIVE trades.
+Revisable project assumptions live in `config/assumptions.json`. They are not immutable requirements: each assumption carries a status and review trigger and may be replaced by an explicit decision.
+
+Binding execution boundaries live only in `config/policy.json`. Research remains separated from trading authority, and no model may directly authorize LIVE trades while that policy prohibits it.
 
 ## Experimental Progression
 
@@ -37,6 +35,8 @@ Historical research
 → explicit human approval before any live trading
 ```
 
+Research backtesting may use clearly labeled bootstrap or noncanonical inputs. Those runs are valid for pipeline development and hypothesis screening, but they MUST NOT be promoted as canonical market evidence until the canonical data gate passes.
+
 Live trading is out of scope until simulation evidence, execution controls and an explicit approval decision exist.
 
 ## Architecture Rules
@@ -46,6 +46,10 @@ Live trading is out of scope until simulation evidence, execution controls and a
 - Treat authoritative ownership as the change boundary: update the owner first, then all dependants, tests, provenance and documentation.
 - Prefer simple baselines before increasing model complexity.
 - Record datasets, features, model parameters, predictions and evaluation results so experiments are reproducible.
+
+## Working Area
+
+Use `.work/` for local implementation scratch, probes, temporary scripts, and other non-authoritative work. It is ignored by Git; runtime code, configuration, tests, and authoritative documentation MUST NOT depend on it.
 
 ## Repository Skills
 

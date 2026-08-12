@@ -8,7 +8,7 @@
     },
     "llm": {
       "role": "research_assistance_only",
-      "free_usage_only": true,
+      "cost_assumption_owner": "config/assumptions.json#assumptions.service_cost",
       "allowed_as_forecast_feature": false,
       "trading_authority": false
     }

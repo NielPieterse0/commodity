@@ -2,7 +2,7 @@ import json
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-SCHEMA = ROOT / "ml-research-core" / "contracts" / "experiment.schema.json"
+SCHEMA = ROOT / "contracts" / "experiment.schema.json"
 SKILL_ROOT = ROOT / ".agents" / "skills"
 
 
@@ -35,6 +35,8 @@ def test_forecast_experiment_does_not_own_strategy_or_cost_assumptions() -> None
     assert "cost_model" not in experiment
     assert signal["default_policy"] in signal["policies"]
     default_simulation = simulation["simulations"][simulation["default_simulation"]]
+    assert simulation["semantics"]["research_backtesting_available"] is True
+    assert simulation["semantics"]["execution_authority"] is False
     assert default_simulation["canonical_evidence_allowed"] is False
     assert "cost_model" in default_simulation
 
@@ -62,7 +64,7 @@ def test_agents_md_declares_repo_skill_discovery() -> None:
     for name in ("experiment-designer", "experiment-tracker"):
         skill = SKILL_ROOT / name / "SKILL.md"
         text = skill.read_text(encoding="utf-8")
-        relative_contract = "../../../ml-research-core/contracts/experiment.schema.json"
+        relative_contract = "../../../contracts/experiment.schema.json"
         assert relative_contract in text
         assert (skill.parent / relative_contract).resolve() == SCHEMA.resolve()
 
@@ -106,3 +108,56 @@ def test_provider_connection_settings_have_single_owner() -> None:
         if provider_name in providers:
             assert "api_base" not in source
             assert "env_key" not in source
+
+
+def test_legacy_skill_trees_are_removed() -> None:
+    assert not (ROOT / "ml-research-core").exists()
+    assert not (ROOT / "domain-skills").exists()
+    assert SCHEMA.exists()
+
+
+def test_work_area_is_local_only_and_non_authoritative() -> None:
+    assert ".work/" in (ROOT / ".gitignore").read_text(encoding="utf-8")
+    agents = (ROOT / "AGENTS.md").read_text(encoding="utf-8")
+    assert "Use `.work/` for local implementation scratch" in agents
+    assert "MUST NOT depend on it" in agents
+
+
+def test_saxo_probe_cannot_promote_itself_to_canonical_evidence() -> None:
+    data = load_json(ROOT / "config" / "data_sources.json")
+    source = data["sources"]["saxo_henry_hub_probe"]
+    assert data["providers"]["saxo_openapi_sim"]["read_only"] is True
+    assert source["provider"] == "saxo_openapi_sim"
+    assert source["provides_settlement"] is False
+    assert source["canonical_market_source"] is False
+    assert source["backtest_evidence_allowed"] is False
+
+
+def test_revisable_constraints_live_in_assumption_registry() -> None:
+    assumptions = load_json(ROOT / "config" / "assumptions.json")
+    policy = load_json(ROOT / "config" / "policy.json")
+    agents = (ROOT / "AGENTS.md").read_text(encoding="utf-8")
+    assert assumptions["semantics"]["execution_authority"] is False
+    assert assumptions["semantics"]["policy_owner"] == "config/policy.json"
+    assert "Hard Constraints" not in agents
+    assert policy["execution"]["live_trading_allowed"] is False
+    assert assumptions["assumptions"]["canonical_market_provider"]["excluded_for_now"] == ["databento"]
+
+
+def test_raw_contracts_are_canonical_and_roll_is_derived_policy() -> None:
+    data = load_json(ROOT / "config" / "data_sources.json")
+    continuous = data["canonical_contract_schema"]["continuous_contract"]
+    assert continuous["authoritative_storage"] == "raw_per_contract"
+    assert continuous["adjustment_method"] == "none_stored_raw"
+    assert continuous["default_roll_policy"] is None
+    assert continuous["cross_contract_returns_allowed"] is False
+    assert continuous["roll_policy_owner"].startswith("config/assumptions.json")
+
+
+def test_volatility_direction_is_additive_experiment_candidate() -> None:
+    current = load_json(ROOT / "config" / "experiment.json")
+    candidates = load_json(ROOT / "config" / "experiment_candidates.json")
+    candidate = candidates["candidates"]["ng-volatility-direction-v1"]
+    assert current["experiment_id"] == "ng-next-session-return-baseline-v1"
+    assert candidate["does_not_replace"].startswith("config/experiment.json")
+    assert candidate["targets"][0]["metric"] == "qlike"

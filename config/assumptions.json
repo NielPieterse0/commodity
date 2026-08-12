@@ -1,0 +1,62 @@
+{
+  "schema_version": 1,
+  "owner": "commodity_research_assumptions",
+  "semantics": {
+    "authoritative_for": "revisable research assumptions and decision-needed defaults",
+    "execution_authority": false,
+    "policy_owner": "config/policy.json",
+    "statuses": ["active_assumption", "decision_needed", "excluded_for_now", "retired"]
+  },
+  "assumptions": {
+    "target_compute": {
+      "status": "active_assumption",
+      "statement": "The final research model should run on the documented Lenovo laptop.",
+      "evidence": "docs/environment/lenovo-laptop-specification-v0.1.md",
+      "review_trigger": "A different deployment target or approved compute budget is chosen."
+    },
+    "service_cost": {
+      "status": "active_assumption",
+      "statement": "Prefer free or already-available research services; paid services require an explicit adoption decision.",
+      "review_trigger": "A paid source materially improves evidence quality and its cost/licensing are approved."
+    },
+    "retail_access": {
+      "status": "active_assumption",
+      "statement": "Any eventual execution instrument should be accessible to a Norwegian private retail investor.",
+      "review_trigger": "Execution scope, jurisdiction, or account type changes."
+    },
+    "initial_market_scope": {
+      "status": "active_assumption",
+      "statement": "Initial research scope is CME Henry Hub natural gas futures only.",
+      "review_trigger": "Natural-gas research reaches a stable comparison point or scope is explicitly expanded."
+    },
+    "canonical_market_provider": {
+      "status": "decision_needed",
+      "statement": "No expiry-aware canonical futures provider is approved yet; raw per-contract data remains the required evidence shape.",
+      "excluded_for_now": ["databento"],
+      "review_trigger": "A candidate passes source, licensing, cost, expiry, settlement, and provenance review."
+    },
+    "continuous_series_policy": {
+      "status": "active_assumption",
+      "statement": "Raw per-contract rows are canonical; continuous series are derived artifacts and must not contaminate cross-contract returns.",
+      "default_roll_policy": null,
+      "candidate_roll_policy": "dual_liquidity_crossover",
+      "candidate_rules_status": "decision_needed",
+      "review_trigger": "A deterministic roll policy is pre-registered and validated against canonical contract history."
+    },
+    "forecast_target_priority": {
+      "status": "active_assumption",
+      "statement": "Volatility plus settlement direction is the preferred next serious experiment; the next-session-return bootstrap remains unchanged for comparison.",
+      "review_trigger": "Out-of-sample evidence or target economics justify a different primary target."
+    },
+    "weather_archive": {
+      "status": "active_assumption",
+      "statement": "Actually-issued historical forecasts are required; Open-Meteo historical forecasts are the low-friction candidate and NOAA GFS/GEFS is the heavier fallback.",
+      "review_trigger": "Coverage, licensing, timestamp fidelity, or reproducibility is inadequate."
+    },
+    "broker_candidate": {
+      "status": "active_assumption",
+      "statement": "Saxo SIM is a verification candidate only; broker choice must remain replaceable and is not part of forecast-model authority.",
+      "review_trigger": "Instrument availability, costs, API quality, or retail eligibility are verified across candidates."
+    }
+  }
+}

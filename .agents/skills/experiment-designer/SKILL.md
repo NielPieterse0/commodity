@@ -18,7 +18,7 @@ Design experiments so a positive result can survive leakage checks, baseline com
 8. Define research promotion criteria that require robustness rather than peak score.
 
 ## Experiment Contract
-Every run conforms to `../../../ml-research-core/contracts/experiment.schema.json`. `promote` means research promotion only; operational or trading authorization is outside this contract.
+Every run conforms to `../../../contracts/experiment.schema.json`. `promote` means research promotion only; operational or trading authorization is outside this contract.
 
 ## Failure Modes
 Test-set tuning; weak baselines; temporal leakage; revised data used as if historically available; implicit split boundaries; unversioned preprocessing; metric hunting; promotion from one favorable seed or period.

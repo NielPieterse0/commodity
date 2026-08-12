@@ -1,16 +1,21 @@
 {
   "schema_version": 1,
+  "semantics": {
+    "research_backtesting_available": true,
+    "canonical_evidence_requires_approved_market_source": true,
+    "execution_authority": false
+  },
   "default_simulation": "placeholder_v0",
   "simulations": {
     "placeholder_v0": {
       "enabled": true,
       "canonical_evidence_allowed": false,
-      "instrument_status": "unresolved_until_expiry_aware_contract_data",
+      "instrument_status": "bootstrap_proxy_only_until_expiry_aware_contract_data",
       "cost_model": {
         "type": "turnover_bps",
         "turnover_bps": 2.0
       },
-      "status": "placeholder_not_execution_calibrated"
+      "status": "research_backtest_available_not_execution_calibrated"
     }
   }
 }

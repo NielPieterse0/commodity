@@ -30,6 +30,10 @@ def experiment_config() -> dict[str, Any]:
     return load_json("experiment.json")
 
 
+def assumptions_config() -> dict[str, Any]:
+    return load_json("assumptions.json")
+
+
 def signal_policy_config() -> dict[str, Any]:
     return load_json("signal_policy.json")
 

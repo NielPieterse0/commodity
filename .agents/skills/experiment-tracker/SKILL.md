@@ -15,7 +15,7 @@ Make every experiment queryable, comparable, and reconstructible without requiri
 5. Record checkpoints, predictions, evaluation tables, reports, and other artifacts using stable identifiers and hashes.
 6. Preserve failed, interrupted, rejected, and superseded runs with status and reason; do not keep only winners.
 7. Link evaluation runs to the exact model/checkpoint and datasets they score.
-8. Normalize records to `../../../ml-research-core/contracts/experiment.schema.json` even when a backend stores richer metadata.
+8. Normalize records to `../../../contracts/experiment.schema.json` even when a backend stores richer metadata.
 
 ## Backend Boundary
 Tracking systems are adapters, not the experiment definition. The canonical record must remain portable enough to reconstruct comparison logic if the backend changes.

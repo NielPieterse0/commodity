@@ -22,6 +22,7 @@ from commodity.models import RidgeReturnModel, ZeroReturnModel
 from commodity.policy import assert_model_cannot_submit_orders
 from commodity.provenance import sha256_file, utc_now, write_json
 from commodity.records import build_baseline_record
+from commodity.saxo import SaxoSimMarketDataClient, probe_henry_hub
 from commodity.simulation import simulate_forecasts
 
 
@@ -71,22 +72,41 @@ def _simulate(args: argparse.Namespace) -> None:
     run_dir = Path(args.output)
     run_dir.mkdir(parents=True, exist_ok=True)
     path.to_csv(run_dir / "simulation.csv", index_label="date")
+    canonical_evidence = bool(simulation["canonical_evidence_allowed"])
     write_json(run_dir / "simulation_metrics.json", {
         "schema_version": 1,
         "policy_id": args.policy,
         "simulation_id": args.simulation,
-        "canonical_evidence": simulation["canonical_evidence_allowed"],
+        "canonical_evidence": canonical_evidence,
+        "evidence_tier": "canonical" if canonical_evidence else "research_noncanonical",
         "metrics": metrics,
     })
     print(json.dumps(metrics, indent=2))
 
 
+def _probe_saxo_market(args: argparse.Namespace) -> None:
+    report = probe_henry_hub(
+        SaxoSimMarketDataClient(),
+        continuous_uic=args.continuous_uic,
+        max_contracts=args.max_contracts,
+    )
+    if args.output:
+        write_json(Path(args.output), report)
+    print(json.dumps(report, indent=2))
+
+
 def _doctor(_: argparse.Namespace) -> None:
     assert_model_cannot_submit_orders()
+    data_cfg = data_config()
+    simulation_cfg = simulation_config()
+    default_simulation = simulation_cfg["simulations"][simulation_cfg["default_simulation"]]
     print(json.dumps({
         "repo": str(REPO_ROOT),
         "default_model": model_config()["default_model"],
-        "market_source": data_config()["sources"]["market_bootstrap"],
+        "market_source": data_cfg["sources"]["market_bootstrap"],
+        "research_backtesting_available": simulation_cfg["semantics"]["research_backtesting_available"],
+        "canonical_market_evidence_allowed": data_cfg["sources"]["market_canonical"]["backtest_evidence_allowed"],
+        "default_simulation_canonical_evidence_allowed": default_simulation["canonical_evidence_allowed"],
         "execution": policy_config()["execution"],
     }, indent=2))
 
@@ -121,6 +141,19 @@ def build_parser() -> argparse.ArgumentParser:
     simulate.add_argument("--simulation", default=simulation_cfg["default_simulation"])
     simulate.add_argument("--output", required=True)
     simulate.set_defaults(func=_simulate)
+
+    backtest = sub.add_parser("backtest")
+    backtest.add_argument("--predictions", required=True)
+    backtest.add_argument("--policy", default=signal_cfg["default_policy"])
+    backtest.add_argument("--simulation", default=simulation_cfg["default_simulation"])
+    backtest.add_argument("--output", required=True)
+    backtest.set_defaults(func=_simulate)
+
+    saxo = sub.add_parser("probe-saxo-market")
+    saxo.add_argument("--continuous-uic", type=int)
+    saxo.add_argument("--max-contracts", type=int, default=24)
+    saxo.add_argument("--output")
+    saxo.set_defaults(func=_probe_saxo_market)
 
     doctor = sub.add_parser("doctor")
     doctor.set_defaults(func=_doctor)

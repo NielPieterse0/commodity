@@ -46,7 +46,7 @@ def test_term_structure_orders_contracts_by_expiration() -> None:
     assert row["days_to_expiry_1"] == pytest.approx(8.0)
 
 
-def test_canonical_evidence_remains_blocked_until_source_and_roll_are_approved() -> None:
+def test_canonical_evidence_remains_blocked_until_market_source_is_approved() -> None:
     with pytest.raises(DataContractViolation, match="not approved"):
         assert_canonical_market_ready(data_config())
 

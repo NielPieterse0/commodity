@@ -26,7 +26,7 @@ Repository reputation was not treated as authorization. The adopted OpenAI sourc
 
 ## Commodity Import Adaptation — 2026-08-12
 
-Imported from reviewed quarantine export `20260812-123045_ml-research-core-reviewed_a24b69ea`.
+Imported from reviewed quarantine export `20260812-123045_ml-research-core-reviewed_a24b69ea`; runtime skills were materialized under `.agents/skills/`.
 
 Local changes are limited to shared-core contract quality and responsibility boundaries:
 - experiment schema upgraded from v1 to v2 for reconstructible point-in-time experiments;

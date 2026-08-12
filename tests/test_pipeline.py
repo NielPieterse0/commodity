@@ -57,6 +57,36 @@ def test_disabled_signal_policy_blocks_simulation() -> None:
         simulate_forecasts(pred, policy, simulation)
 
 
+def test_backtest_cli_alias_is_available() -> None:
+    from commodity.cli import build_parser
+
+    args = build_parser().parse_args([
+        "backtest", "--predictions", "predictions.csv", "--output", "out",
+    ])
+    assert args.func.__name__ == "_simulate"
+
+
+def test_backtest_cli_labels_default_output_noncanonical(tmp_path) -> None:
+    import json
+
+    from commodity.cli import build_parser
+
+    predictions = tmp_path / "predictions.csv"
+    pd.DataFrame({
+        "date": ["2026-01-01", "2026-01-02"],
+        "prediction": [0.1, -0.1],
+        "actual": [0.02, -0.01],
+    }).to_csv(predictions, index=False)
+    output = tmp_path / "backtest"
+    args = build_parser().parse_args([
+        "backtest", "--predictions", str(predictions), "--output", str(output),
+    ])
+    args.func(args)
+    report = json.loads((output / "simulation_metrics.json").read_text(encoding="utf-8"))
+    assert report["canonical_evidence"] is False
+    assert report["evidence_tier"] == "research_noncanonical"
+
+
 def test_asof_features_respect_release_time() -> None:
     from commodity.features import asof_join_available
 
@@ -92,7 +122,7 @@ def test_canonical_experiment_record_matches_shared_schema(tmp_path) -> None:
     idx = pd.date_range("2025-01-01", periods=40, freq="D", tz="UTC")
     metrics = {"rmse": 1.0, "mae": 1.0, "n": 10.0}
     record = build_baseline_record(source, run_dir, "naive", metrics, idx, 30)
-    schema_path = REPO_ROOT / "ml-research-core/contracts/experiment.schema.json"
+    schema_path = REPO_ROOT / "contracts/experiment.schema.json"
     Draft202012Validator(json.loads(schema_path.read_text(encoding="utf-8"))).validate(record)
     assert record["datasets"][0]["vintage"].startswith("retrieval_snapshot:")
     code = record["lineage"]["code_revision"]

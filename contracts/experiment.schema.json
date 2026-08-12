@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://ml-research-core.local/contracts/experiment/v2",
+  "$id": "https://commodity.local/contracts/experiment/v2",
   "title": "ML Research Experiment Record",
   "type": "object",
   "additionalProperties": false,

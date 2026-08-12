@@ -15,7 +15,7 @@ Extend the shared `data-engineer` and `dataset-auditor` disciplines with Commodi
 5. Futures data must preserve contract identity, expiration, session/calendar, timezone, and source-native timestamps.
 6. Continuous contracts must record roll rule, adjustment method, roll dates, and source contracts; never treat a synthetic series as an exchange-traded instrument.
 7. Term-structure features may use only contracts and quotes available at the information cutoff.
-8. Every derived dataset must carry immutable source identities, hashes, as-of timestamp, vintage identity, and transformation lineage required by `ml-research-core/contracts/experiment.schema.json`.
+8. Every derived dataset must carry immutable source identities, hashes, as-of timestamp, vintage identity, and transformation lineage required by `../../../contracts/experiment.schema.json`.
 
 ## Boundary
 Own point-in-time data correctness and futures-data semantics. Do not own feature selection, model fitting, trading policy, position sizing, broker logic, or LIVE authorization.

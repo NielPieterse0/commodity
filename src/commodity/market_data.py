@@ -63,11 +63,12 @@ def assert_canonical_market_ready(data_cfg: dict[str, Any]) -> None:
     continuous = data_cfg["canonical_contract_schema"]["continuous_contract"]
     if not source.get("backtest_evidence_allowed", False):
         raise DataContractViolation("Canonical market source is not approved for backtest evidence")
-    if continuous.get("status") != "configured":
-        raise DataContractViolation("Continuous-contract methodology is not configured")
-    for field in ("roll_method", "adjustment_method"):
-        if not continuous.get(field):
-            raise DataContractViolation(f"Continuous-contract methodology missing {field}")
+    if continuous.get("authoritative_storage") != "raw_per_contract":
+        raise DataContractViolation("Canonical market evidence must preserve raw per-contract rows")
+    if continuous.get("adjustment_method") != "none_stored_raw":
+        raise DataContractViolation("Canonical storage may not contain adjusted continuous prices")
+    if continuous.get("cross_contract_returns_allowed") is not False:
+        raise DataContractViolation("Canonical methodology must prohibit cross-contract returns")
 
 
 def validate_contract_metadata(

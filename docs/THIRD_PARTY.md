@@ -24,7 +24,14 @@ Operational status, point-in-time requirements, and evidence gates are owned by 
 - **U.S. CFTC** — approved for public COT research data acquisition through official CFTC interfaces.
 - **NOAA/NCEI** — approved for historical forecast-vintage weather research through official NOAA/NCEI archives.
 - **CME Group** — approved as the authoritative contract-specification and market-definition reference.
+- **Saxo OpenAPI SIM** — approved only for read-only instrument/futures-space/chart-depth verification. It is not an approved canonical backtest source and is not an execution adapter.
+
+### Saxo market-data boundary
+
+Saxo futures-space metadata may establish contract identity/UIC/expiry availability. Saxo chart samples expose historical OHLC/volume/interest and `FirstSampleTime`, but are not treated as official settlement. Canonical promotion requires verified Henry Hub coverage, defensible expired-contract depth, and compatible price semantics.
 
 ### Historical CME data boundary
 
-CME DataMine is not an approved repository dependency under the current free-service constraint. A future canonical contract-history provider requires explicit source, licensing, cost, and point-in-time review before `market_canonical` may be promoted.
+No paid canonical contract-history provider is approved. The current cost preference is a revisable assumption owned by `config/assumptions.json#assumptions.service_cost`, not a repository policy. Databento is explicitly excluded from the current slice by `config/assumptions.json#assumptions.canonical_market_provider`.
+
+Any future canonical contract-history provider requires explicit source, licensing, cost, expiry, settlement, and point-in-time review before `market_canonical` may be promoted.

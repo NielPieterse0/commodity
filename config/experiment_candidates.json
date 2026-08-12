@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "owner": "commodity_experiment_candidates",
+  "candidates": {
+    "ng-volatility-direction-v1": {
+      "status": "design_candidate",
+      "does_not_replace": "config/experiment.json#ng-next-session-return-baseline-v1",
+      "hypothesis": "Point-in-time weather, storage, term-structure, volatility, positioning, and seasonality features improve volatility and settlement-direction forecasts versus simple temporal baselines.",
+      "targets": [
+        {"name": "next_session_realized_volatility", "role": "primary", "metric": "qlike"},
+        {"name": "next_session_settlement_direction", "role": "secondary", "metric": "direction_accuracy"}
+      ],
+      "required_feature_families": [
+        "weather_forecast_surprise", "storage_surprise", "term_structure",
+        "volatility_persistence", "seasonality"
+      ],
+      "optional_feature_families": ["cftc_managed_money", "production", "lng", "power_burn"],
+      "controls": ["walk_forward", "point_in_time_cutoff", "purge_or_embargo_if_horizons_overlap"],
+      "promotion_scope": "research_only",
+      "canonical_market_evidence_required": true
+    }
+  }
+}

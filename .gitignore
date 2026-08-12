@@ -4,6 +4,7 @@ __pycache__/
 *.egg-info/
 .pytest_cache/
 .ruff_cache/
+.work/
 .kis_*.out
 .kis_*.exit
 .env
