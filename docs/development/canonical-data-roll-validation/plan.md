@@ -70,5 +70,6 @@
 - [x] Run `python -m pytest -q`, `python -m ruff check .`, and `git diff --check` on the feature worktree.
 - [x] Attempt the non-secret Massive live smoke probe; the runtime blocked the credentialed client invocation, so the limitation is recorded and no secret was exposed.
 - [x] Commit the verified implementation slice on the feature branch.
-- [ ] Push the feature branch, create/update a PR, and run PR-completion readiness checks.
+- [x] Publish the exact verified feature tree and create/update the PR.
+- [ ] Run PR-completion readiness checks against the current PR head.
 - [ ] Do not land the PR until the PR-completion landing gate has exact-head confirmation.
