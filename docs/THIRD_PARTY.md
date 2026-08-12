@@ -25,6 +25,7 @@ Operational status, point-in-time requirements, and evidence gates are owned by 
 - **NOAA/NCEI** — approved for historical forecast-vintage weather research through official NOAA/NCEI archives.
 - **CME Group** — approved as the authoritative contract-specification and market-definition reference.
 - **Saxo OpenAPI SIM** — approved only for read-only instrument/futures-space/chart-depth verification. It is not an approved canonical backtest source and is not an execution adapter.
+- **Massive Futures** — approved for expiry-aware NG contract discovery and per-contract session settlement/OHLCV price ingestion through the configured account. It is not yet approved for canonical backtest evidence because available history is plan-dependent and the documented historical aggregate endpoint does not provide per-contract open interest required by the current candidate roll rule. Primary references: [Contracts](https://massive.com/docs/rest/futures/contracts) and [Aggregate Bars](https://massive.com/docs/rest/futures/aggregates).
 
 ### Saxo market-data boundary
 
@@ -32,6 +33,6 @@ Saxo futures-space metadata may establish contract identity/UIC/expiry availabil
 
 ### Historical CME data boundary
 
-No paid canonical contract-history provider is approved. The current cost preference is a revisable assumption owned by `config/assumptions.json#assumptions.service_cost`, not a repository policy. Databento is explicitly excluded from the current slice by `config/assumptions.json#assumptions.canonical_market_provider`.
+Massive Futures is the selected canonical per-contract price-history source. Its aggregate endpoint provides session settlement, OHLC and volume, while account history depth depends on the active Massive plan. No paid plan upgrade is approved by this repository decision; the cost preference remains a revisable assumption owned by `config/assumptions.json#assumptions.service_cost`.
 
-Any future canonical contract-history provider requires explicit source, licensing, cost, expiry, settlement, and point-in-time review before `market_canonical` may be promoted.
+Canonical backtest evidence remains blocked because `dual_liquidity_crossover` requires historical per-contract open interest and Massive's documented historical aggregate response does not expose that field. Databento remains explicitly excluded from the current slice by `config/assumptions.json#assumptions.canonical_market_provider`.

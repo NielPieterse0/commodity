@@ -69,6 +69,15 @@ def assert_canonical_market_ready(data_cfg: dict[str, Any]) -> None:
         raise DataContractViolation("Canonical storage may not contain adjusted continuous prices")
     if continuous.get("cross_contract_returns_allowed") is not False:
         raise DataContractViolation("Canonical methodology must prohibit cross-contract returns")
+    roll_policy = continuous.get("default_roll_policy")
+    if not roll_policy:
+        raise DataContractViolation("Canonical market evidence requires an explicit default roll policy")
+    if roll_policy != "dual_liquidity_crossover":
+        raise DataContractViolation(f"Canonical roll policy is not implemented: {roll_policy}")
+    if not source.get("historical_open_interest", False):
+        raise DataContractViolation(
+            "Canonical roll policy requires historical per-contract open interest"
+        )
 
 
 def validate_contract_metadata(

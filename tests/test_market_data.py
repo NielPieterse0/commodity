@@ -1,3 +1,5 @@
+import copy
+
 import pandas as pd
 import pytest
 
@@ -63,3 +65,29 @@ def test_canonical_dataset_requires_provenance_and_session_metadata() -> None:
     }
     with pytest.raises(DataContractViolation, match="price_semantics"):
         validate_contract_metadata(metadata, _schema())
+
+
+def test_canonical_evidence_requires_roll_policy_after_source_approval() -> None:
+    cfg = copy.deepcopy(data_config())
+    cfg["sources"]["market_canonical"]["backtest_evidence_allowed"] = True
+    cfg["canonical_contract_schema"]["continuous_contract"]["default_roll_policy"] = None
+    with pytest.raises(DataContractViolation, match="roll policy"):
+        assert_canonical_market_ready(cfg)
+
+
+def test_canonical_evidence_rejects_dual_liquidity_without_historical_oi() -> None:
+    cfg = copy.deepcopy(data_config())
+    cfg["sources"]["market_canonical"]["backtest_evidence_allowed"] = True
+    cfg["sources"]["market_canonical"]["historical_open_interest"] = False
+    cfg["canonical_contract_schema"]["continuous_contract"]["default_roll_policy"] = "dual_liquidity_crossover"
+    with pytest.raises(DataContractViolation, match="open interest"):
+        assert_canonical_market_ready(cfg)
+
+
+def test_canonical_evidence_rejects_unimplemented_roll_policy() -> None:
+    cfg = copy.deepcopy(data_config())
+    cfg["sources"]["market_canonical"]["backtest_evidence_allowed"] = True
+    cfg["sources"]["market_canonical"]["historical_open_interest"] = True
+    cfg["canonical_contract_schema"]["continuous_contract"]["default_roll_policy"] = "not_implemented"
+    with pytest.raises(DataContractViolation, match="not implemented"):
+        assert_canonical_market_ready(cfg)

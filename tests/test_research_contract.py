@@ -55,8 +55,8 @@ def test_agents_md_declares_repo_skill_discovery() -> None:
     expected = {
         "bayesian-modeler", "commodity-market-data", "data-engineer",
         "dataset-auditor", "experiment-designer", "experiment-tracker",
-        "feature-engineer", "forecast-backtesting", "hyperparameter-optimizer",
-        "model-evaluator", "model-trainer", "neural-network-engineer",
+        "develop-code", "develop-docs", "feature-engineer", "forecast-backtesting",
+        "hyperparameter-optimizer", "model-evaluator", "model-trainer", "neural-network-engineer",
         "reproducibility-auditor", "statistical-analyst", "time-series-research",
     }
     assert expected == {path.parent.name for path in SKILL_ROOT.glob("*/SKILL.md")}
@@ -87,10 +87,18 @@ def test_generic_core_has_no_commodity_specific_rules() -> None:
     assert not [term for term in forbidden if term in generic]
 
 
-def test_data_source_owner_blocks_noncanonical_market_evidence() -> None:
+def test_data_source_owner_selects_massive_without_unlocking_canonical_evidence() -> None:
     data = load_json(ROOT / "config" / "data_sources.json")
     assert data["schema_version"] == 2
-    assert data["sources"]["market_canonical"]["backtest_evidence_allowed"] is False
+    canonical = data["sources"]["market_canonical"]
+    assert canonical["provider"] == "massive_futures"
+    assert canonical["approved_for_contract_price_history"] is True
+    assert canonical["provides_contract_id"] is True
+    assert canonical["provides_expiration"] is True
+    assert canonical["provides_settlement"] is True
+    assert canonical["historical_open_interest"] is False
+    assert canonical["backtest_evidence_allowed"] is False
+    assert data["providers"]["massive_futures"]["env_key"] == "MASSIVE_API_KEY"
     prompt = data["sources"]["eia_nymex_prompt_history"]
     assert prompt["canonical_market_source"] is False
     assert prompt["coverage_end"] == "2024-04-05"
@@ -161,3 +169,12 @@ def test_volatility_direction_is_additive_experiment_candidate() -> None:
     assert current["experiment_id"] == "ng-next-session-return-baseline-v1"
     assert candidate["does_not_replace"].startswith("config/experiment.json")
     assert candidate["targets"][0]["metric"] == "qlike"
+
+
+def test_agents_md_requires_development_controller_and_worktree_pr_flow() -> None:
+    agents = (ROOT / "AGENTS.md").read_text(encoding="utf-8")
+    assert "Every repository work run MUST load one primary development controller immediately after reading governing repository instructions" in agents
+    assert ".agents/skills/develop-code/SKILL.md" in agents
+    assert ".agents/skills/develop-docs/SKILL.md" in agents
+    assert "`.work/` linked worktree" in agents
+    assert "PR-completion workflow" in agents

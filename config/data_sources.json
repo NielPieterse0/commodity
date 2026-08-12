@@ -20,6 +20,11 @@
     "noaa_gfs_archive": {
       "access": "public_archive",
       "role": "historical_issued_forecast_fallback"
+    },
+    "massive_futures": {
+      "api_base": "https://api.massive.com", "env_key": "MASSIVE_API_KEY",
+      "access": "api_key", "documented_history_start": "2017-04-03",
+      "plan_history": "basic_2y_starter_2y_developer_5y_advanced_all"
     }
   },
   "canonical_contract_schema": {
@@ -48,9 +53,14 @@
       "purpose": "daily OHLCV proxy", "authoritative_for_execution": false
     },
     "market_canonical": {
-      "provider": "local_import", "status": "awaiting_approved_expiry_aware_dataset",
-      "purpose": "expiry-aware CME contract history and term structure",
-      "backtest_evidence_allowed": false
+      "provider": "massive_futures", "product_code": "NG",
+      "status": "selected_price_history_roll_validation_blocked",
+      "purpose": "expiry-aware NYMEX NG per-contract settlement/OHLCV history",
+      "backtest_evidence_allowed": false, "approved_for_contract_price_history": true,
+      "provides_contract_id": true, "provides_expiration": true,
+      "provides_settlement": true, "historical_volume": true,
+      "historical_open_interest": false,
+      "history_depth_status": "plan_dependent_unverified_for_account"
     },
     "saxo_henry_hub_probe": {
       "provider": "saxo_openapi_sim",

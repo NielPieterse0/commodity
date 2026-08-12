@@ -30,10 +30,10 @@
       "review_trigger": "Natural-gas research reaches a stable comparison point or scope is explicitly expanded."
     },
     "canonical_market_provider": {
-      "status": "decision_needed",
-      "statement": "No expiry-aware canonical futures provider is approved yet; raw per-contract data remains the required evidence shape.",
+      "status": "active_assumption",
+      "statement": "Massive Futures is selected for canonical expiry-aware NG contract prices and settlement/OHLCV ingestion; canonical backtest evidence remains blocked until roll methodology inputs and history depth are sufficient.",
       "excluded_for_now": ["databento"],
-      "review_trigger": "A candidate passes source, licensing, cost, expiry, settlement, and provenance review."
+      "review_trigger": "Massive history depth, settlement provenance, licensing/cost, or missing historical open interest prevents canonical evidence, or a better provider is approved."
     },
     "continuous_series_policy": {
       "status": "active_assumption",

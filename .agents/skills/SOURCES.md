@@ -36,3 +36,7 @@ Local changes are limited to shared-core contract quality and responsibility bou
 - lifecycle documentation corrected so statistical/robustness analysis feeds research promotion before reproducibility audit.
 
 Commodity-specific skill bodies are materialized outside the generic core under `.agents/skills/`; research maturity remains owned by `config/research_stages.json`.
+
+## Development Controller Adoption — 2026-08-12
+
+Repo-local `develop-code` and `develop-docs` were adopted from the reviewed shared skill library at `C:\Projects\.agents\skills\` with their complete `assets/` and `references/` trees. `AGENTS.md` is the repository authority that makes one controller mandatory at the start of repository work and binds development to `.work/` worktree isolation plus PR-based landing.

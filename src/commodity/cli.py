@@ -18,6 +18,8 @@ from commodity.config import (
 from commodity.data import CsvMarketDataSource, YFinanceMarketDataSource, save_raw
 from commodity.evaluation import evaluate_predictions, walk_forward_predict
 from commodity.features import make_supervised
+from commodity.market_data import DataContractViolation, assert_canonical_market_ready
+from commodity.massive import MassiveFuturesClient, fetch_massive_canonical_history
 from commodity.models import RidgeReturnModel, ZeroReturnModel
 from commodity.policy import assert_model_cannot_submit_orders
 from commodity.provenance import sha256_file, utc_now, write_json
@@ -38,6 +40,32 @@ def _fetch_market(args: argparse.Namespace) -> None:
         "sha256": sha256_file(output), "vintage": f"retrieval_snapshot:{fetched_at}",
         "authoritative_for_execution": False,
     })
+    print(f"saved_rows={len(frame)} path={output}")
+
+
+def _fetch_canonical_market(args: argparse.Namespace) -> None:
+    cfg = data_config()
+    source = cfg["sources"]["market_canonical"]
+    fetched_at = utc_now()
+    frame, metadata = fetch_massive_canonical_history(
+        MassiveFuturesClient(),
+        cfg["canonical_contract_schema"],
+        product_code=source["product_code"],
+        start_trade_date=args.start,
+        end_trade_date=args.end,
+        retrieved_at=fetched_at,
+    )
+    output = Path(args.output)
+    output.parent.mkdir(parents=True, exist_ok=True)
+    frame.to_csv(output, index=False)
+    metadata.update({
+        "requested_start": args.start,
+        "requested_end": args.end,
+        "rows": len(frame),
+        "canonical_evidence": False,
+        "evidence_tier": "canonical_price_history_roll_unvalidated",
+    })
+    write_json(output.with_suffix(".meta.json"), metadata)
     print(f"saved_rows={len(frame)} path={output}")
 
 
@@ -100,12 +128,20 @@ def _doctor(_: argparse.Namespace) -> None:
     data_cfg = data_config()
     simulation_cfg = simulation_config()
     default_simulation = simulation_cfg["simulations"][simulation_cfg["default_simulation"]]
+    try:
+        assert_canonical_market_ready(data_cfg)
+        canonical_ready = True
+        canonical_reason = None
+    except DataContractViolation as exc:
+        canonical_ready = False
+        canonical_reason = str(exc)
     print(json.dumps({
         "repo": str(REPO_ROOT),
         "default_model": model_config()["default_model"],
         "market_source": data_cfg["sources"]["market_bootstrap"],
         "research_backtesting_available": simulation_cfg["semantics"]["research_backtesting_available"],
-        "canonical_market_evidence_allowed": data_cfg["sources"]["market_canonical"]["backtest_evidence_allowed"],
+        "canonical_market_evidence_allowed": canonical_ready,
+        "canonical_market_evidence_reason": canonical_reason,
         "default_simulation_canonical_evidence_allowed": default_simulation["canonical_evidence_allowed"],
         "execution": policy_config()["execution"],
     }, indent=2))
@@ -122,6 +158,15 @@ def build_parser() -> argparse.ArgumentParser:
     fetch.add_argument("--end", required=True)
     fetch.add_argument("--output", default=str(REPO_ROOT / "data/raw/ng_f_daily.csv"))
     fetch.set_defaults(func=_fetch_market)
+
+    canonical = sub.add_parser("fetch-canonical-market")
+    canonical.add_argument("--start", required=True)
+    canonical.add_argument("--end", required=True)
+    canonical.add_argument(
+        "--output",
+        default=str(REPO_ROOT / "data/raw/ng_contract_history.csv"),
+    )
+    canonical.set_defaults(func=_fetch_canonical_market)
 
     run = sub.add_parser("run-baseline")
     run.add_argument("--input", default=str(REPO_ROOT / "data/raw/ng_f_daily.csv"))
