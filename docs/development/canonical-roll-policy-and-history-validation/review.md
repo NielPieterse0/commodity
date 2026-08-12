@@ -79,9 +79,11 @@ Post-reconciliation current-tree evidence:
 
 These checks are rerun after this reconciliation note before the final PR head is published.
 
-## Pull Request
+## Pull Request and Landing
 
 - Initial verified implementation commit: `ad80f2201ce8b1f48026facde1849be6608d5d79`.
-- Published branch: `feat/canonical-roll-policy-and-history-validation`.
-- GitHub PR: **#3**, opened against `main` through the authenticated GitHub capability.
-- Landing remains explicitly out of scope for this run; PR #3 still requires the repository PR-completion exact-head approval gate before merge.
+- Final approved PR head: `09e173a82766e38b00fe5fb6f1b33eb695dd13a6`.
+- GitHub PR: **#3**, merged on 2026-08-12 through the registered exact-head landing gate using the `merge` method.
+- GitHub merge commit: `0f0c710c43cec046be1e70a131c46d42df2a2607`.
+- Pre-landing verification on the approved head: 78 pytest tests passed, Ruff passed, and `git diff origin/main...HEAD --check` passed.
+- The residual canonical-evidence blocker remains Massive non-display/backtesting licensing; landing did not change that gate or LIVE-trading policy.

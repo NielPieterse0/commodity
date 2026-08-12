@@ -1,6 +1,6 @@
 # Canonical Roll Policy and History Validation Specification
 
-**Status:** approved direction from user request on 2026-08-12
+**Status:** implemented and merged via PR #3 on 2026-08-12; canonical backtest evidence remains licensing-blocked
 **Development level:** Complex
 
 ## Outcome
