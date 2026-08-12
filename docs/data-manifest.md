@@ -16,7 +16,7 @@ Derived features are reproducible transformations, not new sources. Raw source v
 
 | Priority | Data family | Ideal datapoints | Grain | Preferred source | Access / point-in-time note |
 |---|---|---|---|---|---|
-| V1 | Futures contracts and curve | `contract_id`, expiry, settle, OHLC, volume, OI where available; M1-M12 rank, spreads, slope, curvature, roll state | Contract/day | Massive Futures; CME for contract definitions | Massive key; selected source. Historical OI remains unresolved. Never compute returns across contract rolls. |
+| V1 | Futures contracts and curve | `contract_id`, expiry, settle, OHLC, volume; M1-M12 rank, spreads, slope, curvature, roll state | Contract/day | Massive Futures; CME for contract definitions | Massive key; selected source. Account history is validated from 2024-08-13; historical OI is unavailable but not required by `volume_crossover_dte_v1`. Canonical backtest use remains blocked pending non-display/backtesting entitlement. Never compute returns across contract rolls. |
 | V1 | Issued weather forecasts | issue/available/valid time, lead, 2m temperature, HDD/CDD, wind, humidity, precipitation/snow; forecast revisions; demand-region weights | Forecast run/hour -> daily features | Open-Meteo Historical Forecast; NOAA GFS/GEFS fallback | Open/public. Use archived issued forecasts, never reanalysis as a forecast. |
 | V1 | Underground storage | working gas total + EIA regions, weekly injection/withdrawal, capacity, 5-year normal/deviation, release/revision timestamp | Week/region | EIA WNGSR / API v2 | Free API key. Reconstruct holiday releases and revisions; snapshot releases going forward. |
 | V1 | Gas production and balance | dry, marketed and gross production; state/region; supply/disposition; offshore production | Month/region | EIA Natural Gas / API v2 | Free API key. Apply actual publication lag and preserve revisions. |
@@ -106,7 +106,7 @@ Candidate status here does not constitute third-party approval. Approval and imp
 
 ## Acquisition order
 
-1. Close the existing Henry Hub canonical-market and roll gates.
+1. Resolve Massive non-display/backtesting entitlement and preserve the validated `volume_crossover_dte_v1` roll contract.
 2. Wire U.S. V1 storage, weather, production, demand/power, LNG/trade and spot data with point-in-time provenance.
 3. Add the Global/Interconnect V1 layer: TTF, ENTSOG, AGSI/ALSI, European weather/power and outage messages.
 4. Build the Norway/Europe V1 layer: NCS production, Gassco flows/outages, SSB exports and NOK FX.
