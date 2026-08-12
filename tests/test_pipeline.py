@@ -127,3 +127,41 @@ def test_canonical_experiment_record_matches_shared_schema(tmp_path) -> None:
     assert record["datasets"][0]["vintage"].startswith("retrieval_snapshot:")
     code = record["lineage"]["code_revision"]
     assert {"commit_sha", "working_tree_dirty", "working_tree_diff_sha256"} == set(code)
+
+
+def test_fetch_canonical_market_cli_is_available() -> None:
+    from commodity.cli import build_parser
+
+    args = build_parser().parse_args([
+        "fetch-canonical-market", "--start", "2025-01-01", "--end", "2025-01-31",
+    ])
+    assert args.func.__name__ == "_fetch_canonical_market"
+
+
+def test_fetch_canonical_market_cli_rejects_product_override() -> None:
+    import pytest
+
+    from commodity.cli import build_parser
+
+    with pytest.raises(SystemExit):
+        build_parser().parse_args([
+            "fetch-canonical-market", "--start", "2025-01-01", "--end", "2025-01-31",
+            "--product-code", "GC",
+        ])
+
+
+def test_doctor_uses_full_canonical_readiness_gate(monkeypatch, capsys) -> None:
+    import copy
+    import json
+
+    from commodity import cli
+    from commodity.config import data_config
+
+    cfg = copy.deepcopy(data_config())
+    cfg["sources"]["market_canonical"]["backtest_evidence_allowed"] = True
+    cfg["canonical_contract_schema"]["continuous_contract"]["default_roll_policy"] = None
+    monkeypatch.setattr(cli, "data_config", lambda: cfg)
+    cli._doctor(None)
+    report = json.loads(capsys.readouterr().out)
+    assert report["canonical_market_evidence_allowed"] is False
+    assert "roll policy" in report["canonical_market_evidence_reason"]

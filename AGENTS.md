@@ -51,6 +51,15 @@ Live trading is out of scope until simulation evidence, execution controls and a
 
 Use `.work/` for local implementation scratch, probes, temporary scripts, and other non-authoritative work. It is ignored by Git; runtime code, configuration, tests, and authoritative documentation MUST NOT depend on it.
 
+## Mandatory Development Startup
+
+Every repository work run MUST load one primary development controller immediately after reading governing repository instructions and before any other repository inspection or change:
+
+- Load `.agents/skills/develop-code/SKILL.md` for code, configuration, schema, tests, provider integrations, mixed work, or any run whose scope is not yet known.
+- Load `.agents/skills/develop-docs/SKILL.md` only when the run is documentation-only. If documentation work discovers executable/configuration changes, switch to `develop-code` for that slice.
+
+The selected controller owns classification, slice specification/planning, applicable Superpowers sub-skills, review and verification. Development MUST use an ignored `.work/` linked worktree on a non-default branch; authoritative files are edited through that worktree, then committed, pushed and reviewed through a PR before `main` changes. Use the PR-completion workflow for PR closeout; landing still requires its exact-head approval gate.
+
 ## Repository Tools
 
 This repo uses the `kis-mcp` tool:  `kis-op` or `kis-dev`
@@ -59,6 +68,9 @@ Load the `kis-mcp` tool skill at `C:\Projects\kis-mcp\.agents\skills\kis-mcp`
 ## Repository Skills
 
 Repo-local Agent Skills are discoverable under `.agents/skills/<skill-name>/SKILL.md`.
+
+Mandatory development controllers:
+`develop-code`, `develop-docs`.
 
 Shared ML research skills:
 `data-engineer`, `dataset-auditor`, `experiment-designer`, `experiment-tracker`, `feature-engineer`, `model-trainer`, `model-evaluator`, `statistical-analyst`, `reproducibility-auditor`, `bayesian-modeler`, `hyperparameter-optimizer`, `neural-network-engineer`.
