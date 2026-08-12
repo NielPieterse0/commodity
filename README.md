@@ -25,6 +25,8 @@ Natural-gas ML research repository. The mandate lives in [`AGENTS.md`](AGENTS.md
 | External tools/LLMs | `config/tools.json` |
 | Third-party source approval | `docs/THIRD_PARTY.md` |
 
+Authoritative ownership does not imply application-runtime consumption. `config/research_stages.json` and `config/tools.json` are governance/agent inputs rather than forecast-runtime dependencies; runtime code is not required to load them. In `config/experiment.json`, `research_period.end = "2100-01-01"` is an intentional far-future sentinel for an effectively open-ended historical upper bound, not a forecast horizon.
+
 ## Bootstrap
 
 ```powershell

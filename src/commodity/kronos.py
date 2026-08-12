@@ -13,7 +13,9 @@ class KronosMiniAdapter:
         local_path = REPO_ROOT / cfg["local_path"]
         if not local_path.exists():
             raise RuntimeError("Kronos source is not installed under vendor/Kronos")
-        sys.path.insert(0, str(local_path))
+        import_path = str(local_path)
+        if import_path not in sys.path:
+            sys.path.insert(0, import_path)
         try:
             from model import Kronos, KronosPredictor, KronosTokenizer
         except ImportError as exc:

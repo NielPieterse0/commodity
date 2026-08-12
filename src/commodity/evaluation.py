@@ -17,6 +17,8 @@ def walk_forward_predict(
 ) -> pd.DataFrame:
     if initial_train < 20 or initial_train >= len(x):
         raise ValueError("initial_train must leave an out-of-sample period")
+    if retrain_every < 1:
+        raise ValueError("retrain_every must be at least 1")
     rows: list[dict[str, object]] = []
     model: ForecastModel | None = None
     for i in range(initial_train, len(x)):

@@ -28,6 +28,13 @@ def test_major_contract_sections_are_closed() -> None:
         assert schema["properties"][section]["additionalProperties"] is False
 
 
+def test_research_period_far_future_end_is_explicitly_a_sentinel() -> None:
+    experiment = load_json(ROOT / "config" / "experiment.json")
+    period = experiment["research_period"]
+    assert period["end"] == "2100-01-01"
+    assert period["end_semantics"] == "open_ended_far_future_sentinel"
+
+
 def test_forecast_experiment_does_not_own_strategy_or_cost_assumptions() -> None:
     experiment = load_json(ROOT / "config" / "experiment.json")
     signal = load_json(ROOT / "config" / "signal_policy.json")

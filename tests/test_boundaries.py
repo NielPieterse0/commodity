@@ -13,6 +13,23 @@ def test_live_execution_is_prohibited() -> None:
         assert_execution_mode("live")
 
 
+def test_live_execution_permission_is_owned_by_policy_config(monkeypatch) -> None:
+    from commodity import policy as policy_module
+
+    cfg = {
+        "execution": {
+            "live_trading_allowed": False,
+            "allowed_modes": ["live"],
+        }
+    }
+    monkeypatch.setattr(policy_module, "policy_config", lambda: cfg)
+    with pytest.raises(PolicyViolation, match="LIVE trading is prohibited"):
+        assert_execution_mode("live")
+
+    cfg["execution"]["live_trading_allowed"] = True
+    assert_execution_mode("live")
+
+
 def test_model_has_no_order_authority() -> None:
     assert_model_cannot_submit_orders()
 

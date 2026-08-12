@@ -9,7 +9,7 @@ class PolicyViolation(RuntimeError):
 
 def assert_execution_mode(mode: str) -> None:
     policy = policy_config()["execution"]
-    if mode == "live":
+    if mode == "live" and not policy.get("live_trading_allowed", False):
         raise PolicyViolation("LIVE trading is prohibited by config/policy.json")
     if mode not in policy["allowed_modes"]:
         raise PolicyViolation(f"Execution mode not approved: {mode}")

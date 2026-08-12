@@ -22,6 +22,21 @@ def test_walk_forward_does_not_use_future_labels() -> None:
     assert base.iloc[0]["prediction"] == changed.iloc[0]["prediction"]
 
 
+def test_walk_forward_rejects_nonpositive_retrain_interval() -> None:
+    import pytest
+
+    x, y = _sample_xy()
+    for retrain_every in (0, -1):
+        with pytest.raises(ValueError, match="retrain_every must be at least 1"):
+            walk_forward_predict(
+                ZeroReturnModel,
+                x,
+                y,
+                initial_train=30,
+                retrain_every=retrain_every,
+            )
+
+
 def test_forecast_metrics_exclude_strategy_and_execution_fields() -> None:
     x, y = _sample_xy()
     pred = walk_forward_predict(ZeroReturnModel, x, y, initial_train=30)
@@ -64,6 +79,24 @@ def test_backtest_cli_alias_is_available() -> None:
         "backtest", "--predictions", "predictions.csv", "--output", "out",
     ])
     assert args.func.__name__ == "_simulate"
+
+
+def test_run_baseline_cli_choices_follow_model_config(monkeypatch) -> None:
+    import copy
+
+    from commodity import cli
+
+    cfg = copy.deepcopy(cli.model_config())
+    cfg["models"]["naive_alias"] = {
+        "kind": "baseline",
+        "enabled": True,
+        "family": "linear_baseline",
+        "architecture": "zero_return",
+        "baseline_implementation": "zero_return",
+    }
+    monkeypatch.setattr(cli, "model_config", lambda: cfg)
+    args = cli.build_parser().parse_args(["run-baseline", "--model", "naive_alias"])
+    assert args.model == "naive_alias"
 
 
 def test_backtest_cli_labels_default_output_noncanonical(tmp_path) -> None:
@@ -129,6 +162,33 @@ def test_canonical_experiment_record_matches_shared_schema(tmp_path) -> None:
     assert {"commit_sha", "working_tree_dirty", "working_tree_diff_sha256"} == set(code)
 
 
+def test_baseline_record_model_identity_comes_from_config(tmp_path, monkeypatch) -> None:
+    import json
+
+    from commodity import records
+
+    source = tmp_path / "ng.csv"
+    source.write_text("date,open,high,low,close,volume\n", encoding="utf-8")
+    source.with_suffix(".meta.json").write_text(json.dumps({
+        "sha256": "b" * 64,
+        "fetched_at_utc": "2026-01-01T00:00:00+00:00",
+    }), encoding="utf-8")
+    run_dir = tmp_path / "run"
+    run_dir.mkdir()
+    (run_dir / "predictions.csv").write_text("date,prediction,actual\n", encoding="utf-8")
+    (run_dir / "metrics.json").write_text("{}", encoding="utf-8")
+    monkeypatch.setattr(records, "model_config", lambda: {"models": {"alias": {
+        "family": "configured_family",
+        "architecture": "configured_architecture",
+    }}})
+    idx = pd.date_range("2025-01-01", periods=40, freq="D", tz="UTC")
+    record = records.build_baseline_record(
+        source, run_dir, "alias", {"rmse": 1.0}, idx, 30
+    )
+    assert record["model"]["family"] == "configured_family"
+    assert record["model"]["architecture"] == "configured_architecture"
+
+
 def test_fetch_canonical_market_cli_is_available() -> None:
     from commodity.cli import build_parser
 
@@ -138,7 +198,7 @@ def test_fetch_canonical_market_cli_is_available() -> None:
     assert args.func.__name__ == "_fetch_canonical_market"
 
 
-def test_fetch_canonical_market_cli_rejects_product_override() -> None:
+def test_fetch_canonical_market_cli_rejects_product_override(capsys) -> None:
     import pytest
 
     from commodity.cli import build_parser
@@ -148,6 +208,9 @@ def test_fetch_canonical_market_cli_rejects_product_override() -> None:
             "fetch-canonical-market", "--start", "2025-01-01", "--end", "2025-01-31",
             "--product-code", "GC",
         ])
+
+
+    assert "unrecognized arguments: --product-code GC" in capsys.readouterr().err
 
 
 def test_doctor_uses_full_canonical_readiness_gate(monkeypatch, capsys) -> None:

@@ -19,6 +19,11 @@ Adopt the repository development-controller skills, select Massive Futures as th
 - **R8 — Evidence gate:** Canonical evidence MUST remain blocked while the continuous-series default roll policy is unset or its required inputs are unavailable, even if the market source itself is approved.
 - **R9 — Roll safety:** `dual_liquidity_crossover` MUST continue to require both volume and open interest, use only prior-session liquidity, and keep returns `NaN` across roll boundaries.
 - **R10 — Closeout review:** Before PR readiness, run the repo-local `code-review` and `modularity-assessment` workflows against the current change boundary. Resolve all blocking and worthwhile in-scope findings, then rerun affected verification.
+- **R11 — Policy authority:** `assert_execution_mode` MUST derive LIVE-mode permission from `config/policy.json`; the current policy remains fail-closed with LIVE disabled.
+- **R12 — Evaluation validation:** Walk-forward evaluation MUST reject `retrain_every < 1` with an explicit validation error.
+- **R13 — Baseline model identity:** Baseline model dispatch and experiment-record architecture MUST fail closed for unknown implementations and derive model identity from `config/models.json` rather than a two-way model-name fallback.
+- **R14 — Kronos import hygiene:** Repeated `KronosMiniAdapter` construction MUST NOT add duplicate vendor paths to `sys.path`.
+- **R15 — Review disposition clarity:** Documentation/tests MUST make intentional governance-only config ownership, the far-future research-period sentinel, and the deliberate absence of a canonical product-code CLI override explicit. The no-active-contract roll-gap suggestion remains deferred until trading-session gap semantics are specified.
 
 ## Acceptance Evidence
 

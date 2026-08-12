@@ -4,14 +4,18 @@
   "models": {
     "naive": {
       "kind": "baseline", "enabled": true,
+      "family": "linear_baseline", "architecture": "zero_return",
+      "baseline_implementation": "zero_return",
       "description": "zero-return/random-walk benchmark"
     },
     "ridge": {
       "kind": "sklearn", "enabled": true,
-      "alpha": 10.0
+      "family": "linear_baseline", "architecture": "ridge",
+      "baseline_implementation": "ridge_return", "alpha": 10.0
     },
     "kronos_mini": {
       "kind": "optional_foundation_model", "enabled": true,
+      "family": "foundation_model", "architecture": "kronos_mini",
       "repository": "shiyu-coder/Kronos", "local_path": "vendor/Kronos",
       "model_id": "NeoQuasar/Kronos-mini",
       "model_revision": "7fdcc628d87f325ccdbcae0a372622ca7e6813aa",
