@@ -34,7 +34,7 @@ def test_massive_contract_discovery_paginates_and_keeps_outrights(monkeypatch) -
         def __init__(self) -> None:
             self.calls = 0
             self.params = []
-        def get(self, url, params, timeout):
+        def get(self, url, params, timeout, headers=None):
             self.calls += 1
             self.params.append(params)
             if self.calls == 1:
@@ -71,7 +71,7 @@ def test_massive_session_aggregates_use_session_resolution_and_range(monkeypatch
     class Session:
         def __init__(self) -> None:
             self.params = None
-        def get(self, url, params, timeout):
+        def get(self, url, params, timeout, headers=None):
             self.params = params
             assert url.endswith("/futures/v1/aggs/NGF5")
             return Response()
@@ -98,7 +98,7 @@ def test_massive_contract_discovery_rejects_silent_pagination_truncation(monkeyp
             }
 
     class Session:
-        def get(self, url, params, timeout):
+        def get(self, url, params, timeout, headers=None):
             return Response()
 
     monkeypatch.setenv("MASSIVE_API_KEY", "test-key")
@@ -120,7 +120,7 @@ def test_massive_aggregates_reject_silent_pagination_truncation(monkeypatch) -> 
             }
 
     class Session:
-        def get(self, url, params, timeout):
+        def get(self, url, params, timeout, headers=None):
             return Response()
 
     monkeypatch.setenv("MASSIVE_API_KEY", "test-key")
@@ -222,3 +222,26 @@ def test_massive_dataset_metadata_derives_exchange_from_contracts() -> None:
         "2026-08-12T18:00:00Z",
     )
     assert metadata["exchange"] == "XCEC"
+
+
+def test_massive_uses_bearer_header_not_query_string(monkeypatch) -> None:
+    class Response:
+        def raise_for_status(self) -> None:
+            pass
+        def json(self):
+            return {"results": []}
+
+    class Session:
+        def __init__(self) -> None:
+            self.params = None
+            self.headers = None
+        def get(self, url, params, timeout, headers=None):
+            self.params = params
+            self.headers = headers
+            return Response()
+
+    monkeypatch.setenv("MASSIVE_API_KEY", "secret-test-key")
+    session = Session()
+    MassiveFuturesClient(session=session).list_outright_contracts("NG", max_pages=1)
+    assert "apiKey" not in session.params
+    assert session.headers == {"Authorization": "Bearer secret-test-key"}

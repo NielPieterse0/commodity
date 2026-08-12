@@ -8,6 +8,7 @@ import pandas as pd
 
 from commodity.config import (
     REPO_ROOT,
+    assumptions_config,
     data_config,
     experiment_config,
     model_config,
@@ -18,7 +19,7 @@ from commodity.config import (
 from commodity.data import CsvMarketDataSource, YFinanceMarketDataSource, save_raw
 from commodity.evaluation import evaluate_predictions, walk_forward_predict
 from commodity.features import make_supervised
-from commodity.market_data import DataContractViolation, assert_canonical_market_ready
+from commodity.market_data import canonical_market_readiness
 from commodity.massive import MassiveFuturesClient, fetch_massive_canonical_history
 from commodity.models import baseline_factory
 from commodity.policy import assert_model_cannot_submit_orders
@@ -123,21 +124,21 @@ def _probe_saxo_market(args: argparse.Namespace) -> None:
 def _doctor(_: argparse.Namespace) -> None:
     assert_model_cannot_submit_orders()
     data_cfg = data_config()
+    readiness = canonical_market_readiness(data_cfg, assumptions_config())
     simulation_cfg = simulation_config()
     default_simulation = simulation_cfg["simulations"][simulation_cfg["default_simulation"]]
-    try:
-        assert_canonical_market_ready(data_cfg)
-        canonical_ready = True
-        canonical_reason = None
-    except DataContractViolation as exc:
-        canonical_ready = False
-        canonical_reason = str(exc)
+    canonical_reason = (
+        None if readiness["canonical_evidence_allowed"] else readiness["reasons"][0]
+    )
     print(json.dumps({
         "repo": str(REPO_ROOT),
         "default_model": model_config()["default_model"],
         "market_source": data_cfg["sources"]["market_bootstrap"],
         "research_backtesting_available": simulation_cfg["semantics"]["research_backtesting_available"],
-        "canonical_market_evidence_allowed": canonical_ready,
+        "canonical_source_history_ready": readiness["source_history_ready"],
+        "canonical_roll_method_ready": readiness["roll_method_ready"],
+        "canonical_licensing_ready": readiness["licensing_ready"],
+        "canonical_market_evidence_allowed": readiness["canonical_evidence_allowed"],
         "canonical_market_evidence_reason": canonical_reason,
         "default_simulation_canonical_evidence_allowed": default_simulation["canonical_evidence_allowed"],
         "execution": policy_config()["execution"],
