@@ -5,7 +5,12 @@
     "authoritative_for": "revisable research assumptions and decision-needed defaults",
     "execution_authority": false,
     "policy_owner": "config/policy.json",
-    "statuses": ["active_assumption", "decision_needed", "excluded_for_now", "retired"]
+    "statuses": [
+      "active_assumption",
+      "decision_needed",
+      "excluded_for_now",
+      "retired"
+    ]
   },
   "assumptions": {
     "target_compute": {
@@ -31,17 +36,31 @@
     },
     "canonical_market_provider": {
       "status": "active_assumption",
-      "statement": "Massive Futures is selected for canonical expiry-aware NG contract prices and settlement/OHLCV ingestion; canonical backtest evidence remains blocked until roll methodology inputs and history depth are sufficient.",
-      "excluded_for_now": ["databento"],
-      "review_trigger": "Massive history depth, settlement provenance, licensing/cost, or missing historical open interest prevents canonical evidence, or a better provider is approved."
+      "statement": "Massive Futures is selected for canonical expiry-aware NG contract settlement/OHLCV ingestion; account history and roll methodology are validated, while canonical backtest promotion remains blocked until non-display/backtesting rights are verified.",
+      "excluded_for_now": [
+        "databento"
+      ],
+      "review_trigger": "Massive licensing, history depth, settlement provenance, cost, or a better provider changes the evidence decision."
     },
     "continuous_series_policy": {
       "status": "active_assumption",
-      "statement": "Raw per-contract rows are canonical; continuous series are derived artifacts and must not contaminate cross-contract returns.",
-      "default_roll_policy": null,
-      "candidate_roll_policy": "dual_liquidity_crossover",
-      "candidate_rules_status": "decision_needed",
-      "review_trigger": "A deterministic roll policy is pre-registered and validated against canonical contract history."
+      "statement": "Raw per-contract rows are canonical; the derived continuous series uses volume_crossover_dte_v1 and never creates cross-contract returns.",
+      "default_roll_policy": "volume_crossover_dte_v1",
+      "candidate_roll_policy": null,
+      "candidate_rules_status": "validated",
+      "review_trigger": "A new roll policy is proposed or validation evidence shows this preregistered policy is unsuitable.",
+      "policy": {
+        "method": "volume_crossover_dte_v1",
+        "confirmation_sessions": 2,
+        "forced_roll_days_before_expiry": 3,
+        "volume_evidence": "prior_observed_session",
+        "crossover": "strict_greater_than",
+        "tie_behavior": "reset_confirmation_and_hold",
+        "missing_volume_behavior": "reset_confirmation_and_hold",
+        "holiday_behavior": "count_observed_sessions_only",
+        "contract_unavailable_behavior": "nearest_later_eligible",
+        "no_later_contract_behavior": "fail_closed"
+      }
     },
     "forecast_target_priority": {
       "status": "active_assumption",
