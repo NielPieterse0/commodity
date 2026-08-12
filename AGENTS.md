@@ -51,6 +51,11 @@ Live trading is out of scope until simulation evidence, execution controls and a
 
 Use `.work/` for local implementation scratch, probes, temporary scripts, and other non-authoritative work. It is ignored by Git; runtime code, configuration, tests, and authoritative documentation MUST NOT depend on it.
 
+## Repository Tools
+
+This repo uses the `kis-mcp` tool:  `kis-op` or `kis-dev`
+Load the `kis-mcp` tool skill at `C:\Projects\kis-mcp\.agents\skills\kis-mcp`
+
 ## Repository Skills
 
 Repo-local Agent Skills are discoverable under `.agents/skills/<skill-name>/SKILL.md`.
