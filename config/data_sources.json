@@ -3,7 +3,8 @@
   "target": "CME Henry Hub Natural Gas futures",
   "providers": {
     "eia_api_v2": {
-      "api_base": "https://api.eia.gov/v2", "env_key": "EIA_API_KEY"
+      "api_base": "https://api.eia.gov/v2",
+      "env_key": "EIA_API_KEY"
     },
     "cftc_public_reporting": {
       "api_base": "https://publicreporting.cftc.gov/resource"
@@ -22,45 +23,91 @@
       "role": "historical_issued_forecast_fallback"
     },
     "massive_futures": {
-      "api_base": "https://api.massive.com", "env_key": "MASSIVE_API_KEY",
-      "access": "api_key", "documented_history_start": "2017-04-03",
-      "plan_history": "basic_2y_starter_2y_developer_5y_advanced_all"
+      "api_base": "https://api.massive.com",
+      "env_key": "MASSIVE_API_KEY",
+      "access": "authorization_bearer",
+      "documented_history_by_plan": {
+        "basic": "2y",
+        "starter": "2y",
+        "developer": "5y",
+        "advanced": "7+y"
+      },
+      "account_history_observed_as_of": "2026-08-12"
     }
   },
   "canonical_contract_schema": {
     "grain": "one row per trade_date and contract_id",
-    "required_columns": ["trade_date", "contract_id", "expiration", "settle"],
-    "optional_columns": ["open", "high", "low", "close", "volume", "open_interest", "available_at"],
-    "timestamp_columns": ["trade_date", "expiration", "available_at"],
-    "unique_key": ["trade_date", "contract_id"],
+    "required_columns": [
+      "trade_date",
+      "contract_id",
+      "expiration",
+      "settle"
+    ],
+    "optional_columns": [
+      "open",
+      "high",
+      "low",
+      "close",
+      "volume",
+      "open_interest",
+      "available_at"
+    ],
+    "timestamp_columns": [
+      "trade_date",
+      "expiration",
+      "available_at"
+    ],
+    "unique_key": [
+      "trade_date",
+      "contract_id"
+    ],
     "required_metadata": [
-      "source_id", "source_sha256", "retrieved_at", "exchange", "product_code",
-      "session_timezone", "calendar", "price_semantics"
+      "source_id",
+      "source_sha256",
+      "retrieved_at",
+      "exchange",
+      "product_code",
+      "session_timezone",
+      "calendar",
+      "price_semantics"
     ],
     "term_structure_price": "settle",
     "continuous_contract": {
       "status": "derived_only",
       "authoritative_storage": "raw_per_contract",
       "adjustment_method": "none_stored_raw",
-      "default_roll_policy": null,
+      "default_roll_policy": "volume_crossover_dte_v1",
       "roll_policy_owner": "config/assumptions.json#assumptions.continuous_series_policy",
       "cross_contract_returns_allowed": false
     }
   },
   "sources": {
     "market_bootstrap": {
-      "provider": "yfinance", "symbol": "NG=F", "status": "research_bootstrap",
-      "purpose": "daily OHLCV proxy", "authoritative_for_execution": false
+      "provider": "yfinance",
+      "symbol": "NG=F",
+      "status": "research_bootstrap",
+      "purpose": "daily OHLCV proxy",
+      "authoritative_for_execution": false
     },
     "market_canonical": {
-      "provider": "massive_futures", "product_code": "NG",
-      "status": "selected_price_history_roll_validation_blocked",
+      "provider": "massive_futures",
+      "product_code": "NG",
+      "status": "history_and_roll_validated_licensing_blocked",
       "purpose": "expiry-aware NYMEX NG per-contract settlement/OHLCV history",
-      "backtest_evidence_allowed": false, "approved_for_contract_price_history": true,
-      "provides_contract_id": true, "provides_expiration": true,
-      "provides_settlement": true, "historical_volume": true,
+      "backtest_evidence_allowed": false,
+      "approved_for_contract_price_history": true,
+      "provides_contract_id": true,
+      "provides_expiration": true,
+      "provides_settlement": true,
+      "historical_volume": true,
       "historical_open_interest": false,
-      "history_depth_status": "plan_dependent_unverified_for_account"
+      "history_depth_status": "verified_observed_boundary",
+      "account_history_validated": true,
+      "history_earliest_verified_trade_date": "2024-08-13",
+      "history_validated_at_utc": "2026-08-12T20:05:00Z",
+      "non_display_backtesting_rights_verified": false,
+      "redistribution_allowed": false,
+      "account_validation_manifest": "docs/development/canonical-roll-policy-and-history-validation/account-validation.json"
     },
     "saxo_henry_hub_probe": {
       "provider": "saxo_openapi_sim",
@@ -77,14 +124,17 @@
       "backtest_evidence_allowed": false
     },
     "eia_nymex_prompt_history": {
-      "provider": "eia_api_v2", "route": "natural-gas/pri/fut",
+      "provider": "eia_api_v2",
+      "route": "natural-gas/pri/fut",
       "status": "historical_term_structure_candidate",
       "purpose": "daily NYMEX prompt-contract closes for contract ranks 1-4",
-      "coverage_end": "2024-04-05", "provides_contract_id": false,
+      "coverage_end": "2024-04-05",
+      "provides_contract_id": false,
       "canonical_market_source": false
     },
     "eia_storage": {
-      "provider": "eia_api_v2", "route": "natural-gas/stor/wkly",
+      "provider": "eia_api_v2",
+      "route": "natural-gas/stor/wkly",
       "status": "requires_api_key",
       "point_in_time_required": true,
       "regular_release_semantics": "Thursday 10:30 America/New_York; holiday exceptions override",
@@ -93,13 +143,16 @@
       "availability_reconstruction_status": "historical_exceptions_incomplete"
     },
     "eia_fundamentals": {
-      "provider": "eia_api_v2", "status": "planned", "point_in_time_required": true,
+      "provider": "eia_api_v2",
+      "status": "planned",
+      "point_in_time_required": true,
       "purpose": "production, supply/disposition, LNG/import-export, power demand",
       "availability_reconstruction_status": "not_started"
     },
     "cftc_cot": {
       "provider": "cftc_public_reporting",
-      "dataset": "72hh-3qpy", "contract_market_code": "023651",
+      "dataset": "72hh-3qpy",
+      "contract_market_code": "023651",
       "status": "snapshot_ready_backtest_release_time_pending",
       "purpose": "weekly disaggregated Henry Hub positioning; Managed Money is the preferred research slice",
       "point_in_time_required": true,
@@ -109,11 +162,17 @@
       "availability_reconstruction_status": "historical_release_calendar_incomplete"
     },
     "weather": {
-      "provider": "open_meteo_historical_forecast", "status": "candidate_adapter_pending",
+      "provider": "open_meteo_historical_forecast",
+      "status": "candidate_adapter_pending",
       "fallback_provider": "noaa_gfs_archive",
-      "product": "actually-issued historical forecast", "point_in_time_required": true,
+      "product": "actually-issued historical forecast",
+      "point_in_time_required": true,
       "purpose": "forecast-vintage temperatures and HDD/CDD surprises by gas-demand region",
-      "required_vintage_fields": ["issued_at", "available_at", "forecast_valid_at"],
+      "required_vintage_fields": [
+        "issued_at",
+        "available_at",
+        "forecast_valid_at"
+      ],
       "forbidden_substitute": "reanalysis_as_forecast",
       "availability_reconstruction_status": "source_timestamp_required"
     }

@@ -33,8 +33,10 @@ class MassiveFuturesClient:
         if not api_key:
             raise MissingCredential(f"Missing environment variable: {cfg['env_key']}")
         query = dict(params or {})
-        query["apiKey"] = api_key
-        response = (self.session or requests.Session()).get(url, params=query, timeout=30)
+        headers = {"Authorization": f"Bearer {api_key}"}
+        response = (self.session or requests.Session()).get(
+            url, params=query, headers=headers, timeout=30
+        )
         response.raise_for_status()
         payload = response.json()
         if payload.get("status") not in (None, "OK"):

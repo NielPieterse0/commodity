@@ -104,8 +104,13 @@ def test_data_source_owner_selects_massive_without_unlocking_canonical_evidence(
     assert canonical["provides_expiration"] is True
     assert canonical["provides_settlement"] is True
     assert canonical["historical_open_interest"] is False
+    assert canonical["historical_volume"] is True
+    assert canonical["account_history_validated"] is True
+    assert canonical["history_earliest_verified_trade_date"] == "2024-08-13"
+    assert canonical["non_display_backtesting_rights_verified"] is False
     assert canonical["backtest_evidence_allowed"] is False
     assert data["providers"]["massive_futures"]["env_key"] == "MASSIVE_API_KEY"
+    assert data["providers"]["massive_futures"]["access"] == "authorization_bearer"
     prompt = data["sources"]["eia_nymex_prompt_history"]
     assert prompt["canonical_market_source"] is False
     assert prompt["coverage_end"] == "2024-04-05"
@@ -161,11 +166,16 @@ def test_revisable_constraints_live_in_assumption_registry() -> None:
 
 def test_raw_contracts_are_canonical_and_roll_is_derived_policy() -> None:
     data = load_json(ROOT / "config" / "data_sources.json")
+    assumptions = load_json(ROOT / "config" / "assumptions.json")
     continuous = data["canonical_contract_schema"]["continuous_contract"]
+    policy = assumptions["assumptions"]["continuous_series_policy"]
     assert continuous["authoritative_storage"] == "raw_per_contract"
     assert continuous["adjustment_method"] == "none_stored_raw"
-    assert continuous["default_roll_policy"] is None
     assert continuous["cross_contract_returns_allowed"] is False
+    assert continuous["default_roll_policy"] == "volume_crossover_dte_v1"
+    assert policy["default_roll_policy"] == "volume_crossover_dte_v1"
+    assert policy["policy"]["confirmation_sessions"] == 2
+    assert policy["policy"]["forced_roll_days_before_expiry"] == 3
     assert continuous["roll_policy_owner"].startswith("config/assumptions.json")
 
 
