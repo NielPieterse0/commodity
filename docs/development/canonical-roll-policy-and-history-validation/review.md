@@ -2,7 +2,8 @@
 
 ## Change Boundary
 
-- Base: `dc344c029a39c9ad6d364c248c41cf42e06f2491`.
+- Original branch base: `dc344c029a39c9ad6d364c248c41cf42e06f2491`.
+- Reconciled PR base after parallel PR #2 landed: `18ab54261f9931f6517eccf57ba3c127542b4baa`.
 - Branch: `feat/canonical-roll-policy-and-history-validation`.
 - Worktree: `.work/worktrees/canonical-roll-policy-and-history-validation`.
 - Scope: Massive account/history validation, authentication hardening, canonical roll methodology, derived continuous series/ledger, readiness gates, and evidence documentation.
@@ -17,6 +18,10 @@ Closed findings:
 - **CR-03 / P2 — Enforce the complete versioned roll contract.** `src/commodity/market_data.py`: readiness initially validated only the policy name and `2/3` numeric settings. Added a failing config-drift test and now require all registered `volume_crossover_dte_v1` semantics to match exactly.
 
 Final local findings-first review: no additional P0-P3 correctness findings survived verification in the changed behavior.
+
+## Parallel-Main Reconciliation
+
+After PR #3 opened, remote `main` advanced from `dc344c0` to `18ab542` through parallel PR #2. The feature branch was rebased onto the new main in the same isolated worktree. One conflict occurred in `tests/test_pipeline.py`; resolution preserved both the newly landed assertion that rejects `--product-code GC` and this slice's layered canonical-readiness `doctor` test. Focused overlapping verification passed 63 tests before the rebase continued. No other files required manual conflict resolution.
 
 ## Live Account and Derived Evidence
 
@@ -63,16 +68,16 @@ Fresh final full-suite/lint/diff/hygiene results are recorded below after the ex
 
 ## Final Verification
 
-Current-tree evidence before commit:
+Post-reconciliation current-tree evidence:
 
-- `PYTHONPATH=<worktree>\src python -m pytest -q` -> **70 passed**.
+- `PYTHONPATH=<worktree>\src python -m pytest -q` -> **78 passed** after rebasing onto PR #2's landed changes.
 - `PYTHONPATH=<worktree>\src python -m ruff check .` -> **All checks passed**.
-- `git diff --check` -> exit 0; only Git's existing LF/CRLF conversion warnings were emitted.
+- `git diff origin/main...HEAD --check` -> exit 0 after removing one trailing blank line in `plan.md`.
 - `PYTHONPATH=<worktree>\src python -m commodity.cli doctor` -> source/history ready `true`, roll method ready `true`, licensing ready `false`, canonical evidence allowed `false`; LIVE trading and model order submission remain `false`.
 - `git status --short --ignored` confirms all four Massive validation files under `data/raw` / `data/interim` are ignored; only `.gitkeep` is tracked in those directories.
 - Exact-value secret scan across `git ls-files --cached --others --exclude-standard` -> `secret_present_in_committable_files=false`, hit count 0.
 
-The post-documentation verification is rerun immediately before the commit so this section does not rely on stale code/lint evidence.
+These checks are rerun after this reconciliation note before the final PR head is published.
 
 ## Pull Request
 

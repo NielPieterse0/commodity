@@ -71,4 +71,3 @@
 ## Stop Conditions
 
 Stop canonical-evidence promotion if licensing rights, provider history, required volume, roll determinism, provenance, or cross-contract return safety cannot be verified. The implementation may still land with the gate closed if it truthfully records the remaining blocker.
-
