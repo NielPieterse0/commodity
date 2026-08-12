@@ -9,6 +9,11 @@ Natural-gas ML research repository. The mandate lives in [`AGENTS.md`](AGENTS.md
 - Evaluation: expanding-window, leakage-safe, out-of-sample forecast scoring and explicit signal/execution simulation are operational; canonical-evidence promotion remains a separate data-quality gate.
 - Execution: intentionally non-operational; LIVE trading is prohibited by `config/policy.json`.
 
+## Research direction
+
+- [Kronos + indicator fusion architecture](docs/architecture/kronos-indicator-fusion.md)
+- [Compact research roadmap](docs/roadmap.md)
+
 ## Authoritative configuration
 
 | Concern | Owner |
