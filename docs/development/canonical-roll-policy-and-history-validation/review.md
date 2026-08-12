@@ -73,3 +73,10 @@ Current-tree evidence before commit:
 - Exact-value secret scan across `git ls-files --cached --others --exclude-standard` -> `secret_present_in_committable_files=false`, hit count 0.
 
 The post-documentation verification is rerun immediately before the commit so this section does not rely on stale code/lint evidence.
+
+## Pull Request
+
+- Initial verified implementation commit: `ad80f2201ce8b1f48026facde1849be6608d5d79`.
+- Published branch: `feat/canonical-roll-policy-and-history-validation`.
+- GitHub PR: **#3**, opened against `main` through the authenticated GitHub capability.
+- Landing remains explicitly out of scope for this run; PR #3 still requires the repository PR-completion exact-head approval gate before merge.
