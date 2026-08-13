@@ -44,11 +44,11 @@ WNGSR_CFG = {
 }
 
 
-def test_eia930_demand_uses_completed_hour_plus_reporting_lag() -> None:
+def test_eia930_demand_uses_hour_ending_timestamp_plus_reporting_lag() -> None:
     frame = pd.DataFrame({"period": ["2026-01-02T18"], "type": ["D"], "value": [1.0]})
     out = annotate_eia930_region_availability(frame, POWER_CFG)
     assert out.iloc[0]["observed_for"] == pd.Timestamp("2026-01-02T18:00:00Z")
-    assert out.iloc[0]["available_at"] == pd.Timestamp("2026-01-02T20:00:00Z")
+    assert out.iloc[0]["available_at"] == pd.Timestamp("2026-01-02T19:00:00Z")
     assert out.iloc[0]["availability_status"] == "reconstructed_conservative"
     assert out.iloc[0]["revision_status"] == "current_snapshot_revised_history"
 
