@@ -84,3 +84,194 @@ def test_full_v1_requires_all_configured_families() -> None:
             required_families=("market", "calendar_seasonality", "weather"),
             require_full_v1=True,
         )
+
+
+def _canonical_contracts(n: int = 80) -> pd.DataFrame:
+    dates = pd.date_range("2026-01-01", periods=n, freq="D", tz="UTC")
+    rows: list[dict[str, object]] = []
+    for i, date in enumerate(dates):
+        front = 3.0 + i / 1000
+        rows.extend(
+            [
+                {
+                    "trade_date": date,
+                    "contract_id": "NGZ26",
+                    "expiration": pd.Timestamp("2026-12-28", tz="UTC"),
+                    "settle": front,
+                    "high": front + 0.05,
+                    "low": front - 0.05,
+                    "volume": 1000 + i,
+                    "available_at": date + pd.Timedelta(hours=22),
+                },
+                {
+                    "trade_date": date,
+                    "contract_id": "NGF27",
+                    "expiration": pd.Timestamp("2027-01-27", tz="UTC"),
+                    "settle": front + 0.1,
+                    "high": front + 0.15,
+                    "low": front + 0.05,
+                    "volume": 800 + i,
+                    "available_at": date + pd.Timedelta(hours=22),
+                },
+            ]
+        )
+    return pd.DataFrame(rows)
+
+
+def test_canonical_dataset_rejects_proxy_market_only() -> None:
+    from commodity.research_dataset import build_pit_dataset
+
+    with pytest.raises(ValueError, match="canonical contract"):
+        build_pit_dataset(_market_frame(), evidence_mode="canonical")
+
+
+def test_canonical_dataset_consumes_provider_neutral_contract_rows(monkeypatch) -> None:
+    from commodity import research_dataset
+
+    monkeypatch.setattr(research_dataset, "assert_canonical_market_ready", lambda *_: None)
+    from commodity.research_dataset import build_pit_dataset
+
+    dataset, manifest = build_pit_dataset(
+        None,
+        evidence_mode="canonical",
+        canonical_contracts=_canonical_contracts_four(),
+    )
+    assert not dataset.empty
+    assert manifest["canonical_market_evidence"] is True
+    assert manifest["market_input"] == "canonical_contracts"
+    assert dataset.index.tz is not None
+
+
+def _canonical_contracts_four() -> pd.DataFrame:
+    base = _canonical_contracts()
+    extras: list[dict[str, object]] = []
+    for date, group in base.groupby("trade_date"):
+        front = float(group.loc[group["contract_id"] == "NGZ26", "settle"].iloc[0])
+        for contract, expiry, offset, volume in [
+            ("NGG27", "2027-02-24", 0.2, 700.0),
+            ("NGH27", "2027-03-29", 0.3, 600.0),
+        ]:
+            extras.append({
+                "trade_date": date,
+                "contract_id": contract,
+                "expiration": pd.Timestamp(expiry, tz="UTC"),
+                "settle": front + offset,
+                "high": front + offset + 0.05,
+                "low": front + offset - 0.05,
+                "volume": volume,
+                "available_at": date + pd.Timedelta(hours=22),
+            })
+    return pd.concat([base, pd.DataFrame(extras)], ignore_index=True)
+
+
+def test_canonical_dataset_adds_market_structure_and_lineage(monkeypatch) -> None:
+    from commodity import research_dataset
+
+    monkeypatch.setattr(research_dataset, "assert_canonical_market_ready", lambda *_: None)
+    first, first_manifest = research_dataset.build_pit_dataset(
+        None, evidence_mode="canonical", canonical_contracts=_canonical_contracts_four()
+    )
+    second, second_manifest = research_dataset.build_pit_dataset(
+        None, evidence_mode="canonical", canonical_contracts=_canonical_contracts_four()
+    )
+    assert "market_structure" in first_manifest["included_feature_families"]
+    assert "curve_spread_m1_m2" in first.columns
+    assert "curve_slope_m1_m4" in first.columns
+    lineage = first_manifest["market_structure"]
+    assert lineage["synthetic_series_tradable"] is False
+    for key in ["contract_input_sha256", "selected_path_sha256", "roll_ledger_sha256", "curve_features_sha256", "curve_audit_sha256", "roll_policy_sha256"]:
+        assert len(lineage[key]) == 64
+        assert lineage[key] == second_manifest["market_structure"][key]
+    pd.testing.assert_frame_equal(first, second)
+
+
+def _rolling_canonical_contracts() -> pd.DataFrame:
+    rows: list[dict[str, object]] = []
+    dates = pd.date_range("2026-01-01", periods=40, freq="D", tz="UTC")
+    specs = [
+        ("NGG26", "2026-02-10", 0.0, 1000.0),
+        ("NGH26", "2026-03-27", 0.1, 700.0),
+        ("NGJ26", "2026-04-28", 0.2, 600.0),
+        ("NGK26", "2026-05-27", 0.3, 500.0),
+    ]
+    for i, date in enumerate(dates):
+        base = 3.0 + i / 1000
+        for contract, expiry, offset, volume in specs:
+            if date <= pd.Timestamp(expiry, tz="UTC"):
+                rows.append({"trade_date": date, "contract_id": contract, "expiration": pd.Timestamp(expiry, tz="UTC"), "settle": base + offset, "high": base + offset + 0.05, "low": base + offset - 0.05, "volume": volume, "available_at": date + pd.Timedelta(hours=22)})
+    return pd.DataFrame(rows)
+
+
+def test_canonical_target_skips_cross_contract_roll_return(monkeypatch) -> None:
+    from commodity import research_dataset
+    from commodity.config import assumptions_config, data_config
+    from commodity.rolls import build_derived_continuous_series
+
+    monkeypatch.setattr(research_dataset, "assert_canonical_market_ready", lambda *_: None)
+    contracts = _rolling_canonical_contracts()
+    policy = assumptions_config()["assumptions"]["continuous_series_policy"]["policy"]
+    path, ledger = build_derived_continuous_series(
+        contracts, data_config()["canonical_contract_schema"], policy
+    )
+    roll_date = ledger.iloc[0]["trade_date"]
+    roll_position = path.index[path["trade_date"] == roll_date][0]
+    predecessor_time = pd.Timestamp(path.iloc[roll_position - 1]["available_at"])
+    dataset, _ = research_dataset.build_pit_dataset(
+        None, evidence_mode="canonical", canonical_contracts=contracts
+    )
+    assert predecessor_time not in dataset.index
+
+
+def test_canonical_dataset_reconstructs_configured_market_availability(monkeypatch) -> None:
+    from commodity import research_dataset
+
+    monkeypatch.setattr(research_dataset, "assert_canonical_market_ready", lambda *_: None)
+    contracts = _canonical_contracts_four().drop(columns=["available_at"])
+    dataset, manifest = research_dataset.build_pit_dataset(
+        None, evidence_mode="canonical", canonical_contracts=contracts
+    )
+    assert not dataset.empty
+    assert (dataset.index.hour == 23).all()
+    assert (dataset.index.minute == 59).all()
+    assert manifest["market_structure"]["availability_status"] == "reconstructed_conservative"
+
+
+def test_canonical_market_lineage_names_representation_semantics(monkeypatch) -> None:
+    from commodity import research_dataset
+
+    monkeypatch.setattr(research_dataset, "assert_canonical_market_ready", lambda *_: None)
+    _, manifest = research_dataset.build_pit_dataset(
+        None, evidence_mode="canonical", canonical_contracts=_canonical_contracts_four()
+    )
+    assert manifest["market_structure"]["representation"] == {
+        "status": "derived_only",
+        "adjustment_method": "none_stored_raw",
+        "authoritative_storage": "raw_per_contract",
+        "exchange": "NYMEX",
+        "product_code": "NG",
+        "session_timezone": "America/New_York",
+        "calendar": "CME_NYMEX",
+    }
+    assert len(manifest["market_structure"]["market_semantics_sha256"]) == 64
+
+
+def test_canonical_dataset_fails_closed_without_required_curve_ranks(monkeypatch) -> None:
+    from commodity import research_dataset
+
+    monkeypatch.setattr(research_dataset, "assert_canonical_market_ready", lambda *_: None)
+    with pytest.raises(ValueError, match="M1-M4 market structure"):
+        research_dataset.build_pit_dataset(
+            None, evidence_mode="canonical", canonical_contracts=_canonical_contracts()
+        )
+
+
+def test_canonical_dataset_fails_closed_without_curve_volume_evidence(monkeypatch) -> None:
+    from commodity import research_dataset
+
+    monkeypatch.setattr(research_dataset, "assert_canonical_market_ready", lambda *_: None)
+    contracts = _canonical_contracts_four()
+    contracts["volume"] = float("nan")
+    with pytest.raises(ValueError, match="complete M1-M4 market structure"):
+        research_dataset.build_pit_dataset(
+            None, evidence_mode="canonical", canonical_contracts=contracts
+        )

@@ -4,6 +4,8 @@ from typing import Any
 
 import pandas as pd
 
+from commodity.roll_policy import parse_volume_crossover_policy
+
 
 class DataContractViolation(ValueError):
     pass
@@ -128,23 +130,14 @@ def canonical_market_readiness(
         roll_reasons.append("canonical methodology must prohibit cross-contract returns")
     roll_policy = continuous.get("default_roll_policy")
     assumption_policy = assumption.get("default_roll_policy")
-    if roll_policy != "volume_crossover_dte_v1" or assumption_policy != roll_policy:
-        roll_reasons.append("canonical roll policy is not the registered volume_crossover_dte_v1")
     policy = assumption.get("policy", {})
-    expected_policy = {
-        "method": "volume_crossover_dte_v1",
-        "confirmation_sessions": 2,
-        "forced_roll_days_before_expiry": 3,
-        "volume_evidence": "prior_observed_session",
-        "crossover": "strict_greater_than",
-        "tie_behavior": "reset_confirmation_and_hold",
-        "missing_volume_behavior": "reset_confirmation_and_hold",
-        "holiday_behavior": "count_observed_sessions_only",
-        "contract_unavailable_behavior": "nearest_later_eligible",
-        "no_later_contract_behavior": "fail_closed",
-    }
-    if any(policy.get(key) != value for key, value in expected_policy.items()):
-        roll_reasons.append("registered roll policy semantics do not match volume_crossover_dte_v1")
+    if not roll_policy or assumption_policy != roll_policy or policy.get("method") != roll_policy:
+        roll_reasons.append("canonical roll policy owner and continuous-series reference disagree")
+    else:
+        try:
+            parse_volume_crossover_policy(policy)
+        except (TypeError, ValueError) as exc:
+            roll_reasons.append(f"registered roll policy semantics are not executable: {exc}")
 
     licensing_ready = source.get("non_display_backtesting_rights_verified") is True
     promotion_ready = source.get("backtest_evidence_allowed") is True
@@ -188,3 +181,142 @@ def validate_contract_metadata(
     retrieved_at = pd.to_datetime(metadata["retrieved_at"], utc=True, errors="coerce")
     if pd.isna(retrieved_at):
         raise DataContractViolation("Canonical dataset metadata has invalid retrieved_at")
+
+
+def build_market_structure_features(
+    frame: pd.DataFrame,
+    schema: dict[str, Any],
+    prediction_cutoffs: pd.DataFrame,
+    max_contracts: int = 4,
+) -> tuple[pd.DataFrame, pd.DataFrame]:
+    """Build expiry-ranked curve features using only quotes available by each cutoff."""
+    if max_contracts < 2:
+        raise ValueError("max_contracts must be at least 2")
+    required_quote_columns = {"available_at", "volume"}
+    missing_quote_columns = sorted(required_quote_columns - set(frame.columns))
+    if missing_quote_columns:
+        raise DataContractViolation(
+            f"Market-structure rows missing columns: {missing_quote_columns}"
+        )
+    required_cutoff_columns = {"trade_date", "prediction_time"}
+    missing_cutoff_columns = sorted(required_cutoff_columns - set(prediction_cutoffs.columns))
+    if missing_cutoff_columns:
+        raise DataContractViolation(
+            f"Market-structure cutoffs missing columns: {missing_cutoff_columns}"
+        )
+    normalized = validate_contract_history(frame, schema)
+    if normalized["available_at"].isna().any():
+        raise DataContractViolation("Market-structure available_at may not be null")
+    cutoffs = prediction_cutoffs.copy()
+    cutoffs["trade_date"] = pd.to_datetime(cutoffs["trade_date"], utc=True)
+    cutoffs["prediction_time"] = pd.to_datetime(cutoffs["prediction_time"], utc=True)
+    if cutoffs[["trade_date", "prediction_time"]].isna().any().any():
+        raise DataContractViolation("Market-structure cutoffs contain invalid timestamps")
+    if cutoffs["prediction_time"].duplicated().any():
+        raise DataContractViolation("Market-structure prediction_time must be unique")
+
+    feature_rows: list[dict[str, object]] = []
+    audit_rows: list[dict[str, object]] = []
+    for _, cutoff in cutoffs.sort_values("prediction_time").iterrows():
+        trade_date = pd.Timestamp(cutoff["trade_date"])
+        prediction_time = pd.Timestamp(cutoff["prediction_time"])
+        active = normalized[
+            (normalized["trade_date"] == trade_date)
+            & (normalized["expiration"] >= trade_date)
+        ].sort_values(["expiration", "contract_id"])
+        feature_row: dict[str, object] = {"prediction_time": prediction_time}
+        audit_row: dict[str, object] = {
+            "prediction_time": prediction_time,
+            "trade_date": trade_date,
+        }
+        for rank in range(1, max_contracts + 1):
+            prefix = f"m{rank}"
+            if rank <= len(active):
+                quote = active.iloc[rank - 1]
+                quote_available = bool(quote["available_at"] <= prediction_time)
+                audit_row[f"contract_id_{prefix}"] = str(quote["contract_id"])
+                audit_row[f"expiration_{prefix}"] = quote["expiration"]
+                audit_row[f"available_at_{prefix}"] = quote["available_at"]
+                audit_row[f"quote_available_{prefix}"] = quote_available
+                if quote_available:
+                    feature_row[f"curve_settle_{prefix}"] = float(quote["settle"])
+                    feature_row[f"curve_volume_{prefix}"] = float(quote["volume"])
+                    feature_row[f"curve_dte_{prefix}"] = float(
+                        (quote["expiration"] - trade_date).total_seconds() / 86400.0
+                    )
+                    continue
+            else:
+                audit_row[f"contract_id_{prefix}"] = None
+                audit_row[f"expiration_{prefix}"] = pd.NaT
+                audit_row[f"available_at_{prefix}"] = pd.NaT
+                audit_row[f"quote_available_{prefix}"] = False
+            feature_row[f"curve_settle_{prefix}"] = float("nan")
+            feature_row[f"curve_volume_{prefix}"] = float("nan")
+            feature_row[f"curve_dte_{prefix}"] = float("nan")
+        for rank in range(1, max_contracts):
+            left = feature_row[f"curve_settle_m{rank}"]
+            right = feature_row[f"curve_settle_m{rank + 1}"]
+            feature_row[f"curve_spread_m{rank}_m{rank + 1}"] = (
+                float(left) - float(right)
+                if pd.notna(left) and pd.notna(right)
+                else float("nan")
+            )
+        first_settle = feature_row["curve_settle_m1"]
+        last_settle = feature_row[f"curve_settle_m{max_contracts}"]
+        first_dte = feature_row["curve_dte_m1"]
+        last_dte = feature_row[f"curve_dte_m{max_contracts}"]
+        dte_span = float(last_dte) - float(first_dte) if pd.notna(last_dte) and pd.notna(first_dte) else 0.0
+        feature_row[f"curve_slope_m1_m{max_contracts}"] = (
+            (float(last_settle) - float(first_settle)) / dte_span
+            if pd.notna(first_settle) and pd.notna(last_settle) and dte_span > 0
+            else float("nan")
+        )
+        first_volume = feature_row["curve_volume_m1"]
+        second_volume = feature_row["curve_volume_m2"]
+        feature_row["curve_volume_ratio_m1_m2"] = (
+            float(first_volume) / float(second_volume)
+            if pd.notna(first_volume) and pd.notna(second_volume) and float(second_volume) > 0
+            else float("nan")
+        )
+        feature_rows.append(feature_row)
+        audit_rows.append(audit_row)
+    features = pd.DataFrame(feature_rows).set_index("prediction_time").sort_index()
+    audit = pd.DataFrame(audit_rows).set_index("prediction_time").sort_index()
+    return features, audit
+
+
+def ensure_canonical_market_availability(
+    frame: pd.DataFrame,
+    policy: dict[str, Any],
+) -> pd.DataFrame:
+    """Preserve source availability or add an explicitly configured conservative bound."""
+    out = frame.copy()
+    if "available_at" in out.columns:
+        out["available_at"] = pd.to_datetime(out["available_at"], utc=True, errors="coerce")
+        if out["available_at"].isna().any():
+            raise DataContractViolation("Canonical market available_at may not be null or invalid")
+        if "availability_status" in out.columns:
+            if out["availability_status"].isna().any():
+                raise DataContractViolation("Canonical market availability_status may not be null")
+            statuses = set(out["availability_status"].astype(str))
+            allowed_statuses = {"source_timestamp", "reconstructed_conservative"}
+            if len(statuses) != 1 or not statuses.issubset(allowed_statuses):
+                raise DataContractViolation(
+                    "Canonical market availability_status must be one supported uniform value"
+                )
+        else:
+            out["availability_status"] = "source_timestamp"
+        return out
+
+    if policy.get("method") != "trade_date_2359_utc":
+        raise DataContractViolation("Canonical market history requires explicit available_at policy")
+    if policy.get("status") != "reconstructed_conservative":
+        raise DataContractViolation("Canonical market availability policy must be conservative")
+    if "trade_date" not in out.columns:
+        raise DataContractViolation("Canonical market history requires trade_date")
+    trade_date = pd.to_datetime(out["trade_date"], utc=True, errors="coerce")
+    if trade_date.isna().any():
+        raise DataContractViolation("Canonical market trade_date contains invalid timestamps")
+    out["available_at"] = trade_date.dt.normalize() + pd.Timedelta(hours=23, minutes=59)
+    out["availability_status"] = "reconstructed_conservative"
+    return out

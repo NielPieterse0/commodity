@@ -1,0 +1,75 @@
+{
+  "schema_version": 1,
+  "phase": "A",
+  "baseline_head": "7b8546a3273a6c662848e0e285ca70559a2f7921",
+  "market_source": {
+    "provider_id": "massive_futures",
+    "snapshot_id": "20240813-20260812-v1-m1-m12",
+    "canonical_artifact_sha256": "83faf07a8de1fe3fea4cd6548dd25d9c02828e1ef4faa13a234ac8f2ad03d655",
+    "rows": 11200,
+    "sessions": 500,
+    "trade_date_start": "2024-08-14",
+    "trade_date_end": "2026-08-12"
+  },
+  "availability": {
+    "status": "reconstructed_conservative",
+    "method": "trade_date_2359_utc",
+    "basis": "CME Henry Hub settlement closes at 14:30 America/New_York and the electronic trading day pauses at 17:00 America/New_York; 23:59 UTC is later than both across U.S. DST.",
+    "references": [
+      "https://www.cmegroup.com/tools-information/lookups/advisories/market-regulation/SER-4867.html",
+      "https://www.cmegroup.com/education/courses/introduction-to-natural-gas/nat-gas-product-overview"
+    ]
+  },
+  "derivation": {
+    "runs": 2,
+    "deterministic_hash_match": true,
+    "selected_path_rows": 500,
+    "roll_count": 24,
+    "curve_rows": 500,
+    "complete_market_structure_rows": 500,
+    "missing_required_market_structure_rows": {
+      "curve_settle_m1": 0,
+      "curve_settle_m2": 0,
+      "curve_settle_m3": 0,
+      "curve_settle_m4": 0,
+      "curve_volume_m1": 0,
+      "curve_volume_m2": 0,
+      "curve_volume_ratio_m1_m2": 0,
+      "curve_spread_m1_m2": 0,
+      "curve_spread_m2_m3": 0,
+      "curve_spread_m3_m4": 0,
+      "curve_slope_m1_m4": 0
+    },
+    "input_sha256": "c7ed89ba18ef9d38902a67ab78dffab56c40b9fdf72c7a4bba72a85d3b2ac837",
+    "path_sha256": "e2a0f2c15890311e4a57e08ff1a6c55ed38e60a2472b10e2a1f4fd915878daea",
+    "ledger_sha256": "f4edcc5b401e9e57fbdf62a2e74bb2ba36faf0589d071cb30bc9b6d895a34266",
+    "curve_sha256": "5f66af3adc112bf2a87c090f37cdfbf1853fe17f5855d8303b1d06fdf6ba4118",
+    "audit_sha256": "f735552287aa8466cdb2360fa6494706a432fae4cd1b8572ff0cb2f147ac3d74",
+    "policy_sha256": "a4392cfa0f02312ca598c3c2ff2330d217be8f561baa10910d3e32f9479268f8",
+    "market_semantics_sha256": "17511fb67799bd70039bf03ce433f161c6b6db52d94c9edee2a1ce340b8b4543"
+  },
+  "promotion_gate": {
+    "source_history_ready": true,
+    "roll_method_ready": true,
+    "licensing_ready": false,
+    "promotion_ready": false,
+    "canonical_evidence_allowed": false,
+    "reason": "canonical provider non-display/backtesting rights are not verified"
+  },
+  "cross_source": {
+    "databento_status": "quarantined_integrity_incomplete",
+    "databento_integrity_verified_complete_through": "2018-12-31",
+    "massive_earliest_verified_trade_date": "2024-08-13",
+    "verified_overlap_available": false,
+    "interpretation": "No promotable cross-source agreement claim is made from quarantined Databento values."
+  },
+  "representation": {
+    "status": "derived_only",
+    "adjustment_method": "none_stored_raw",
+    "authoritative_storage": "raw_per_contract",
+    "exchange": "NYMEX",
+    "product_code": "NG",
+    "session_timezone": "America/New_York",
+    "calendar": "CME_NYMEX"
+  }
+}

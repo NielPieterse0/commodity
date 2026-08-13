@@ -2,7 +2,7 @@ import pandas as pd
 import pytest
 
 from commodity import rolls
-from commodity.config import data_config
+from commodity.config import assumptions_config, data_config
 from commodity.market_data import DataContractViolation
 from commodity.rolls import build_derived_contract_path, within_contract_log_returns
 
@@ -53,11 +53,9 @@ def test_returns_are_blank_across_roll_boundary() -> None:
 
 
 def _volume_policy() -> dict:
-    return {
-        "method": "volume_crossover_dte_v1",
-        "confirmation_sessions": 2,
-        "forced_roll_days_before_expiry": 3,
-    }
+    return dict(
+        assumptions_config()["assumptions"]["continuous_series_policy"]["policy"]
+    )
 
 
 def _volume_contracts(
@@ -192,3 +190,37 @@ def test_volume_roll_applies_dte_guard_on_initial_session() -> None:
     assert ledger.iloc[0]["trigger"] == "forced_dte"
     assert ledger.iloc[0]["old_contract_dte"] == 3
     assert pd.isna(path.iloc[0]["settle_log_return"])
+
+
+def test_volume_roll_requires_every_declared_semantic() -> None:
+    policy = _volume_policy()
+    policy.pop("tie_behavior")
+    with pytest.raises(ValueError, match="tie_behavior"):
+        rolls.build_derived_continuous_series(
+            _volume_contracts(["2026-01-05"], [100], [80]),
+            data_config()["canonical_contract_schema"],
+            policy,
+        )
+
+
+@pytest.mark.parametrize(
+    ("field", "value"),
+    [
+        ("volume_evidence", "same_session"),
+        ("crossover", "greater_than_or_equal"),
+        ("tie_behavior", "hold_without_reset"),
+        ("missing_volume_behavior", "ignore"),
+        ("holiday_behavior", "calendar_days"),
+        ("contract_unavailable_behavior", "hold_missing"),
+        ("no_later_contract_behavior", "reuse_expired"),
+    ],
+)
+def test_volume_roll_rejects_unsupported_declared_semantics(field, value) -> None:
+    policy = _volume_policy()
+    policy[field] = value
+    with pytest.raises(ValueError, match=field):
+        rolls.build_derived_continuous_series(
+            _volume_contracts(["2026-01-05"], [100], [80]),
+            data_config()["canonical_contract_schema"],
+            policy,
+        )

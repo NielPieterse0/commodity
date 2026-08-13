@@ -48,11 +48,13 @@
     }
   },
   "decision": {
-    "status": "acquisition_partial_integrity_gate_open",
+    "status": "quarantined_integrity_incomplete",
     "provider_switch": false,
     "canonical_backtest_evidence_allowed": false,
     "licensing_rights_verified": false,
-    "next_gate": "Resume and SHA-256 verify the statistics package, then condition and validate canonical contract rows before any provider-selection or evidence-promotion decision."
+    "paid_reacquisition_approved": false,
+    "quarantine_existing_acquisition": true,
+    "next_gate": "Verify and condition the existing local acquisition in place; do not reacquire paid history unless a new explicit approval is recorded."
   },
   "verified_at_utc": "2026-08-13T18:01:57.018082+00:00"
 }

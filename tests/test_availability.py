@@ -182,6 +182,26 @@ def test_asof_join_never_uses_future_information() -> None:
     assert joined.iloc[1]["evidence_mode"] == "research_pit"
 
 
+def test_asof_join_rejects_ambiguous_duplicate_availability_times() -> None:
+    cutoffs = pd.DataFrame(
+        {"prediction_time": pd.to_datetime(["2026-01-01T17:00:00Z"], utc=True)}
+    )
+    exogenous = pd.DataFrame(
+        {
+            "available_at": pd.to_datetime(
+                ["2026-01-01T16:00:00Z", "2026-01-01T16:00:00Z"], utc=True
+            ),
+            "availability_status": ["reconstructed_conservative"] * 2,
+            "revision_status": ["issued_run_immutable"] * 2,
+            "weather_signal": [7.0, 9.0],
+        }
+    )
+    with pytest.raises(ValueError, match="unique available_at"):
+        asof_join_point_in_time(
+            cutoffs, exogenous, ["weather_signal"], mode="research_pit"
+        )
+
+
 def test_screening_join_retains_revision_risk_labels() -> None:
     cutoffs = pd.DataFrame(
         {"prediction_time": pd.to_datetime(["2026-01-01T17:00:00Z"], utc=True)}
@@ -216,3 +236,50 @@ def test_authoritative_config_owns_availability_rules_without_unlocking_massive(
     canonical = cfg["sources"]["market_canonical"]
     assert canonical["non_display_backtesting_rights_verified"] is False
     assert canonical["backtest_evidence_allowed"] is False
+
+
+def test_asof_join_keeps_independent_series_grouped() -> None:
+    cutoffs = pd.DataFrame(
+        {
+            "prediction_time": pd.to_datetime(
+                ["2026-01-01T17:00:00Z", "2026-01-01T17:00:00Z"], utc=True
+            ),
+            "series": ["D", "DF"],
+        }
+    )
+    exogenous = pd.DataFrame(
+        {
+            "available_at": pd.to_datetime(
+                ["2026-01-01T16:00:00Z", "2026-01-01T16:30:00Z"], utc=True
+            ),
+            "series": ["D", "DF"],
+            "availability_status": ["reconstructed_conservative"] * 2,
+            "revision_status": ["issued_run_immutable"] * 2,
+            "power_signal": [7.0, 9.0],
+        }
+    )
+    joined = asof_join_point_in_time(
+        cutoffs, exogenous, ["power_signal"], mode="research_pit", by="series"
+    )
+    assert list(joined["power_signal"]) == [7.0, 9.0]
+
+
+def test_asof_join_requires_group_key_for_multi_series_source() -> None:
+    cutoffs = pd.DataFrame(
+        {"prediction_time": pd.to_datetime(["2026-01-01T17:00:00Z"], utc=True)}
+    )
+    exogenous = pd.DataFrame(
+        {
+            "available_at": pd.to_datetime(
+                ["2026-01-01T16:00:00Z", "2026-01-01T16:30:00Z"], utc=True
+            ),
+            "type": ["D", "DF"],
+            "availability_status": ["reconstructed_conservative"] * 2,
+            "revision_status": ["issued_run_immutable"] * 2,
+            "power_signal": [7.0, 9.0],
+        }
+    )
+    with pytest.raises(ValueError, match="group"):
+        asof_join_point_in_time(
+            cutoffs, exogenous, ["power_signal"], mode="research_pit"
+        )

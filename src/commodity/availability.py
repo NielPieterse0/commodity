@@ -247,10 +247,32 @@ def asof_join_point_in_time(
     value_columns: list[str],
     mode: str = "research_pit",
     cutoff_col: str = "prediction_time",
+    by: str | list[str] | None = None,
 ) -> pd.DataFrame:
     _require_columns(cutoffs, {cutoff_col})
     _require_columns(exogenous, {"available_at", *value_columns})
+    by_columns = [by] if isinstance(by, str) else list(by or [])
+    if by_columns:
+        _require_columns(cutoffs, set(by_columns))
+        _require_columns(exogenous, set(by_columns))
+    else:
+        identity_columns = [
+            column
+            for column in ("series", "series_id", "type")
+            if column in exogenous.columns and exogenous[column].nunique(dropna=False) > 1
+        ]
+        if identity_columns:
+            raise ValueError(
+                "Point-in-time join requires an explicit group key for multi-series sources: "
+                f"{identity_columns}"
+            )
     right = validate_availability(exogenous, mode)
+    unique_key = [*by_columns, "available_at"]
+    if right.duplicated(unique_key).any():
+        label = " + ".join(unique_key)
+        raise ValueError(
+            f"Point-in-time join requires unique {label} rows; aggregate or pivot the source first"
+        )
     left = cutoffs.copy()
     left[cutoff_col] = pd.to_datetime(left[cutoff_col], utc=True)
     left["_row_order"] = range(len(left))
@@ -267,14 +289,15 @@ def asof_join_point_in_time(
         if column in right.columns
     ]
     right_columns = list(
-        dict.fromkeys(["available_at", *value_columns, *metadata_columns])
+        dict.fromkeys([*by_columns, "available_at", *value_columns, *metadata_columns])
     )
-    right = right[right_columns].sort_values("available_at")
+    right = right[right_columns].sort_values(["available_at", *by_columns])
     merged = pd.merge_asof(
-        left.sort_values(cutoff_col),
+        left.sort_values([cutoff_col, *by_columns]),
         right,
         left_on=cutoff_col,
         right_on="available_at",
+        by=by_columns or None,
         direction="backward",
     )
     return (

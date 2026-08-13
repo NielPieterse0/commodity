@@ -8,7 +8,7 @@
     "information_cutoff": "after_current_daily_bar_close"
   },
   "walk_forward": {
-    "initial_train_rows": 756,
+    "initial_train_rows": 252,
     "retrain_every_rows": 5
   },
   "research_period": {
@@ -29,7 +29,15 @@
   "tournament": {
     "models": ["naive", "ridge", "hist_gb"],
     "primary_metric": "rmse",
-    "split_strategy": "expanding_walk_forward"
+    "split_strategy": "expanding_walk_forward",
+    "baseline_model": "naive",
+    "significance": {
+      "method": "moving_block_bootstrap",
+      "block_size": 20,
+      "resamples": 1000,
+      "confidence": 0.95,
+      "seed": 0
+    }
   },
   "controls": {
     "leakage_check": "incomplete",

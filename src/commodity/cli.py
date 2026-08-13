@@ -23,14 +23,18 @@ from commodity.eia import (
     capture_eia_api_dataset,
     capture_eia_bulk_dataset,
 )
-from commodity.evaluation import evaluate_predictions, walk_forward_predict
+from commodity.evaluation import (
+    audit_walk_forward_label_isolation,
+    evaluate_predictions,
+    walk_forward_predict,
+)
 from commodity.features import make_supervised
 from commodity.market_data import canonical_market_readiness
 from commodity.models import baseline_factory
 from commodity.policy import assert_model_cannot_submit_orders
 from commodity.provenance import sha256_file, utc_now, write_json
 from commodity.providers import EiaApiV2Client
-from commodity.records import build_baseline_record
+from commodity.records import build_baseline_record, build_tournament_record
 from commodity.research_dataset import TARGET_COLUMN, build_pit_dataset
 from commodity.saxo import SaxoSimMarketDataClient, probe_henry_hub
 from commodity.simulation import simulate_forecasts
@@ -216,6 +220,12 @@ def _run_tournament(args: argparse.Namespace) -> None:
     exp = experiment_config()
     tournament_cfg = exp["tournament"]
     names = tuple(tournament_cfg["models"])
+    leakage_check = audit_walk_forward_label_isolation(
+        x,
+        y,
+        initial_train=args.initial_train,
+        retrain_every=args.retrain_every,
+    )
     summary, predictions = run_tournament(
         x,
         y,
@@ -224,6 +234,8 @@ def _run_tournament(args: argparse.Namespace) -> None:
         initial_train=args.initial_train,
         retrain_every=args.retrain_every,
         primary_metric=tournament_cfg["primary_metric"],
+        baseline_model=tournament_cfg["baseline_model"],
+        significance=tournament_cfg["significance"],
     )
     run_dir = Path(args.output)
     run_dir.mkdir(parents=True, exist_ok=True)
@@ -233,6 +245,32 @@ def _run_tournament(args: argparse.Namespace) -> None:
         pred.to_csv(model_dir / "predictions.csv", index_label="date")
         row = summary.loc[summary["model"] == model_name].iloc[0].to_dict()
         write_json(model_dir / "metrics.json", row)
+        significance = {
+            "method": tournament_cfg["significance"]["method"],
+            "baseline_model": tournament_cfg["baseline_model"],
+            "rmse_improvement": float(row["rmse_improvement_vs_baseline"]),
+            "ci_lower": float(row["significance_ci_lower"]),
+            "ci_upper": float(row["significance_ci_upper"]),
+            "p_value": float(row["significance_p_value"]),
+            "significant": bool(row["significant_vs_baseline"]),
+            "block_size": int(tournament_cfg["significance"]["block_size"]),
+            "resamples": int(tournament_cfg["significance"]["resamples"]),
+        }
+        metric_keys = (
+            "n", "mae", "rmse", "bias", "direction_accuracy", "prediction_actual_corr"
+        )
+        record = build_tournament_record(
+            dataset_manifest=dataset_manifest,
+            dataset_path=dataset_path,
+            model_dir=model_dir,
+            model_name=model_name,
+            metrics={key: float(row[key]) for key in metric_keys},
+            feature_index=x.index,
+            initial_train=args.initial_train,
+            significance=significance,
+            leakage_check=leakage_check,
+        )
+        write_json(model_dir / "experiment.json", record)
     summary.to_csv(run_dir / "summary.csv", index=False)
     report = {
         "schema_version": 1,

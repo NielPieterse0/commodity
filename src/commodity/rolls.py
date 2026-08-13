@@ -6,6 +6,7 @@ import numpy as np
 import pandas as pd
 
 from commodity.market_data import DataContractViolation, validate_contract_history
+from commodity.roll_policy import parse_volume_crossover_policy
 
 
 def _require_dual_policy(policy: dict[str, Any]) -> tuple[int, int]:
@@ -22,9 +23,12 @@ def _require_dual_policy(policy: dict[str, Any]) -> tuple[int, int]:
 
 def _require_policy(policy: dict[str, Any]) -> tuple[int, int]:
     method = policy.get("method")
-    if method not in {"dual_liquidity_crossover", "volume_crossover_dte_v1"}:
-        raise ValueError(f"Unsupported roll policy: {method}")
-    return _require_dual_policy(policy)
+    if method == "dual_liquidity_crossover":
+        return _require_dual_policy(policy)
+    if method == "volume_crossover_dte_v1":
+        parsed = parse_volume_crossover_policy(policy)
+        return parsed.confirmation_sessions, parsed.forced_roll_days_before_expiry
+    raise ValueError(f"Unsupported roll policy: {method}")
 
 
 def _build_dual_liquidity_path(

@@ -4,7 +4,11 @@ from typing import Any
 
 import pandas as pd
 
-from commodity.evaluation import evaluate_predictions, walk_forward_predict
+from commodity.evaluation import (
+    evaluate_predictions,
+    paired_block_bootstrap_rmse,
+    walk_forward_predict,
+)
 from commodity.models import baseline_factory
 
 
@@ -24,6 +28,8 @@ def run_tournament(
     initial_train: int,
     retrain_every: int,
     primary_metric: str = "rmse",
+    baseline_model: str | None = None,
+    significance: dict[str, Any] | None = None,
 ) -> tuple[pd.DataFrame, dict[str, pd.DataFrame]]:
     _validate_chronology(x, y)
     if not model_names:
@@ -46,6 +52,38 @@ def run_tournament(
         rows.append({"model": model_name, **metrics})
 
     summary = pd.DataFrame(rows)
+    if significance is not None:
+        if significance.get("method") != "moving_block_bootstrap":
+            raise ValueError("Unsupported tournament significance method")
+        if not baseline_model or baseline_model not in predictions:
+            raise ValueError("Configured tournament baseline model is unavailable")
+        baseline_pred = predictions[baseline_model]
+        reports: dict[str, dict[str, float | int | bool | str]] = {}
+        for model_name, pred in predictions.items():
+            reports[model_name] = paired_block_bootstrap_rmse(
+                pred,
+                baseline_pred,
+                block_size=int(significance["block_size"]),
+                resamples=int(significance["resamples"]),
+                confidence=float(significance["confidence"]),
+                seed=int(significance["seed"]),
+            )
+        summary["rmse_improvement_vs_baseline"] = summary["model"].map(
+            lambda name: reports[str(name)]["rmse_improvement"]
+        )
+        summary["significance_ci_lower"] = summary["model"].map(
+            lambda name: reports[str(name)]["ci_lower"]
+        )
+        summary["significance_ci_upper"] = summary["model"].map(
+            lambda name: reports[str(name)]["ci_upper"]
+        )
+        summary["significance_p_value"] = summary["model"].map(
+            lambda name: reports[str(name)]["p_value"]
+        )
+        summary["significant_vs_baseline"] = summary["model"].map(
+            lambda name: reports[str(name)]["significant"]
+        )
+
     ascending = primary_metric not in {"direction_accuracy", "prediction_actual_corr"}
     summary = summary.sort_values(
         [primary_metric, "model"],
