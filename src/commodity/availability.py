@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from datetime import datetime, time, timedelta
+import datetime as dt
 from zoneinfo import ZoneInfo
 
 import pandas as pd
@@ -24,6 +24,16 @@ _ALLOWED_REVISIONS = {
     },
 }
 
+_WEEKDAY_INDEX = {
+    "monday": 0,
+    "tuesday": 1,
+    "wednesday": 2,
+    "thursday": 3,
+    "friday": 4,
+    "saturday": 5,
+    "sunday": 6,
+}
+
 
 def _require_columns(frame: pd.DataFrame, columns: set[str]) -> None:
     missing = sorted(columns - set(frame.columns))
@@ -39,8 +49,12 @@ def _local_cutoff(
     day_offset: int,
 ) -> pd.Timestamp:
     zone = ZoneInfo(timezone)
-    local_date = observed_for.tz_convert(zone).date() + timedelta(days=day_offset)
-    local_dt = datetime.combine(local_date, time(local_hour, local_minute), tzinfo=zone)
+    local_date = observed_for.tz_convert(zone).date() + dt.timedelta(days=day_offset)
+    local_dt = dt.datetime.combine(
+        local_date,
+        dt.time(local_hour, local_minute),
+        tzinfo=zone,
+    )
     return pd.Timestamp(local_dt).tz_convert("UTC")
 
 
@@ -59,7 +73,10 @@ def annotate_eia930_region_availability(
         data_type = str(row.type)
         if data_type == "D":
             reporting_lag = int(policy["demand"]["period_end_reporting_lag_minutes"])
-            available_at = observed_for + pd.Timedelta(hours=1, minutes=reporting_lag)
+            available_at = observed_for + dt.timedelta(
+                hours=1,
+                minutes=reporting_lag,
+            )
         elif data_type == "DF":
             forecast = policy["demand_forecast"]
             available_at = _local_cutoff(
@@ -115,9 +132,15 @@ def annotate_wngsr_availability(
     policy = source_cfg["availability_policy"]
     timezone = policy["timezone"]
     coverage_start = pd.Timestamp(policy["exception_registry_coverage_start"]).date()
+    coverage_end = pd.Timestamp(policy["exception_registry_coverage_end"]).date()
     overrides = policy.get("release_date_overrides", {})
     release_hour = int(policy["regular_release_hour"])
     release_minute = int(policy["regular_release_minute"])
+    weekday_name = str(policy["regular_release_weekday"]).strip().lower()
+    try:
+        release_weekday = _WEEKDAY_INDEX[weekday_name]
+    except KeyError:
+        raise ValueError(f"Unsupported release weekday: {weekday_name!r}") from None
     zone = ZoneInfo(timezone)
 
     out = frame.copy()
@@ -127,14 +150,15 @@ def annotate_wngsr_availability(
 
     for observed in out["observed_for"]:
         observed_date = pd.Timestamp(observed).date()
-        days_to_thursday = (3 - observed_date.weekday()) % 7
-        if days_to_thursday == 0:
-            days_to_thursday = 7
-        regular_date = observed_date + timedelta(days=days_to_thursday)
+        days_to_release = (release_weekday - observed_date.weekday()) % 7
+        if days_to_release == 0:
+            days_to_release = 7
+        regular_date = observed_date + dt.timedelta(days=days_to_release)
         regular_key = regular_date.isoformat()
         override = overrides.get(regular_key)
 
-        if regular_date < coverage_start and override is None:
+        outside_coverage = regular_date < coverage_start or regular_date > coverage_end
+        if outside_coverage and override is None:
             available.append(pd.NaT)
             statuses.append("unresolved")
             continue
@@ -145,9 +169,9 @@ def annotate_wngsr_availability(
                 raise ValueError(f"WNGSR override must include timezone: {override!r}")
             available_at = release.tz_convert("UTC")
         else:
-            local_dt = datetime.combine(
+            local_dt = dt.datetime.combine(
                 regular_date,
-                time(release_hour, release_minute),
+                dt.time(release_hour, release_minute),
                 tzinfo=zone,
             )
             available_at = pd.Timestamp(local_dt).tz_convert("UTC")
@@ -176,7 +200,8 @@ def annotate_weather_research_availability(
     else:
         exact = pd.Series(pd.NaT, index=out.index, dtype="datetime64[ns, UTC]")
     reconstructed = out["issued_at"] + pd.to_timedelta(
-        delay_minutes + margin_minutes, unit="m"
+        delay_minutes + margin_minutes,
+        unit="m",
     )
     out["available_at"] = exact.fillna(reconstructed)
     out["availability_status"] = [
@@ -212,6 +237,11 @@ def validate_availability(frame: pd.DataFrame, mode: str) -> pd.DataFrame:
         raise ValueError(
             f"Availability rows are not eligible for {mode}: row indices {bad_rows}"
         )
+    out["evidence_mode"] = mode
+    out["canonical_evidence"] = mode == "canonical"
+    out["revision_leakage_risk"] = out["revision_status"].eq(
+        "current_snapshot_revised_history"
+    )
     return out
 
 
@@ -228,7 +258,22 @@ def asof_join_point_in_time(
     left = cutoffs.copy()
     left[cutoff_col] = pd.to_datetime(left[cutoff_col], utc=True)
     left["_row_order"] = range(len(left))
-    right = right[["available_at", *value_columns]].sort_values("available_at")
+    metadata_columns = [
+        column
+        for column in (
+            "availability_status",
+            "revision_status",
+            "availability_basis",
+            "evidence_mode",
+            "canonical_evidence",
+            "revision_leakage_risk",
+        )
+        if column in right.columns
+    ]
+    right_columns = list(
+        dict.fromkeys(["available_at", *value_columns, *metadata_columns])
+    )
+    right = right[right_columns].sort_values("available_at")
     merged = pd.merge_asof(
         left.sort_values(cutoff_col),
         right,
@@ -236,4 +281,8 @@ def asof_join_point_in_time(
         right_on="available_at",
         direction="backward",
     )
-    return merged.sort_values("_row_order").drop(columns=["_row_order"]).reset_index(drop=True)
+    return (
+        merged.sort_values("_row_order")
+        .drop(columns=["_row_order"])
+        .reset_index(drop=True)
+    )
