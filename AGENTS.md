@@ -58,7 +58,7 @@ Every repository work run MUST load one primary development controller immediate
 - Load `.agents/skills/develop-code/SKILL.md` for code, configuration, schema, tests, provider integrations, mixed work, or any run whose scope is not yet known.
 - Load `.agents/skills/develop-docs/SKILL.md` only when the run is documentation-only. If documentation work discovers executable/configuration changes, switch to `develop-code` for that slice.
 
-The selected controller owns classification, slice specification/planning, applicable Superpowers sub-skills, review and verification. Development MUST use an ignored `.work/` linked worktree on a non-default branch; authoritative files are edited through that worktree, then committed, pushed and reviewed through a PR before `main` changes. Use the PR-completion workflow for PR closeout; landing still requires its exact-head approval gate.
+The selected controller owns engineering-complexity classification, slice specification/planning, applicable Superpowers sub-skills, review and verification. KIS owns repository-change effect classification and applies the current operation-specific mutation and consent controls within this repository mandate and `config/policy.json`. Use an ignored `.work/` linked worktree on a non-default branch for parallel or non-trivial development. Git publication, review, landing, cleanup, and any required consent follow the currently advertised KIS change workflow rather than a duplicated fixed sequence in this file. Any default-branch change remains subject to KIS exact-change verification and the applicable mutation controls. When KIS selects a `PR-completion workflow`, follow its exact-head controls as part of that live workflow.
 
 ## Repository Tools
 

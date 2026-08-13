@@ -1,6 +1,6 @@
 # Development Classification
 
-Classify by the highest applicable signal. File count and line count are supporting evidence, never the deciding factor.
+Classify by the highest applicable signal. File count and line count are supporting evidence, never the deciding factor. Classification selects engineering rigor and evidence depth; it does not grant mutation authority or create consent requirements, which remain governed by project authority and the active KIS change workflow.
 
 | `Signal` | Small | Medium | Complex |
 |---|---|---|---|

@@ -41,6 +41,17 @@
         "advanced": "7+y"
       },
       "account_history_observed_as_of": "2026-08-12"
+    },
+    "databento_futures": {
+      "api_base": "https://hist.databento.com/v0",
+      "env_key": "DATABENTO_API_KEY",
+      "access": "http_basic_username_key",
+      "dataset": "GLBX.MDP3",
+      "snapshot_store": "data/raw/snapshots/databento",
+      "role": "canonical_futures_candidate",
+      "max_auto_cost_usd": 1.0,
+      "max_auto_records": 50000,
+      "account_probe_status": "blocked_runtime_network_boundary"
     }
   },
   "canonical_contract_schema": {
@@ -224,6 +235,23 @@
         "research_pit_allowed_with_immutable_issued_runs": true,
         "canonical_requires_verified_source_available_at": true
       }
+    },
+    "databento_henry_hub_probe": {
+      "provider": "databento_futures",
+      "status": "adapter_ready_live_account_probe_blocked",
+      "purpose": "bounded evaluation of CME NG official settlement/statistics and deeper contract history",
+      "dataset": "GLBX.MDP3",
+      "product_code": "NG",
+      "canonical_market_source": false,
+      "backtest_evidence_allowed": false,
+      "provides_contract_id": true,
+      "provides_expiration": true,
+      "provides_settlement": true,
+      "historical_volume": true,
+      "historical_open_interest": true,
+      "account_history_validated": false,
+      "licensing_rights_verified": false,
+      "evaluation_evidence": "docs/development/databento-vs-massive/evidence.json"
     }
   }
 }

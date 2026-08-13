@@ -1,0 +1,159 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-08-13",
+  "evidence_tier": "screening",
+  "scope": "Databento historical CME Henry Hub NG provider evaluation against preserved Massive evidence",
+  "databento_public_capability": {
+    "dataset": "GLBX.MDP3",
+    "catalog_coverage_start_utc": "2010-06-06",
+    "catalog_coverage_caveat": "Per-schema and per-account availability can differ; account-specific range is not inferred from catalog coverage.",
+    "schemas_required_by_adapter": [
+      "definition",
+      "statistics"
+    ],
+    "official_statistics": [
+      "settlement_price",
+      "cleared_volume",
+      "open_interest"
+    ],
+    "settlement_reference_date_field": "ts_ref",
+    "settlement_final_flag": "stat_flags bit 0",
+    "availability_timestamp_preference": "ts_recv when present, otherwise ts_event",
+    "definition_fields_used": [
+      "raw_symbol",
+      "instrument_class",
+      "asset",
+      "expiration",
+      "exchange"
+    ],
+    "parent_symbology": "NG.FUT",
+    "metadata_first_controls": [
+      "metadata.list_schemas",
+      "metadata.get_dataset_range",
+      "metadata.get_cost",
+      "metadata.get_record_count"
+    ],
+    "historical_pricing_model": "usage_based_or_flat_rate; metadata/symbology/account operations are free; time-series bytes are billable",
+    "new_account_credit_usd": 125,
+    "historical_exchange_license_statement": "Databento states historical T+1 data does not require a market-data license, subject to exceptions such as redistribution.",
+    "official_sources": [
+      "https://databento.com/datasets/GLBX.MDP3",
+      "https://databento.com/docs/knowledge-base/datasets/glbx-mdp3",
+      "https://databento.com/docs/schemas-and-data-formats/statistics",
+      "https://databento.com/docs/schemas-and-data-formats/instrument-definitions",
+      "https://databento.com/docs/examples/symbology/parent-symbology",
+      "https://databento.com/docs/api-reference-historical/metadata/metadata-get-dataset-range",
+      "https://databento.com/docs/api-reference-historical/metadata/metadata-get-cost",
+      "https://databento.com/docs/quickstart",
+      "https://databento.com/docs/faqs/usage-pricing-and-data-credits",
+      "https://databento.com/blog/introduction-market-data-licensing"
+    ]
+  },
+  "databento_account_probe": {
+    "credential_file": "C:/Projects/commodity/.env",
+    "credential_name": "DATABENTO_API_KEY",
+    "credential_present": true,
+    "credential_shape_valid": true,
+    "credential_value_recorded": false,
+    "status": "blocked_runtime_network_boundary",
+    "reason": "The local Work runtime rejects direct outbound API calls under HR-002 and no authenticated Databento connector/plugin is mounted. Plugin discovery returned no Databento/market-data API connector.",
+    "fabricated_entitlement_claims": false,
+    "not_verified": [
+      "account GLBX.MDP3 entitlement",
+      "account-specific statistics schema start/end",
+      "NG.FUT symbol resolution for this account",
+      "exact NG definition/statistics request cost",
+      "exact NG record counts",
+      "sample payload normalization against the live account"
+    ]
+  },
+  "adapter_evidence": {
+    "module": "src/commodity/databento_futures_provider.py",
+    "core_cli_changed": false,
+    "core_market_domain_changed": false,
+    "new_runtime_dependency": false,
+    "auth": "HTTP Basic: DATABENTO_API_KEY username, blank password; key excluded from query/body/manifest",
+    "billable_download_guard": {
+      "metadata_probe_required": true,
+      "default_max_auto_cost_usd": 1.0,
+      "required_schemas": [
+        "definition",
+        "statistics"
+      ],
+      "max_auto_records": 50000
+    },
+    "canonical_semantics": {
+      "contract_id": "Databento raw_symbol",
+      "expiration": "definition.expiration",
+      "trade_date": "statistics.ts_ref for final settlement",
+      "settle": "statistics.price where stat_type=3, final flag set, and intraday-settlement flag clear",
+      "volume": "statistics.quantity where stat_type=6; null/sentinel/negative values excluded",
+      "available_at": "latest availability across populated settlement and cleared-volume statistics; ts_recv preferred, else ts_event"
+    },
+    "archive": {
+      "canonical_evidence": false,
+      "licensing_rights_verified": false,
+      "curve_bound": "expiration rank per trade date <= max_contracts",
+      "secret_free_manifest": true,
+      "preserved_source_artifacts": [
+        "definitions.csv",
+        "statistics.csv"
+      ]
+    },
+    "targeted_test_result": {
+      "tests": 15,
+      "passed": 15
+    },
+    "statistics_capture_grace_days": 3
+  },
+  "massive_existing_evidence": {
+    "source": "docs/development/market-provider-boundary/evidence.json",
+    "preserved_snapshot": "20240813-20260812-v1-m1-m12",
+    "trade_date_start": "2024-08-14",
+    "trade_date_end": "2026-08-12",
+    "sessions": 500,
+    "canonical_rows": 11200,
+    "m1_m12_coverage_fraction": 0.998,
+    "basic_plan_monthly_usd": 0,
+    "basic_plan_history": "2 years",
+    "developer_plan_monthly_usd": 79,
+    "developer_plan_history": "5 years",
+    "nymex_session_flat_file_history_start": "2017-04-03",
+    "non_display_backtesting_rights_verified_for_project": false,
+    "canonical_backtest_evidence_allowed": false
+  },
+  "comparison": {
+    "history_depth": {
+      "massive": "2 years on current Basic; 5 years at Developer; NYMEX flat-file history publicly listed from 2017-04-03 on higher access",
+      "databento": "GLBX.MDP3 catalog coverage begins 2010-06-06, but exact account/schema range remains unverified",
+      "provisional_advantage": "databento"
+    },
+    "canonical_fields": {
+      "massive": "per-contract settlement, OHLCV, expiration available in existing adapter/snapshot",
+      "databento": "official CME settlement, cleared volume, open interest, definitions/expiration, OHLCV schemas publicly documented",
+      "provisional_advantage": "databento_for_source_semantics"
+    },
+    "cost": {
+      "massive": "Basic is $0/month for 2 years; deeper history requires paid plan",
+      "databento": "usage-based historical pricing with $125 new-account credit; exact NG request cost must be obtained from account metadata before download",
+      "provisional_advantage": "unresolved_until_account_cost_probe"
+    },
+    "licensing": {
+      "massive": "project-specific non-display backtesting rights remain unresolved",
+      "databento": "Databento states T+1 historical data does not require an exchange license; redistribution exceptions remain and project-specific contractual use has not been separately signed off",
+      "provisional_advantage": "databento_but_keep_project_gate_fail_closed"
+    },
+    "operational_stability": {
+      "massive": "working account path already preserved locally and tested",
+      "databento": "adapter tested against documented HTTP contract but live account cannot be exercised in current Work runtime",
+      "provisional_advantage": "massive_today"
+    }
+  },
+  "decision": {
+    "status": "continue_bounded_databento_evaluation",
+    "canonical_provider_change": false,
+    "configured_provider_remains": "massive_futures",
+    "reason": "Databento is the stronger technical candidate on documented history depth and official CME statistics, but an account-specific metadata/cost probe and tiny live sample are still required before provider selection or serious training.",
+    "next_gate": "Run metadata-only Databento account probe through an approved authenticated connector or outside the Work outbound-network boundary, then permit only a cost-bounded tiny NG sample if the probe succeeds."
+  }
+}
