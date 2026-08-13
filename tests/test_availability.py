@@ -35,9 +35,10 @@ WNGSR_CFG = {
         "regular_release_hour": 10,
         "regular_release_minute": 30,
         "exception_registry_coverage_start": "2025-01-01",
-        "exception_registry_coverage_end": "2026-12-31",
+        "exception_registry_coverage_end": "2026-11-25",
         "release_date_overrides": {
             "2025-11-13": "2025-11-14T10:30:00-05:00",
+            "2026-11-26": "2026-11-25T12:00:00-05:00",
         },
     }
 }
@@ -86,10 +87,16 @@ def test_wngsr_before_exception_registry_coverage_fails_closed() -> None:
 
 
 def test_wngsr_after_exception_registry_coverage_fails_closed() -> None:
-    frame = pd.DataFrame({"period": ["2027-01-01"], "value": [3800.0]})
+    frame = pd.DataFrame({"period": ["2026-11-27"], "value": [3800.0]})
     out = annotate_wngsr_availability(frame, WNGSR_CFG)
     assert pd.isna(out.iloc[0]["available_at"])
     assert out.iloc[0]["availability_status"] == "unresolved"
+
+
+def test_wngsr_known_end_boundary_override_is_still_accepted() -> None:
+    frame = pd.DataFrame({"period": ["2026-11-20"], "value": [3800.0]})
+    out = annotate_wngsr_availability(frame, WNGSR_CFG)
+    assert out.iloc[0]["available_at"] == pd.Timestamp("2026-11-25T17:00:00Z")
 
 
 def test_weather_research_availability_keeps_issue_time_separate() -> None:
@@ -202,7 +209,7 @@ def test_authoritative_config_owns_availability_rules_without_unlocking_massive(
     power = cfg["sources"]["eia_power"]["availability_policy"]
     weather = cfg["sources"]["weather"]["availability_policy"]
     assert storage["timezone"] == "America/New_York"
-    assert storage["exception_registry_coverage_end"] == "2026-12-31"
+    assert storage["exception_registry_coverage_end"] == "2026-11-25"
     assert "2025-11-13" in storage["release_date_overrides"]
     assert power["demand"]["period_end_reporting_lag_minutes"] == 60
     assert weather["research_global_model_delay_minutes"] == 360
