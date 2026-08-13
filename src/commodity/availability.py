@@ -5,7 +5,6 @@ from zoneinfo import ZoneInfo
 
 import pandas as pd
 
-
 AVAILABILITY_MODES = {"canonical", "research_pit", "screening"}
 
 _ALLOWED_AVAILABILITY = {
