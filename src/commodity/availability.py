@@ -72,10 +72,7 @@ def annotate_eia930_region_availability(
         data_type = str(row.type)
         if data_type == "D":
             reporting_lag = int(policy["demand"]["period_end_reporting_lag_minutes"])
-            available_at = observed_for + dt.timedelta(
-                hours=1,
-                minutes=reporting_lag,
-            )
+            available_at = observed_for + dt.timedelta(minutes=reporting_lag)
         elif data_type == "DF":
             forecast = policy["demand_forecast"]
             available_at = _local_cutoff(
