@@ -19,7 +19,7 @@
 
 ### Task 1: Availability contract and evidence modes
 
-**Requirements:** R1, R5, R6  
+**Requirements:** R1, R5, R6
 **Files:**
 - Create: `src/commodity/availability.py`
 - Create: `tests/test_availability.py`
@@ -42,7 +42,7 @@
 
 ### Task 2: EIA-930 timing reconstruction
 
-**Requirements:** R2, R7  
+**Requirements:** R2, R7
 **Files:**
 - Modify: `src/commodity/availability.py`
 - Modify: `config/data_sources.json`
@@ -64,7 +64,7 @@
 
 ### Task 3: WNGSR release reconstruction
 
-**Requirements:** R3, R7  
+**Requirements:** R3, R7
 **Files:**
 - Modify: `src/commodity/availability.py`
 - Modify: `config/data_sources.json`
@@ -85,7 +85,7 @@
 
 ### Task 4: Archived weather research timing
 
-**Requirements:** R4, R5, R7  
+**Requirements:** R4, R5, R7
 **Files:**
 - Modify: `src/commodity/availability.py`
 - Modify: `config/data_sources.json`
@@ -106,7 +106,7 @@
 
 ### Task 5: Current-state reconciliation and closeout
 
-**Requirements:** R7, R8  
+**Requirements:** R7, R8
 **Files:**
 - Modify: `README.md`
 - Modify: `docs/data-manifest.md`
