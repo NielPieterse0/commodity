@@ -18,24 +18,56 @@ class MissingCredential(RuntimeError):
 class EiaApiV2Client:
     session: requests.Session | None = None
 
-    def fetch(self, route: str, params: dict[str, Any] | None = None) -> pd.DataFrame:
+    def _request_payload(
+        self, route: str, params: dict[str, Any] | None = None
+    ) -> dict[str, Any]:
         cfg = data_config()["providers"]["eia_api_v2"]
         api_key = os.getenv(cfg["env_key"])
         if not api_key:
             raise MissingCredential(f"Missing environment variable: {cfg['env_key']}")
-        session = self.session or requests.Session()
         query = dict(params or {})
         query["api_key"] = api_key
         url = f"{cfg['api_base'].rstrip('/')}/{route.strip('/')}/data/"
-        response = session.get(url, params=query, timeout=30)
-        response.raise_for_status()
+        response = (self.session or requests.Session()).get(url, params=query, timeout=30)
+        try:
+            response.raise_for_status()
+        except requests.RequestException:
+            status = getattr(response, "status_code", "unknown")
+            raise RuntimeError(f"EIA API request failed with HTTP {status}") from None
         payload = response.json()
-        return pd.DataFrame(payload["response"]["data"])
+        if "response" not in payload or "data" not in payload["response"]:
+            raise RuntimeError("EIA API response is missing response.data")
+        return payload
+
+    def fetch(self, route: str, params: dict[str, Any] | None = None) -> pd.DataFrame:
+        return pd.DataFrame(self._request_payload(route, params)["response"]["data"])
+
+    def fetch_all(
+        self,
+        route: str,
+        params: dict[str, Any] | None = None,
+        page_size: int = 5000,
+        max_pages: int = 1000,
+    ) -> pd.DataFrame:
+        if page_size < 1 or max_pages < 1:
+            raise ValueError("page_size and max_pages must be positive")
+        rows: list[dict[str, Any]] = []
+        base = dict(params or {})
+        for page in range(max_pages):
+            payload = self._request_payload(
+                route, {**base, "offset": page * page_size, "length": page_size}
+            )
+            response = payload["response"]
+            batch = response["data"]
+            rows.extend(batch)
+            raw_total = response.get("total")
+            total = int(raw_total) if raw_total not in (None, "") else None
+            if (total is not None and len(rows) >= total) or len(batch) < page_size:
+                return pd.DataFrame(rows)
+        raise RuntimeError("EIA pagination limit reached before response completion")
 
     def fetch_source(
-        self,
-        source_name: str,
-        params: dict[str, Any] | None = None,
+        self, source_name: str, params: dict[str, Any] | None = None
     ) -> pd.DataFrame:
         source = data_config()["sources"][source_name]
         if source["provider"] != "eia_api_v2" or "route" not in source:
@@ -69,8 +101,7 @@ class CftcCotSnapshotClient:
 
 
 def require_point_in_time_ready(
-    frame: pd.DataFrame,
-    observation_col: str | None = None,
+    frame: pd.DataFrame, observation_col: str | None = None
 ) -> None:
     if "available_at" not in frame.columns:
         raise ValueError("Dataset is not backtest-ready: missing actual available_at timestamps")
