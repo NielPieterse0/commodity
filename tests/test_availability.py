@@ -36,6 +36,7 @@ WNGSR_CFG = {
         "regular_release_hour": 10,
         "regular_release_minute": 30,
         "exception_registry_coverage_start": "2025-01-01",
+        "exception_registry_coverage_end": "2026-11-25",
         "release_date_overrides": {
             "2025-11-13": "2025-11-14T10:30:00-05:00",
         },
@@ -85,6 +86,13 @@ def test_wngsr_before_exception_registry_coverage_fails_closed() -> None:
     assert out.iloc[0]["availability_status"] == "unresolved"
 
 
+def test_wngsr_after_exception_registry_coverage_fails_closed() -> None:
+    frame = pd.DataFrame({"period": ["2027-01-01"], "value": [3800.0]})
+    out = annotate_wngsr_availability(frame, WNGSR_CFG)
+    assert pd.isna(out.iloc[0]["available_at"])
+    assert out.iloc[0]["availability_status"] == "unresolved"
+
+
 def test_weather_research_availability_keeps_issue_time_separate() -> None:
     frame = pd.DataFrame(
         {
@@ -110,6 +118,8 @@ def test_research_pit_accepts_conservative_immutable_weather() -> None:
     )
     out = validate_availability(frame, "research_pit")
     assert len(out) == 1
+    assert out.iloc[0]["evidence_mode"] == "research_pit"
+    assert out.iloc[0]["canonical_evidence"] is False
 
 
 def test_research_pit_rejects_current_snapshot_revision_history() -> None:
@@ -122,7 +132,9 @@ def test_research_pit_rejects_current_snapshot_revision_history() -> None:
     )
     with pytest.raises(ValueError, match="research_pit"):
         validate_availability(frame, "research_pit")
-    assert len(validate_availability(frame, "screening")) == 1
+    screening = validate_availability(frame, "screening")
+    assert len(screening) == 1
+    assert screening.iloc[0]["revision_leakage_risk"] is True
 
 
 def test_canonical_requires_verified_point_in_time_rows() -> None:
@@ -133,7 +145,9 @@ def test_canonical_requires_verified_point_in_time_rows() -> None:
             "revision_status": ["point_in_time"],
         }
     )
-    assert len(validate_availability(frame, "canonical")) == 1
+    canonical = validate_availability(frame, "canonical")
+    assert len(canonical) == 1
+    assert canonical.iloc[0]["canonical_evidence"] is True
     with pytest.raises(ValueError, match="Unknown availability mode"):
         validate_availability(frame, "anything")
 
@@ -159,6 +173,28 @@ def test_asof_join_never_uses_future_information() -> None:
     )
     assert pd.isna(joined.iloc[0]["weather_signal"])
     assert joined.iloc[1]["weather_signal"] == 7.0
+    assert joined.iloc[1]["evidence_mode"] == "research_pit"
+
+
+def test_screening_join_retains_revision_risk_labels() -> None:
+    cutoffs = pd.DataFrame(
+        {"prediction_time": pd.to_datetime(["2026-01-01T17:00:00Z"], utc=True)}
+    )
+    exogenous = pd.DataFrame(
+        {
+            "available_at": [pd.Timestamp("2026-01-01T16:00:00Z")],
+            "availability_status": ["reconstructed_conservative"],
+            "revision_status": ["current_snapshot_revised_history"],
+            "power_signal": [5.0],
+        }
+    )
+    joined = asof_join_point_in_time(
+        cutoffs, exogenous, ["power_signal"], mode="screening"
+    )
+    assert joined.iloc[0]["power_signal"] == 5.0
+    assert joined.iloc[0]["revision_status"] == "current_snapshot_revised_history"
+    assert joined.iloc[0]["revision_leakage_risk"] is True
+    assert joined.iloc[0]["canonical_evidence"] is False
 
 
 def test_authoritative_config_owns_availability_rules_without_unlocking_massive() -> None:
@@ -167,6 +203,7 @@ def test_authoritative_config_owns_availability_rules_without_unlocking_massive(
     power = cfg["sources"]["eia_power"]["availability_policy"]
     weather = cfg["sources"]["weather"]["availability_policy"]
     assert storage["timezone"] == "America/New_York"
+    assert storage["exception_registry_coverage_end"] == "2026-11-25"
     assert "2025-11-13" in storage["release_date_overrides"]
     assert power["demand"]["period_end_reporting_lag_minutes"] == 60
     assert weather["research_global_model_delay_minutes"] == 360
