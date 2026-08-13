@@ -1,8 +1,8 @@
 # Natural Gas Data Manifest
 
-**Research date:** 2026-08-12
+**Research date:** 2026-08-13
 
-This manifest defines the desired research dataset and acquisition roadmap. [`config/data_sources.json`](../config/data_sources.json) remains authoritative for implemented providers, source status, canonical-evidence gates, and point-in-time readiness.
+This manifest defines the desired research dataset and acquisition roadmap. [`config/data_sources.json`](../config/data_sources.json) remains authoritative for implemented providers, source status, canonical-evidence gates, and point-in-time readiness. Verified local preservation metadata lives in [`docs/development/us-v1-data-foundation/evidence.json`](development/us-v1-data-foundation/evidence.json).
 
 `V1` means the minimum serious dataset for the named layer. Only **U.S. / Henry Hub V1** is on the current training critical path; Global/Interconnect and Norway/Europe V1 define later layers so sources can be wired without redesigning the data model.
 
@@ -10,20 +10,20 @@ This manifest defines the desired research dataset and acquisition roadmap. [`co
 
 Every time-varying input should preserve `observed_for`, `published_at` or `issued_at`, `available_at`, `retrieved_at`, source identity/version, units, and revision state when the source supports them. Backtests may use a value only after `available_at`. Revised or final historical values must not replace the value that was knowable at prediction time.
 
-Derived features are reproducible transformations, not new sources. Raw source values remain retained and versioned.
+Derived features are reproducible transformations, not new sources. Raw source values remain retained and versioned. A preserved current-state historical snapshot is **not** point-in-time backtest evidence unless its historical publication/revision availability has also been reconstructed.
 
 ## 1. U.S. / Henry Hub
 
 | Priority | Data family | Ideal datapoints | Grain | Preferred source | Access / point-in-time note |
 |---|---|---|---|---|---|
-| V1 | Futures contracts and curve | `contract_id`, expiry, settle, OHLC, volume; M1-M12 rank, spreads, slope, curvature, roll state | Contract/day | Massive Futures; CME for contract definitions | Massive key; selected source. Account history is validated from 2024-08-13; historical OI is unavailable but not required by `volume_crossover_dte_v1`. Canonical backtest use remains blocked pending non-display/backtesting entitlement. Never compute returns across contract rolls. |
-| V1 | Issued weather forecasts | issue/available/valid time, lead, 2m temperature, HDD/CDD, wind, humidity, precipitation/snow; forecast revisions; demand-region weights | Forecast run/hour -> daily features | Open-Meteo Historical Forecast; NOAA GFS/GEFS fallback | Open/public. Use archived issued forecasts, never reanalysis as a forecast. |
-| V1 | Underground storage | working gas total + EIA regions, weekly injection/withdrawal, capacity, 5-year normal/deviation, release/revision timestamp | Week/region | EIA WNGSR / API v2 | Free API key. Reconstruct holiday releases and revisions; snapshot releases going forward. |
-| V1 | Gas production and balance | dry, marketed and gross production; state/region; supply/disposition; offshore production | Month/region | EIA Natural Gas / API v2 | Free API key. Apply actual publication lag and preserve revisions. |
-| V1 | Gas demand and power burn | residential, commercial, industrial and electric-sector gas use; actual/forecast electricity load, generation by fuel, interchange | Hour + month/region | EIA natural gas + EIA-930 | Free API key. Hourly operating data are revised; snapshot publication state. |
-| V1 | LNG and pipeline trade | LNG exports, pipeline imports/exports, country, point of entry/exit, volume and price where published | Month/point/country | EIA Natural Gas / API v2 | Free API key. Monthly public data are the V1 floor; high-frequency feedgas is Later. |
-| V1 | Spot/reference price | Henry Hub spot price and publication timestamp | Day | EIA | Free API key. Align to publication availability, not trade date alone. |
-| V1 | Calendar/seasonality | session calendar, month/week/day-of-year, injection/withdrawal season, days-to-expiry | Session | CME calendar + derived | Derived only; calendar version must be reproducible. |
+| V1 | Futures contracts and curve | `contract_id`, expiry, settle, OHLC, volume; M1-M12 rank, spreads, slope, curvature, roll state | Contract/day | Massive Futures; CME for contract definitions | Massive key; selected source. Account history is validated from 2024-08-13. Resumable paced preservation is implemented and V1 market-value capture is bounded to M1-M12. Historical OI is unavailable but not required by `volume_crossover_dte_v1`. Canonical backtest use remains blocked pending non-display/backtesting entitlement; Massive values are not redistributed or committed. |
+| V1 | Issued weather forecasts | issue/available/valid time, lead, 2m temperature, HDD/CDD, wind, humidity, precipitation/snow; forecast revisions; demand-region weights | Forecast run/hour -> daily features | Open-Meteo Single Runs; NOAA GFS/GEFS fallback | Open/public adapter implemented and an archived ECMWF run verified. Preserve model initialization/issue time and valid time, but do not infer actual `available_at`; availability reconstruction and demand-region archive expansion remain required. Never use reanalysis as a forecast substitute. |
+| V1 | Underground storage | working gas total + EIA regions, weekly injection/withdrawal, capacity, 5-year normal/deviation, release/revision timestamp | Week/region | EIA WNGSR / API v2 + Natural Gas bulk snapshot | Current Natural Gas bulk history is preserved. Historical Thursday/holiday release times and revisions still need point-in-time reconstruction; capture future releases as vintages. |
+| V1 | Gas production and balance | dry, marketed and gross production; state/region; supply/disposition; offshore production | Month/region | EIA Natural Gas / API v2 | Current Natural Gas bulk history is preserved. Apply actual publication lag and reconstruct historical revisions before backtest use. |
+| V1 | Gas demand and power burn | residential, commercial, industrial and electric-sector gas use; actual/forecast electricity load, generation by fuel, interchange | Hour + month/region | EIA Natural Gas + EIA-930 | Natural Gas bulk plus bounded Lower-48 EIA-930 demand/day-ahead forecast and NG-generation snapshots are preserved for 2024-08-13 through 2026-08-12. EIA-930 revisions/availability still need point-in-time treatment. |
+| V1 | LNG and pipeline trade | LNG exports, pipeline imports/exports, country, point of entry/exit, volume and price where published | Month/point/country | EIA Natural Gas / API v2 | Current Natural Gas bulk history is preserved as the V1 floor. Publication/revision vintages remain incomplete; high-frequency feedgas is Later. |
+| V1 | Spot/reference price | Henry Hub spot price and publication timestamp | Day | EIA Natural Gas / API v2 | Current Natural Gas bulk history is preserved. Align to actual publication availability before backtest use rather than trade date alone. |
+| V1 | Calendar/seasonality | session calendar, month/week/day-of-year, injection/withdrawal season, days-to-expiry | Session | Massive schedules + CME definitions + derived | Massive schedule capture is implemented in bounded windows and preserves source calendar events locally. Derived calendar versioning is required; canonical use remains subject to the Massive licensing gate. |
 | Later | CFTC positioning | producer/merchant, swap dealer, Managed Money and other positions; net, change, % OI, rolling percentile/z-score | Week | CFTC COT, NYMEX code `023651` | Public. Use actual Friday release/holiday calendar; report date is not availability date. |
 | Later | Drilling and supply response | rig count, wells drilled/completed, DUCs, new-well productivity, basin activity, producer capex where reproducible | Week/month | EIA STEO/DPR + Baker Hughes | Secondary/slow-moving; preserve report vintage because productivity/DUC estimates can be revised. |
 | Later | Gulf tropical disruption | issued storm track/intensity/advisories, landfall risk, platform/rig evacuation, offshore gas shut-in MMCF/d and % | Advisory/day/event | NOAA NHC + BSEE | Use issued advisories for forecasts; BSEE shut-in estimates are event reports and should retain publication time. |
@@ -44,7 +44,7 @@ This layer represents transmission between regional gas markets: LNG, European p
 | V1 | European gas transmission | physical flow, direction, nominations where published, technical/available capacity, interconnection point, corridor | Hour/day/point | ENTSOG Transparency Platform | Public transparency data. Preserve publication timestamps and corrections. |
 | V1 | European storage | stock, injection, withdrawal, working capacity, fill %, available/contracted capacity, outages | Day/facility/country | GIE AGSI | Free registration/API key; daily data. Snapshot revisions and changing facility/EIC metadata. |
 | V1 | European LNG terminals | LNG inventory, send-out, receipts where available, regas capacity/utilisation, available capacity, maintenance/outages | Day/facility | GIE ALSI | Free registration/API key; daily data. Preserve facility identity and revisions. |
-| V1 | European issued weather forecasts | issue/valid/available time, temperature, HDD/CDD, wind, solar-related weather, forecast revisions by demand region | Forecast run/hour | Open-Meteo Historical Forecast; NOAA global models | Use issued forecasts only. Weight by population/gas demand and retain forecast vintage. |
+| V1 | European issued weather forecasts | issue/valid/available time, temperature, HDD/CDD, wind, solar-related weather, forecast revisions by demand region | Forecast run/hour | Open-Meteo archived issued runs; NOAA global models | Use issued forecasts only. Weight by population/gas demand and retain forecast vintage. |
 | V1 | European electricity system | actual/forecast load, generation by fuel, wind/solar forecast, hydro storage, outages, cross-border flow, day-ahead power price | 15-min/hour/day/bidding zone | ENTSO-E Transparency Platform | Public API/token workflow. Keep source publication/revision state. |
 | V1 | Gas/LNG inside information | planned/unplanned outage, unavailable capacity, start/end, asset, affected quantity and update history | Event/asset | GIE IIP, ENTSOG/TSO notices, ACER REMIT sources | Event timestamps are features; retain every update rather than only final outage state. |
 | Later | Global gas balance | production, LNG/pipeline imports/exports, stock change, inland demand, power/heat gas use by country | Month/country | JODI-Gas | Public global structural/regime layer; updated monthly and subject to country revisions. |
@@ -80,12 +80,12 @@ Candidate status here does not constitute third-party approval. Approval and imp
 | ID | Source | Access | Primary use |
 |---|---|---|---|
 | US-MKT | [Massive Futures](https://massive.com/docs/rest/futures) + [CME Henry Hub](https://www.cmegroup.com/markets/energy/natural-gas/natural-gas.html) | Massive API key; CME public specifications | Henry Hub contracts, prices, expiry/market definition |
-| US-EIA | [EIA Open Data API](https://www.eia.gov/opendata/) | Free API key | Storage, production, demand, imports/exports, spot, EIA-930 power |
+| US-EIA | [EIA Open Data API](https://www.eia.gov/opendata/) | Free API key + public Natural Gas bulk ZIP | Storage, production, demand, imports/exports, spot, EIA-930 power |
 | US-CFTC | [CFTC Commitments of Traders](https://www.cftc.gov/MarketReports/CommitmentsofTraders/index.htm) | Public | Henry Hub positioning; code `023651` |
 | US-SUPPLY | [EIA STEO/DPR](https://www.eia.gov/petroleum/drilling/) + [Baker Hughes Rig Count](https://rigcount.bakerhughes.com/na-rig-count) | Public | Rigs, drilling, DUCs and production-productivity estimates |
 | US-STORM | [NOAA NHC Data Archive](https://www.nhc.noaa.gov/data/) + [BSEE](https://www.bsee.gov/) | Public | Issued tropical advisories and offshore shut-in/evacuation reports |
 | US-MACRO | [Federal Reserve Economic Data](https://fred.stlouisfed.org/) + [BEA](https://www.bea.gov/data) + [BLS](https://www.bls.gov/data/) | Public | Industrial and macro demand/regime data |
-| WX-ARCHIVE | [Open-Meteo Historical Forecast](https://open-meteo.com/en/docs/historical-forecast-api) + [NOAA GFS](https://www.ncei.noaa.gov/products/weather-climate-models/global-forecast) | Public | Actually-issued forecast vintages |
+| WX-ARCHIVE | [Open-Meteo](https://open-meteo.com/en/docs) + [NOAA GFS](https://www.ncei.noaa.gov/products/weather-climate-models/global-forecast) | Public | Actually-issued forecast vintages; Single Runs adapter implemented |
 | EU-TTF | [ICE Dutch TTF Natural Gas Futures](https://www.ice.com/products/82843860/ICE-Futures-Europe-Dutch-TTF-Natural-Gas-Futures) | Contract specs public; historical market data subject to entitlement | TTF market/curve |
 | EU-FX | [ECB Data Portal](https://data.ecb.europa.eu/key-figures/ecb-interest-rates-and-exchange-rates/exchange-rates) | Public API | EUR/USD and other cross-market reference FX |
 | EU-FLOW | [ENTSOG Transparency](https://www.entsog.eu/transparency-activities) | Public | European gas flows/capacities |
@@ -106,8 +106,8 @@ Candidate status here does not constitute third-party approval. Approval and imp
 
 ## Acquisition order
 
-1. Resolve Massive non-display/backtesting entitlement and preserve the validated `volume_crossover_dte_v1` roll contract.
-2. Wire U.S. V1 storage, weather, production, demand/power, LNG/trade and spot data with point-in-time provenance.
+1. Resolve Massive non-display/backtesting entitlement; retain the resumable M1-M12 local archive and verified roll contract.
+2. Reconstruct U.S. V1 historical `available_at`/release/revision state for EIA storage/fundamentals/EIA-930 and build a demand-region issued-weather archive. Preservation alone does not unlock training evidence.
 3. Add the Global/Interconnect V1 layer: TTF, ENTSOG, AGSI/ALSI, European weather/power and outage messages.
 4. Build the Norway/Europe V1 layer: NCS production, Gassco flows/outages, SSB exports and NOK FX.
 5. Add Later sources only when ablation tests or a pre-registered hypothesis justify their acquisition or licensing cost.
