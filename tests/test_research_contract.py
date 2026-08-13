@@ -192,6 +192,19 @@ def test_volatility_direction_is_additive_experiment_candidate() -> None:
     assert candidate["targets"][0]["metric"] == "qlike"
 
 
+def test_active_experiment_uses_pit_core_tournament_contract() -> None:
+    experiment = load_json(ROOT / "config" / "experiment.json")
+    models = load_json(ROOT / "config" / "models.json")["models"]
+    dataset = experiment["dataset"]
+    tournament = experiment["tournament"]
+    assert dataset["evidence_mode"] == "research_pit"
+    assert dataset["leakage_enforcement"] == "pit_dataset_contract"
+    assert dataset["promotion_completeness"] == "full_v1"
+    assert tournament["split_strategy"] == "expanding_walk_forward"
+    assert tournament["models"] == ["naive", "ridge", "hist_gb"]
+    assert models["hist_gb"]["baseline_implementation"] == "hist_gradient_boosting_return"
+
+
 def test_agents_md_requires_development_controller_and_kis_change_flow() -> None:
     agents = (ROOT / "AGENTS.md").read_text(encoding="utf-8")
     assert "Every repository work run MUST load one primary development controller immediately after reading governing repository instructions" in agents

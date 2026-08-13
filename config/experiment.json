@@ -16,12 +16,27 @@
     "end": "2100-01-01",
     "end_semantics": "open_ended_far_future_sentinel"
   },
+  "dataset": {
+    "dataset_id": "us-ng-v1-pit",
+    "evidence_mode": "research_pit",
+    "leakage_enforcement": "pit_dataset_contract",
+    "required_feature_families": [
+      "market", "market_structure", "storage", "weather", "power",
+      "positioning", "calendar_seasonality"
+    ],
+    "promotion_completeness": "full_v1"
+  },
+  "tournament": {
+    "models": ["naive", "ridge", "hist_gb"],
+    "primary_metric": "rmse",
+    "split_strategy": "expanding_walk_forward"
+  },
   "controls": {
     "leakage_check": "incomplete",
     "reproducibility_runs": 1
   },
   "decision": {
     "disposition": "repeat",
-    "rationale": "Bootstrap proxy only; canonical expiry-aware futures and point-in-time exogenous data are still pending."
+    "rationale": "Run the leakage-safe PIT core tournament now; full-V1 promotion still requires every configured feature family to become PIT-admissible."
   }
 }

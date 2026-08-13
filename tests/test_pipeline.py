@@ -189,6 +189,39 @@ def test_baseline_record_model_identity_comes_from_config(tmp_path, monkeypatch)
     assert record["model"]["architecture"] == "configured_architecture"
 
 
+def test_freeze_v1_dataset_cli_is_available() -> None:
+    from commodity.cli import build_parser
+
+    args = build_parser().parse_args(["freeze-v1-dataset"])
+    assert args.func.__name__ == "_freeze_v1_dataset"
+
+
+def test_run_tournament_cli_is_available() -> None:
+    from commodity.cli import build_parser
+
+    args = build_parser().parse_args(["run-tournament"])
+    assert args.func.__name__ == "_run_tournament"
+
+
+def test_run_tournament_requires_frozen_dataset_manifest(tmp_path) -> None:
+    import pytest
+
+    from commodity.cli import build_parser
+
+    dataset = tmp_path / "pit.csv"
+    pd.DataFrame({
+        "prediction_time": pd.date_range("2025-01-01", periods=30, tz="UTC"),
+        "ret_1": np.linspace(-0.01, 0.01, 30),
+        "target_ret_1": np.linspace(0.01, -0.01, 30),
+    }).to_csv(dataset, index=False)
+    args = build_parser().parse_args([
+        "run-tournament", "--input", str(dataset), "--initial-train", "20",
+        "--output", str(tmp_path / "out"),
+    ])
+    with pytest.raises(ValueError, match="manifest"):
+        args.func(args)
+
+
 def test_fetch_canonical_market_cli_is_available() -> None:
     from commodity.cli import build_parser
 

@@ -31,8 +31,10 @@ from commodity.policy import assert_model_cannot_submit_orders
 from commodity.provenance import sha256_file, utc_now, write_json
 from commodity.providers import EiaApiV2Client
 from commodity.records import build_baseline_record
+from commodity.research_dataset import TARGET_COLUMN, build_pit_dataset
 from commodity.saxo import SaxoSimMarketDataClient, probe_henry_hub
 from commodity.simulation import simulate_forecasts
+from commodity.tournament import run_tournament
 from commodity.weather import OpenMeteoSingleRunClient, capture_weather_run
 
 
@@ -170,6 +172,85 @@ def _capture_weather_run(args: argparse.Namespace) -> None:
         utc_now(),
     )
     print(f"manifest={manifest}")
+
+
+def _freeze_v1_dataset(args: argparse.Namespace) -> None:
+    frame = CsvMarketDataSource(Path(args.input)).fetch(args.start, args.end)
+    exp = experiment_config()
+    dataset_cfg = exp["dataset"]
+    dataset, manifest = build_pit_dataset(
+        frame,
+        evidence_mode=dataset_cfg["evidence_mode"],
+        required_families=tuple(dataset_cfg["required_feature_families"]),
+        require_full_v1=args.require_full_v1,
+    )
+    output = Path(args.output)
+    output.parent.mkdir(parents=True, exist_ok=True)
+    dataset.to_csv(output, index_label="prediction_time")
+    manifest.update(
+        {
+            "artifact_sha256": sha256_file(output),
+            "source_market_path": str(Path(args.input)),
+            "source_market_sha256": sha256_file(Path(args.input)),
+        }
+    )
+    manifest_path = output.with_suffix(".manifest.json")
+    write_json(manifest_path, manifest)
+    print(json.dumps(manifest, indent=2))
+
+
+def _run_tournament(args: argparse.Namespace) -> None:
+    dataset_path = Path(args.input)
+    manifest_path = dataset_path.with_suffix(".manifest.json")
+    if not manifest_path.exists():
+        raise ValueError("Frozen dataset manifest is required for tournament execution")
+    dataset_manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+    artifact_sha256 = sha256_file(dataset_path)
+    if dataset_manifest.get("artifact_sha256") != artifact_sha256:
+        raise ValueError("Frozen dataset artifact hash does not match its manifest")
+    frame = pd.read_csv(dataset_path, index_col="prediction_time", parse_dates=["prediction_time"])
+    if TARGET_COLUMN not in frame.columns:
+        raise ValueError(f"Frozen dataset must contain {TARGET_COLUMN!r}")
+    x = frame.drop(columns=[TARGET_COLUMN])
+    y = frame[TARGET_COLUMN]
+    exp = experiment_config()
+    tournament_cfg = exp["tournament"]
+    names = tuple(tournament_cfg["models"])
+    summary, predictions = run_tournament(
+        x,
+        y,
+        model_names=names,
+        models=model_config()["models"],
+        initial_train=args.initial_train,
+        retrain_every=args.retrain_every,
+        primary_metric=tournament_cfg["primary_metric"],
+    )
+    run_dir = Path(args.output)
+    run_dir.mkdir(parents=True, exist_ok=True)
+    for model_name, pred in predictions.items():
+        model_dir = run_dir / model_name
+        model_dir.mkdir(parents=True, exist_ok=True)
+        pred.to_csv(model_dir / "predictions.csv", index_label="date")
+        row = summary.loc[summary["model"] == model_name].iloc[0].to_dict()
+        write_json(model_dir / "metrics.json", row)
+    summary.to_csv(run_dir / "summary.csv", index=False)
+    report = {
+        "schema_version": 1,
+        "experiment_id": exp["experiment_id"],
+        "dataset_id": dataset_manifest.get("dataset_id"),
+        "dataset_sha256": dataset_manifest.get("dataset_sha256"),
+        "dataset_artifact_sha256": artifact_sha256,
+        "dataset_manifest_sha256": sha256_file(manifest_path),
+        "dataset_completeness": dataset_manifest.get("completeness"),
+        "missing_feature_families": dataset_manifest.get("missing_feature_families", []),
+        "research_promotion_eligible": dataset_manifest.get("completeness") == "full_v1",
+        "primary_metric": tournament_cfg["primary_metric"],
+        "split_strategy": tournament_cfg["split_strategy"],
+        "models": names,
+        "ranking": summary.to_dict(orient="records"),
+    }
+    write_json(run_dir / "summary.json", report)
+    print(json.dumps(report, indent=2))
 
 
 def _run_baseline(args: argparse.Namespace) -> None:
@@ -315,6 +396,31 @@ def build_parser() -> argparse.ArgumentParser:
     )
     preserve_weather.add_argument("--output-root", default=snapshot_root)
     preserve_weather.set_defaults(func=_capture_weather_run)
+
+    freeze = sub.add_parser("freeze-v1-dataset")
+    freeze.add_argument("--input", default=str(REPO_ROOT / "data/raw/ng_f_daily.csv"))
+    freeze.add_argument("--start", default=period["start"])
+    freeze.add_argument("--end", default=period["end"])
+    freeze.add_argument(
+        "--output", default=str(REPO_ROOT / "data/processed/us_ng_v1_pit.csv")
+    )
+    freeze.add_argument("--require-full-v1", action="store_true")
+    freeze.set_defaults(func=_freeze_v1_dataset)
+
+    tournament = sub.add_parser("run-tournament")
+    tournament.add_argument(
+        "--input", default=str(REPO_ROOT / "data/processed/us_ng_v1_pit.csv")
+    )
+    tournament.add_argument(
+        "--initial-train", type=int, default=walk["initial_train_rows"]
+    )
+    tournament.add_argument(
+        "--retrain-every", type=int, default=walk["retrain_every_rows"]
+    )
+    tournament.add_argument(
+        "--output", default=str(REPO_ROOT / "artifacts/runs/v1-pit-tournament")
+    )
+    tournament.set_defaults(func=_run_tournament)
 
     run = sub.add_parser("run-baseline")
     run.add_argument("--input", default=str(REPO_ROOT / "data/raw/ng_f_daily.csv"))

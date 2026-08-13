@@ -12,7 +12,7 @@ DATA TRUTH  ->  BASELINES  ->  KRONOS + INDICATORS  ->  ROBUST ENSEMBLE  ->  FOR
 | Phase | Outcome | Promotion gate |
 |---|---|---|
 | **V0 - Data truth** | Provider-neutral per-contract data, deterministic roll/term structure, point-in-time fundamentals/weather, reproducible provenance | Data contract and leakage controls pass |
-| **V1 - Evidence baseline** | Naive/seasonal/Ridge benchmarks, volatility + direction targets, compact hypothesis-led indicator library | Walk-forward OOS evidence beats appropriate baselines |
+| **V1 - Evidence baseline** | Naive/statistical/tree-boosting benchmarks, volatility + direction targets, compact hypothesis-led indicator library | Walk-forward OOS evidence beats appropriate baselines |
 | **V2 - Market-aware fusion** | Kronos market layer + fundamental, futures-structure and technical indicators; component ablations | Fusion adds robust incremental signal over Kronos-only and indicators-only |
 | **V3 - Robust ensemble** | Calibrated uncertainty, regime testing, selective challenger models and evidence-based ensembling | Gains persist across regimes, horizons and realistic friction |
 | **V4 - Forward validation** | Frozen forecasts, live vintage capture, broker simulation/paper execution, drift monitoring | Forward evidence confirms research assumptions and execution realism |
