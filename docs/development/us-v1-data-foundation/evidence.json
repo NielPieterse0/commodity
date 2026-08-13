@@ -1,0 +1,62 @@
+{
+  "schema_version": 1,
+  "observed_on": "2026-08-13",
+  "local_snapshot_root": "data/raw/snapshots",
+  "git_tracked_raw_values": false,
+  "massive": {
+    "product_code": "NG",
+    "boundary_probe_start": "2024-08-13",
+    "boundary_probe_end": "2026-08-12",
+    "outright_contracts_observed_across_boundary_snapshots": 172,
+    "trading_venues": ["XNYM"],
+    "earliest_observed_expiry": {
+      "contract_id": "NGU4",
+      "last_trade_date": "2024-08-28"
+    },
+    "latest_observed_expiry": {
+      "contract_id": "NGZ38",
+      "last_trade_date": "2038-11-26"
+    },
+    "v1_market_value_horizon": "M1-M12",
+    "live_failure_modes_reproduced": ["HTTP 429 rate limit", "HTTP 504 schedule cursor timeout"],
+    "capture_contract": "paced, bounded, resumable, hashed",
+    "non_display_backtesting_rights_verified": false,
+    "redistribution_allowed": false,
+    "market_values_committed": false
+  },
+  "eia": {
+    "retrieved_at": "2026-08-13T07:19:15.964068+00:00",
+    "natural_gas_bulk": {
+      "artifact": "NG.zip",
+      "bytes": 4425236,
+      "sha256": "5c0d230e123df8be8e309677317323c9673d0e345f1bb7ff4789418f9fb1f449"
+    },
+    "lower48_demand_and_day_ahead_forecast": {
+      "route": "electricity/rto/region-data",
+      "rows": 35040,
+      "bytes": 2908388,
+      "sha256": "1c4df3bf1f0c2eb575f9fcaccb2f1cc0dfa9b3a2e1242d186cae6b8d310c7dca"
+    },
+    "lower48_natural_gas_generation": {
+      "route": "electricity/rto/fuel-type-data",
+      "rows": 17500,
+      "bytes": 1382557,
+      "sha256": "55c4933f2b541cb8853395a631d8594f8c56677269795647c05ac5f0c4833cde"
+    },
+    "requested_start": "2024-08-13",
+    "requested_end": "2026-08-12",
+    "historical_point_in_time_ready": false
+  },
+  "weather_smoke": {
+    "provider": "Open-Meteo Single Runs",
+    "model": "ecmwf_ifs",
+    "run": "2024-08-13T00:00",
+    "location": "Chicago",
+    "latitude": 41.8781,
+    "longitude": -87.6298,
+    "retrieved_at": "2026-08-13T07:20:13.137397+00:00",
+    "raw_json_sha256": "ebaf6a56f84bd4469fee7250e5dc5ded8fdbb48b8e97e9b4d1d3631009b39f1c",
+    "forecast_csv_sha256": "bf853f48c5583563d3134fd405e9eed421c24fb06da880f3b2be65a884e659ae",
+    "actual_available_at_reconstructed": false
+  }
+}

@@ -96,7 +96,7 @@ def test_generic_core_has_no_commodity_specific_rules() -> None:
 
 def test_data_source_owner_selects_massive_without_unlocking_canonical_evidence() -> None:
     data = load_json(ROOT / "config" / "data_sources.json")
-    assert data["schema_version"] == 2
+    assert data["schema_version"] == 3
     canonical = data["sources"]["market_canonical"]
     assert canonical["provider"] == "massive_futures"
     assert canonical["approved_for_contract_price_history"] is True
@@ -109,12 +109,13 @@ def test_data_source_owner_selects_massive_without_unlocking_canonical_evidence(
     assert canonical["history_earliest_verified_trade_date"] == "2024-08-13"
     assert canonical["non_display_backtesting_rights_verified"] is False
     assert canonical["backtest_evidence_allowed"] is False
+    assert canonical["preservation_status"] == "resumable_snapshot_capture_ready"
     assert data["providers"]["massive_futures"]["env_key"] == "MASSIVE_API_KEY"
     assert data["providers"]["massive_futures"]["access"] == "authorization_bearer"
     prompt = data["sources"]["eia_nymex_prompt_history"]
     assert prompt["canonical_market_source"] is False
     assert prompt["coverage_end"] == "2024-04-05"
-    for source_name in ("eia_storage", "cftc_cot", "weather"):
+    for source_name in ("eia_storage", "eia_fundamentals", "eia_power", "cftc_cot", "weather"):
         source = data["sources"][source_name]
         assert source["point_in_time_required"] is True
         assert source["availability_reconstruction_status"] != "complete"

@@ -1,10 +1,14 @@
 {
-  "schema_version": 2,
+  "schema_version": 3,
   "target": "CME Henry Hub Natural Gas futures",
   "providers": {
     "eia_api_v2": {
       "api_base": "https://api.eia.gov/v2",
       "env_key": "EIA_API_KEY"
+    },
+    "eia_bulk": {
+      "dataset_url_template": "https://www.eia.gov/opendata/bulk/{dataset_id}.zip",
+      "access": "public_http"
     },
     "cftc_public_reporting": {
       "api_base": "https://publicreporting.cftc.gov/resource"
@@ -15,6 +19,8 @@
       "read_only": true
     },
     "open_meteo_historical_forecast": {
+      "api_base": "https://historical-forecast-api.open-meteo.com/v1/forecast",
+      "single_runs_api_base": "https://single-runs-api.open-meteo.com/v1/forecast",
       "access": "http_json_no_key",
       "role": "historical_issued_forecast_candidate"
     },
@@ -26,6 +32,8 @@
       "api_base": "https://api.massive.com",
       "env_key": "MASSIVE_API_KEY",
       "access": "authorization_bearer",
+      "minimum_request_interval_seconds": 12.5,
+      "snapshot_store": "data/raw/snapshots/massive",
       "documented_history_by_plan": {
         "basic": "2y",
         "starter": "2y",
@@ -37,40 +45,11 @@
   },
   "canonical_contract_schema": {
     "grain": "one row per trade_date and contract_id",
-    "required_columns": [
-      "trade_date",
-      "contract_id",
-      "expiration",
-      "settle"
-    ],
-    "optional_columns": [
-      "open",
-      "high",
-      "low",
-      "close",
-      "volume",
-      "open_interest",
-      "available_at"
-    ],
-    "timestamp_columns": [
-      "trade_date",
-      "expiration",
-      "available_at"
-    ],
-    "unique_key": [
-      "trade_date",
-      "contract_id"
-    ],
-    "required_metadata": [
-      "source_id",
-      "source_sha256",
-      "retrieved_at",
-      "exchange",
-      "product_code",
-      "session_timezone",
-      "calendar",
-      "price_semantics"
-    ],
+    "required_columns": ["trade_date", "contract_id", "expiration", "settle"],
+    "optional_columns": ["open", "high", "low", "close", "volume", "open_interest", "available_at"],
+    "timestamp_columns": ["trade_date", "expiration", "available_at"],
+    "unique_key": ["trade_date", "contract_id"],
+    "required_metadata": ["source_id", "source_sha256", "retrieved_at", "exchange", "product_code", "session_timezone", "calendar", "price_semantics"],
     "term_structure_price": "settle",
     "continuous_contract": {
       "status": "derived_only",
@@ -94,6 +73,9 @@
       "product_code": "NG",
       "status": "history_and_roll_validated_licensing_blocked",
       "purpose": "expiry-aware NYMEX NG per-contract settlement/OHLCV history",
+      "preservation_status": "resumable_snapshot_capture_ready",
+      "v1_curve_preservation": "M1-M12",
+      "schedule_route": "futures/v1/schedules",
       "backtest_evidence_allowed": false,
       "approved_for_contract_price_history": true,
       "provides_contract_id": true,
@@ -135,7 +117,8 @@
     "eia_storage": {
       "provider": "eia_api_v2",
       "route": "natural-gas/stor/wkly",
-      "status": "requires_api_key",
+      "bulk_dataset": "NG",
+      "status": "capture_ready_current_snapshot_only",
       "point_in_time_required": true,
       "regular_release_semantics": "Thursday 10:30 America/New_York; holiday exceptions override",
       "historical_release_exceptions_required": true,
@@ -144,10 +127,23 @@
     },
     "eia_fundamentals": {
       "provider": "eia_api_v2",
-      "status": "planned",
+      "bulk_dataset": "NG",
+      "routes": ["natural-gas/prod", "natural-gas/cons", "natural-gas/move", "natural-gas/pri"],
+      "status": "capture_ready_current_snapshot_only",
       "point_in_time_required": true,
-      "purpose": "production, supply/disposition, LNG/import-export, power demand",
-      "availability_reconstruction_status": "not_started"
+      "purpose": "production, balance, gas demand, LNG/pipeline trade and Henry Hub spot/reference price",
+      "availability_reconstruction_status": "historical_release_vintages_incomplete"
+    },
+    "eia_power": {
+      "provider": "eia_api_v2",
+      "status": "targeted_snapshot_ready",
+      "routes": ["electricity/rto/region-data", "electricity/rto/fuel-type-data"],
+      "respondent": "US48",
+      "demand_types": ["D", "DF"],
+      "natural_gas_fueltype": "NG",
+      "point_in_time_required": true,
+      "purpose": "Lower-48 hourly demand/day-ahead demand forecast and natural-gas generation",
+      "availability_reconstruction_status": "historical_revisions_incomplete"
     },
     "cftc_cot": {
       "provider": "cftc_public_reporting",
@@ -163,18 +159,16 @@
     },
     "weather": {
       "provider": "open_meteo_historical_forecast",
-      "status": "candidate_adapter_pending",
+      "status": "single_runs_adapter_ready",
       "fallback_provider": "noaa_gfs_archive",
       "product": "actually-issued historical forecast",
+      "model": "ecmwf_ifs",
+      "archive_start": "2024-01-01",
       "point_in_time_required": true,
       "purpose": "forecast-vintage temperatures and HDD/CDD surprises by gas-demand region",
-      "required_vintage_fields": [
-        "issued_at",
-        "available_at",
-        "forecast_valid_at"
-      ],
+      "required_vintage_fields": ["issued_at", "available_at", "forecast_valid_at"],
       "forbidden_substitute": "reanalysis_as_forecast",
-      "availability_reconstruction_status": "source_timestamp_required"
+      "availability_reconstruction_status": "actual_source_availability_unresolved"
     }
   }
 }
