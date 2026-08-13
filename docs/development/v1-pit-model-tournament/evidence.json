@@ -1,0 +1,45 @@
+{
+  "schema_version": 1,
+  "program_issue": 13,
+  "verified_at_utc": "2026-08-13T19:48:30.2505880Z",
+  "dataset_smoke": {
+    "dataset_id": "us-ng-pit-47b7768f23e0",
+    "dataset_sha256": "47b7768f23e0d13bd70091f404dcafbbc7bb505f070d15b05a018d099f65fd58",
+    "artifact_sha256": "46d41e5f6ca3b90b88034943c57d11c08af39ae8c758a29946042ae586fe5354",
+    "manifest_sha256": "70d565969fa67a72a1ddac13d43ffd3e55a6c8f61827f176cf59a6035832051a",
+    "source_market_sha256": "5fc38277e39dd644dfa0ac1f06621c5a1f7966824c92c536739e29b043e2ab1b",
+    "rows": 2898,
+    "start": "2015-02-02T00:00:00+00:00",
+    "end": "2026-08-10T00:00:00+00:00",
+    "completeness": "pit_core",
+    "canonical_market_evidence": false,
+    "research_promotion_eligible": false,
+    "missing_feature_families": [
+      "market_structure",
+      "positioning",
+      "power",
+      "storage",
+      "weather"
+    ]
+  },
+  "tournament_smoke": {
+    "split_strategy": "expanding_walk_forward",
+    "initial_train_rows": 756,
+    "retrain_every_rows": 5,
+    "out_of_sample_rows": 2142,
+    "primary_metric": "rmse",
+    "ranking": [
+      {"rank": 1, "model": "hist_gb", "rmse": 0.04579708998875776},
+      {"rank": 2, "model": "ridge", "rmse": 0.0459850461100658},
+      {"rank": 3, "model": "naive", "rmse": 0.04604043853786669}
+    ]
+  },
+  "verification": {
+    "pytest": "147 passed",
+    "ruff": "passed",
+    "diff_check": "passed",
+    "automated_review": "unavailable: codex-cli UnicodeEncodeError; nvidia-nim backend error",
+    "manual_review": "passed after closing contract-enum, runtime-bound, and manifest-provenance findings"
+  },
+  "interpretation": "Pipeline evidence only. The frozen input is pit_core, not full_v1 or canonical market evidence, and is not eligible for research promotion."
+}

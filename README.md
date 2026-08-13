@@ -8,7 +8,7 @@ Natural-gas ML research repository. Repository authority is assigned in [`AGENTS
 - **Market evidence:** ingestion is provider-adapted; current source selection, readiness, and evidence gates are owned by `config/data_sources.json`.
 - **Databento preservation:** acquisition has progressed beyond the earlier probe stage; the current local integrity state is recorded in [`docs/development/databento-full-history-acquisition/evidence.json`](docs/development/databento-full-history-acquisition/evidence.json).
 - **Point-in-time research:** U.S. fundamentals/weather preservation and evidence-tier handling are operational, with revision-risk restrictions explicit. Rules are owned by `config/data_sources.json`; `src/commodity/availability.py` implements the joins.
-- **Models and evaluation:** model settings live in `config/models.json`; the research sequence is owned by [`docs/roadmap.md`](docs/roadmap.md).
+- **Models and evaluation:** model settings live in `config/models.json`; the active experiment now freezes a leakage-safe PIT core and compares configured baselines under one walk-forward protocol. The research sequence is owned by [`docs/roadmap.md`](docs/roadmap.md).
 - **Execution:** permission is owned only by `config/policy.json`.
 
 ## Research direction
@@ -42,6 +42,8 @@ python -m venv .venv
 .\.venv\Scripts\python.exe -m pip install -e ".[dev,market]"
 .\.venv\Scripts\python.exe -m commodity.cli fetch-market --end <YYYY-MM-DD>
 .\.venv\Scripts\python.exe -m commodity.cli fetch-canonical-market --start <YYYY-MM-DD> --end <YYYY-MM-DD>
+.\.venv\Scripts\python.exe -m commodity.cli freeze-v1-dataset
+.\.venv\Scripts\python.exe -m commodity.cli run-tournament
 .\.venv\Scripts\python.exe -m commodity.cli run-baseline
 .\.venv\Scripts\python.exe -m commodity.cli backtest --predictions artifacts/runs/baseline/predictions.csv --output artifacts/runs/baseline-backtest
 .\.venv\Scripts\python.exe -m pytest -q
