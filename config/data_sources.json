@@ -123,7 +123,30 @@
       "regular_release_semantics": "Thursday 10:30 America/New_York; holiday exceptions override",
       "historical_release_exceptions_required": true,
       "revision_snapshots_required": true,
-      "availability_reconstruction_status": "historical_exceptions_incomplete"
+      "availability_reconstruction_status": "release_schedule_2025_through_2026_11_25_ready_revision_vintages_incomplete",
+      "availability_policy": {
+        "timezone": "America/New_York",
+        "regular_release_weekday": "Thursday",
+        "regular_release_hour": 10,
+        "regular_release_minute": 30,
+        "exception_registry_coverage_start": "2025-01-01",
+        "exception_registry_coverage_end": "2026-11-25",
+        "release_date_overrides": {
+          "2025-01-02": "2025-01-03T10:30:00-05:00",
+          "2025-01-09": "2025-01-08T12:00:00-05:00",
+          "2025-06-19": "2025-06-18T12:00:00-04:00",
+          "2025-11-13": "2025-11-14T10:30:00-05:00",
+          "2025-11-27": "2025-11-26T12:00:00-05:00",
+          "2025-12-25": "2025-12-29T12:00:00-05:00",
+          "2026-01-01": "2025-12-31T12:00:00-05:00",
+          "2026-11-12": "2026-11-13T10:30:00-05:00",
+          "2026-11-26": "2026-11-25T12:00:00-05:00"
+        },
+        "reconstructed_availability_status": "reconstructed_conservative",
+        "current_snapshot_revision_status": "current_snapshot_revised_history",
+        "research_pit_allowed_for_current_snapshot": false,
+        "screening_allowed_with_revision_risk": true
+      }
     },
     "eia_fundamentals": {
       "provider": "eia_api_v2",
@@ -143,7 +166,30 @@
       "natural_gas_fueltype": "NG",
       "point_in_time_required": true,
       "purpose": "Lower-48 hourly demand/day-ahead demand forecast and natural-gas generation",
-      "availability_reconstruction_status": "historical_revisions_incomplete"
+      "availability_reconstruction_status": "publication_timing_ready_historical_revisions_incomplete",
+      "availability_policy": {
+        "timezone": "America/New_York",
+        "demand": {
+          "period_end_reporting_lag_minutes": 60,
+          "source_semantics": "typically available one hour after end of operating hour"
+        },
+        "demand_forecast": {
+          "local_hour": 11,
+          "local_minute": 10,
+          "day_offset": 0,
+          "source_semantics": "typically available by 11:00 America/New_York; ten-minute conservative margin applied"
+        },
+        "generation": {
+          "local_hour": 11,
+          "local_minute": 10,
+          "day_offset": 1,
+          "source_semantics": "prior-day generation typically available by 11:00 America/New_York; ten-minute conservative margin applied"
+        },
+        "reconstructed_availability_status": "reconstructed_conservative",
+        "current_snapshot_revision_status": "current_snapshot_revised_history",
+        "research_pit_allowed_for_current_snapshot": false,
+        "screening_allowed_with_revision_risk": true
+      }
     },
     "cftc_cot": {
       "provider": "cftc_public_reporting",
@@ -163,12 +209,21 @@
       "fallback_provider": "noaa_gfs_archive",
       "product": "actually-issued historical forecast",
       "model": "ecmwf_ifs",
-      "archive_start": "2024-01-01",
+      "archive_start": "2024-03-14",
       "point_in_time_required": true,
       "purpose": "forecast-vintage temperatures and HDD/CDD surprises by gas-demand region",
       "required_vintage_fields": ["issued_at", "available_at", "forecast_valid_at"],
       "forbidden_substitute": "reanalysis_as_forecast",
-      "availability_reconstruction_status": "actual_source_availability_unresolved"
+      "availability_reconstruction_status": "conservative_research_timing_ready_exact_history_unverified",
+      "availability_policy": {
+        "historical_exact_status": "unverified",
+        "research_global_model_delay_minutes": 360,
+        "server_consistency_margin_minutes": 10,
+        "reconstructed_availability_status": "reconstructed_conservative",
+        "issued_run_revision_status": "issued_run_immutable",
+        "research_pit_allowed_with_immutable_issued_runs": true,
+        "canonical_requires_verified_source_available_at": true
+      }
     }
   }
 }

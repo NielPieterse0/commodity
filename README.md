@@ -5,7 +5,7 @@ Natural-gas ML research repository. The mandate lives in [`AGENTS.md`](AGENTS.md
 ## Current state
 
 - Market: CME Henry Hub natural-gas forecasting; `NG=F` is bootstrap research data only. Massive Futures is selected for expiry-aware per-contract settlement/OHLCV ingestion. The configured account history and deterministic `volume_crossover_dte_v1` roll methodology are validated; canonical backtest evidence remains blocked because Massive non-display/backtesting rights are not verified for the current individual account. Raw Massive preservation is resumable, paced and M1-M12 bounded; licensed market values remain local/ignored.
-- U.S. V1 data: immutable snapshot acquisition is implemented for EIA Natural Gas bulk history, targeted Lower-48 EIA-930 demand/forecast and gas generation, and archived Open-Meteo Single Runs weather. These are preservation/current-state snapshots, not automatically point-in-time backtest-ready datasets; historical release/revision `available_at` reconstruction remains explicit work.
+- U.S. V1 data: immutable snapshot acquisition is implemented for EIA Natural Gas bulk history, targeted Lower-48 EIA-930 demand/forecast and gas generation, and archived Open-Meteo Single Runs weather. A configuration-driven availability layer now reconstructs conservative EIA-930 publication timing, the published WNGSR exception schedule from 2025 through November 25, 2026, and conservative issued-weather availability. Current EIA historical snapshots remain screening-only where historical revisions cannot be reconstructed; immutable issued-weather runs may qualify for `research_pit`, while canonical evidence still requires verified point-in-time availability/value history.
 - Models: zero-return benchmark + ridge baseline; Kronos-mini is an available optional CPU research model, while Ridge remains the default.
 - Evaluation: expanding-window, leakage-safe, out-of-sample forecast scoring and explicit signal/execution simulation are operational; canonical-evidence promotion remains a separate data-quality gate.
 - Execution: intentionally non-operational; LIVE trading is prohibited by `config/policy.json`.
@@ -16,11 +16,21 @@ Natural-gas ML research repository. The mandate lives in [`AGENTS.md`](AGENTS.md
 - [Natural-gas data manifest](docs/data-manifest.md)
 - [Compact research roadmap](docs/roadmap.md)
 
+## Point-in-time evidence modes
+
+`src/commodity/availability.py` keeps exploratory usefulness separate from evidence strength:
+
+- `canonical`: verified availability plus point-in-time/immutable value history only.
+- `research_pit`: verified or conservative availability only when the value itself is revision-safe; archived issued-weather runs can use this tier.
+- `screening`: may use current revised EIA histories for warranted signal investigation, but carries `revision_leakage_risk=true` and `canonical_evidence=false` through point-in-time joins.
+
+These modes classify research evidence only. They do not change trading authority or the Massive licensing gate.
+
 ## Authoritative configuration
 
 | Concern | Owner |
 |---|---|
-| Data providers | `config/data_sources.json` |
+| Data providers and availability rules | `config/data_sources.json` |
 | Revisable research assumptions | `config/assumptions.json` |
 | Models/hardware | `config/models.json` |
 | Experiment definition | `config/experiment.json` |
