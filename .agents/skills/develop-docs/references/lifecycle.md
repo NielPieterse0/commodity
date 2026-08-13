@@ -4,7 +4,7 @@
 |---|---|---|
 | Understand | Authority, audience, purpose, current documents, sources, format, boundaries, and checks identified | No material owner/source is unread; conflicts and unknowns are explicit |
 | Classify | Small, Medium, or Complex with evidence | Higher-risk triggers checked; artifact and approval needs selected |
-| Plan | Outcome, target files, sources, structure, tasks, review, verification, and recovery recorded at level-appropriate depth | Claims map to sources; no blocking ambiguity; Complex plan has human approval |
+| Plan | Outcome, target files, sources, structure, tasks, review, verification, and recovery recorded at level-appropriate depth | Claims map to sources; no blocking ambiguity; governing decision and consent requirements are satisfied |
 | Implement | Documents created or revised within scope and existing authority | Planned sections/tasks complete; links, indexes, and related surfaces stay synchronized |
 | Review | Plan, sources, docs, related artifacts, style, risk, and evidence reviewed together | Blocking findings fixed and affected scope re-reviewed |
 | Verify | Fresh repository-appropriate checks prove the current state | Every completion claim has current supporting output or an explicit manual review record |

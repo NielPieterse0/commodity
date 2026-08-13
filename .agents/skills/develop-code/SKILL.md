@@ -9,7 +9,7 @@ Own the lifecycle and evidence chain:
 
 `Understand -> classify -> specify -> plan -> implement -> review -> verify -> close`
 
-Project instructions and canonical repository documentation override this skill. This skill owns lifecycle state, classification, default artifact locations, traceability, gates, and completion. Referenced sub-skills own specialist methods; return here after each finishes.
+Project instructions and canonical repository documentation override this skill. This skill owns lifecycle state, engineering-complexity classification, default artifact locations, traceability, engineering gates, and completion. Complexity determines rigor and evidence depth; it does not create independent mutation or consent authority. Repository-change mutation and consent controls come from governing project authority and the active KIS change workflow. Referenced sub-skills own specialist methods; return here after each finishes.
 
 ## Start
 
@@ -46,8 +46,8 @@ Load [lifecycle](./references/lifecycle.md) and enforce every applicable gate.
 
 - Create the detailed specification and plan defined by the artifact contract. Preserve unresolved decisions; do not invent product or risk decisions.
 - If requirements, architecture, or trade-offs are not already approved, **REQUIRED SUB-SKILL:** Use `superpowers:brainstorming`.
-- Require human review and approval of the written specification, then **REQUIRED SUB-SKILL:** Use `superpowers:writing-plans`.
-- Require human review and approval of the written plan before implementation.
+- **REQUIRED SUB-SKILL:** Use `superpowers:writing-plans` to produce the detailed implementation plan.
+- Apply any specification, plan, mutation, or consent gate required by governing project authority or the active KIS change workflow. Complexity alone does not create an additional human-approval gate; unresolved material product, risk, or authority decisions still require explicit human resolution.
 - Select one executor: **REQUIRED SUB-SKILL:** Use `superpowers:subagent-driven-development` for independently reviewable tasks with subagents, or `superpowers:executing-plans` for inline/separate-session execution.
 - For behavior changes, **REQUIRED SUB-SKILL:** Use `superpowers:test-driven-development`.
 - At task and whole-change gates, **REQUIRED SUB-SKILL:** Use `superpowers:requesting-code-review` when available; otherwise perform the review contract directly and disclose the missing specialist.

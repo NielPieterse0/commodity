@@ -1,6 +1,6 @@
 # Documentation Classification
 
-Classify by the highest applicable signal. Word count and changed-line count are supporting evidence, never the deciding factor.
+Classify by the highest applicable signal. Word count and changed-line count are supporting evidence, never the deciding factor. Classification selects documentation rigor and evidence depth; repository mutation and consent controls remain governed by project authority and the active KIS change workflow.
 
 | `Signal` | Small | Medium | Complex |
 |---|---|---|---|

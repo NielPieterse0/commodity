@@ -11,7 +11,7 @@ Own the documentation lifecycle and evidence chain:
 
 There is no specification phase. The documentation plan records outcome, audience, authority, sources, boundaries, structure, acceptance evidence, and implementation tasks at level-appropriate depth.
 
-Project instructions and canonical documentation override this skill. This skill owns lifecycle state, classification, default artifact locations, traceability, phase gates, Markdown defaults, and completion. Referenced sub-skills own specialist methods; return here after each finishes.
+Project instructions and canonical documentation override this skill. This skill owns lifecycle state, documentation-complexity classification, default artifact locations, traceability, documentation gates, Markdown defaults, and completion. Complexity determines rigor and evidence depth; it does not create independent mutation or consent authority. Repository-change mutation and consent controls come from governing project authority and the active KIS change workflow. Referenced sub-skills own specialist methods; return here after each finishes.
 
 ## Start
 
@@ -48,7 +48,7 @@ Load [lifecycle](./references/lifecycle.md) and enforce every applicable gate.
 - Create the detailed documentation plan defined by the artifact contract. Preserve source conflicts and open decisions; do not invent authority or facts.
 - If audience, authority, architecture, structure, or trade-offs are not already approved, **REQUIRED SUB-SKILL:** Use `superpowers:brainstorming`.
 - **REQUIRED SUB-SKILL:** Use `superpowers:writing-plans` to create independently reviewable document tasks.
-- Require human review and approval of the written plan before implementation.
+- Require human review of the written plan before implementation. Explicit approval remains required for unresolved material risk or authority decisions and whenever governing project or KIS controls require it.
 - Select one executor: **REQUIRED SUB-SKILL:** Use `superpowers:subagent-driven-development` for independent document tasks with subagents, or `superpowers:executing-plans` for inline/separate-session execution.
 - Review each authoritative or high-risk boundary and the final document set.
 - **REQUIRED SUB-SKILL:** Use `superpowers:verification-before-completion` before closeout.

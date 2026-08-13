@@ -1,5 +1,7 @@
 # Canonical Data and Roll Validation Specification
 
+> Historical implementation record for the 2026-08-12 slice. For current work, consult `AGENTS.md`, the named configuration owners, and the live KIS change workflow in addition to this record; current safety and execution controls remain applicable.
+
 **Status:** approved direction from user request on 2026-08-12
 **Development level:** Complex
 

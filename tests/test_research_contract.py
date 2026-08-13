@@ -157,12 +157,15 @@ def test_saxo_probe_cannot_promote_itself_to_canonical_evidence() -> None:
 def test_revisable_constraints_live_in_assumption_registry() -> None:
     assumptions = load_json(ROOT / "config" / "assumptions.json")
     policy = load_json(ROOT / "config" / "policy.json")
+    data = load_json(ROOT / "config" / "data_sources.json")
     agents = (ROOT / "AGENTS.md").read_text(encoding="utf-8")
     assert assumptions["semantics"]["execution_authority"] is False
     assert assumptions["semantics"]["policy_owner"] == "config/policy.json"
     assert "Hard Constraints" not in agents
     assert policy["execution"]["live_trading_allowed"] is False
-    assert assumptions["assumptions"]["canonical_market_provider"]["excluded_for_now"] == ["databento"]
+    assert assumptions["assumptions"]["canonical_market_provider"]["excluded_for_now"] == []
+    assert data["sources"]["market_canonical"]["provider"] == "massive_futures"
+    assert data["sources"]["databento_henry_hub_probe"]["canonical_market_source"] is False
 
 
 def test_raw_contracts_are_canonical_and_roll_is_derived_policy() -> None:
@@ -189,10 +192,13 @@ def test_volatility_direction_is_additive_experiment_candidate() -> None:
     assert candidate["targets"][0]["metric"] == "qlike"
 
 
-def test_agents_md_requires_development_controller_and_worktree_pr_flow() -> None:
+def test_agents_md_requires_development_controller_and_kis_change_flow() -> None:
     agents = (ROOT / "AGENTS.md").read_text(encoding="utf-8")
     assert "Every repository work run MUST load one primary development controller immediately after reading governing repository instructions" in agents
     assert ".agents/skills/develop-code/SKILL.md" in agents
     assert ".agents/skills/develop-docs/SKILL.md" in agents
     assert "`.work/` linked worktree" in agents
     assert "PR-completion workflow" in agents
+    assert "KIS owns repository-change effect classification" in agents
+    assert "currently advertised KIS change workflow" in agents
+    assert "default-branch change remains subject to KIS exact-change verification" in agents
