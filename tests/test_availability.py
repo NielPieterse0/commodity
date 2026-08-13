@@ -11,7 +11,6 @@ from commodity.availability import (
 )
 from commodity.config import data_config
 
-
 POWER_CFG = {
     "availability_policy": {
         "timezone": "America/New_York",
