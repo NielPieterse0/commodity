@@ -1,14 +1,15 @@
 # Commodity
 
-Natural-gas ML research repository. The mandate lives in [`AGENTS.md`](AGENTS.md); revisable assumptions live in `config/assumptions.json`, while binding execution policy lives in `config/policy.json`.
+Natural-gas ML research repository. Repository authority is assigned in [`AGENTS.md`](AGENTS.md#repository-authority); this README is a non-authoritative onboarding and current-state projection.
 
 ## Current state
 
-- Market: CME Henry Hub natural-gas forecasting; `NG=F` is bootstrap research data only. Canonical futures ingestion is provider-adapted and expiry-aware for per-contract settlement/OHLCV. The configured account history and deterministic `volume_crossover_dte_v1` roll methodology are validated; canonical backtest evidence remains blocked until non-display/backtesting rights are verified for the configured provider. Raw canonical-market preservation is resumable, paced and M1-M12 bounded; licensed market values remain local/ignored.
-- U.S. V1 data: immutable snapshot acquisition is implemented for EIA Natural Gas bulk history, targeted Lower-48 EIA-930 demand/forecast and gas generation, and archived Open-Meteo Single Runs weather. A configuration-driven availability layer now reconstructs conservative EIA-930 publication timing, the published WNGSR exception schedule from 2025 through November 25, 2026, and conservative issued-weather availability. Current EIA historical snapshots remain screening-only where historical revisions cannot be reconstructed; immutable issued-weather runs may qualify for `research_pit`, while canonical evidence still requires verified point-in-time availability/value history.
-- Models: zero-return benchmark + ridge baseline; Kronos-mini is an available optional CPU research model, while Ridge remains the default.
-- Evaluation: expanding-window, leakage-safe, out-of-sample forecast scoring and explicit signal/execution simulation are operational; canonical-evidence promotion remains a separate data-quality gate.
-- Execution: intentionally non-operational; LIVE trading is prohibited by `config/policy.json`.
+- **Research target:** U.S. / CME Henry Hub remains the first serious forecasting target. Geographic expansion and desired source families are owned by [`docs/data-manifest.md`](docs/data-manifest.md).
+- **Market evidence:** ingestion is provider-adapted; current source selection, readiness, and evidence gates are owned by `config/data_sources.json`.
+- **Databento preservation:** acquisition has progressed beyond the earlier probe stage; the current local integrity state is recorded in [`docs/development/databento-full-history-acquisition/evidence.json`](docs/development/databento-full-history-acquisition/evidence.json).
+- **Point-in-time research:** U.S. fundamentals/weather preservation and evidence-tier handling are operational, with revision-risk restrictions explicit. Rules are owned by `config/data_sources.json`; `src/commodity/availability.py` implements the joins.
+- **Models and evaluation:** model settings live in `config/models.json`; the research sequence is owned by [`docs/roadmap.md`](docs/roadmap.md).
+- **Execution:** permission is owned only by `config/policy.json`.
 
 ## Research direction
 
@@ -16,33 +17,11 @@ Natural-gas ML research repository. The mandate lives in [`AGENTS.md`](AGENTS.md
 - [Natural-gas data manifest](docs/data-manifest.md)
 - [Compact research roadmap](docs/roadmap.md)
 
-## Point-in-time evidence modes
+## Point-in-time evidence
 
-`src/commodity/availability.py` keeps exploratory usefulness separate from evidence strength:
+Evidence-strength semantics and source-specific availability/revision rules are owned by `config/data_sources.json`; `src/commodity/availability.py` implements the join behavior. Keep exploratory screening, research point-in-time evidence, and canonical evidence distinct without duplicating source-specific rules here.
 
-- `canonical`: verified availability plus point-in-time/immutable value history only.
-- `research_pit`: verified or conservative availability only when the value itself is revision-safe; archived issued-weather runs can use this tier.
-- `screening`: may use current revised EIA histories for warranted signal investigation, but carries `revision_leakage_risk=true` and `canonical_evidence=false` through point-in-time joins.
-
-These modes classify research evidence only. They do not change trading authority or the canonical-market licensing gate.
-
-## Authoritative configuration
-
-| Concern | Owner |
-|---|---|
-| Data providers and availability rules | `config/data_sources.json` |
-| Revisable research assumptions | `config/assumptions.json` |
-| Models/hardware | `config/models.json` |
-| Experiment definition | `config/experiment.json` |
-| Experiment record schema | `contracts/experiment.schema.json` |
-| Research maturity stages | `config/research_stages.json` |
-| Signal policy | `config/signal_policy.json` |
-| Simulation assumptions | `config/simulation.json` |
-| Trading/execution policy | `config/policy.json` |
-| External tools/LLMs | `config/tools.json` |
-| Third-party source approval | `docs/THIRD_PARTY.md` |
-
-Authoritative ownership does not imply application-runtime consumption. `config/research_stages.json` and `config/tools.json` are governance/agent inputs rather than forecast-runtime dependencies; runtime code is not required to load them. In `config/experiment.json`, `research_period.end = "2100-01-01"` is an intentional far-future sentinel for an effectively open-ended historical upper bound, not a forecast horizon.
+For the complete repository authority assignment, see [`AGENTS.md`](AGENTS.md#repository-authority).
 
 ## Data preservation
 

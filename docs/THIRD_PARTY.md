@@ -1,5 +1,7 @@
 # Third-party source policy
 
+This file owns third-party approval, licensing boundaries, and the GitHub API/MCP technical-source registry. Operational provider status and evidence gates are owned by `config/data_sources.json`; the repository-wide ownership map is `AGENTS.md`.
+
 ## Kronos
 
 - Upstream: `shiyu-coder/Kronos`
@@ -16,6 +18,14 @@
 
 The Commodity adapter SHALL import only the approved inference module. Upstream examples, web UI, and finetuning code are not trusted runtime dependencies.
 
+## Technical-source classes
+
+- `primary_technical`: owner-published code, SDK, protocol, or API implementation usable as primary evidence for integration mechanics.
+- `discovery_reference`: community code usable for adapter patterns, feature ideas, failure modes, and source discovery only.
+- `dependency`: code imported or vendored by Commodity; requires an explicit pin, license review, and bounded runtime scope.
+
+A GitHub repository does not establish market-data truth, licensing rights, historical availability, or evidence promotion by itself. Community API/MCP repositories MUST be traced back to the underlying official source before their data semantics are adopted.
+
 ## Research data sources
 
 Operational status, point-in-time requirements, and evidence gates are owned by `config/data_sources.json`.
@@ -25,8 +35,9 @@ Operational status, point-in-time requirements, and evidence gates are owned by 
 - **NOAA/NCEI** — approved for historical forecast-vintage weather research through official NOAA/NCEI archives.
 - **CME Group** — approved as the authoritative contract-specification and market-definition reference.
 - **Saxo OpenAPI SIM** — approved only for read-only instrument/futures-space/chart-depth verification. It is not an approved canonical backtest source and is not an execution adapter.
-- **Massive Futures** — approved for expiry-aware NG contract discovery and per-contract session settlement/OHLCV acquisition through the configured account. The live account was validated on 2026-08-12 with aggregate history observed from 2024-08-13 and no historical per-contract open-interest field. The canonical roll methodology no longer depends on OI. Canonical **backtest** evidence remains blocked because Massive's individual Market Data Terms default market data to display use and require separate permission for non-display use / investment-strategy derived works. Primary references: [Contracts](https://massive.com/docs/rest/futures/contracts), [Aggregate Bars](https://massive.com/docs/rest/futures/aggregates), and [Market Data Terms](https://massive.com/legal/market-data-terms-of-service).
-- **Databento Historical** — approved only for bounded provider evaluation of CME `GLBX.MDP3` contract definitions and official statistics. The adapter is metadata-first and cost-capped; the current Work runtime cannot execute the authenticated account probe because direct outbound API access is blocked and no Databento connector is mounted. Account-specific entitlement/history/cost and project-use rights therefore remain unresolved. Databento is not the configured canonical provider and its data are not approved for canonical backtest evidence in this repository. Primary references: [GLBX.MDP3](https://databento.com/datasets/GLBX.MDP3), [Statistics schema](https://databento.com/docs/schemas-and-data-formats/statistics), [Symbology](https://databento.com/docs/standards-and-conventions/symbology), and [Historical API](https://databento.com/docs/api-reference-historical).
+- **Massive Futures** - approved for expiry-aware NG contract discovery and per-contract historical market-data acquisition. Project-use rights for non-display/backtesting remain unresolved; current account coverage and canonical-evidence status are owned by `config/data_sources.json`. Primary references: [Contracts](https://massive.com/docs/rest/futures/contracts), [Aggregate Bars](https://massive.com/docs/rest/futures/aggregates), and [Market Data Terms](https://massive.com/legal/market-data-terms-of-service).
+- **Databento Historical** - approved for bounded CME `GLBX.MDP3` NG research acquisition/evaluation. Acquisition does not itself approve a provider switch, project-use rights, redistribution, or canonical evidence. Current acquisition integrity evidence is recorded in [`docs/development/databento-full-history-acquisition/evidence.json`](development/databento-full-history-acquisition/evidence.json); operational provider status remains owned by `config/data_sources.json`. Primary references: [GLBX.MDP3](https://databento.com/datasets/GLBX.MDP3), [Statistics schema](https://databento.com/docs/schemas-and-data-formats/statistics), [Symbology](https://databento.com/docs/standards-and-conventions/symbology), and [Historical API](https://databento.com/docs/api-reference-historical).
+- **European/Norwegian public-source set** - ENTSOG, GIE, ENTSO-E, Norwegian Offshore Directorate, Gassco, SSB, Statnett/NVE, MET Norway, and Norges Bank are approved for research evaluation/acquisition. Desired datasets and access notes are owned by `docs/data-manifest.md`.
 
 ### Saxo market-data boundary
 
@@ -34,8 +45,29 @@ Saxo futures-space metadata may establish contract identity/UIC/expiry availabil
 
 ### Historical CME data boundary
 
-Massive Futures remains the configured canonical per-contract price-history source. The configured account exposes session settlement, OHLC and volume with an observed common history boundary beginning 2024-08-13 as verified on 2026-08-12; that is consistent with Massive's currently documented two-year individual tiers, but the repository does not infer the account plan from this observation. The raw per-contract sample is stored only in ignored local data; the repository commits capability/provenance metadata and hashes, not Massive market values.
+Massive and Databento may both be retained as replaceable research inputs. This file owns only their approval/licensing boundary; `config/data_sources.json` owns which source is configured and every operational evidence flag. Project-use and redistribution rights remain separate gates.
 
-Databento is now an explicitly bounded provider-evaluation candidate, not an excluded source and not a canonical-provider switch. Public documentation supports deeper `GLBX.MDP3` history plus CME settlement, cleared-volume and open-interest statistics, but the current runtime has not verified this account's entitled range, request cost, sample payload, or project-use rights. Those account-specific gates must close before a provider-selection decision.
+Licensed raw market values stay ignored from Git. Commit only safe manifests, hashes, coverage/integrity evidence, and decisions. The continuous-series/roll decision is owned by `config/assumptions.json#assumptions.continuous_series_policy` and is intentionally not repeated here.
 
-The registered canonical roll policy remains `volume_crossover_dte_v1`: two consecutive prior-observed-session strict volume crossovers, with a forced roll at 3 calendar DTE and fail-closed gap handling. Open interest is not required. Canonical backtest promotion remains blocked until the configured provider's non-display/backtesting rights are verified.
+## GitHub API/MCP technical-source registry
+
+These repositories are approved **project research sources**, not automatically approved dependencies or data authorities. Re-evaluate freshness before implementation and pin a release/commit if code is adopted.
+
+| Repository | Class | Project use |
+|---|---|---|
+| [`databento/databento-python`](https://github.com/databento/databento-python) | `primary_technical` | Official Databento client; historical/batch, symbology, DBN, and point-in-time definition mechanics. |
+| [`open-meteo/open-meteo`](https://github.com/open-meteo/open-meteo) | `primary_technical` | Official API implementation; weather-model routing and historical/single-run behavior. |
+| [`statisticsnorway/ssb-pxwebapidata`](https://github.com/statisticsnorway/ssb-pxwebapidata) | `primary_technical` | SSB-owned PxWeb API client/reference, including v2 query patterns. |
+| [`PxTools/PxWebApi`](https://github.com/PxTools/PxWebApi) | `primary_technical` | Official PxWeb API source; platform semantics behind statistical APIs such as SSB. |
+| [`NVE/HydAPI`](https://github.com/NVE/HydAPI) | `primary_technical` | NVE-owned HydAPI examples for Norwegian hydrological access. |
+| [`modelcontextprotocol/modelcontextprotocol`](https://github.com/modelcontextprotocol/modelcontextprotocol) | `primary_technical` | MCP protocol/specification source. |
+| [`modelcontextprotocol/python-sdk`](https://github.com/modelcontextprotocol/python-sdk) | `primary_technical` | Official Python MCP client/server SDK and transport semantics. |
+| [`modelcontextprotocol/servers`](https://github.com/modelcontextprotocol/servers) | `primary_technical` | Official reference servers; patterns only, not production-ready integrations. |
+| [`EnergieID/entsoe-py`](https://github.com/EnergieID/entsoe-py) | `discovery_reference` | Community ENTSO-E client; useful for query coverage, parsing, pagination, and failure-mode patterns. |
+| [`yannikbuhl/gie`](https://github.com/yannikbuhl/gie) | `discovery_reference` | Community GIE AGSI/ALSI/IIP wrapper; useful for storage/LNG endpoint, pagination, and facility-metadata patterns. |
+| [`pipeworx-io/mcp-entso-e`](https://github.com/pipeworx-io/mcp-entso-e) | `discovery_reference` | ENTSO-E MCP adapter covering price, load, generation, capacity, and cross-border-flow tools. |
+| [`sbudai/entsoeapi.mcp`](https://github.com/sbudai/entsoeapi.mcp) | `discovery_reference` | Independent ENTSO-E MCP implementation for comparing tool contracts and integration approaches. |
+| [`adambenhassen/euenergy-mcp`](https://github.com/adambenhassen/euenergy-mcp) | `discovery_reference` | Read-only European electricity MCP; useful for bidding-zone, UTC, and partial-data handling patterns. |
+| [`jo20ow/obsyd`](https://github.com/jo20ow/obsyd) | `discovery_reference` | Integrated European electricity research desk; useful for feature/ingestion architecture, not upstream data truth. |
+
+These community discoveries strengthen the planned European modeling layer by exposing practical interfaces for prices, load, generation, cross-border flows, storage/LNG, and outage-style information. They do not promote Global/Interconnect or Norway/Europe onto the current training critical path; `docs/data-manifest.md` owns that sequence and the underlying official APIs remain the data authorities.
