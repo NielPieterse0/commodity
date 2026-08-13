@@ -36,7 +36,7 @@ WNGSR_CFG = {
         "regular_release_hour": 10,
         "regular_release_minute": 30,
         "exception_registry_coverage_start": "2025-01-01",
-        "exception_registry_coverage_end": "2026-11-25",
+        "exception_registry_coverage_end": "2026-12-31",
         "release_date_overrides": {
             "2025-11-13": "2025-11-14T10:30:00-05:00",
         },
@@ -119,7 +119,7 @@ def test_research_pit_accepts_conservative_immutable_weather() -> None:
     out = validate_availability(frame, "research_pit")
     assert len(out) == 1
     assert out.iloc[0]["evidence_mode"] == "research_pit"
-    assert out.iloc[0]["canonical_evidence"] is False
+    assert not bool(out.iloc[0]["canonical_evidence"])
 
 
 def test_research_pit_rejects_current_snapshot_revision_history() -> None:
@@ -134,7 +134,7 @@ def test_research_pit_rejects_current_snapshot_revision_history() -> None:
         validate_availability(frame, "research_pit")
     screening = validate_availability(frame, "screening")
     assert len(screening) == 1
-    assert screening.iloc[0]["revision_leakage_risk"] is True
+    assert bool(screening.iloc[0]["revision_leakage_risk"])
 
 
 def test_canonical_requires_verified_point_in_time_rows() -> None:
@@ -147,7 +147,7 @@ def test_canonical_requires_verified_point_in_time_rows() -> None:
     )
     canonical = validate_availability(frame, "canonical")
     assert len(canonical) == 1
-    assert canonical.iloc[0]["canonical_evidence"] is True
+    assert bool(canonical.iloc[0]["canonical_evidence"])
     with pytest.raises(ValueError, match="Unknown availability mode"):
         validate_availability(frame, "anything")
 
@@ -193,8 +193,8 @@ def test_screening_join_retains_revision_risk_labels() -> None:
     )
     assert joined.iloc[0]["power_signal"] == 5.0
     assert joined.iloc[0]["revision_status"] == "current_snapshot_revised_history"
-    assert joined.iloc[0]["revision_leakage_risk"] is True
-    assert joined.iloc[0]["canonical_evidence"] is False
+    assert bool(joined.iloc[0]["revision_leakage_risk"])
+    assert not bool(joined.iloc[0]["canonical_evidence"])
 
 
 def test_authoritative_config_owns_availability_rules_without_unlocking_massive() -> None:
@@ -203,7 +203,7 @@ def test_authoritative_config_owns_availability_rules_without_unlocking_massive(
     power = cfg["sources"]["eia_power"]["availability_policy"]
     weather = cfg["sources"]["weather"]["availability_policy"]
     assert storage["timezone"] == "America/New_York"
-    assert storage["exception_registry_coverage_end"] == "2026-11-25"
+    assert storage["exception_registry_coverage_end"] == "2026-12-31"
     assert "2025-11-13" in storage["release_date_overrides"]
     assert power["demand"]["period_end_reporting_lag_minutes"] == 60
     assert weather["research_global_model_delay_minutes"] == 360
