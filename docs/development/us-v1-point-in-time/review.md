@@ -5,7 +5,7 @@
 - Development level: **Medium**.
 - Pull request: **#9 — Build U.S. V1 point-in-time availability layer**.
 - Base: `main` at `7429a88b47235a98b27f537c840f7eee11374486`.
-- Implementation reviewed through `bf0f771b53e7e056cc7625baabcb4f0d5b258b36` before this review-only commit.
+- Implementation reviewed through `bf0f771b53e7e056cc7625baabcb4f0d5b258b36` before this review-only closeout sequence.
 - Review covered specification, plan, implementation, tests, source-policy configuration, documentation, licensing boundaries, and fresh CI evidence.
 - The requested specialist review workflow was applied directly because no independent code-review subagent is exposed in this session.
 
@@ -39,7 +39,7 @@ No unresolved blocking finding remains in the reviewed implementation.
 - Exact historical Open-Meteo source availability is unverified. The 6-hour + 10-minute rule is a conservative research reconstruction for immutable issued runs, not canonical evidence.
 - WNGSR schedule reconstruction outside the configured exception-registry coverage remains unresolved by design.
 - Massive non-display/backtesting entitlement remains unresolved and independent of this availability layer.
-- CI still reports pre-existing `src/commodity/massive.py` Pandas/NumPy timedelta deprecation warnings; they are unrelated to this slice and do not affect current test outcomes.
+- CI reports pre-existing `src/commodity/massive.py` Pandas/NumPy timedelta deprecation warnings; they are unrelated to this slice and do not affect current test outcomes.
 
 ## Security, data handling, and recovery
 
@@ -49,10 +49,10 @@ No unresolved blocking finding remains in the reviewed implementation.
 
 ## Verification evidence
 
-Fresh CI on implementation head `bf0f771b53e7e056cc7625baabcb4f0d5b258b36`:
+GitHub CI run 24 verified commit `f096bbb804de457993af3a2b897e66513d835577`, which contains the complete implementation plus the initial review record:
 
 - `python -m pytest -q` → **112 passed**, 12 pre-existing Massive deprecation warnings.
 - `python -m ruff check .` → **All checks passed**.
 - `git diff --check HEAD^1 HEAD` → **passed**.
 
-A final CI run is required after this review record is committed; completion status should reference that final PR head rather than this earlier implementation head.
+GitHub checks on the current PR head are the authoritative completion gate. Any later documentation-only closeout update must also pass current-head CI before the pull request is marked ready for review.
