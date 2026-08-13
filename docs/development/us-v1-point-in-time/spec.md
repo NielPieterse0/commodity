@@ -1,6 +1,6 @@
 # U.S. V1 Point-in-Time Availability Specification
 
-**Development level:** Medium  
+**Development level:** Medium
 **Status:** approved for implementation
 
 ## Outcome
