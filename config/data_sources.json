@@ -123,14 +123,14 @@
       "regular_release_semantics": "Thursday 10:30 America/New_York; holiday exceptions override",
       "historical_release_exceptions_required": true,
       "revision_snapshots_required": true,
-      "availability_reconstruction_status": "release_schedule_2025_2026_ready_revision_vintages_incomplete",
+      "availability_reconstruction_status": "release_schedule_2025_through_2026_11_25_ready_revision_vintages_incomplete",
       "availability_policy": {
         "timezone": "America/New_York",
         "regular_release_weekday": "Thursday",
         "regular_release_hour": 10,
         "regular_release_minute": 30,
         "exception_registry_coverage_start": "2025-01-01",
-        "exception_registry_coverage_end": "2026-12-31",
+        "exception_registry_coverage_end": "2026-11-25",
         "release_date_overrides": {
           "2025-01-02": "2025-01-03T10:30:00-05:00",
           "2025-01-09": "2025-01-08T12:00:00-05:00",
