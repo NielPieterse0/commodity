@@ -21,6 +21,19 @@ def _sha256(path: Path) -> str:
     return digest.hexdigest()
 
 
+def _assert_secret_free(value: Any, path: str = "metadata") -> None:
+    forbidden = ("api_key", "apikey", "authorization", "access_token", "secret", "password")
+    if isinstance(value, dict):
+        for key, child in value.items():
+            normalized = str(key).lower().replace("-", "_")
+            if any(term in normalized for term in forbidden):
+                raise SnapshotIntegrityError(f"Secret-bearing snapshot metadata key rejected: {path}.{key}")
+            _assert_secret_free(child, f"{path}.{key}")
+    elif isinstance(value, (list, tuple)):
+        for index, child in enumerate(value):
+            _assert_secret_free(child, f"{path}[{index}]")
+
+
 @dataclass
 class SnapshotWriter:
     root: Path
@@ -55,7 +68,11 @@ class SnapshotWriter:
         return target
 
     def _record(self, path: Path, relative_path: str) -> None:
-        item = {"path": relative_path.replace("\\", "/"), "bytes": path.stat().st_size, "sha256": _sha256(path)}
+        item = {
+            "path": relative_path.replace("\\", "/"),
+            "bytes": path.stat().st_size,
+            "sha256": _sha256(path),
+        }
         self.artifacts = [x for x in self.artifacts if x["path"] != item["path"]]
         self.artifacts.append(item)
 
@@ -63,6 +80,7 @@ class SnapshotWriter:
         manifest = self.snapshot_dir / "manifest.json"
         if manifest.exists():
             raise FileExistsError(f"Immutable snapshot already finalized: {manifest}")
+        _assert_secret_free(metadata)
         payload = {
             "schema_version": 1,
             "provider": self.provider,
@@ -70,7 +88,8 @@ class SnapshotWriter:
             **metadata,
             "artifacts": sorted(self.artifacts, key=lambda item: item["path"]),
         }
-        return self.write_bytes("manifest.json", (json.dumps(payload, indent=2, sort_keys=True) + "\n").encode("utf-8"))
+        content = (json.dumps(payload, indent=2, sort_keys=True) + "\n").encode("utf-8")
+        return self.write_bytes("manifest.json", content)
 
 
 def verify_snapshot(manifest_path: Path) -> dict[str, Any]:
