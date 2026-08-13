@@ -9,6 +9,7 @@ from commodity.availability import (
     asof_join_point_in_time,
     validate_availability,
 )
+from commodity.config import data_config
 
 
 POWER_CFG = {
@@ -158,3 +159,17 @@ def test_asof_join_never_uses_future_information() -> None:
     )
     assert pd.isna(joined.iloc[0]["weather_signal"])
     assert joined.iloc[1]["weather_signal"] == 7.0
+
+
+def test_authoritative_config_owns_availability_rules_without_unlocking_massive() -> None:
+    cfg = data_config()
+    storage = cfg["sources"]["eia_storage"]["availability_policy"]
+    power = cfg["sources"]["eia_power"]["availability_policy"]
+    weather = cfg["sources"]["weather"]["availability_policy"]
+    assert storage["timezone"] == "America/New_York"
+    assert "2025-11-13" in storage["release_date_overrides"]
+    assert power["demand"]["period_end_reporting_lag_minutes"] == 60
+    assert weather["research_global_model_delay_minutes"] == 360
+    canonical = cfg["sources"]["market_canonical"]
+    assert canonical["non_display_backtesting_rights_verified"] is False
+    assert canonical["backtest_evidence_allowed"] is False
