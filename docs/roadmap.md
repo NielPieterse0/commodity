@@ -2,7 +2,7 @@
 
 > **North star:** demonstrate a robust, reproducible natural-gas forecasting advantage out of sample and in forward testing after realistic costs and risk constraints.
 
-This is the destination sequence, not the current-status owner. `README.md` reports current state; authoritative configuration and policy own their respective gates.
+This file owns only the research milestone sequence. The repository authority map is in `AGENTS.md`; current operational gates remain in their assigned configuration owners. Geographic/data expansion is owned by `docs/data-manifest.md`: U.S. / Henry Hub first, then Global/Interconnect and Norway/Europe when incremental evidence justifies promotion.
 
 ```text
 DATA TRUTH  ->  BASELINES  ->  KRONOS + INDICATORS  ->  ROBUST ENSEMBLE  ->  FORWARD TEST  ->  APPROVED EXECUTION
@@ -11,7 +11,7 @@ DATA TRUTH  ->  BASELINES  ->  KRONOS + INDICATORS  ->  ROBUST ENSEMBLE  ->  FOR
 
 | Phase | Outcome | Promotion gate |
 |---|---|---|
-| **V0 - Data truth** | Canonical per-contract market data, deterministic roll/term structure, point-in-time fundamentals/weather, reproducible provenance | Data contract and leakage controls pass |
+| **V0 - Data truth** | Provider-neutral per-contract data, deterministic roll/term structure, point-in-time fundamentals/weather, reproducible provenance | Data contract and leakage controls pass |
 | **V1 - Evidence baseline** | Naive/seasonal/Ridge benchmarks, volatility + direction targets, compact hypothesis-led indicator library | Walk-forward OOS evidence beats appropriate baselines |
 | **V2 - Market-aware fusion** | Kronos market layer + fundamental, futures-structure and technical indicators; component ablations | Fusion adds robust incremental signal over Kronos-only and indicators-only |
 | **V3 - Robust ensemble** | Calibrated uncertainty, regime testing, selective challenger models and evidence-based ensembling | Gains persist across regimes, horizons and realistic friction |

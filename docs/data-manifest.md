@@ -2,7 +2,7 @@
 
 **Research date:** 2026-08-13
 
-This manifest defines the desired research dataset and acquisition roadmap. [`config/data_sources.json`](../config/data_sources.json) remains authoritative for implemented providers, source status, canonical-evidence gates, and point-in-time readiness. Verified local preservation metadata lives in [`docs/development/us-v1-data-foundation/evidence.json`](development/us-v1-data-foundation/evidence.json).
+This manifest owns the desired research dataset and acquisition architecture. Operational provider/source status and evidence gates are owned by [`config/data_sources.json`](../config/data_sources.json); third-party approval plus GitHub API/MCP technical sources are owned by [`docs/THIRD_PARTY.md`](THIRD_PARTY.md). Slice evidence remains under `docs/development/`.
 
 `V1` means the minimum serious dataset for the named layer. Only **U.S. / Henry Hub V1** is on the current training critical path; Global/Interconnect and Norway/Europe V1 define later layers so sources can be wired without redesigning the data model.
 
@@ -12,13 +12,13 @@ Every time-varying input should preserve `observed_for`, `published_at` or `issu
 
 Derived features are reproducible transformations, not new sources. Raw source values remain retained and versioned. A preserved current-state historical snapshot is **not** point-in-time backtest evidence unless its historical publication/revision availability has also been reconstructed.
 
-The implemented availability layer distinguishes `canonical`, `research_pit`, and `screening` evidence. Conservative publication-time reconstruction does not erase revision risk: current revised EIA histories remain screening-only until historical vintages are recovered, while immutable issued-weather runs may qualify for `research_pit` with conservative availability timing. Massive market evidence remains independently gated by entitlement.
+Evidence tiers are implemented, while source-specific availability and revision rules remain owned by `config/data_sources.json` rather than duplicated here.
 
 ## 1. U.S. / Henry Hub
 
 | Priority | Data family | Ideal datapoints | Grain | Preferred source | Access / point-in-time note |
 |---|---|---|---|---|---|
-| V1 | Futures contracts and curve | `contract_id`, expiry, settle, OHLC, volume; M1-M12 rank, spreads, slope, curvature, roll state | Contract/day | Provider-adapted: Massive configured; Databento bounded candidate; CME definitions | Massive account history is validated from 2024-08-13 and resumable M1-M12 preservation is implemented. Databento now has a metadata-first, cost-capped `GLBX.MDP3` adapter for definitions and official statistics, but account entitlement/range/cost and a tiny live sample remain unverified because the current Work runtime cannot make the authenticated call. No provider switch is implied; canonical backtest use remains blocked pending configured-provider rights. |
+| V1 | Primary contract history | `contract_id`, expiry, settle, OHLC, volume; M1-M12 rank, spreads, slope, curvature, roll state | Contract/day | Provider-adapted source + CME definitions | Current provider state is owned by `config/data_sources.json`; the latest local preservation integrity is recorded under `docs/development/databento-full-history-acquisition/evidence.json`. |
 | V1 | Issued weather forecasts | issue/available/valid time, lead, 2m temperature, HDD/CDD, wind, humidity, precipitation/snow; forecast revisions; demand-region weights | Forecast run/hour -> daily features | Open-Meteo Single Runs; NOAA GFS/GEFS fallback | Open/public adapter implemented and an archived ECMWF run verified. Model initialization and valid time remain distinct from availability. For immutable issued runs, the research layer applies a conservative global-model delay of 6 hours plus a 10-minute consistency margin; this may support `research_pit`, but exact historical source availability remains unverified and is required for canonical evidence. Demand-region archive expansion remains required. Never use reanalysis as a forecast substitute. |
 | V1 | Underground storage | working gas total + EIA regions, weekly injection/withdrawal, capacity, 5-year normal/deviation, release/revision timestamp | Week/region | EIA WNGSR / API v2 + Natural Gas bulk snapshot | Current Natural Gas bulk history is preserved. The regular Thursday 10:30 Eastern schedule plus published 2025-2026 holiday exceptions is encoded with bounded coverage. Current historical values remain revision-bearing, so they are screening-only until original/revised vintages are reconstructed; capture future releases as vintages. |
 | V1 | Gas production and balance | dry, marketed and gross production; state/region; supply/disposition; offshore production | Month/region | EIA Natural Gas / API v2 | Current Natural Gas bulk history is preserved. Apply actual publication lag and reconstruct historical revisions before backtest use. |
@@ -77,7 +77,7 @@ This layer is the planned supply-side foundation for a later TTF/European model.
 
 ## Source register
 
-Candidate status here does not constitute third-party approval. Approval and implementation state remain governed by [`docs/THIRD_PARTY.md`](THIRD_PARTY.md) and [`config/data_sources.json`](../config/data_sources.json).
+This register owns desired upstream data/API sources by dataset family. GitHub SDK/MCP references live in `docs/THIRD_PARTY.md`; operational implementation status lives in `config/data_sources.json`.
 
 | ID | Source | Access | Primary use |
 |---|---|---|---|
@@ -108,10 +108,11 @@ Candidate status here does not constitute third-party approval. Approval and imp
 
 ## Acquisition order
 
-1. Run the Databento metadata-only account probe through an approved authenticated route, permit only a tiny cost-bounded NG sample if that probe succeeds, and compare it with the preserved Massive M1-M12 archive. Keep Massive configured until an explicit provider decision; separately resolve non-display/backtesting rights for whichever provider would supply canonical evidence.
-2. Extend the U.S. V1 point-in-time layer by reconstructing original/revised vintages for WNGSR/EIA-930 and historical publication/revision state for monthly EIA fundamentals, while expanding the demand-region issued-weather archive. The current layer supports explicit screening and weather `research_pit`; it does not unlock canonical evidence for revised EIA histories.
-3. Add the Global/Interconnect V1 layer: TTF, ENTSOG, AGSI/ALSI, European weather/power and outage messages.
-4. Build the Norway/Europe V1 layer: NCS production, Gassco flows/outages, SSB exports and NOK FX.
-5. Add Later sources only when ablation tests or a pre-registered hypothesis justify their acquisition or licensing cost.
+1. Finish and verify the remaining Databento statistics-package landing, condition the preserved history, and compare source outputs behind the existing provider interface.
+2. Freeze the first leakage-safe U.S. V1 research dataset and run the baseline/model comparison ladder. Further infrastructure work should be justified by a measured data or modeling gap.
+3. Continue closing U.S. point-in-time gaps that materially constrain those experiments, especially revision vintages and demand-region issued-weather coverage.
+4. Add Global/Interconnect V1 inputs, then measure their incremental value for Henry Hub before broadening forecast targets.
+5. Add Norway/Europe V1 supply inputs through the same evidence and feature interfaces.
+6. Add Later sources only when ablation results or a pre-registered hypothesis justify their acquisition or licensing cost.
 
 The manifest should be updated when a source is proven unusable, a materially better authoritative source is identified, or a data family is promoted into active implementation. Operational status changes belong in `config/data_sources.json`, not here.
