@@ -5,7 +5,7 @@ import pytest
 
 from commodity.config import data_config
 from commodity.market_data import DataContractViolation, validate_contract_metadata
-from commodity.massive import (
+from commodity.massive_futures_provider import (
     MassiveFuturesClient,
     MassiveRateLimitError,
     capture_massive_archive,
@@ -279,3 +279,66 @@ def test_massive_archive_resumes_only_hashed_checkpoint_artifacts(tmp_path) -> N
     assert second.fetched == ["NGG5"]
     assert manifest.name == "manifest.json"
     assert not (manifest.parent / ".checkpoint.json").exists()
+
+
+def test_massive_archive_fetches_only_rank_eligible_windows(tmp_path) -> None:
+    contracts = [
+        {"ticker": "NGF5", "product_code": "NG", "first_trade_date": "2024-01-01", "last_trade_date": "2025-01-29", "trading_venue": "XNYM"},
+        {"ticker": "NGG5", "product_code": "NG", "first_trade_date": "2024-01-01", "last_trade_date": "2025-02-26", "trading_venue": "XNYM"},
+        {"ticker": "NGH5", "product_code": "NG", "first_trade_date": "2024-01-01", "last_trade_date": "2025-03-27", "trading_venue": "XNYM"},
+        {"ticker": "NGJ5", "product_code": "NG", "first_trade_date": "2024-01-01", "last_trade_date": "2025-04-28", "trading_venue": "XNYM"},
+    ]
+
+    class Client:
+        def __init__(self) -> None:
+            self.fetched = []
+
+        def list_outright_contracts(self, product_code, **kwargs):
+            return contracts
+
+        def fetch_schedules(self, product_code, start_trade_date, end_trade_date):
+            return []
+
+        def fetch_session_aggregates(self, ticker, start_trade_date, end_trade_date):
+            self.fetched.append((ticker, start_trade_date, end_trade_date))
+            return pd.DataFrame([
+                {
+                    "ticker": ticker,
+                    "session_end_date": start_trade_date,
+                    "settlement_price": 3.0,
+                    "volume": 100,
+                }
+            ])
+
+    client = Client()
+    manifest_path = capture_massive_archive(
+        client,
+        _schema(),
+        "NG",
+        "2025-01-01",
+        "2025-04-30",
+        "2026-08-13T08:00:00Z",
+        tmp_path,
+        "rank-bounded",
+        max_contracts=2,
+    )
+    assert client.fetched == [
+        ("NGF5", "2025-01-01", "2025-01-29"),
+        ("NGG5", "2025-01-01", "2025-02-26"),
+        ("NGH5", "2025-01-30", "2025-03-27"),
+        ("NGJ5", "2025-02-27", "2025-04-28"),
+    ]
+    manifest = __import__("json").loads(manifest_path.read_text(encoding="utf-8"))
+    assert manifest["request"]["max_contracts"] == 2
+    assert manifest["curve_selection"] == "expiration_rank_per_trade_date"
+
+
+def test_massive_provider_factory_applies_configured_pacing() -> None:
+    from commodity.massive_futures_provider import create_provider
+
+    provider = create_provider()
+    expected = data_config()["providers"]["massive_futures"][
+        "minimum_request_interval_seconds"
+    ]
+    assert provider.client is not None
+    assert provider.client.minimum_interval_seconds == pytest.approx(float(expected))

@@ -9,6 +9,45 @@ class DataContractViolation(ValueError):
     pass
 
 
+def build_contract_rank_windows(
+    contracts: list[dict[str, Any]],
+    start_trade_date: str,
+    end_trade_date: str,
+    max_contracts: int,
+) -> list[tuple[dict[str, Any], str, str]]:
+    """Return per-contract date windows where each contract can be within M1..MN."""
+    if max_contracts < 1:
+        raise ValueError("max_contracts must be positive")
+    start = pd.Timestamp(start_trade_date, tz="UTC")
+    end = pd.Timestamp(end_trade_date, tz="UTC")
+    if end < start:
+        raise ValueError("end_trade_date must be on or after start_trade_date")
+
+    normalized: list[tuple[dict[str, Any], pd.Timestamp, pd.Timestamp | None]] = []
+    for contract in contracts:
+        last = pd.to_datetime(contract.get("last_trade_date"), utc=True, errors="coerce")
+        if pd.isna(last):
+            raise DataContractViolation(
+                f"Contract {contract.get('ticker', '<unknown>')} is missing a valid last_trade_date"
+            )
+        first = pd.to_datetime(contract.get("first_trade_date"), utc=True, errors="coerce")
+        normalized.append((contract, last, None if pd.isna(first) else first))
+    normalized.sort(key=lambda item: (item[1], str(item[0].get("ticker", ""))))
+
+    windows: list[tuple[dict[str, Any], str, str]] = []
+    for index, (contract, last, first) in enumerate(normalized):
+        eligible = start
+        if index >= max_contracts:
+            eligible = max(eligible, normalized[index - max_contracts][1] + pd.Timedelta(days=1))
+        if first is not None:
+            eligible = max(eligible, first)
+        fetch_end = min(end, last)
+        if eligible <= fetch_end:
+            windows.append(
+                (contract, eligible.date().isoformat(), fetch_end.date().isoformat())
+            )
+    return windows
+
 def validate_contract_history(
     frame: pd.DataFrame,
     schema: dict[str, Any],
@@ -70,7 +109,7 @@ def canonical_market_readiness(
     if not source.get("approved_for_contract_price_history", False):
         history_reasons.append("canonical contract price history is not approved")
     if not source.get("account_history_validated", False):
-        history_reasons.append("Massive account history is not validated")
+        history_reasons.append("canonical provider account history is not validated")
     if not source.get("history_earliest_verified_trade_date"):
         history_reasons.append("verified account history boundary is missing")
     if not source.get("provides_contract_id", False) or not source.get("provides_expiration", False):
@@ -116,7 +155,7 @@ def canonical_market_readiness(
     )
     reasons = history_reasons + roll_reasons
     if not licensing_ready:
-        reasons.append("Massive non-display/backtesting rights are not verified")
+        reasons.append("canonical provider non-display/backtesting rights are not verified")
     elif not promotion_ready:
         reasons.append("canonical market source is not approved for backtest evidence")
     return {

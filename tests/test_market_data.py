@@ -7,6 +7,7 @@ from commodity.config import assumptions_config, data_config
 from commodity.market_data import (
     DataContractViolation,
     assert_canonical_market_ready,
+    build_contract_rank_windows,
     build_term_structure,
     canonical_market_readiness,
     validate_contract_history,
@@ -139,3 +140,53 @@ def test_canonical_evidence_passes_when_all_prerequisites_are_verified() -> None
     report = canonical_market_readiness(data, assumptions)
     assert report["canonical_evidence_allowed"] is True
     assert_canonical_market_ready(data, assumptions)
+
+
+def test_contract_rank_windows_bound_each_contract_to_rank_membership() -> None:
+    contracts = [
+        {"ticker": "NGF5", "first_trade_date": "2024-01-01", "last_trade_date": "2025-01-29"},
+        {"ticker": "NGG5", "first_trade_date": "2024-01-01", "last_trade_date": "2025-02-26"},
+        {"ticker": "NGH5", "first_trade_date": "2024-01-01", "last_trade_date": "2025-03-27"},
+        {"ticker": "NGJ5", "first_trade_date": "2024-01-01", "last_trade_date": "2025-04-28"},
+    ]
+    windows = build_contract_rank_windows(
+        contracts, "2025-01-01", "2025-04-30", max_contracts=2
+    )
+    by_ticker = {row[0]["ticker"]: (row[1], row[2]) for row in windows}
+    assert by_ticker == {
+        "NGF5": ("2025-01-01", "2025-01-29"),
+        "NGG5": ("2025-01-01", "2025-02-26"),
+        "NGH5": ("2025-01-30", "2025-03-27"),
+        "NGJ5": ("2025-02-27", "2025-04-28"),
+    }
+
+
+def test_contract_rank_windows_clip_to_first_trade_date() -> None:
+    contracts = [
+        {"ticker": "NGF5", "first_trade_date": "2025-01-10", "last_trade_date": "2025-01-29"},
+        {"ticker": "NGG5", "first_trade_date": "2025-01-15", "last_trade_date": "2025-02-26"},
+    ]
+    windows = build_contract_rank_windows(
+        contracts, "2025-01-01", "2025-02-28", max_contracts=2
+    )
+    assert [(row[0]["ticker"], row[1], row[2]) for row in windows] == [
+        ("NGF5", "2025-01-10", "2025-01-29"),
+        ("NGG5", "2025-01-15", "2025-02-26"),
+    ]
+
+
+def test_contract_rank_windows_reject_invalid_inputs() -> None:
+    with pytest.raises(ValueError, match="max_contracts"):
+        build_contract_rank_windows([], "2025-01-01", "2025-01-31", max_contracts=0)
+    with pytest.raises(DataContractViolation, match="last_trade_date"):
+        build_contract_rank_windows(
+            [{"ticker": "NGF5"}], "2025-01-01", "2025-01-31", max_contracts=1
+        )
+
+
+def test_canonical_readiness_messages_are_provider_neutral() -> None:
+    data, assumptions = _ready_configs()
+    data["sources"]["market_canonical"]["account_history_validated"] = False
+    data["sources"]["market_canonical"]["non_display_backtesting_rights_verified"] = False
+    report = canonical_market_readiness(data, assumptions)
+    assert all("Massive" not in reason for reason in report["reasons"])

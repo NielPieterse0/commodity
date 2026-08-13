@@ -16,6 +16,7 @@ import requests
 from commodity.config import data_config
 from commodity.market_data import (
     DataContractViolation,
+    build_contract_rank_windows,
     validate_contract_history,
     validate_contract_metadata,
 )
@@ -362,16 +363,6 @@ def _save_checkpoint(
     os.replace(temp, writer.snapshot_dir / ".checkpoint.json")
 
 
-def _contract_overlaps(contract: dict[str, Any], start: pd.Timestamp, end: pd.Timestamp) -> bool:
-    first = pd.to_datetime(contract.get("first_trade_date"), utc=True, errors="coerce")
-    last = pd.to_datetime(contract.get("last_trade_date"), utc=True, errors="coerce")
-    if pd.isna(last):
-        raise DataContractViolation(
-            f"Massive contract {contract.get('ticker', '<unknown>')} is missing a valid last_trade_date"
-        )
-    return not (last < start or (not pd.isna(first) and first > end))
-
-
 def capture_massive_archive(
     client: Any,
     schema: dict[str, Any],
@@ -381,15 +372,10 @@ def capture_massive_archive(
     retrieved_at: str,
     snapshot_root: Path,
     snapshot_id: str,
-    max_contract_expiration: str | None = None,
+    max_contracts: int = 12,
 ) -> Path:
-    start = pd.Timestamp(start_trade_date, tz="UTC")
-    end = pd.Timestamp(end_trade_date, tz="UTC")
-    if end < start:
-        raise ValueError("end_trade_date must be on or after start_trade_date")
-    max_expiration = (
-        pd.Timestamp(max_contract_expiration, tz="UTC") if max_contract_expiration else None
-    )
+    if max_contracts < 1:
+        raise ValueError("max_contracts must be positive")
     writer = SnapshotWriter(Path(snapshot_root), "massive", snapshot_id)
     final_manifest = writer.snapshot_dir / "manifest.json"
     if final_manifest.exists():
@@ -398,9 +384,8 @@ def capture_massive_archive(
         "product_code": product_code,
         "start_trade_date": start_trade_date,
         "end_trade_date": end_trade_date,
+        "max_contracts": max_contracts,
     }
-    if max_contract_expiration:
-        request["max_contract_expiration"] = max_contract_expiration
     archive_retrieved_at = _load_checkpoint(writer, request, retrieved_at)
     artifacts = _artifact_map(writer)
 
@@ -428,34 +413,32 @@ def capture_massive_archive(
         _save_checkpoint(writer, request, archive_retrieved_at)
         artifacts = _artifact_map(writer)
 
-    selected = [contract for contract in contracts if _contract_overlaps(contract, start, end)]
-    if max_expiration is not None:
-        selected = [
-            contract
-            for contract in selected
-            if pd.to_datetime(contract["last_trade_date"], utc=True) <= max_expiration
-        ]
+    windows = build_contract_rank_windows(
+        contracts, start_trade_date, end_trade_date, max_contracts
+    )
     frames: list[pd.DataFrame] = []
     components: list[dict[str, Any]] = []
     exchanges: set[str] = set()
-    for contract in selected:
+    for contract, fetch_start, fetch_end in windows:
         ticker = str(contract["ticker"])
-        first = pd.to_datetime(contract.get("first_trade_date"), utc=True, errors="coerce")
-        last = pd.to_datetime(contract["last_trade_date"], utc=True)
-        fetch_start = max(start, first) if not pd.isna(first) else start
-        fetch_end = min(end, last)
         raw_name = f"aggregates/{ticker}.json"
         if raw_name in artifacts:
             aggregates = pd.DataFrame(
                 json.loads((writer.snapshot_dir / raw_name).read_text(encoding="utf-8"))
             )
         else:
-            aggregates = client.fetch_session_aggregates(
-                ticker, fetch_start.date().isoformat(), fetch_end.date().isoformat()
-            )
+            aggregates = client.fetch_session_aggregates(ticker, fetch_start, fetch_end)
             writer.write_bytes(
                 raw_name,
-                (json.dumps(aggregates.to_dict(orient="records"), indent=2, sort_keys=True, default=str) + "\n").encode("utf-8"),
+                (
+                    json.dumps(
+                        aggregates.to_dict(orient="records"),
+                        indent=2,
+                        sort_keys=True,
+                        default=str,
+                    )
+                    + "\n"
+                ).encode("utf-8"),
             )
             _save_checkpoint(writer, request, archive_retrieved_at)
             artifacts = _artifact_map(writer)
@@ -485,6 +468,7 @@ def capture_massive_archive(
             "source_id": "massive_futures_rest_v1",
             "retrieved_at": archive_retrieved_at,
             "request": request,
+            "curve_selection": "expiration_rank_per_trade_date",
             "exchange": next(iter(exchanges)),
             "source_contract_count": len(components),
             "source_contracts": components,
@@ -498,3 +482,60 @@ def capture_massive_archive(
     if checkpoint.exists():
         checkpoint.unlink()
     return manifest
+
+
+@dataclass
+class MassiveCanonicalFuturesProvider:
+    client: MassiveFuturesClient | None = None
+
+    def fetch_contract_history(
+        self,
+        schema: dict[str, Any],
+        product_code: str,
+        start_trade_date: str,
+        end_trade_date: str,
+        retrieved_at: str,
+    ) -> tuple[pd.DataFrame, dict[str, Any]]:
+        return fetch_massive_canonical_history(
+            self.client or MassiveFuturesClient(),
+            schema,
+            product_code,
+            start_trade_date,
+            end_trade_date,
+            retrieved_at,
+        )
+
+    def capture_archive(
+        self,
+        schema: dict[str, Any],
+        product_code: str,
+        start_trade_date: str,
+        end_trade_date: str,
+        retrieved_at: str,
+        snapshot_root: Path,
+        snapshot_id: str,
+        max_contracts: int,
+    ) -> Path:
+        cfg = data_config()["providers"]["massive_futures"]
+        client = self.client or MassiveFuturesClient(
+            minimum_interval_seconds=float(cfg["minimum_request_interval_seconds"])
+        )
+        return capture_massive_archive(
+            client,
+            schema,
+            product_code,
+            start_trade_date,
+            end_trade_date,
+            retrieved_at,
+            snapshot_root,
+            snapshot_id,
+            max_contracts=max_contracts,
+        )
+
+
+def create_provider() -> MassiveCanonicalFuturesProvider:
+    cfg = data_config()["providers"]["massive_futures"]
+    client = MassiveFuturesClient(
+        minimum_interval_seconds=float(cfg["minimum_request_interval_seconds"])
+    )
+    return MassiveCanonicalFuturesProvider(client=client)
