@@ -4,7 +4,10 @@ import hashlib
 import json
 import os
 import re
-from dataclasses import dataclass
+import time
+from collections.abc import Callable
+from dataclasses import dataclass, field
+from pathlib import Path
 from typing import Any
 
 import pandas as pd
@@ -17,44 +20,79 @@ from commodity.market_data import (
     validate_contract_metadata,
 )
 from commodity.providers import MissingCredential
+from commodity.snapshots import SnapshotIntegrityError, SnapshotWriter
+
+
+class MassiveRateLimitError(RuntimeError):
+    pass
 
 
 @dataclass
 class MassiveFuturesClient:
     session: requests.Session | None = None
+    sleep: Callable[[float], None] = time.sleep
+    monotonic: Callable[[], float] = time.monotonic
+    minimum_interval_seconds: float = 0.0
+    max_retries: int = 4
+    base_backoff_seconds: float = 1.0
+    _last_request_at: float | None = field(default=None, init=False, repr=False)
 
-    def _request_page(
-        self,
-        url: str,
-        params: dict[str, Any] | None = None,
-    ) -> dict[str, Any]:
+    def _pace_request(self) -> None:
+        if self.minimum_interval_seconds <= 0 or self._last_request_at is None:
+            return
+        remaining = self.minimum_interval_seconds - (self.monotonic() - self._last_request_at)
+        if remaining > 0:
+            self.sleep(remaining)
+
+    def _request_page(self, url: str, params: dict[str, Any] | None = None) -> dict[str, Any]:
         cfg = data_config()["providers"]["massive_futures"]
         api_key = os.getenv(cfg["env_key"])
         if not api_key:
             raise MissingCredential(f"Missing environment variable: {cfg['env_key']}")
-        query = dict(params or {})
         headers = {"Authorization": f"Bearer {api_key}"}
-        response = (self.session or requests.Session()).get(
-            url, params=query, headers=headers, timeout=30
-        )
-        response.raise_for_status()
-        payload = response.json()
-        if payload.get("status") not in (None, "OK"):
-            raise RuntimeError(f"Massive request failed with status: {payload.get('status')}")
-        return payload
+        query = dict(params or {})
+        for attempt in range(self.max_retries + 1):
+            self._pace_request()
+            response = (self.session or requests.Session()).get(
+                url, params=query, headers=headers, timeout=30
+            )
+            self._last_request_at = self.monotonic()
+            status = int(getattr(response, "status_code", 200))
+            if status == 429:
+                if attempt >= self.max_retries:
+                    raise MassiveRateLimitError(
+                        f"Massive rate limit remained active after {self.max_retries} retries"
+                    )
+                raw_retry = getattr(response, "headers", {}).get("Retry-After")
+                try:
+                    delay = float(raw_retry) if raw_retry is not None else None
+                except (TypeError, ValueError):
+                    delay = None
+                self.sleep(delay if delay is not None and delay >= 0 else self.base_backoff_seconds * (2**attempt))
+                continue
+            if status in {408, 425, 500, 502, 503, 504}:
+                if attempt >= self.max_retries:
+                    raise RuntimeError(
+                        f"Massive transient HTTP {status} remained after {self.max_retries} retries"
+                    )
+                self.sleep(self.base_backoff_seconds * (2**attempt))
+                continue
+            response.raise_for_status()
+            payload = response.json()
+            if payload.get("status") not in (None, "OK"):
+                raise RuntimeError(f"Massive request failed with status: {payload.get('status')}")
+            return payload
+        raise AssertionError("unreachable Massive retry state")
 
     def _paged_results(
-        self,
-        url: str,
-        params: dict[str, Any],
-        max_pages: int,
+        self, url: str, params: dict[str, Any], max_pages: int
     ) -> list[dict[str, Any]]:
         if max_pages < 1:
             raise ValueError("max_pages must be positive")
         rows: list[dict[str, Any]] = []
         current_params: dict[str, Any] | None = params
         for _ in range(max_pages):
-            payload = self._request_page(url, params=current_params)
+            payload = self._request_page(url, current_params)
             rows.extend(payload.get("results", []))
             next_url = payload.get("next_url")
             if not next_url:
@@ -67,23 +105,35 @@ class MassiveFuturesClient:
         self,
         product_code: str,
         max_pages: int = 100,
+        start_trade_date: str | None = None,
+        end_trade_date: str | None = None,
     ) -> list[dict[str, Any]]:
         cfg = data_config()["providers"]["massive_futures"]
         url = f"{cfg['api_base'].rstrip('/')}/futures/v1/contracts"
-        params = {
+        base = {
             "product_code": product_code,
             "ticker.gte": f"{product_code}F0",
             "ticker.lt": f"{product_code}~",
             "limit": 1000,
-            "sort": "ticker.asc,date.asc",
+            "sort": "ticker.asc",
         }
         pattern = re.compile(rf"^{re.escape(product_code)}[FGHJKMNQUVXZ]\d{{1,2}}$")
         by_ticker: dict[str, dict[str, Any]] = {}
-        for row in self._paged_results(url, params, max_pages):
-            ticker = str(row.get("ticker", ""))
-            if pattern.fullmatch(ticker):
-                by_ticker[ticker] = row
-        return list(by_ticker.values())
+        boundary_dates = list(
+            dict.fromkeys(value for value in (start_trade_date, end_trade_date) if value)
+        )
+        if boundary_dates:
+            for point_in_time in boundary_dates:
+                for row in self._paged_results(url, {**base, "date": point_in_time}, max_pages):
+                    ticker = str(row.get("ticker", ""))
+                    if pattern.fullmatch(ticker):
+                        by_ticker[ticker] = row
+        else:
+            for row in self._paged_results(url, {**base, "sort": "ticker.asc,date.asc"}, max_pages):
+                ticker = str(row.get("ticker", ""))
+                if pattern.fullmatch(ticker):
+                    by_ticker[ticker] = row
+        return [by_ticker[ticker] for ticker in sorted(by_ticker)]
 
     def fetch_session_aggregates(
         self,
@@ -94,29 +144,77 @@ class MassiveFuturesClient:
     ) -> pd.DataFrame:
         cfg = data_config()["providers"]["massive_futures"]
         url = f"{cfg['api_base'].rstrip('/')}/futures/v1/aggs/{ticker}"
-        start_window = (pd.Timestamp(start_trade_date) - pd.Timedelta(days=1)).date().isoformat()
-        end_window = (pd.Timestamp(end_trade_date) - pd.Timedelta(days=1)).date().isoformat()
         params = {
             "resolution": "1session",
-            "window_start.gte": start_window,
-            "window_start.lte": end_window,
+            "window_start.gte": (pd.Timestamp(start_trade_date) - pd.Timedelta(days=1)).date().isoformat(),
+            "window_start.lte": (pd.Timestamp(end_trade_date) - pd.Timedelta(days=1)).date().isoformat(),
             "limit": 50000,
             "sort": "window_start.asc",
         }
         frame = pd.DataFrame(self._paged_results(url, params, max_pages))
         if "session_end_date" in frame.columns:
-            session_date = pd.to_datetime(frame["session_end_date"], errors="coerce")
-            start = pd.Timestamp(start_trade_date)
-            end = pd.Timestamp(end_trade_date)
-            frame = frame[(session_date >= start) & (session_date <= end)].reset_index(drop=True)
+            dates = pd.to_datetime(frame["session_end_date"], errors="coerce")
+            frame = frame[
+                (dates >= pd.Timestamp(start_trade_date))
+                & (dates <= pd.Timestamp(end_trade_date))
+            ].reset_index(drop=True)
         return frame
 
+    def fetch_schedules(
+        self,
+        product_code: str,
+        start_trade_date: str,
+        end_trade_date: str,
+        max_pages: int = 100,
+        chunk_days: int = 90,
+    ) -> list[dict[str, Any]]:
+        if chunk_days < 1:
+            raise ValueError("chunk_days must be positive")
+        start = pd.Timestamp(start_trade_date)
+        end = pd.Timestamp(end_trade_date)
+        if end < start:
+            raise ValueError("end_trade_date must be on or after start_trade_date")
+        cfg = data_config()["providers"]["massive_futures"]
+        url = f"{cfg['api_base'].rstrip('/')}/futures/v1/schedules"
+        rows: list[dict[str, Any]] = []
+        chunk_start = start
+        while chunk_start <= end:
+            chunk_end = min(chunk_start + pd.Timedelta(days=chunk_days - 1), end)
+            rows.extend(
+                self._paged_results(
+                    url,
+                    {
+                        "product_code": product_code,
+                        "session_end_date.gte": chunk_start.date().isoformat(),
+                        "session_end_date.lte": chunk_end.date().isoformat(),
+                        "limit": 1000,
+                    },
+                    max_pages,
+                )
+            )
+            chunk_start = chunk_end + pd.Timedelta(days=1)
+        unique: dict[tuple[Any, ...], dict[str, Any]] = {}
+        for row in rows:
+            key = (
+                row.get("product_code"),
+                row.get("session_end_date"),
+                row.get("event"),
+                row.get("timestamp"),
+                row.get("trading_venue"),
+            )
+            unique[key] = row
+        return sorted(
+            unique.values(),
+            key=lambda row: (
+                str(row.get("session_end_date", "")),
+                str(row.get("timestamp", "")),
+                str(row.get("event", "")),
+            ),
+        )
 
 
 def normalize_massive_contract_history(
-    contract: dict[str, Any],
-    aggregates: pd.DataFrame,
-    retrieved_at: str,
+    contract: dict[str, Any], aggregates: pd.DataFrame, retrieved_at: str
 ) -> tuple[pd.DataFrame, dict[str, Any]]:
     required_contract = ("ticker", "product_code", "last_trade_date", "trading_venue")
     missing_contract = [field for field in required_contract if not contract.get(field)]
@@ -128,26 +226,21 @@ def normalize_massive_contract_history(
         raise DataContractViolation(f"Massive aggregates missing fields: {missing_aggregate}")
     if aggregates.empty:
         raise DataContractViolation("Massive aggregates are empty")
-
-    out = pd.DataFrame({
-        "trade_date": pd.to_datetime(aggregates["session_end_date"], utc=True),
-        "contract_id": str(contract["ticker"]),
-        "expiration": pd.to_datetime(contract["last_trade_date"], utc=True),
-        "settle": pd.to_numeric(aggregates["settlement_price"], errors="coerce"),
-    })
-    for source, target in (
-        ("open", "open"), ("high", "high"), ("low", "low"),
-        ("close", "close"), ("volume", "volume"),
-    ):
+    out = pd.DataFrame(
+        {
+            "trade_date": pd.to_datetime(aggregates["session_end_date"], utc=True),
+            "contract_id": str(contract["ticker"]),
+            "expiration": pd.to_datetime(contract["last_trade_date"], utc=True),
+            "settle": pd.to_numeric(aggregates["settlement_price"], errors="coerce"),
+        }
+    )
+    for source in ("open", "high", "low", "close", "volume"):
         if source in aggregates.columns:
-            out[target] = aggregates[source].values
+            out[source] = aggregates[source].values
     if out["settle"].isna().any():
         raise DataContractViolation("Massive aggregates contain missing settlement prices")
-
     source_bytes = (
-        json.dumps(contract, sort_keys=True, default=str)
-        + "\n"
-        + aggregates.to_csv(index=False)
+        json.dumps(contract, sort_keys=True, default=str) + "\n" + aggregates.to_csv(index=False)
     ).encode("utf-8")
     metadata = {
         "source_id": "massive_futures_rest_v1",
@@ -174,57 +267,51 @@ def fetch_massive_canonical_history(
     end = pd.Timestamp(end_trade_date, tz="UTC")
     if end < start:
         raise ValueError("end_trade_date must be on or after start_trade_date")
-
+    contracts = client.list_outright_contracts(
+        product_code,
+        start_trade_date=start_trade_date,
+        end_trade_date=end_trade_date,
+    )
     frames: list[pd.DataFrame] = []
     components: list[dict[str, Any]] = []
-    contracts = client.list_outright_contracts(product_code)
     exchanges: set[str] = set()
     for contract in contracts:
         first = pd.to_datetime(contract.get("first_trade_date"), utc=True, errors="coerce")
         last = pd.to_datetime(contract.get("last_trade_date"), utc=True, errors="coerce")
         if pd.isna(last):
-            ticker = contract.get("ticker", "<unknown>")
             raise DataContractViolation(
-                f"Massive contract {ticker} is missing a valid last_trade_date"
+                f"Massive contract {contract.get('ticker', '<unknown>')} is missing a valid last_trade_date"
             )
         if last < start or (not pd.isna(first) and first > end):
             continue
         fetch_start = max(start, first) if not pd.isna(first) else start
         fetch_end = min(end, last)
         aggregates = client.fetch_session_aggregates(
-            str(contract["ticker"]),
-            fetch_start.date().isoformat(),
-            fetch_end.date().isoformat(),
+            str(contract["ticker"]), fetch_start.date().isoformat(), fetch_end.date().isoformat()
         )
         if aggregates.empty:
             continue
-        normalized, metadata = normalize_massive_contract_history(
-            contract, aggregates, retrieved_at=retrieved_at
-        )
+        normalized, metadata = normalize_massive_contract_history(contract, aggregates, retrieved_at)
         validate_contract_metadata(metadata, schema)
-        exchanges.add(str(metadata["exchange"]))
         frames.append(normalized)
-        components.append({
-            "contract_id": str(contract["ticker"]),
-            "source_sha256": metadata["source_sha256"],
-        })
-
+        exchanges.add(str(metadata["exchange"]))
+        components.append(
+            {"contract_id": str(contract["ticker"]), "source_sha256": metadata["source_sha256"]}
+        )
     if not frames:
         raise DataContractViolation("Massive returned no canonical contract history for range")
     if len(exchanges) != 1:
         raise DataContractViolation(
             f"Massive canonical history spans multiple trading venues: {sorted(exchanges)}"
         )
-    exchange = next(iter(exchanges))
     combined = validate_contract_history(pd.concat(frames, ignore_index=True), schema)
-    combined_hash = hashlib.sha256(
-        json.dumps(components, sort_keys=True).encode("utf-8")
-    ).hexdigest()
     metadata = {
         "source_id": "massive_futures_rest_v1",
-        "source_sha256": combined_hash,
+        "source_sha256": hashlib.sha256(
+            json.dumps(components, sort_keys=True).encode("utf-8")
+        ).hexdigest(),
         "retrieved_at": retrieved_at,
-        "exchange": exchange,
+        "exchange": next(iter(exchanges)),
         "product_code": product_code,
         "session_timezone": "America/Chicago",
         "calendar": "CME_NYMEX",
@@ -234,3 +321,180 @@ def fetch_massive_canonical_history(
     }
     validate_contract_metadata(metadata, schema)
     return combined, metadata
+
+
+def _artifact_map(writer: SnapshotWriter) -> dict[str, dict[str, Any]]:
+    return {str(item["path"]): item for item in writer.artifacts}
+
+
+def _load_checkpoint(
+    writer: SnapshotWriter, request: dict[str, Any], retrieved_at: str
+) -> str:
+    path = writer.snapshot_dir / ".checkpoint.json"
+    if not path.exists():
+        return retrieved_at
+    payload = json.loads(path.read_text(encoding="utf-8"))
+    if payload.get("request") != request:
+        raise SnapshotIntegrityError("Massive checkpoint request does not match requested capture")
+    writer.artifacts = list(payload.get("artifacts", []))
+    for artifact in writer.artifacts:
+        file_path = writer.snapshot_dir / artifact["path"]
+        if not file_path.is_file():
+            raise SnapshotIntegrityError(f"Massive checkpoint artifact missing: {file_path}")
+        digest = hashlib.sha256(file_path.read_bytes()).hexdigest()
+        if file_path.stat().st_size != artifact["bytes"] or digest != artifact["sha256"]:
+            raise SnapshotIntegrityError(f"Massive checkpoint artifact changed: {file_path}")
+    return str(payload["retrieved_at"])
+
+
+def _save_checkpoint(
+    writer: SnapshotWriter, request: dict[str, Any], retrieved_at: str
+) -> None:
+    writer.snapshot_dir.mkdir(parents=True, exist_ok=True)
+    payload = {
+        "schema_version": 1,
+        "request": request,
+        "retrieved_at": retrieved_at,
+        "artifacts": sorted(writer.artifacts, key=lambda item: item["path"]),
+    }
+    temp = writer.snapshot_dir / ".checkpoint.json.tmp"
+    temp.write_text(json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    os.replace(temp, writer.snapshot_dir / ".checkpoint.json")
+
+
+def _contract_overlaps(contract: dict[str, Any], start: pd.Timestamp, end: pd.Timestamp) -> bool:
+    first = pd.to_datetime(contract.get("first_trade_date"), utc=True, errors="coerce")
+    last = pd.to_datetime(contract.get("last_trade_date"), utc=True, errors="coerce")
+    if pd.isna(last):
+        raise DataContractViolation(
+            f"Massive contract {contract.get('ticker', '<unknown>')} is missing a valid last_trade_date"
+        )
+    return not (last < start or (not pd.isna(first) and first > end))
+
+
+def capture_massive_archive(
+    client: Any,
+    schema: dict[str, Any],
+    product_code: str,
+    start_trade_date: str,
+    end_trade_date: str,
+    retrieved_at: str,
+    snapshot_root: Path,
+    snapshot_id: str,
+    max_contract_expiration: str | None = None,
+) -> Path:
+    start = pd.Timestamp(start_trade_date, tz="UTC")
+    end = pd.Timestamp(end_trade_date, tz="UTC")
+    if end < start:
+        raise ValueError("end_trade_date must be on or after start_trade_date")
+    max_expiration = (
+        pd.Timestamp(max_contract_expiration, tz="UTC") if max_contract_expiration else None
+    )
+    writer = SnapshotWriter(Path(snapshot_root), "massive", snapshot_id)
+    final_manifest = writer.snapshot_dir / "manifest.json"
+    if final_manifest.exists():
+        raise FileExistsError(f"Immutable Massive snapshot already completed: {final_manifest}")
+    request: dict[str, Any] = {
+        "product_code": product_code,
+        "start_trade_date": start_trade_date,
+        "end_trade_date": end_trade_date,
+    }
+    if max_contract_expiration:
+        request["max_contract_expiration"] = max_contract_expiration
+    archive_retrieved_at = _load_checkpoint(writer, request, retrieved_at)
+    artifacts = _artifact_map(writer)
+
+    if "contracts.json" in artifacts:
+        contracts = json.loads((writer.snapshot_dir / "contracts.json").read_text(encoding="utf-8"))
+    else:
+        contracts = client.list_outright_contracts(
+            product_code,
+            start_trade_date=start_trade_date,
+            end_trade_date=end_trade_date,
+        )
+        writer.write_bytes(
+            "contracts.json",
+            (json.dumps(contracts, indent=2, sort_keys=True, default=str) + "\n").encode("utf-8"),
+        )
+        _save_checkpoint(writer, request, archive_retrieved_at)
+        artifacts = _artifact_map(writer)
+
+    if "schedules.json" not in artifacts:
+        schedules = client.fetch_schedules(product_code, start_trade_date, end_trade_date)
+        writer.write_bytes(
+            "schedules.json",
+            (json.dumps(schedules, indent=2, sort_keys=True, default=str) + "\n").encode("utf-8"),
+        )
+        _save_checkpoint(writer, request, archive_retrieved_at)
+        artifacts = _artifact_map(writer)
+
+    selected = [contract for contract in contracts if _contract_overlaps(contract, start, end)]
+    if max_expiration is not None:
+        selected = [
+            contract
+            for contract in selected
+            if pd.to_datetime(contract["last_trade_date"], utc=True) <= max_expiration
+        ]
+    frames: list[pd.DataFrame] = []
+    components: list[dict[str, Any]] = []
+    exchanges: set[str] = set()
+    for contract in selected:
+        ticker = str(contract["ticker"])
+        first = pd.to_datetime(contract.get("first_trade_date"), utc=True, errors="coerce")
+        last = pd.to_datetime(contract["last_trade_date"], utc=True)
+        fetch_start = max(start, first) if not pd.isna(first) else start
+        fetch_end = min(end, last)
+        raw_name = f"aggregates/{ticker}.json"
+        if raw_name in artifacts:
+            aggregates = pd.DataFrame(
+                json.loads((writer.snapshot_dir / raw_name).read_text(encoding="utf-8"))
+            )
+        else:
+            aggregates = client.fetch_session_aggregates(
+                ticker, fetch_start.date().isoformat(), fetch_end.date().isoformat()
+            )
+            writer.write_bytes(
+                raw_name,
+                (json.dumps(aggregates.to_dict(orient="records"), indent=2, sort_keys=True, default=str) + "\n").encode("utf-8"),
+            )
+            _save_checkpoint(writer, request, archive_retrieved_at)
+            artifacts = _artifact_map(writer)
+        if aggregates.empty:
+            continue
+        normalized, metadata = normalize_massive_contract_history(
+            contract, aggregates, archive_retrieved_at
+        )
+        validate_contract_metadata(metadata, schema)
+        frames.append(normalized)
+        exchanges.add(str(metadata["exchange"]))
+        components.append(
+            {
+                "contract_id": ticker,
+                "source_sha256": metadata["source_sha256"],
+                "rows": len(normalized),
+            }
+        )
+    if not frames:
+        raise DataContractViolation("Massive archive contained no canonical rows for selected range")
+    if len(exchanges) != 1:
+        raise DataContractViolation(f"Massive archive spans multiple venues: {sorted(exchanges)}")
+    canonical = validate_contract_history(pd.concat(frames, ignore_index=True), schema)
+    writer.write_bytes("canonical.csv", canonical.to_csv(index=False).encode("utf-8"))
+    manifest = writer.finalize(
+        {
+            "source_id": "massive_futures_rest_v1",
+            "retrieved_at": archive_retrieved_at,
+            "request": request,
+            "exchange": next(iter(exchanges)),
+            "source_contract_count": len(components),
+            "source_contracts": components,
+            "canonical_rows": len(canonical),
+            "redistribution_allowed": False,
+            "non_display_backtesting_rights_verified": False,
+            "canonical_backtest_evidence_allowed": False,
+        }
+    )
+    checkpoint = writer.snapshot_dir / ".checkpoint.json"
+    if checkpoint.exists():
+        checkpoint.unlink()
+    return manifest
