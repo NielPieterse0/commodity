@@ -31,3 +31,10 @@ def test_snapshot_manifest_does_not_require_or_store_credentials(tmp_path: Path)
     manifest = writer.finalize({"source_id": "eia", "query": {"route": "natural-gas/prod"}})
     payload = json.loads(manifest.read_text(encoding="utf-8"))
     assert "api_key" not in json.dumps(payload).lower()
+
+
+def test_snapshot_manifest_rejects_secret_bearing_metadata(tmp_path: Path) -> None:
+    writer = SnapshotWriter(tmp_path, "eia", "snap")
+    writer.write_bytes("data.csv", b"x\n1\n")
+    with pytest.raises(SnapshotIntegrityError, match="Secret-bearing"):
+        writer.finalize({"query": {"api_key": "must-not-be-written"}})
