@@ -2,7 +2,10 @@ import pandas as pd
 import pytest
 
 from commodity.config import data_config
-from commodity.massive import MassiveFuturesClient, fetch_massive_canonical_history
+from commodity.massive_futures_provider import (
+    MassiveFuturesClient,
+    fetch_massive_canonical_history,
+)
 
 
 def _schema() -> dict:

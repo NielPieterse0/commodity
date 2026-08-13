@@ -1,13 +1,17 @@
 from commodity.cli import build_parser
 
 
-def test_capture_massive_v1_parser_owns_curve_horizon_and_pacing() -> None:
+def test_capture_canonical_market_v1_parser_owns_curve_bound_not_provider_pacing() -> None:
     args = build_parser().parse_args([
-        "capture-massive-v1", "--end", "2026-08-12", "--snapshot-id", "massive-v1"
+        "capture-canonical-market-v1",
+        "--end",
+        "2026-08-12",
+        "--snapshot-id",
+        "canonical-v1",
     ])
     assert args.start == "2024-08-13"
-    assert args.curve_months == 12
-    assert args.minimum_interval == 12.5
+    assert args.curve_contracts == 12
+    assert not hasattr(args, "minimum_interval")
 
 
 def test_capture_eia_v1_parser_is_bounded_by_dates() -> None:

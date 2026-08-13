@@ -1,0 +1,85 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-08-13",
+  "evidence_tier": "screening",
+  "snapshot": {
+    "id": "20240813-20260812-v1-m1-m12",
+    "repo_relative_root": "data/raw/snapshots/massive/20240813-20260812-v1-m1-m12",
+    "canonical_sha256": "83faf07a8de1fe3fea4cd6548dd25d9c02828e1ef4faa13a234ac8f2ad03d655",
+    "manifest_sha256": "38e4585ec2b7dce2bc74c9ff44c14c3228f8dab41ce0a93b269dc9974869a3a6",
+    "trade_date_start": "2024-08-14",
+    "trade_date_end": "2026-08-12",
+    "sessions": 500,
+    "canonical_rows": 11200,
+    "raw_values_committed": false
+  },
+  "curve_coverage": {
+    "expected_m1_m12_cells": 6000,
+    "present_m1_m12_cells": 5988,
+    "coverage_fraction": 0.998,
+    "rows_outside_m12": 5209,
+    "rows_outside_m12_fraction": 0.4651,
+    "finding": "The preserved archive is almost complete for M1-M12 but the old absolute-expiry capture boundary materially over-captured far contracts."
+  },
+  "field_value": {
+    "m1_m12_rows_compared": 5988,
+    "settlement_differs_from_close_rows": 5840,
+    "settlement_differs_from_close_fraction": 0.9753,
+    "settlement_close_absolute_difference_median": 0.011,
+    "settlement_close_absolute_difference_p95": 0.042,
+    "settlement_close_absolute_difference_max": 0.469,
+    "m2_volume_exceeds_m1_sessions": 100,
+    "m2_volume_exceeds_m1_fraction": 0.2,
+    "ohlc_sanity_violations": 0,
+    "finding": "Settlement and contract-level volume are materially non-redundant fields for futures roll and curve research."
+  },
+  "screening_experiment": {
+    "target": "next observed session same-contract front-month settlement return; roll-boundary targets excluded",
+    "usable_target_rows": 474,
+    "oos_rows": 290,
+    "method": "expanding-window standardized Ridge/LogisticRegression; fixed regularization; no strategy optimization",
+    "return_rmse": {
+      "zero_return": 0.045274,
+      "price_only": 0.045928,
+      "plus_settlement_basis": 0.046295,
+      "plus_curve_volume": 0.047988
+    },
+    "direction": {
+      "historical_rate_accuracy": 0.506897,
+      "historical_rate_brier": 0.250488,
+      "plus_curve_volume_accuracy": 0.506897,
+      "plus_curve_volume_brier": 0.259371
+    },
+    "absolute_return": {
+      "historical_mean_rmse": 0.034878,
+      "price_only_rmse": 0.033159,
+      "through_m12_rmse": 0.032978,
+      "through_m12_vs_price_rmse_delta": -0.0001801885,
+      "block_bootstrap_95pct_delta": [-0.00094892, 0.00074433]
+    },
+    "conclusion": "No demonstrated next-session return or direction advantage from the richer curve fields. Volatility/absolute-return improvement versus price-only is small and statistically uncertain on two years of data."
+  },
+  "massive_plans_as_of_2026_08_13": {
+    "official_pricing_source": "https://massive.com/pricing?product=futures",
+    "official_nymex_session_flat_file_source": "https://massive.com/docs/flat-files/futures/session-aggregates/nymex",
+    "basic": {"monthly_usd": 0, "history": "2 years", "api_calls_per_minute": 5},
+    "starter": {"monthly_usd": 29, "history": "2 years", "api_calls": "unlimited", "flat_files": true},
+    "developer": {"monthly_usd": 79, "history": "5 years", "api_calls": "unlimited", "flat_files": true},
+    "advanced": {"monthly_usd": 199, "history": "7+ years via plan summary; NYMEX session flat files list all available history", "api_calls": "unlimited", "flat_files": true},
+    "nymex_session_flat_file_history_start": "2017-04-03"
+  },
+  "licensing_gate": {
+    "official_market_data_terms_source": "https://massive.com/legal/market-data-terms-of-service",
+    "official_individual_terms_source": "https://massive.com/individuals-terms-of-service",
+    "individual_plan_use": "personal, non-business, non-commercial",
+    "non_display_backtesting_rights_verified_for_project": false,
+    "redistribution_allowed": false,
+    "canonical_backtest_evidence_allowed": false
+  },
+  "decision": {
+    "basic": "KEEP FOR EVALUATION: sufficient for the current two-year end-of-session contract/settlement/volume research path.",
+    "starter": "DO NOT BUY FOR RESEARCH HISTORY: no history-depth improvement over Basic; throughput is not currently the limiting factor.",
+    "developer": "ONLY PAID PLAN WORTH A BOUNDED NEXT TEST: five years would test whether the weak volatility signal is regime-robust and materially expands training/evaluation history.",
+    "advanced": "NOT JUSTIFIED YET: do not pay for real-time/all-history features until five-year evidence demonstrates value and licensing is resolved."
+  }
+}

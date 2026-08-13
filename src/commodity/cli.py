@@ -6,6 +6,7 @@ from pathlib import Path
 
 import pandas as pd
 
+from commodity.canonical_provider import load_canonical_provider
 from commodity.config import (
     REPO_ROOT,
     assumptions_config,
@@ -25,11 +26,6 @@ from commodity.eia import (
 from commodity.evaluation import evaluate_predictions, walk_forward_predict
 from commodity.features import make_supervised
 from commodity.market_data import canonical_market_readiness
-from commodity.massive import (
-    MassiveFuturesClient,
-    capture_massive_archive,
-    fetch_massive_canonical_history,
-)
 from commodity.models import baseline_factory
 from commodity.policy import assert_model_cannot_submit_orders
 from commodity.provenance import sha256_file, utc_now, write_json
@@ -67,8 +63,8 @@ def _fetch_canonical_market(args: argparse.Namespace) -> None:
     cfg = data_config()
     source = cfg["sources"]["market_canonical"]
     fetched_at = utc_now()
-    frame, metadata = fetch_massive_canonical_history(
-        MassiveFuturesClient(),
+    provider = load_canonical_provider(source["provider"])
+    frame, metadata = provider.fetch_contract_history(
         cfg["canonical_contract_schema"],
         product_code=source["product_code"],
         start_trade_date=args.start,
@@ -91,14 +87,11 @@ def _fetch_canonical_market(args: argparse.Namespace) -> None:
     print(f"saved_rows={len(frame)} path={output}")
 
 
-def _capture_massive_v1(args: argparse.Namespace) -> None:
+def _capture_canonical_market_v1(args: argparse.Namespace) -> None:
     cfg = data_config()
     source = cfg["sources"]["market_canonical"]
-    max_expiration = (
-        pd.Timestamp(args.end) + pd.DateOffset(months=args.curve_months)
-    ).date().isoformat()
-    manifest = capture_massive_archive(
-        MassiveFuturesClient(minimum_interval_seconds=args.minimum_interval),
+    provider = load_canonical_provider(source["provider"])
+    manifest = provider.capture_archive(
         cfg["canonical_contract_schema"],
         source["product_code"],
         args.start,
@@ -106,10 +99,9 @@ def _capture_massive_v1(args: argparse.Namespace) -> None:
         utc_now(),
         Path(args.output_root),
         args.snapshot_id,
-        max_contract_expiration=max_expiration,
+        max_contracts=args.curve_contracts,
     )
     print(f"manifest={manifest}")
-
 
 def _capture_eia_v1(args: argparse.Namespace) -> None:
     root = Path(args.output_root)
@@ -291,16 +283,15 @@ def build_parser() -> argparse.ArgumentParser:
     canonical.add_argument("--output", default=str(REPO_ROOT / "data/raw/ng_contract_history.csv"))
     canonical.set_defaults(func=_fetch_canonical_market)
 
-    preserve_massive = sub.add_parser("capture-massive-v1")
-    preserve_massive.add_argument(
+    preserve_canonical = sub.add_parser("capture-canonical-market-v1")
+    preserve_canonical.add_argument(
         "--start", default=canonical_source["history_earliest_verified_trade_date"]
     )
-    preserve_massive.add_argument("--end", required=True)
-    preserve_massive.add_argument("--snapshot-id", required=True)
-    preserve_massive.add_argument("--curve-months", type=int, default=12)
-    preserve_massive.add_argument("--minimum-interval", type=float, default=12.5)
-    preserve_massive.add_argument("--output-root", default=snapshot_root)
-    preserve_massive.set_defaults(func=_capture_massive_v1)
+    preserve_canonical.add_argument("--end", required=True)
+    preserve_canonical.add_argument("--snapshot-id", required=True)
+    preserve_canonical.add_argument("--curve-contracts", type=int, default=12)
+    preserve_canonical.add_argument("--output-root", default=snapshot_root)
+    preserve_canonical.set_defaults(func=_capture_canonical_market_v1)
 
     preserve_eia = sub.add_parser("capture-eia-v1")
     preserve_eia.add_argument(
