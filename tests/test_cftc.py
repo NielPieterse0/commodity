@@ -15,11 +15,15 @@ from commodity.cftc import (
 )
 
 
-def _archive_bytes(report_dates: list[str]) -> bytes:
+def _archive_bytes(
+    report_dates: list[str],
+    *,
+    report_date_column: str = "As_of_Date_Form_YYYY-MM-DD",
+) -> bytes:
     frame = pd.DataFrame(
         {
             "Market_and_Exchange_Names": ["NATURAL GAS - NEW YORK MERCANTILE EXCHANGE"] * len(report_dates),
-            "As_of_Date_Form_YYYY-MM-DD": report_dates,
+            report_date_column: report_dates,
             "CFTC_Contract_Market_Code": ["023651"] * len(report_dates),
             "Open_Interest_All": [1000] * len(report_dates),
             "Prod_Merc_Positions_Long_All": [100] * len(report_dates),
@@ -93,6 +97,18 @@ def test_cftc_normalization_preserves_variant_raw_hash_and_position_features() -
     assert frame.iloc[0]["producer_merchant_net"] == -100
     assert frame.iloc[0]["swap_dealer_net"] == 50
     assert frame.iloc[0]["revision_status"] == "point_in_time"
+
+
+def test_cftc_normalization_accepts_current_report_date_header() -> None:
+    content = _archive_bytes(
+        ["2025-10-07", "2025-10-14"],
+        report_date_column="Report_Date_as_YYYY-MM-DD",
+    )
+    frame = normalize_disaggregated_futures_only_archive(content, year=2025)
+    assert list(frame["observed_for"]) == [
+        pd.Timestamp("2025-10-07T00:00:00Z"),
+        pd.Timestamp("2025-10-14T00:00:00Z"),
+    ]
 
 
 def test_cftc_window_capture_is_bounded_resumable_and_loadable(tmp_path: Path) -> None:
