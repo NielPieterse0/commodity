@@ -252,7 +252,7 @@
     },
     "weather": {
       "provider": "open_meteo_historical_forecast",
-      "status": "single_runs_adapter_ready",
+      "status": "v1_capture_ready_acquisition_pending",
       "fallback_provider": "noaa_gfs_archive",
       "product": "actually-issued historical forecast",
       "model": "ecmwf_ifs",
@@ -261,6 +261,19 @@
       "purpose": "forecast-vintage temperatures and HDD/CDD surprises by gas-demand region",
       "required_vintage_fields": ["issued_at", "available_at", "forecast_valid_at"],
       "forbidden_substitute": "reanalysis_as_forecast",
+      "accepted_source_ids": ["open_meteo_single_runs_v1"],
+      "v1_run_cycle_utc_hour": 0,
+      "v1_forecast_days": 10,
+      "v1_feature_lead_hours": [24, 192],
+      "v1_degree_day_base_c": 18.3333333333,
+      "v1_anchor_aggregation": "unweighted_anchor_mean",
+      "v1_hourly_variables": ["temperature_2m", "relative_humidity_2m", "precipitation", "wind_speed_10m"],
+      "v1_anchors": [
+        {"id": "midwest_chicago", "latitude": 41.8781, "longitude": -87.6298},
+        {"id": "northeast_new_york", "latitude": 40.7128, "longitude": -74.0060},
+        {"id": "southeast_atlanta", "latitude": 33.7490, "longitude": -84.3880},
+        {"id": "south_central_houston", "latitude": 29.7604, "longitude": -95.3698}
+      ],
       "availability_reconstruction_status": "conservative_research_timing_ready_exact_history_unverified",
       "availability_policy": {
         "historical_exact_status": "unverified",

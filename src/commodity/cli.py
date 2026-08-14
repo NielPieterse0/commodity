@@ -39,7 +39,12 @@ from commodity.research_dataset import TARGET_COLUMN, build_pit_dataset
 from commodity.saxo import SaxoSimMarketDataClient, probe_henry_hub
 from commodity.simulation import simulate_forecasts
 from commodity.tournament import run_tournament
-from commodity.weather import OpenMeteoSingleRunClient, capture_weather_run
+from commodity.weather import (
+    OpenMeteoSingleRunClient,
+    capture_weather_run,
+    capture_weather_v1_window,
+    load_weather_v1_window,
+)
 
 
 def _fetch_market(args: argparse.Namespace) -> None:
@@ -176,6 +181,24 @@ def _capture_weather_run(args: argparse.Namespace) -> None:
         utc_now(),
     )
     print(f"manifest={manifest}")
+
+
+def _capture_weather_v1_window(args: argparse.Namespace) -> None:
+    root = Path(args.output_root)
+    manifests = capture_weather_v1_window(
+        OpenMeteoSingleRunClient(),
+        args.start,
+        args.end,
+        root,
+        utc_now(),
+    )
+    frame = load_weather_v1_window(root, args.start, args.end)
+    print(
+        json.dumps(
+            {"manifests": [str(path) for path in manifests], "feature_rows": len(frame)},
+            indent=2,
+        )
+    )
 
 
 def _freeze_v1_dataset(args: argparse.Namespace) -> None:
@@ -434,6 +457,14 @@ def build_parser() -> argparse.ArgumentParser:
     )
     preserve_weather.add_argument("--output-root", default=snapshot_root)
     preserve_weather.set_defaults(func=_capture_weather_run)
+
+    preserve_weather_v1 = sub.add_parser("capture-weather-v1-window")
+    preserve_weather_v1.add_argument(
+        "--start", default=canonical_source["history_earliest_verified_trade_date"]
+    )
+    preserve_weather_v1.add_argument("--end", required=True)
+    preserve_weather_v1.add_argument("--output-root", default=snapshot_root)
+    preserve_weather_v1.set_defaults(func=_capture_weather_v1_window)
 
     freeze = sub.add_parser("freeze-v1-dataset")
     freeze.add_argument("--input", default=str(REPO_ROOT / "data/raw/ng_f_daily.csv"))

@@ -171,6 +171,10 @@ def _configured_policy_blockers(
         accepted_source_ids = set(source_cfg.get("accepted_source_ids", ()))
         if evidence_source_id is not None and evidence_source_id not in accepted_source_ids:
             return ("configured_power_source_identity_mismatch",)
+    if family == "weather":
+        accepted_source_ids = set(source_cfg.get("accepted_source_ids", ()))
+        if evidence_source_id not in accepted_source_ids:
+            return ("configured_weather_source_identity_mismatch",)
     if family == "positioning":
         status = str(source_cfg.get("availability_reconstruction_status", ""))
         if "incomplete" in status or "pending" in status:
@@ -197,6 +201,15 @@ def audit_configured_exogenous_family(
             f"Configured source for {family!r} is {expected_source!r}, not {resolved_source!r}"
         )
     source_cfg = data_config()["sources"][resolved_source]
+    resolved_evidence_source_id = evidence_source_id
+    if (
+        resolved_evidence_source_id is None
+        and frame is not None
+        and not frame.empty
+        and "source_id" in frame.columns
+        and frame["source_id"].nunique(dropna=False) == 1
+    ):
+        resolved_evidence_source_id = str(frame["source_id"].iloc[0])
     result = audit_exogenous_family(
         family=family,
         source_name=resolved_source,
@@ -209,8 +222,23 @@ def audit_configured_exogenous_family(
         family,
         source_cfg,
         evidence_mode,
-        evidence_source_id=evidence_source_id,
+        evidence_source_id=resolved_evidence_source_id,
     )
+    lineage_blockers: tuple[str, ...] = ()
+    if family == "weather" and frame is not None and not frame.empty:
+        blockers: list[str] = []
+        if "source_id" not in frame.columns:
+            blockers.append("weather_source_lineage_missing")
+        elif not frame["source_id"].astype(str).eq(resolved_evidence_source_id).all():
+            blockers.append("weather_source_lineage_invalid")
+        if "source_raw_sha256" not in frame.columns:
+            blockers.append("weather_raw_lineage_missing")
+        else:
+            hashes = frame["source_raw_sha256"].astype(str)
+            if not hashes.str.fullmatch(r"[0-9a-f]{64}").all():
+                blockers.append("weather_raw_lineage_invalid")
+        lineage_blockers = tuple(blockers)
+    policy_blockers = tuple(dict.fromkeys((*policy_blockers, *lineage_blockers)))
     if not policy_blockers:
         return result
     blockers = tuple(dict.fromkeys((*result.blockers, *policy_blockers)))
