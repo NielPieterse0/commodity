@@ -1,6 +1,6 @@
 # V1 Phase 0 Merge-Gate Implementation Plan
 
-> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development or superpowers:executing-plans task-by-task. Steps use checkbox syntax for tracking.
+> **For agentic workers:** Load any required execution sub-skill through the canonical KIS MCP Skills module by logical skill ID. Steps use checkbox syntax for tracking.
 
 **Goal:** Close external-review blockers #1–#6, #17, A1, A2, A4, F1, H1, and K1 before Phase A begins.
 

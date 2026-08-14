@@ -1,6 +1,6 @@
 # Phase A Canonical Market Structure Implementation Plan
 
-> **For agentic workers:** REQUIRED SUB-SKILL: Use `superpowers:subagent-driven-development` or `superpowers:executing-plans` task-by-task. Steps use checkbox syntax for tracking.
+> **For agentic workers:** Load any required execution sub-skill through the canonical KIS MCP Skills module by logical skill ID. Steps use checkbox syntax for tracking.
 
 **Goal:** Convert provider-neutral canonical NG contract rows into deterministic PIT-safe roll and curve features with auditable lineage.
 
