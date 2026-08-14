@@ -27,6 +27,8 @@ For the complete repository authority assignment, see [`AGENTS.md`](AGENTS.md#re
 
 Raw snapshots live under ignored `data/raw/snapshots/`. Manifests contain source/query metadata, artifact hashes and byte counts; credentials and licensed market values are not committed.
 
+Preserved Databento `definition`, `statistics`, and `ohlcv-1d` DBN/Zstd files can be decoded locally through the pinned `databento` dependency. Offline canonicalization uses `definition` + final settlement/cleared-volume `statistics`; `ohlcv-1d` is inspection/coverage evidence only and is never substituted for official settlement. This path makes no API call and does not promote quarantined data or satisfy licensing gates.
+
 ```powershell
 .\.venv\Scripts\python.exe -m commodity.cli capture-canonical-market-v1 --end <YYYY-MM-DD> --snapshot-id <id> --curve-contracts 12
 .\.venv\Scripts\python.exe -m commodity.cli capture-eia-v1 --end <YYYY-MM-DD> --snapshot-id <id>

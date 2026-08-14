@@ -1,6 +1,6 @@
 # Natural Gas Data Manifest
 
-**Research date:** 2026-08-13
+**Research date:** 2026-08-14
 
 This manifest owns the desired research dataset and acquisition architecture. Operational provider/source status and evidence gates are owned by [`config/data_sources.json`](../config/data_sources.json); third-party approval plus GitHub API/MCP technical sources are owned by [`docs/THIRD_PARTY.md`](THIRD_PARTY.md). Slice evidence remains under `docs/development/`.
 
@@ -108,7 +108,7 @@ This register owns desired upstream data/API sources by dataset family. GitHub S
 
 ## Acquisition order
 
-1. Finish and verify the remaining Databento statistics-package landing, condition the preserved history, and compare source outputs behind the existing provider interface.
+1. Use the preserved Databento corpus through the validated offline DBN path, close the independent project-use/licensing gate before any canonical promotion, then compare source outputs behind the existing provider interface.
 2. Freeze the first leakage-safe U.S. V1 research dataset and run the baseline/model comparison ladder. Further infrastructure work should be justified by a measured data or modeling gap.
 3. Continue closing U.S. point-in-time gaps that materially constrain those experiments, especially revision vintages and demand-region issued-weather coverage.
 4. Add Global/Interconnect V1 inputs, then measure their incremental value for Henry Hub before broadening forecast targets.

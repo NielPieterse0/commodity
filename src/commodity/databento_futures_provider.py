@@ -28,10 +28,171 @@ SETTLEMENT_STAT_TYPE = 3
 CLEARED_VOLUME_STAT_TYPE = 6
 STATISTICS_CAPTURE_GRACE_DAYS = 3
 DEFAULT_MAX_AUTO_RECORDS = 50_000
+OFFLINE_DBN_SCHEMAS = frozenset({"definition", "statistics", "ohlcv-1d"})
 
 
 class DatabentoApiError(RuntimeError):
     pass
+
+
+class DatabentoOfflineDecodeError(RuntimeError):
+    pass
+
+
+def _load_databento_module() -> Any:
+    try:
+        import databento
+    except ImportError as exc:
+        raise DatabentoOfflineDecodeError(
+            "offline DBN decoding requires the Commodity databento dependency"
+        ) from exc
+    return databento
+
+
+def _sha256_file(path: Path) -> str:
+    digest = hashlib.sha256()
+    with path.open("rb") as handle:
+        for chunk in iter(lambda: handle.read(1024 * 1024), b""):
+            digest.update(chunk)
+    return digest.hexdigest()
+
+
+def _read_adjacent_databento_job_provenance(
+    source_path: Path,
+    *,
+    expected_schema: str,
+    dataset: str,
+) -> dict[str, Any]:
+    metadata_path = source_path.parent / "metadata.json"
+    if not metadata_path.exists():
+        return {}
+    try:
+        payload = json.loads(metadata_path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError) as exc:
+        raise DatabentoOfflineDecodeError(
+            f"invalid adjacent Databento job metadata: {metadata_path}"
+        ) from exc
+    query = payload.get("query")
+    job_id = str(payload.get("job_id", "")).strip()
+    if not job_id or not isinstance(query, dict):
+        raise DatabentoOfflineDecodeError(
+            f"incomplete adjacent Databento job metadata: {metadata_path}"
+        )
+    if query.get("dataset") != dataset or query.get("schema") != expected_schema:
+        raise DatabentoOfflineDecodeError(
+            f"adjacent Databento job metadata does not match {expected_schema}: {metadata_path}"
+        )
+    return {
+        "provider_job_id": job_id,
+        "provider_metadata_file": metadata_path.name,
+        "provider_metadata_sha256": _sha256_file(metadata_path),
+    }
+
+
+def _open_databento_dbn_store(
+    path: Path | str,
+    *,
+    expected_schema: str,
+    dataset: str,
+) -> tuple[Any, dict[str, Any]]:
+    source_path = Path(path)
+    if expected_schema not in OFFLINE_DBN_SCHEMAS:
+        raise DatabentoOfflineDecodeError(
+            f"unsupported offline Databento DBN schema: {expected_schema}"
+        )
+    databento = _load_databento_module()
+    try:
+        store = databento.DBNStore.from_file(source_path)
+    except Exception as exc:
+        raise DatabentoOfflineDecodeError(
+            f"failed to decode Databento DBN file: {source_path.name}"
+        ) from exc
+    actual_dataset = str(store.dataset)
+    actual_schema = str(store.schema) if store.schema is not None else None
+    if actual_dataset != dataset:
+        raise DatabentoOfflineDecodeError(
+            f"Databento DBN dataset mismatch: expected {dataset}, got {actual_dataset}"
+        )
+    if actual_schema != expected_schema:
+        raise DatabentoOfflineDecodeError(
+            f"Databento DBN schema mismatch: expected {expected_schema}, got {actual_schema}"
+        )
+    provenance = {
+        "dataset": actual_dataset,
+        "schema": actual_schema,
+        "source_file": source_path.name,
+        "source_sha256": _sha256_file(source_path),
+        "source_bytes": source_path.stat().st_size,
+    }
+    provenance.update(
+        _read_adjacent_databento_job_provenance(
+            source_path,
+            expected_schema=expected_schema,
+            dataset=dataset,
+        )
+    )
+    return store, provenance
+
+
+def decode_databento_dbn_file(
+    path: Path | str,
+    *,
+    expected_schema: str,
+    dataset: str = DATABENTO_DATASET,
+) -> tuple[pd.DataFrame, dict[str, Any]]:
+    store, provenance = _open_databento_dbn_store(
+        path,
+        expected_schema=expected_schema,
+        dataset=dataset,
+    )
+    try:
+        frame = store.to_df(map_symbols=False).reset_index()
+    except Exception as exc:
+        raise DatabentoOfflineDecodeError(
+            f"failed to decode Databento DBN records: {Path(path).name}"
+        ) from exc
+    if frame.empty:
+        raise DatabentoOfflineDecodeError(
+            f"Databento DBN file decoded to no records: {Path(path).name}"
+        )
+    return frame, provenance
+
+
+def _decode_databento_canonical_statistics(
+    path: Path | str,
+    *,
+    dataset: str,
+    chunk_size: int = 250_000,
+) -> tuple[pd.DataFrame, dict[str, Any]]:
+    store, provenance = _open_databento_dbn_store(
+        path,
+        expected_schema="statistics",
+        dataset=dataset,
+    )
+    selected: list[pd.DataFrame] = []
+    try:
+        chunks = store.to_df(map_symbols=False, count=chunk_size)
+        for chunk in chunks:
+            frame = chunk.reset_index()
+            if "stat_type" not in frame.columns:
+                raise DatabentoOfflineDecodeError(
+                    "Databento statistics DBN is missing stat_type"
+                )
+            stat_type = pd.to_numeric(frame["stat_type"], errors="coerce")
+            keep = stat_type.isin({SETTLEMENT_STAT_TYPE, CLEARED_VOLUME_STAT_TYPE})
+            if keep.any():
+                selected.append(frame.loc[keep].copy())
+    except DatabentoOfflineDecodeError:
+        raise
+    except Exception as exc:
+        raise DatabentoOfflineDecodeError(
+            f"failed to stream Databento statistics DBN: {Path(path).name}"
+        ) from exc
+    if not selected:
+        raise DatabentoOfflineDecodeError(
+            f"Databento statistics DBN contains no canonical statistics: {Path(path).name}"
+        )
+    return pd.concat(selected, ignore_index=True), provenance
 
 
 def _exclusive_end(end_trade_date: str, grace_days: int = 0) -> str:
@@ -395,6 +556,140 @@ def normalize_databento_contract_history(
         "volume_semantics": "cme_cleared_volume_from_databento_statistics",
     }
     return canonical, metadata
+
+
+def _map_offline_statistics_symbols(
+    definitions: pd.DataFrame,
+    statistics: pd.DataFrame,
+) -> pd.DataFrame:
+    required_definitions = {"instrument_id", "raw_symbol"}
+    missing_definitions = sorted(required_definitions - set(definitions.columns))
+    if missing_definitions:
+        raise DataContractViolation(
+            f"Databento offline definitions missing identity fields: {missing_definitions}"
+        )
+    if "instrument_id" not in statistics.columns:
+        raise DataContractViolation(
+            "Databento offline statistics are missing instrument_id"
+        )
+    definition_time = "ts_recv" if "ts_recv" in definitions.columns else "ts_event"
+    statistics_time = "ts_recv" if "ts_recv" in statistics.columns else "ts_event"
+    if definition_time not in definitions.columns or statistics_time not in statistics.columns:
+        raise DataContractViolation(
+            "Databento offline identity mapping requires definition/statistics timestamps"
+        )
+
+    identity = definitions[["instrument_id", "raw_symbol", definition_time]].copy()
+    identity["_definition_time"] = pd.to_datetime(
+        identity[definition_time], utc=True, errors="coerce"
+    )
+    identity["_mapped_symbol"] = identity["raw_symbol"].astype("string").str.strip()
+    identity = identity.dropna(
+        subset=["instrument_id", "_definition_time", "_mapped_symbol"]
+    )
+    identity = identity.loc[identity["_mapped_symbol"].ne("")].copy()
+    if identity.empty:
+        raise DataContractViolation(
+            "Databento offline definitions contain no usable point-in-time symbols"
+        )
+    ambiguous = (
+        identity.groupby(["instrument_id", "_definition_time"])["_mapped_symbol"]
+        .nunique()
+        .gt(1)
+    )
+    if ambiguous.any():
+        raise DataContractViolation(
+            "Databento offline definitions contain ambiguous point-in-time identity"
+        )
+    identity = identity.drop_duplicates(
+        ["instrument_id", "_definition_time"], keep="last"
+    )[["instrument_id", "_definition_time", "_mapped_symbol"]]
+
+    mapped = statistics.copy()
+    mapped["_row_order"] = range(len(mapped))
+    mapped["_statistics_time"] = pd.to_datetime(
+        mapped[statistics_time], utc=True, errors="coerce"
+    )
+    if mapped["_statistics_time"].isna().any():
+        raise DataContractViolation(
+            "Databento offline statistics contain invalid identity timestamps"
+        )
+    mapped = pd.merge_asof(
+        mapped.sort_values("_statistics_time"),
+        identity.sort_values("_definition_time"),
+        left_on="_statistics_time",
+        right_on="_definition_time",
+        by="instrument_id",
+        direction="backward",
+        allow_exact_matches=True,
+    )
+    if mapped["_mapped_symbol"].isna().any():
+        raise DataContractViolation(
+            "Databento offline statistics contain unmapped point-in-time instrument_id values"
+        )
+    mapped["symbol"] = mapped["_mapped_symbol"]
+    return mapped.sort_values("_row_order").drop(
+        columns=["_row_order", "_statistics_time", "_definition_time", "_mapped_symbol"]
+    )
+
+
+def canonicalize_databento_dbn_history(
+    definition_path: Path | str,
+    statistics_path: Path | str,
+    *,
+    schema: dict[str, Any],
+    product_code: str,
+    retrieved_at: str,
+    dataset: str = DATABENTO_DATASET,
+) -> tuple[pd.DataFrame, dict[str, Any]]:
+    definitions, definition_provenance = decode_databento_dbn_file(
+        definition_path,
+        expected_schema="definition",
+        dataset=dataset,
+    )
+    statistics, statistics_provenance = _decode_databento_canonical_statistics(
+        statistics_path,
+        dataset=dataset,
+    )
+    statistics = _map_offline_statistics_symbols(definitions, statistics)
+
+    frame, metadata = normalize_databento_contract_history(
+        definitions,
+        statistics,
+        retrieved_at,
+        product_code,
+    )
+    artifacts = [definition_provenance, statistics_provenance]
+    bundle_bytes = json.dumps(
+        [
+            {
+                "schema": item["schema"],
+                "source_file": item["source_file"],
+                "source_sha256": item["source_sha256"],
+                **{
+                    key: item[key]
+                    for key in ("provider_job_id", "provider_metadata_sha256")
+                    if key in item
+                },
+            }
+            for item in artifacts
+        ],
+        sort_keys=True,
+        separators=(",", ":"),
+    ).encode("utf-8")
+    metadata.update(
+        {
+            "source_id": "databento_glbx_mdp3_offline_dbn_v1",
+            "source_sha256": hashlib.sha256(bundle_bytes).hexdigest(),
+            "source_artifacts": artifacts,
+            "offline_decode": True,
+            "canonical_evidence": False,
+            "licensing_rights_verified": False,
+        }
+    )
+    frame = validate_contract_history(frame, schema)
+    validate_contract_metadata(metadata, schema)
+    return frame, metadata
 
 
 def _fetch_bounded_databento_source(

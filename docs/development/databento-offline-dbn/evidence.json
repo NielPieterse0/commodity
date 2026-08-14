@@ -1,0 +1,60 @@
+{
+  "issue": 50,
+  "base_sha": "71f55dbbb6dd94515b07630e9d2fec1a13dff81d",
+  "validation_date": "2026-08-14",
+  "dataset": "GLBX.MDP3",
+  "dependency": {
+    "databento": "0.83.0",
+    "databento-dbn": "0.65.0",
+    "zstandard": "0.25.0",
+    "pyarrow": "25.0.1"
+  },
+  "real_archive_validation": {
+    "year": 2015,
+    "definition_job_id": "GLBX-20260813-4LWDSMFX5T",
+    "definition_sha256": "12f65c436294d0ab6ecd56817cebffcb5a8a0852023d86eefb9797e669778f8e",
+    "definition_bytes": 6015936,
+    "statistics_job_id": "GLBX-20260813-TVQMDDWSDJ",
+    "statistics_sha256": "cfedaf6a088aca49d2c2060c41bdcab6a13c302bd4f989ca64f0b841c6b7cd4d",
+    "statistics_bytes": 32345775,
+    "ohlcv_1d_job_id": "GLBX-20260813-5T4KKKSNG9",
+    "ohlcv_1d_sha256": "ef38122d33d1f9a183f82a3a9e1154e8c32df9acc76fdcbf1ff9cbb1323a2bb9",
+    "ohlcv_1d_bytes": 540961,
+    "ohlcv_1d_rows": 37062,
+    "canonical_bundle_sha256": "dc65cb29e1f425504ac503f4668ef1538e9e42570545fe1f0746611e769f8d0a",
+    "canonical_rows": 4430,
+    "canonical_contracts": 157,
+    "canonical_trade_date_start": "2015-11-11",
+    "canonical_trade_date_end": "2015-12-30"
+  },
+  "result": {
+    "offline_decode_validated": true,
+    "point_in_time_identity_mapping_validated": true,
+    "canonical_evidence": false,
+    "licensing_rights_verified": false,
+    "scope_note": "This validates decoder/canonicalizer mechanics on a preserved year; it does not assert full_v1 empirical completeness or licensing eligibility."
+  },
+  "golden_fixture": {
+    "parquet_path": "tests/fixtures/mdp3-golden/sample.parquet",
+    "rows": 1,
+    "columns": [
+      "trade_date",
+      "contract_id",
+      "expiration",
+      "settle",
+      "available_at"
+    ],
+    "rows_sha256": "71e6558c9bc4cc312e5c257d013c0bc36fc3f5a141ac0472b88a32595b622698",
+    "parquet_sha256": "6d0d952e07e0630604506672d409b40a6576d33a0dc48a02c5bb302dd6d7b5cf",
+    "definition_sha256": "9465acec796ba4ded6c1bf1554e470a3d0d6fea3fc8092f704df67d8dd9badc8",
+    "statistics_sha256": "5b06345658e7955bd81d4edbc548fe8b68aea66ebe40820457ddc4b7e109815e",
+    "repeatability": "two independent conversions byte-identical in focused test"
+  },
+  "verification": {
+    "focused_tests": "24 passed",
+    "full_repository_tests": "260 passed",
+    "ruff": "passed",
+    "json_files_parsed": 26,
+    "git_diff_check": "passed"
+  }
+}

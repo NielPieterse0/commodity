@@ -1,0 +1,7 @@
+{
+  "job_id": "GLBX-SYNTH-STATISTICS",
+  "query": {
+    "dataset": "GLBX.MDP3",
+    "schema": "statistics"
+  }
+}

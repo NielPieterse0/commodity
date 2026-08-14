@@ -1,0 +1,7 @@
+{
+  "job_id": "GLBX-SYNTH-DEFINITION",
+  "query": {
+    "dataset": "GLBX.MDP3",
+    "schema": "definition"
+  }
+}
