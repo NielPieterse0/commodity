@@ -1,0 +1,19 @@
+{
+  "schema_version": 2,
+  "recipe_id": "commodity-web-search",
+  "content_class": "web-evidence",
+  "request": {
+    "provider_type": "firecrawl-mcp",
+    "tool": "firecrawl_search",
+    "target": {
+      "parameter": "query"
+    },
+    "limit": 5
+  },
+  "parameters": {
+    "query": {
+      "required": true,
+      "max_length": 512
+    }
+  }
+}
