@@ -1,0 +1,28 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-08-14",
+  "scope": "Post-repair local integrity verification for preserved Databento GLBX.MDP3 NG.FUT statistics batch",
+  "raw_snapshot": "data/raw/snapshots/databento/ng-full-history-v1/statistics/GLBX-20260813-TVQMDDWSDJ",
+  "raw_snapshot_committed": false,
+  "credential_material_recorded": false,
+  "provider_job_id": "GLBX-20260813-TVQMDDWSDJ",
+  "provider_manifest_sha256": "506142d2e8668be0d2cbd9ec2f99565c87de6066dc605fb868df9b927f291a30",
+  "verification": {
+    "method": "provider manifest member size plus SHA-256",
+    "expected_artifacts": 19,
+    "verified_artifacts": 19,
+    "bad_artifacts": 0,
+    "missing_artifacts": 0,
+    "verified_bytes": 1366380233,
+    "verified_complete_through": "2026-08-12"
+  },
+  "decision": {
+    "integrity_status": "complete",
+    "canonical_market_source": false,
+    "backtest_evidence_allowed": false,
+    "licensing_rights_verified": false,
+    "acquisition_governance_status": "quarantined_pre_governance_acquisition",
+    "next_gate": "Evaluate project-use/licensing eligibility and offline canonicalization separately; integrity alone does not authorize evidence promotion."
+  },
+  "verified_at_utc": "2026-08-14T10:37:56.710582+00:00"
+}
