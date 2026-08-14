@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import pandas as pd
 
-import commodity.wngsr as wngsr
+from commodity import wngsr
 
 
 def test_current_original_data_ledger_is_pit_safe(monkeypatch) -> None:
