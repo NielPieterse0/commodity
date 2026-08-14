@@ -9,6 +9,8 @@ def _research_frame(start: str, periods: int = 4, *, exact: bool = False) -> pd.
             "available_at": issued + pd.Timedelta(hours=6, minutes=10),
             "availability_status": "verified" if exact else "reconstructed_conservative",
             "revision_status": "issued_run_immutable",
+            "source_id": "open_meteo_single_runs_v1",
+            "source_raw_sha256": "a" * 64,
             "signal": range(periods),
         }
     )
@@ -203,3 +205,29 @@ def test_required_family_audit_returns_all_four_families() -> None:
     assert results["storage"].verdict == "not-fit"
     assert results["power"].verdict == "not-fit"
     assert results["positioning"].verdict == "not-fit"
+
+
+
+def test_configured_weather_requires_v1_source_identity_and_raw_hash() -> None:
+    from commodity.exogenous_audit import audit_configured_exogenous_family
+
+    frame = _research_frame("2025-01-01", periods=3)
+    result = audit_configured_exogenous_family(
+        family="weather",
+        source_name="weather",
+        frame=frame,
+        required_start="2025-01-01T06:10Z",
+        required_end="2025-01-03T06:10Z",
+    )
+    assert result.full_v1_ready is True
+
+    missing_hash = frame.drop(columns=["source_raw_sha256"])
+    result = audit_configured_exogenous_family(
+        family="weather",
+        source_name="weather",
+        frame=missing_hash,
+        required_start="2025-01-01T06:10Z",
+        required_end="2025-01-03T06:10Z",
+    )
+    assert result.full_v1_ready is False
+    assert "weather_raw_lineage_missing" in result.blockers
