@@ -63,7 +63,7 @@
       "role": "canonical_futures_candidate",
       "max_auto_cost_usd": 1.0,
       "max_auto_records": 50000,
-      "account_probe_status": "full_history_acquired_quarantined"
+      "account_probe_status": "full_history_acquired_integrity_verified_quarantined"
     }
   },
   "canonical_contract_schema": {
@@ -353,13 +353,14 @@
     },
     "databento_henry_hub_probe": {
       "provider": "databento_futures",
-      "status": "acquired_quarantined_integrity_incomplete",
+      "status": "acquired_quarantined_integrity_complete",
       "purpose": "bounded evaluation of CME NG official settlement/statistics and deeper contract history",
       "acquisition_governance_status": "quarantined_pre_governance_acquisition",
-      "integrity_status": "incomplete",
-      "integrity_verified_complete_through": "2018-12-31",
+      "integrity_status": "complete",
+      "integrity_verified_complete_through": "2026-08-12",
       "paid_reacquisition_approved": false,
       "quarantine_evidence": "docs/development/databento-full-history-acquisition/evidence.json",
+      "repair_evidence": "docs/development/databento-full-history-acquisition/repair-evidence.json",
       "dataset": "GLBX.MDP3",
       "product_code": "NG",
       "canonical_market_source": false,
@@ -369,7 +370,7 @@
       "provides_settlement": true,
       "historical_volume": true,
       "historical_open_interest": true,
-      "account_history_validated": false,
+      "account_history_validated": true,
       "licensing_rights_verified": false,
       "evaluation_evidence": "docs/development/databento-vs-massive/evidence.json"
     }

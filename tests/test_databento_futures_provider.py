@@ -383,19 +383,23 @@ def test_databento_factory_satisfies_provider_surface() -> None:
     assert config["sources"]["market_canonical"]["provider"] == "massive_futures"
 
 
-def test_existing_full_history_acquisition_is_quarantined_from_evidence() -> None:
+def test_existing_full_history_acquisition_remains_quarantined_after_integrity_repair() -> None:
     config = data_config()
     provider = config["providers"]["databento_futures"]
     source = config["sources"]["databento_henry_hub_probe"]
-    assert provider["account_probe_status"] == "full_history_acquired_quarantined"
-    assert source["status"] == "acquired_quarantined_integrity_incomplete"
+    assert provider["account_probe_status"] == "full_history_acquired_integrity_verified_quarantined"
+    assert source["status"] == "acquired_quarantined_integrity_complete"
     assert source["acquisition_governance_status"] == "quarantined_pre_governance_acquisition"
-    assert source["integrity_status"] == "incomplete"
-    assert source["integrity_verified_complete_through"] == "2018-12-31"
+    assert source["integrity_status"] == "complete"
+    assert source["integrity_verified_complete_through"] == "2026-08-12"
     assert source["paid_reacquisition_approved"] is False
-    assert source["account_history_validated"] is False
+    assert source["account_history_validated"] is True
+    assert source["licensing_rights_verified"] is False
     assert source["backtest_evidence_allowed"] is False
     assert source["canonical_market_source"] is False
     assert source["quarantine_evidence"].endswith(
         "databento-full-history-acquisition/evidence.json"
+    )
+    assert source["repair_evidence"].endswith(
+        "databento-full-history-acquisition/repair-evidence.json"
     )
