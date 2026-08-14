@@ -55,7 +55,9 @@ These repositories are approved **project research sources**, not automatically 
 
 | Repository | Class | Project use |
 |---|---|---|
-| [`databento/databento-python`](https://github.com/databento/databento-python) | `primary_technical` | Official Databento client; historical/batch, symbology, DBN, and point-in-time definition mechanics. |
+| [`databento/databento-python`](https://github.com/databento/databento-python) | `dependency` | `databento==0.83.0`, Apache-2.0. Official client used only for local `DBNStore` decoding; the offline path does not construct a Historical/API client or change data-rights/evidence gates. |
+| [`databento/dbn`](https://github.com/databento/dbn) | `dependency` | `databento-dbn==0.65.0`, Apache-2.0. Official DBN binding used by the pinned client and deterministic DBN fixtures. |
+| [`indygreg/python-zstandard`](https://github.com/indygreg/python-zstandard) | `dependency` | `zstandard==0.25.0`, BSD-3-Clause. Compression runtime/test support for `.dbn.zst`; no market-data semantics are delegated to it. |
 | [`open-meteo/open-meteo`](https://github.com/open-meteo/open-meteo) | `primary_technical` | Official API implementation; weather-model routing and historical/single-run behavior. |
 | [`statisticsnorway/ssb-pxwebapidata`](https://github.com/statisticsnorway/ssb-pxwebapidata) | `primary_technical` | SSB-owned PxWeb API client/reference, including v2 query patterns. |
 | [`PxTools/PxWebApi`](https://github.com/PxTools/PxWebApi) | `primary_technical` | Official PxWeb API source; platform semantics behind statistical APIs such as SSB. |

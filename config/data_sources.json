@@ -361,6 +361,8 @@
       "paid_reacquisition_approved": false,
       "quarantine_evidence": "docs/development/databento-full-history-acquisition/evidence.json",
       "repair_evidence": "docs/development/databento-full-history-acquisition/repair-evidence.json",
+      "offline_decode_status": "validated_preserved_2015_pair",
+      "offline_decode_evidence": "docs/development/databento-offline-dbn/evidence.json",
       "dataset": "GLBX.MDP3",
       "product_code": "NG",
       "canonical_market_source": false,

@@ -23,5 +23,6 @@ artifacts/runs/*
 !artifacts/runs/.gitkeep
 
 *.parquet
+!tests/fixtures/mdp3-golden/sample.parquet
 *.pkl
 *.joblib

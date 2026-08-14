@@ -1,0 +1,52 @@
+{
+  "canonical_metadata": {
+    "calendar": "CME_NYMEX",
+    "canonical_evidence": false,
+    "exchange": "XNYM",
+    "licensing_rights_verified": false,
+    "offline_decode": true,
+    "price_semantics": "cme_final_settlement_from_databento_statistics",
+    "product_code": "NG",
+    "retrieved_at": "2026-08-14T12:00:00Z",
+    "session_timezone": "America/Chicago",
+    "settlement_availability_semantics": "statistics_ts_recv_else_ts_event",
+    "source_artifacts": [
+      {
+        "dataset": "GLBX.MDP3",
+        "provider_job_id": "GLBX-SYNTH-DEFINITION",
+        "provider_metadata_file": "metadata.json",
+        "provider_metadata_sha256": "035f31793f97f8240e8b9f0fff9128e0ed667ef3b4642fef859eacbdce37e633",
+        "schema": "definition",
+        "source_bytes": 187,
+        "source_file": "sample.definition.dbn.zst",
+        "source_sha256": "9465acec796ba4ded6c1bf1554e470a3d0d6fea3fc8092f704df67d8dd9badc8"
+      },
+      {
+        "dataset": "GLBX.MDP3",
+        "provider_job_id": "GLBX-SYNTH-STATISTICS",
+        "provider_metadata_file": "metadata.json",
+        "provider_metadata_sha256": "041b11150eb61b9fa53fb8b03b277d5f603d2e5acd884cb3c6700fc1c9795ce3",
+        "schema": "statistics",
+        "source_bytes": 110,
+        "source_file": "sample.statistics.dbn.zst",
+        "source_sha256": "5b06345658e7955bd81d4edbc548fe8b68aea66ebe40820457ddc4b7e109815e"
+      }
+    ],
+    "source_id": "databento_glbx_mdp3_offline_dbn_v1",
+    "source_sha256": "6bec869d2af8b8c825e35163c7c119d0aa6a319f3e6186f690e0ee8cb838a776",
+    "volume_semantics": "cme_cleared_volume_from_databento_statistics"
+  },
+  "columns": [
+    "trade_date",
+    "contract_id",
+    "expiration",
+    "settle",
+    "available_at"
+  ],
+  "dataset": "GLBX.MDP3",
+  "parquet_sha256": "4ebccb9bb1050d4e241fa6c47a3fea7a25756b05b06c37cefa3f3c6d835fcec9",
+  "product_code": "NG",
+  "retrieved_at": "2026-08-14T12:00:00Z",
+  "rows": 1,
+  "rows_sha256": "71e6558c9bc4cc312e5c257d013c0bc36fc3f5a141ac0472b88a32595b622698"
+}
