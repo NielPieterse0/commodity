@@ -46,6 +46,11 @@ from commodity.weather import (
     capture_weather_v1_window,
     load_weather_v1_window,
 )
+from commodity.wngsr import (
+    WngsrEvidenceClient,
+    capture_wngsr_v1_window,
+    load_wngsr_v1_window,
+)
 
 
 def _fetch_market(args: argparse.Namespace) -> None:
@@ -214,6 +219,15 @@ def _capture_cftc_v1_window(args: argparse.Namespace) -> None:
             indent=2,
         )
     )
+
+
+def _capture_wngsr_v1_window(args: argparse.Namespace) -> None:
+    root = Path(args.output_root)
+    manifest = capture_wngsr_v1_window(
+        WngsrEvidenceClient(), args.start, args.end, root, utc_now()
+    )
+    frame = load_wngsr_v1_window(root, args.start, args.end)
+    print(json.dumps({"manifest": str(manifest), "feature_rows": len(frame)}, indent=2))
 
 
 def _freeze_v1_dataset(args: argparse.Namespace) -> None:
@@ -488,6 +502,14 @@ def build_parser() -> argparse.ArgumentParser:
     preserve_cftc_v1.add_argument("--end", required=True)
     preserve_cftc_v1.add_argument("--output-root", default=snapshot_root)
     preserve_cftc_v1.set_defaults(func=_capture_cftc_v1_window)
+
+    preserve_wngsr_v1 = sub.add_parser("capture-wngsr-v1-window")
+    preserve_wngsr_v1.add_argument(
+        "--start", default=canonical_source["history_earliest_verified_trade_date"]
+    )
+    preserve_wngsr_v1.add_argument("--end", required=True)
+    preserve_wngsr_v1.add_argument("--output-root", default=snapshot_root)
+    preserve_wngsr_v1.set_defaults(func=_capture_wngsr_v1_window)
 
     freeze = sub.add_parser("freeze-v1-dataset")
     freeze.add_argument("--input", default=str(REPO_ROOT / "data/raw/ng_f_daily.csv"))

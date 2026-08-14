@@ -10,6 +10,11 @@
       "dataset_url_template": "https://www.eia.gov/opendata/bulk/{dataset_id}.zip",
       "access": "public_http"
     },
+    "eia_wngsr": {
+      "history_url": "https://ir.eia.gov/ngs/ngshistory.xls",
+      "revisions_url": "https://ir.eia.gov/ngs/revisions.xls",
+      "access": "public_http"
+    },
     "cftc_public_reporting": {
       "api_base": "https://publicreporting.cftc.gov/resource",
       "annual_disaggregated_futures_only_url_template": "https://www.cftc.gov/files/dea/history/fut_disagg_txt_{year}.zip",
@@ -143,23 +148,29 @@
       "canonical_market_source": false
     },
     "eia_storage": {
-      "provider": "eia_api_v2",
+      "provider": "eia_wngsr",
+      "screening_provider": "eia_api_v2",
       "route": "natural-gas/stor/wkly",
       "bulk_dataset": "NG",
-      "status": "capture_ready_current_snapshot_only",
+      "status": "v1_vintage_reconstruction_ready_acquisition_pending",
+      "source_variant": "original_plus_published_revisions",
+      "accepted_source_ids": ["eia_wngsr_vintage_reconstruction"],
       "point_in_time_required": true,
+      "max_staleness_days": 14,
       "regular_release_semantics": "Thursday 10:30 America/New_York; holiday exceptions override",
       "historical_release_exceptions_required": true,
       "revision_snapshots_required": true,
-      "availability_reconstruction_status": "release_schedule_2025_through_2026_11_25_ready_revision_vintages_incomplete",
+      "availability_reconstruction_status": "v1_research_ready_conservative",
       "availability_policy": {
         "timezone": "America/New_York",
         "regular_release_weekday": "Thursday",
         "regular_release_hour": 10,
         "regular_release_minute": 30,
-        "exception_registry_coverage_start": "2025-01-01",
+        "exception_registry_coverage_start": "2024-08-01",
         "exception_registry_coverage_end": "2026-11-25",
         "release_date_overrides": {
+          "2024-11-28": "2024-11-27T12:00:00-05:00",
+          "2024-12-26": "2024-12-27T10:30:00-05:00",
           "2025-01-02": "2025-01-03T10:30:00-05:00",
           "2025-01-09": "2025-01-08T12:00:00-05:00",
           "2025-06-19": "2025-06-18T12:00:00-04:00",
@@ -170,6 +181,14 @@
           "2026-11-12": "2026-11-13T10:30:00-05:00",
           "2026-11-26": "2026-11-25T12:00:00-05:00"
         },
+        "special_revision_events": {
+          "2024_sample_reselection": "2024-11-18T15:00:00-05:00"
+        },
+        "sample_reselection_weeks": [
+          "2024-09-20", "2024-09-27", "2024-10-04", "2024-10-11",
+          "2024-10-18", "2024-10-25", "2024-11-01", "2024-11-08"
+        ],
+        "research_pit_allowed": true,
         "reconstructed_availability_status": "reconstructed_conservative",
         "current_snapshot_revision_status": "current_snapshot_revised_history",
         "research_pit_allowed_for_current_snapshot": false,
