@@ -161,9 +161,10 @@ def _configured_policy_blockers(
     if evidence_mode not in {"research_pit", "canonical"}:
         return ()
     policy = source_cfg.get("availability_policy", {})
-    if family == "storage":
-        if not policy.get("research_pit_allowed_for_current_snapshot", False):
-            return ("current_snapshot_not_research_pit_admissible",)
+    if family == "storage" and not policy.get(
+        "research_pit_allowed_for_current_snapshot", False
+    ):
+        return ("current_snapshot_not_research_pit_admissible",)
     if family == "power":
         if not policy.get("research_pit_allowed", False):
             return ("configured_power_source_not_research_pit_admissible",)

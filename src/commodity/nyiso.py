@@ -78,8 +78,13 @@ def normalize_p7_archive(content: bytes, *, archive_id: str) -> pd.DataFrame:
         for info in sorted(members, key=lambda item: Path(item.filename).name):
             match = _MEMBER_RE.match(Path(info.filename).name)
             assert match is not None
-            operating_day = dt.datetime.strptime(match.group("day"), "%Y%m%d").date()
-            source_updated_at = _local_timestamp(dt.datetime(*info.date_time))
+            day = match.group("day")
+            operating_day = dt.date.fromisoformat(
+                f"{day[:4]}-{day[4:6]}-{day[6:]}"
+            )
+            source_updated_at = _local_timestamp(
+                dt.datetime(*info.date_time, tzinfo=ZoneInfo(_TIMEZONE))
+            )
             available_at = _conservative_available_at(operating_day)
             if source_updated_at > available_at:
                 raise ValueError(
