@@ -74,6 +74,43 @@ def _utc(value: str | pd.Timestamp) -> pd.Timestamp:
     return pd.Timestamp(value, tz="UTC") if pd.Timestamp(value).tzinfo is None else pd.Timestamp(value).tz_convert("UTC")
 
 
+def _staleness_exceeds_limit(
+    frame: pd.DataFrame,
+    required_start: pd.Timestamp,
+    required_end: pd.Timestamp,
+    max_age: pd.Timedelta,
+) -> bool:
+    if max_age < pd.Timedelta(0):
+        raise ValueError("maximum staleness must be non-negative")
+    timestamps = _coverage_series(frame).dropna().sort_values().drop_duplicates()
+    if timestamps.empty:
+        return True
+    available_at_start = timestamps[timestamps <= required_start]
+    if available_at_start.empty:
+        return True
+    previous = pd.Timestamp(available_at_start.iloc[-1])
+    if required_start - previous > max_age:
+        return True
+    for current in timestamps[(timestamps > required_start) & (timestamps <= required_end)]:
+        current_ts = pd.Timestamp(current)
+        if current_ts - previous > max_age:
+            return True
+        previous = current_ts
+    return required_end - previous > max_age
+
+
+def _configured_max_staleness(source_cfg: Mapping[str, Any]) -> pd.Timedelta | None:
+    max_hours = source_cfg.get("max_staleness_hours")
+    max_days = source_cfg.get("max_staleness_days")
+    if max_hours is not None and max_days is not None:
+        raise ValueError("Configure only one maximum-staleness unit per source")
+    if max_hours is not None:
+        return pd.Timedelta(hours=float(max_hours))
+    if max_days is not None:
+        return pd.Timedelta(days=float(max_days))
+    return None
+
+
 def audit_exogenous_family(
     *,
     family: str,
@@ -222,29 +259,41 @@ def audit_configured_exogenous_family(
         required_end=required_end,
         evidence_mode=evidence_mode,
     )
-    max_staleness_days = source_cfg.get("max_staleness_days")
-    if (
-        max_staleness_days is not None
-        and frame is not None
-        and not frame.empty
-        and "coverage_incomplete" in result.blockers
-    ):
-        coverage = _coverage_series(frame)
+    max_staleness = _configured_max_staleness(source_cfg)
+    if max_staleness is not None and frame is not None and not frame.empty:
         start_ts = _utc(required_start)
         end_ts = _utc(required_end)
-        coverage_start = coverage.min()
-        coverage_end = coverage.max()
-        bounded_end = coverage_end + pd.Timedelta(days=int(max_staleness_days))
-        if coverage_start <= start_ts and coverage_end <= end_ts <= bounded_end:
-            blockers = tuple(item for item in result.blockers if item != "coverage_incomplete")
-            caveats = tuple(dict.fromkeys((*result.caveats, "bounded_forward_fill")))
-            result = replace(
-                result,
-                verdict="fit-with-caveats" if not blockers else "not-fit",
-                full_v1_ready=not blockers,
-                blockers=blockers,
-                caveats=caveats,
-            )
+        if end_ts < start_ts:
+            raise ValueError("required_end must be on or after required_start")
+        blockers = list(result.blockers)
+        caveats = list(result.caveats)
+        if _staleness_exceeds_limit(
+            frame,
+            start_ts,
+            end_ts,
+            max_staleness,
+        ):
+            blockers.append("max_staleness_exceeded")
+        else:
+            coverage_end = _coverage_series(frame).max()
+            if "coverage_incomplete" in blockers and coverage_end < end_ts:
+                blockers.remove("coverage_incomplete")
+                caveats.append("bounded_forward_fill")
+        blockers_tuple = tuple(dict.fromkeys(blockers))
+        caveats_tuple = tuple(dict.fromkeys(caveats))
+        result = replace(
+            result,
+            verdict=(
+                "not-fit"
+                if blockers_tuple
+                else "fit-with-caveats"
+                if caveats_tuple
+                else "fit"
+            ),
+            full_v1_ready=not blockers_tuple,
+            blockers=blockers_tuple,
+            caveats=caveats_tuple,
+        )
     policy_blockers = _configured_policy_blockers(
         family,
         source_cfg,

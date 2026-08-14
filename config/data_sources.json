@@ -247,6 +247,7 @@
       "v1_required_window": "2024-08-13 through 2026-08-12",
       "v1_archive_validation": "730_of_730_prediction_dates_have_eligible_next_day_forecast",
       "accepted_source_ids": ["nyiso_p7_iso_load_forecast"],
+      "max_staleness_hours": 25,
       "availability_reconstruction_status": "conservative_bound_validated_for_v1_window",
       "availability_policy": {
         "timezone": "America/New_York",
@@ -326,6 +327,7 @@
       "required_vintage_fields": ["issued_at", "available_at", "forecast_valid_at"],
       "forbidden_substitute": "reanalysis_as_forecast",
       "accepted_source_ids": ["open_meteo_single_runs_v1"],
+      "max_staleness_hours": 24,
       "v1_run_cycle_utc_hour": 0,
       "v1_forecast_days": 10,
       "v1_feature_lead_hours": [24, 192],

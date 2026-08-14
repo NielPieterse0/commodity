@@ -113,15 +113,26 @@ def test_configured_storage_requires_wngsr_vintage_source_and_raw_lineage() -> N
 
     frame = pd.DataFrame(
         {
-            "observed_for": pd.to_datetime(["2024-12-20", "2025-01-24"], utc=True),
-            "available_at": pd.to_datetime(["2024-12-27T15:30Z", "2025-01-30T15:30Z"]),
-            "availability_status": ["reconstructed_conservative"] * 2,
-            "revision_status": ["point_in_time"] * 2,
-            "source_id": ["eia_wngsr_vintage_reconstruction"] * 2,
-            "source_variant": ["original_plus_published_revisions"] * 2,
-            "history_raw_sha256": ["a" * 64] * 2,
-            "revisions_raw_sha256": ["b" * 64] * 2,
-            "signal": [1.0, 2.0],
+            "observed_for": pd.to_datetime(
+                ["2024-12-20", "2025-01-03", "2025-01-10", "2025-01-17", "2025-01-24"],
+                utc=True,
+            ),
+            "available_at": pd.to_datetime(
+                [
+                    "2024-12-27T15:30Z",
+                    "2025-01-09T15:30Z",
+                    "2025-01-16T15:30Z",
+                    "2025-01-23T15:30Z",
+                    "2025-01-30T15:30Z",
+                ]
+            ),
+            "availability_status": ["reconstructed_conservative"] * 5,
+            "revision_status": ["point_in_time"] * 5,
+            "source_id": ["eia_wngsr_vintage_reconstruction"] * 5,
+            "source_variant": ["original_plus_published_revisions"] * 5,
+            "history_raw_sha256": ["a" * 64] * 5,
+            "revisions_raw_sha256": ["b" * 64] * 5,
+            "signal": [1.0, 2.0, 3.0, 4.0, 5.0],
         }
     )
     result = audit_configured_exogenous_family(
@@ -147,17 +158,48 @@ def test_configured_storage_requires_wngsr_vintage_source_and_raw_lineage() -> N
     assert "configured_storage_source_identity_mismatch" in result.blockers
 
 
-def test_configured_power_uses_nyiso_issued_vintages_not_eia_revised_history() -> None:
+def test_configured_storage_rejects_internal_gap_beyond_max_staleness() -> None:
     from commodity.exogenous_audit import audit_configured_exogenous_family
 
     frame = pd.DataFrame(
         {
-            "observed_for": pd.to_datetime(["2025-01-01", "2025-01-31"], utc=True),
-            "issued_at": pd.to_datetime(["2024-12-31T12:00Z", "2025-01-30T12:00Z"]),
-            "available_at": pd.to_datetime(["2025-01-01T17:00Z", "2025-01-31T17:00Z"]),
-            "availability_status": ["reconstructed_conservative", "reconstructed_conservative"],
-            "revision_status": ["issued_run_immutable", "issued_run_immutable"],
+            "observed_for": pd.to_datetime(["2024-12-20", "2025-01-24"], utc=True),
+            "available_at": pd.to_datetime(
+                ["2024-12-27T15:30Z", "2025-01-30T15:30Z"], utc=True
+            ),
+            "availability_status": ["reconstructed_conservative"] * 2,
+            "revision_status": ["point_in_time"] * 2,
+            "source_id": ["eia_wngsr_vintage_reconstruction"] * 2,
+            "source_variant": ["original_plus_published_revisions"] * 2,
+            "history_raw_sha256": ["a" * 64] * 2,
+            "revisions_raw_sha256": ["b" * 64] * 2,
             "signal": [1.0, 2.0],
+        }
+    )
+    result = audit_configured_exogenous_family(
+        family="storage",
+        source_name="eia_storage",
+        frame=frame,
+        required_start="2025-01-01",
+        required_end="2025-01-31",
+    )
+    assert result.verdict == "not-fit"
+    assert result.full_v1_ready is False
+    assert "max_staleness_exceeded" in result.blockers
+
+
+def test_configured_power_uses_nyiso_issued_vintages_not_eia_revised_history() -> None:
+    from commodity.exogenous_audit import audit_configured_exogenous_family
+
+    available = pd.date_range("2025-01-01T17:00Z", "2025-01-31T17:00Z", freq="D")
+    frame = pd.DataFrame(
+        {
+            "observed_for": available.normalize(),
+            "issued_at": available - pd.Timedelta(days=1),
+            "available_at": available,
+            "availability_status": ["reconstructed_conservative"] * len(available),
+            "revision_status": ["issued_run_immutable"] * len(available),
+            "signal": range(len(available)),
         }
     )
     result = audit_configured_exogenous_family(
@@ -185,19 +227,73 @@ def test_configured_power_uses_nyiso_issued_vintages_not_eia_revised_history() -
         raise AssertionError("EIA-930 revised history must not satisfy the configured V1 power source")
 
 
+def test_configured_power_allows_25_hour_fall_dst_daily_spacing() -> None:
+    from commodity.exogenous_audit import audit_configured_exogenous_family
+
+    frame = pd.DataFrame(
+        {
+            "observed_for": pd.to_datetime(["2025-11-01", "2025-11-02"], utc=True),
+            "issued_at": pd.to_datetime(["2025-11-01T14:00Z", "2025-11-02T15:00Z"]),
+            "available_at": pd.to_datetime(["2025-11-01T16:00Z", "2025-11-02T17:00Z"]),
+            "availability_status": ["reconstructed_conservative"] * 2,
+            "revision_status": ["issued_run_immutable"] * 2,
+            "signal": [1.0, 2.0],
+        }
+    )
+    result = audit_configured_exogenous_family(
+        family="power",
+        source_name="nyiso_load_forecast",
+        evidence_source_id="nyiso_p7_iso_load_forecast",
+        frame=frame,
+        required_start="2025-11-01T16:00Z",
+        required_end="2025-11-02T17:00Z",
+    )
+    assert result.full_v1_ready is True
+    assert "max_staleness_exceeded" not in result.blockers
+
+
+def test_configured_power_rejects_missing_daily_issues() -> None:
+    from commodity.exogenous_audit import audit_configured_exogenous_family
+
+    frame = pd.DataFrame(
+        {
+            "observed_for": pd.to_datetime(["2025-01-01", "2025-01-04"], utc=True),
+            "issued_at": pd.to_datetime(["2024-12-31T17:00Z", "2025-01-03T17:00Z"]),
+            "available_at": pd.to_datetime(["2025-01-01T17:00Z", "2025-01-04T17:00Z"]),
+            "availability_status": ["reconstructed_conservative"] * 2,
+            "revision_status": ["issued_run_immutable"] * 2,
+            "signal": [1.0, 2.0],
+        }
+    )
+    result = audit_configured_exogenous_family(
+        family="power",
+        source_name="nyiso_load_forecast",
+        evidence_source_id="nyiso_p7_iso_load_forecast",
+        frame=frame,
+        required_start="2025-01-01T17:00Z",
+        required_end="2025-01-04T17:00Z",
+    )
+    assert result.full_v1_ready is False
+    assert "max_staleness_exceeded" in result.blockers
+
+
 def test_configured_positioning_requires_cftc_variant_and_raw_lineage() -> None:
     from commodity.exogenous_audit import audit_configured_exogenous_family
 
     frame = pd.DataFrame(
         {
-            "observed_for": pd.to_datetime(["2024-12-24", "2025-01-21"], utc=True),
-            "available_at": pd.to_datetime(["2025-01-01", "2025-01-28"], utc=True),
-            "availability_status": ["reconstructed_conservative"] * 2,
-            "revision_status": ["point_in_time"] * 2,
-            "source_id": ["cftc_disaggregated_futures_only_023651"] * 2,
-            "source_variant": ["disaggregated_futures_only"] * 2,
-            "source_raw_sha256": ["b" * 64] * 2,
-            "signal": [1.0, 2.0],
+            "observed_for": pd.to_datetime(
+                ["2024-12-24", "2025-01-07", "2025-01-21"], utc=True
+            ),
+            "available_at": pd.to_datetime(
+                ["2025-01-01", "2025-01-14", "2025-01-28"], utc=True
+            ),
+            "availability_status": ["reconstructed_conservative"] * 3,
+            "revision_status": ["point_in_time"] * 3,
+            "source_id": ["cftc_disaggregated_futures_only_023651"] * 3,
+            "source_variant": ["disaggregated_futures_only"] * 3,
+            "source_raw_sha256": ["b" * 64] * 3,
+            "signal": [1.0, 2.0, 3.0],
         }
     )
     result = audit_configured_exogenous_family(
@@ -262,3 +358,18 @@ def test_configured_weather_requires_v1_source_identity_and_raw_hash() -> None:
     )
     assert result.full_v1_ready is False
     assert "weather_raw_lineage_missing" in result.blockers
+
+
+def test_configured_weather_rejects_missing_daily_run() -> None:
+    from commodity.exogenous_audit import audit_configured_exogenous_family
+
+    frame = _research_frame("2025-01-01", periods=4).drop(index=1).reset_index(drop=True)
+    result = audit_configured_exogenous_family(
+        family="weather",
+        source_name="weather",
+        frame=frame,
+        required_start="2025-01-01T06:10Z",
+        required_end="2025-01-04T06:10Z",
+    )
+    assert result.full_v1_ready is False
+    assert "max_staleness_exceeded" in result.blockers
