@@ -319,6 +319,63 @@ def test_configured_positioning_requires_cftc_variant_and_raw_lineage() -> None:
     assert "positioning_source_variant_invalid" in result.blockers
 
 
+def test_configured_positioning_allows_declared_publication_hiatus() -> None:
+    from commodity.exogenous_audit import audit_configured_exogenous_family
+
+    frame = pd.DataFrame(
+        {
+            "observed_for": pd.to_datetime(["2025-09-23", "2025-09-30"], utc=True),
+            "available_at": pd.to_datetime(
+                ["2025-10-01T03:59Z", "2025-11-20T04:59Z"], utc=True
+            ),
+            "availability_status": ["reconstructed_conservative"] * 2,
+            "revision_status": ["point_in_time"] * 2,
+            "source_id": ["cftc_disaggregated_futures_only_023651"] * 2,
+            "source_variant": ["disaggregated_futures_only"] * 2,
+            "source_raw_sha256": ["b" * 64] * 2,
+            "signal": [1.0, 2.0],
+        }
+    )
+    result = audit_configured_exogenous_family(
+        family="positioning",
+        source_name="cftc_cot",
+        frame=frame,
+        required_start="2025-10-01T03:59Z",
+        required_end="2025-11-20T04:59Z",
+    )
+    assert result.full_v1_ready is True
+    assert "max_staleness_exceeded" not in result.blockers
+    assert "source_declared_publication_hiatus" in result.caveats
+
+
+def test_configured_positioning_rejects_unexplained_long_gap() -> None:
+    from commodity.exogenous_audit import audit_configured_exogenous_family
+
+    frame = pd.DataFrame(
+        {
+            "observed_for": pd.to_datetime(["2025-09-16", "2025-09-23"], utc=True),
+            "available_at": pd.to_datetime(
+                ["2025-10-01T03:59Z", "2025-11-20T04:59Z"], utc=True
+            ),
+            "availability_status": ["reconstructed_conservative"] * 2,
+            "revision_status": ["point_in_time"] * 2,
+            "source_id": ["cftc_disaggregated_futures_only_023651"] * 2,
+            "source_variant": ["disaggregated_futures_only"] * 2,
+            "source_raw_sha256": ["b" * 64] * 2,
+            "signal": [1.0, 2.0],
+        }
+    )
+    result = audit_configured_exogenous_family(
+        family="positioning",
+        source_name="cftc_cot",
+        frame=frame,
+        required_start="2025-10-01T03:59Z",
+        required_end="2025-11-20T04:59Z",
+    )
+    assert result.full_v1_ready is False
+    assert "max_staleness_exceeded" in result.blockers
+
+
 def test_required_family_audit_returns_all_four_families() -> None:
     from commodity.exogenous_audit import audit_required_exogenous_families
 

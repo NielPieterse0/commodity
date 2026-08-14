@@ -36,6 +36,8 @@ Preserved Databento `definition`, `statistics`, and `ohlcv-1d` DBN/Zstd files ca
 .\.venv\Scripts\python.exe -m commodity.cli capture-weather-v1-window --end <YYYY-MM-DD>
 .\.venv\Scripts\python.exe -m commodity.cli capture-cftc-v1-window --end <YYYY-MM-DD>
 .\.venv\Scripts\python.exe -m commodity.cli capture-wngsr-v1-window --end <YYYY-MM-DD>
+.\.venv\Scripts\python.exe -m commodity.cli capture-nyiso-v1-window --end <YYYY-MM-DD>
+.\.venv\Scripts\python.exe -m commodity.cli audit-v1-exogenous --end <YYYY-MM-DD>
 ```
 
 Verified 2026-08-13 capture metadata is recorded in `docs/development/us-v1-data-foundation/evidence.json`. That file intentionally records hashes/coverage only.
