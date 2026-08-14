@@ -430,3 +430,33 @@ def test_configured_weather_rejects_missing_daily_run() -> None:
     )
     assert result.full_v1_ready is False
     assert "max_staleness_exceeded" in result.blockers
+
+
+def test_configured_weather_allows_declared_issued_run_archive_gaps() -> None:
+    from commodity.exogenous_audit import audit_configured_exogenous_family
+
+    issued = pd.to_datetime(
+        ["2025-08-04T00:00Z", "2025-08-07T00:00Z", "2025-08-10T00:00Z"]
+    )
+    frame = pd.DataFrame(
+        {
+            "issued_at": issued,
+            "available_at": issued + pd.Timedelta(hours=6, minutes=10),
+            "availability_status": ["reconstructed_conservative"] * len(issued),
+            "revision_status": ["issued_run_immutable"] * len(issued),
+            "source_id": ["open_meteo_single_runs_v1"] * len(issued),
+            "source_raw_sha256": ["a" * 64] * len(issued),
+            "signal": range(len(issued)),
+        }
+    )
+    result = audit_configured_exogenous_family(
+        family="weather",
+        source_name="weather",
+        frame=frame,
+        required_start="2025-08-04T06:10Z",
+        required_end="2025-08-10T06:10Z",
+    )
+    assert result.full_v1_ready is True
+    assert result.verdict == "fit-with-caveats"
+    assert "max_staleness_exceeded" not in result.blockers
+    assert "source_declared_issued_run_archive_gap" in result.caveats

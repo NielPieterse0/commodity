@@ -196,3 +196,28 @@ def test_weather_v1_loader_requires_every_scheduled_manifest(tmp_path: Path) -> 
         assert "missing scheduled snapshot" in str(exc)
     else:
         raise AssertionError("Weather V1 loader must fail closed on a date gap")
+
+
+def test_weather_v1_window_allows_only_declared_archive_gaps(tmp_path: Path) -> None:
+    from commodity.config import data_config
+
+    cfg = data_config()["sources"]["weather"]
+
+    class Client:
+        def __init__(self):
+            self.calls = 0
+
+        def fetch(self, latitude, longitude, run, model, hourly, forecast_days):
+            self.calls += 1
+            return _payload(pd.Timestamp(run, tz="UTC"), 18.0)
+
+    client = Client()
+    manifests = capture_weather_v1_window(
+        client, "2025-08-04", "2025-08-10", tmp_path, "2026-08-14T22:00:00Z"
+    )
+    assert len(manifests) == 3
+    assert client.calls == 3 * len(cfg["v1_anchors"])
+    loaded = load_weather_v1_window(tmp_path, "2025-08-04", "2025-08-10")
+    assert list(loaded["issued_at"]) == list(
+        pd.to_datetime(["2025-08-04T00:00Z", "2025-08-07T00:00Z", "2025-08-10T00:00Z"])
+    )

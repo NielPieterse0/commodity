@@ -328,6 +328,13 @@
       "forbidden_substitute": "reanalysis_as_forecast",
       "accepted_source_ids": ["open_meteo_single_runs_v1"],
       "max_staleness_hours": 24,
+      "declared_issued_run_archive_gaps": [
+        "2025-08-05T00:00:00Z",
+        "2025-08-06T00:00:00Z",
+        "2025-08-08T00:00:00Z",
+        "2025-08-09T00:00:00Z"
+      ],
+      "declared_archive_gap_handling": "carry_forward_latest_actually_issued_forecast_pit_only",
       "v1_run_cycle_utc_hour": 0,
       "v1_forecast_days": 10,
       "v1_feature_lead_hours": [24, 192],
