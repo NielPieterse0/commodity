@@ -8,8 +8,13 @@ from typing import Any
 import numpy as np
 import pandas as pd
 
-from commodity.availability import asof_join_point_in_time
+from commodity.availability import asof_join_point_in_time, validate_availability
 from commodity.config import assumptions_config, data_config, experiment_config
+from commodity.exogenous_audit import (
+    REQUIRED_EXOGENOUS_FAMILIES,
+    audit_configured_exogenous_family,
+    exogenous_frame_sha256,
+)
 from commodity.features import build_market_features, make_supervised
 from commodity.market_data import (
     assert_canonical_market_ready,
@@ -30,6 +35,8 @@ class PitFeatureSource:
     frame: pd.DataFrame
     value_columns: tuple[str, ...]
     evidence_mode: str = "research_pit"
+    source_id: str | None = None
+    source_vintage: str | None = None
 
 
 def _required_families() -> tuple[str, ...]:
@@ -171,15 +178,19 @@ def _canonical_supervised_dataset(
     return dataset, lineage
 
 
-def _join_source(dataset: pd.DataFrame, source: PitFeatureSource) -> pd.DataFrame:
+def _join_source(
+    dataset: pd.DataFrame, source: PitFeatureSource
+) -> tuple[pd.DataFrame, dict[str, Any]]:
     if source.evidence_mode not in _PIT_MODES:
         raise ValueError(f"{source.evidence_mode} evidence is not eligible for a PIT dataset")
     if not source.value_columns:
         raise ValueError(f"PIT source {source.name!r} has no value columns")
+    validated = validate_availability(source.frame, source.evidence_mode)
+    input_rows = len(dataset)
     cutoffs = pd.DataFrame({"prediction_time": dataset.index})
     joined = asof_join_point_in_time(
         cutoffs,
-        source.frame,
+        validated,
         list(source.value_columns),
         mode=source.evidence_mode,
     )
@@ -188,7 +199,37 @@ def _join_source(dataset: pd.DataFrame, source: PitFeatureSource) -> pd.DataFram
         if column in out.columns:
             raise ValueError(f"Duplicate feature column from {source.name!r}: {column}")
         out[column] = joined[column].to_numpy()
-    return out.dropna(subset=list(source.value_columns))
+    out = out.dropna(subset=list(source.value_columns))
+    joined_rows = len(out)
+    available_at = pd.to_datetime(validated["available_at"], utc=True)
+    availability_bases = sorted(
+        validated.get("availability_basis", pd.Series(dtype=str))
+        .dropna()
+        .astype(str)
+        .unique()
+    )
+    lineage = {
+        "name": source.name,
+        "family": source.family,
+        "source_id": source.source_id or source.name,
+        "source_vintage": source.source_vintage,
+        "evidence_mode": source.evidence_mode,
+        "source_sha256": exogenous_frame_sha256(source.frame),
+        "source_rows": len(source.frame),
+        "input_rows": input_rows,
+        "joined_rows": joined_rows,
+        "unmatched_rows": input_rows - joined_rows,
+        "join_coverage_ratio": joined_rows / input_rows,
+        "value_columns": list(source.value_columns),
+        "available_start": available_at.min().isoformat(),
+        "available_end": available_at.max().isoformat(),
+        "availability_statuses": sorted(
+            validated["availability_status"].astype(str).unique()
+        ),
+        "availability_bases": availability_bases,
+        "revision_statuses": sorted(validated["revision_status"].astype(str).unique()),
+    }
+    return out, lineage
 
 
 def build_pit_dataset(
@@ -220,16 +261,57 @@ def build_pit_dataset(
         x, y = make_supervised(market)
         dataset = x.join(y.rename(TARGET_COLUMN))
 
+    if dataset.empty:
+        raise ValueError("PIT dataset has no market rows before exogenous joins")
+    required = tuple(required_families or _required_families())
+    base_start = dataset.index[0]
+    base_end = dataset.index[-1]
+    exogenous_lineage: list[dict[str, Any]] = []
+    family_audits: dict[str, list[Any]] = {}
     for source in exogenous:
         if evidence_mode == "canonical" and source.evidence_mode != "canonical":
             raise ValueError("Canonical dataset requires canonical exogenous evidence")
-        dataset = _join_source(dataset, source)
+        dataset, source_lineage = _join_source(dataset, source)
+        exogenous_lineage.append(source_lineage)
         families.add(source.family)
+        if source.family in REQUIRED_EXOGENOUS_FAMILIES:
+            audit = audit_configured_exogenous_family(
+                family=source.family,
+                frame=source.frame,
+                required_start=base_start,
+                required_end=base_end,
+                evidence_mode=source.evidence_mode,
+            )
+            family_audits.setdefault(source.family, []).append(audit)
 
-    required = tuple(required_families or _required_families())
     missing = sorted(set(required) - families)
     if require_full_v1 and missing:
         raise ValueError(f"Missing required V1 feature families: {missing}")
+    if require_full_v1:
+        required_exogenous = set(required) & set(REQUIRED_EXOGENOUS_FAMILIES)
+        missing_audits = sorted(required_exogenous - set(family_audits))
+        if missing_audits:
+            raise ValueError(
+                f"Missing full-V1 exogenous audits for families: {missing_audits}"
+            )
+        not_ready = {
+            family: tuple(
+                dict.fromkeys(
+                    blocker
+                    for audit in family_audits[family]
+                    if not audit.full_v1_ready
+                    for blocker in audit.blockers
+                )
+            )
+            for family in sorted(required_exogenous)
+            if any(not audit.full_v1_ready for audit in family_audits[family])
+        }
+        if not_ready:
+            details = "; ".join(
+                f"{family}: {','.join(blockers)}"
+                for family, blockers in not_ready.items()
+            )
+            raise ValueError(f"Full V1 exogenous evidence is not ready: {details}")
     if dataset.empty:
         raise ValueError("PIT dataset is empty after availability-safe joins")
 
@@ -241,7 +323,7 @@ def build_pit_dataset(
         "evidence_mode": evidence_mode,
         "market_input": market_input,
         "canonical_market_evidence": evidence_mode == "canonical",
-        "completeness": "full_v1" if not missing else "pit_core",
+        "completeness": "full_v1" if require_full_v1 and not missing else "pit_core",
         "required_feature_families": list(required),
         "included_feature_families": sorted(families),
         "missing_feature_families": missing,
@@ -254,6 +336,10 @@ def build_pit_dataset(
         "material_exclusions": [
             f"{family}: not included as PIT-admissible evidence" for family in missing
         ],
+        "exogenous_sources": exogenous_lineage,
+        "exogenous_family_audits": {
+            family: [item.to_dict() for item in audit] for family, audit in sorted(family_audits.items())
+        },
     }
     if market_structure_lineage is not None:
         manifest["market_structure"] = market_structure_lineage

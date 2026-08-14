@@ -86,6 +86,32 @@ def test_full_v1_requires_all_configured_families() -> None:
         )
 
 
+def test_full_v1_rejects_family_name_without_full_window_evidence() -> None:
+    from commodity.research_dataset import PitFeatureSource, build_pit_dataset
+
+    source = PitFeatureSource(
+        name="issued_weather",
+        family="weather",
+        frame=pd.DataFrame(
+            {
+                "issued_at": [pd.Timestamp("2025-03-01T00:00:00Z")],
+                "available_at": [pd.Timestamp("2025-03-01T06:10:00Z")],
+                "availability_status": ["reconstructed_conservative"],
+                "revision_status": ["issued_run_immutable"],
+                "weather_signal": [7.0],
+            }
+        ),
+        value_columns=("weather_signal",),
+    )
+    with pytest.raises(ValueError, match="weather.*coverage_incomplete"):
+        build_pit_dataset(
+            _market_frame(),
+            exogenous=[source],
+            required_families=("market", "calendar_seasonality", "weather"),
+            require_full_v1=True,
+        )
+
+
 def _canonical_contracts(n: int = 80) -> pd.DataFrame:
     dates = pd.date_range("2026-01-01", periods=n, freq="D", tz="UTC")
     rows: list[dict[str, object]] = []
@@ -274,4 +300,78 @@ def test_canonical_dataset_fails_closed_without_curve_volume_evidence(monkeypatc
     with pytest.raises(ValueError, match="complete M1-M4 market structure"):
         research_dataset.build_pit_dataset(
             None, evidence_mode="canonical", canonical_contracts=contracts
+        )
+
+
+def test_exogenous_manifest_binds_source_lineage_without_metadata_features() -> None:
+    from commodity.research_dataset import PitFeatureSource, build_pit_dataset
+
+    source_frame = pd.DataFrame(
+        {
+            "issued_at": [pd.Timestamp("2025-03-01T00:00:00Z")],
+            "available_at": [pd.Timestamp("2025-03-01T06:10:00Z")],
+            "availability_status": ["reconstructed_conservative"],
+            "revision_status": ["issued_run_immutable"],
+            "availability_basis": ["open_meteo_global_model_delay"],
+            "weather_signal": [7.0],
+        }
+    )
+    source = PitFeatureSource(
+        name="issued_weather",
+        family="weather",
+        frame=source_frame,
+        value_columns=("weather_signal",),
+        source_id="open_meteo_single_runs",
+        source_vintage="2025-03-01T00:00:00Z",
+    )
+    first, first_manifest = build_pit_dataset(_market_frame(), exogenous=[source])
+    second, second_manifest = build_pit_dataset(_market_frame(), exogenous=[source])
+    lineage = first_manifest["exogenous_sources"][0]
+    assert lineage["family"] == "weather"
+    assert lineage["source_id"] == "open_meteo_single_runs"
+    assert lineage["source_vintage"] == "2025-03-01T00:00:00Z"
+    assert lineage["availability_statuses"] == ["reconstructed_conservative"]
+    assert lineage["availability_bases"] == ["open_meteo_global_model_delay"]
+    assert lineage["revision_statuses"] == ["issued_run_immutable"]
+    assert lineage["input_rows"] > lineage["joined_rows"]
+    assert lineage["unmatched_rows"] == lineage["input_rows"] - lineage["joined_rows"]
+    assert 0.0 < lineage["join_coverage_ratio"] < 1.0
+    assert len(lineage["source_sha256"]) == 64
+    assert lineage == second_manifest["exogenous_sources"][0]
+    assert "availability_status" not in first.columns
+    assert "revision_status" not in first.columns
+    pd.testing.assert_frame_equal(first, second)
+
+
+def test_full_v1_keeps_all_audits_for_duplicate_required_family_sources() -> None:
+    from commodity.research_dataset import PitFeatureSource, build_pit_dataset
+
+    partial_times = pd.date_range("2025-02-01", "2025-03-21", freq="D", tz="UTC")
+    full_times = pd.date_range("2025-01-20", "2025-03-21", freq="D", tz="UTC")
+
+    def source(name: str, column: str, times: pd.DatetimeIndex) -> PitFeatureSource:
+        return PitFeatureSource(
+            name=name,
+            family="weather",
+            frame=pd.DataFrame(
+                {
+                    "issued_at": times,
+                    "available_at": times,
+                    "availability_status": "verified",
+                    "revision_status": "issued_run_immutable",
+                    column: 1.0,
+                }
+            ),
+            value_columns=(column,),
+        )
+
+    with pytest.raises(ValueError, match="weather.*coverage_incomplete"):
+        build_pit_dataset(
+            _market_frame(),
+            exogenous=[
+                source("weather_partial", "weather_partial", partial_times),
+                source("weather_full", "weather_full", full_times),
+            ],
+            required_families=("market", "calendar_seasonality", "weather"),
+            require_full_v1=True,
         )

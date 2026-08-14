@@ -219,3 +219,26 @@ def test_agents_md_requires_kis_change_flow() -> None:
     assert "KIS owns repository-change effect classification" in agents
     assert "currently advertised KIS change workflow" in agents
     assert "default-branch change remains subject to KIS exact-change verification" in agents
+
+
+def test_phase_b_evidence_classifies_all_required_exogenous_families() -> None:
+    evidence = load_json(
+        ROOT
+        / "docs"
+        / "development"
+        / "v1-research-completion"
+        / "phase-b-evidence.json"
+    )
+    assert evidence["schema_version"] == 1
+    assert evidence["phase"] == "B"
+    assert evidence["full_v1_ready"] is False
+    assert tuple(evidence["families"]) == (
+        "storage",
+        "weather",
+        "power",
+        "positioning",
+    )
+    for family, result in evidence["families"].items():
+        assert result["family"] == family
+        assert result["verdict"] in {"fit", "fit-with-caveats", "not-fit"}
+        assert result["blockers"] or result["full_v1_ready"]
