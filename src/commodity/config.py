@@ -1,15 +1,29 @@
 from __future__ import annotations
 
 import json
+import os
+import sysconfig
 from pathlib import Path
 from typing import Any
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
-CONFIG_DIR = REPO_ROOT / "config"
+SOURCE_CONFIG_DIR = REPO_ROOT / "config"
+INSTALLED_CONFIG_DIR = (
+    Path(sysconfig.get_path("data")) / "share" / "commodity-research" / "config"
+)
+
+
+def _config_dir() -> Path:
+    override = os.environ.get("COMMODITY_CONFIG_DIR")
+    candidates = [Path(override)] if override else [SOURCE_CONFIG_DIR, INSTALLED_CONFIG_DIR]
+    for path in candidates:
+        if path.is_dir():
+            return path
+    raise FileNotFoundError(f"Commodity config directory not found; checked: {candidates}")
 
 
 def load_json(name: str) -> dict[str, Any]:
-    path = CONFIG_DIR / name
+    path = _config_dir() / name
     with path.open("r", encoding="utf-8") as handle:
         return json.load(handle)
 

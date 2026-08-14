@@ -39,7 +39,8 @@ Verified 2026-08-13 capture metadata is recorded in `docs/development/us-v1-data
 
 ```powershell
 python -m venv .venv
-.\.venv\Scripts\python.exe -m pip install -e ".[dev,market]"
+.\.venv\Scripts\python.exe -m pip install -r requirements.lock.txt
+.\.venv\Scripts\python.exe -m pip install -e . --no-deps
 .\.venv\Scripts\python.exe -m commodity.cli fetch-market --end <YYYY-MM-DD>
 .\.venv\Scripts\python.exe -m commodity.cli fetch-canonical-market --start <YYYY-MM-DD> --end <YYYY-MM-DD>
 .\.venv\Scripts\python.exe -m commodity.cli freeze-v1-dataset

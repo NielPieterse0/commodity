@@ -51,7 +51,7 @@
       "role": "canonical_futures_candidate",
       "max_auto_cost_usd": 1.0,
       "max_auto_records": 50000,
-      "account_probe_status": "blocked_runtime_network_boundary"
+      "account_probe_status": "full_history_acquired_quarantined"
     }
   },
   "canonical_contract_schema": {
@@ -82,6 +82,9 @@
     "market_canonical": {
       "provider": "massive_futures",
       "product_code": "NG",
+      "exchange": "NYMEX",
+      "session_timezone": "America/New_York",
+      "calendar": "CME_NYMEX",
       "status": "history_and_roll_validated_licensing_blocked",
       "purpose": "expiry-aware NYMEX NG per-contract settlement/OHLCV history",
       "preservation_status": "resumable_snapshot_capture_ready",
@@ -98,6 +101,13 @@
       "account_history_validated": true,
       "history_earliest_verified_trade_date": "2024-08-13",
       "history_validated_at_utc": "2026-08-12T20:05:00Z",
+      "historical_availability_status": "reconstructed_conservative",
+      "availability_policy": {
+        "method": "trade_date_2359_utc",
+        "status": "reconstructed_conservative",
+        "timezone": "UTC",
+        "basis": "CME Henry Hub settlement closes at 14:30 America/New_York and the electronic trading day pauses at 17:00 America/New_York; 23:59 UTC on the trade date is later than both across U.S. DST and is used as a conservative historical availability bound"
+      },
       "non_display_backtesting_rights_verified": false,
       "redistribution_allowed": false,
       "account_validation_manifest": "docs/development/canonical-roll-policy-and-history-validation/account-validation.json"
@@ -238,8 +248,13 @@
     },
     "databento_henry_hub_probe": {
       "provider": "databento_futures",
-      "status": "adapter_ready_live_account_probe_blocked",
+      "status": "acquired_quarantined_integrity_incomplete",
       "purpose": "bounded evaluation of CME NG official settlement/statistics and deeper contract history",
+      "acquisition_governance_status": "quarantined_pre_governance_acquisition",
+      "integrity_status": "incomplete",
+      "integrity_verified_complete_through": "2018-12-31",
+      "paid_reacquisition_approved": false,
+      "quarantine_evidence": "docs/development/databento-full-history-acquisition/evidence.json",
       "dataset": "GLBX.MDP3",
       "product_code": "NG",
       "canonical_market_source": false,

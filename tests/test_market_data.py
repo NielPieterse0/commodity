@@ -142,6 +142,16 @@ def test_canonical_evidence_passes_when_all_prerequisites_are_verified() -> None
     assert_canonical_market_ready(data, assumptions)
 
 
+def test_canonical_readiness_does_not_duplicate_owned_policy_parameter_values() -> None:
+    data, assumptions = _ready_configs()
+    assumptions["assumptions"]["continuous_series_policy"]["policy"][
+        "confirmation_sessions"
+    ] = 3
+    report = canonical_market_readiness(data, assumptions)
+    assert report["roll_method_ready"] is True
+    assert report["canonical_evidence_allowed"] is True
+
+
 def test_contract_rank_windows_bound_each_contract_to_rank_membership() -> None:
     contracts = [
         {"ticker": "NGF5", "first_trade_date": "2024-01-01", "last_trade_date": "2025-01-29"},
@@ -190,3 +200,77 @@ def test_canonical_readiness_messages_are_provider_neutral() -> None:
     data["sources"]["market_canonical"]["non_display_backtesting_rights_verified"] = False
     report = canonical_market_readiness(data, assumptions)
     assert all("Massive" not in reason for reason in report["reasons"])
+
+
+def test_market_structure_excludes_quotes_after_prediction_cutoff() -> None:
+    from commodity import market_data
+
+    frame = pd.DataFrame([
+        {"trade_date": "2026-01-20", "contract_id": "NGG26", "expiration": "2026-01-28", "settle": 3.10, "volume": 100, "available_at": "2026-01-20T21:00:00Z"},
+        {"trade_date": "2026-01-20", "contract_id": "NGH26", "expiration": "2026-02-25", "settle": 3.20, "volume": 80, "available_at": "2026-01-20T23:00:00Z"},
+    ])
+    cutoffs = pd.DataFrame({
+        "trade_date": [pd.Timestamp("2026-01-20", tz="UTC")],
+        "prediction_time": [pd.Timestamp("2026-01-20T22:00:00Z")],
+    })
+    features, audit = market_data.build_market_structure_features(
+        frame, _schema(), cutoffs, max_contracts=2
+    )
+    row = features.iloc[0]
+    assert row["curve_settle_m1"] == pytest.approx(3.10)
+    assert pd.isna(row["curve_settle_m2"])
+    assert audit.iloc[0]["contract_id_m2"] == "NGH26"
+    assert bool(audit.iloc[0]["quote_available_m2"]) is False
+
+
+def test_market_structure_derives_ranked_curve_features_deterministically() -> None:
+    from commodity import market_data
+
+    rows = [
+        {"trade_date": "2026-01-20", "contract_id": "NGG26", "expiration": "2026-01-28", "settle": 3.10, "volume": 100, "available_at": "2026-01-20T21:00:00Z"},
+        {"trade_date": "2026-01-20", "contract_id": "NGH26", "expiration": "2026-02-25", "settle": 3.20, "volume": 80, "available_at": "2026-01-20T21:00:00Z"},
+        {"trade_date": "2026-01-20", "contract_id": "NGJ26", "expiration": "2026-03-27", "settle": 3.35, "volume": 60, "available_at": "2026-01-20T21:00:00Z"},
+        {"trade_date": "2026-01-20", "contract_id": "NGK26", "expiration": "2026-04-28", "settle": 3.55, "volume": 50, "available_at": "2026-01-20T21:00:00Z"},
+    ]
+    cutoffs = pd.DataFrame({"trade_date": ["2026-01-20"], "prediction_time": ["2026-01-20T22:00:00Z"]})
+    first, first_audit = market_data.build_market_structure_features(pd.DataFrame(rows), _schema(), cutoffs)
+    second, second_audit = market_data.build_market_structure_features(pd.DataFrame(rows), _schema(), cutoffs)
+    pd.testing.assert_frame_equal(first, second)
+    pd.testing.assert_frame_equal(first_audit, second_audit)
+    row = first.iloc[0]
+    assert row["curve_spread_m1_m2"] == pytest.approx(-0.10)
+    assert row["curve_volume_ratio_m1_m2"] == pytest.approx(1.25)
+    assert row["curve_slope_m1_m4"] > 0
+
+
+def test_canonical_market_availability_reconstructs_conservative_bound() -> None:
+    from commodity.market_data import ensure_canonical_market_availability
+
+    frame = _contracts()
+    policy = {
+        "method": "trade_date_2359_utc",
+        "status": "reconstructed_conservative",
+    }
+    result = ensure_canonical_market_availability(frame, policy)
+    assert result.loc[0, "available_at"] == pd.Timestamp("2026-01-20T23:59:00Z")
+    assert result["availability_status"].eq("reconstructed_conservative").all()
+
+
+def test_canonical_market_availability_preserves_exact_source_timestamp() -> None:
+    from commodity.market_data import ensure_canonical_market_availability
+
+    frame = _contracts()
+    frame["available_at"] = pd.Timestamp("2026-01-20T21:17:00Z")
+    result = ensure_canonical_market_availability(frame, {})
+    assert result["available_at"].eq(pd.Timestamp("2026-01-20T21:17:00Z")).all()
+    assert result["availability_status"].eq("source_timestamp").all()
+
+
+def test_canonical_market_availability_preserves_existing_status() -> None:
+    from commodity.market_data import ensure_canonical_market_availability
+
+    frame = _contracts()
+    frame["available_at"] = pd.Timestamp("2026-01-20T23:59:00Z")
+    frame["availability_status"] = "reconstructed_conservative"
+    result = ensure_canonical_market_availability(frame, {})
+    assert result["availability_status"].eq("reconstructed_conservative").all()

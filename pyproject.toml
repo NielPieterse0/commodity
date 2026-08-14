@@ -25,6 +25,9 @@ commodity = "commodity.cli:main"
 [tool.setuptools.packages.find]
 where = ["src"]
 
+[tool.setuptools.data-files]
+"share/commodity-research/config" = ["config/*.json"]
+
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 

@@ -7,6 +7,13 @@
   "execution": {
     "live_trading_allowed": false,
     "model_may_submit_orders": false,
+    "human_live_approval": {
+      "required": true,
+      "status": "not_approved",
+      "approved_by": null,
+      "approved_at_utc": null,
+      "decision_id": null
+    },
     "allowed_modes": ["offline", "simulation", "paper"],
     "approved_brokers": [],
     "candidate_brokers": ["saxo_openapi_sim"]

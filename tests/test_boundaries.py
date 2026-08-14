@@ -27,6 +27,16 @@ def test_live_execution_permission_is_owned_by_policy_config(monkeypatch) -> Non
         assert_execution_mode("live")
 
     cfg["execution"]["live_trading_allowed"] = True
+    with pytest.raises(PolicyViolation, match="human approval"):
+        assert_execution_mode("live")
+
+    cfg["execution"]["human_live_approval"] = {
+        "required": True,
+        "status": "approved",
+        "approved_by": "test-human",
+        "approved_at_utc": "2026-08-13T20:00:00+00:00",
+        "decision_id": "test-decision",
+    }
     assert_execution_mode("live")
 
 

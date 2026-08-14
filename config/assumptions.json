@@ -36,7 +36,7 @@
     },
     "canonical_market_provider": {
       "status": "active_assumption",
-      "statement": "Massive Futures remains configured for canonical expiry-aware NG contract settlement/OHLCV ingestion; Databento is now a bounded provider-evaluation candidate. No provider switch or canonical backtest promotion occurs until account-specific Databento entitlement/range/cost evidence and provider licensing rights are resolved.",
+      "statement": "Massive Futures remains configured for canonical expiry-aware NG contract settlement/OHLCV ingestion. The existing paid Databento full-history acquisition is quarantined for integrity/governance review and must not be reacquired or promoted to canonical backtest evidence without a new explicit approval and resolved licensing/integrity evidence.",
       "excluded_for_now": [],
       "review_trigger": "The Databento account probe completes, Massive or Databento licensing/history/cost evidence changes, or another materially better provider is identified."
     },
