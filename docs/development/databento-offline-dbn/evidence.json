@@ -21,11 +21,19 @@
     "ohlcv_1d_sha256": "ef38122d33d1f9a183f82a3a9e1154e8c32df9acc76fdcbf1ff9cbb1323a2bb9",
     "ohlcv_1d_bytes": 540961,
     "ohlcv_1d_rows": 37062,
-    "canonical_bundle_sha256": "dc65cb29e1f425504ac503f4668ef1538e9e42570545fe1f0746611e769f8d0a",
+    "canonical_bundle_sha256": "c91e0df271c20edbe9e4c607b8b895679b11682e30693311629a126b288efacd",
     "canonical_rows": 4430,
     "canonical_contracts": 157,
     "canonical_trade_date_start": "2015-11-11",
-    "canonical_trade_date_end": "2015-12-30"
+    "canonical_trade_date_end": "2015-12-30",
+    "legacy_raw_artifact_bundle_sha256": "dc65cb29e1f425504ac503f4668ef1538e9e42570545fe1f0746611e769f8d0a",
+    "canonical_bundle_hash_scope": "schema + source_file + source_sha256 + provider_job_id + provider_metadata_sha256",
+    "post_hardening_rerun": {
+      "decoder_head_sha": "ab62069cf880a023669a58d597b593ba7cc05e78",
+      "raw_artifact_hashes_unchanged": true,
+      "semantic_counts_unchanged": true,
+      "bundle_hash_change_reason": "provenance hardening adds provider job IDs and metadata hashes; the legacy bundle hashed only schema, source file, and raw source SHA-256"
+    }
   },
   "result": {
     "offline_decode_validated": true,
@@ -56,6 +64,15 @@
     "full_repository_tests": "260 passed",
     "ruff": "passed",
     "json_files_parsed": 26,
-    "git_diff_check": "passed"
+    "git_diff_check": "passed",
+    "exact_head_ci": {
+      "pull_request": 56,
+      "head_sha": "ab62069cf880a023669a58d597b593ba7cc05e78",
+      "job_id": 94834176704,
+      "tests": "260 passed",
+      "ruff": "passed",
+      "git_diff_check": "passed"
+    },
+    "final_change_review": "zero material findings"
   }
 }
