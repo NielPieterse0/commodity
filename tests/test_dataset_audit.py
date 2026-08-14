@@ -201,3 +201,39 @@ def test_audit_rejects_non_numeric_feature_columns() -> None:
     result = audit_full_v1_dataset(frame, manifest)
     assert result.verdict == "not-fit"
     assert "non_numeric_columns" in result.blockers
+
+
+def test_evaluation_full_v1_is_fit_with_explicit_nonpromotion_caveat() -> None:
+    from commodity.dataset_audit import audit_full_v1_dataset
+
+    frame, manifest = _fixture()
+    manifest.update(
+        {
+            "evidence_mode": "evaluation_pit",
+            "canonical_market_evidence": False,
+            "market_evaluation_evidence": True,
+            "research_evaluation_eligible": True,
+            "research_promotion_eligible": False,
+        }
+    )
+    result = audit_full_v1_dataset(frame, manifest)
+    assert result.verdict == "fit-with-caveats"
+    assert "evaluation_only_market_evidence" in result.caveats
+    assert result.blockers == ()
+
+
+def test_evaluation_full_v1_rejects_promotion_claim() -> None:
+    from commodity.dataset_audit import audit_full_v1_dataset
+
+    frame, manifest = _fixture()
+    manifest.update(
+        {
+            "evidence_mode": "evaluation_pit",
+            "canonical_market_evidence": True,
+            "market_evaluation_evidence": True,
+            "research_promotion_eligible": True,
+        }
+    )
+    result = audit_full_v1_dataset(frame, manifest)
+    assert result.verdict == "not-fit"
+    assert "evaluation_mode_claims_promotable_evidence" in result.blockers

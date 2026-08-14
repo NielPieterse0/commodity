@@ -402,7 +402,12 @@ def _run_tournament(args: argparse.Namespace) -> None:
         "dataset_manifest_sha256": sha256_file(manifest_path),
         "dataset_completeness": dataset_manifest.get("completeness"),
         "missing_feature_families": dataset_manifest.get("missing_feature_families", []),
-        "research_promotion_eligible": dataset_manifest.get("completeness") == "full_v1",
+        "evidence_mode": dataset_manifest.get("evidence_mode"),
+        "canonical_market_evidence": dataset_manifest.get("canonical_market_evidence") is True,
+        "research_evaluation_eligible": (
+            dataset_manifest.get("research_evaluation_eligible") is True
+        ),
+        "research_promotion_eligible": dataset_manifest.get("research_promotion_eligible") is True,
         "primary_metric": tournament_cfg["primary_metric"],
         "split_strategy": tournament_cfg["split_strategy"],
         "models": names,
