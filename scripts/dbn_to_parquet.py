@@ -35,6 +35,39 @@ def _rows_sha256(frame: pd.DataFrame) -> str:
     return hashlib.sha256(payload).hexdigest()
 
 
+_ARROW_TYPES = {
+    "trade_date": pa.timestamp("ns", tz="UTC"),
+    "contract_id": pa.string(),
+    "expiration": pa.timestamp("ns", tz="UTC"),
+    "settle": pa.float64(),
+    "open": pa.float64(),
+    "high": pa.float64(),
+    "low": pa.float64(),
+    "close": pa.float64(),
+    "volume": pa.float64(),
+    "open_interest": pa.float64(),
+    "available_at": pa.timestamp("ns", tz="UTC"),
+}
+
+
+def _canonical_arrow_table(frame: pd.DataFrame, schema: dict[str, Any]) -> pa.Table:
+    ordered = [
+        column
+        for column in schema["required_columns"] + schema.get("optional_columns", [])
+        if column in frame.columns
+    ]
+    unknown = sorted(set(frame.columns) - set(ordered))
+    if unknown:
+        raise ValueError(f"Unsupported canonical Parquet columns: {unknown}")
+    arrow_schema = pa.schema([(column, _ARROW_TYPES[column]) for column in ordered])
+    return pa.Table.from_pandas(
+        frame.loc[:, ordered],
+        schema=arrow_schema,
+        preserve_index=False,
+        safe=True,
+    ).replace_schema_metadata(None)
+
+
 def convert_dbn_to_parquet(
     definition_path: Path,
     statistics_path: Path,
@@ -45,17 +78,19 @@ def convert_dbn_to_parquet(
     retrieved_at: str,
     dataset: str = DATABENTO_DATASET,
 ) -> dict[str, Any]:
+    contract_schema = data_config()["canonical_contract_schema"]
     frame, metadata = canonicalize_databento_dbn_history(
         definition_path,
         statistics_path,
-        schema=data_config()["canonical_contract_schema"],
+        schema=contract_schema,
         product_code=product_code,
         retrieved_at=retrieved_at,
         dataset=dataset,
     )
     output_path.parent.mkdir(parents=True, exist_ok=True)
     metadata_path.parent.mkdir(parents=True, exist_ok=True)
-    table = pa.Table.from_pandas(frame, preserve_index=False).replace_schema_metadata(None)
+    table = _canonical_arrow_table(frame, contract_schema)
+    frame = frame.loc[:, table.column_names]
     pq.write_table(
         table,
         output_path,

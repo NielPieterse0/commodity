@@ -44,7 +44,7 @@
     "available_at"
   ],
   "dataset": "GLBX.MDP3",
-  "parquet_sha256": "6d0d952e07e0630604506672d409b40a6576d33a0dc48a02c5bb302dd6d7b5cf",
+  "parquet_sha256": "4ebccb9bb1050d4e241fa6c47a3fea7a25756b05b06c37cefa3f3c6d835fcec9",
   "product_code": "NG",
   "retrieved_at": "2026-08-14T12:00:00Z",
   "rows": 1,

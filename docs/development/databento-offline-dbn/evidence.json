@@ -45,10 +45,11 @@
       "available_at"
     ],
     "rows_sha256": "71e6558c9bc4cc312e5c257d013c0bc36fc3f5a141ac0472b88a32595b622698",
-    "parquet_sha256": "6d0d952e07e0630604506672d409b40a6576d33a0dc48a02c5bb302dd6d7b5cf",
+    "parquet_sha256": "4ebccb9bb1050d4e241fa6c47a3fea7a25756b05b06c37cefa3f3c6d835fcec9",
     "definition_sha256": "9465acec796ba4ded6c1bf1554e470a3d0d6fea3fc8092f704df67d8dd9badc8",
     "statistics_sha256": "5b06345658e7955bd81d4edbc548fe8b68aea66ebe40820457ddc4b7e109815e",
-    "repeatability": "two independent conversions byte-identical in focused test"
+    "repeatability": "two independent conversions byte-identical in focused test",
+    "arrow_schema": "explicit canonical types; UTC timestamps stored as timestamp[ns]"
   },
   "verification": {
     "focused_tests": "24 passed",
