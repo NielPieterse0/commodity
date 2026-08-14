@@ -41,3 +41,15 @@ def test_capture_weather_v1_window_parser_is_date_bounded() -> None:
     assert args.end == "2026-08-12"
     assert not hasattr(args, "run")
     assert not hasattr(args, "latitude")
+
+
+
+def test_capture_cftc_v1_window_parser_is_date_bounded() -> None:
+    args = build_parser().parse_args([
+        "capture-cftc-v1-window",
+        "--end",
+        "2026-08-12",
+    ])
+    assert args.start == "2024-08-13"
+    assert args.end == "2026-08-12"
+    assert not hasattr(args, "year")

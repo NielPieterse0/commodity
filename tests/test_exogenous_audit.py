@@ -169,15 +169,18 @@ def test_configured_power_uses_nyiso_issued_vintages_not_eia_revised_history() -
         raise AssertionError("EIA-930 revised history must not satisfy the configured V1 power source")
 
 
-def test_configured_positioning_requires_completed_release_calendar() -> None:
+def test_configured_positioning_requires_cftc_variant_and_raw_lineage() -> None:
     from commodity.exogenous_audit import audit_configured_exogenous_family
 
     frame = pd.DataFrame(
         {
-            "observed_for": pd.to_datetime(["2025-01-01", "2025-01-31"], utc=True),
-            "available_at": pd.to_datetime(["2025-01-03", "2025-02-01"], utc=True),
-            "availability_status": ["verified", "verified"],
-            "revision_status": ["point_in_time", "point_in_time"],
+            "observed_for": pd.to_datetime(["2024-12-24", "2025-01-21"], utc=True),
+            "available_at": pd.to_datetime(["2025-01-01", "2025-01-28"], utc=True),
+            "availability_status": ["reconstructed_conservative"] * 2,
+            "revision_status": ["point_in_time"] * 2,
+            "source_id": ["cftc_disaggregated_futures_only_023651"] * 2,
+            "source_variant": ["disaggregated_futures_only"] * 2,
+            "source_raw_sha256": ["b" * 64] * 2,
             "signal": [1.0, 2.0],
         }
     )
@@ -188,8 +191,20 @@ def test_configured_positioning_requires_completed_release_calendar() -> None:
         required_start="2025-01-01",
         required_end="2025-01-31",
     )
-    assert result.verdict == "not-fit"
-    assert "historical_release_calendar_incomplete" in result.blockers
+    assert result.verdict == "fit-with-caveats"
+    assert result.full_v1_ready is True
+    assert "bounded_forward_fill" in result.caveats
+
+    wrong_variant = frame.assign(source_variant="futures_and_options_combined")
+    result = audit_configured_exogenous_family(
+        family="positioning",
+        source_name="cftc_cot",
+        frame=wrong_variant,
+        required_start="2025-01-01",
+        required_end="2025-01-31",
+    )
+    assert result.full_v1_ready is False
+    assert "positioning_source_variant_invalid" in result.blockers
 
 
 def test_required_family_audit_returns_all_four_families() -> None:

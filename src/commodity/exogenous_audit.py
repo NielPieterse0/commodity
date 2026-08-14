@@ -176,9 +176,11 @@ def _configured_policy_blockers(
         if evidence_source_id not in accepted_source_ids:
             return ("configured_weather_source_identity_mismatch",)
     if family == "positioning":
-        status = str(source_cfg.get("availability_reconstruction_status", ""))
-        if "incomplete" in status or "pending" in status:
-            return ("historical_release_calendar_incomplete",)
+        if not policy.get("research_pit_allowed", False):
+            return ("configured_positioning_source_not_research_pit_admissible",)
+        accepted_source_ids = set(source_cfg.get("accepted_source_ids", ()))
+        if evidence_source_id not in accepted_source_ids:
+            return ("configured_positioning_source_identity_mismatch",)
     return ()
 
 
@@ -218,6 +220,29 @@ def audit_configured_exogenous_family(
         required_end=required_end,
         evidence_mode=evidence_mode,
     )
+    max_staleness_days = source_cfg.get("max_staleness_days")
+    if (
+        max_staleness_days is not None
+        and frame is not None
+        and not frame.empty
+        and "coverage_incomplete" in result.blockers
+    ):
+        coverage = _coverage_series(frame)
+        start_ts = _utc(required_start)
+        end_ts = _utc(required_end)
+        coverage_start = coverage.min()
+        coverage_end = coverage.max()
+        bounded_end = coverage_end + pd.Timedelta(days=int(max_staleness_days))
+        if coverage_start <= start_ts and coverage_end <= end_ts <= bounded_end:
+            blockers = tuple(item for item in result.blockers if item != "coverage_incomplete")
+            caveats = tuple(dict.fromkeys((*result.caveats, "bounded_forward_fill")))
+            result = replace(
+                result,
+                verdict="fit-with-caveats" if not blockers else "not-fit",
+                full_v1_ready=not blockers,
+                blockers=blockers,
+                caveats=caveats,
+            )
     policy_blockers = _configured_policy_blockers(
         family,
         source_cfg,
@@ -237,6 +262,18 @@ def audit_configured_exogenous_family(
             hashes = frame["source_raw_sha256"].astype(str)
             if not hashes.str.fullmatch(r"[0-9a-f]{64}").all():
                 blockers.append("weather_raw_lineage_invalid")
+        lineage_blockers = tuple(blockers)
+    if family == "positioning" and frame is not None and not frame.empty:
+        blockers = []
+        expected_variant = str(source_cfg.get("source_variant", ""))
+        if "source_variant" not in frame.columns:
+            blockers.append("positioning_source_variant_missing")
+        elif not frame["source_variant"].astype(str).eq(expected_variant).all():
+            blockers.append("positioning_source_variant_invalid")
+        if "source_raw_sha256" not in frame.columns:
+            blockers.append("positioning_raw_lineage_missing")
+        elif not frame["source_raw_sha256"].astype(str).str.fullmatch(r"[0-9a-f]{64}").all():
+            blockers.append("positioning_raw_lineage_invalid")
         lineage_blockers = tuple(blockers)
     policy_blockers = tuple(dict.fromkeys((*policy_blockers, *lineage_blockers)))
     if not policy_blockers:
