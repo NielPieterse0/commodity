@@ -221,6 +221,19 @@ def validate_availability(frame: pd.DataFrame, mode: str) -> pd.DataFrame:
     )
     out = frame.copy()
     out["available_at"] = pd.to_datetime(out["available_at"], utc=True, errors="coerce")
+    if "issued_at" in out.columns:
+        issued_raw = out["issued_at"]
+        issued_at = pd.to_datetime(issued_raw, utc=True, errors="coerce")
+        invalid_issue_time = issued_raw.notna() & (
+            issued_at.isna() | (out["available_at"] < issued_at)
+        )
+        if invalid_issue_time.any():
+            bad_rows = list(out.index[invalid_issue_time][:10])
+            raise ValueError(
+                "Availability rows have invalid issued_at ordering: "
+                f"row indices {bad_rows}"
+            )
+        out["issued_at"] = issued_at
     allowed_availability = _ALLOWED_AVAILABILITY[mode]
     allowed_revisions = _ALLOWED_REVISIONS[mode]
     invalid = (

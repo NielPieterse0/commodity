@@ -283,3 +283,17 @@ def test_asof_join_requires_group_key_for_multi_series_source() -> None:
         asof_join_point_in_time(
             cutoffs, exogenous, ["power_signal"], mode="research_pit"
         )
+
+
+def test_validate_availability_requires_causal_issue_order() -> None:
+    issued = pd.Timestamp("2026-01-01T12:00:00Z")
+    frame = pd.DataFrame(
+        {
+            "issued_at": [issued],
+            "available_at": [issued - pd.Timedelta(minutes=1)],
+            "availability_status": ["verified"],
+            "revision_status": ["issued_run_immutable"],
+        }
+    )
+    with pytest.raises(ValueError, match="issued_at"):
+        validate_availability(frame, "research_pit")
