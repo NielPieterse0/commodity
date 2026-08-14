@@ -35,3 +35,16 @@ def test_nyiso_v1_recipes_cover_exact_required_months() -> None:
         assert recipe["request"]["url"] == (
             f"https://mis.nyiso.com/public/csv/isolf/{ym}01isolf_csv.zip"
         )
+
+
+def test_weather_v1_bundle_recipe_uses_one_bounded_multi_anchor_request() -> None:
+    recipe = _recipe("commodity-open-meteo-ecmwf-v1-bundle")
+    query = recipe["request"]["query"]
+    assert query["latitude"] == {
+        "literal": "41.8781,40.7128,33.749,29.7604"
+    }
+    assert query["longitude"] == {
+        "literal": "-87.6298,-74.006,-84.388,-95.3698"
+    }
+    assert query["run"] == {"parameter": "run"}
+    assert set(recipe["parameters"]) == {"run"}
