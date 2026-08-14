@@ -12,7 +12,7 @@ Adopt the repository development-controller skills, select Massive Futures as th
 ## Requirements
 
 - **R1 — Startup controller:** Every repository work run MUST load one primary controller before repository work: `develop-code` for code/config/schema/test/mixed work, or `develop-docs` for documentation-only work. Mixed or uncertain work defaults to `develop-code`.
-- **R2 — Local skill ownership:** Complete repo-local copies of `develop-code` and `develop-docs`, including their assets and references, MUST live under `.agents/skills/` and be discoverable from `AGENTS.md`.
+- **R2 — Canonical skill ownership (superseded 2026-08-14):** `develop-code` and `develop-docs` MUST be resolved and loaded by logical ID through the KIS MCP skills module. Repository-local skill copies are prohibited; `AGENTS.md` owns the current invocation rule.
 - **R3 — Isolation and landing:** Development MUST use an ignored `.work/` worktree on a non-default branch, then normal commit/push/PR flow. PR landing remains subject to the repository/PR-completion approval gate.
 - **R4 — Canonical source selection:** Massive Futures REST is the selected expiry-aware per-contract price/settlement source for the next canonical slice. Databento remains excluded for now.
 - **R5 — Provider adapter:** The adapter MUST use `MASSIVE_API_KEY` from the environment, never log it, paginate provider responses safely, distinguish outright NG contracts from combinations, and fetch session aggregates per contract.
@@ -20,7 +20,7 @@ Adopt the repository development-controller skills, select Massive Futures as th
 - **R7 — Capability truth:** Massive historical aggregates MUST NOT be represented as providing historical per-contract open interest unless the provider exposes and the adapter ingests it. The current documented capability is settlement + OHLCV, not historical OI.
 - **R8 — Evidence gate:** Canonical evidence MUST remain blocked while the continuous-series default roll policy is unset or its required inputs are unavailable, even if the market source itself is approved.
 - **R9 — Roll safety:** `dual_liquidity_crossover` MUST continue to require both volume and open interest, use only prior-session liquidity, and keep returns `NaN` across roll boundaries.
-- **R10 — Closeout review:** Before PR readiness, run the repo-local `code-review` and `modularity-assessment` workflows against the current change boundary. Resolve all blocking and worthwhile in-scope findings, then rerun affected verification.
+- **R10 — Closeout review:** Before PR readiness, resolve the canonical `code-review` and `modularity-assessment` skill/workflow IDs through KIS MCP and run them against the current change boundary. Resolve all blocking and worthwhile in-scope findings, then rerun affected verification.
 - **R11 — Policy authority:** `assert_execution_mode` MUST derive LIVE-mode permission from `config/policy.json`; the current policy remains fail-closed with LIVE disabled.
 - **R12 — Evaluation validation:** Walk-forward evaluation MUST reject `retrain_every < 1` with an explicit validation error.
 - **R13 — Baseline model identity:** Baseline model dispatch and experiment-record architecture MUST fail closed for unknown implementations and derive model identity from `config/models.json` rather than a two-way model-name fallback.

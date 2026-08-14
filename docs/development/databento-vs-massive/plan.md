@@ -1,6 +1,6 @@
 # Databento vs Massive Futures Evaluation Implementation Plan
 
-> **For agentic workers:** REQUIRED SUB-SKILL: Use `superpowers:test-driven-development` for behavior changes and `superpowers:verification-before-completion` before completion claims.
+> **For agentic workers:** Resolve and load applicable execution, test-discipline, and verification skill IDs through the KIS MCP skills module; do not invoke skills through provider-specific or filesystem syntax.
 
 **Goal:** Add a removable Databento historical-futures adapter and establish bounded, reproducible evidence for whether Databento materially improves the current Massive-based NG research data path.
 
@@ -94,7 +94,7 @@
 2. Run full pytest and Ruff.
 3. Run `git diff --check` and a credential/secret-pattern scan.
 4. Run KIS code-quality and architecture/modularity reviews; fix all blocking findings and rerun affected checks.
-5. Load `superpowers:verification-before-completion` and verify the exact commit.
+5. Resolve and load the canonical verification skill through the KIS MCP skills module, then verify the exact commit.
 6. Commit on the isolated branch.
 7. Use KIS `prepare_reviewable_pull_request` so the exact local tree is reconciled onto verified current remote `main`; verify the resulting PR diff contains only this Databento slice.
 8. Verify fresh GitHub CI on the exact PR head and stop for review/merge approval.

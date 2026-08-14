@@ -1,6 +1,6 @@
 # Canonical Data and Roll Validation Implementation Plan
 
-> **For agentic workers:** REQUIRED SUB-SKILL: Use `superpowers:executing-plans` task-by-task in an isolated worktree. Behavior changes use `superpowers:test-driven-development`; completion uses `superpowers:verification-before-completion`.
+> **For agentic workers:** Resolve and load required execution, test-discipline, and verification skill IDs through the KIS MCP skills module as applicable. Do not invoke skill instructions from repository or filesystem paths.
 
 **Goal:** Make repo development workflow mandatory and add a truthful Massive-based canonical Henry Hub contract-price ingestion path without prematurely unlocking canonical evidence.
 
@@ -19,12 +19,12 @@
 ### Task 1: Adopt repository development controllers
 
 **Requirements:** R1, R2, R3
-**Files:** `.agents/skills/develop-code/**`, `.agents/skills/develop-docs/**`, `.agents/skills/SOURCES.md`, `AGENTS.md`
+**Files:** `AGENTS.md`
 
-- [x] Copy the complete reviewed `develop-code` and `develop-docs` skill directories from `C:\Projects\.agents\skills\` into repo-local `.agents/skills/`.
+- [x] Superseded 2026-08-14: resolve `develop-code` and `develop-docs` by logical ID from the canonical catalogue through the KIS MCP skills module; do not copy them into the repository.
 - [x] Update `AGENTS.md` with a mandatory startup-controller rule and `.work/` worktree/feature-branch/PR discipline.
-- [x] Record the local adoption source in `.agents/skills/SOURCES.md`.
-- [x] Verify both repo-local `SKILL.md` files and referenced assets/references exist.
+- [x] Superseded 2026-08-14: `AGENTS.md` records the canonical KIS MCP invocation contract; no repository-local skill source record is retained.
+- [x] Superseded 2026-08-14: verify required skill IDs through KIS MCP catalogue discovery/loading rather than filesystem files.
 
 ### Task 2: Specify Massive source capabilities and evidence separation
 
@@ -64,8 +64,8 @@
 **Requirements:** R1–R10
 **Files:** all changed files
 
-- [x] Run the repo-local `code-review` workflow against the current diff and resolve all surviving blocking or worthwhile in-scope findings.
-- [x] Run the repo-local `modularity-assessment` workflow on the changed implementation boundaries and resolve justified in-scope structural findings.
+- [x] Resolve the canonical `code-review` workflow/skill through KIS MCP and run it against the current diff; resolve all surviving blocking or worthwhile in-scope findings.
+- [x] Resolve the canonical `modularity-assessment` workflow/skill through KIS MCP and run it on the changed implementation boundaries; resolve justified in-scope structural findings.
 - [x] Review the final diff against the specification, capability claims, secrets boundary, and rollback path.
 - [x] Run `python -m pytest -q`, `python -m ruff check .`, and `git diff --check` on the feature worktree.
 - [x] Attempt the non-secret Massive live smoke probe; the runtime blocked the credentialed client invocation, so the limitation is recorded and no secret was exposed.
