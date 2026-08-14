@@ -3,7 +3,6 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 SCHEMA = ROOT / "contracts" / "experiment.schema.json"
-SKILL_ROOT = ROOT / ".agents" / "skills"
 
 
 def load_json(path: Path) -> dict:
@@ -56,42 +55,47 @@ def test_commodity_research_stages_do_not_authorize_live_execution() -> None:
     assert policy["execution"]["live_trading_allowed"] is False
 
 
-def test_agents_md_declares_repo_skill_discovery() -> None:
+def test_agents_md_requires_canonical_kis_skill_loading() -> None:
     agents = (ROOT / "AGENTS.md").read_text(encoding="utf-8")
-    assert ".agents/skills/<skill-name>/SKILL.md" in agents
-    expected = {
+    expected_ids = {
         "bayesian-modeler", "commodity-market-data", "data-engineer",
         "dataset-auditor", "experiment-designer", "experiment-tracker",
         "develop-code", "develop-docs", "feature-engineer", "forecast-backtesting",
         "hyperparameter-optimizer", "model-evaluator", "model-trainer", "neural-network-engineer",
         "reproducibility-auditor", "statistical-analyst", "time-series-research",
     }
-    assert expected == {path.parent.name for path in SKILL_ROOT.glob("*/SKILL.md")}
-    assert all(name in agents for name in expected)
-    for name in ("experiment-designer", "experiment-tracker"):
-        skill = SKILL_ROOT / name / "SKILL.md"
-        text = skill.read_text(encoding="utf-8")
-        relative_contract = "../../../contracts/experiment.schema.json"
-        assert relative_contract in text
-        assert (skill.parent / relative_contract).resolve() == SCHEMA.resolve()
+    assert "C:\\Projects\\.agents\\skills" in agents
+    assert "runtime.search_skills" in agents
+    assert "runtime.load_skill" in agents
+    assert "runtime.read_skill_file" in agents
+    assert all(name in agents for name in expected_ids)
 
 
-def test_generic_core_has_no_commodity_specific_rules() -> None:
-    domain = {"commodity-market-data", "time-series-research", "forecast-backtesting"}
-    generic = "\n".join(
-        path.read_text(encoding="utf-8").lower()
-        for path in SKILL_ROOT.glob("*/SKILL.md")
-        if path.parent.name not in domain
-    )
+def test_repo_contains_no_local_agent_skill_catalogue() -> None:
+    local_roots = (".agents", ".openai", ".claude", ".cursor", ".codex")
+    assert not [root for root in local_roots if (ROOT / root / "skills").exists()]
+
+
+def test_repo_has_no_direct_local_skill_file_references() -> None:
     forbidden = (
-        "henry hub",
-        "natural gas",
-        "cftc",
-        "storage report",
-        "futures expiration",
-        "contract roll",
+        ".agents" + "/skills",
+        ".openai" + "/skills",
+        ".claude" + "/skills",
+        "superpowers" + ":",
+        "C:\\Projects\\kis-mcp\\.agents\\skills",
     )
-    assert not [term for term in forbidden if term in generic]
+    suffixes = {".md", ".py", ".toml", ".yml", ".yaml", ".json", ".txt"}
+    violations: list[str] = []
+    for path in ROOT.rglob("*"):
+        if not path.is_file() or path.suffix.lower() not in suffixes:
+            continue
+        relative = path.relative_to(ROOT)
+        if relative.parts and relative.parts[0] in {".git", ".work", "vendor"}:
+            continue
+        text = path.read_text(encoding="utf-8", errors="ignore")
+        if any(term in text for term in forbidden):
+            violations.append(str(relative))
+    assert not violations, f"direct/local skill references remain: {violations}"
 
 
 def test_data_source_owner_selects_massive_without_unlocking_canonical_evidence() -> None:
@@ -205,11 +209,11 @@ def test_active_experiment_uses_pit_core_tournament_contract() -> None:
     assert models["hist_gb"]["baseline_implementation"] == "hist_gradient_boosting_return"
 
 
-def test_agents_md_requires_development_controller_and_kis_change_flow() -> None:
+def test_agents_md_requires_kis_change_flow() -> None:
     agents = (ROOT / "AGENTS.md").read_text(encoding="utf-8")
-    assert "Every repository work run MUST load one primary development controller immediately after reading governing repository instructions" in agents
-    assert ".agents/skills/develop-code/SKILL.md" in agents
-    assert ".agents/skills/develop-docs/SKILL.md" in agents
+    assert "runtime.load_skill" in agents
+    assert "runtime.search_skills" in agents
+    assert "runtime.read_skill_file" in agents
     assert "`.work/` linked worktree" in agents
     assert "PR-completion workflow" in agents
     assert "KIS owns repository-change effect classification" in agents

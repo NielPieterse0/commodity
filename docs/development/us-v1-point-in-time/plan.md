@@ -1,6 +1,6 @@
 # U.S. V1 Point-in-Time Availability Implementation Plan
 
-> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:test-driven-development for behavior changes and superpowers:verification-before-completion before any completion claim.
+> **For agentic workers:** Resolve and load applicable execution, test-discipline, and verification skill IDs through the KIS MCP skills module; do not invoke skills through provider-specific or filesystem syntax.
 
 **Goal:** Build a configuration-driven availability/evidence layer that supports leakage-aware U.S. V1 research while keeping canonical gates fail-closed.
 
