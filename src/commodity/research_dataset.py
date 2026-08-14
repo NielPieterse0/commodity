@@ -18,6 +18,7 @@ from commodity.exogenous_audit import (
 from commodity.features import build_market_features, make_supervised
 from commodity.market_data import (
     assert_canonical_market_ready,
+    assert_market_evaluation_ready,
     build_market_structure_features,
     ensure_canonical_market_availability,
     validate_contract_history,
@@ -25,7 +26,7 @@ from commodity.market_data import (
 from commodity.rolls import build_derived_continuous_series
 
 TARGET_COLUMN = "target_ret_1"
-_PIT_MODES = {"research_pit", "canonical"}
+_PIT_MODES = {"research_pit", "evaluation_pit", "canonical"}
 
 
 @dataclass(frozen=True)
@@ -77,10 +78,15 @@ def _json_sha256(value: Any) -> str:
 
 def _canonical_supervised_dataset(
     contracts: pd.DataFrame,
+    *,
+    promotion_required: bool,
 ) -> tuple[pd.DataFrame, dict[str, Any]]:
     cfg = data_config()
     assumptions = assumptions_config()
-    assert_canonical_market_ready(cfg, assumptions)
+    if promotion_required:
+        assert_canonical_market_ready(cfg, assumptions)
+    else:
+        assert_market_evaluation_ready(cfg, assumptions)
     schema = cfg["canonical_contract_schema"]
     source = cfg["sources"]["market_canonical"]
     policy = assumptions["assumptions"]["continuous_series_policy"]["policy"]
@@ -153,9 +159,11 @@ def _canonical_supervised_dataset(
         "session_timezone": source["session_timezone"],
         "calendar": source["calendar"],
     }
+    evidence_scope = "canonical_promotion" if promotion_required else "evaluation_only"
     market_semantics = {
         "availability_policy": source.get("availability_policy", {}),
         "representation": representation,
+        "evidence_scope": evidence_scope,
     }
     lineage = {
         "contract_input_sha256": _table_sha256(normalized),
@@ -169,6 +177,7 @@ def _canonical_supervised_dataset(
         "curve_contracts": 4,
         "availability_status": str(normalized["availability_status"].iloc[0]),
         "availability_policy": source.get("availability_policy", {}),
+        "evidence_scope": evidence_scope,
         "representation": representation,
         "market_semantics_sha256": _json_sha256(market_semantics),
         "synthetic_series": "return_neutral_within_contract_index",
@@ -245,17 +254,25 @@ def build_pit_dataset(
         raise ValueError(f"Unsupported PIT dataset mode: {evidence_mode!r}")
     families = {"market", "calendar_seasonality"}
     market_structure_lineage: dict[str, Any] | None = None
-    if evidence_mode == "canonical":
+    contract_market_mode = evidence_mode in {"evaluation_pit", "canonical"}
+    if contract_market_mode:
         if canonical_contracts is None:
-            raise ValueError("Canonical dataset requires provider-neutral canonical contract rows")
-        dataset, market_structure_lineage = _canonical_supervised_dataset(canonical_contracts)
+            raise ValueError(
+                f"{evidence_mode} dataset requires provider-neutral canonical contract rows"
+            )
+        dataset, market_structure_lineage = _canonical_supervised_dataset(
+            canonical_contracts,
+            promotion_required=evidence_mode == "canonical",
+        )
         market_input = "canonical_contracts"
         families.add("market_structure")
     else:
         if ohlcv is None:
             raise ValueError("Research PIT dataset requires a market frame")
         if canonical_contracts is not None:
-            raise ValueError("Canonical contract rows require evidence_mode='canonical'")
+            raise ValueError(
+                "Canonical contract rows require evidence_mode='canonical' or 'evaluation_pit'"
+            )
         market = _validate_market_frame(ohlcv)
         market_input = "market_frame"
         x, y = make_supervised(market)
@@ -317,14 +334,18 @@ def build_pit_dataset(
         raise ValueError("PIT dataset is empty after availability-safe joins")
 
     digest = dataframe_sha256(dataset)
+    completeness = "full_v1" if require_full_v1 and not missing else "pit_core"
     manifest: dict[str, Any] = {
         "schema_version": 1,
         "dataset_id": f"us-ng-pit-{digest[:12]}",
         "dataset_sha256": digest,
         "evidence_mode": evidence_mode,
         "market_input": market_input,
+        "market_evaluation_evidence": contract_market_mode,
         "canonical_market_evidence": evidence_mode == "canonical",
-        "completeness": "full_v1" if require_full_v1 and not missing else "pit_core",
+        "research_evaluation_eligible": completeness == "full_v1",
+        "research_promotion_eligible": completeness == "full_v1" and evidence_mode == "canonical",
+        "completeness": completeness,
         "required_feature_families": list(required),
         "included_feature_families": sorted(families),
         "missing_feature_families": missing,

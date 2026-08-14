@@ -8,6 +8,10 @@ from typing import Any
 import pandas as pd
 
 from commodity.config import REPO_ROOT, experiment_config, model_config
+from commodity.evidence_authority import (
+    PIT_EVIDENCE_MODES,
+    evaluation_authority_is_valid,
+)
 from commodity.provenance import git_code_state, sha256_file, utc_now
 
 
@@ -148,6 +152,15 @@ def build_tournament_record(
     prediction_path = model_dir / "predictions.csv"
     metrics_path = model_dir / "metrics.json"
     dataset_hash = str(dataset_manifest["dataset_sha256"])
+    evidence_mode = dataset_manifest.get("evidence_mode")
+    if evidence_mode not in PIT_EVIDENCE_MODES:
+        raise ValueError("Tournament dataset manifest requires an explicit PIT evidence_mode")
+    market_evaluation_evidence = dataset_manifest.get("market_evaluation_evidence") is True
+    canonical_market_evidence = dataset_manifest.get("canonical_market_evidence") is True
+    research_evaluation_eligible = dataset_manifest.get("research_evaluation_eligible") is True
+    research_promotion_eligible = dataset_manifest.get("research_promotion_eligible") is True
+    if evidence_mode == "evaluation_pit" and not evaluation_authority_is_valid(dataset_manifest):
+        raise ValueError("Evaluation-only tournament input claims promotable market evidence")
     feature_path = REPO_ROOT / "src/commodity/features.py"
     preprocessing_path = REPO_ROOT / "src/commodity/research_dataset.py"
     lock_path = REPO_ROOT / "requirements.lock.txt"
@@ -235,6 +248,11 @@ def build_tournament_record(
             "disposition": exp["decision"]["disposition"],
             "rationale": exp["decision"]["rationale"],
             "scope": "research_only",
+            "evidence_mode": evidence_mode,
+            "market_evaluation_evidence": market_evaluation_evidence,
+            "canonical_market_evidence": canonical_market_evidence,
+            "research_evaluation_eligible": research_evaluation_eligible,
+            "research_promotion_eligible": research_promotion_eligible,
         },
         "lineage": {
             "code_revision": git_code_state(REPO_ROOT),

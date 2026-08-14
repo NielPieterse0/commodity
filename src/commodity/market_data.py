@@ -143,9 +143,8 @@ def canonical_market_readiness(
     promotion_ready = source.get("backtest_evidence_allowed") is True
     source_history_ready = not history_reasons
     roll_method_ready = not roll_reasons
-    canonical_allowed = (
-        source_history_ready and roll_method_ready and licensing_ready and promotion_ready
-    )
+    evaluation_allowed = source_history_ready and roll_method_ready
+    canonical_allowed = evaluation_allowed and licensing_ready and promotion_ready
     reasons = history_reasons + roll_reasons
     if not licensing_ready:
         reasons.append("canonical provider non-display/backtesting rights are not verified")
@@ -156,9 +155,20 @@ def canonical_market_readiness(
         "roll_method_ready": roll_method_ready,
         "licensing_ready": licensing_ready,
         "promotion_ready": promotion_ready,
+        "evaluation_evidence_allowed": evaluation_allowed,
         "canonical_evidence_allowed": canonical_allowed,
+        "evaluation_reasons": history_reasons + roll_reasons,
         "reasons": reasons,
     }
+
+
+def assert_market_evaluation_ready(
+    data_cfg: dict[str, Any],
+    assumptions_cfg: dict[str, Any],
+) -> None:
+    report = canonical_market_readiness(data_cfg, assumptions_cfg)
+    if not report["evaluation_evidence_allowed"]:
+        raise DataContractViolation(report["evaluation_reasons"][0])
 
 
 def assert_canonical_market_ready(

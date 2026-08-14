@@ -121,7 +121,12 @@
       "properties": {
         "disposition": {"type": "string", "enum": ["reject", "repeat", "modify", "promote"]},
         "rationale": {"type": "string", "minLength": 1},
-        "scope": {"type": "string", "const": "research_only"}
+        "scope": {"type": "string", "const": "research_only"},
+        "evidence_mode": {"type": "string", "enum": ["research_pit", "evaluation_pit", "canonical"]},
+        "market_evaluation_evidence": {"type": "boolean"},
+        "canonical_market_evidence": {"type": "boolean"},
+        "research_evaluation_eligible": {"type": "boolean"},
+        "research_promotion_eligible": {"type": "boolean"}
       }
     },
     "lineage": {

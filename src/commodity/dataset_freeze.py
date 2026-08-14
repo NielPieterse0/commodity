@@ -41,7 +41,7 @@ def _validate_full_v1(frame: pd.DataFrame, manifest: dict[str, Any]) -> None:
         raise ValueError("Only a full_v1 dataset may be frozen")
     if not set(required).issubset(included) or missing:
         raise ValueError("full_v1 manifest is missing required feature families")
-    if manifest.get("evidence_mode") not in {"research_pit", "canonical"}:
+    if manifest.get("evidence_mode") not in {"research_pit", "evaluation_pit", "canonical"}:
         raise ValueError("full_v1 freeze requires PIT-admissible evidence mode")
     expected = str(manifest.get("dataset_sha256", ""))
     actual = dataframe_sha256(frame)
@@ -85,6 +85,10 @@ def _freeze_manifest(
         "upstream_manifest_sha256": _json_sha256(upstream),
         "completeness": "full_v1",
         "evidence_mode": upstream["evidence_mode"],
+        "market_evaluation_evidence": upstream.get("market_evaluation_evidence", False),
+        "canonical_market_evidence": upstream.get("canonical_market_evidence", False),
+        "research_evaluation_eligible": upstream.get("research_evaluation_eligible", False),
+        "research_promotion_eligible": upstream.get("research_promotion_eligible", False),
         "grain": "one row per prediction_time",
         "unique_key": ["prediction_time"],
         "rows": len(frame),

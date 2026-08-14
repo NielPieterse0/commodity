@@ -337,6 +337,11 @@ def test_run_tournament_writes_schema_valid_experiment_records(tmp_path) -> None
                 "artifact_sha256": digest,
                 "completeness": "pit_core",
                 "missing_feature_families": ["weather"],
+                "evidence_mode": "research_pit",
+                "market_evaluation_evidence": False,
+                "canonical_market_evidence": False,
+                "research_evaluation_eligible": False,
+                "research_promotion_eligible": False,
                 "end": index[-1].isoformat(),
             }
         ),
@@ -357,6 +362,12 @@ def test_run_tournament_writes_schema_valid_experiment_records(tmp_path) -> None
         ]
     )
     args.func(args)
+
+    tournament_summary = json.loads((output / "summary.json").read_text(encoding="utf-8"))
+    assert tournament_summary["evidence_mode"] == "research_pit"
+    assert tournament_summary["canonical_market_evidence"] is False
+    assert tournament_summary["research_evaluation_eligible"] is False
+    assert tournament_summary["research_promotion_eligible"] is False
 
     schema_path = REPO_ROOT / "contracts" / "experiment.schema.json"
     schema = json.loads(schema_path.read_text(encoding="utf-8"))

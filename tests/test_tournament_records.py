@@ -3,6 +3,7 @@ import json
 from pathlib import Path
 
 import pandas as pd
+import pytest
 from jsonschema import Draft202012Validator
 
 
@@ -17,6 +18,11 @@ def test_tournament_record_is_schema_valid_and_carries_controls(tmp_path: Path) 
         "dataset_sha256": digest,
         "artifact_sha256": digest,
         "end": "2026-08-12T00:00:00+00:00",
+        "evidence_mode": "evaluation_pit",
+        "market_evaluation_evidence": True,
+        "canonical_market_evidence": False,
+        "research_evaluation_eligible": True,
+        "research_promotion_eligible": False,
     }
     model_dir = tmp_path / "ridge"
     model_dir.mkdir()
@@ -49,3 +55,53 @@ def test_tournament_record_is_schema_valid_and_carries_controls(tmp_path: Path) 
     Draft202012Validator(schema).validate(record)
     assert record["controls"]["leakage_check"] == "passed"
     assert record["results"]["significance"]["p_value"] == 0.2
+    assert record["decision"]["evidence_mode"] == "evaluation_pit"
+    assert record["decision"]["market_evaluation_evidence"] is True
+    assert record["decision"]["canonical_market_evidence"] is False
+    assert record["decision"]["research_evaluation_eligible"] is True
+    assert record["decision"]["research_promotion_eligible"] is False
+
+
+def test_tournament_record_rejects_evaluation_promotion_claim(tmp_path: Path) -> None:
+    from commodity.records import build_tournament_record
+
+    dataset_path = tmp_path / "dataset.csv"
+    dataset_path.write_text("prediction_time,a,target_ret_1\n", encoding="utf-8")
+    digest = hashlib.sha256(dataset_path.read_bytes()).hexdigest()
+    manifest = {
+        "dataset_id": "pit-test",
+        "dataset_sha256": digest,
+        "artifact_sha256": digest,
+        "end": "2026-08-12T00:00:00+00:00",
+        "evidence_mode": "evaluation_pit",
+        "market_evaluation_evidence": True,
+        "canonical_market_evidence": False,
+        "research_evaluation_eligible": True,
+        "research_promotion_eligible": True,
+    }
+    model_dir = tmp_path / "ridge"
+    model_dir.mkdir()
+    (model_dir / "predictions.csv").write_text("date,prediction,actual\n", encoding="utf-8")
+    (model_dir / "metrics.json").write_text("{}", encoding="utf-8")
+    index = pd.date_range("2026-01-01", periods=40, freq="D", tz="UTC")
+    with pytest.raises(ValueError, match="promotable"):
+        build_tournament_record(
+            dataset_manifest=manifest,
+            dataset_path=dataset_path,
+            model_dir=model_dir,
+            model_name="ridge",
+            metrics={"rmse": 0.1, "mae": 0.08, "n": 10.0},
+            feature_index=index,
+            initial_train=30,
+            significance={
+                "method": "moving_block_bootstrap",
+                "rmse_improvement": 0.001,
+                "ci_lower": -0.001,
+                "ci_upper": 0.002,
+                "p_value": 0.2,
+                "significant": False,
+                "block_size": 10,
+                "resamples": 200,
+            },
+            leakage_check="passed",
+        )

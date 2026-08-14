@@ -7,6 +7,7 @@ from commodity.config import assumptions_config, data_config
 from commodity.market_data import (
     DataContractViolation,
     assert_canonical_market_ready,
+    assert_market_evaluation_ready,
     build_contract_rank_windows,
     build_term_structure,
     canonical_market_readiness,
@@ -274,3 +275,16 @@ def test_canonical_market_availability_preserves_existing_status() -> None:
     frame["availability_status"] = "reconstructed_conservative"
     result = ensure_canonical_market_availability(frame, {})
     assert result["availability_status"].eq("reconstructed_conservative").all()
+
+
+def test_market_evaluation_readiness_does_not_require_promotion_rights() -> None:
+    data, assumptions = _ready_configs()
+    source = data["sources"]["market_canonical"]
+    source["non_display_backtesting_rights_verified"] = False
+    source["backtest_evidence_allowed"] = False
+    report = canonical_market_readiness(data, assumptions)
+    assert report["evaluation_evidence_allowed"] is True
+    assert report["canonical_evidence_allowed"] is False
+    assert_market_evaluation_ready(data, assumptions)
+    with pytest.raises(DataContractViolation, match="rights"):
+        assert_canonical_market_ready(data, assumptions)

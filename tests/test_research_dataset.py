@@ -416,3 +416,31 @@ def test_full_v1_keeps_all_audits_for_duplicate_required_family_sources() -> Non
             required_families=("market", "calendar_seasonality", "weather"),
             require_full_v1=True,
         )
+
+
+def test_evaluation_dataset_uses_contract_market_structure_without_promotion_rights() -> None:
+    from commodity.research_dataset import build_pit_dataset
+
+    dataset, manifest = build_pit_dataset(
+        None,
+        evidence_mode="evaluation_pit",
+        canonical_contracts=_canonical_contracts_four(),
+    )
+    assert not dataset.empty
+    assert "market_structure" in manifest["included_feature_families"]
+    assert manifest["canonical_market_evidence"] is False
+    assert manifest["market_evaluation_evidence"] is True
+    assert manifest["research_promotion_eligible"] is False
+    assert manifest["market_input"] == "canonical_contracts"
+
+
+def test_evaluation_dataset_does_not_weaken_canonical_rights_gate() -> None:
+    from commodity.market_data import DataContractViolation
+    from commodity.research_dataset import build_pit_dataset
+
+    with pytest.raises(DataContractViolation, match="rights"):
+        build_pit_dataset(
+            None,
+            evidence_mode="canonical",
+            canonical_contracts=_canonical_contracts_four(),
+        )

@@ -143,3 +143,27 @@ def test_freeze_requires_independent_fit_audit(tmp_path: Path) -> None:
     manifest["exogenous_sources"][0]["source_sha256"] = None
     with pytest.raises(ValueError, match="audit"):
         freeze_full_v1_dataset(frame, manifest, tmp_path)
+
+
+def test_freeze_preserves_evaluation_only_promotion_boundary(tmp_path: Path) -> None:
+    from commodity.dataset_freeze import freeze_full_v1_dataset
+
+    frame = _dataset()
+    manifest = _manifest(frame)
+    manifest.update(
+        {
+            "evidence_mode": "evaluation_pit",
+            "canonical_market_evidence": False,
+            "market_evaluation_evidence": True,
+            "research_evaluation_eligible": True,
+            "research_promotion_eligible": False,
+        }
+    )
+    frozen = freeze_full_v1_dataset(frame, manifest, tmp_path)
+    payload = json.loads((frozen / "manifest.json").read_text(encoding="utf-8"))
+    assert payload["evidence_mode"] == "evaluation_pit"
+    assert payload["canonical_market_evidence"] is False
+    assert payload["market_evaluation_evidence"] is True
+    assert payload["research_promotion_eligible"] is False
+    assert payload["dataset_audit"]["verdict"] == "fit-with-caveats"
+    assert "evaluation_only_market_evidence" in payload["dataset_audit"]["caveats"]

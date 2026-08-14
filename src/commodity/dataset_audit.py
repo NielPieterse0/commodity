@@ -7,6 +7,10 @@ import numpy as np
 import pandas as pd
 
 from commodity.config import experiment_config
+from commodity.evidence_authority import (
+    PIT_EVIDENCE_MODES,
+    evaluation_authority_is_valid,
+)
 from commodity.research_dataset import dataframe_sha256
 
 _REQUIRED_EXOGENOUS = {"storage", "weather", "power", "positioning"}
@@ -81,8 +85,13 @@ def audit_full_v1_dataset(
         blockers.append("required_feature_contract_mismatch")
     if not required.issubset(included) or manifest.get("missing_feature_families"):
         blockers.append("required_feature_families_incomplete")
-    if manifest.get("evidence_mode") not in {"research_pit", "canonical"}:
+    evidence_mode = manifest.get("evidence_mode")
+    if evidence_mode not in PIT_EVIDENCE_MODES:
         blockers.append("non_pit_evidence_mode")
+    elif evidence_mode == "evaluation_pit":
+        caveats.append("evaluation_only_market_evidence")
+        if not evaluation_authority_is_valid(manifest):
+            blockers.append("evaluation_mode_claims_promotable_evidence")
 
     lineage = manifest.get("source_lineage", {})
     family_audits = manifest.get("exogenous_family_audits", {})
