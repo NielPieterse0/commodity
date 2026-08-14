@@ -277,6 +277,7 @@ def build_pit_dataset(
         if source.family in REQUIRED_EXOGENOUS_FAMILIES:
             audit = audit_configured_exogenous_family(
                 family=source.family,
+                evidence_source_id=source.source_id or source.name,
                 frame=source.frame,
                 required_start=base_start,
                 required_end=base_end,

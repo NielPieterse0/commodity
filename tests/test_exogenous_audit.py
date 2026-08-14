@@ -106,7 +106,7 @@ def test_missing_evidence_is_explicitly_not_fit() -> None:
     assert result.blockers == ("preserved_pit_evidence_missing",)
 
 
-def test_configured_storage_and_power_cannot_promote_current_snapshots() -> None:
+def test_configured_storage_cannot_promote_current_snapshot() -> None:
     from commodity.exogenous_audit import audit_configured_exogenous_family
 
     frame = pd.DataFrame(
@@ -118,16 +118,53 @@ def test_configured_storage_and_power_cannot_promote_current_snapshots() -> None
             "signal": [1.0, 2.0],
         }
     )
-    for family, source_name in (("storage", "eia_storage"), ("power", "eia_power")):
-        result = audit_configured_exogenous_family(
-            family=family,
-            source_name=source_name,
+    result = audit_configured_exogenous_family(
+        family="storage",
+        source_name="eia_storage",
+        frame=frame,
+        required_start="2025-01-01",
+        required_end="2025-01-31",
+    )
+    assert result.verdict == "not-fit"
+    assert "current_snapshot_not_research_pit_admissible" in result.blockers
+
+
+def test_configured_power_uses_nyiso_issued_vintages_not_eia_revised_history() -> None:
+    from commodity.exogenous_audit import audit_configured_exogenous_family
+
+    frame = pd.DataFrame(
+        {
+            "observed_for": pd.to_datetime(["2025-01-01", "2025-01-31"], utc=True),
+            "issued_at": pd.to_datetime(["2024-12-31T12:00Z", "2025-01-30T12:00Z"]),
+            "available_at": pd.to_datetime(["2025-01-01T17:00Z", "2025-01-31T17:00Z"]),
+            "availability_status": ["reconstructed_conservative", "reconstructed_conservative"],
+            "revision_status": ["issued_run_immutable", "issued_run_immutable"],
+            "signal": [1.0, 2.0],
+        }
+    )
+    result = audit_configured_exogenous_family(
+        family="power",
+        source_name="nyiso_load_forecast",
+        frame=frame,
+        required_start="2025-01-01T17:00Z",
+        required_end="2025-01-31T17:00Z",
+    )
+    assert result.verdict == "fit-with-caveats"
+    assert result.full_v1_ready is True
+    assert result.blockers == ()
+
+    try:
+        audit_configured_exogenous_family(
+            family="power",
+            source_name="eia_power",
             frame=frame,
             required_start="2025-01-01",
             required_end="2025-01-31",
         )
-        assert result.verdict == "not-fit"
-        assert "current_snapshot_not_research_pit_admissible" in result.blockers
+    except ValueError as exc:
+        assert "nyiso_load_forecast" in str(exc)
+    else:
+        raise AssertionError("EIA-930 revised history must not satisfy the configured V1 power source")
 
 
 def test_configured_positioning_requires_completed_release_calendar() -> None:
