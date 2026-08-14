@@ -131,6 +131,7 @@ def normalize_wngsr_revisions_table(frame: pd.DataFrame) -> pd.DataFrame:
             "original_storage_lower48_bcf": _numeric(frame, original_col),
             "revised_storage_lower48_bcf": explicit_revised,
             "revision_date": revision_date,
+            "revision_date_basis": "published_revision_date",
         }
     )
     return out.sort_values(["revision_date", "observed_for"], kind="mergesort").reset_index(drop=True)
@@ -187,10 +188,15 @@ def _revision_availability(row: pd.Series) -> tuple[pd.Timestamp, str, str]:
         return value.tz_convert("UTC"), "verified", "wngsr_2024_sample_reselection"
     zone = ZoneInfo(str(policy["timezone"]))
     local = dt.datetime.combine(revision_day, dt.time(23, 59), tzinfo=zone)
+    basis = (
+        "wngsr_revision_snapshot_retrieval_end_of_day"
+        if row.get("revision_date_basis") == "snapshot_retrieval_date"
+        else "wngsr_revision_publication_date_end_of_day"
+    )
     return (
         pd.Timestamp(local).tz_convert("UTC"),
         "reconstructed_conservative",
-        "wngsr_revision_publication_date_end_of_day",
+        basis,
     )
 
 
@@ -400,9 +406,73 @@ def _read_xls_candidates(content: bytes) -> list[pd.DataFrame]:
     ]
 
 
+def _normalize_wngsr_original_data_revisions(
+    frame: pd.DataFrame,
+    history: pd.DataFrame,
+    *,
+    retrieved_at: str | pd.Timestamp | None,
+) -> pd.DataFrame:
+    if retrieved_at is None:
+        raise ValueError("WNGSR original-data revision ledger requires retrieval time")
+    week_col = _find_column(frame, ("Week ending", "Week ending date", "week_ending"))
+    original_col = _find_column(
+        frame,
+        ("Lower 48 States", "Lower 48", "Total Working Gas", "Total"),
+    )
+    observed = pd.to_datetime(frame[week_col], utc=True, errors="coerce")
+    original = pd.to_numeric(frame[original_col], errors="coerce")
+    if observed.isna().any() or original.isna().any():
+        raise ValueError("WNGSR original-data ledger contains invalid week/value rows")
+    originals = pd.DataFrame(
+        {
+            "observed_for": observed,
+            "original_storage_lower48_bcf": original.astype(float),
+        }
+    )
+    if originals["observed_for"].duplicated().any():
+        raise ValueError("WNGSR original-data ledger contains duplicate week-ending dates")
+    finals = history[["observed_for", "storage_lower48_bcf"]].copy()
+    merged = originals.merge(finals, on="observed_for", how="left", validate="one_to_one")
+    if merged["storage_lower48_bcf"].isna().any():
+        raise ValueError("WNGSR original-data ledger contains weeks absent from current history")
+    changed = merged.loc[
+        (merged["original_storage_lower48_bcf"] - merged["storage_lower48_bcf"]).abs() > 1e-9
+    ].copy()
+    retrieved = pd.Timestamp(retrieved_at)
+    if retrieved.tzinfo is None:
+        raise ValueError("WNGSR retrieval time must include timezone")
+    policy = _storage_cfg()["availability_policy"]
+    sample_weeks = set(policy.get("sample_reselection_weeks", ()))
+    sample_revision_day = pd.Timestamp(
+        policy["special_revision_events"]["2024_sample_reselection"]
+    ).date()
+    changed["revision_date"] = pd.to_datetime(
+        [
+            sample_revision_day
+            if value.date().isoformat() in sample_weeks
+            else retrieved.date()
+            for value in changed["observed_for"]
+        ],
+        utc=True,
+    )
+    changed["revised_storage_lower48_bcf"] = changed["storage_lower48_bcf"].astype(float)
+    changed["revision_date_basis"] = "snapshot_retrieval_date"
+    return changed[
+        [
+            "observed_for",
+            "original_storage_lower48_bcf",
+            "revised_storage_lower48_bcf",
+            "revision_date",
+            "revision_date_basis",
+        ]
+    ].sort_values(["revision_date", "observed_for"], kind="mergesort").reset_index(drop=True)
+
+
 def parse_wngsr_workbooks(
     history_content: bytes,
     revisions_content: bytes,
+    *,
+    retrieved_at: str | pd.Timestamp | None = None,
 ) -> tuple[pd.DataFrame, pd.DataFrame]:
     history_result: pd.DataFrame | None = None
     for candidate in _read_xls_candidates(history_content):
@@ -420,7 +490,15 @@ def parse_wngsr_workbooks(
             revisions_result = normalize_wngsr_revisions_table(candidate)
             break
         except ValueError:
-            continue
+            try:
+                revisions_result = _normalize_wngsr_original_data_revisions(
+                    candidate,
+                    history_result,
+                    retrieved_at=retrieved_at,
+                )
+                break
+            except ValueError:
+                continue
     if revisions_result is None:
         raise ValueError("WNGSR revisions workbook has no recognizable revision table")
     return history_result, revisions_result
@@ -482,7 +560,11 @@ def capture_wngsr_v1_window(
     history_content, revisions_content, urls = client.fetch_bundle()
     history_hash = hashlib.sha256(history_content).hexdigest()
     revisions_hash = hashlib.sha256(revisions_content).hexdigest()
-    history, revisions = parse_wngsr_workbooks(history_content, revisions_content)
+    history, revisions = parse_wngsr_workbooks(
+        history_content,
+        revisions_content,
+        retrieved_at=retrieved_at,
+    )
     history = _window_history(history, start, end)
     revisions = _window_revisions(revisions, history)
     events = build_wngsr_feature_events(

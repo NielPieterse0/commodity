@@ -138,7 +138,7 @@ def test_wngsr_capture_is_resumable_and_loadable(tmp_path: Path, monkeypatch) ->
 
     monkeypatch.setattr(
         "commodity.wngsr.parse_wngsr_workbooks",
-        lambda history, revisions: (
+        lambda history, revisions, **kwargs: (
             normalize_wngsr_history_table(_history()),
             normalize_wngsr_revisions_table(_revisions()),
         ),
