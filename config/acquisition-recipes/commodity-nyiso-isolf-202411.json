@@ -1,0 +1,13 @@
+{
+  "content_class": "data-evidence",
+  "parameters": {},
+  "recipe_id": "commodity-nyiso-isolf-202411",
+  "request": {
+    "headers": {},
+    "method": "GET",
+    "query": {},
+    "url": "https://mis.nyiso.com/public/csv/isolf/20241101isolf_csv.zip"
+  },
+  "schema_version": 1,
+  "source_identity": "NYISO P-7 ISO Load Forecast archive 202411"
+}

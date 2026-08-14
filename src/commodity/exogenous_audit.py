@@ -74,29 +74,36 @@ def _utc(value: str | pd.Timestamp) -> pd.Timestamp:
     return pd.Timestamp(value, tz="UTC") if pd.Timestamp(value).tzinfo is None else pd.Timestamp(value).tz_convert("UTC")
 
 
-def _staleness_exceeds_limit(
+def _staleness_status(
     frame: pd.DataFrame,
     required_start: pd.Timestamp,
     required_end: pd.Timestamp,
     max_age: pd.Timedelta,
-) -> bool:
+    declared_hiatuses: Mapping[pd.Timestamp, pd.Timestamp] | None = None,
+) -> tuple[bool, bool]:
     if max_age < pd.Timedelta(0):
         raise ValueError("maximum staleness must be non-negative")
     timestamps = _coverage_series(frame).dropna().sort_values().drop_duplicates()
     if timestamps.empty:
-        return True
+        return True, False
     available_at_start = timestamps[timestamps <= required_start]
     if available_at_start.empty:
-        return True
+        return True, False
     previous = pd.Timestamp(available_at_start.iloc[-1])
     if required_start - previous > max_age:
-        return True
+        return True, False
+    hiatuses = declared_hiatuses or {}
+    used_declared_hiatus = False
     for current in timestamps[(timestamps > required_start) & (timestamps <= required_end)]:
         current_ts = pd.Timestamp(current)
         if current_ts - previous > max_age:
-            return True
+            report_ts = hiatuses.get(current_ts)
+            near_report = report_ts is not None and abs(previous - report_ts) <= max_age
+            if not near_report:
+                return True, used_declared_hiatus
+            used_declared_hiatus = True
         previous = current_ts
-    return required_end - previous > max_age
+    return required_end - previous > max_age, used_declared_hiatus
 
 
 def _configured_max_staleness(source_cfg: Mapping[str, Any]) -> pd.Timedelta | None:
@@ -109,6 +116,36 @@ def _configured_max_staleness(source_cfg: Mapping[str, Any]) -> pd.Timedelta | N
     if max_days is not None:
         return pd.Timedelta(days=float(max_days))
     return None
+
+
+def _declared_publication_hiatuses(
+    frame: pd.DataFrame,
+    source_cfg: Mapping[str, Any],
+) -> dict[pd.Timestamp, pd.Timestamp]:
+    policy = source_cfg.get("availability_policy", {})
+    special_dates = policy.get("special_publication_dates", {})
+    if not special_dates or "observed_for" not in frame or "available_at" not in frame:
+        return {}
+    timezone = str(policy.get("timezone", "UTC"))
+    hour = int(policy.get("conservative_local_hour", 0))
+    minute = int(policy.get("conservative_local_minute", 0))
+    observed = pd.to_datetime(frame["observed_for"], utc=True, errors="coerce")
+    available = pd.to_datetime(frame["available_at"], utc=True, errors="coerce")
+    hiatuses: dict[pd.Timestamp, pd.Timestamp] = {}
+    for report_ts, available_ts in zip(observed, available, strict=False):
+        if pd.isna(report_ts) or pd.isna(available_ts):
+            continue
+        publication_day = special_dates.get(pd.Timestamp(report_ts).date().isoformat())
+        if publication_day is None:
+            continue
+        expected = pd.Timestamp(publication_day).tz_localize(timezone) + pd.Timedelta(
+            hours=hour,
+            minutes=minute,
+        )
+        expected = expected.tz_convert("UTC")
+        if pd.Timestamp(available_ts) == expected:
+            hiatuses[pd.Timestamp(available_ts)] = pd.Timestamp(report_ts)
+    return hiatuses
 
 
 def audit_exogenous_family(
@@ -267,14 +304,19 @@ def audit_configured_exogenous_family(
             raise ValueError("required_end must be on or after required_start")
         blockers = list(result.blockers)
         caveats = list(result.caveats)
-        if _staleness_exceeds_limit(
+        declared_hiatuses = _declared_publication_hiatuses(frame, source_cfg)
+        staleness_exceeded, used_declared_hiatus = _staleness_status(
             frame,
             start_ts,
             end_ts,
             max_staleness,
-        ):
+            declared_hiatuses,
+        )
+        if staleness_exceeded:
             blockers.append("max_staleness_exceeded")
         else:
+            if used_declared_hiatus:
+                caveats.append("source_declared_publication_hiatus")
             coverage_end = _coverage_series(frame).max()
             if "coverage_incomplete" in blockers and coverage_end < end_ts:
                 blockers.remove("coverage_incomplete")

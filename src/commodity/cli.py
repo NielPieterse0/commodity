@@ -29,9 +29,15 @@ from commodity.evaluation import (
     evaluate_predictions,
     walk_forward_predict,
 )
+from commodity.exogenous_audit import audit_required_exogenous_families
 from commodity.features import make_supervised
 from commodity.market_data import canonical_market_readiness
 from commodity.models import baseline_factory
+from commodity.nyiso import (
+    NyisoLoadForecastClient,
+    capture_nyiso_v1_window,
+    load_nyiso_v1_window,
+)
 from commodity.policy import assert_model_cannot_submit_orders
 from commodity.provenance import sha256_file, utc_now, write_json
 from commodity.providers import EiaApiV2Client
@@ -228,6 +234,69 @@ def _capture_wngsr_v1_window(args: argparse.Namespace) -> None:
     )
     frame = load_wngsr_v1_window(root, args.start, args.end)
     print(json.dumps({"manifest": str(manifest), "feature_rows": len(frame)}, indent=2))
+
+
+def _capture_nyiso_v1_window(args: argparse.Namespace) -> None:
+    root = Path(args.output_root)
+    manifests = capture_nyiso_v1_window(
+        NyisoLoadForecastClient(), args.start, args.end, root, utc_now()
+    )
+    frame = load_nyiso_v1_window(root, args.start, args.end)
+    print(
+        json.dumps(
+            {"manifests": [str(path) for path in manifests], "feature_rows": len(frame)},
+            indent=2,
+        )
+    )
+
+
+def _audit_v1_exogenous(args: argparse.Namespace) -> None:
+    root = Path(args.snapshot_root)
+    loaders = {
+        "storage": load_wngsr_v1_window,
+        "weather": load_weather_v1_window,
+        "power": load_nyiso_v1_window,
+        "positioning": load_cftc_v1_window,
+    }
+    frames: dict[str, pd.DataFrame | None] = {}
+    load_errors: dict[str, str] = {}
+    for family, loader in loaders.items():
+        try:
+            frames[family] = loader(root, args.start, args.end)
+        except (OSError, ValueError) as exc:
+            frames[family] = None
+            load_errors[family] = str(exc)
+    audits = audit_required_exogenous_families(
+        frames=frames,
+        required_start=args.start,
+        required_end=args.end,
+        evidence_mode="research_pit",
+    )
+    evidence = {
+        "schema_version": 1,
+        "phase": "B",
+        "assessment_as_of": utc_now(),
+        "research_window": {
+            "start": args.start,
+            "end": args.end,
+            "basis": "preserved V1 point-in-time source snapshots",
+        },
+        "policy_inputs": {
+            "data_sources_sha256": sha256_file(REPO_ROOT / "config/data_sources.json"),
+            "experiment_sha256": sha256_file(REPO_ROOT / "config/experiment.json"),
+        },
+        "snapshot_root": str(root.resolve()),
+        "full_v1_ready": all(result.full_v1_ready for result in audits.values()),
+        "families": {
+            family: {
+                **result.to_dict(),
+                **({"load_error": load_errors[family]} if family in load_errors else {}),
+            }
+            for family, result in audits.items()
+        },
+    }
+    write_json(Path(args.output), evidence)
+    print(json.dumps(evidence, indent=2))
 
 
 def _freeze_v1_dataset(args: argparse.Namespace) -> None:
@@ -510,6 +579,29 @@ def build_parser() -> argparse.ArgumentParser:
     preserve_wngsr_v1.add_argument("--end", required=True)
     preserve_wngsr_v1.add_argument("--output-root", default=snapshot_root)
     preserve_wngsr_v1.set_defaults(func=_capture_wngsr_v1_window)
+
+    preserve_nyiso_v1 = sub.add_parser("capture-nyiso-v1-window")
+    preserve_nyiso_v1.add_argument(
+        "--start", default=canonical_source["history_earliest_verified_trade_date"]
+    )
+    preserve_nyiso_v1.add_argument("--end", required=True)
+    preserve_nyiso_v1.add_argument("--output-root", default=snapshot_root)
+    preserve_nyiso_v1.set_defaults(func=_capture_nyiso_v1_window)
+
+    audit_exogenous = sub.add_parser("audit-v1-exogenous")
+    audit_exogenous.add_argument(
+        "--start", default=canonical_source["history_earliest_verified_trade_date"]
+    )
+    audit_exogenous.add_argument("--end", required=True)
+    audit_exogenous.add_argument("--snapshot-root", default=snapshot_root)
+    audit_exogenous.add_argument(
+        "--output",
+        default=str(
+            REPO_ROOT
+            / "docs/development/v1-research-completion/phase-b-evidence.json"
+        ),
+    )
+    audit_exogenous.set_defaults(func=_audit_v1_exogenous)
 
     freeze = sub.add_parser("freeze-v1-dataset")
     freeze.add_argument("--input", default=str(REPO_ROOT / "data/raw/ng_f_daily.csv"))

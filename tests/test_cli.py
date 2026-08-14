@@ -1,3 +1,6 @@
+import json
+
+from commodity import cli
 from commodity.cli import build_parser
 
 
@@ -65,3 +68,52 @@ def test_capture_wngsr_v1_window_parser_is_date_bounded() -> None:
     assert args.start == "2024-08-13"
     assert args.end == "2026-08-12"
     assert not hasattr(args, "week")
+
+
+def test_capture_nyiso_v1_window_parser_is_date_bounded() -> None:
+    args = build_parser().parse_args([
+        "capture-nyiso-v1-window",
+        "--end",
+        "2026-08-12",
+    ])
+    assert args.start == "2024-08-13"
+    assert args.end == "2026-08-12"
+    assert not hasattr(args, "month")
+
+
+def test_audit_v1_exogenous_parser_is_local_and_date_bounded() -> None:
+    args = build_parser().parse_args([
+        "audit-v1-exogenous",
+        "--end",
+        "2026-08-12",
+    ])
+    assert args.start == "2024-08-13"
+    assert args.end == "2026-08-12"
+    assert args.output.endswith("phase-b-evidence.json")
+
+
+def test_audit_v1_exogenous_reports_all_missing_families(tmp_path, monkeypatch) -> None:
+    def missing_loader(*_args):
+        raise ValueError("missing preserved snapshot")
+
+    monkeypatch.setattr(cli, "load_wngsr_v1_window", missing_loader)
+    monkeypatch.setattr(cli, "load_weather_v1_window", missing_loader)
+    monkeypatch.setattr(cli, "load_nyiso_v1_window", missing_loader)
+    monkeypatch.setattr(cli, "load_cftc_v1_window", missing_loader)
+
+    output = tmp_path / "phase-b-evidence.json"
+    args = build_parser().parse_args([
+        "audit-v1-exogenous",
+        "--start", "2024-08-13",
+        "--end", "2026-08-12",
+        "--snapshot-root", str(tmp_path / "snapshots"),
+        "--output", str(output),
+    ])
+    args.func(args)
+
+    evidence = json.loads(output.read_text(encoding="utf-8"))
+    assert evidence["full_v1_ready"] is False
+    assert set(evidence["families"]) == {"storage", "weather", "power", "positioning"}
+    for family in evidence["families"].values():
+        assert "preserved_pit_evidence_missing" in family["blockers"]
+        assert family["load_error"] == "missing preserved snapshot"
