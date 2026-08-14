@@ -11,7 +11,9 @@
       "access": "public_http"
     },
     "cftc_public_reporting": {
-      "api_base": "https://publicreporting.cftc.gov/resource"
+      "api_base": "https://publicreporting.cftc.gov/resource",
+      "annual_disaggregated_futures_only_url_template": "https://www.cftc.gov/files/dea/history/fut_disagg_txt_{year}.zip",
+      "access": "public_http"
     },
     "saxo_openapi_sim": {
       "api_base": "https://gateway.saxobank.com/sim/openapi",
@@ -240,15 +242,58 @@
     },
     "cftc_cot": {
       "provider": "cftc_public_reporting",
-      "dataset": "72hh-3qpy",
+      "dataset": "Disaggregated Futures Only annual historical files",
       "contract_market_code": "023651",
-      "status": "snapshot_ready_backtest_release_time_pending",
-      "purpose": "weekly disaggregated Henry Hub positioning; Managed Money is the preferred research slice",
+      "status": "v1_release_reconstruction_ready",
+      "acquisition_status": "annual_archives_pending",
+      "source_variant": "disaggregated_futures_only",
+      "accepted_source_ids": ["cftc_disaggregated_futures_only_023651"],
+      "purpose": "weekly PIT Henry Hub positioning; Managed Money is the preferred research slice",
       "point_in_time_required": true,
-      "regular_release_semantics": "Friday 15:30 America/New_York; holiday exceptions override",
-      "report_as_of_semantics": "prior Tuesday under the regular schedule",
-      "variant_decision": "futures-only versus futures-and-options-combined remains explicit",
-      "availability_reconstruction_status": "historical_release_calendar_incomplete"
+      "max_staleness_days": 14,
+      "regular_release_semantics": "normally Friday 15:30 America/New_York for prior-Tuesday positions",
+      "report_as_of_semantics": "CFTC report date remains distinct from reconstructed publication availability",
+      "availability_reconstruction_status": "v1_research_ready_conservative",
+      "availability_policy": {
+        "timezone": "America/New_York",
+        "research_pit_allowed": true,
+        "ordinary_conservative_day_offset": 7,
+        "conservative_local_hour": 23,
+        "conservative_local_minute": 59,
+        "ordinary_basis": "cftc_ordinary_next_tuesday_end_of_day",
+        "scheduled_basis": "cftc_2026_release_schedule_end_of_day",
+        "special_basis": "cftc_special_announcement_end_of_day",
+        "special_publication_dates": {
+          "2025-01-07": "2025-01-13",
+          "2025-09-30": "2025-11-19",
+          "2025-10-07": "2025-11-21",
+          "2025-10-14": "2025-11-25",
+          "2025-10-21": "2025-12-02",
+          "2025-10-28": "2025-12-05",
+          "2025-11-04": "2025-12-09",
+          "2025-11-10": "2025-12-10",
+          "2025-11-18": "2025-12-12",
+          "2025-11-25": "2025-12-15",
+          "2025-12-02": "2025-12-17",
+          "2025-12-09": "2025-12-19",
+          "2025-12-16": "2025-12-23",
+          "2025-12-23": "2025-12-29"
+        },
+        "scheduled_2026_release_dates": [
+          "2026-01-05", "2026-01-09", "2026-01-16", "2026-01-23", "2026-01-30",
+          "2026-02-06", "2026-02-13", "2026-02-20", "2026-02-27",
+          "2026-03-06", "2026-03-13", "2026-03-20", "2026-03-27",
+          "2026-04-03", "2026-04-10", "2026-04-17", "2026-04-24",
+          "2026-05-01", "2026-05-08", "2026-05-15", "2026-05-22", "2026-05-29",
+          "2026-06-05", "2026-06-12", "2026-06-22", "2026-06-26",
+          "2026-07-06", "2026-07-10", "2026-07-17", "2026-07-24", "2026-07-31",
+          "2026-08-07", "2026-08-14", "2026-08-21", "2026-08-28",
+          "2026-09-04", "2026-09-11", "2026-09-18", "2026-09-25",
+          "2026-10-02", "2026-10-09", "2026-10-16", "2026-10-23", "2026-10-30",
+          "2026-11-06", "2026-11-16", "2026-11-20", "2026-11-30",
+          "2026-12-04", "2026-12-11", "2026-12-18", "2026-12-28"
+        ]
+      }
     },
     "weather": {
       "provider": "open_meteo_historical_forecast",

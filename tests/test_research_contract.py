@@ -126,6 +126,10 @@ def test_data_source_owner_selects_massive_without_unlocking_canonical_evidence(
     power = data["sources"]["nyiso_load_forecast"]
     assert power["provider"] == "nyiso_mis"
     assert power["product"] == "ISO Load Forecast (P-7)"
+    positioning = data["sources"]["cftc_cot"]
+    assert positioning["contract_market_code"] == "023651"
+    assert positioning["source_variant"] == "disaggregated_futures_only"
+    assert positioning["availability_policy"]["research_pit_allowed"] is True
     assert power["availability_policy"]["research_pit_allowed"] is True
     assert power["availability_policy"]["revision_status"] == "issued_run_immutable"
     assert power["v1_archive_validation"].startswith("730_of_730")
