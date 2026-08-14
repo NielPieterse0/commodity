@@ -152,6 +152,21 @@ def weather_v1_run_schedule(
     return pd.date_range(start_day, end_day, freq="D") + pd.Timedelta(hours=hour)
 
 
+def weather_v1_declared_gaps(
+    start: str | pd.Timestamp,
+    end: str | pd.Timestamp,
+) -> pd.DatetimeIndex:
+    cfg = data_config()["sources"]["weather"]
+    start_ts = _utc_timestamp(start).normalize()
+    end_ts = _utc_timestamp(end).normalize() + pd.Timedelta(days=1)
+    values = [
+        *cfg.get("declared_issued_run_archive_gaps", []),
+        *cfg.get("declared_issued_run_feature_gaps", []),
+    ]
+    gaps = pd.DatetimeIndex(pd.to_datetime(values, utc=True)).drop_duplicates()
+    return gaps[(gaps >= start_ts) & (gaps < end_ts)].sort_values()
+
+
 def _weather_window(
     payload: dict[str, Any],
     run: pd.Timestamp,
@@ -365,12 +380,15 @@ def capture_weather_v1_window(
 ) -> list[Path]:
     root = Path(snapshot_root)
     manifests: list[Path] = []
+    declared_gaps = set(weather_v1_declared_gaps(start, end))
     for run in weather_v1_run_schedule(start, end):
         snapshot_id = _weather_snapshot_id(run)
         manifest = root / "open_meteo_v1" / snapshot_id / "manifest.json"
         if manifest.exists():
             verify_snapshot(manifest)
             manifests.append(manifest)
+            continue
+        if run in declared_gaps:
             continue
         manifests.append(
             capture_weather_v1_run(
@@ -393,6 +411,8 @@ def load_weather_v1_window(
     root = Path(snapshot_root)
     rows: list[pd.DataFrame] = []
     expected_runs = weather_v1_run_schedule(start, end)
+    declared_gaps = set(weather_v1_declared_gaps(start, end))
+    skipped_declared_gaps: set[pd.Timestamp] = set()
     parse_dates = [
         "observed_for",
         "issued_at",
@@ -404,6 +424,9 @@ def load_weather_v1_window(
         snapshot_id = _weather_snapshot_id(run)
         manifest = root / "open_meteo_v1" / snapshot_id / "manifest.json"
         if not manifest.is_file():
+            if run in declared_gaps:
+                skipped_declared_gaps.add(run)
+                continue
             raise ValueError(f"Weather V1 missing scheduled snapshot: {snapshot_id}")
         verify_snapshot(manifest)
         metadata = json.loads(manifest.read_text(encoding="utf-8"))
@@ -424,8 +447,14 @@ def load_weather_v1_window(
     result = pd.concat(rows, ignore_index=True)
     result = result.sort_values("issued_at", kind="mergesort").reset_index(drop=True)
     observed_runs = pd.DatetimeIndex(pd.to_datetime(result["issued_at"], utc=True))
-    if not observed_runs.equals(expected_runs):
-        raise ValueError("Weather V1 loaded run schedule does not match configured daily schedule")
+    expected_loaded_runs = pd.DatetimeIndex(
+        [run for run in expected_runs if run not in skipped_declared_gaps]
+    )
+    if not observed_runs.equals(expected_loaded_runs):
+        raise ValueError(
+            "Weather V1 loaded run schedule does not match configured daily schedule "
+            "after declared archive gaps"
+        )
     if not result["source_raw_sha256"].astype(str).str.fullmatch(r"[0-9a-f]{64}").all():
         raise ValueError("Weather V1 loaded features contain invalid raw lineage")
     return result

@@ -106,6 +106,40 @@ def _staleness_status(
     return required_end - previous > max_age, used_declared_hiatus
 
 
+def _declared_issued_run_gaps_explain_staleness(
+    frame: pd.DataFrame,
+    required_start: pd.Timestamp,
+    required_end: pd.Timestamp,
+    max_age: pd.Timedelta,
+    source_cfg: Mapping[str, Any],
+) -> bool:
+    declared_values = (
+        *source_cfg.get("declared_issued_run_archive_gaps", ()),
+        *source_cfg.get("declared_issued_run_feature_gaps", ()),
+    )
+    if not declared_values or "issued_at" not in frame.columns:
+        return False
+    issued = pd.DatetimeIndex(
+        pd.to_datetime(frame["issued_at"], utc=True, errors="coerce").dropna().unique()
+    ).sort_values()
+    if issued.empty:
+        return False
+    cycle_hour = int(source_cfg.get("v1_run_cycle_utc_hour", 0))
+    scheduled_actual = issued.normalize() + pd.Timedelta(hours=cycle_hour)
+    if not issued.equals(scheduled_actual):
+        return False
+    expected = pd.date_range(issued[0], issued[-1], freq="D")
+    missing = set(expected) - set(issued)
+    declared = set(pd.to_datetime(declared_values, utc=True))
+    if not missing or not missing.issubset(declared):
+        return False
+    coverage = _coverage_series(frame).dropna().sort_values().drop_duplicates()
+    available_at_start = coverage[coverage <= required_start]
+    if available_at_start.empty or required_start - available_at_start.iloc[-1] > max_age:
+        return False
+    return required_end - coverage.iloc[-1] <= max_age
+
+
 def _configured_max_staleness(source_cfg: Mapping[str, Any]) -> pd.Timedelta | None:
     max_hours = source_cfg.get("max_staleness_hours")
     max_days = source_cfg.get("max_staleness_days")
@@ -312,9 +346,18 @@ def audit_configured_exogenous_family(
             max_staleness,
             declared_hiatuses,
         )
-        if staleness_exceeded:
+        declared_run_gap = (
+            family == "weather"
+            and staleness_exceeded
+            and _declared_issued_run_gaps_explain_staleness(
+                frame, start_ts, end_ts, max_staleness, source_cfg
+            )
+        )
+        if staleness_exceeded and not declared_run_gap:
             blockers.append("max_staleness_exceeded")
         else:
+            if declared_run_gap:
+                caveats.append("source_declared_issued_run_gap")
             if used_declared_hiatus:
                 caveats.append("source_declared_publication_hiatus")
             coverage_end = _coverage_series(frame).max()
