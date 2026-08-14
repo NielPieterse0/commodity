@@ -1,0 +1,41 @@
+{
+  "content_class": "data-evidence",
+  "parameters": {
+    "run": {
+      "max_length": 16,
+      "pattern": "(?:2024|2025|2026)-(?:0[1-9]|1[0-2])-(?:0[1-9]|[12][0-9]|3[01])T00:00",
+      "required": true
+    }
+  },
+  "recipe_id": "commodity-open-meteo-ecmwf-v1-bundle",
+  "request": {
+    "headers": {},
+    "method": "GET",
+    "query": {
+      "forecast_days": {
+        "literal": "10"
+      },
+      "hourly": {
+        "literal": "temperature_2m,relative_humidity_2m,precipitation,wind_speed_10m"
+      },
+      "latitude": {
+        "literal": "41.8781,40.7128,33.749,29.7604"
+      },
+      "longitude": {
+        "literal": "-87.6298,-74.006,-84.388,-95.3698"
+      },
+      "models": {
+        "literal": "ecmwf_ifs"
+      },
+      "run": {
+        "parameter": "run"
+      },
+      "timezone": {
+        "literal": "UTC"
+      }
+    },
+    "url": "https://single-runs-api.open-meteo.com/v1/forecast"
+  },
+  "schema_version": 1,
+  "source_identity": "Open-Meteo ECMWF issued weather V1 multi-anchor bundle"
+}
