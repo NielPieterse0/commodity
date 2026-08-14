@@ -125,8 +125,13 @@ def normalize_disaggregated_futures_only_archive(
     variant = _require(frame, "FutOnly_or_Combined").astype(str).str.strip()
     if not variant.eq("FutOnly").all():
         raise ValueError("CFTC Henry Hub annual rows are not exclusively Futures Only")
+    report_date_column = _first_column(
+        frame,
+        "Report_Date_as_YYYY-MM-DD",
+        "As_of_Date_Form_YYYY-MM-DD",
+    )
     report_dates = pd.to_datetime(
-        _require(frame, "As_of_Date_Form_YYYY-MM-DD"), utc=True, errors="coerce"
+        _require(frame, report_date_column), utc=True, errors="coerce"
     )
     if report_dates.isna().any():
         raise ValueError("CFTC annual archive contains invalid report dates")
