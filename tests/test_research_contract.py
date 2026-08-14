@@ -123,6 +123,13 @@ def test_data_source_owner_selects_massive_without_unlocking_canonical_evidence(
         source = data["sources"][source_name]
         assert source["point_in_time_required"] is True
         assert source["availability_reconstruction_status"] != "complete"
+    storage = data["sources"]["eia_storage"]
+    assert storage["provider"] == "eia_wngsr"
+    assert storage["source_variant"] == "original_plus_published_revisions"
+    assert storage["availability_policy"]["research_pit_allowed"] is True
+    assert storage["availability_policy"]["research_pit_allowed_for_current_snapshot"] is False
+    assert data["providers"]["eia_wngsr"]["history_url"].endswith("/ngshistory.xls")
+    assert data["providers"]["eia_wngsr"]["revisions_url"].endswith("/revisions.xls")
     power = data["sources"]["nyiso_load_forecast"]
     assert power["provider"] == "nyiso_mis"
     assert power["product"] == "ISO Load Forecast (P-7)"

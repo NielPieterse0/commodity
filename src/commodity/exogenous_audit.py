@@ -161,10 +161,12 @@ def _configured_policy_blockers(
     if evidence_mode not in {"research_pit", "canonical"}:
         return ()
     policy = source_cfg.get("availability_policy", {})
-    if family == "storage" and not policy.get(
-        "research_pit_allowed_for_current_snapshot", False
-    ):
-        return ("current_snapshot_not_research_pit_admissible",)
+    if family == "storage":
+        if not policy.get("research_pit_allowed", False):
+            return ("configured_storage_source_not_research_pit_admissible",)
+        accepted_source_ids = set(source_cfg.get("accepted_source_ids", ()))
+        if evidence_source_id not in accepted_source_ids:
+            return ("configured_storage_source_identity_mismatch",)
     if family == "power":
         if not policy.get("research_pit_allowed", False):
             return ("configured_power_source_not_research_pit_admissible",)
@@ -250,6 +252,19 @@ def audit_configured_exogenous_family(
         evidence_source_id=resolved_evidence_source_id,
     )
     lineage_blockers: tuple[str, ...] = ()
+    if family == "storage" and frame is not None and not frame.empty:
+        blockers: list[str] = []
+        expected_variant = str(source_cfg.get("source_variant", ""))
+        if "source_variant" not in frame.columns:
+            blockers.append("storage_source_variant_missing")
+        elif not frame["source_variant"].astype(str).eq(expected_variant).all():
+            blockers.append("storage_source_variant_invalid")
+        for column in ("history_raw_sha256", "revisions_raw_sha256"):
+            if column not in frame.columns:
+                blockers.append(f"storage_{column}_missing")
+            elif not frame[column].astype(str).str.fullmatch(r"[0-9a-f]{64}").all():
+                blockers.append(f"storage_{column}_invalid")
+        lineage_blockers = tuple(blockers)
     if family == "weather" and frame is not None and not frame.empty:
         blockers: list[str] = []
         if "source_id" not in frame.columns:

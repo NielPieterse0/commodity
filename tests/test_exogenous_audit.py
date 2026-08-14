@@ -108,15 +108,19 @@ def test_missing_evidence_is_explicitly_not_fit() -> None:
     assert result.blockers == ("preserved_pit_evidence_missing",)
 
 
-def test_configured_storage_cannot_promote_current_snapshot() -> None:
+def test_configured_storage_requires_wngsr_vintage_source_and_raw_lineage() -> None:
     from commodity.exogenous_audit import audit_configured_exogenous_family
 
     frame = pd.DataFrame(
         {
-            "observed_for": pd.to_datetime(["2025-01-01", "2025-01-31"], utc=True),
-            "available_at": pd.to_datetime(["2025-01-02", "2025-02-01"], utc=True),
-            "availability_status": ["verified", "verified"],
-            "revision_status": ["point_in_time", "point_in_time"],
+            "observed_for": pd.to_datetime(["2024-12-20", "2025-01-24"], utc=True),
+            "available_at": pd.to_datetime(["2024-12-27T15:30Z", "2025-01-30T15:30Z"]),
+            "availability_status": ["reconstructed_conservative"] * 2,
+            "revision_status": ["point_in_time"] * 2,
+            "source_id": ["eia_wngsr_vintage_reconstruction"] * 2,
+            "source_variant": ["original_plus_published_revisions"] * 2,
+            "history_raw_sha256": ["a" * 64] * 2,
+            "revisions_raw_sha256": ["b" * 64] * 2,
             "signal": [1.0, 2.0],
         }
     )
@@ -127,8 +131,20 @@ def test_configured_storage_cannot_promote_current_snapshot() -> None:
         required_start="2025-01-01",
         required_end="2025-01-31",
     )
-    assert result.verdict == "not-fit"
-    assert "current_snapshot_not_research_pit_admissible" in result.blockers
+    assert result.verdict == "fit-with-caveats"
+    assert result.full_v1_ready is True
+    assert "bounded_forward_fill" in result.caveats
+
+    current_snapshot = frame.assign(source_id="eia_api_v2")
+    result = audit_configured_exogenous_family(
+        family="storage",
+        source_name="eia_storage",
+        frame=current_snapshot,
+        required_start="2025-01-01",
+        required_end="2025-01-31",
+    )
+    assert result.full_v1_ready is False
+    assert "configured_storage_source_identity_mismatch" in result.blockers
 
 
 def test_configured_power_uses_nyiso_issued_vintages_not_eia_revised_history() -> None:

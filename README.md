@@ -33,6 +33,7 @@ Raw snapshots live under ignored `data/raw/snapshots/`. Manifests contain source
 .\.venv\Scripts\python.exe -m commodity.cli capture-weather-run --run <YYYY-MM-DDTHH:MM> --latitude <lat> --longitude <lon> --snapshot-id <id>
 .\.venv\Scripts\python.exe -m commodity.cli capture-weather-v1-window --end <YYYY-MM-DD>
 .\.venv\Scripts\python.exe -m commodity.cli capture-cftc-v1-window --end <YYYY-MM-DD>
+.\.venv\Scripts\python.exe -m commodity.cli capture-wngsr-v1-window --end <YYYY-MM-DD>
 ```
 
 Verified 2026-08-13 capture metadata is recorded in `docs/development/us-v1-data-foundation/evidence.json`. That file intentionally records hashes/coverage only.

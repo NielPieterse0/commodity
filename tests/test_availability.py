@@ -229,7 +229,10 @@ def test_authoritative_config_owns_availability_rules_without_unlocking_massive(
     power = cfg["sources"]["eia_power"]["availability_policy"]
     weather = cfg["sources"]["weather"]["availability_policy"]
     assert storage["timezone"] == "America/New_York"
+    assert storage["exception_registry_coverage_start"] == "2024-08-01"
     assert storage["exception_registry_coverage_end"] == "2026-11-25"
+    assert storage["release_date_overrides"]["2024-11-28"].startswith("2024-11-27T12:00")
+    assert storage["release_date_overrides"]["2024-12-26"].startswith("2024-12-27T10:30")
     assert "2025-11-13" in storage["release_date_overrides"]
     assert power["demand"]["period_end_reporting_lag_minutes"] == 60
     assert weather["research_global_model_delay_minutes"] == 360
