@@ -432,11 +432,11 @@ def test_configured_weather_rejects_missing_daily_run() -> None:
     assert "max_staleness_exceeded" in result.blockers
 
 
-def test_configured_weather_allows_declared_issued_run_archive_gaps() -> None:
+def test_configured_weather_allows_declared_issued_run_gaps() -> None:
     from commodity.exogenous_audit import audit_configured_exogenous_family
 
     issued = pd.to_datetime(
-        ["2025-08-04T00:00Z", "2025-08-07T00:00Z", "2025-08-10T00:00Z"]
+        ["2025-08-04T00:00Z", "2025-08-10T00:00Z"]
     )
     frame = pd.DataFrame(
         {
@@ -459,4 +459,4 @@ def test_configured_weather_allows_declared_issued_run_archive_gaps() -> None:
     assert result.full_v1_ready is True
     assert result.verdict == "fit-with-caveats"
     assert "max_staleness_exceeded" not in result.blockers
-    assert "source_declared_issued_run_archive_gap" in result.caveats
+    assert "source_declared_issued_run_gap" in result.caveats

@@ -113,7 +113,10 @@ def _declared_issued_run_gaps_explain_staleness(
     max_age: pd.Timedelta,
     source_cfg: Mapping[str, Any],
 ) -> bool:
-    declared_values = source_cfg.get("declared_issued_run_archive_gaps", ())
+    declared_values = (
+        *source_cfg.get("declared_issued_run_archive_gaps", ()),
+        *source_cfg.get("declared_issued_run_feature_gaps", ()),
+    )
     if not declared_values or "issued_at" not in frame.columns:
         return False
     issued = pd.DatetimeIndex(
@@ -354,7 +357,7 @@ def audit_configured_exogenous_family(
             blockers.append("max_staleness_exceeded")
         else:
             if declared_run_gap:
-                caveats.append("source_declared_issued_run_archive_gap")
+                caveats.append("source_declared_issued_run_gap")
             if used_declared_hiatus:
                 caveats.append("source_declared_publication_hiatus")
             coverage_end = _coverage_series(frame).max()

@@ -152,16 +152,18 @@ def weather_v1_run_schedule(
     return pd.date_range(start_day, end_day, freq="D") + pd.Timedelta(hours=hour)
 
 
-def weather_v1_declared_archive_gaps(
+def weather_v1_declared_gaps(
     start: str | pd.Timestamp,
     end: str | pd.Timestamp,
 ) -> pd.DatetimeIndex:
     cfg = data_config()["sources"]["weather"]
     start_ts = _utc_timestamp(start).normalize()
     end_ts = _utc_timestamp(end).normalize() + pd.Timedelta(days=1)
-    gaps = pd.DatetimeIndex(
-        pd.to_datetime(cfg.get("declared_issued_run_archive_gaps", []), utc=True)
-    )
+    values = [
+        *cfg.get("declared_issued_run_archive_gaps", []),
+        *cfg.get("declared_issued_run_feature_gaps", []),
+    ]
+    gaps = pd.DatetimeIndex(pd.to_datetime(values, utc=True)).drop_duplicates()
     return gaps[(gaps >= start_ts) & (gaps < end_ts)].sort_values()
 
 
@@ -378,7 +380,7 @@ def capture_weather_v1_window(
 ) -> list[Path]:
     root = Path(snapshot_root)
     manifests: list[Path] = []
-    declared_gaps = set(weather_v1_declared_archive_gaps(start, end))
+    declared_gaps = set(weather_v1_declared_gaps(start, end))
     for run in weather_v1_run_schedule(start, end):
         snapshot_id = _weather_snapshot_id(run)
         manifest = root / "open_meteo_v1" / snapshot_id / "manifest.json"
@@ -409,7 +411,7 @@ def load_weather_v1_window(
     root = Path(snapshot_root)
     rows: list[pd.DataFrame] = []
     expected_runs = weather_v1_run_schedule(start, end)
-    declared_gaps = set(weather_v1_declared_archive_gaps(start, end))
+    declared_gaps = set(weather_v1_declared_gaps(start, end))
     skipped_declared_gaps: set[pd.Timestamp] = set()
     parse_dates = [
         "observed_for",

@@ -198,7 +198,7 @@ def test_weather_v1_loader_requires_every_scheduled_manifest(tmp_path: Path) -> 
         raise AssertionError("Weather V1 loader must fail closed on a date gap")
 
 
-def test_weather_v1_window_allows_only_declared_archive_gaps(tmp_path: Path) -> None:
+def test_weather_v1_window_allows_only_declared_issued_run_gaps(tmp_path: Path) -> None:
     from commodity.config import data_config
 
     cfg = data_config()["sources"]["weather"]
@@ -215,9 +215,9 @@ def test_weather_v1_window_allows_only_declared_archive_gaps(tmp_path: Path) -> 
     manifests = capture_weather_v1_window(
         client, "2025-08-04", "2025-08-10", tmp_path, "2026-08-14T22:00:00Z"
     )
-    assert len(manifests) == 3
-    assert client.calls == 3 * len(cfg["v1_anchors"])
+    assert len(manifests) == 2
+    assert client.calls == 2 * len(cfg["v1_anchors"])
     loaded = load_weather_v1_window(tmp_path, "2025-08-04", "2025-08-10")
     assert list(loaded["issued_at"]) == list(
-        pd.to_datetime(["2025-08-04T00:00Z", "2025-08-07T00:00Z", "2025-08-10T00:00Z"])
+        pd.to_datetime(["2025-08-04T00:00Z", "2025-08-10T00:00Z"])
     )
