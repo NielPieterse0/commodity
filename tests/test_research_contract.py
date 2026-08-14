@@ -123,6 +123,12 @@ def test_data_source_owner_selects_massive_without_unlocking_canonical_evidence(
         source = data["sources"][source_name]
         assert source["point_in_time_required"] is True
         assert source["availability_reconstruction_status"] != "complete"
+    power = data["sources"]["nyiso_load_forecast"]
+    assert power["provider"] == "nyiso_mis"
+    assert power["product"] == "ISO Load Forecast (P-7)"
+    assert power["availability_policy"]["research_pit_allowed"] is True
+    assert power["availability_policy"]["revision_status"] == "issued_run_immutable"
+    assert power["v1_archive_validation"].startswith("730_of_730")
 
 
 def test_provider_connection_settings_have_single_owner() -> None:

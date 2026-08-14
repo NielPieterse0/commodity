@@ -86,6 +86,47 @@ def test_full_v1_requires_all_configured_families() -> None:
         )
 
 
+def test_full_v1_power_requires_configured_nyiso_source_identity() -> None:
+    from commodity.research_dataset import PitFeatureSource, build_pit_dataset
+
+    times = pd.date_range("2025-01-01T12:00:00Z", periods=80, freq="D")
+
+    def power_source(source_id: str) -> PitFeatureSource:
+        return PitFeatureSource(
+            name="power_forecast",
+            family="power",
+            frame=pd.DataFrame(
+                {
+                    "issued_at": times - pd.Timedelta(days=1),
+                    "available_at": times,
+                    "availability_status": "reconstructed_conservative",
+                    "revision_status": "issued_run_immutable",
+                    "power_signal": 1.0,
+                }
+            ),
+            value_columns=("power_signal",),
+            source_id=source_id,
+        )
+
+    with pytest.raises(ValueError, match="power.*configured_power_source_identity_mismatch"):
+        build_pit_dataset(
+            _market_frame(),
+            exogenous=[power_source("eia_api_v2")],
+            required_families=("market", "calendar_seasonality", "power"),
+            require_full_v1=True,
+        )
+
+    dataset, manifest = build_pit_dataset(
+        _market_frame(),
+        exogenous=[power_source("nyiso_p7_iso_load_forecast")],
+        required_families=("market", "calendar_seasonality", "power"),
+        require_full_v1=True,
+    )
+    assert not dataset.empty
+    assert manifest["completeness"] == "full_v1"
+    assert manifest["exogenous_family_audits"]["power"][0]["full_v1_ready"] is True
+
+
 def test_full_v1_rejects_family_name_without_full_window_evidence() -> None:
     from commodity.research_dataset import PitFeatureSource, build_pit_dataset
 

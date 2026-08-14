@@ -28,6 +28,11 @@
       "access": "public_archive",
       "role": "historical_issued_forecast_fallback"
     },
+    "nyiso_mis": {
+      "p7_index_url": "https://mis.nyiso.com/public/P-7list.htm",
+      "p7_archive_url_template": "https://mis.nyiso.com/public/csv/isolf/{year:04d}{month:02d}01isolf_csv.zip",
+      "access": "public_http"
+    },
     "massive_futures": {
       "api_base": "https://api.massive.com",
       "env_key": "MASSIVE_API_KEY",
@@ -210,6 +215,27 @@
         "current_snapshot_revision_status": "current_snapshot_revised_history",
         "research_pit_allowed_for_current_snapshot": false,
         "screening_allowed_with_revision_risk": true
+      }
+    },
+    "nyiso_load_forecast": {
+      "provider": "nyiso_mis",
+      "product": "ISO Load Forecast (P-7)",
+      "status": "archive_contract_validated_acquisition_pending",
+      "purpose": "PIT-admissible issued NYISO load forecasts for the V1 power feature family",
+      "point_in_time_required": true,
+      "v1_required_window": "2024-08-13 through 2026-08-12",
+      "v1_archive_validation": "730_of_730_prediction_dates_have_eligible_next_day_forecast",
+      "accepted_source_ids": ["nyiso_p7_iso_load_forecast"],
+      "availability_reconstruction_status": "conservative_bound_validated_for_v1_window",
+      "availability_policy": {
+        "timezone": "America/New_York",
+        "local_hour": 12,
+        "local_minute": 0,
+        "source_updated_at": "zip_member_timestamp",
+        "reconstructed_availability_status": "reconstructed_conservative",
+        "revision_status": "issued_run_immutable",
+        "research_pit_allowed": true,
+        "basis": "Noon America/New_York on the member operating date is later than every observed P-7 archive member update in the validated V1 window and before the experiment after-close cutoff"
       }
     },
     "cftc_cot": {

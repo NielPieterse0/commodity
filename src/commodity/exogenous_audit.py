@@ -13,7 +13,7 @@ from commodity.config import data_config
 _REQUIRED_EXOGENOUS_SOURCES = {
     "storage": "eia_storage",
     "weather": "weather",
-    "power": "eia_power",
+    "power": "nyiso_load_forecast",
     "positioning": "cftc_cot",
 }
 REQUIRED_EXOGENOUS_FAMILIES = tuple(_REQUIRED_EXOGENOUS_SOURCES)
@@ -156,13 +156,20 @@ def _configured_policy_blockers(
     family: str,
     source_cfg: Mapping[str, Any],
     evidence_mode: str,
+    evidence_source_id: str | None = None,
 ) -> tuple[str, ...]:
     if evidence_mode not in {"research_pit", "canonical"}:
         return ()
-    if family in {"storage", "power"}:
-        policy = source_cfg.get("availability_policy", {})
+    policy = source_cfg.get("availability_policy", {})
+    if family == "storage":
         if not policy.get("research_pit_allowed_for_current_snapshot", False):
             return ("current_snapshot_not_research_pit_admissible",)
+    if family == "power":
+        if not policy.get("research_pit_allowed", False):
+            return ("configured_power_source_not_research_pit_admissible",)
+        accepted_source_ids = set(source_cfg.get("accepted_source_ids", ()))
+        if evidence_source_id is not None and evidence_source_id not in accepted_source_ids:
+            return ("configured_power_source_identity_mismatch",)
     if family == "positioning":
         status = str(source_cfg.get("availability_reconstruction_status", ""))
         if "incomplete" in status or "pending" in status:
@@ -174,6 +181,7 @@ def audit_configured_exogenous_family(
     *,
     family: str,
     source_name: str | None = None,
+    evidence_source_id: str | None = None,
     frame: pd.DataFrame | None,
     required_start: str | pd.Timestamp,
     required_end: str | pd.Timestamp,
@@ -196,7 +204,12 @@ def audit_configured_exogenous_family(
         required_end=required_end,
         evidence_mode=evidence_mode,
     )
-    policy_blockers = _configured_policy_blockers(family, source_cfg, evidence_mode)
+    policy_blockers = _configured_policy_blockers(
+        family,
+        source_cfg,
+        evidence_mode,
+        evidence_source_id=evidence_source_id,
+    )
     if not policy_blockers:
         return result
     blockers = tuple(dict.fromkeys((*result.blockers, *policy_blockers)))
