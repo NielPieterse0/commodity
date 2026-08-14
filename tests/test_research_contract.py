@@ -242,3 +242,20 @@ def test_phase_b_evidence_classifies_all_required_exogenous_families() -> None:
         assert result["family"] == family
         assert result["verdict"] in {"fit", "fit-with-caveats", "not-fit"}
         assert result["blockers"] or result["full_v1_ready"]
+
+
+def test_phase_c_evidence_fails_closed_when_phase_b_is_not_ready() -> None:
+    evidence = load_json(
+        ROOT
+        / "docs"
+        / "development"
+        / "v1-research-completion"
+        / "phase-c-evidence.json"
+    )
+    assert evidence["schema_version"] == 1
+    assert evidence["phase"] == "C"
+    assert evidence["phase_b_full_v1_ready"] is False
+    assert evidence["full_v1_freeze_status"] == "blocked"
+    assert evidence["empirical_dataset_audit"]["status"] == "not_run_blocked"
+    assert evidence["decision"]["phase_d_allowed"] is False
+    assert evidence["machinery"]["synthetic_fixtures_are_research_evidence"] is False
