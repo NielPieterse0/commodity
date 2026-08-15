@@ -1,0 +1,135 @@
+{
+  "schema_version": 1,
+  "record": "v1_phase_e_closeout_index",
+  "assessment_as_of": "2026-08-15",
+  "stage": "E1_closeout_preparation",
+  "issue": 21,
+  "depends_on_issue": 20,
+  "disposition": null,
+  "allowed_dispositions": [
+    "V1 complete",
+    "V1 complete with bounded caveats",
+    "V1 revise"
+  ],
+  "disposition_rules": {
+    "V1 complete": "all_issue_21_acceptance_gates_pass_and_no_material_unresolved_caveat",
+    "V1 complete with bounded caveats": "all_issue_21_acceptance_gates_pass_with_only_explicit_non_blocking_caveats",
+    "V1 revise": "one_or_more_issue_21_acceptance_gates_fail"
+  },
+  "predictive_edge_is_system_completion_gate": false,
+  "coordination": {
+    "phase_c": "complete_maintenance_only",
+    "phase_d": "primary_active_critical_path",
+    "phase_e": "secondary_active_preparation_only",
+    "capacity_guidance": {
+      "phase_d_percent": "70-80",
+      "phase_e_percent": "20-30"
+    },
+    "additional_v1_track_allowed": false
+  },
+  "gates": {
+    "phase_d_final_evidence": "pending",
+    "authority_reconciliation": "audit_prepared",
+    "exact_head_verification": "not_due",
+    "final_specialist_review": "not_due",
+    "traceability_complete": false
+  },
+  "phase_c": {
+    "source": "docs/development/v1-research-completion/phase-bc-empirical-closeout.json",
+    "dataset_id": "us-ng-pit-0c0a39b36692",
+    "freeze_id": "b6aaf445500f2841",
+    "dataset_sha256": "0c0a39b3669215b4bdc45a0fdedf90697f0c2c92690cb33700bd0bc47c80a45f",
+    "rows": 456,
+    "oos_rows": 204,
+    "audit_verdict": "fit-with-caveats",
+    "research_evaluation_eligible": true,
+    "research_promotion_eligible": false
+  },
+  "phase_d": {
+    "status": "awaiting_final_evidence",
+    "issue": 20,
+    "final_commit_sha": null,
+    "pull_request": null,
+    "plan_id": null,
+    "split_id": null,
+    "plan_artifact": {"path": null, "sha256": null},
+    "lineage_artifact": {"path": null, "sha256": null},
+    "predictions_artifact": {"path": null, "sha256": null},
+    "evaluation_artifact": {"path": null, "sha256": null},
+    "ablation_artifact": {"path": null, "sha256": null},
+    "statistics_artifact": {"path": null, "sha256": null},
+    "negative_results_artifact": {"path": null, "sha256": null},
+    "reproducibility_artifact": {"path": null, "sha256": null},
+    "run_manifest_artifact": {"path": null, "sha256": null},
+    "run_coverage": {
+      "expected_tuple_count": null,
+      "observed_tuple_count": null,
+      "complete": false,
+      "tuple_key": ["candidate_id", "ablation_id", "seed"],
+      "per_run_lineage_references_required": true,
+      "per_run_evaluation_references_required": true,
+      "negative_result_identifiers_required": true
+    },
+    "required_lineage": [
+      "selection.candidate_id",
+      "selection.ablation_id",
+      "selection.seed",
+      "dataset.id",
+      "dataset.sha256",
+      "dataset.manifest_sha256",
+      "features.definition_sha256",
+      "features.preprocessing_sha256",
+      "experiment_config_sha256",
+      "code.commit_sha",
+      "environment.dependency_lock_sha256",
+      "artifacts.predictions_sha256",
+      "artifacts.evaluation_sha256"
+    ]
+  },
+  "phase_d_required_evaluation": {
+    "return": "pending",
+    "direction_probability": "pending",
+    "volatility_distribution": "pending",
+    "calibration_where_applicable": "pending",
+    "regime_scenario": "pending",
+    "ablations": "pending",
+    "paired_statistics": "pending",
+    "multiple_comparisons_where_material": "pending",
+    "predefined_robustness": "pending",
+    "negative_results_preserved": "pending"
+  },
+  "phase_e_conclusions": {
+    "system_completeness": null,
+    "predictive_edge": null,
+    "negative_results_summary": null,
+    "bounded_caveats": [],
+    "residual_risks": [],
+    "reproducibility_status": null
+  },
+  "authority": {
+    "map": "AGENTS.md#repository-authority",
+    "execution_permission_owner": "config/policy.json",
+    "execution_permission_changed_by_phase_e": false,
+    "reconciliation_status": "pending_E2",
+    "historical_evidence_rewrite_allowed": false
+  },
+  "final_closeout": {
+    "commit_sha": null,
+    "pull_request": null,
+    "verification_artifact": null,
+    "specialist_review_artifacts": [],
+    "traceability_artifact": null,
+    "issue_21_closed": false
+  },
+  "prohibitions": [
+    "select_disposition_before_phase_d_final",
+    "interpret_preliminary_phase_d_as_final",
+    "change_phase_d_selection_criteria",
+    "weaken_robustness_thresholds",
+    "modify_frozen_dataset",
+    "change_phase_d_candidates_or_ablations",
+    "promote_predictive_edge_without_robustness_evidence",
+    "change_execution_permissions",
+    "start_kronos_v2_or_geographic_expansion"
+  ]
+}
