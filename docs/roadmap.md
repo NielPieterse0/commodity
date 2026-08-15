@@ -4,6 +4,8 @@
 
 This file owns only the research milestone sequence. The repository authority map is in `AGENTS.md`; current operational gates remain in their assigned configuration owners. Geographic/data expansion is owned by `docs/data-manifest.md`: U.S. / Henry Hub first, then Global/Interconnect and Norway/Europe when incremental evidence justifies promotion.
 
+**Current milestone:** V1 is complete with bounded caveats. Its reproducible full-V1 evaluation concluded `no_robust_edge`; this closes the V1 evidence-baseline milestone but does not authorize research promotion, V2 activation, or live execution.
+
 ```text
 DATA TRUTH  ->  BASELINES  ->  KRONOS + INDICATORS  ->  ROBUST ENSEMBLE  ->  FORWARD TEST  ->  APPROVED EXECUTION
    V0              V1                 V2                     V3                  V4                  V5
@@ -12,7 +14,7 @@ DATA TRUTH  ->  BASELINES  ->  KRONOS + INDICATORS  ->  ROBUST ENSEMBLE  ->  FOR
 | Phase | Outcome | Promotion gate |
 |---|---|---|
 | **V0 - Data truth** | Provider-neutral per-contract data, deterministic roll/term structure, point-in-time fundamentals/weather, reproducible provenance | Data contract and leakage controls pass |
-| **V1 - Evidence baseline** | Naive/statistical/tree-boosting benchmarks, volatility + direction targets, compact hypothesis-led indicator library | Walk-forward OOS evidence beats appropriate baselines |
+| **V1 - Evidence baseline** | Naive/statistical/tree-boosting benchmarks, volatility + direction targets, compact hypothesis-led indicator library | Full-V1 walk-forward, robustness, and ablation evidence is reproducible and supports a governed disposition; robust edge is required for an edge/promotion claim, not for V1 system completion |
 | **V2 - Market-aware fusion** | Kronos market layer + fundamental, futures-structure and technical indicators; component ablations | Fusion adds robust incremental signal over Kronos-only and indicators-only |
 | **V3 - Robust ensemble** | Calibrated uncertainty, regime testing, selective challenger models and evidence-based ensembling | Gains persist across regimes, horizons and realistic friction |
 | **V4 - Forward validation** | Frozen forecasts, live vintage capture, broker simulation/paper execution, drift monitoring | Forward evidence confirms research assumptions and execution realism |

@@ -1,0 +1,149 @@
+{
+  "schema_version": 1,
+  "record": "v1_phase_e_closeout_evidence",
+  "assessment_as_of": "2026-08-15",
+  "issue": 21,
+  "parent_program_issue": 15,
+  "disposition": "V1 complete with bounded caveats",
+  "adoption_gate": "effective_only_after_exact_head_specialist_review_verification_ci_and_merge",
+  "judgments": {
+    "system_completeness": "complete_with_bounded_caveats",
+    "predictive_edge": "no_robust_edge",
+    "predictive_edge_claim": false,
+    "research_promotion_allowed": false,
+    "trading_authority": false,
+    "tested_experiment_disposition": "reject",
+    "tested_experiment_empirical_result": "no_robust_edge"
+  },
+  "completion_basis": {
+    "definition": "deterministic_full_v1_PIT_dataset_plus_reproducible_tournament_direction_volatility_ablations_and_governed_disposition",
+    "predictive_edge_is_completion_gate": false,
+    "negative_result_can_complete_v1": true,
+    "all_phase_d_required_runs_present": true,
+    "phase_d_result_reproducible": true
+  },
+  "phase_c": {
+    "source": "docs/development/v1-research-completion/phase-bc-empirical-closeout.json",
+    "source_sha256": "cdcbaf41374fd84f5c211011213191f7fefdb24a5725e1a789768dbe34eaded8",
+    "dataset_id": "us-ng-pit-0c0a39b36692",
+    "freeze_id": "b6aaf445500f2841",
+    "dataset_sha256": "0c0a39b3669215b4bdc45a0fdedf90697f0c2c92690cb33700bd0bc47c80a45f",
+    "manifest_sha256": "e1a23a5d0fe31cb473e94c3cd2ecdc19fb6683612da43bc630f0e5bf59072422",
+    "rows": 456,
+    "oos_rows": 204,
+    "audit_verdict": "fit-with-caveats",
+    "blocking_findings": [],
+    "bounded_caveats": [
+      "evaluation_only_market_evidence"
+    ],
+    "research_evaluation_eligible": true,
+    "research_promotion_eligible": false
+  },
+  "phase_d": {
+    "issue": 20,
+    "pull_request": 71,
+    "reviewed_pr_head": "a38f40d8cffe922c597c256e66de4a9d2f88a10e",
+    "landed_main": "9bdcd4ed64336e23c3c3bc7fb8821ab7cf08bd4d",
+    "implementation_commit": "8d3fed1c8d16c78c6fa0812ebb6f49ae9fb70230",
+    "evaluation_config": {
+      "path": "config/phase_d_evaluation.json",
+      "sha256": "6c3ffbc586a60a972d9bb567140411f9838a60beff9d72dca7bd828b9ba130d5"
+    },
+    "evidence": {
+      "path": "docs/development/v1-research-completion/phase-d-evidence.json",
+      "file_sha256": "69087543584fb6b34eab783bd801f61e181c9770d33df9a12cca8b74cb5267bf",
+      "canonical_evidence_sha256": "4922ad3eaf7835d37547edf5b2a7f4c402cca1fa30db7e5b6aa70a33f0a703e5"
+    },
+    "closeout": {
+      "path": "docs/development/v1-research-completion/phase-d-closeout.json",
+      "sha256": "da2b78c599e3216efdd84071c31593db49793bbd12b352d6eb89538519375beb"
+    },
+    "plan_id": "2ce2eb302acef8d43b14bc0f66811a8aab98d528debc0f5daf15930a4b5cafde",
+    "split_id": "c0a407ce414bf44737388e27dd50cb410aa73e0f5985157f4c868187ee6c5e7a",
+    "run_coverage": {
+      "models": 3,
+      "ablations": 8,
+      "seeds": [
+        0
+      ],
+      "expected_runs": 24,
+      "observed_runs": 24,
+      "complete": true,
+      "folds": 41,
+      "oos_rows": 204
+    },
+    "reproducibility": {
+      "independent_runs": 2,
+      "evidence_files_byte_identical": true,
+      "prediction_artifact_hashes_identical": true,
+      "prediction_artifact_count": 24,
+      "status": "reproducible_exact"
+    },
+    "empirical_result": {
+      "robustness_disposition": "no_robust_edge",
+      "naive_rmse": 0.0453230577562102,
+      "ridge_rmse": 0.055883297766646245,
+      "hist_gb_rmse": 0.04650733779411404,
+      "model_family_ablation_tests": 21,
+      "material_incremental_value_count": 0,
+      "negative_results_preserved": true
+    }
+  },
+  "bounded_caveats": [
+    "The admitted Phase C market evidence is evaluation-only rather than canonical/promotion-grade evidence.",
+    "The V1 model ladder is intentionally limited to naive, Ridge, and histogram gradient boosting without empirical hyperparameter tuning.",
+    "The out-of-sample sample contains 204 rows, so uncertainty and multiple-testing controls remain material to interpretation.",
+    "Volatility/distribution coverage uses a shared trailing-history sigma diagnostic rather than a separately trained volatility model."
+  ],
+  "residual_risks": [
+    "Canonical market-data licensing/evidence remains unresolved and must not be inferred from V1 evaluation completeness.",
+    "No tested model or admitted information family demonstrated robust incremental predictive value, so there is no evidence basis for research promotion.",
+    "The negative result is bounded to the frozen V1 dataset, target, model ladder, information families, and predefined Phase D protocol.",
+    "Post-V1 challengers such as Kronos or geographic expansion require separate pre-registered work and are not authorized by this closeout."
+  ],
+  "negative_results": {
+    "ridge_vs_naive_rmse_improvement": -0.010560240010436045,
+    "hist_gb_vs_naive_rmse_improvement": -0.0011842800379038418,
+    "robust_edge_models": [],
+    "material_information_families": [],
+    "interpretation": "The completed V1 experiment is informative as a reproducible negative result; system completeness does not convert that result into a predictive-edge claim."
+  },
+  "authority": {
+    "research_evaluation_eligible": true,
+    "research_promotion_eligible": false,
+    "execution_permission_owner": "config/policy.json",
+    "execution_permission_changed_by_phase_e": false,
+    "live_trading_allowed": false,
+    "historical_phase_b_c_snapshots_rewritten": false
+  },
+  "traceability": {
+    "dataset_phase_issue": 19,
+    "empirical_phase_issue": 20,
+    "closeout_phase_issue": 21,
+    "phase_e_preparation_pr": 70,
+    "phase_d_pr": 71,
+    "final_phase_e_head_binding": "GitHub pull request and issue #21 closeout comment after exact-head verification"
+  },
+  "final_gate": {
+    "required_reviews": [
+      "model-evaluator",
+      "statistical-analyst",
+      "reproducibility-auditor",
+      "dataset-auditor",
+      "time-series-research",
+      "documentation-review"
+    ],
+    "exact_head_verification_required": true,
+    "github_ci_required": true,
+    "merge_required": true,
+    "failure_rule": "do_not_adopt_this_disposition; revise_closeout_and_reverify"
+  },
+  "out_of_scope": [
+    "live_execution_authority",
+    "research_promotion",
+    "frozen_dataset_changes",
+    "phase_d_criteria_or_threshold_changes",
+    "kronos_or_v2_activation",
+    "europe_norway_or_global_expansion"
+  ]
+}
