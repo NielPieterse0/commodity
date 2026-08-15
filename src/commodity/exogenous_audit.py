@@ -9,6 +9,7 @@ import pandas as pd
 
 from commodity.availability import validate_availability
 from commodity.config import data_config
+from commodity.evidence_authority import PIT_EVIDENCE_MODES
 
 _REQUIRED_EXOGENOUS_SOURCES = {
     "storage": "eia_storage",
@@ -220,7 +221,7 @@ def audit_exogenous_family(
     try:
         validate_availability(frame, evidence_mode)
     except ValueError:
-        blockers.append("research_pit_ineligible_rows")
+        blockers.append(f"{evidence_mode}_ineligible_rows")
 
     required_start_ts = _utc(required_start)
     required_end_ts = _utc(required_end)
@@ -266,7 +267,7 @@ def _configured_policy_blockers(
     evidence_mode: str,
     evidence_source_id: str | None = None,
 ) -> tuple[str, ...]:
-    if evidence_mode not in {"research_pit", "canonical"}:
+    if evidence_mode not in PIT_EVIDENCE_MODES:
         return ()
     policy = source_cfg.get("availability_policy", {})
     if family == "storage":

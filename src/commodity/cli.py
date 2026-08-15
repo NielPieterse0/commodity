@@ -19,6 +19,8 @@ from commodity.config import (
     simulation_config,
 )
 from commodity.data import CsvMarketDataSource, YFinanceMarketDataSource, save_raw
+from commodity.dataset_audit import audit_full_v1_dataset
+from commodity.dataset_freeze import load_frozen_dataset
 from commodity.eia import (
     EiaBulkClient,
     capture_eia_api_dataset,
@@ -38,8 +40,15 @@ from commodity.nyiso import (
     capture_nyiso_v1_window,
     load_nyiso_v1_window,
 )
+from commodity.phase_d_run import run_phase_d_from_frozen
 from commodity.policy import assert_model_cannot_submit_orders
-from commodity.provenance import sha256_file, utc_now, write_json
+from commodity.provenance import (
+    git_code_state,
+    locked_environment_mismatches,
+    sha256_file,
+    utc_now,
+    write_json,
+)
 from commodity.providers import EiaApiV2Client
 from commodity.records import build_baseline_record, build_tournament_record
 from commodity.research_dataset import TARGET_COLUMN, build_pit_dataset
@@ -299,7 +308,48 @@ def _audit_v1_exogenous(args: argparse.Namespace) -> None:
     print(json.dumps(evidence, indent=2))
 
 
+def _reproduce_v1(args: argparse.Namespace) -> None:
+    dataset_dir = Path(args.dataset_dir)
+    frame, manifest = load_frozen_dataset(dataset_dir)
+    audit = audit_full_v1_dataset(frame, manifest)
+    if audit.verdict == "not-fit":
+        raise ValueError(f"Frozen V1 dataset fails current audit: {list(audit.blockers)}")
+    environment_mismatches = locked_environment_mismatches(Path(args.dependency_lock))
+    if environment_mismatches:
+        raise ValueError(
+            "Research-grade V1 reproduction requires the exact locked environment: "
+            + "; ".join(environment_mismatches[:10])
+        )
+    code = git_code_state(REPO_ROOT)
+    if code["commit_sha"] is None or code["working_tree_dirty"]:
+        raise ValueError("Research-grade V1 reproduction requires a clean exact Git commit")
+    output_dir = Path(args.output)
+    evidence = run_phase_d_from_frozen(
+        dataset_dir=dataset_dir,
+        config_path=Path(args.config),
+        models_path=Path(args.models),
+        dependency_lock_path=Path(args.dependency_lock),
+        output_dir=output_dir,
+        code_commit=str(code["commit_sha"]),
+    )
+    write_json(output_dir / "current-dataset-audit.json", audit.to_dict())
+    print(json.dumps({
+        "disposition": evidence["results"]["robustness"]["disposition"],
+        "dataset_rows": evidence["dataset"]["rows"],
+        "oos_rows": evidence["dataset"]["oos_rows"],
+        "audit_verdict": audit.verdict,
+        "research_promotion_eligible": evidence["authority"]["research_promotion_eligible"],
+        "trading_authority": evidence["authority"]["trading_authority"],
+        "output": str(output_dir),
+    }, indent=2))
+
+
 def _freeze_v1_dataset(args: argparse.Namespace) -> None:
+    if args.require_full_v1:
+        raise ValueError(
+            "The CSV/yfinance bootstrap path cannot claim full V1 evidence; use reproduce-v1 "
+            "with the governed frozen dataset."
+        )
     frame = CsvMarketDataSource(Path(args.input)).fetch(args.start, args.end)
     exp = experiment_config()
     dataset_cfg = exp["dataset"]
@@ -506,6 +556,12 @@ def build_parser() -> argparse.ArgumentParser:
     data_cfg = data_config()
     canonical_source = data_cfg["sources"]["market_canonical"]
     snapshot_root = str(REPO_ROOT / "data/raw/snapshots")
+    phase_d_config_path = REPO_ROOT / "config/phase_d_evaluation.json"
+    phase_d_cfg = json.loads(phase_d_config_path.read_text(encoding="utf-8"))
+    frozen = phase_d_cfg["dataset"]
+    frozen_dataset_dir = REPO_ROOT / "data/processed/full-v1-freezes" / (
+        f"{frozen['dataset_id']}-{frozen['freeze_id']}"
+    )
     baseline_choices = sorted(
         name
         for name, cfg in models_cfg["models"].items()
@@ -608,7 +664,22 @@ def build_parser() -> argparse.ArgumentParser:
     )
     audit_exogenous.set_defaults(func=_audit_v1_exogenous)
 
-    freeze = sub.add_parser("freeze-v1-dataset")
+    reproduce = sub.add_parser(
+        "reproduce-v1",
+        help="Re-audit and reproduce the frozen research-grade V1 Phase D evaluation",
+    )
+    reproduce.add_argument("--dataset-dir", type=Path, default=frozen_dataset_dir)
+    reproduce.add_argument("--config", type=Path, default=phase_d_config_path)
+    reproduce.add_argument("--models", type=Path, default=REPO_ROOT / "config/models.json")
+    reproduce.add_argument(
+        "--dependency-lock", type=Path, default=REPO_ROOT / "requirements.lock.txt"
+    )
+    reproduce.add_argument(
+        "--output", type=Path, default=REPO_ROOT / "artifacts/runs/v1-reproduction"
+    )
+    reproduce.set_defaults(func=_reproduce_v1)
+
+    freeze = sub.add_parser("freeze-v1-dataset", help="Development/bootstrap dataset path only")
     freeze.add_argument("--input", default=str(REPO_ROOT / "data/raw/ng_f_daily.csv"))
     freeze.add_argument("--start", default=period["start"])
     freeze.add_argument("--end", default=period["end"])

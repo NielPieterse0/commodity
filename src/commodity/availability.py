@@ -5,23 +5,9 @@ from zoneinfo import ZoneInfo
 
 import pandas as pd
 
-AVAILABILITY_MODES = {"canonical", "research_pit", "screening"}
+from commodity.evidence_authority import AVAILABILITY_MODE_RULES
 
-_ALLOWED_AVAILABILITY = {
-    "canonical": {"verified"},
-    "research_pit": {"verified", "reconstructed_conservative"},
-    "screening": {"verified", "reconstructed_conservative"},
-}
-
-_ALLOWED_REVISIONS = {
-    "canonical": {"point_in_time", "issued_run_immutable"},
-    "research_pit": {"point_in_time", "issued_run_immutable"},
-    "screening": {
-        "point_in_time",
-        "issued_run_immutable",
-        "current_snapshot_revised_history",
-    },
-}
+AVAILABILITY_MODES = frozenset(AVAILABILITY_MODE_RULES)
 
 _WEEKDAY_INDEX = {
     "monday": 0,
@@ -119,65 +105,52 @@ def annotate_eia930_generation_availability(
     return out
 
 
+def resolve_wngsr_release(
+    observed_for: str | pd.Timestamp,
+    source_cfg: dict,
+) -> tuple[pd.Timestamp | pd.NaT, str, str]:
+    policy = source_cfg["availability_policy"]
+    timezone = str(policy["timezone"])
+    weekday_name = str(policy["regular_release_weekday"]).strip().lower()
+    try:
+        release_weekday = _WEEKDAY_INDEX[weekday_name]
+    except KeyError:
+        raise ValueError(f"Unsupported release weekday: {weekday_name!r}") from None
+    observed_date = pd.Timestamp(observed_for).date()
+    days_to_release = (release_weekday - observed_date.weekday()) % 7 or 7
+    regular_date = observed_date + dt.timedelta(days=days_to_release)
+    override = policy.get("release_date_overrides", {}).get(regular_date.isoformat())
+    if override is not None:
+        release = pd.Timestamp(override)
+        if release.tzinfo is None:
+            raise ValueError(f"WNGSR override must include timezone: {override!r}")
+        return release.tz_convert("UTC"), "reconstructed_conservative", "wngsr_release_schedule"
+    coverage_start = pd.Timestamp(policy["exception_registry_coverage_start"]).date()
+    coverage_end = pd.Timestamp(policy["exception_registry_coverage_end"]).date()
+    if regular_date < coverage_start or regular_date > coverage_end:
+        return pd.NaT, "unresolved", "wngsr_release_schedule_unresolved"
+    zone = ZoneInfo(timezone)
+    local_dt = dt.datetime.combine(
+        regular_date,
+        dt.time(int(policy["regular_release_hour"]), int(policy["regular_release_minute"])),
+        tzinfo=zone,
+    )
+    return pd.Timestamp(local_dt).tz_convert("UTC"), "reconstructed_conservative", "wngsr_release_schedule"
+
+
 def annotate_wngsr_availability(
     frame: pd.DataFrame,
     source_cfg: dict,
     observed_col: str = "period",
 ) -> pd.DataFrame:
     _require_columns(frame, {observed_col})
-    policy = source_cfg["availability_policy"]
-    timezone = policy["timezone"]
-    coverage_start = pd.Timestamp(policy["exception_registry_coverage_start"]).date()
-    coverage_end = pd.Timestamp(policy["exception_registry_coverage_end"]).date()
-    overrides = policy.get("release_date_overrides", {})
-    release_hour = int(policy["regular_release_hour"])
-    release_minute = int(policy["regular_release_minute"])
-    weekday_name = str(policy["regular_release_weekday"]).strip().lower()
-    try:
-        release_weekday = _WEEKDAY_INDEX[weekday_name]
-    except KeyError:
-        raise ValueError(f"Unsupported release weekday: {weekday_name!r}") from None
-    zone = ZoneInfo(timezone)
-
     out = frame.copy()
     out["observed_for"] = pd.to_datetime(out[observed_col], utc=True)
-    available: list[pd.Timestamp | pd.NaT] = []
-    statuses: list[str] = []
-
-    for observed in out["observed_for"]:
-        observed_date = pd.Timestamp(observed).date()
-        days_to_release = (release_weekday - observed_date.weekday()) % 7
-        if days_to_release == 0:
-            days_to_release = 7
-        regular_date = observed_date + dt.timedelta(days=days_to_release)
-        regular_key = regular_date.isoformat()
-        override = overrides.get(regular_key)
-
-        outside_coverage = regular_date < coverage_start or regular_date > coverage_end
-        if outside_coverage and override is None:
-            available.append(pd.NaT)
-            statuses.append("unresolved")
-            continue
-
-        if override is not None:
-            release = pd.Timestamp(override)
-            if release.tzinfo is None:
-                raise ValueError(f"WNGSR override must include timezone: {override!r}")
-            available_at = release.tz_convert("UTC")
-        else:
-            local_dt = dt.datetime.combine(
-                regular_date,
-                dt.time(release_hour, release_minute),
-                tzinfo=zone,
-            )
-            available_at = pd.Timestamp(local_dt).tz_convert("UTC")
-        available.append(available_at)
-        statuses.append("reconstructed_conservative")
-
-    out["available_at"] = pd.to_datetime(available, utc=True)
-    out["availability_status"] = statuses
+    resolved = [resolve_wngsr_release(value, source_cfg) for value in out["observed_for"]]
+    out["available_at"] = pd.to_datetime([item[0] for item in resolved], utc=True)
+    out["availability_status"] = [item[1] for item in resolved]
     out["revision_status"] = "current_snapshot_revised_history"
-    out["availability_basis"] = "wngsr_release_schedule"
+    out["availability_basis"] = [item[2] for item in resolved]
     return out
 
 
@@ -234,8 +207,9 @@ def validate_availability(frame: pd.DataFrame, mode: str) -> pd.DataFrame:
                 f"row indices {bad_rows}"
             )
         out["issued_at"] = issued_at
-    allowed_availability = _ALLOWED_AVAILABILITY[mode]
-    allowed_revisions = _ALLOWED_REVISIONS[mode]
+    rules = AVAILABILITY_MODE_RULES[mode]
+    allowed_availability = rules["availability_statuses"]
+    allowed_revisions = rules["revision_statuses"]
     invalid = (
         out["available_at"].isna()
         | ~out["availability_status"].isin(allowed_availability)

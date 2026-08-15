@@ -17,7 +17,7 @@
       "kind": "sklearn", "enabled": true,
       "family": "tree_boosting_baseline", "architecture": "hist_gradient_boosting",
       "baseline_implementation": "hist_gradient_boosting_return",
-      "learning_rate": 0.05, "max_iter": 20, "max_leaf_nodes": 15
+      "learning_rate": 0.05, "max_iter": 20, "max_leaf_nodes": 15, "random_state": 0
     },
     "kronos_mini": {
       "kind": "optional_foundation_model", "enabled": true,

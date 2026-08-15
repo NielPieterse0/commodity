@@ -40,12 +40,13 @@ class HistGradientBoostingReturnModel:
         learning_rate: float = 0.05,
         max_iter: int = 100,
         max_leaf_nodes: int = 15,
+        random_state: int = 0,
     ) -> None:
         self.model = HistGradientBoostingRegressor(
             learning_rate=learning_rate,
             max_iter=max_iter,
             max_leaf_nodes=max_leaf_nodes,
-            random_state=0,
+            random_state=random_state,
         )
 
     def fit(self, x: pd.DataFrame, y: pd.Series) -> HistGradientBoostingReturnModel:
@@ -78,12 +79,14 @@ def baseline_factory(
         learning_rate = float(cfg.get("learning_rate", 0.05))
         max_iter = int(cfg.get("max_iter", 100))
         max_leaf_nodes = int(cfg.get("max_leaf_nodes", 15))
+        random_state = int(cfg.get("random_state", 0))
 
         def hist_factory() -> HistGradientBoostingReturnModel:
             return HistGradientBoostingReturnModel(
                 learning_rate=learning_rate,
                 max_iter=max_iter,
                 max_leaf_nodes=max_leaf_nodes,
+                random_state=random_state,
             )
 
         return hist_factory

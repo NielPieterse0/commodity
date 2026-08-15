@@ -59,6 +59,8 @@ def _manifest(frame: pd.DataFrame) -> dict:
         "included_feature_families": required,
         "missing_feature_families": [],
         "rows": len(frame),
+        "initial_train_rows": 252,
+        "minimum_exogenous_join_coverage": 1.0,
         "columns": list(frame.columns),
         "start": frame.index[0].isoformat(),
         "end": frame.index[-1].isoformat(),

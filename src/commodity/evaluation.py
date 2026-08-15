@@ -49,6 +49,42 @@ def evaluate_predictions(pred: pd.DataFrame) -> dict[str, float]:
     }
 
 
+def paired_nonoverlapping_block_sign_flip_mse(
+    challenger: pd.DataFrame,
+    baseline: pd.DataFrame,
+    *,
+    block_size: int,
+) -> dict[str, float | int | str]:
+    if not challenger.index.equals(baseline.index):
+        raise ValueError("Paired forecasts must have identical indexes")
+    if not np.allclose(challenger["actual"], baseline["actual"], equal_nan=False):
+        raise ValueError("Paired forecasts must have identical actual values")
+    n_blocks = len(challenger) // block_size
+    if block_size < 1 or n_blocks < 8:
+        raise ValueError("block sign-flip check requires at least 8 complete blocks")
+    n = n_blocks * block_size
+    actual = challenger["actual"].to_numpy(dtype=float)[:n]
+    challenger_error = challenger["prediction"].to_numpy(dtype=float)[:n] - actual
+    baseline_error = baseline["prediction"].to_numpy(dtype=float)[:n] - actual
+    row_delta = baseline_error**2 - challenger_error**2
+    block_delta = row_delta.reshape(n_blocks, block_size).mean(axis=1)
+    observed = float(block_delta.mean())
+    if n_blocks > 20:
+        raise ValueError("exact block sign-flip check supports at most 20 complete blocks")
+    masks = np.arange(1 << n_blocks, dtype=np.uint64)[:, None]
+    bits = (masks >> np.arange(n_blocks, dtype=np.uint64)) & 1
+    signs = bits.astype(float) * 2.0 - 1.0
+    null = (signs * block_delta).mean(axis=1)
+    p_value = float((1 + np.count_nonzero(null >= observed)) / (len(null) + 1))
+    return {
+        "method": "nonoverlapping_block_sign_flip_mse",
+        "mse_improvement": observed,
+        "p_value_one_sided_improvement": p_value,
+        "complete_blocks": n_blocks,
+        "block_size": block_size,
+    }
+
+
 def paired_block_bootstrap_rmse(
     challenger: pd.DataFrame,
     baseline: pd.DataFrame,
@@ -67,6 +103,9 @@ def paired_block_bootstrap_rmse(
         raise ValueError("block_size must be between 1 and the paired sample size")
     if resamples < 100:
         raise ValueError("resamples must be at least 100")
+    effective_blocks = n / block_size
+    if effective_blocks < 8:
+        raise ValueError("moving-block bootstrap requires at least 8 effective blocks")
     if not 0 < confidence < 1:
         raise ValueError("confidence must be between 0 and 1")
 
@@ -91,6 +130,7 @@ def paired_block_bootstrap_rmse(
             "p_value": 1.0,
             "significant": False,
             "block_size": block_size,
+            "effective_blocks": float(effective_blocks),
             "resamples": resamples,
         }
 
@@ -116,8 +156,9 @@ def paired_block_bootstrap_rmse(
         "ci_lower": float(lower),
         "ci_upper": float(upper),
         "p_value": p_value,
-        "significant": bool(lower > 0.0),
+        "significant": bool(lower > 0.0 and p_value <= alpha),
         "block_size": block_size,
+        "effective_blocks": float(effective_blocks),
         "resamples": resamples,
     }
 

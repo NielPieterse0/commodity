@@ -84,7 +84,7 @@ def build_baseline_record(
             "checkpoint_sha256": None,
         },
         "training": {
-            "seeds": [0],
+            "seeds": [int(model_cfg.get("random_state", 0))],
             "hyperparameters": model_cfg,
             "epochs": None,
         },
@@ -164,6 +164,20 @@ def build_tournament_record(
     feature_path = REPO_ROOT / "src/commodity/features.py"
     preprocessing_path = REPO_ROOT / "src/commodity/research_dataset.py"
     lock_path = REPO_ROOT / "requirements.lock.txt"
+    improvement = float(significance.get("rmse_improvement", 0.0))
+    significant = significance.get("significant") is True
+    if model_name != exp["tournament"]["baseline_model"] and improvement > 0.0 and significant:
+        run_disposition = "repeat"
+        run_rationale = (
+            "This development tournament run shows a positive significant RMSE delta; repeat only "
+            "through the governed Phase D path before any research claim."
+        )
+    else:
+        run_disposition = "reject"
+        run_rationale = (
+            "This development tournament run does not establish a promotable forecasting edge; "
+            "the finalized V1 disposition is owned by the governed Phase D evidence."
+        )
     return {
         "schema_version": 2,
         "experiment_id": exp["experiment_id"],
@@ -212,7 +226,7 @@ def build_tournament_record(
             "checkpoint_sha256": None,
         },
         "training": {
-            "seeds": [0],
+            "seeds": [int(model_cfg.get("random_state", 0))],
             "hyperparameters": model_cfg,
             "epochs": None,
         },
@@ -245,8 +259,8 @@ def build_tournament_record(
             "stability": None,
         },
         "decision": {
-            "disposition": exp["decision"]["disposition"],
-            "rationale": exp["decision"]["rationale"],
+            "disposition": run_disposition,
+            "rationale": run_rationale,
             "scope": "research_only",
             "evidence_mode": evidence_mode,
             "market_evaluation_evidence": market_evaluation_evidence,

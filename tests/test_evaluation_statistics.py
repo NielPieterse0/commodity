@@ -33,3 +33,17 @@ def test_paired_block_bootstrap_reports_no_difference_for_same_input() -> None:
     assert result["rmse_improvement"] == 0.0
     assert result["significant"] is False
     assert result["p_value"] == 1.0
+
+
+def test_secondary_block_sign_flip_check_reports_no_edge_for_worse_model() -> None:
+    from commodity.evaluation import paired_nonoverlapping_block_sign_flip_mse
+
+    actual = np.sin(np.arange(200) / 5.0) / 10
+    baseline = _predictions(actual, np.zeros_like(actual))
+    challenger = _predictions(actual, np.zeros_like(actual) + 0.2)
+    result = paired_nonoverlapping_block_sign_flip_mse(
+        challenger, baseline, block_size=20
+    )
+    assert result["mse_improvement"] < 0.0
+    assert result["p_value_one_sided_improvement"] > 0.5
+    assert result["complete_blocks"] == 10

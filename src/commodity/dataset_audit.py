@@ -158,10 +158,8 @@ def audit_full_v1_dataset(
         experiment_config()["walk_forward"]["initial_train_rows"]
     )
     try:
-        manifest_initial_train = int(
-            manifest.get("initial_train_rows", configured_initial_train)
-        )
-    except (TypeError, ValueError):
+        manifest_initial_train = int(manifest["initial_train_rows"])
+    except (KeyError, TypeError, ValueError):
         manifest_initial_train = -1
     if manifest_initial_train != configured_initial_train:
         blockers.append("split_contract_mismatch")
@@ -204,6 +202,11 @@ def audit_full_v1_dataset(
             blockers.append("inconsistent_join_diagnostics")
 
     minimum_join_coverage = min(join_coverages) if join_coverages else None
+    required_join_coverage = float(
+        experiment_config()["dataset"].get("minimum_exogenous_join_coverage", 0.0)
+    )
+    if minimum_join_coverage is None or minimum_join_coverage < required_join_coverage:
+        blockers.append("minimum_join_coverage_not_met")
     distribution_shift = _distribution_shift(frame)
     if distribution_shift is not None and distribution_shift > 3.0:
         caveats.append("material_distribution_shift")

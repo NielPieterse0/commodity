@@ -61,10 +61,14 @@ def cftc_research_availability(report_date: str | pd.Timestamp) -> dict[str, Any
     else:
         publication_day = None
         basis = policy["ordinary_basis"]
-    if publication_day is None and report_day.year == 2026:
-        scheduled = [pd.Timestamp(value).date() for value in policy["scheduled_2026_release_dates"]]
-        publication_day = next((day for day in scheduled if day > report_day), None)
-        if publication_day is not None:
+    if publication_day is None:
+        scheduled = sorted(
+            pd.Timestamp(value).date() for value in policy.get("scheduled_release_dates", ())
+        )
+        candidate = next((day for day in scheduled if day > report_day), None)
+        max_schedule_gap = int(policy["ordinary_conservative_day_offset"])
+        if candidate is not None and (candidate - report_day).days <= max_schedule_gap:
+            publication_day = candidate
             basis = policy["scheduled_basis"]
     if publication_day is None:
         publication_day = report_day + dt.timedelta(

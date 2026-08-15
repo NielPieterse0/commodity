@@ -24,6 +24,7 @@
       "market", "market_structure", "storage", "weather", "power",
       "positioning", "calendar_seasonality"
     ],
+    "minimum_exogenous_join_coverage": 1.0,
     "promotion_completeness": "full_v1"
   },
   "tournament": {

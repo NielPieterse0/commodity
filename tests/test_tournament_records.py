@@ -60,6 +60,8 @@ def test_tournament_record_is_schema_valid_and_carries_controls(tmp_path: Path) 
     assert record["decision"]["canonical_market_evidence"] is False
     assert record["decision"]["research_evaluation_eligible"] is True
     assert record["decision"]["research_promotion_eligible"] is False
+    assert "development tournament" in record["decision"]["rationale"].lower()
+    assert "finalized V1 disposition" in record["decision"]["rationale"]
 
 
 def test_tournament_record_rejects_evaluation_promotion_claim(tmp_path: Path) -> None:

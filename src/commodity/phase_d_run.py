@@ -17,6 +17,7 @@ from commodity.phase_d_evaluation import (
     feature_family_columns,
     run_phase_d_evaluation,
 )
+from commodity.provenance import sha256_json_file
 
 _GIT_SHA_RE = re.compile(r"^[0-9a-fA-F]{40}$")
 
@@ -38,6 +39,22 @@ def _load_json(path: Path) -> dict[str, Any]:
     if not isinstance(value, dict):
         raise TypeError(f"Expected a JSON object: {path}")
     return value
+
+
+def _exogenous_join_coverage(manifest: Mapping[str, Any]) -> dict[str, float]:
+    sources = manifest.get("exogenous_sources")
+    if not isinstance(sources, list):
+        lineage = manifest.get("source_lineage", {})
+        sources = lineage.get("exogenous_sources", []) if isinstance(lineage, Mapping) else []
+    if not isinstance(sources, list):
+        return {}
+    return {
+        str(item["family"]): float(item["join_coverage_ratio"])
+        for item in sources
+        if isinstance(item, Mapping)
+        and item.get("family") is not None
+        and item.get("join_coverage_ratio") is not None
+    }
 
 
 def validate_phase_d_dataset_manifest(
@@ -230,6 +247,7 @@ def run_phase_d_from_frozen(
         frame,
         manifest,
         model_names=[str(name) for name in config["models"]],
+        baseline_model=str(config["baseline_model"]),
         models=selected_models,
         initial_train=int(walk["initial_train_rows"]),
         retrain_every=int(walk["retrain_every_rows"]),
@@ -241,8 +259,8 @@ def run_phase_d_from_frozen(
     output_dir = Path(output_dir)
     predictions_dir = output_dir / "predictions"
     predictions_dir.mkdir(parents=True, exist_ok=True)
-    config_sha256 = _file_sha256(config_path)
-    models_sha256 = _file_sha256(models_path)
+    config_sha256 = sha256_json_file(config_path)
+    models_sha256 = sha256_json_file(models_path)
     dependency_lock_sha256 = _file_sha256(dependency_lock_path)
     feature_definition_sha256 = _json_sha256(mapping)
     preprocessing_sha256 = _json_sha256(
@@ -307,6 +325,7 @@ def run_phase_d_from_frozen(
             }
         )
 
+    join_coverage_by_family = _exogenous_join_coverage(manifest)
     evidence: dict[str, Any] = {
         "schema_version": 1,
         "phase": "D",
@@ -318,6 +337,7 @@ def run_phase_d_from_frozen(
             "rows": len(frame),
             "oos_rows": len(frame) - int(walk["initial_train_rows"]),
             "audit_verdict": manifest.get("dataset_audit", {}).get("verdict"),
+            "exogenous_join_coverage": join_coverage_by_family,
         },
         "execution": {
             "code_commit": code_commit.lower(),

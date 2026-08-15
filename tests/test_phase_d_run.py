@@ -38,6 +38,19 @@ def _manifest() -> dict:
     }
 
 
+def test_phase_d_surfaces_per_family_join_coverage() -> None:
+    from commodity.phase_d_run import _exogenous_join_coverage
+
+    manifest = _manifest()
+    manifest["source_lineage"] = {
+        "exogenous_sources": [
+            {"family": "storage", "join_coverage_ratio": 1.0},
+            {"family": "weather", "join_coverage_ratio": 0.997},
+        ]
+    }
+    assert _exogenous_join_coverage(manifest) == {"storage": 1.0, "weather": 0.997}
+
+
 def test_dataset_gate_requires_exact_frozen_evaluation_identity() -> None:
     from commodity.phase_d_run import validate_phase_d_dataset_manifest
 
