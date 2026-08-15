@@ -26,6 +26,7 @@
   },
   "significance": {
     "method": "moving_block_bootstrap",
+    "secondary_method": "nonoverlapping_block_sign_flip_mse",
     "block_size": 20,
     "resamples": 1000,
     "confidence": 0.95,

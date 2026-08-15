@@ -117,6 +117,7 @@ def test_phase_d_evaluation_runs_full_ladder_and_all_ablations() -> None:
         _frame(),
         _manifest(),
         model_names=("naive", "ridge", "hist_gb"),
+        baseline_model="naive",
         models=_models(),
         initial_train=40,
         retrain_every=5,

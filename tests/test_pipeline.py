@@ -159,15 +159,22 @@ def test_backtest_cli_labels_default_output_noncanonical(tmp_path) -> None:
 
 
 def test_asof_features_respect_release_time() -> None:
-    from commodity.features import asof_join_available
+    from commodity.availability import asof_join_point_in_time
 
-    idx = pd.DatetimeIndex(["2026-01-01T20:00Z", "2026-01-02T20:00Z"])
-    market = pd.DataFrame({"ret": [0.0, 0.1]}, index=idx)
+    cutoffs = pd.DataFrame({
+        "prediction_time": pd.to_datetime(
+            ["2026-01-01T20:00Z", "2026-01-02T20:00Z"], utc=True
+        )
+    })
     exog = pd.DataFrame({
         "available_at": pd.to_datetime(["2026-01-02T12:00Z"], utc=True),
+        "availability_status": ["reconstructed_conservative"],
+        "revision_status": ["point_in_time"],
         "storage_surprise": [7.0],
     })
-    joined = asof_join_available(market, exog, ["storage_surprise"])
+    joined = asof_join_point_in_time(
+        cutoffs, exog, ["storage_surprise"], mode="research_pit"
+    )
     assert pd.isna(joined.iloc[0]["storage_surprise"])
     assert joined.iloc[1]["storage_surprise"] == 7.0
 
@@ -316,7 +323,7 @@ def test_run_tournament_writes_schema_valid_experiment_records(tmp_path) -> None
     from commodity.config import REPO_ROOT
     from commodity.provenance import sha256_file
 
-    n = 80
+    n = 200
     index = pd.date_range("2025-01-01", periods=n, freq="D", tz="UTC")
     dataset = tmp_path / "pit.csv"
     ret = np.sin(np.arange(n) / 3.0) / 100

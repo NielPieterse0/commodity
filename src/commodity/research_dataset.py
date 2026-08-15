@@ -332,6 +332,19 @@ def build_pit_dataset(
             raise ValueError(f"Full V1 exogenous evidence is not ready: {details}")
     if dataset.empty:
         raise ValueError("PIT dataset is empty after availability-safe joins")
+    dataset_cfg = experiment_config()["dataset"]
+    minimum_join_coverage = float(dataset_cfg.get("minimum_exogenous_join_coverage", 0.0))
+    if require_full_v1:
+        below_threshold = {
+            str(item["family"]): float(item["join_coverage_ratio"])
+            for item in exogenous_lineage
+            if float(item["join_coverage_ratio"]) < minimum_join_coverage
+        }
+        if below_threshold:
+            raise ValueError(
+                "Full V1 exogenous join coverage is below the configured minimum: "
+                f"{below_threshold}"
+            )
 
     digest = dataframe_sha256(dataset)
     completeness = "full_v1" if require_full_v1 and not missing else "pit_core"
@@ -350,6 +363,8 @@ def build_pit_dataset(
         "included_feature_families": sorted(families),
         "missing_feature_families": missing,
         "rows": len(dataset),
+        "initial_train_rows": int(experiment_config()["walk_forward"]["initial_train_rows"]),
+        "minimum_exogenous_join_coverage": minimum_join_coverage,
         "columns": list(dataset.columns),
         "start": dataset.index[0].isoformat(),
         "end": dataset.index[-1].isoformat(),

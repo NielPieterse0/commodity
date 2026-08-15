@@ -11,6 +11,7 @@ from commodity.contracts import ForecastModel
 from commodity.evaluation import (
     evaluate_predictions,
     paired_block_bootstrap_rmse,
+    paired_nonoverlapping_block_sign_flip_mse,
     walk_forward_predict,
 )
 from commodity.evaluation_protocol import (
@@ -279,7 +280,14 @@ def _paired_report(
         confidence=float(significance["confidence"]),
         seed=int(significance["seed"]),
     )
-    return dict(report)
+    result = dict(report)
+    if significance.get("secondary_method") == "nonoverlapping_block_sign_flip_mse":
+        result["secondary_significance"] = paired_nonoverlapping_block_sign_flip_mse(
+            challenger,
+            baseline,
+            block_size=int(significance["block_size"]),
+        )
+    return result
 
 
 def _ablation_names(families: Sequence[str]) -> list[tuple[str, str | None]]:
@@ -291,6 +299,7 @@ def run_phase_d_evaluation(
     manifest: Mapping[str, Any],
     *,
     model_names: Sequence[str],
+    baseline_model: str,
     models: dict[str, dict[str, Any]],
     initial_train: int,
     retrain_every: int,
@@ -303,6 +312,19 @@ def run_phase_d_evaluation(
     _validate_index(frame.index, initial_train=initial_train, retrain_every=retrain_every)
     if not model_names:
         raise ValueError("Phase D requires at least one model")
+    resolved_model_names = [str(name) for name in model_names]
+    if len(resolved_model_names) != len(set(resolved_model_names)):
+        raise ValueError("Phase D model_names contains duplicate model identities")
+    baseline_model = str(baseline_model)
+    if resolved_model_names.count(baseline_model) != 1:
+        raise ValueError("Phase D baseline_model must identify exactly one selected model")
+    baseline_config = models.get(baseline_model)
+    if baseline_config is None:
+        raise ValueError("Phase D baseline_model is missing from model configuration")
+    if not isinstance(baseline_config, Mapping):
+        raise TypeError("Phase D baseline model configuration must be a mapping")
+    if baseline_config.get("enabled") is not True:
+        raise ValueError("Phase D baseline_model is disabled")
     y = frame[target].astype(float)
     thresholds = _regime_thresholds(y, initial_train=initial_train)
     folds = build_walk_forward_folds(
@@ -311,8 +333,8 @@ def run_phase_d_evaluation(
 
     evaluations: list[dict[str, Any]] = []
     predictions: dict[str, pd.DataFrame] = {}
-    for model_name in model_names:
-        factory = baseline_factory(str(model_name), models)
+    for model_name in resolved_model_names:
+        factory = baseline_factory(model_name, models)
         for ablation_name, excluded_family in _ablation_names(families):
             included = [family for family in families if family != excluded_family]
             columns = [column for family in included for column in mapping[family]]
@@ -339,10 +361,9 @@ def run_phase_d_evaluation(
                 }
             )
 
-    baseline_model = str(model_names[0])
     baseline_full = predictions[f"{baseline_model}|full"]
     candidate_comparisons: list[dict[str, Any]] = []
-    for model_name in model_names:
+    for model_name in resolved_model_names:
         challenger = predictions[f"{model_name}|full"]
         report = _paired_report(challenger, baseline_full, significance)
         candidate_comparisons.append(
@@ -365,7 +386,7 @@ def run_phase_d_evaluation(
         item["adjusted_p_value"] = adjusted
 
     ablation_effects: list[dict[str, Any]] = []
-    for model_name in model_names:
+    for model_name in resolved_model_names:
         full = predictions[f"{model_name}|full"]
         for family in families:
             ablated = predictions[f"{model_name}|without:{family}"]

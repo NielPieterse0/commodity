@@ -8,7 +8,7 @@ Natural-gas ML research repository. Repository authority is assigned in [`AGENTS
 - **Market evidence:** ingestion is provider-adapted; current source selection, readiness, and evidence gates are owned by `config/data_sources.json`.
 - **Databento preservation:** acquisition has progressed beyond the earlier probe stage; the current local integrity state is recorded in [`docs/development/databento-full-history-acquisition/evidence.json`](docs/development/databento-full-history-acquisition/evidence.json).
 - **Point-in-time research:** U.S. fundamentals/weather preservation and evidence-tier handling are operational, with revision-risk restrictions explicit. Rules are owned by `config/data_sources.json`; `src/commodity/availability.py` implements the joins.
-- **Models and evaluation:** V1 evaluation is complete on the frozen full-V1 PIT dataset. The 3-model × 8-ablation tournament completed 24/24 runs across 41 expanding walk-forward folds and found `no_robust_edge`; the current experiment decision is owned by `config/experiment.json`, with immutable empirical evidence under [`docs/development/v1-research-completion/`](docs/development/v1-research-completion/).
+- **Models and evaluation:** V1 evaluation is complete on the frozen full-V1 PIT dataset. The 3-model × 8-ablation tournament completed 24/24 runs across 41 expanding walk-forward folds / 204 OOS rows and found `no_robust_edge`. With block size 20 this is only about 10.2 effective blocks, so uncertainty remains material. The tested histogram GB uses one explicit deterministic model seed (`random_state=0`). The current experiment decision is owned by `config/experiment.json`, with immutable empirical evidence under [`docs/development/v1-research-completion/`](docs/development/v1-research-completion/).
 - **V1 disposition:** research V1 is complete with bounded caveats. This is a system-completeness conclusion, not a predictive-edge or promotion claim; research promotion remains false because the admitted market evidence is evaluation-only and Phase D found no robust edge.
 - **Execution:** permission is owned only by `config/policy.json`; V1 closeout does not authorize live trading.
 
@@ -43,17 +43,25 @@ Preserved Databento `definition`, `statistics`, and `ohlcv-1d` DBN/Zstd files ca
 
 Verified 2026-08-13 capture metadata is recorded in `docs/development/us-v1-data-foundation/evidence.json`. That file intentionally records hashes/coverage only.
 
-## Bootstrap
+## Research-grade V1 reproduction
+
+Use the locked environment and the governed frozen dataset. `reproduce-v1` re-verifies the freeze, re-runs the current dataset audit, executes the rigorous Phase D evaluator, and fails if the Git working tree is dirty.
 
 ```powershell
 python -m venv .venv
 .\.venv\Scripts\python.exe -m pip install -r requirements.lock.txt
 .\.venv\Scripts\python.exe -m pip install -e . --no-deps
+.\.venv\Scripts\python.exe -m commodity.cli reproduce-v1
+```
+
+The expected V1 disposition is `no_robust_edge`; evidence remains evaluation-only, research promotion remains false, and trading authority remains false. The ignored frozen dataset must already exist at the identity pinned by `config/phase_d_evaluation.json`.
+
+## Development/bootstrap commands
+
+`fetch-market`, `freeze-v1-dataset`, `run-tournament`, and `run-baseline` are development or screening utilities. They are not the research-grade V1 reproduction path and cannot grant full-V1, promotion, or trading authority. In particular, `freeze-v1-dataset --require-full-v1` fails closed because CSV/yfinance input does not provide the governed canonical market + exogenous evidence stack.
+
+```powershell
 .\.venv\Scripts\python.exe -m commodity.cli fetch-market --end <YYYY-MM-DD>
-.\.venv\Scripts\python.exe -m commodity.cli fetch-canonical-market --start <YYYY-MM-DD> --end <YYYY-MM-DD>
-.\.venv\Scripts\python.exe -m commodity.cli freeze-v1-dataset
-.\.venv\Scripts\python.exe -m commodity.cli run-tournament
 .\.venv\Scripts\python.exe -m commodity.cli run-baseline
-.\.venv\Scripts\python.exe -m commodity.cli backtest --predictions artifacts/runs/baseline/predictions.csv --output artifacts/runs/baseline-backtest
 .\.venv\Scripts\python.exe -m pytest -q
 ```

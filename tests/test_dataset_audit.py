@@ -123,14 +123,15 @@ def test_audit_rejects_incomplete_source_lineage() -> None:
     assert "incomplete_source_lineage" in result.blockers
 
 
-def test_audit_reports_partial_join_as_bounded_caveat() -> None:
+def test_audit_rejects_join_coverage_below_configured_v1_minimum() -> None:
     from commodity.dataset_audit import audit_full_v1_dataset
 
     frame, manifest = _fixture()
     manifest["exogenous_sources"][0]["join_coverage_ratio"] = 0.95
     manifest["exogenous_sources"][0]["unmatched_rows"] = 15
     result = audit_full_v1_dataset(frame, manifest)
-    assert result.verdict == "fit-with-caveats"
+    assert result.verdict == "not-fit"
+    assert "minimum_join_coverage_not_met" in result.blockers
     assert "partial_source_join_coverage" in result.caveats
 
 
@@ -162,6 +163,16 @@ def test_audit_requires_market_structure_lineage_hashes() -> None:
     result = audit_full_v1_dataset(frame, manifest)
     assert result.verdict == "not-fit"
     assert "market_structure_lineage_incomplete" in result.blockers
+
+
+def test_audit_requires_explicit_initial_train_rows() -> None:
+    from commodity.dataset_audit import audit_full_v1_dataset
+
+    frame, manifest = _fixture()
+    del manifest["initial_train_rows"]
+    result = audit_full_v1_dataset(frame, manifest)
+    assert result.verdict == "not-fit"
+    assert "split_contract_mismatch" in result.blockers
 
 
 def test_audit_does_not_trust_spoofed_initial_train_rows() -> None:

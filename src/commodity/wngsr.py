@@ -13,6 +13,7 @@ from zoneinfo import ZoneInfo
 import pandas as pd
 import requests
 
+from commodity.availability import resolve_wngsr_release
 from commodity.config import data_config
 from commodity.snapshots import SnapshotWriter, verify_snapshot
 
@@ -144,38 +145,12 @@ def _storage_cfg() -> dict[str, Any]:
 def resolve_wngsr_release_availability(
     observed_for: str | pd.Timestamp,
 ) -> pd.Timestamp:
-    policy = _storage_cfg()["availability_policy"]
-    zone = ZoneInfo(str(policy["timezone"]))
-    observed_day = pd.Timestamp(observed_for).date()
-    weekday = {"monday": 0, "tuesday": 1, "wednesday": 2, "thursday": 3,
-               "friday": 4, "saturday": 5, "sunday": 6}[
-        str(policy["regular_release_weekday"]).lower()
-    ]
-    days_to_release = (weekday - observed_day.weekday()) % 7
-    if days_to_release == 0:
-        days_to_release = 7
-    regular_day = observed_day + dt.timedelta(days=days_to_release)
-    override = policy.get("release_date_overrides", {}).get(regular_day.isoformat())
-    if override is not None:
-        value = pd.Timestamp(override)
-        if value.tzinfo is None:
-            raise ValueError(f"WNGSR release override lacks timezone: {override!r}")
-        return value.tz_convert("UTC")
-    coverage_start = pd.Timestamp(policy["exception_registry_coverage_start"]).date()
-    coverage_end = pd.Timestamp(policy["exception_registry_coverage_end"]).date()
-    if regular_day < coverage_start or regular_day > coverage_end:
+    available_at, status, _ = resolve_wngsr_release(observed_for, _storage_cfg())
+    if status == "unresolved" or pd.isna(available_at):
         raise ValueError(
-            f"WNGSR release timing unresolved outside registry: {regular_day.isoformat()}"
+            f"WNGSR release timing unresolved outside registry for {pd.Timestamp(observed_for).date()}"
         )
-    local = dt.datetime.combine(
-        regular_day,
-        dt.time(
-            int(policy["regular_release_hour"]),
-            int(policy["regular_release_minute"]),
-        ),
-        tzinfo=zone,
-    )
-    return pd.Timestamp(local).tz_convert("UTC")
+    return pd.Timestamp(available_at)
 
 
 def _revision_availability(row: pd.Series) -> tuple[pd.Timestamp, str, str]:
@@ -183,9 +158,12 @@ def _revision_availability(row: pd.Series) -> tuple[pd.Timestamp, str, str]:
     observed_key = pd.Timestamp(row["observed_for"]).date().isoformat()
     revision_day = pd.Timestamp(row["revision_date"]).date()
     sample_weeks = set(policy.get("sample_reselection_weeks", ()))
-    if observed_key in sample_weeks and revision_day == dt.date(2024, 11, 18):
-        value = pd.Timestamp(policy["special_revision_events"]["2024_sample_reselection"])
-        return value.tz_convert("UTC"), "verified", "wngsr_2024_sample_reselection"
+    for event_name, event_value in policy.get("special_revision_events", {}).items():
+        event = pd.Timestamp(event_value)
+        if event.tzinfo is None:
+            raise ValueError(f"WNGSR special revision event lacks timezone: {event_value!r}")
+        if observed_key in sample_weeks and revision_day == event.date():
+            return event.tz_convert("UTC"), "verified", f"wngsr_{event_name}"
     zone = ZoneInfo(str(policy["timezone"]))
     local = dt.datetime.combine(revision_day, dt.time(23, 59), tzinfo=zone)
     basis = (
