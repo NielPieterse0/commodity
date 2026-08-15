@@ -1,0 +1,172 @@
+{
+  "schema_version": 1,
+  "record": "v1_phase_b_c_empirical_closeout",
+  "assessment_as_of": "2026-08-15",
+  "research_window": {
+    "start": "2024-08-13",
+    "end": "2026-08-12"
+  },
+  "evidence_inputs": {
+    "frozen_dataset_manifest_sha256": "e1a23a5d0fe31cb473e94c3cd2ecdc19fb6683612da43bc630f0e5bf59072422",
+    "upstream_manifest_sha256": "38898acc8174d9f24bb46dec4231a41e0cf23affa70cafc1f9628229893ac33a",
+    "data_sources_sha256": "d368e7818d17f04686ba4f66ecd9e8a1a754b9c5cb2f92567bc842ab595e655d",
+    "experiment_sha256": "59711fef48544995e2ca89d1c65c93c38540fb98f05954d46f9bf7666960aaef"
+  },
+  "phase_b": {
+    "full_v1_ready": true,
+    "families": {
+      "positioning": {
+        "availability_statuses": [
+          "reconstructed_conservative"
+        ],
+        "blockers": [],
+        "caveats": [
+          "conservative_availability",
+          "source_declared_publication_hiatus",
+          "bounded_forward_fill"
+        ],
+        "coverage_end": "2026-08-08T03:59:00+00:00",
+        "coverage_start": "2024-01-10T04:59:00+00:00",
+        "evidence_mode": "research_pit",
+        "family": "positioning",
+        "full_v1_ready": true,
+        "revision_statuses": [
+          "point_in_time"
+        ],
+        "source_name": "cftc_cot",
+        "source_rows": 136,
+        "source_sha256": "cebdca850cb36c5d2b25146d356a7aa809518c15a26041973ad78de80e1ef74f",
+        "verdict": "fit-with-caveats"
+      },
+      "power": {
+        "availability_statuses": [
+          "reconstructed_conservative"
+        ],
+        "blockers": [],
+        "caveats": [
+          "conservative_availability"
+        ],
+        "coverage_end": "2026-08-12T16:00:00+00:00",
+        "coverage_start": "2024-08-13T16:00:00+00:00",
+        "evidence_mode": "research_pit",
+        "family": "power",
+        "full_v1_ready": true,
+        "revision_statuses": [
+          "issued_run_immutable"
+        ],
+        "source_name": "nyiso_load_forecast",
+        "source_rows": 730,
+        "source_sha256": "52acd1457fe8eada6a06971f0dc74e45ba27584c53d3b5d9ff8b30facec7586d",
+        "verdict": "fit-with-caveats"
+      },
+      "storage": {
+        "availability_statuses": [
+          "reconstructed_conservative",
+          "verified"
+        ],
+        "blockers": [],
+        "caveats": [
+          "conservative_availability",
+          "bounded_forward_fill"
+        ],
+        "coverage_end": "2026-08-06T14:30:00+00:00",
+        "coverage_start": "2024-08-01T14:30:00+00:00",
+        "evidence_mode": "research_pit",
+        "family": "storage",
+        "full_v1_ready": true,
+        "revision_statuses": [
+          "point_in_time"
+        ],
+        "source_name": "eia_storage",
+        "source_rows": 107,
+        "source_sha256": "4b9c35646750fce398d93f3404d708a7d3fb0e525f6312ea486cce926e10849f",
+        "verdict": "fit-with-caveats"
+      },
+      "weather": {
+        "availability_statuses": [
+          "reconstructed_conservative"
+        ],
+        "blockers": [],
+        "caveats": [
+          "conservative_availability",
+          "source_declared_issued_run_gap"
+        ],
+        "coverage_end": "2026-08-12T06:10:00+00:00",
+        "coverage_start": "2024-08-13T06:10:00+00:00",
+        "evidence_mode": "research_pit",
+        "family": "weather",
+        "full_v1_ready": true,
+        "revision_statuses": [
+          "issued_run_immutable"
+        ],
+        "source_name": "weather",
+        "source_rows": 723,
+        "source_sha256": "ed61a07bf9a5c76f8aaf8124c51bf02d66edbf654c2f65646655395a88f4a835",
+        "verdict": "fit-with-caveats"
+      }
+    }
+  },
+  "phase_c": {
+    "full_v1_freeze_status": "frozen_and_audited",
+    "dataset_id": "us-ng-pit-0c0a39b36692",
+    "freeze_id": "b6aaf445500f2841",
+    "dataset_sha256": "0c0a39b3669215b4bdc45a0fdedf90697f0c2c92690cb33700bd0bc47c80a45f",
+    "dataset_artifact_sha256": "0c0a39b3669215b4bdc45a0fdedf90697f0c2c92690cb33700bd0bc47c80a45f",
+    "rows": 456,
+    "oos_rows": 204,
+    "start": "2024-09-12T23:59:00+00:00",
+    "end": "2026-08-11T23:59:00+00:00",
+    "required_feature_families": [
+      "market",
+      "market_structure",
+      "storage",
+      "weather",
+      "power",
+      "positioning",
+      "calendar_seasonality"
+    ],
+    "included_feature_families": [
+      "calendar_seasonality",
+      "market",
+      "market_structure",
+      "positioning",
+      "power",
+      "storage",
+      "weather"
+    ],
+    "missing_feature_families": [],
+    "dataset_audit": {
+      "blockers": [],
+      "caveats": [
+        "evaluation_only_market_evidence"
+      ],
+      "distribution_shift_max_z": 1.1155865473216884,
+      "duplicate_prediction_times": 0,
+      "minimum_join_coverage": 1.0,
+      "missing_cells": 0,
+      "non_finite_numeric_cells": 0,
+      "oos_rows": 204,
+      "rows": 456,
+      "verdict": "fit-with-caveats"
+    }
+  },
+  "authority_boundary": {
+    "evidence_mode": "evaluation_pit",
+    "market_evaluation_evidence": true,
+    "canonical_market_evidence": false,
+    "research_evaluation_eligible": true,
+    "research_promotion_eligible": false,
+    "databento_licensing_issue": 51,
+    "databento_disposition": "deferred_to_v2_and_not_a_v1_evaluation_blocker"
+  },
+  "decision": {
+    "phase_b_empirical_gate_complete": true,
+    "phase_c_empirical_gate_complete": true,
+    "phase_d_evaluation_allowed": true,
+    "research_promotion_allowed": false,
+    "historical_blocked_snapshots_preserved": [
+      "phase-b-evidence.json",
+      "phase-c-evidence.json"
+    ]
+  }
+}
