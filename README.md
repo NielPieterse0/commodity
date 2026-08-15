@@ -8,8 +8,9 @@ Natural-gas ML research repository. Repository authority is assigned in [`AGENTS
 - **Market evidence:** ingestion is provider-adapted; current source selection, readiness, and evidence gates are owned by `config/data_sources.json`.
 - **Databento preservation:** acquisition has progressed beyond the earlier probe stage; the current local integrity state is recorded in [`docs/development/databento-full-history-acquisition/evidence.json`](docs/development/databento-full-history-acquisition/evidence.json).
 - **Point-in-time research:** U.S. fundamentals/weather preservation and evidence-tier handling are operational, with revision-risk restrictions explicit. Rules are owned by `config/data_sources.json`; `src/commodity/availability.py` implements the joins.
-- **Models and evaluation:** model settings live in `config/models.json`; the active experiment now freezes a leakage-safe PIT core and compares configured baselines under one walk-forward protocol. The research sequence is owned by [`docs/roadmap.md`](docs/roadmap.md).
-- **Execution:** permission is owned only by `config/policy.json`.
+- **Models and evaluation:** V1 evaluation is complete on the frozen full-V1 PIT dataset. The 3-model × 8-ablation tournament completed 24/24 runs across 41 expanding walk-forward folds and found `no_robust_edge`; the current experiment decision is owned by `config/experiment.json`, with immutable empirical evidence under [`docs/development/v1-research-completion/`](docs/development/v1-research-completion/).
+- **V1 disposition:** research V1 is complete with bounded caveats. This is a system-completeness conclusion, not a predictive-edge or promotion claim; research promotion remains false because the admitted market evidence is evaluation-only and Phase D found no robust edge.
+- **Execution:** permission is owned only by `config/policy.json`; V1 closeout does not authorize live trading.
 
 ## Research direction
 

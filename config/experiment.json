@@ -40,11 +40,15 @@
     }
   },
   "controls": {
-    "leakage_check": "incomplete",
-    "reproducibility_runs": 1
+    "leakage_check": "passed",
+    "reproducibility_runs": 2
   },
   "decision": {
-    "disposition": "repeat",
-    "rationale": "Run the leakage-safe PIT core tournament now; full-V1 promotion still requires every configured feature family to become PIT-admissible."
+    "disposition": "reject",
+    "empirical_result": "no_robust_edge",
+    "predictive_edge_claim": false,
+    "research_promotion_allowed": false,
+    "evidence": "docs/development/v1-research-completion/phase-d-closeout.json",
+    "rationale": "Reject promotion of the tested V1 hypothesis/model ladder: the frozen full-V1 Phase D tournament completed reproducibly, but neither Ridge nor histogram gradient boosting beat the naive RMSE baseline under the predefined robustness gate."
   }
 }

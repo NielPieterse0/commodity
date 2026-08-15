@@ -2,10 +2,10 @@
   "schema_version": 1,
   "record": "v1_phase_e_closeout_index",
   "assessment_as_of": "2026-08-15",
-  "stage": "E1_closeout_preparation",
+  "stage": "E2_final_closeout",
   "issue": 21,
   "depends_on_issue": 20,
-  "disposition": null,
+  "disposition": "V1 complete with bounded caveats",
   "allowed_dispositions": [
     "V1 complete",
     "V1 complete with bounded caveats",
@@ -19,20 +19,16 @@
   "predictive_edge_is_system_completion_gate": false,
   "coordination": {
     "phase_c": "complete_maintenance_only",
-    "phase_d": "primary_active_critical_path",
-    "phase_e": "secondary_active_preparation_only",
-    "capacity_guidance": {
-      "phase_d_percent": "70-80",
-      "phase_e_percent": "20-30"
-    },
+    "phase_d": "complete_evidence_frozen",
+    "phase_e": "primary_active_final_closeout",
     "additional_v1_track_allowed": false
   },
   "gates": {
-    "phase_d_final_evidence": "pending",
-    "authority_reconciliation": "audit_prepared",
-    "exact_head_verification": "not_due",
-    "final_specialist_review": "not_due",
-    "traceability_complete": false
+    "phase_d_final_evidence": "passed",
+    "authority_reconciliation": "implemented_subject_to_exact_head_review",
+    "exact_head_verification": "required_for_adoption",
+    "final_specialist_review": "required_for_adoption",
+    "traceability": "repository_evidence_complete_external_head_binding_required"
   },
   "phase_c": {
     "source": "docs/development/v1-research-completion/phase-bc-empirical-closeout.json",
@@ -43,29 +39,70 @@
     "oos_rows": 204,
     "audit_verdict": "fit-with-caveats",
     "research_evaluation_eligible": true,
-    "research_promotion_eligible": false
+    "research_promotion_eligible": false,
+    "source_sha256": "cdcbaf41374fd84f5c211011213191f7fefdb24a5725e1a789768dbe34eaded8",
+    "manifest_sha256": "e1a23a5d0fe31cb473e94c3cd2ecdc19fb6683612da43bc630f0e5bf59072422"
   },
   "phase_d": {
-    "status": "awaiting_final_evidence",
+    "status": "final_evidence_frozen_and_landed",
     "issue": 20,
-    "final_commit_sha": null,
-    "pull_request": null,
-    "plan_id": null,
-    "split_id": null,
-    "plan_artifact": {"path": null, "sha256": null},
-    "lineage_artifact": {"path": null, "sha256": null},
-    "predictions_artifact": {"path": null, "sha256": null},
-    "evaluation_artifact": {"path": null, "sha256": null},
-    "ablation_artifact": {"path": null, "sha256": null},
-    "statistics_artifact": {"path": null, "sha256": null},
-    "negative_results_artifact": {"path": null, "sha256": null},
-    "reproducibility_artifact": {"path": null, "sha256": null},
-    "run_manifest_artifact": {"path": null, "sha256": null},
+    "final_commit_sha": "8d3fed1c8d16c78c6fa0812ebb6f49ae9fb70230",
+    "pull_request": 71,
+    "plan_id": "2ce2eb302acef8d43b14bc0f66811a8aab98d528debc0f5daf15930a4b5cafde",
+    "split_id": "c0a407ce414bf44737388e27dd50cb410aa73e0f5985157f4c868187ee6c5e7a",
+    "plan_artifact": {
+      "path": "docs/development/v1-research-completion/phase-d-evidence.json",
+      "sha256": "69087543584fb6b34eab783bd801f61e181c9770d33df9a12cca8b74cb5267bf"
+    },
+    "lineage_artifact": {
+      "path": "docs/development/v1-research-completion/phase-d-evidence.json",
+      "sha256": "69087543584fb6b34eab783bd801f61e181c9770d33df9a12cca8b74cb5267bf"
+    },
+    "predictions_artifact": {
+      "path": "docs/development/v1-research-completion/phase-d-evidence.json",
+      "sha256": "69087543584fb6b34eab783bd801f61e181c9770d33df9a12cca8b74cb5267bf",
+      "role": "manifest_of_24_per_run_prediction_paths_and_hashes"
+    },
+    "evaluation_artifact": {
+      "path": "docs/development/v1-research-completion/phase-d-evidence.json",
+      "sha256": "69087543584fb6b34eab783bd801f61e181c9770d33df9a12cca8b74cb5267bf"
+    },
+    "ablation_artifact": {
+      "path": "docs/development/v1-research-completion/phase-d-evidence.json",
+      "sha256": "69087543584fb6b34eab783bd801f61e181c9770d33df9a12cca8b74cb5267bf"
+    },
+    "statistics_artifact": {
+      "path": "docs/development/v1-research-completion/phase-d-evidence.json",
+      "sha256": "69087543584fb6b34eab783bd801f61e181c9770d33df9a12cca8b74cb5267bf"
+    },
+    "negative_results_artifact": {
+      "path": "docs/development/v1-research-completion/phase-d-evidence.json",
+      "sha256": "69087543584fb6b34eab783bd801f61e181c9770d33df9a12cca8b74cb5267bf"
+    },
+    "reproducibility_artifact": {
+      "path": "docs/development/v1-research-completion/phase-d-closeout.json",
+      "sha256": "da2b78c599e3216efdd84071c31593db49793bbd12b352d6eb89538519375beb"
+    },
+    "run_manifest_artifact": {
+      "path": "docs/development/v1-research-completion/phase-d-evidence.json",
+      "sha256": "69087543584fb6b34eab783bd801f61e181c9770d33df9a12cca8b74cb5267bf"
+    },
     "run_coverage": {
-      "expected_tuple_count": null,
-      "observed_tuple_count": null,
-      "complete": false,
-      "tuple_key": ["candidate_id", "ablation_id", "seed"],
+      "expected_tuple_count": 24,
+      "observed_tuple_count": 24,
+      "complete": true,
+      "candidate_count": 3,
+      "ablation_count": 8,
+      "seeds": [
+        0
+      ],
+      "fold_count": 41,
+      "oos_rows": 204,
+      "tuple_key": [
+        "candidate_id",
+        "ablation_id",
+        "seed"
+      ],
       "per_run_lineage_references_required": true,
       "per_run_evaluation_references_required": true,
       "negative_result_identifiers_required": true
@@ -84,42 +121,60 @@
       "environment.dependency_lock_sha256",
       "artifacts.predictions_sha256",
       "artifacts.evaluation_sha256"
-    ]
+    ],
+    "reviewed_pr_head": "a38f40d8cffe922c597c256e66de4a9d2f88a10e",
+    "landed_main": "9bdcd4ed64336e23c3c3bc7fb8821ab7cf08bd4d"
   },
   "phase_d_required_evaluation": {
-    "return": "pending",
-    "direction_probability": "pending",
-    "volatility_distribution": "pending",
-    "calibration_where_applicable": "pending",
-    "regime_scenario": "pending",
-    "ablations": "pending",
-    "paired_statistics": "pending",
-    "multiple_comparisons_where_material": "pending",
-    "predefined_robustness": "pending",
-    "negative_results_preserved": "pending"
+    "return": "complete",
+    "direction_probability": "complete",
+    "volatility_distribution": "complete_shared_trailing_history_sigma_diagnostic",
+    "calibration_where_applicable": "complete_direction_probability_brier_and_log_loss",
+    "regime_scenario": "complete",
+    "ablations": "complete_21_model_family_tests",
+    "paired_statistics": "complete_moving_block_bootstrap",
+    "multiple_comparisons_where_material": "complete_benjamini_hochberg",
+    "predefined_robustness": "complete_no_robust_edge",
+    "negative_results_preserved": "complete"
   },
   "phase_e_conclusions": {
-    "system_completeness": null,
-    "predictive_edge": null,
-    "negative_results_summary": null,
-    "bounded_caveats": [],
-    "residual_risks": [],
-    "reproducibility_status": null
+    "system_completeness": "complete_with_bounded_caveats",
+    "predictive_edge": "no_robust_edge",
+    "predictive_edge_claim": false,
+    "negative_results_summary": "Ridge and histogram gradient boosting underperformed the naive RMSE baseline; 0 of 21 model-family ablation tests demonstrated material incremental value.",
+    "bounded_caveats": [
+      "evaluation_only_market_evidence",
+      "fixed_v1_model_ladder_without_empirical_hyperparameter_tuning",
+      "204_oos_rows",
+      "shared_historical_sigma_volatility_diagnostic"
+    ],
+    "residual_risks": [
+      "canonical_market_licensing_and_promotion_evidence_unresolved",
+      "negative_result_bounded_to_frozen_v1_scope",
+      "no_evidence_basis_for_research_promotion",
+      "post_v1_challengers_require_separate_pre_registered_work"
+    ],
+    "reproducibility_status": "reproducible_exact_2_independent_runs"
   },
   "authority": {
     "map": "AGENTS.md#repository-authority",
     "execution_permission_owner": "config/policy.json",
     "execution_permission_changed_by_phase_e": false,
-    "reconciliation_status": "pending_E2",
-    "historical_evidence_rewrite_allowed": false
+    "reconciliation_status": "implemented_subject_to_exact_head_review",
+    "historical_evidence_rewrite_allowed": false,
+    "research_evaluation_eligible": true,
+    "research_promotion_eligible": false,
+    "trading_authority": false
   },
   "final_closeout": {
-    "commit_sha": null,
-    "pull_request": null,
-    "verification_artifact": null,
-    "specialist_review_artifacts": [],
-    "traceability_artifact": null,
-    "issue_21_closed": false
+    "artifact": {
+      "path": "docs/development/v1-research-completion/phase-e-closeout.json",
+      "sha256": "5adce863a63c427f7a1224295e966b514de19b71e316a2e43b86578f59cb93a4"
+    },
+    "exact_head_binding": "external_github_pull_request_and_issue_21_closeout_comment",
+    "verification": "required_for_adoption",
+    "specialist_reviews": "required_for_adoption",
+    "issue_21_closure": "external_after_exact_head_merge"
   },
   "prohibitions": [
     "select_disposition_before_phase_d_final",
@@ -131,5 +186,6 @@
     "promote_predictive_edge_without_robustness_evidence",
     "change_execution_permissions",
     "start_kronos_v2_or_geographic_expansion"
-  ]
+  ],
+  "adoption_gate": "effective_only_after_exact_head_specialist_review_verification_ci_and_merge"
 }
