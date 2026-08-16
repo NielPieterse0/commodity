@@ -147,6 +147,11 @@ def test_fusion_contract_is_explicitly_nonempirical_and_nonrescuing() -> None:
         ).read_text(encoding="utf-8")
     )
     assert contract["execution_authorized"] is False
+    assert contract["component_import_contract"]["kronos_variant_id"] == "K-ALL"
+    assert "#84-local normalized import label" in contract["component_import_contract"][
+        "kronos_variant_semantics"
+    ]
+    assert contract["component_import_contract"]["component_prediction_values_may_be_transformed"] is False
     assert contract["primary_variant"]["weights"] == {
         "kronos": 0.5,
         "indicators": 0.5,
