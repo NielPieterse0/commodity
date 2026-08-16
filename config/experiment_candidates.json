@@ -3,8 +3,8 @@
   "owner": "commodity_experiment_candidates",
   "freeze": {
     "issue": 81,
-    "state": "frozen",
-    "base_revision": "e11a891b58e67b61593b9c2ec5c86974e64cb0bc",
+    "state": "frozen_pending_corrected_88_audit",
+    "base_revision": "026f3cc206e79351ada2ecc2edc4a6ba70d3a2c2",
     "metric_comparability_authority": {
       "issue": 78,
       "landing_pr": 95,
@@ -19,7 +19,7 @@
     },
     "activation_audit_issue": 88,
     "execution_authorized": false,
-    "empirical_release_rule": "No V2 candidate may execute until issue #88 independently passes against this frozen #81 contract."
+    "empirical_release_rule": "No V2 candidate may execute until issue #88 independently passes against this corrected frozen #81 contract and its exact bound child revisions."
   },
   "candidates": {
     "ng-volatility-direction-v1": {
@@ -66,8 +66,15 @@
       "hypothesis": "A fixed Kronos market representation adds material robust out-of-sample information versus the frozen strongest comparable V1 control.",
       "preparation_revision": {
         "pr": 96,
-        "head": "0a5317f2981c29e1e90dc8106cb3aa2713ab0163",
+        "head": "d6e61d4fb3b30cccfe8cdcb0f4aeed5d08182139",
         "path": "docs/development/v2-kronos-challenger/preparation-contract.json"
+      },
+      "implementation_revision": {
+        "pr": 100,
+        "head": "15a837ca7dc8e4217f9f4afc6dbfa31dd35fe52e",
+        "path": "src/commodity/v2_kronos.py",
+        "normal_ci_run": 31931814991,
+        "checkpoint_preflight_run": 31931815058
       },
       "inherits_contract": "docs/development/v2-activation-preregistration/activation-contract.json",
       "model_authority": "config/models.json#models.kronos_mini",
@@ -84,6 +91,12 @@
         "pr": 98,
         "head": "3e55213b967b590187223e2b286063c81672274a",
         "path": "docs/development/v2-indicator-surprise-challenger/spec.md"
+      },
+      "implementation_revision": {
+        "pr": 99,
+        "head": "a8861e48082d2a280075f27a7224e7f8d642460b",
+        "path": "src/commodity/v2_indicator_contract.py",
+        "normal_ci_run": 31931096518
       },
       "inherits_contract": "docs/development/v2-activation-preregistration/activation-contract.json",
       "model_authority": "config/models.json#models.hist_gb",
