@@ -9,6 +9,12 @@
     "kronos": "v2-82-kronos-only",
     "indicators": "v2-83-indicators-only"
   },
+  "component_import_contract": {
+    "kronos_variant_id": "K-ALL",
+    "kronos_variant_semantics": "#84-local normalized import label for the sole exact #82 component prediction artifact; it does not create a second #82 model, configuration, fit, or search variant",
+    "indicator_primary_variant_id": "I-ALL",
+    "component_prediction_values_may_be_transformed": false
+  },
   "primary_variant": {
     "id": "F-ALL",
     "combination_space": "target_prediction",
@@ -24,7 +30,7 @@
   },
   "component_ablations": {
     "F-NO-K": "exact v2-83-indicators-only I-ALL prediction; comparator/attribution only",
-    "F-NO-I": "exact v2-82-kronos-only prediction; comparator/attribution only"
+    "F-NO-I": "exact v2-82-kronos-only prediction imported under the #84-local K-ALL label; comparator/attribution only"
   },
   "information_family_attribution_variants": {
     "F-NO-W": "0.5 * kronos_prediction + 0.5 * I-NO-W_prediction",
