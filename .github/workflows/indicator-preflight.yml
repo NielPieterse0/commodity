@@ -25,9 +25,12 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
-          python-version: "3.11"
-      - name: Install package
-        run: python -m pip install --disable-pip-version-check -e .
+          python-version: "3.12"
+          cache: pip
+      - name: Install locked environment
+        run: |
+          python -m pip install -r requirements.lock.txt
+          python -m pip install -e . --no-deps
       - name: Run #83 governance tests
         run: python -m pytest -q tests/test_v2_indicators.py tests/test_v2_indicator_governance.py
       - name: Hash exact result-affecting sources
