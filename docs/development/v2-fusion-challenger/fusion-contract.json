@@ -1,0 +1,71 @@
+{
+  "schema_version": 1,
+  "issue": 84,
+  "candidate_id": "v2-84-kronos-indicator-fusion",
+  "status": "frozen_definition_blocked_on_88_and_component_results",
+  "execution_authorized": false,
+  "inherits_contract": "docs/development/v2-activation-preregistration/activation-contract.json",
+  "component_candidates": {
+    "kronos": "v2-82-kronos-only",
+    "indicators": "v2-83-indicators-only"
+  },
+  "component_import_contract": {
+    "kronos_variant_id": "K-ALL",
+    "kronos_variant_semantics": "#84-local normalized import label for the sole exact #82 component prediction artifact; it does not create a second #82 model, configuration, fit, or search variant",
+    "indicator_primary_variant_id": "I-ALL",
+    "component_prediction_values_may_be_transformed": false
+  },
+  "primary_variant": {
+    "id": "F-ALL",
+    "combination_space": "target_prediction",
+    "formula": "0.5 * kronos_prediction + 0.5 * I-ALL_prediction",
+    "weights": {
+      "kronos": 0.5,
+      "indicators": 0.5
+    },
+    "trainable_fusion_parameters": false,
+    "optimization_objective": "none_fixed_equal_weight_combination",
+    "weight_search_permitted": false,
+    "post_result_reweighting_permitted": false
+  },
+  "component_ablations": {
+    "F-NO-K": "exact v2-83-indicators-only I-ALL prediction; comparator/attribution only",
+    "F-NO-I": "exact v2-82-kronos-only prediction imported under the #84-local K-ALL label; comparator/attribution only"
+  },
+  "information_family_attribution_variants": {
+    "F-NO-W": "0.5 * kronos_prediction + 0.5 * I-NO-W_prediction",
+    "F-NO-S": "0.5 * kronos_prediction + 0.5 * I-NO-S_prediction",
+    "F-NO-C": "0.5 * kronos_prediction + 0.5 * I-NO-C_prediction",
+    "F-NO-V": "0.5 * kronos_prediction + 0.5 * I-NO-V_prediction",
+    "F-NO-P": "0.5 * kronos_prediction + 0.5 * I-NO-P_prediction",
+    "F-NO-L": "0.5 * kronos_prediction + 0.5 * I-NO-L_prediction"
+  },
+  "attribution_semantics": {
+    "promotion_candidate": "F-ALL only",
+    "component_ablations_can_rescue_primary": false,
+    "information_family_variants_can_rescue_primary": false,
+    "family_membership": "F84_ALL_REQUIRED_COMPARATORS for promotion; #83 attribution effects remain governed by F83_ATTRIBUTION and cannot rescue #84"
+  },
+  "required_promotion_comparators": [
+    "zero_return_naive",
+    "v2-82-kronos-only",
+    "v2-83-indicators-only"
+  ],
+  "alignment": {
+    "sample_identity": "exact #81 governed scored-row identity and order",
+    "target_identity": "exact #81 frozen next-session selected-contract within-contract settlement log return",
+    "missing_prediction_rule": "fail_closed",
+    "nonfinite_prediction_rule": "fail_closed",
+    "duplicate_sample_rule": "fail_closed",
+    "component_prediction_mutation_permitted": false
+  },
+  "seed_semantics": "inherits #81; fusion itself is deterministic and consumes no RNG",
+  "release_gate": {
+    "requires_88_pass": true,
+    "requires_82_empirical_result_complete": true,
+    "requires_83_empirical_result_complete": true,
+    "requires_exact_component_prediction_artifact_identities": true,
+    "negative_component_result_does_not_authorize_redesign": true
+  },
+  "stop_rule": "If F-ALL fails the frozen #81 material, uncertainty/multiplicity, or robustness gate against any required comparator, record no_incremental_v2_edge and stop core V2; do not search weights, models, features, seeds, horizons, or providers to rescue it."
+}
