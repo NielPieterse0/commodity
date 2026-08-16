@@ -28,6 +28,24 @@
       "tokenizer_id": "NeoQuasar/Kronos-Tokenizer-2k",
       "tokenizer_revision": "b22fb9cb30a2de2f77e8b617169cd756ba964a08",
       "device": "cpu", "max_context": 512,
+      "inference": {
+        "T": 1.0,
+        "top_p": 0.9,
+        "sample_count": 1,
+        "verbose": false
+      },
+      "checkpoint_cache_env": "COMMODITY_KRONOS_CACHE_DIR",
+      "local_files_only": true,
+      "checkpoint_artifacts": {
+        "model": {
+          "filename": "model.safetensors",
+          "sha256": "a7d5f37e2e9fbd9891f7d7d4f72574512dd1f704fee14223e0a8cd0fbf54197c"
+        },
+        "tokenizer": {
+          "filename": "model.safetensors",
+          "sha256": "b97ec46b3b72160509e289183eaf7bdf5f0dac5bb9b49522f6d46638a99a8717"
+        }
+      },
       "reason": "smallest open Kronos variant; laptop-safe evaluation candidate"
     }
   }
