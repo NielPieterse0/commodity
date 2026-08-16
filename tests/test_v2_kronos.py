@@ -9,6 +9,9 @@ import pytest
 
 from commodity import kronos
 from commodity.v2_kronos import (
+    CANDIDATE_ID,
+    IMPLEMENTATION_SOURCE_PATHS,
+    KRONOS_SOURCE_REVISION,
     EmpiricalReleaseBlocked,
     KronosContractError,
     adapter_frame,
@@ -16,6 +19,7 @@ from commodity.v2_kronos import (
     build_input_manifest,
     build_longitudinal_handoff,
     build_pit_context,
+    canonical_sha256,
     enforce_cost_caps,
     governed_return_prediction,
     require_empirical_release,
@@ -25,18 +29,34 @@ from commodity.v2_kronos import (
 
 ROOT = Path(__file__).resolve().parents[1]
 SYNTHETIC_BOUND_IMPLEMENTATION = "1" * 40
+SYNTHETIC_RUNTIME_REVISION = "2" * 40
 
 
 def _load(path: str) -> dict:
     return json.loads((ROOT / path).read_text(encoding="utf-8-sig"))
 
 
+def _source_manifest() -> dict:
+    manifest = {
+        "schema_version": 1,
+        "candidate_id": CANDIDATE_ID,
+        "files": {path: hashlib.sha256(path.encode()).hexdigest() for path in IMPLEMENTATION_SOURCE_PATHS},
+        "kronos_source_revision": KRONOS_SOURCE_REVISION,
+    }
+    manifest["manifest_sha256"] = canonical_sha256(manifest)
+    return manifest
+
+
 def _candidate_registry() -> dict:
     candidates = _load("config/experiment_candidates.json")
+    source_manifest = _source_manifest()
     candidates["candidates"]["v2-82-kronos-only"]["implementation_revision"] = {
         "pr": 100,
         "head": SYNTHETIC_BOUND_IMPLEMENTATION,
         "path": "src/commodity/v2_kronos.py",
+        "source_manifest_sha256": source_manifest["manifest_sha256"],
+        "source_manifest_paths": list(IMPLEMENTATION_SOURCE_PATHS),
+        "kronos_source_revision": KRONOS_SOURCE_REVISION,
     }
     return candidates
 
@@ -70,6 +90,7 @@ def test_binding_is_exact_but_empirically_blocked() -> None:
     binding = _binding()
     assert binding["candidate_id"] == "v2-82-kronos-only"
     assert binding["model_revision"] == "7fdcc628d87f325ccdbcae0a372622ca7e6813aa"
+    assert binding["kronos_source_revision"] == KRONOS_SOURCE_REVISION
     assert binding["implementation_revision"]["head"] == SYNTHETIC_BOUND_IMPLEMENTATION
     with pytest.raises(EmpiricalReleaseBlocked):
         require_empirical_release(binding)
@@ -86,20 +107,31 @@ def test_binding_requires_separate_exact_implementation_revision() -> None:
         )
 
 
-def test_longitudinal_handoff_enforces_bound_runtime_revision() -> None:
+def test_longitudinal_handoff_allows_integrated_revision_only_with_identical_sources() -> None:
     binding = _binding()
+    source_manifest = _source_manifest()
     handoff = build_longitudinal_handoff(
         binding,
-        code_revision=SYNTHETIC_BOUND_IMPLEMENTATION,
+        runtime_code_revision=SYNTHETIC_RUNTIME_REVISION,
+        runtime_source_manifest=source_manifest,
         config_sha256="a" * 64,
         artifact_sha256s=["b" * 64],
     )
-    assert handoff["code_revision"] == SYNTHETIC_BOUND_IMPLEMENTATION
+    assert handoff["bound_implementation_revision"] == SYNTHETIC_BOUND_IMPLEMENTATION
+    assert handoff["runtime_code_revision"] == SYNTHETIC_RUNTIME_REVISION
+    assert handoff["implementation_source_manifest_sha256"] == source_manifest["manifest_sha256"]
     assert handoff["activation_binding_sha256"] == binding["binding_sha256"]
-    with pytest.raises(KronosContractError, match="does not match"):
+
+    mutated = json.loads(json.dumps(source_manifest))
+    mutated["files"][IMPLEMENTATION_SOURCE_PATHS[0]] = "f" * 64
+    mutated["manifest_sha256"] = canonical_sha256({
+        key: value for key, value in mutated.items() if key != "manifest_sha256"
+    })
+    with pytest.raises(KronosContractError, match="sources differ"):
         build_longitudinal_handoff(
             binding,
-            code_revision="2" * 40,
+            runtime_code_revision=SYNTHETIC_RUNTIME_REVISION,
+            runtime_source_manifest=mutated,
             config_sha256="a" * 64,
             artifact_sha256s=["b" * 64],
         )
