@@ -65,7 +65,8 @@ def test_frozen_v1_control_matches_final_phase_d_context() -> None:
 def test_frozen_candidate_registry_matches_contract_identity_and_digest() -> None:
     contract = _contract()
     candidates = _load(CANDIDATES)
-    digest = hashlib.sha256(CANDIDATES.read_bytes()).hexdigest()
+    normalized = CANDIDATES.read_bytes().replace(b"\r\n", b"\n")
+    digest = hashlib.sha256(normalized).hexdigest()
     frozen = contract["frozen_execution_rules"]["candidate_ids"]
     assert digest == contract["freeze"]["candidate_config_sha256"]
     assert candidates["freeze"]["state"] == "frozen"

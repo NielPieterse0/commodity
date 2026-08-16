@@ -8,7 +8,7 @@
   "freeze": {
     "source_pr": 101,
     "candidate_config": "config/experiment_candidates.json",
-    "candidate_config_sha256": "919aab9fe6d786fa1baaf6fca251c5457163c0e7ac0c54ffaa6fdadebe3fc356",
+    "candidate_config_sha256": "2816c145bc227c1b6b3ace5032a6f04328f5e68125e5cee291a91ee15cc9ebe5",
     "multiplicity_manifest": "docs/development/v2-activation-preregistration/multiplicity-families.json",
     "multiplicity_manifest_sha256": "07ebd1f753268a81687cc2759aa009348cb389377c53603f22fab32fe7939a86",
     "contract_scope": "Freeze V2 experiment identities and decision rules before any V2 empirical result is produced.",
@@ -128,7 +128,7 @@
     },
     "uncertainty_significance_rule": {
       "evaluator_manifest": "docs/development/v2-activation-preregistration/statistical-evaluator.json",
-      "evaluator_manifest_sha256": "beab8d90f5b20252ccaddf32d3a6a48c278ca2e4e5665f6998d9681fb84a1f26",
+      "evaluator_manifest_sha256": "d180989ac77952376a07b4ae9e501008e12f4dabc8f04e251c9d4c0f56cc72b3",
       "method": "moving_block_bootstrap",
       "primary_callable": "commodity.evaluation.paired_block_bootstrap_rmse",
       "primary_statistic": "baseline_rmse_minus_challenger_rmse",
@@ -163,6 +163,14 @@
       "attribution_and_sensitivity_can_rescue_promotion": false
     },
     "robustness_rule": {
+      "evaluator_manifest": "docs/development/v2-activation-preregistration/statistical-evaluator.json",
+      "evaluator_manifest_sha256": "d180989ac77952376a07b4ae9e501008e12f4dabc8f04e251c9d4c0f56cc72b3",
+      "signal_callable": "commodity.evaluation.v2_trailing_range20_signal",
+      "threshold_callable": "commodity.evaluation.v2_fit_regime_thresholds",
+      "assignment_callable": "commodity.evaluation.v2_assign_regimes",
+      "period_callable": "commodity.evaluation.v2_chronological_period_labels",
+      "report_callable": "commodity.evaluation.v2_robustness_report",
+      "source_preflight_required": true,
       "chronological_periods": 3,
       "chronological_period_assignment": "split the ordered primary OOS scored-row sequence into three contiguous periods with sizes differing by at most one row; earlier periods receive any remainder row before later periods",
       "regime_definition": {
@@ -173,6 +181,9 @@
         "roll_rule": "range_pct is computed within each selected contract daily bar, so no cross-contract return is formed at a roll boundary",
         "threshold_fit_scope": "initial training window only",
         "thresholds": "empirical 1/3 and 2/3 quantiles of finite initial-train trailing_range20_mean values, computed once before OOS scoring and then held fixed",
+        "quantile_method": "linear",
+        "degenerate_threshold_rule": "fail_closed_if_q1_not_strictly_less_than_q2",
+        "empty_required_regime_rule": "fail_closed",
         "labels": [
           "low",
           "medium",

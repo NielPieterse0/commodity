@@ -11,7 +11,7 @@
       "src/commodity/evaluation_protocol.py"
     ],
     "sha256": {
-      "src/commodity/evaluation.py": "a82d2a592cbb7a3a56b013813cf7e9498cd9c6fb534ee8476d780aaf18ca5a8d",
+      "src/commodity/evaluation.py": "eed814b90cef698688297fac1309ef39ed5d0d6c66eee7a16daadaa4aed3fbde",
       "src/commodity/evaluation_protocol.py": "410d6d02ada9b99739f556ad341584b2240318052fc4a6eae4dd331ca8cd02cd"
     },
     "drift_rule": "Any mismatch blocks result generation and requires reopening #81 plus a fresh #88 audit."
@@ -46,6 +46,22 @@
     "enters_bh": false,
     "independent_promotion_gate": false,
     "rescue_authority": false
+  },
+  "robustness_evaluation": {
+    "signal_callable": "commodity.evaluation.v2_trailing_range20_signal",
+    "threshold_callable": "commodity.evaluation.v2_fit_regime_thresholds",
+    "assignment_callable": "commodity.evaluation.v2_assign_regimes",
+    "period_callable": "commodity.evaluation.v2_chronological_period_labels",
+    "report_callable": "commodity.evaluation.v2_robustness_report",
+    "signal": "trailing_range20_mean",
+    "window_sessions": 20,
+    "quantile_method": "linear",
+    "degenerate_threshold_rule": "fail_closed_if_q1_not_strictly_less_than_q2",
+    "empty_required_regime_rule": "fail_closed",
+    "chronological_periods": 3,
+    "period_remainder_rule": "earlier_periods_receive_remainder_rows",
+    "minimum_positive_periods": 2,
+    "minimum_positive_regimes": 2
   },
   "multiplicity": {
     "callable": "commodity.evaluation_protocol.benjamini_hochberg_adjust",

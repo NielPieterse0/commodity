@@ -13,9 +13,14 @@ def _load(path: Path) -> dict:
     return json.loads(path.read_text(encoding="utf-8"))
 
 
+def _sha256(path: Path) -> str:
+    normalized = path.read_bytes().replace(b"\r\n", b"\n")
+    return hashlib.sha256(normalized).hexdigest()
+
+
 def test_corrected_freeze_binds_exact_candidate_registry() -> None:
     contract = _load(CONTRACT)
-    digest = hashlib.sha256(CANDIDATES.read_bytes()).hexdigest()
+    digest = _sha256(CANDIDATES)
     assert contract["freeze"]["candidate_config"] == "config/experiment_candidates.json"
     assert contract["freeze"]["candidate_config_sha256"] == digest
 
@@ -23,7 +28,7 @@ def test_corrected_freeze_binds_exact_candidate_registry() -> None:
 def test_corrected_freeze_binds_exact_multiplicity_manifest() -> None:
     contract = _load(CONTRACT)
     manifest = _load(MULTIPLICITY)
-    digest = hashlib.sha256(MULTIPLICITY.read_bytes()).hexdigest()
+    digest = _sha256(MULTIPLICITY)
     rule = contract["frozen_execution_rules"]["multiple_testing_rule"]
     assert contract["freeze"]["multiplicity_manifest"] == (
         "docs/development/v2-activation-preregistration/multiplicity-families.json"
