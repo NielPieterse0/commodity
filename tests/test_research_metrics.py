@@ -311,3 +311,97 @@ def test_native_stage_requires_artifact_and_source_identity() -> None:
     stage["evidence"]["artifact_sha256s"] = []
     with pytest.raises(MetricsContractError, match="artifact and source"):
         validate_stage(stage)
+
+
+def test_regression_gate_uses_most_recent_comparable_baseline_across_context_break() -> None:
+    previous_comparable = _stage("previous-comparable", 1, 0.08)
+    intervening = _stage("intervening-incomparable", 2, 0.50)
+    intervening["context"]["evaluation"]["split_sha256"] = SHA_C
+    _reidentify(intervening)
+    current = _stage("current", 3, 0.10)
+
+    result = evaluate_comparisons(
+        current,
+        [previous_comparable, intervening],
+        _policy(),
+    )
+    regression = next(
+        item
+        for item in result["metric_comparisons"]
+        if item["metric"] == "rmse" and item["baseline_kind"] == "previous_comparable"
+    )
+
+    assert regression["reference_stage_id"] == "previous-comparable"
+    assert regression["status"] == "regression"
+    assert regression["reason_code"] == "material_regression"
+    assert result["previous_context"]["status"] == "non_comparable"
+
+
+def test_previous_comparable_baseline_skips_stage_without_the_metric() -> None:
+    with_metric = _stage("with-metric", 1, 0.08)
+    without_metric = _stage("without-metric", 2, 0.50)
+    del without_metric["metrics"]["rmse"]
+    current = _stage("current", 3, 0.10)
+
+    result = evaluate_comparisons(current, [with_metric, without_metric], _policy())
+    regression = next(
+        item
+        for item in result["metric_comparisons"]
+        if item["metric"] == "rmse" and item["baseline_kind"] == "previous_comparable"
+    )
+
+    assert regression["reference_stage_id"] == "with-metric"
+    assert regression["status"] == "regression"
+
+
+def test_closeout_fails_closed_when_latest_stage_lacks_required_context_identity() -> None:
+    current = _stage("current", 1, 0.10, evidence_status="partial")
+    current["context"]["evaluation"]["baseline_configuration_id"] = None
+    _reidentify(current)
+
+    gate = evaluate_closeout(current, [], _policy())
+
+    assert gate["status"] == "blocked"
+    assert (
+        "current_stage_missing_required_context_identity:evaluation.baseline_configuration_id"
+        in gate["blockers"]
+    )
+    assert "current_stage_missing_required_context_identity" in gate["alarm_reason_codes"]
+
+
+def test_closeout_blocks_material_regression_when_interpretation_is_not_accepted() -> None:
+    previous = _stage("previous", 1, 0.08)
+    current = _stage("current", 2, 0.10)
+    current["interpretations"].append(
+        {
+            "comparison_kind": "previous_stage",
+            "reference_stage_id": "previous",
+            "metric": "rmse",
+            "classification": "methodology_tightening",
+            "explanation": "Candidate explanation exists but has not been accepted.",
+            "accepted": False,
+            "tracking_ref": None,
+        }
+    )
+
+    gate = evaluate_closeout(current, [previous], _policy())
+
+    assert gate["status"] == "blocked"
+    assert any(item.startswith("regression_not_accepted") for item in gate["blockers"])
+    assert "regression_not_accepted" in gate["alarm_reason_codes"]
+
+
+def test_comparison_reason_codes_distinguish_missing_identity_from_hard_change() -> None:
+    current = _stage("current", 3, 0.10)
+    missing = _stage("missing", 1, 0.08, evidence_status="partial")
+    missing["context"]["availability"]["rule_sha256"] = None
+    _reidentify(missing)
+    changed = _stage("changed", 2, 0.08)
+    changed["context"]["evaluation"]["split_sha256"] = SHA_C
+    _reidentify(changed)
+
+    missing_result = evaluate_comparisons(current, [missing], _policy())
+    changed_result = evaluate_comparisons(current, [changed], _policy())
+
+    assert missing_result["previous_context"]["reason_code"] == "missing_required_context_identity"
+    assert changed_result["previous_context"]["reason_code"] == "hard_context_changed"
