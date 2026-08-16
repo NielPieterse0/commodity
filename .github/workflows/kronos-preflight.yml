@@ -7,6 +7,7 @@ on:
       - "src/commodity/kronos.py"
       - "src/commodity/v2_kronos.py"
       - "scripts/preflight_kronos_checkpoint.py"
+      - "scripts/hash_v2_kronos_implementation.py"
       - "tests/test_kronos.py"
       - "tests/test_v2_kronos.py"
       - ".github/workflows/kronos-preflight.yml"
@@ -22,7 +23,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          submodules: false
+          submodules: true
       - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
@@ -33,3 +34,5 @@ jobs:
           python scripts/preflight_kronos_checkpoint.py
           --cache-dir "${{ runner.temp }}/kronos-cache"
           --output "${{ runner.temp }}/kronos-preflight.json"
+      - name: Hash exact result-affecting implementation sources
+        run: python scripts/hash_v2_kronos_implementation.py
