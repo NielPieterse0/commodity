@@ -1,32 +1,42 @@
-# V2 Executable Contract Preparation (#81)
+# V2 Executable Contract Freeze (#81)
 
 ## Scope
 
-This slice is Agent 2's #81 lane only. It prepares the V2 executable contract against the landed #78 longitudinal metrics/comparability authority. It does not perform or authorize model fitting, prediction generation, feature computation, data acquisition, tuning, results-driven design, #88 audit work, or empirical V2 execution.
+This slice is Agent 2's #81 lane only. It freezes the V2 executable experiment contract against the landed #78 longitudinal metrics/comparability authority. It does not execute #88 and does not perform model fitting, prediction generation, feature computation, new data acquisition, tuning, results-driven design, or empirical V2 execution.
 
-## Current gates
+## Gate state
 
 1. #78 is closed/reconciled and landed in PR #95 at `3e2aa9117a82368782eb5c674eb33c62ef2fd9ee`.
-2. PR #92 is landed in the current base at `e11a891b58e67b61593b9c2ec5c86974e64cb0bc`, but #15 itself remains open pending final operator/Work Management closeout. Therefore #81 is **prepared but not frozen or activated**.
-3. After #15 closes/reconciles, Agent 2 may freeze the executable #81 identities and candidate records.
-4. Agent 3 then independently executes #88 against the frozen #81 record. #82/#83 remain empirically blocked until #88 passes.
+2. #15 is closed/reconciled through PR #92 / `e11a891b58e67b61593b9c2ec5c86974e64cb0bc`.
+3. #81 is now **frozen**, with executable candidate identities and common evaluation rules in `config/experiment_candidates.json` and `activation-contract.json`.
+4. #88 remains **not executed / not passed**. Freezing #81 does not release #82 or #83 empirically.
 
 ## #78 binding
 
-`activation-contract-draft.json` binds directly to `contracts/research_metrics.schema.json` and `artifacts/research-metrics/longitudinal-ledger.json`. It inherits the exact #78 comparison kinds `previous_stage` and `best_comparable`, policy `strict-no-silent-regression-v1`, and the landed required metric set: `model_rmse`, `baseline_rmse`, and `rmse_improvement_vs_baseline`.
+`activation-contract.json` references `contracts/research_metrics.schema.json` and `artifacts/research-metrics/longitudinal-ledger.json`. It inherits the exact #78 comparison kinds `previous_stage` and `best_comparable`, policy `strict-no-silent-regression-v1`, and all three required metrics: `model_rmse`, `baseline_rmse`, and `rmse_improvement_vs_baseline`.
 
-The contract does not invent a singular primary metric because #78 declares three required metrics. Optional longitudinal diagnostics remain inherited exactly from the #78 policy.
+The V2 contract does not replace those metric identities. It freezes how they are used for the V2 comparison and robustness gate.
 
-## V1-comparable control preparation
+## Frozen V1 control
 
-The landed Phase D stage `phase-d-full-v1-hist-gb` is recorded as the planned V1 control because it carries the final governed V1 target, dataset/OOS, split/protocol, baseline, PIT-availability, and evidence identities. The control is **not frozen** while #15 is open. At freeze time, the hard-context identity must still match; otherwise the V2 primary comparable claim fails closed or receives a separate non-comparable experiment identity.
+The final governed Phase-D stage `phase-d-full-v1-hist-gb` supplies the comparable target, dataset/OOS, split/protocol, baseline, PIT-availability, and evidence context. Within that exact context, the zero-return naive baseline had lower RMSE than HistGB and Ridge, so `zero_return_naive` / `semantic:zero-return-naive-v1` is frozen as the strongest comparable V1 control.
 
-## Resolved authority values
+The primary V2 claim therefore requires a challenger RMSE strictly below every required comparator, positive `rmse_improvement_vs_baseline`, and the inherited robustness/significance gate. #78 longitudinal stage comparisons remain mandatory in parallel.
 
-The preparation now resolves from #78 the V1 target/horizon/timestamp semantics; dataset ID, freeze/vintage ID, dataset SHA, OOS window and coverage signature; evaluation protocol/split identities; baseline identity; PIT-availability rule; and required/optional metric identities and materiality policy.
+## Frozen candidate identities
 
-Mutable V2-only fields such as final candidate IDs, component-control IDs, exact V2 code revision, deterministic artifact namespace, seeds, leakage guard, uncertainty/multiplicity rule, thresholds, and compute/data-cost caps remain explicitly unresolved until the #15 gate closes and #81 is frozen. Their unresolved state is a block on activation, not permission to guess them.
+- `v2-82-kronos-only` — Kronos-only component control, bound to #82 preparation PR #96 at `0a5317f2981c29e1e90dc8106cb3aa2713ab0163`.
+- `v2-83-indicators-only` — indicators-only component control, bound to #83 preparation PR #98 at `3e55213b967b590187223e2b286063c81672274a`; `I-ALL` is primary and `I-NO-*` variants are attribution-only.
+- `v2-84-kronos-indicator-fusion` — fusion claim using both frozen component-control identities. #84 still owns its combination-rule implementation, but it may not redefine #81 target, metrics, comparators, seeds, leakage, cost, or stop rules.
+
+Each candidate has a deterministic artifact namespace. Any mutation of a frozen #81 field requires reopening #81 and a fresh #88 audit.
+
+## Frozen common rules
+
+The contract freezes the Phase-D target/horizon/timestamp semantics, dataset/vintage/OOS identity, evaluation protocol/split, PIT cutoff, seed `0`, 1.0 required-row coverage, no post-cutoff inputs, fold-local fitted transforms only, zero paid data/provider expansion, CPU-only bounded compute, and no result-driven rescue search.
+
+Uncertainty and robustness inherit the established V1 discipline: moving-block bootstrap with block size 20, 1000 resamples, 95% confidence, Benjamini-Hochberg multiplicity control at adjusted p-value <= 0.05, positive lower confidence bound, and positive evidence in at least two of three chronological periods and two of three frozen regimes.
 
 ## Execution boundary
 
-`config/experiment_candidates.json` remains untouched by this preparation slice. `execution_authorized` and all empirical release flags remain false. No result-producing command is part of this change.
+`execution_authorized` remains false for every V2 candidate. Agent 3 must execute #88 against this exact frozen contract and the bound child implementation revisions. Only an explicit #88 pass may release #82/#83 for empirical work.
