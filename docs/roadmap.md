@@ -4,7 +4,7 @@
 
 This file owns only the research milestone sequence. The repository authority map is in `AGENTS.md`; current operational gates remain in their assigned configuration owners. Geographic/data expansion is owned by `docs/data-manifest.md`: U.S. / Henry Hub first, then Global/Interconnect and Norway/Europe when incremental evidence justifies promotion.
 
-**Current milestone:** V1 is complete with bounded caveats. Its reproducible full-V1 evaluation concluded `no_robust_edge`; this closes the V1 evidence-baseline milestone but does not authorize research promotion, V2 activation, or live execution.
+**Current milestone:** the V1 empirical evidence baseline is complete with bounded caveats and concluded `no_robust_edge`. Issue #78 is closed/accepted and its governed longitudinal measurement/regression infrastructure is operational; the early-smoke → Phase-D result change is non-comparable and does not establish a software/data regression. V1 programme closure is through #15. Research promotion and trading authority remain false, and V2 empirical activation becomes eligible only after #15 itself is terminally closed and reconciled.
 
 ```text
 DATA TRUTH  ->  BASELINES  ->  KRONOS + INDICATORS  ->  ROBUST ENSEMBLE  ->  FORWARD TEST  ->  APPROVED EXECUTION
