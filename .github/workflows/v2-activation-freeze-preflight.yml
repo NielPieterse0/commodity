@@ -1,0 +1,24 @@
+name: V2 activation freeze preflight
+
+on:
+  pull_request:
+    paths:
+      - "config/experiment_candidates.json"
+      - "docs/development/v2-activation-preregistration/**"
+      - "tests/test_v2_activation_refreeze.py"
+      - ".github/workflows/v2-activation-freeze-preflight.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  freeze-identity:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - name: Emit frozen identity hashes
+        run: |
+          sha256sum config/experiment_candidates.json
+          sha256sum docs/development/v2-activation-preregistration/multiplicity-families.json
