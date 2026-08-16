@@ -3,8 +3,8 @@
   "owner": "commodity_experiment_candidates",
   "freeze": {
     "issue": 81,
-    "state": "frozen_pending_corrected_88_audit",
-    "base_revision": "026f3cc206e79351ada2ecc2edc4a6ba70d3a2c2",
+    "state": "frozen",
+    "base_revision": "e11a891b58e67b61593b9c2ec5c86974e64cb0bc",
     "metric_comparability_authority": {
       "issue": 78,
       "landing_pr": 95,
