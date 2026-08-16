@@ -15,9 +15,9 @@ This work has not performed model inference, model fitting, prediction generatio
 The preparation revision and executable implementation revision are intentionally separate identities. Corrected #81 must bind both independently.
 
 - Preparation evidence: this directory / PR #96, at the exact refreshed head used by #81.
-- Implementation: PR #100, exact head `15a837ca7dc8e4217f9f4afc6dbfa31dd35fe52e`.
-- Exact implementation CI: GitHub Actions run `31931814991`, passed.
-- Exact checkpoint preflight: GitHub Actions run `31931815058`, passed.
+- Implementation: PR #100, exact head `34a6e388695932722b8bb54377cc6fe67431be36`.
+- Exact implementation CI: GitHub Actions run `31932248200`, passed.
+- Exact checkpoint preflight: GitHub Actions run `31932248268`, passed.
 
 No later implementation revision may silently replace that bound SHA for a result-producing run. A change requires reopening the relevant binding and renewed #88 review before empirical inspection.
 
@@ -44,7 +44,7 @@ The permitted input is strictly expiry-aware OHLCV. Raw selected-series rows ret
 
 Input construction remains bound to `config/data_sources.json#canonical_contract_schema` and `config/assumptions.json#assumptions.continuous_series_policy`. The active roll policy must match `volume_crossover_dte_v1`; there is no stored price adjustment and no cross-contract target return.
 
-For each prediction cutoff, context is deterministically the most recent `min(512, N)` PIT-eligible rows. No scaling, imputation, interpolation, forward-fill, silent row drop, or context search is permitted. Invalid/missing/non-finite OHLCV, non-positive prices, negative volume, invalid OHLC bounds, duplicate/non-increasing timestamps, missing contract trace, unresolved timezone semantics, or post-cutoff input fail closed.
+For each prediction cutoff, context is deterministically the most recent `min(512, N)` PIT-eligible rows. No scaling, imputation, interpolation, forward-fill, silent row drop, implicit timezone localization, or context search is permitted. Invalid/missing/non-finite OHLCV, non-positive prices, negative volume, invalid OHLC bounds, duplicate/non-increasing timestamps, missing contract trace, naive/unresolved timezone semantics, or post-cutoff input fail closed.
 
 ## Inherited #81 fields
 
@@ -60,10 +60,10 @@ CPU only, no fitting/fine-tuning/adaptation, no paid compute, and no new paid da
 
 ## Artifacts and longitudinal evidence
 
-The frozen namespace is `artifacts/v2/v2-82-kronos-only/`. After release, the governed run must emit deterministic input/model/run/reproducibility/hash evidence plus predictions and metrics, and must hand the exact code/config/artifact identities to the #78 longitudinal metrics system for both `previous_stage` and `best_comparable` comparisons.
+The frozen namespace is `artifacts/v2/v2-82-kronos-only/`. After release, the governed run must emit deterministic input/model/run/reproducibility/hash evidence plus predictions and metrics, and must hand the exact code/config/artifact identities to the #78 longitudinal metrics system for both `previous_stage` and `best_comparable` comparisons. The runtime code revision must exactly equal the implementation SHA bound by #81; a merely well-formed different SHA fails closed.
 
 ## Stop/failure rules
 
-Execution remains blocked unless corrected #81 binds this exact refreshed preparation revision separately from implementation SHA `15a837ca7dc8e4217f9f4afc6dbfa31dd35fe52e` and #88 independently passes that exact freeze. Checkpoint/config mismatch, failed local hash resolution, PIT/coverage/trace failure, cross-contract target construction, runtime/cost violation, invalid outputs, replay mismatch, or incomplete artifact/longitudinal identity fails closed.
+Execution remains blocked unless corrected #81 binds this exact refreshed preparation revision separately from implementation SHA `34a6e388695932722b8bb54377cc6fe67431be36` and #88 independently passes that exact freeze. Checkpoint/config mismatch, failed local hash resolution, PIT/coverage/trace/timezone failure, runtime code-revision mismatch, cross-contract target construction, runtime/cost violation, invalid outputs, replay mismatch, or incomplete artifact/longitudinal identity fails closed.
 
 A negative, null, or inferior result is preserved. It does not authorize checkpoint swaps, seed search, sampling changes, horizon changes, input substitution, model-family search, or compensating features.
