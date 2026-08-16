@@ -1,11 +1,12 @@
 import sys
 import types
+from typing import ClassVar
 
 from commodity import kronos
 
 
 class _Loader:
-    calls: list[tuple[tuple, dict]] = []
+    calls: ClassVar[list[tuple[tuple, dict]]] = []
 
     @classmethod
     def from_pretrained(cls, *args, **kwargs):
