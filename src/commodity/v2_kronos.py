@@ -262,6 +262,14 @@ def _utc_timestamp(value: Any, label: str) -> pd.Timestamp:
     return timestamp.tz_convert("UTC")
 
 
+def _utc_series(frame: pd.DataFrame, column: str) -> pd.Series:
+    values = [
+        _utc_timestamp(value, f"{column}[{index}]")
+        for index, value in frame[column].items()
+    ]
+    return pd.Series(values, index=frame.index, dtype="datetime64[ns, UTC]")
+
+
 def build_pit_context(
     selected_market: pd.DataFrame,
     prediction_time: Any,
@@ -276,13 +284,9 @@ def build_pit_context(
         raise KronosContractError("#82 max_context must remain 512")
     cutoff = _utc_timestamp(prediction_time, "prediction_time")
     frame = selected_market.loc[:, REQUIRED_MARKET_COLUMNS].copy()
-    frame["trade_date"] = pd.to_datetime(frame["trade_date"], utc=True, errors="coerce")
-    frame["available_at"] = pd.to_datetime(
-        frame["available_at"], utc=True, errors="coerce"
-    )
-    frame["expiration"] = pd.to_datetime(frame["expiration"], utc=True, errors="coerce")
-    if frame[["trade_date", "available_at", "expiration"]].isna().any().any():
-        raise KronosContractError("#82 market identity timestamps must be explicit and valid")
+    frame["trade_date"] = _utc_series(frame, "trade_date")
+    frame["available_at"] = _utc_series(frame, "available_at")
+    frame["expiration"] = _utc_series(frame, "expiration")
     if frame["trade_date"].duplicated().any():
         raise KronosContractError("#82 selected market series must have one row per trade_date")
     if not frame["trade_date"].is_monotonic_increasing:
