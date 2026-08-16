@@ -7,6 +7,7 @@ import numpy as np
 import pandas as pd
 import pytest
 
+from commodity.v2_indicator_contract import build_implementation_source_manifest
 from commodity.v2_indicators import (
     ALL_INCREMENT_FEATURES,
     ATTRIBUTION_VARIANTS,
@@ -427,6 +428,7 @@ def test_hashes_and_lineage_handoff_are_deterministic(activation_binding) -> Non
         feature_frame=increments,
         implementation_config={"fit_scope": "fold_train_only"},
         implementation_revision="a" * 40,
+        runtime_source_manifest=build_implementation_source_manifest(ROOT),
     )
     identity = handoff.pop("artifact_identity_sha256")
     assert handoff["candidate_id"] == CANDIDATE_ID
