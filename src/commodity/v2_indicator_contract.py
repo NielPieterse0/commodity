@@ -5,6 +5,7 @@ import json
 import re
 from collections.abc import Mapping, Sequence
 from dataclasses import dataclass
+from pathlib import Path
 from typing import Any
 
 import numpy as np
@@ -48,7 +49,15 @@ ATTRIBUTION_VARIANTS = {
 ALL_INCREMENT_FEATURES = tuple(
     feature for family in FAMILIES for feature in FEATURES_BY_FAMILY[family]
 )
+IMPLEMENTATION_SOURCE_PATHS = (
+    "config/data_sources.json",
+    "src/commodity/v2_indicator_contract.py",
+    "src/commodity/v2_indicator_market.py",
+    "src/commodity/v2_indicator_weather_storage.py",
+    "src/commodity/v2_indicators.py",
+)
 _GIT_SHA_RE = re.compile(r"^[0-9a-f]{40}$")
+_SHA256_RE = re.compile(r"^[0-9a-f]{64}$")
 
 
 class IndicatorContractError(ValueError):
@@ -85,6 +94,48 @@ def _json_copy(value: Any) -> Any:
     return json.loads(_canonical_json(value))
 
 
+def _require_git_sha(value: Any, *, label: str) -> str:
+    normalized = str(value).lower()
+    if not _GIT_SHA_RE.fullmatch(normalized):
+        raise IndicatorContractError(f"{label} must be an exact 40-hex Git SHA")
+    return normalized
+
+
+def _require_sha256(value: Any, *, label: str) -> str:
+    normalized = str(value).lower()
+    if not _SHA256_RE.fullmatch(normalized):
+        raise IndicatorContractError(f"{label} must be an exact 64-hex SHA-256")
+    return normalized
+
+
+def _sha256_file(path: Path) -> str:
+    digest = hashlib.sha256()
+    with path.open("rb") as handle:
+        for chunk in iter(lambda: handle.read(1024 * 1024), b""):
+            digest.update(chunk)
+    return digest.hexdigest()
+
+
+def build_implementation_source_manifest(repo_root: Path) -> dict[str, Any]:
+    """Hash every result-affecting #83 implementation/config source."""
+    root = repo_root.resolve()
+    files: dict[str, str] = {}
+    for relative in IMPLEMENTATION_SOURCE_PATHS:
+        path = root / relative
+        if not path.is_file():
+            raise IndicatorContractError(
+                f"required #83 implementation source is missing: {relative}"
+            )
+        files[relative] = _sha256_file(path)
+    manifest: dict[str, Any] = {
+        "schema_version": 1,
+        "candidate_id": CANDIDATE_ID,
+        "files": files,
+    }
+    manifest["manifest_sha256"] = canonical_sha256(manifest)
+    return manifest
+
+
 def parse_pinned_source_policy(raw: bytes) -> PinnedSourcePolicy:
     normalized_lf = raw.replace(b"\r\n", b"\n").replace(b"\r", b"\n")
     newline_representations = (
@@ -111,6 +162,26 @@ def parse_pinned_source_policy(raw: bytes) -> PinnedSourcePolicy:
     return PinnedSourcePolicy(payload=_json_copy(payload))
 
 
+def _validate_implementation_revision(value: Any) -> dict[str, Any] | None:
+    if value is None:
+        return None
+    if not isinstance(value, Mapping):
+        raise IndicatorContractError("#83 implementation revision must be an object")
+    implementation = _json_copy(value)
+    _require_git_sha(
+        implementation.get("head"), label="#83 implementation revision head"
+    )
+    if implementation.get("path") != "src/commodity/v2_indicator_contract.py":
+        raise IndicatorContractError("#83 implementation path changed")
+    _require_sha256(
+        implementation.get("source_manifest_sha256"),
+        label="#83 implementation source manifest SHA-256",
+    )
+    if tuple(implementation.get("source_manifest_paths", ())) != IMPLEMENTATION_SOURCE_PATHS:
+        raise IndicatorContractError("#83 implementation source-manifest paths changed")
+    return implementation
+
+
 def bind_activation_contract(
     activation_contract: Mapping[str, Any],
     experiment_candidates: Mapping[str, Any],
@@ -130,6 +201,9 @@ def bind_activation_contract(
         raise IndicatorContractError(
             "#83 preparation revision does not match the frozen spec"
         )
+    implementation = _validate_implementation_revision(
+        candidate.get("implementation_revision")
+    )
     if candidate.get("inherits_contract") != ACTIVATION_CONTRACT_PATH:
         raise IndicatorContractError(
             "#83 candidate does not inherit the #81 activation contract"
@@ -179,6 +253,7 @@ def bind_activation_contract(
             "head": SPEC_REVISION,
             "path": SPEC_PATH,
         },
+        "implementation_revision": implementation,
         "activation_contract_issue": 81,
         "activation_contract_status": contract.get("status"),
         "activation_execution_authorized": bool(contract.get("execution_authorized")),
@@ -199,15 +274,24 @@ def require_empirical_release(binding: Mapping[str, Any]) -> None:
     digest = bound.pop("binding_sha256", None)
     if not isinstance(digest, str) or canonical_sha256(bound) != digest:
         raise IndicatorContractError("#83 activation binding hash is invalid")
-    gate = bound.get("empirical_release_gate", {}).get("88", {})
+    gate = bound.get("empirical_release_gate")
+    if not isinstance(gate, Mapping):
+        raise EmpiricalReleaseBlocked("#83 empirical release gate is missing")
+    audit = gate.get("88")
+    release_state = gate.get("release_state")
+    implementation = bound.get("implementation_revision")
     if (
         not bound.get("activation_execution_authorized")
-        or not isinstance(gate, Mapping)
-        or not gate.get("satisfied")
-        or gate.get("current_state") != gate.get("required_state")
+        or not isinstance(audit, Mapping)
+        or not audit.get("satisfied")
+        or audit.get("current_state") != audit.get("required_state")
+        or not isinstance(release_state, Mapping)
+        or release_state.get("83") is not True
+        or not isinstance(implementation, Mapping)
     ):
         raise EmpiricalReleaseBlocked(
-            "#83 empirical execution remains blocked until #88 passes the exact binding"
+            "#83 empirical execution remains blocked until corrected #81 and #88 "
+            "release the exact bound implementation"
         )
 
 
@@ -219,6 +303,14 @@ def _utc_timestamp(value: Any, *, label: str) -> pd.Timestamp:
     if timestamp.tzinfo is None:
         raise IndicatorContractError(f"{label} must be timezone-aware")
     return timestamp.tz_convert("UTC")
+
+
+def _utc_series(frame: pd.DataFrame, column: str, *, label: str) -> pd.Series:
+    values = [
+        _utc_timestamp(value, label=f"{label} {column}[{index}]")
+        for index, value in frame[column].items()
+    ]
+    return pd.Series(values, index=frame.index, dtype="datetime64[ns, UTC]")
 
 
 def _require_columns(frame: pd.DataFrame, columns: Sequence[str], *, label: str) -> None:
@@ -246,9 +338,9 @@ def _eligible_before(
     _require_columns(frame, ("available_at",), label=label)
     cutoff = _utc_timestamp(prediction_time, label="prediction_time")
     out = frame.copy()
-    out["available_at"] = pd.to_datetime(out["available_at"], utc=True, errors="coerce")
-    if out["available_at"].isna().any():
-        raise IndicatorContractError(f"{label} has unknown available_at values")
+    for column in ("available_at", "issued_at", "forecast_valid_at"):
+        if column in out.columns:
+            out[column] = _utc_series(out, column, label=label)
     return out.loc[out["available_at"] <= cutoff].copy(), cutoff
 
 
@@ -364,6 +456,35 @@ def dataframe_sha256(frame: pd.DataFrame) -> str:
     return canonical_sha256({"columns": columns, "records": records})
 
 
+def _verify_runtime_source_manifest(
+    implementation: Mapping[str, Any],
+    runtime_source_manifest: Mapping[str, Any],
+) -> str:
+    expected = _require_sha256(
+        implementation.get("source_manifest_sha256"),
+        label="#83 bound implementation source manifest SHA-256",
+    )
+    observed = _json_copy(runtime_source_manifest)
+    observed_digest = observed.pop("manifest_sha256", None)
+    observed_digest = _require_sha256(
+        observed_digest, label="#83 runtime implementation source manifest SHA-256"
+    )
+    if canonical_sha256(observed) != observed_digest:
+        raise IndicatorContractError(
+            "#83 runtime implementation source manifest hash is invalid"
+        )
+    if observed.get("candidate_id") != CANDIDATE_ID:
+        raise IndicatorContractError("#83 runtime source manifest candidate changed")
+    if tuple(observed.get("files", {}).keys()) != IMPLEMENTATION_SOURCE_PATHS:
+        raise IndicatorContractError("#83 runtime source-manifest paths changed")
+    if observed_digest != expected:
+        raise IndicatorContractError(
+            "#83 runtime implementation sources differ from the exact child "
+            "implementation bound by #81"
+        )
+    return observed_digest
+
+
 def build_lineage_handoff(
     *,
     binding: Mapping[str, Any],
@@ -371,15 +492,32 @@ def build_lineage_handoff(
     feature_frame: pd.DataFrame,
     implementation_config: Mapping[str, Any],
     implementation_revision: str,
+    runtime_source_manifest: Mapping[str, Any] | None = None,
 ) -> dict[str, Any]:
     bound = _json_copy(binding)
     digest = bound.pop("binding_sha256", None)
     if not isinstance(digest, str) or canonical_sha256(bound) != digest:
         raise IndicatorContractError("#83 activation binding hash is invalid")
-    if not _GIT_SHA_RE.fullmatch(str(implementation_revision).lower()):
-        raise IndicatorContractError(
-            "implementation_revision must be an exact 40-hex Git SHA"
+    runtime_revision = _require_git_sha(
+        implementation_revision, label="#83 integrated runtime code revision"
+    )
+    implementation = bound.get("implementation_revision")
+    bound_revision: str | None = None
+    source_manifest_digest: str | None = None
+    if implementation is not None:
+        if not isinstance(implementation, Mapping):
+            raise IndicatorContractError("#83 implementation revision is invalid")
+        bound_revision = _require_git_sha(
+            implementation.get("head"), label="#83 bound implementation revision"
         )
+        if runtime_source_manifest is None:
+            raise IndicatorContractError(
+                "#83 runtime implementation source manifest is required"
+            )
+        source_manifest_digest = _verify_runtime_source_manifest(
+            implementation, runtime_source_manifest
+        )
+
     feature_definition = {
         "spec_revision": SPEC_REVISION,
         "spec_path": SPEC_PATH,
@@ -393,7 +531,9 @@ def build_lineage_handoff(
     handoff = {
         "candidate_id": CANDIDATE_ID,
         "activation_binding_sha256": digest,
-        "implementation_revision": str(implementation_revision).lower(),
+        "bound_implementation_revision": bound_revision,
+        "implementation_source_manifest_sha256": source_manifest_digest,
+        "runtime_code_revision": runtime_revision,
         "input_sha256": dataframe_sha256(input_frame),
         "feature_sha256": dataframe_sha256(feature_frame),
         "feature_definition_sha256": canonical_sha256(feature_definition),
