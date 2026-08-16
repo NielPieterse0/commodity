@@ -49,6 +49,12 @@ def test_primary_and_secondary_inference_roles_are_fully_bound() -> None:
     assert rule["secondary_callable"] == secondary["callable"]
     assert rule["secondary_p_value_field"] == secondary["p_value_field"]
     assert secondary["tail"] == "one_sided_improvement"
+    assert secondary["null_enumeration"] == (
+        "exact sign enumeration over all 2^n complete-block sign assignments; at most 20 complete blocks"
+    )
+    assert secondary["null_includes_observed_assignment"] is True
+    assert secondary["p_value_method"] == "(1 + count(null >= observed)) / (len(null) + 1)"
+    assert secondary["tie_rule"] == "null >= observed"
     assert secondary["enters_bh"] is False
     assert secondary["independent_promotion_gate"] is False
     assert secondary["rescue_authority"] is False

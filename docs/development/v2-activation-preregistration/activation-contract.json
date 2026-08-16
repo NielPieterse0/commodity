@@ -128,7 +128,7 @@
     },
     "uncertainty_significance_rule": {
       "evaluator_manifest": "docs/development/v2-activation-preregistration/statistical-evaluator.json",
-      "evaluator_manifest_sha256": "7f3f94aa508a85eba3d7b7723ace1b50faa7560179ae52ee4b76b168a55258e0",
+      "evaluator_manifest_sha256": "beab8d90f5b20252ccaddf32d3a6a48c278ca2e4e5665f6998d9681fb84a1f26",
       "method": "moving_block_bootstrap",
       "primary_callable": "commodity.evaluation.paired_block_bootstrap_rmse",
       "primary_statistic": "baseline_rmse_minus_challenger_rmse",
