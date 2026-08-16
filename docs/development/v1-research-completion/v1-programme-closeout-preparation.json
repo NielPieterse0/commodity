@@ -55,6 +55,13 @@
       "status": "pending_issue_78_integration"
     },
     {
+      "role": "longitudinal_regression_alarm_hardening",
+      "pull_request": 93,
+      "head": "c25017f26876718679118c3016b8cbf05d36e89e",
+      "base_pull_request": 90,
+      "status": "pending_issue_78_integration"
+    },
+    {
       "role": "retrospective_v0_v1_evidence",
       "pull_request": 87,
       "head": "5c784eb7c1e60683c727f21f39d44a26e3a2ac7f",
