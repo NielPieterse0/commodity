@@ -153,7 +153,24 @@
     },
     "robustness_rule": {
       "chronological_periods": 3,
-      "regime_definition": "absolute_target_return_initial_train_tertiles",
+      "chronological_period_assignment": "split the ordered primary OOS scored-row sequence into three contiguous periods with sizes differing by at most one row; earlier periods receive any remainder row before later periods",
+      "regime_definition": {
+        "id": "pit-trailing-range20-initial-train-tertiles-v1",
+        "signal": "trailing_range20_mean",
+        "formula": "arithmetic mean of range_pct=(high-low)/close over the 20 selected-contract daily bars ending at and including the prediction-cutoff bar",
+        "point_in_time_rule": "every contributing OHLC bar must be available at or before the prediction cutoff; no target or post-cutoff value may enter regime assignment",
+        "roll_rule": "range_pct is computed within each selected contract daily bar, so no cross-contract return is formed at a roll boundary",
+        "threshold_fit_scope": "initial training window only",
+        "thresholds": "empirical 1/3 and 2/3 quantiles of finite initial-train trailing_range20_mean values, computed once before OOS scoring and then held fixed",
+        "labels": [
+          "low",
+          "medium",
+          "high"
+        ],
+        "boundary_rule": "low if signal <= q1; medium if q1 < signal <= q2; high if signal > q2",
+        "recompute_thresholds_per_fold": false,
+        "post_result_threshold_or_label_change_permitted": false
+      },
       "minimum_positive_periods": 2,
       "minimum_positive_regimes": 2,
       "all_criteria_required": true
@@ -256,7 +273,7 @@
     {
       "id": "pit_or_leakage_guard_failed",
       "action": "stop",
-      "condition": "Any input violates the frozen availability cutoff, target construction, or fold-local transform rule."
+      "condition": "Any input violates the frozen availability cutoff, target construction, fold-local transform rule, or ex-ante robustness-regime rule."
     },
     {
       "id": "coverage_failed",
