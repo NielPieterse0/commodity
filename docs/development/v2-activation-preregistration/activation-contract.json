@@ -10,7 +10,7 @@
     "candidate_config": "config/experiment_candidates.json",
     "candidate_config_sha256": "0947cb893f706c5a0fa8e608b52e151693aebb8b523b31fb84813f80af0981cc",
     "multiplicity_manifest": "docs/development/v2-activation-preregistration/multiplicity-families.json",
-    "multiplicity_manifest_sha256": "12c73b6648afcd1184f030adabd715634b312ecc6ebfc93a2fc1d249f5ee6d9b",
+    "multiplicity_manifest_sha256": "07ebd1f753268a81687cc2759aa009348cb389377c53603f22fab32fe7939a86",
     "contract_scope": "Freeze V2 experiment identities and decision rules before any V2 empirical result is produced.",
     "mutation_rule": "Any change to a frozen field or bound preparation/implementation revision requires reopening #81 and a fresh #88 audit before empirical execution."
   },
@@ -139,7 +139,7 @@
       "method": "benjamini_hochberg",
       "max_adjusted_p_value": 0.05,
       "family_manifest": "docs/development/v2-activation-preregistration/multiplicity-families.json",
-      "family_manifest_sha256": "12c73b6648afcd1184f030adabd715634b312ecc6ebfc93a2fc1d249f5ee6d9b",
+      "family_manifest_sha256": "07ebd1f753268a81687cc2759aa009348cb389377c53603f22fab32fe7939a86",
       "family_membership_frozen_before_results": true,
       "families": [
         "F82_83_COMPONENT_PROMOTION",
