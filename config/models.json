@@ -23,6 +23,7 @@
       "kind": "optional_foundation_model", "enabled": true,
       "family": "foundation_model", "architecture": "kronos_mini",
       "repository": "shiyu-coder/Kronos", "local_path": "vendor/Kronos",
+      "source_revision": "67b630e67f6a18c9e9be918d9b4337c960db1e9a",
       "model_id": "NeoQuasar/Kronos-mini",
       "model_revision": "7fdcc628d87f325ccdbcae0a372622ca7e6813aa",
       "tokenizer_id": "NeoQuasar/Kronos-Tokenizer-2k",
