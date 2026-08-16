@@ -1,0 +1,61 @@
+{
+  "schema_version": 1,
+  "record": "v2_common_statistical_evaluator_binding",
+  "issue": 81,
+  "status": "frozen_pending_independent_88_audit",
+  "execution_authorized": false,
+  "source_identity": {
+    "checkout_rule": "core.autocrlf=false; raw runtime source bytes must match the frozen SHA-256 values before empirical execution",
+    "paths": [
+      "src/commodity/evaluation.py",
+      "src/commodity/evaluation_protocol.py"
+    ],
+    "sha256": {
+      "src/commodity/evaluation.py": "a82d2a592cbb7a3a56b013813cf7e9498cd9c6fb534ee8476d780aaf18ca5a8d",
+      "src/commodity/evaluation_protocol.py": "410d6d02ada9b99739f556ad341584b2240318052fc4a6eae4dd331ca8cd02cd"
+    },
+    "drift_rule": "Any mismatch blocks result generation and requires reopening #81 plus a fresh #88 audit."
+  },
+  "primary_inference": {
+    "callable": "commodity.evaluation.paired_block_bootstrap_rmse",
+    "paired_statistic": "baseline_rmse_minus_challenger_rmse",
+    "positive_direction": "challenger_improves_when_statistic_gt_0",
+    "block_size": 20,
+    "resamples": 1000,
+    "seed": 0,
+    "sampling": "uniformly sample contiguous block starts with replacement from every valid start, concatenate ceil(n/block_size) blocks, then truncate to exactly n paired rows",
+    "row_scope": "all paired scored rows in chronological order",
+    "confidence": 0.95,
+    "ci_method": "central_percentile_interval_of_bootstrap_rmse_improvement_draws",
+    "p_value_method": "two_sided_centered_bootstrap: (1 + count(abs(draw-observed) >= abs(observed))) / (resamples + 1)",
+    "bh_input_field": "p_value",
+    "promotion_gate": "ci_lower > 0 and the family-adjusted BH p-value for this exact primary p_value is <= 0.05"
+  },
+  "secondary_inference": {
+    "callable": "commodity.evaluation.paired_nonoverlapping_block_sign_flip_mse",
+    "paired_statistic": "mean_block_baseline_mse_minus_challenger_mse",
+    "tail": "one_sided_improvement",
+    "block_size": 20,
+    "block_handling": "use the earliest floor(n/block_size)*block_size paired rows as complete chronological blocks; trailing incomplete rows are excluded from this secondary diagnostic only",
+    "null_enumeration": "exact sign enumeration over complete block means; at most 20 complete blocks",
+    "p_value_field": "p_value_one_sided_improvement",
+    "role": "secondary_diagnostic_only",
+    "enters_bh": false,
+    "independent_promotion_gate": false,
+    "rescue_authority": false
+  },
+  "multiplicity": {
+    "callable": "commodity.evaluation_protocol.benjamini_hochberg_adjust",
+    "input": "only primary_inference.bh_input_field values from the prespecified family members",
+    "method": "benjamini_hochberg",
+    "stable_ordering": true,
+    "max_adjusted_p_value": 0.05,
+    "family_membership_authority": "docs/development/v2-activation-preregistration/multiplicity-families.json",
+    "missing_invalid_member_rule": "fail_closed_and_use_p_1_if_numeric_vector_required"
+  },
+  "runtime_preflight": {
+    "required_before_82_83_84_85": true,
+    "required_after_execution_before_accepting_results": true,
+    "failure_action": "stop_and_record_invalid_no_result_inspection_or_rescue_search"
+  }
+}
