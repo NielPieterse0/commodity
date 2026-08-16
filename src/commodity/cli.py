@@ -52,6 +52,12 @@ from commodity.provenance import (
 from commodity.providers import EiaApiV2Client
 from commodity.records import build_baseline_record, build_tournament_record
 from commodity.research_dataset import TARGET_COLUMN, build_pit_dataset
+from commodity.research_metrics import (
+    MetricsContractError,
+    latest_closeout,
+    load_ledger,
+    render_markdown_summary,
+)
 from commodity.saxo import SaxoSimMarketDataClient, probe_henry_hub
 from commodity.simulation import simulate_forecasts
 from commodity.tournament import run_tournament
@@ -521,6 +527,29 @@ def _probe_saxo_market(args: argparse.Namespace) -> None:
     print(json.dumps(report, indent=2))
 
 
+def _check_research_metrics(args: argparse.Namespace) -> None:
+    try:
+        ledger = load_ledger(Path(args.ledger))
+        result = latest_closeout(ledger)
+    except (OSError, json.JSONDecodeError, MetricsContractError) as exc:
+        result = {"status": "blocked", "blockers": [f"invalid_ledger:{exc}"]}
+    print(json.dumps(result, indent=2, sort_keys=True))
+    if result["status"] != "passed":
+        raise SystemExit(2)
+
+
+def _summarize_research_metrics(args: argparse.Namespace) -> None:
+    ledger = load_ledger(Path(args.ledger))
+    summary = render_markdown_summary(ledger)
+    if args.output:
+        output = Path(args.output)
+        output.parent.mkdir(parents=True, exist_ok=True)
+        output.write_text(summary, encoding="utf-8")
+        print(f"summary={output}")
+    else:
+        print(summary)
+
+
 def _doctor(_: argparse.Namespace) -> None:
     assert_model_cannot_submit_orders()
     data_cfg = data_config()
@@ -557,6 +586,7 @@ def build_parser() -> argparse.ArgumentParser:
     canonical_source = data_cfg["sources"]["market_canonical"]
     snapshot_root = str(REPO_ROOT / "data/raw/snapshots")
     phase_d_config_path = REPO_ROOT / "config/phase_d_evaluation.json"
+    metrics_ledger_path = REPO_ROOT / "artifacts/research-metrics/longitudinal-ledger.json"
     phase_d_cfg = json.loads(phase_d_config_path.read_text(encoding="utf-8"))
     frozen = phase_d_cfg["dataset"]
     frozen_dataset_dir = REPO_ROOT / "data/processed/full-v1-freezes" / (
@@ -735,6 +765,21 @@ def build_parser() -> argparse.ArgumentParser:
     saxo.add_argument("--max-contracts", type=int, default=24)
     saxo.add_argument("--output")
     saxo.set_defaults(func=_probe_saxo_market)
+
+    metrics_check = sub.add_parser(
+        "check-research-metrics",
+        help="Validate longitudinal research metrics and fail if latest closeout is blocked",
+    )
+    metrics_check.add_argument("--ledger", type=Path, default=metrics_ledger_path)
+    metrics_check.set_defaults(func=_check_research_metrics)
+
+    metrics_summary = sub.add_parser(
+        "summarize-research-metrics",
+        help="Generate a human-readable summary from the governed metrics ledger",
+    )
+    metrics_summary.add_argument("--ledger", type=Path, default=metrics_ledger_path)
+    metrics_summary.add_argument("--output", type=Path)
+    metrics_summary.set_defaults(func=_summarize_research_metrics)
 
     doctor = sub.add_parser("doctor")
     doctor.set_defaults(func=_doctor)
