@@ -1,6 +1,9 @@
 from __future__ import annotations
 
+import hashlib
+import io
 from collections.abc import Mapping, Sequence
+from pathlib import Path
 from typing import Any
 from zoneinfo import ZoneInfo
 
@@ -10,30 +13,96 @@ import pandas as pd
 from commodity.v2_indicator_contract import (
     IndicatorContractError,
     PinnedSourcePolicy,
+    _date_identity_series,
     _eligible_before,
     _finite,
     _require_accepted_source,
     _require_columns,
     _require_fresh_current_state,
+    _source_settings,
+    _validated_activation_binding,
 )
+
+FROZEN_MARKET_CONTEXT = {
+    "dataset_id": "us-ng-pit-0c0a39b36692",
+    "data_vintage_id": "b6aaf445500f2841",
+    "dataset_sha256": "0c0a39b3669215b4bdc45a0fdedf90697f0c2c92690cb33700bd0bc47c80a45f",
+    "availability_rule_id": "evaluation-pit-after-daily-bar-close-v1",
+    "availability_rule_sha256": "1ec62a3bb3c222d158fdd69ab031b3c0a519ba2ac9881a054fae34a26d2aeccc",
+    "prediction_timestamp_semantics": "after_current_daily_bar_close",
+}
+
+
+def _load_frozen_curve_dataset(
+    dataset_path: Path,
+    source_policy: PinnedSourcePolicy,
+    activation_binding: Mapping[str, Any],
+) -> pd.DataFrame:
+    policy = _source_settings(source_policy, "market_canonical")
+    availability = policy.get("availability_policy")
+    if (
+        policy.get("provider") != "massive_futures"
+        or policy.get("product_code") != "NG"
+        or policy.get("exchange") != "NYMEX"
+        or policy.get("calendar") != "CME_NYMEX"
+        or not isinstance(availability, Mapping)
+        or availability.get("method") != "trade_date_2359_utc"
+        or availability.get("status") != "reconstructed_conservative"
+    ):
+        raise IndicatorContractError("pinned market source policy changed")
+
+    bound = _validated_activation_binding(activation_binding)
+    control = bound.get("frozen_v1_control")
+    context = control.get("context_identity") if isinstance(control, Mapping) else None
+    if not isinstance(context, Mapping) or any(
+        context.get(key) != value for key, value in FROZEN_MARKET_CONTEXT.items()
+    ):
+        raise IndicatorContractError("#83 activation binding market identity changed")
+    raw = dataset_path.read_bytes()
+    if hashlib.sha256(raw).hexdigest() != FROZEN_MARKET_CONTEXT["dataset_sha256"]:
+        raise IndicatorContractError("curve dataset artifact differs from frozen #81 dataset")
+    return pd.read_csv(io.BytesIO(raw))
 
 
 def build_curve_increments(
-    rows: pd.DataFrame,
+    dataset_path: Path | pd.DataFrame,
     *,
     current_trade_date: Any,
     prediction_time: Any,
     session_sequence: Sequence[Any],
+    source_policy: PinnedSourcePolicy | None = None,
+    activation_binding: Mapping[str, Any] | None = None,
 ) -> dict[str, float]:
+    """Build curve increments only from the exact frozen #81 dataset artifact.
+
+    The legacy DataFrame call shape is retained solely to fail closed with a stable
+    governance error instead of silently accepting caller-supplied market rows.
+    """
+    if isinstance(dataset_path, pd.DataFrame):
+        raise IndicatorContractError(
+            "legacy DataFrame curve input is not release-authoritative; pass the exact "
+            "frozen dataset Path with source_policy and activation_binding"
+        )
+    if source_policy is None or activation_binding is None:
+        raise IndicatorContractError(
+            "curve artifact loading requires source_policy and activation_binding"
+        )
+    rows = _load_frozen_curve_dataset(
+        Path(dataset_path), source_policy, activation_binding
+    )
     required = (
-        "trade_date",
-        "available_at",
+        "prediction_time",
         "curve_spread_m1_m2",
         "curve_spread_m2_m3",
         "curve_slope_m1_m4",
     )
-    _require_columns(rows, required, label="curve input")
-    eligible, _ = _eligible_before(rows, prediction_time, label="curve input")
+    _require_columns(rows, required, label="curve dataset")
+    rows = rows.copy()
+    rows["available_at"] = rows["prediction_time"]
+    rows["trade_date"] = _date_identity_series(
+        rows, "prediction_time", label="curve dataset"
+    ).dt.date
+    eligible, _ = _eligible_before(rows, prediction_time, label="curve dataset")
     current_date = pd.Timestamp(current_trade_date).date()
     sessions = [pd.Timestamp(value).date() for value in session_sequence]
     if len(sessions) != len(set(sessions)):
@@ -123,11 +192,9 @@ def build_positioning_increments(
         raise IndicatorContractError(
             "no positioning report is eligible at the cutoff"
         )
-    eligible["observed_for"] = pd.to_datetime(
-        eligible["observed_for"], utc=True, errors="coerce"
+    eligible["observed_for"] = _date_identity_series(
+        eligible, "observed_for", label="positioning input"
     )
-    if eligible["observed_for"].isna().any():
-        raise IndicatorContractError("positioning observed_for must be known")
 
     states: list[pd.Series] = []
     for _, group in eligible.groupby("observed_for", sort=False):

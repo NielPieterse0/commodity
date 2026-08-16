@@ -1,7 +1,10 @@
 from __future__ import annotations
 
 import datetime as dt
+import hashlib
+import json
 from collections.abc import Mapping
+from pathlib import Path
 from typing import Any
 from zoneinfo import ZoneInfo
 
@@ -13,13 +16,170 @@ from commodity.v2_indicator_contract import (
     IndicatorContractError,
     PinnedSourcePolicy,
     _accepted_source_ids,
+    _date_identity_series,
     _eligible_before,
     _finite,
     _require_accepted_source,
     _require_columns,
     _require_fresh_current_state,
     _source_settings,
+    _utc_timestamp,
+    canonical_sha256,
 )
+
+FROZEN_WEATHER_ARCHIVE_MANIFEST_SHA256 = (
+    "44e2ed4c7206ecde8dad442d6dfc70b4e14387c97621a4b516846a0266329096"
+)
+FROZEN_WEATHER_ARCHIVE_RUNS = 723
+
+
+def _weather_archive_manifest_records(
+    archive_root: Path,
+    source_policy: PinnedSourcePolicy,
+) -> list[dict[str, Any]]:
+    root = Path(archive_root)
+    if not root.is_dir():
+        raise IndicatorContractError("frozen weather archive root is missing")
+    manifests = sorted(root.glob("*/manifest.json"))
+    if len(manifests) != FROZEN_WEATHER_ARCHIVE_RUNS:
+        raise IndicatorContractError(
+            "frozen weather archive run-manifest count differs from the #83 pin"
+        )
+
+    digest_entries: list[dict[str, str]] = []
+    records: list[dict[str, Any]] = []
+    accepted_sources = _accepted_source_ids(source_policy, "weather")
+    weather_cfg = _source_settings(source_policy, "weather")
+    model = str(weather_cfg.get("model"))
+    anchors, _, _, _, _ = _weather_source_settings(source_policy)
+    expected_anchor_artifacts = {f"raw/{anchor}.json" for anchor in anchors}
+
+    for manifest_path in manifests:
+        try:
+            raw = manifest_path.read_bytes()
+        except OSError as exc:
+            raise IndicatorContractError("unable to read frozen weather run manifest") from exc
+        normalized = raw.replace(b"\r\n", b"\n").replace(b"\r", b"\n")
+        digest_entries.append(
+            {
+                "path": manifest_path.relative_to(root).as_posix(),
+                "sha256": hashlib.sha256(normalized).hexdigest(),
+            }
+        )
+        try:
+            payload = json.loads(raw.decode("utf-8-sig"))
+        except (UnicodeDecodeError, json.JSONDecodeError) as exc:
+            raise IndicatorContractError("weather run manifest must be valid JSON") from exc
+        if not isinstance(payload, Mapping):
+            raise IndicatorContractError("weather run manifest must be an object")
+        record = dict(payload)
+        snapshot_id = str(record.get("snapshot_id"))
+        if snapshot_id != manifest_path.parent.name:
+            raise IndicatorContractError("weather snapshot identity differs from archive path")
+        if str(record.get("source_id")) not in accepted_sources:
+            raise IndicatorContractError("weather run manifest source identity is not pinned")
+        if record.get("revision_status") != "issued_run_immutable":
+            raise IndicatorContractError("weather archive contains a non-immutable run manifest")
+        if str(record.get("model")) != model:
+            raise IndicatorContractError("weather run manifest model differs from source policy")
+        issued_at = _utc_timestamp(
+            record.get("issued_at"), label="weather manifest issued_at"
+        )
+        available_at = _utc_timestamp(
+            record.get("available_at"), label="weather manifest available_at"
+        )
+        if available_at < issued_at:
+            raise IndicatorContractError("weather run availability precedes issuance")
+        artifacts = record.get("artifacts")
+        if not isinstance(artifacts, list):
+            raise IndicatorContractError("weather run manifest artifacts are missing")
+        artifact_map: dict[str, str] = {}
+        for artifact in artifacts:
+            if not isinstance(artifact, Mapping):
+                raise IndicatorContractError("weather run manifest artifact is invalid")
+            path = str(artifact.get("path"))
+            digest = str(artifact.get("sha256"))
+            if path in artifact_map:
+                raise IndicatorContractError("weather run manifest has duplicate artifact paths")
+            if len(digest) != 64 or any(ch not in "0123456789abcdef" for ch in digest):
+                raise IndicatorContractError("weather run manifest artifact SHA-256 is invalid")
+            artifact_map[path] = digest
+        if not expected_anchor_artifacts.issubset(artifact_map):
+            raise IndicatorContractError("weather run manifest lacks a pinned anchor artifact")
+        record["_manifest_path"] = manifest_path
+        record["_issued_at"] = issued_at
+        record["_available_at"] = available_at
+        record["_artifact_map"] = artifact_map
+        records.append(record)
+
+    archive_digest = canonical_sha256(
+        {"schema_version": 1, "manifests": digest_entries}
+    )
+    if archive_digest != FROZEN_WEATHER_ARCHIVE_MANIFEST_SHA256:
+        raise IndicatorContractError(
+            "weather archive manifests differ from the frozen pre-results #83 archive"
+        )
+    if len({str(record["snapshot_id"]) for record in records}) != len(records):
+        raise IndicatorContractError("weather archive snapshot identities are not unique")
+    return records
+
+
+def _verified_weather_run_rows(
+    record: Mapping[str, Any],
+    anchors: list[str],
+) -> pd.DataFrame:
+    manifest_path = Path(record["_manifest_path"])
+    artifact_map = record["_artifact_map"]
+    rows: list[dict[str, Any]] = []
+    for anchor in anchors:
+        relative = f"raw/{anchor}.json"
+        artifact_path = manifest_path.parent / relative
+        try:
+            raw = artifact_path.read_bytes()
+        except OSError as exc:
+            raise IndicatorContractError("weather anchor artifact is missing") from exc
+        if hashlib.sha256(raw).hexdigest() != artifact_map[relative]:
+            raise IndicatorContractError("weather anchor artifact differs from its run manifest")
+        try:
+            payload = json.loads(raw.decode("utf-8-sig"))
+        except (UnicodeDecodeError, json.JSONDecodeError) as exc:
+            raise IndicatorContractError("weather anchor artifact must be valid JSON") from exc
+        if not isinstance(payload, Mapping):
+            raise IndicatorContractError("weather anchor artifact must be an object")
+        if payload.get("utc_offset_seconds") != 0 or str(payload.get("timezone")) not in {
+            "GMT",
+            "UTC",
+        }:
+            raise IndicatorContractError("weather anchor artifact is not explicit UTC/GMT")
+        hourly = payload.get("hourly")
+        if not isinstance(hourly, Mapping):
+            raise IndicatorContractError("weather anchor artifact lacks hourly data")
+        times = hourly.get("time")
+        temperatures = hourly.get("temperature_2m")
+        if not isinstance(times, list) or not isinstance(temperatures, list):
+            raise IndicatorContractError("weather anchor artifact hourly vectors are invalid")
+        if not times or len(times) != len(temperatures):
+            raise IndicatorContractError("weather anchor artifact hourly vectors are misaligned")
+        valid_times = pd.to_datetime(times, utc=True, errors="coerce")
+        temperature_values = pd.to_numeric(temperatures, errors="coerce")
+        if valid_times.isna().any() or np.isnan(temperature_values).any():
+            raise IndicatorContractError("weather anchor artifact contains invalid hourly values")
+        if pd.Index(valid_times).duplicated().any():
+            raise IndicatorContractError("weather anchor artifact has duplicate hourly identities")
+        for valid_at, temperature in zip(valid_times, temperature_values, strict=True):
+            rows.append(
+                {
+                    "run_id": str(record["snapshot_id"]),
+                    "issued_at": record["_issued_at"],
+                    "available_at": record["_available_at"],
+                    "anchor_id": anchor,
+                    "forecast_valid_at": valid_at,
+                    "temperature_2m": float(temperature),
+                    "revision_status": "issued_run_immutable",
+                    "source_id": str(record["source_id"]),
+                }
+            )
+    return pd.DataFrame(rows)
 
 
 def _weather_source_settings(
@@ -45,10 +205,68 @@ def _weather_source_settings(
         )
     if lead_end <= lead_start:
         raise IndicatorContractError("weather lead window is invalid")
+    availability = weather.get("availability_policy")
+    if not isinstance(availability, Mapping):
+        raise IndicatorContractError("pinned weather availability policy is missing")
+    if (
+        availability.get("issued_run_revision_status") != "issued_run_immutable"
+        or availability.get("research_pit_allowed_with_immutable_issued_runs") is not True
+    ):
+        raise IndicatorContractError(
+            "pinned weather policy no longer requires immutable issued runs"
+        )
     return anchors, lead_start, lead_end, degree_day_base, cycle_hour
 
 
 def build_weather_revision(
+    weather_archive: Path | pd.DataFrame,
+    prediction_time: Any,
+    source_policy: PinnedSourcePolicy,
+) -> dict[str, float]:
+    """Build weather revisions from the exact frozen issued-run archive only."""
+    if isinstance(weather_archive, pd.DataFrame):
+        raise IndicatorContractError(
+            "caller-provided weather rows are not release-authoritative; pass the frozen "
+            "Open-Meteo issued-run archive Path"
+        )
+    records = _weather_archive_manifest_records(Path(weather_archive), source_policy)
+    cutoff = _utc_timestamp(prediction_time, label="prediction_time")
+    anchors, _, _, _, cycle_hour = _weather_source_settings(source_policy)
+    eligible = [
+        record
+        for record in records
+        if record["_available_at"] <= cutoff
+        and record["_issued_at"] <= cutoff
+        and record["_issued_at"].hour == cycle_hour
+    ]
+    if len({record["_issued_at"] for record in eligible}) != len(eligible):
+        raise IndicatorContractError("duplicate/tied eligible weather issued_at identities")
+    eligible.sort(key=lambda record: record["_issued_at"])
+    if len(eligible) < 2:
+        raise IndicatorContractError("weather revision requires current and predecessor runs")
+    current, prior = eligible[-1], eligible[-2]
+    _require_fresh_current_state(
+        current["_available_at"],
+        cutoff,
+        source_policy,
+        "weather",
+        label="weather current run",
+    )
+    hourly = pd.concat(
+        [
+            _verified_weather_run_rows(prior, anchors),
+            _verified_weather_run_rows(current, anchors),
+        ],
+        ignore_index=True,
+    )
+    return _build_weather_revision_from_verified_rows(
+        hourly,
+        prediction_time,
+        source_policy,
+    )
+
+
+def _build_weather_revision_from_verified_rows(
     hourly: pd.DataFrame,
     prediction_time: Any,
     source_policy: PinnedSourcePolicy,
@@ -60,6 +278,7 @@ def build_weather_revision(
         "anchor_id",
         "forecast_valid_at",
         "temperature_2m",
+        "revision_status",
         "source_id",
     )
     _require_columns(hourly, required, label="weather hourly input")
@@ -72,6 +291,10 @@ def build_weather_revision(
     if eligible.empty:
         raise IndicatorContractError(
             "no weather run is eligible at the prediction cutoff"
+        )
+    if not eligible["revision_status"].astype(str).eq("issued_run_immutable").all():
+        raise IndicatorContractError(
+            "weather inputs must be immutable actually-issued forecast vintages"
         )
     eligible["issued_at"] = pd.to_datetime(
         eligible["issued_at"], utc=True, errors="coerce"
@@ -168,6 +391,42 @@ def build_weather_revision(
     }
 
 
+def _storage_revision_policy(
+    source_policy: PinnedSourcePolicy,
+) -> tuple[Mapping[str, Any], ZoneInfo, int, int, str]:
+    cfg = _source_settings(source_policy, "eia_storage")
+    policy = cfg.get("availability_policy")
+    if not isinstance(policy, Mapping):
+        raise IndicatorContractError("storage availability policy is missing")
+    if (
+        cfg.get("point_in_time_required") is not True
+        or cfg.get("revision_snapshots_required") is not True
+        or cfg.get("availability_reconstruction_status") != "v1_research_ready_conservative"
+        or policy.get("research_pit_allowed") is not True
+        or policy.get("reconstructed_availability_status")
+        != "reconstructed_conservative"
+    ):
+        raise IndicatorContractError(
+            "pinned storage policy no longer permits conservative PIT revision reconstruction"
+        )
+    try:
+        zone = ZoneInfo(str(policy["timezone"]))
+        method = str(policy["ordinary_revision_availability_method"])
+        hour = int(policy["ordinary_revision_local_hour"])
+        minute = int(policy["ordinary_revision_local_minute"])
+        basis = str(policy["ordinary_revision_availability_basis"])
+    except (KeyError, TypeError, ValueError) as exc:
+        raise IndicatorContractError("storage revision availability policy is invalid") from exc
+    if (
+        method != "revision_date_end_of_day_local_conservative"
+        or hour != 23
+        or minute != 59
+        or basis != "revision_date_2359_local_conservative"
+    ):
+        raise IndicatorContractError("pinned storage ordinary-revision rule changed")
+    return policy, zone, hour, minute, basis
+
+
 def build_storage_public_value_events(
     history: pd.DataFrame,
     revisions: pd.DataFrame,
@@ -188,6 +447,9 @@ def build_storage_public_value_events(
         label="storage revisions",
     )
     cfg = _source_settings(source_policy, "eia_storage")
+    policy, zone, revision_hour, revision_minute, ordinary_revision_basis = (
+        _storage_revision_policy(source_policy)
+    )
     accepted = sorted(_accepted_source_ids(source_policy, "eia_storage"))
     if len(accepted) != 1:
         raise IndicatorContractError(
@@ -196,10 +458,10 @@ def build_storage_public_value_events(
     source_id = accepted[0]
 
     hist = history.copy()
-    hist["observed_for"] = pd.to_datetime(
-        hist["observed_for"], utc=True, errors="coerce"
+    hist["observed_for"] = _date_identity_series(
+        hist, "observed_for", label="storage history"
     )
-    if hist["observed_for"].isna().any() or hist["observed_for"].duplicated().any():
+    if hist["observed_for"].duplicated().any():
         raise IndicatorContractError(
             "storage history requires unique known observed_for weeks"
         )
@@ -216,14 +478,12 @@ def build_storage_public_value_events(
     }
 
     rev = revisions.copy()
-    rev["observed_for"] = pd.to_datetime(
-        rev["observed_for"], utc=True, errors="coerce"
+    rev["observed_for"] = _date_identity_series(
+        rev, "observed_for", label="storage revisions"
     )
-    rev["revision_date"] = pd.to_datetime(
-        rev["revision_date"], utc=True, errors="coerce"
+    rev["revision_date"] = _date_identity_series(
+        rev, "revision_date", label="storage revisions"
     )
-    if rev[["observed_for", "revision_date"]].isna().any().any():
-        raise IndicatorContractError("storage revision identities must be known")
     if not set(rev["observed_for"]).issubset(finals):
         raise IndicatorContractError("storage revision targets an unknown history week")
     rev["original_storage_lower48_bcf"] = pd.to_numeric(
@@ -268,7 +528,9 @@ def build_storage_public_value_events(
 
     rows: list[dict[str, Any]] = []
     for observed in sorted(baseline):
-        available_at, status, _ = resolve_wngsr_release(observed, dict(cfg))
+        available_at, status, availability_basis = resolve_wngsr_release(
+            observed, dict(cfg)
+        )
         if status == "unresolved" or pd.isna(available_at):
             raise IndicatorContractError(
                 f"storage release availability unresolved for {observed.date()}"
@@ -279,14 +541,11 @@ def build_storage_public_value_events(
                 "available_at": pd.Timestamp(available_at).tz_convert("UTC"),
                 "storage_lower48_bcf": float(baseline[observed]),
                 "revision_status": "point_in_time",
+                "availability_basis": availability_basis,
                 "source_id": source_id,
             }
         )
 
-    policy = cfg.get("availability_policy")
-    if not isinstance(policy, Mapping):
-        raise IndicatorContractError("storage availability policy is missing")
-    zone = ZoneInfo(str(policy.get("timezone", "")))
     sample_weeks = {
         str(value) for value in policy.get("sample_reselection_weeks", ())
     }
@@ -299,6 +558,7 @@ def build_storage_public_value_events(
         observed = pd.Timestamp(row["observed_for"])
         revision_day = pd.Timestamp(row["revision_date"]).date()
         available_at: pd.Timestamp | None = None
+        availability_basis: str | None = None
         if observed.date().isoformat() in sample_weeks:
             for value in special_events.values():
                 event = pd.Timestamp(value)
@@ -308,14 +568,16 @@ def build_storage_public_value_events(
                     )
                 if revision_day == event.date():
                     available_at = event.tz_convert("UTC")
+                    availability_basis = "special_revision_event"
                     break
         if available_at is None:
             local = dt.datetime.combine(
                 revision_day,
-                dt.time(23, 59),
+                dt.time(revision_hour, revision_minute),
                 tzinfo=zone,
             )
             available_at = pd.Timestamp(local).tz_convert("UTC")
+            availability_basis = ordinary_revision_basis
         release_at = next(
             item["available_at"]
             for item in rows
@@ -332,6 +594,7 @@ def build_storage_public_value_events(
                 "available_at": available_at,
                 "storage_lower48_bcf": float(effective[index]),
                 "revision_status": "point_in_time",
+                "availability_basis": availability_basis,
                 "source_id": source_id,
             }
         )

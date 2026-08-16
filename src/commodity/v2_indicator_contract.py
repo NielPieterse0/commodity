@@ -3,6 +3,7 @@ from __future__ import annotations
 import hashlib
 import json
 import re
+import subprocess
 from collections.abc import Mapping, Sequence
 from dataclasses import dataclass
 from pathlib import Path
@@ -11,12 +12,13 @@ from typing import Any
 import numpy as np
 import pandas as pd
 
-SPEC_REVISION = "3e55213b967b590187223e2b286063c81672274a"
+SPEC_REVISION = "2c2b260971739f6dc39437614d769dea57fe58e2"
 SPEC_PATH = "docs/development/v2-indicator-surprise-challenger/spec.md"
-SOURCE_POLICY_SHA256 = "179e53ff12a5a0a42b4276dd8baef65209c558f896dd15c08b166e18506b35fd"
+SOURCE_POLICY_SHA256 = "63464479a32baf1e72980d19cd084c37007a3270b0b577a3b88dda175cbb3ba5"
 ACTIVATION_CONTRACT_PATH = (
     "docs/development/v2-activation-preregistration/activation-contract.json"
 )
+EXPERIMENT_CANDIDATES_PATH = "config/experiment_candidates.json"
 CANDIDATE_ID = "v2-83-indicators-only"
 PRIMARY_VARIANT = "I-ALL"
 FAMILIES = ("W", "S", "C", "V", "P", "L")
@@ -46,6 +48,18 @@ ATTRIBUTION_VARIANTS = {
     "I-NO-P": "P",
     "I-NO-L": "L",
 }
+MULTIPLICITY_MANIFEST_PATH = (
+    "docs/development/v2-activation-preregistration/multiplicity-families.json"
+)
+MULTIPLICITY_MANIFEST_SHA256 = (
+    "07ebd1f753268a81687cc2759aa009348cb389377c53603f22fab32fe7939a86"
+)
+MULTIPLICITY_FAMILIES = (
+    "F82_83_COMPONENT_PROMOTION",
+    "F83_ATTRIBUTION",
+    "F84_ALL_REQUIRED_COMPARATORS",
+    "F85_SENSITIVITY",
+)
 ALL_INCREMENT_FEATURES = tuple(
     feature for family in FAMILIES for feature in FEATURES_BY_FAMILY[family]
 )
@@ -109,11 +123,9 @@ def _require_sha256(value: Any, *, label: str) -> str:
 
 
 def _sha256_file(path: Path) -> str:
-    digest = hashlib.sha256()
-    with path.open("rb") as handle:
-        for chunk in iter(lambda: handle.read(1024 * 1024), b""):
-            digest.update(chunk)
-    return digest.hexdigest()
+    raw = path.read_bytes()
+    normalized = raw.replace(b"\r\n", b"\n").replace(b"\r", b"\n")
+    return hashlib.sha256(normalized).hexdigest()
 
 
 def build_implementation_source_manifest(repo_root: Path) -> dict[str, Any]:
@@ -182,12 +194,82 @@ def _validate_implementation_revision(value: Any) -> dict[str, Any] | None:
     return implementation
 
 
+def _read_committed_bytes(repo_root: Path, relative_path: str, *, label: str) -> bytes:
+    try:
+        return subprocess.check_output(
+            [
+                "git",
+                "-C",
+                str(repo_root.resolve()),
+                "show",
+                f"HEAD:{relative_path}",
+            ]
+        )
+    except (OSError, subprocess.CalledProcessError) as exc:
+        raise IndicatorContractError(f"unable to read committed {label}") from exc
+
+
+def _read_committed_json(repo_root: Path, relative_path: str, *, label: str) -> dict[str, Any]:
+    raw = _read_committed_bytes(repo_root, relative_path, label=label)
+    try:
+        payload = json.loads(raw.decode("utf-8-sig"))
+    except (UnicodeDecodeError, json.JSONDecodeError) as exc:
+        raise IndicatorContractError(f"committed {label} must be valid JSON") from exc
+    if not isinstance(payload, Mapping):
+        raise IndicatorContractError(f"committed {label} must be an object")
+    return _json_copy(payload)
+
+
+def read_frozen_multiplicity_manifest(repo_root: Path) -> bytes:
+    return _read_committed_bytes(
+        repo_root,
+        MULTIPLICITY_MANIFEST_PATH,
+        label="frozen #83 multiplicity manifest",
+    )
+
+
+def _verify_multiplicity_manifest(raw: bytes) -> dict[str, Any]:
+    if hashlib.sha256(raw).hexdigest() != MULTIPLICITY_MANIFEST_SHA256:
+        raise IndicatorContractError("#83 multiplicity manifest differs from the frozen payload")
+    try:
+        payload = json.loads(raw.decode("utf-8"))
+    except (UnicodeDecodeError, json.JSONDecodeError) as exc:
+        raise IndicatorContractError("#83 multiplicity manifest must be valid UTF-8 JSON") from exc
+    if not isinstance(payload, Mapping):
+        raise IndicatorContractError("#83 multiplicity manifest must be an object")
+    return _json_copy(payload)
+
+
+def _validate_multiple_testing_rule(value: Any) -> dict[str, Any]:
+    if not isinstance(value, Mapping):
+        raise IndicatorContractError("#83 multiplicity rule is missing")
+    rule = _json_copy(value)
+    expected = {
+        "method": "benjamini_hochberg",
+        "max_adjusted_p_value": 0.05,
+        "family_manifest": MULTIPLICITY_MANIFEST_PATH,
+        "family_manifest_sha256": MULTIPLICITY_MANIFEST_SHA256,
+        "family_membership_frozen_before_results": True,
+        "families": list(MULTIPLICITY_FAMILIES),
+        "missing_invalid_prespecified_member_rule": (
+            "fail_closed_and_use_p_1_if_numeric_vector_required"
+        ),
+        "post_result_pool_split_regroup_reclassify_permitted": False,
+        "attribution_and_sensitivity_can_rescue_promotion": False,
+    }
+    if rule != expected:
+        raise IndicatorContractError("#83 multiplicity rule differs from the frozen family contract")
+    return rule
+
+
 def bind_activation_contract(
     activation_contract: Mapping[str, Any],
     experiment_candidates: Mapping[str, Any],
+    multiplicity_manifest_raw: bytes,
 ) -> dict[str, Any]:
     contract = _json_copy(activation_contract)
     candidates = _json_copy(experiment_candidates)
+    _verify_multiplicity_manifest(multiplicity_manifest_raw)
     if contract.get("issue") != 81:
         raise IndicatorContractError("#83 must bind the issue #81 activation contract")
 
@@ -244,6 +326,9 @@ def bind_activation_contract(
     missing = [key for key in required_rule_keys if key not in rules]
     if missing:
         raise IndicatorContractError(f"#81 frozen execution rules are missing: {missing}")
+    multiple_testing_rule = _validate_multiple_testing_rule(
+        rules["multiple_testing_rule"]
+    )
 
     binding = {
         "schema_version": 1,
@@ -260,7 +345,10 @@ def bind_activation_contract(
         "model_authority": candidate.get("model_authority"),
         "frozen_v1_control": contract.get("frozen_v1_control"),
         "longitudinal_metrics_binding": contract.get("longitudinal_metrics_binding"),
-        "execution_rules": {key: rules[key] for key in required_rule_keys},
+        "execution_rules": {
+            key: multiple_testing_rule if key == "multiple_testing_rule" else rules[key]
+            for key in required_rule_keys
+        },
         "artifact_namespace": namespaces["83"],
         "stop_failure_criteria": contract.get("stop_failure_criteria"),
         "empirical_release_gate": contract.get("empirical_release_gate"),
@@ -269,11 +357,52 @@ def bind_activation_contract(
     return binding
 
 
-def require_empirical_release(binding: Mapping[str, Any]) -> None:
+def _validated_activation_binding(binding: Mapping[str, Any]) -> dict[str, Any]:
     bound = _json_copy(binding)
     digest = bound.pop("binding_sha256", None)
     if not isinstance(digest, str) or canonical_sha256(bound) != digest:
         raise IndicatorContractError("#83 activation binding hash is invalid")
+    return bound
+
+
+def require_empirical_release(binding: Mapping[str, Any]) -> None:
+    """Require release state reconstructed from exact committed authorities.
+
+    The caller-supplied binding is evidence only. It is never itself release authority:
+    a canonical checksum can detect accidental mutation but cannot authorize execution.
+    """
+    supplied = _json_copy(binding)
+    _validated_activation_binding(supplied)
+    repo_root = Path(__file__).resolve().parents[2]
+    try:
+        committed_contract = _read_committed_json(
+            repo_root,
+            ACTIVATION_CONTRACT_PATH,
+            label="#81 activation contract",
+        )
+        committed_candidates = _read_committed_json(
+            repo_root,
+            EXPERIMENT_CANDIDATES_PATH,
+            label="experiment candidate registry",
+        )
+        committed_multiplicity = read_frozen_multiplicity_manifest(repo_root)
+        authoritative = bind_activation_contract(
+            committed_contract,
+            committed_candidates,
+            committed_multiplicity,
+        )
+    except IndicatorContractError as exc:
+        raise EmpiricalReleaseBlocked(
+            "#83 empirical execution remains blocked until the exact committed #81/#83 "
+            "authorities are frozen and internally consistent"
+        ) from exc
+
+    if supplied != authoritative:
+        raise IndicatorContractError(
+            "#83 activation binding differs from exact committed frozen authorities"
+        )
+
+    bound = _validated_activation_binding(authoritative)
     gate = bound.get("empirical_release_gate")
     if not isinstance(gate, Mapping):
         raise EmpiricalReleaseBlocked("#83 empirical release gate is missing")
@@ -310,6 +439,23 @@ def _utc_series(frame: pd.DataFrame, column: str, *, label: str) -> pd.Series:
         _utc_timestamp(value, label=f"{label} {column}[{index}]")
         for index, value in frame[column].items()
     ]
+    return pd.Series(values, index=frame.index, dtype="datetime64[ns, UTC]")
+
+
+def _date_identity_series(frame: pd.DataFrame, column: str, *, label: str) -> pd.Series:
+    values: list[pd.Timestamp] = []
+    for index, value in frame[column].items():
+        try:
+            timestamp = pd.Timestamp(value)
+        except (TypeError, ValueError) as exc:
+            raise IndicatorContractError(
+                f"{label} {column}[{index}] must be a valid calendar-date identity"
+            ) from exc
+        if pd.isna(timestamp):
+            raise IndicatorContractError(
+                f"{label} {column}[{index}] must be a known calendar-date identity"
+            )
+        values.append(pd.Timestamp(timestamp.date(), tz="UTC"))
     return pd.Series(values, index=frame.index, dtype="datetime64[ns, UTC]")
 
 

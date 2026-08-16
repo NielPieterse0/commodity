@@ -25,6 +25,7 @@ from commodity.v2_indicator_contract import (
     canonical_sha256,
     dataframe_sha256,
     parse_pinned_source_policy,
+    read_frozen_multiplicity_manifest,
     require_empirical_release,
 )
 from commodity.v2_indicator_market import (
@@ -186,6 +187,7 @@ __all__ = [
     "canonical_sha256",
     "dataframe_sha256",
     "parse_pinned_source_policy",
+    "read_frozen_multiplicity_manifest",
     "require_empirical_release",
     "require_i_all_valid",
     "validate_preprocessing_plan",

@@ -8,6 +8,11 @@ import numpy as np
 import pandas as pd
 import pytest
 
+import commodity.v2_indicator_market as indicator_market
+import commodity.v2_indicator_weather_storage as indicator_weather_storage
+from commodity.v2_indicator_weather_storage import (
+    _build_weather_revision_from_verified_rows,
+)
 from commodity.v2_indicators import (
     ALL_INCREMENT_FEATURES,
     ATTRIBUTION_VARIANTS,
@@ -33,6 +38,7 @@ from commodity.v2_indicators import (
     canonical_sha256,
     dataframe_sha256,
     parse_pinned_source_policy,
+    read_frozen_multiplicity_manifest,
     require_empirical_release,
     validate_preprocessing_plan,
     validate_required_coverage,
@@ -64,7 +70,20 @@ def activation_binding():
     candidates = json.loads(
         (ROOT / "config" / "experiment_candidates.json").read_text(encoding="utf-8")
     )
-    return bind_activation_contract(contract, candidates)
+    candidate = candidates["candidates"][CANDIDATE_ID]
+    candidate["preparation_revision"] = {
+        "pr": 98,
+        "head": SPEC_REVISION,
+        "path": SPEC_PATH,
+    }
+    current = candidate["implementation_revision"]
+    manifest = _contract_normalized_source_manifest({"implementation_revision": current})
+    current["source_manifest_sha256"] = manifest["manifest_sha256"]
+    return bind_activation_contract(
+        contract,
+        candidates,
+        read_frozen_multiplicity_manifest(ROOT),
+    )
 
 
 def _contract_normalized_source_manifest(binding: dict) -> dict:
@@ -82,6 +101,32 @@ def _contract_normalized_source_manifest(binding: dict) -> dict:
     return manifest
 
 
+def _prospective_current_source_binding() -> tuple[dict, dict]:
+    contract = json.loads(
+        (ROOT / "docs/development/v2-activation-preregistration/activation-contract.json").read_text(
+            encoding="utf-8"
+        )
+    )
+    candidates = json.loads(
+        (ROOT / "config/experiment_candidates.json").read_text(encoding="utf-8")
+    )
+    candidate = candidates["candidates"][CANDIDATE_ID]
+    candidate["preparation_revision"] = {
+        "pr": 98,
+        "head": SPEC_REVISION,
+        "path": SPEC_PATH,
+    }
+    current = candidate["implementation_revision"]
+    manifest = _contract_normalized_source_manifest({"implementation_revision": current})
+    current["source_manifest_sha256"] = manifest["manifest_sha256"]
+    binding = bind_activation_contract(
+        contract,
+        candidates,
+        read_frozen_multiplicity_manifest(ROOT),
+    )
+    return binding, manifest
+
+
 def test_repository_bindings_are_exact_and_empirical_execution_is_blocked(
     source_policy, activation_binding
 ) -> None:
@@ -91,7 +136,7 @@ def test_repository_bindings_are_exact_and_empirical_execution_is_blocked(
         "head": SPEC_REVISION,
         "path": SPEC_PATH,
     }
-    with pytest.raises(EmpiricalReleaseBlocked, match="#88"):
+    with pytest.raises(EmpiricalReleaseBlocked, match="committed #81/#83"):
         require_empirical_release(activation_binding)
 
 
@@ -132,6 +177,7 @@ def _weather_rows(policy):
                         "anchor_id": anchor,
                         "forecast_valid_at": valid_at,
                         "temperature_2m": temperature,
+                        "revision_status": "issued_run_immutable",
                         "source_id": source_id,
                     }
                 )
@@ -140,7 +186,7 @@ def _weather_rows(policy):
 
 def test_weather_revision_uses_same_valid_window(source_policy) -> None:
     rows, cutoff = _weather_rows(source_policy)
-    result = build_weather_revision(rows, cutoff, source_policy)
+    result = _build_weather_revision_from_verified_rows(rows, cutoff, source_policy)
     assert result == pytest.approx(
         {
             "weather_hdd65_revision_1run": -7.0,
@@ -153,13 +199,160 @@ def test_weather_revision_fails_on_missing_or_tied_predecessor(source_policy) ->
     rows, cutoff = _weather_rows(source_policy)
     prior_index = rows.index[rows["run_id"].eq("prior")][0]
     with pytest.raises(IndicatorContractError, match="exact current valid-time window"):
-        build_weather_revision(rows.drop(index=prior_index), cutoff, source_policy)
+        _build_weather_revision_from_verified_rows(
+            rows.drop(index=prior_index), cutoff, source_policy
+        )
     duplicate = rows.loc[rows["run_id"].eq("current")].copy()
     duplicate["run_id"] = "duplicate-current"
     with pytest.raises(IndicatorContractError, match="duplicate/tied"):
-        build_weather_revision(
+        _build_weather_revision_from_verified_rows(
             pd.concat([rows, duplicate], ignore_index=True), cutoff, source_policy
         )
+
+
+def _write_synthetic_weather_archive(root: Path, policy) -> tuple[pd.Timestamp, str, Path]:
+    cfg = policy.payload["sources"]["weather"]
+    anchors = [str(item["id"]) for item in cfg["v1_anchors"]]
+    lead_start, lead_end = [int(value) for value in cfg["v1_feature_lead_hours"]]
+    base = float(cfg["v1_degree_day_base_c"])
+    source_id = cfg["accepted_source_ids"][0]
+    current = pd.Timestamp("2026-01-02T00:00Z")
+    prior = current - pd.Timedelta(days=1)
+    valid_times = pd.date_range(
+        current + pd.Timedelta(hours=lead_start),
+        current + pd.Timedelta(hours=lead_end),
+        freq="h",
+        inclusive="left",
+    )
+    manifest_entries: list[dict[str, str]] = []
+    tamper_path: Path | None = None
+    for issued_at, temperature in ((prior, base - 9.0), (current, base - 8.0)):
+        snapshot_id = issued_at.strftime("%Y%m%dT%H%MZ")
+        run_dir = root / snapshot_id
+        raw_dir = run_dir / "raw"
+        raw_dir.mkdir(parents=True)
+        artifacts = []
+        for anchor in anchors:
+            payload = {
+                "utc_offset_seconds": 0,
+                "timezone": "GMT",
+                "hourly": {
+                    "time": [timestamp.strftime("%Y-%m-%dT%H:%M") for timestamp in valid_times],
+                    "temperature_2m": [temperature] * len(valid_times),
+                },
+            }
+            artifact_raw = json.dumps(
+                payload, sort_keys=True, separators=(",", ":")
+            ).encode("utf-8")
+            artifact_path = raw_dir / f"{anchor}.json"
+            artifact_path.write_bytes(artifact_raw)
+            artifacts.append(
+                {
+                    "path": f"raw/{anchor}.json",
+                    "sha256": hashlib.sha256(artifact_raw).hexdigest(),
+                }
+            )
+            if issued_at == current and anchor == anchors[0]:
+                tamper_path = artifact_path
+        manifest = {
+            "schema_version": 1,
+            "snapshot_id": snapshot_id,
+            "source_id": source_id,
+            "model": cfg["model"],
+            "issued_at": issued_at.isoformat(),
+            "available_at": (issued_at + pd.Timedelta(hours=1)).isoformat(),
+            "revision_status": "issued_run_immutable",
+            "artifacts": artifacts,
+        }
+        manifest_raw = (json.dumps(manifest, sort_keys=True, indent=2) + "\n").encode(
+            "utf-8"
+        )
+        manifest_path = run_dir / "manifest.json"
+        manifest_path.write_bytes(manifest_raw)
+        normalized = manifest_raw.replace(b"\r\n", b"\n").replace(b"\r", b"\n")
+        manifest_entries.append(
+            {
+                "path": manifest_path.relative_to(root).as_posix(),
+                "sha256": hashlib.sha256(normalized).hexdigest(),
+            }
+        )
+    assert tamper_path is not None
+    archive_digest = canonical_sha256(
+        {"schema_version": 1, "manifests": manifest_entries}
+    )
+    return current + pd.Timedelta(hours=2), archive_digest, tamper_path
+
+
+def test_weather_archive_production_pins_are_immutable() -> None:
+    assert indicator_weather_storage.FROZEN_WEATHER_ARCHIVE_RUNS == 723
+    assert indicator_weather_storage.FROZEN_WEATHER_ARCHIVE_MANIFEST_SHA256 == (
+        "44e2ed4c7206ecde8dad442d6dfc70b4e14387c97621a4b516846a0266329096"
+    )
+
+
+def test_weather_archive_rejects_missing_extra_or_substituted_manifests(
+    source_policy, tmp_path, monkeypatch
+) -> None:
+    missing_root = tmp_path / "missing"
+    _, archive_digest, missing_artifact = _write_synthetic_weather_archive(
+        missing_root, source_policy
+    )
+    monkeypatch.setattr(indicator_weather_storage, "FROZEN_WEATHER_ARCHIVE_RUNS", 2)
+    monkeypatch.setattr(
+        indicator_weather_storage,
+        "FROZEN_WEATHER_ARCHIVE_MANIFEST_SHA256",
+        archive_digest,
+    )
+    (missing_artifact.parent.parent.parent / "20260101T0000Z" / "manifest.json").unlink()
+    with pytest.raises(IndicatorContractError, match="run-manifest count"):
+        build_weather_revision(missing_root, "2026-01-02T02:00Z", source_policy)
+
+    extra_root = tmp_path / "extra"
+    _write_synthetic_weather_archive(extra_root, source_policy)
+    extra_manifest = extra_root / "20990101T0000Z" / "manifest.json"
+    extra_manifest.parent.mkdir(parents=True)
+    extra_manifest.write_text("{}\n", encoding="utf-8")
+    with pytest.raises(IndicatorContractError, match="run-manifest count"):
+        build_weather_revision(extra_root, "2026-01-02T02:00Z", source_policy)
+
+    substituted_root = tmp_path / "substituted"
+    _, _, substituted_artifact = _write_synthetic_weather_archive(
+        substituted_root, source_policy
+    )
+    manifest_path = substituted_artifact.parent.parent / "manifest.json"
+    manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+    manifest["available_at"] = "2026-01-02T01:01:00+00:00"
+    manifest_path.write_text(
+        json.dumps(manifest, sort_keys=True, indent=2) + "\n",
+        encoding="utf-8",
+    )
+    with pytest.raises(IndicatorContractError, match="archive manifests differ"):
+        build_weather_revision(substituted_root, "2026-01-02T02:00Z", source_policy)
+
+
+def test_weather_revision_verifies_frozen_archive_and_raw_artifacts(
+    source_policy, tmp_path, monkeypatch
+) -> None:
+    cutoff, archive_digest, tamper_path = _write_synthetic_weather_archive(
+        tmp_path, source_policy
+    )
+    monkeypatch.setattr(indicator_weather_storage, "FROZEN_WEATHER_ARCHIVE_RUNS", 2)
+    monkeypatch.setattr(
+        indicator_weather_storage,
+        "FROZEN_WEATHER_ARCHIVE_MANIFEST_SHA256",
+        archive_digest,
+    )
+    result = build_weather_revision(tmp_path, cutoff, source_policy)
+    assert result == pytest.approx(
+        {
+            "weather_hdd65_revision_1run": -7.0,
+            "weather_cdd65_revision_1run": 0.0,
+        }
+    )
+
+    tamper_path.write_bytes(tamper_path.read_bytes() + b" ")
+    with pytest.raises(IndicatorContractError, match="differs from its run manifest"):
+        build_weather_revision(tmp_path, cutoff, source_policy)
 
 
 def test_storage_public_state_preserves_revision_timing(source_policy) -> None:
@@ -176,7 +369,7 @@ def test_storage_public_state_preserves_revision_timing(source_policy) -> None:
             "observed_for": pd.to_datetime(["2025-01-10T00:00Z"]),
             "original_storage_lower48_bcf": [110.0],
             "revised_storage_lower48_bcf": [113.0],
-            "revision_date": pd.to_datetime(["2025-01-16T00:00Z"]),
+            "revision_date": ["2025-01-16T23:30:00-05:00"],
         }
     )
     events = build_storage_public_value_events(history, revisions, source_policy)
@@ -184,6 +377,71 @@ def test_storage_public_state_preserves_revision_timing(source_policy) -> None:
     values = events.loc[events["observed_for"].eq(week)].sort_values("available_at")
     assert values["storage_lower48_bcf"].tolist() == [110.0, 113.0]
     assert values["revision_status"].eq("point_in_time").all()
+    assert values.iloc[-1]["available_at"] == pd.Timestamp("2025-01-17T04:59:00Z")
+    assert values.iloc[-1]["availability_basis"] == "revision_date_2359_local_conservative"
+
+
+def test_storage_ordinary_revision_is_hidden_until_exact_reconstructed_cutoff(
+    source_policy,
+) -> None:
+    history = pd.DataFrame(
+        {
+            "observed_for": pd.to_datetime(
+                ["2024-12-20T00:00Z", "2024-12-27T00:00Z", "2025-01-03T00:00Z"]
+            ),
+            "storage_lower48_bcf": [100.0, 110.0, 123.0],
+        }
+    )
+    revisions = pd.DataFrame(
+        {
+            "observed_for": pd.to_datetime(["2025-01-03T00:00Z"]),
+            "original_storage_lower48_bcf": [120.0],
+            "revised_storage_lower48_bcf": [123.0],
+            "revision_date": ["2025-01-16T23:30:00-05:00"],
+        }
+    )
+    events = build_storage_public_value_events(history, revisions, source_policy)
+    before = build_storage_increment(events, "2025-01-17T04:58:59Z", source_policy)
+    at_cutoff = build_storage_increment(events, "2025-01-17T04:59:00Z", source_policy)
+    assert before["storage_change_accel_bcf"] == pytest.approx(0.0)
+    assert at_cutoff["storage_change_accel_bcf"] == pytest.approx(3.0)
+
+
+def test_storage_special_revision_event_has_exact_pit_boundary_and_timezone(
+    source_policy,
+) -> None:
+    history = pd.DataFrame(
+        {
+            "observed_for": pd.to_datetime(
+                ["2024-10-25T00:00Z", "2024-11-01T00:00Z", "2024-11-08T00:00Z"]
+            ),
+            "storage_lower48_bcf": [100.0, 110.0, 123.0],
+        }
+    )
+    revisions = pd.DataFrame(
+        {
+            "observed_for": pd.to_datetime(["2024-11-08T00:00Z"]),
+            "original_storage_lower48_bcf": [120.0],
+            "revised_storage_lower48_bcf": [123.0],
+            "revision_date": ["2024-11-18T12:00:00-05:00"],
+        }
+    )
+    events = build_storage_public_value_events(history, revisions, source_policy)
+    special = events.loc[events["availability_basis"].eq("special_revision_event")]
+    assert len(special) == 1
+    assert special.iloc[0]["available_at"] == pd.Timestamp("2024-11-18T20:00:00Z")
+    before = build_storage_increment(events, "2024-11-18T19:59:59Z", source_policy)
+    at_cutoff = build_storage_increment(events, "2024-11-18T20:00:00Z", source_policy)
+    assert before["storage_change_accel_bcf"] == pytest.approx(0.0)
+    assert at_cutoff["storage_change_accel_bcf"] == pytest.approx(3.0)
+
+    bad_payload = json.loads(json.dumps(source_policy.payload))
+    bad_payload["sources"]["eia_storage"]["availability_policy"][
+        "special_revision_events"
+    ]["2024_sample_reselection"] = "2024-11-18T15:00:00"
+    bad_policy = type(source_policy)(payload=bad_payload)
+    with pytest.raises(IndicatorContractError, match="timezone-aware"):
+        build_storage_public_value_events(history, revisions, bad_policy)
 
 
 def test_storage_acceleration_uses_latest_public_values(source_policy) -> None:
@@ -234,23 +492,36 @@ def test_storage_staleness_fails_closed(source_policy) -> None:
         build_storage_increment(events, "2026-01-17T00:00Z", source_policy)
 
 
-def test_curve_increments_require_immediate_market_session() -> None:
+def test_curve_increments_require_exact_frozen_dataset_artifact(
+    source_policy, activation_binding, tmp_path, monkeypatch
+) -> None:
     rows = pd.DataFrame(
         {
-            "trade_date": ["2026-01-02", "2026-01-05"],
-            "available_at": pd.to_datetime(
-                ["2026-01-02T23:59Z", "2026-01-05T23:59Z"]
-            ),
+            "prediction_time": ["2026-01-02T23:59:00Z", "2026-01-05T23:59:00Z"],
             "curve_spread_m1_m2": [1.0, 1.5],
             "curve_spread_m2_m3": [0.5, 0.75],
             "curve_slope_m1_m4": [2.0, 3.0],
         }
     )
+    dataset_path = tmp_path / "dataset.csv"
+    rows.to_csv(dataset_path, index=False, lineterminator="\n")
+    digest = hashlib.sha256(dataset_path.read_bytes()).hexdigest()
+
+    frozen_context = dict(indicator_market.FROZEN_MARKET_CONTEXT)
+    frozen_context["dataset_sha256"] = digest
+    monkeypatch.setattr(indicator_market, "FROZEN_MARKET_CONTEXT", frozen_context)
+    binding = json.loads(json.dumps(activation_binding))
+    binding["frozen_v1_control"]["context_identity"]["dataset_sha256"] = digest
+    binding.pop("binding_sha256")
+    binding["binding_sha256"] = canonical_sha256(binding)
+
     result = build_curve_increments(
-        rows,
+        dataset_path,
         current_trade_date="2026-01-05",
         prediction_time="2026-01-06T00:00Z",
         session_sequence=["2026-01-02", "2026-01-05"],
+        source_policy=source_policy,
+        activation_binding=binding,
     )
     assert result == pytest.approx(
         {
@@ -259,9 +530,66 @@ def test_curve_increments_require_immediate_market_session() -> None:
             "curve_slope_m1_m4_change_1": 1.0,
         }
     )
+
+    dataset_path.write_text(dataset_path.read_text() + "\n", encoding="utf-8")
+    with pytest.raises(IndicatorContractError, match="frozen #81 dataset"):
+        build_curve_increments(
+            dataset_path,
+            current_trade_date="2026-01-05",
+            prediction_time="2026-01-06T00:00Z",
+            session_sequence=["2026-01-02", "2026-01-05"],
+            source_policy=source_policy,
+            activation_binding=binding,
+        )
+
+
+def test_curve_frozen_artifact_requires_immediate_prior_session(
+    source_policy, activation_binding, tmp_path, monkeypatch
+) -> None:
+    rows = pd.DataFrame(
+        {
+            "prediction_time": ["2026-01-05T23:59:00Z"],
+            "curve_spread_m1_m2": [1.5],
+            "curve_spread_m2_m3": [0.75],
+            "curve_slope_m1_m4": [3.0],
+        }
+    )
+    dataset_path = tmp_path / "missing-prior.csv"
+    rows.to_csv(dataset_path, index=False, lineterminator="\n")
+    digest = hashlib.sha256(dataset_path.read_bytes()).hexdigest()
+
+    frozen_context = dict(indicator_market.FROZEN_MARKET_CONTEXT)
+    frozen_context["dataset_sha256"] = digest
+    monkeypatch.setattr(indicator_market, "FROZEN_MARKET_CONTEXT", frozen_context)
+    binding = json.loads(json.dumps(activation_binding))
+    binding["frozen_v1_control"]["context_identity"]["dataset_sha256"] = digest
+    binding.pop("binding_sha256")
+    binding["binding_sha256"] = canonical_sha256(binding)
+
     with pytest.raises(IndicatorContractError, match="prior session"):
         build_curve_increments(
-            rows.loc[rows["trade_date"].eq("2026-01-05")],
+            dataset_path,
+            current_trade_date="2026-01-05",
+            prediction_time="2026-01-06T00:00Z",
+            session_sequence=["2026-01-02", "2026-01-05"],
+            source_policy=source_policy,
+            activation_binding=binding,
+        )
+
+
+def test_curve_legacy_dataframe_api_fails_closed_with_governance_error() -> None:
+    legacy_rows = pd.DataFrame(
+        {
+            "trade_date": ["2026-01-02", "2026-01-05"],
+            "available_at": ["2026-01-02T23:59:00Z", "2026-01-05T23:59:00Z"],
+            "curve_spread_m1_m2": [1.0, 1.5],
+            "curve_spread_m2_m3": [0.5, 0.75],
+            "curve_slope_m1_m4": [2.0, 3.0],
+        }
+    )
+    with pytest.raises(IndicatorContractError, match="legacy DataFrame curve input"):
+        build_curve_increments(
+            legacy_rows,
             current_trade_date="2026-01-05",
             prediction_time="2026-01-06T00:00Z",
             session_sequence=["2026-01-02", "2026-01-05"],
@@ -426,7 +754,8 @@ def test_coverage_is_exactly_one_and_no_imputation_is_allowed() -> None:
         validate_preprocessing_plan({**valid, "imputation": "median"})
 
 
-def test_hashes_and_lineage_handoff_are_deterministic(activation_binding) -> None:
+def test_hashes_and_lineage_handoff_are_deterministic() -> None:
+    activation_binding, runtime_manifest = _prospective_current_source_binding()
     increments = _increments()
     input_frame = pd.DataFrame(
         {
@@ -443,7 +772,7 @@ def test_hashes_and_lineage_handoff_are_deterministic(activation_binding) -> Non
         feature_frame=increments,
         implementation_config={"fit_scope": "fold_train_only"},
         implementation_revision="a" * 40,
-        runtime_source_manifest=_contract_normalized_source_manifest(activation_binding),
+        runtime_source_manifest=runtime_manifest,
     )
     identity = handoff.pop("artifact_identity_sha256")
     assert handoff["candidate_id"] == CANDIDATE_ID
