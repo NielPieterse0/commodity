@@ -45,6 +45,7 @@
       "coverage_end_available_at": "2026-08-06T14:30:00+00:00",
       "normalized_source_rows": 107,
       "revision_status": "point_in_time",
+      "ordinary_revision_availability_basis": "revision_date_2359_local_conservative",
       "research_pit_ready": true,
       "expectation_series_present": false,
       "v2_use": "eligible_for_level_change_and_change_acceleration_only",
@@ -113,7 +114,7 @@
   },
   "authority": {
     "source_policy": "config/data_sources.json",
-    "source_policy_sha256": "179e53ff12a5a0a42b4276dd8baef65209c558f896dd15c08b166e18506b35fd",
+    "source_policy_sha256": "63464479a32baf1e72980d19cd084c37007a3270b0b577a3b88dda175cbb3ba5",
     "v1_dataset_manifest": "data/processed/full-v1-freezes/us-ng-pit-0c0a39b36692-b6aaf445500f2841/manifest.json",
     "v2_feature_preparation": "docs/development/v2-indicator-surprise-challenger/spec.md",
     "executable_contract_owner": "#81",
