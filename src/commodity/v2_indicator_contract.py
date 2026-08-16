@@ -86,10 +86,21 @@ def _json_copy(value: Any) -> Any:
 
 
 def parse_pinned_source_policy(raw: bytes) -> PinnedSourcePolicy:
-    digest = hashlib.sha256(raw).hexdigest()
-    if digest != SOURCE_POLICY_SHA256:
+    normalized_lf = raw.replace(b"\r\n", b"\n").replace(b"\r", b"\n")
+    newline_representations = (
+        raw,
+        normalized_lf,
+        normalized_lf.replace(b"\n", b"\r\n"),
+    )
+    digests = {
+        hashlib.sha256(candidate).hexdigest()
+        for candidate in newline_representations
+    }
+    if SOURCE_POLICY_SHA256 not in digests:
+        observed = ",".join(sorted(digests))
         raise IndicatorContractError(
-            "config/data_sources.json does not match the #83 preparation pin"
+            "config/data_sources.json does not match the #83 preparation pin; "
+            f"observed newline-normalized digests={observed}"
         )
     try:
         payload = json.loads(raw.decode("utf-8"))
