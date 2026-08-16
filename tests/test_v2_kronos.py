@@ -1,0 +1,196 @@
+import hashlib
+import json
+import sys
+import types
+from pathlib import Path
+
+import pandas as pd
+import pytest
+
+from commodity import kronos
+from commodity.v2_kronos import (
+    EmpiricalReleaseBlocked,
+    KronosContractError,
+    adapter_frame,
+    bind_activation_contract,
+    build_input_manifest,
+    build_pit_context,
+    enforce_cost_caps,
+    governed_return_prediction,
+    require_empirical_release,
+    seed_runtime,
+    verify_replay,
+)
+
+ROOT = Path(__file__).resolve().parents[1]
+
+
+def _load(path: str) -> dict:
+    return json.loads((ROOT / path).read_text(encoding="utf-8-sig"))
+
+
+def _binding() -> dict:
+    return bind_activation_contract(
+        _load("docs/development/v2-activation-preregistration/activation-contract.json"),
+        _load("config/experiment_candidates.json"),
+        _load("config/models.json")["models"]["kronos_mini"],
+        _load("config/assumptions.json"),
+    )
+
+
+def _market() -> pd.DataFrame:
+    return pd.DataFrame(
+        {
+            "trade_date": ["2026-08-10T23:59:00Z", "2026-08-11T23:59:00Z"],
+            "contract_id": ["NGU6", "NGU6"],
+            "expiration": ["2026-08-27T00:00:00Z", "2026-08-27T00:00:00Z"],
+            "available_at": ["2026-08-10T23:59:00Z", "2026-08-11T23:59:00Z"],
+            "open": [3.0, 3.1],
+            "high": [3.2, 3.3],
+            "low": [2.9, 3.0],
+            "close": [3.1, 3.2],
+            "volume": [1000.0, 1100.0],
+        }
+    )
+
+
+def test_binding_is_exact_but_empirically_blocked() -> None:
+    binding = _binding()
+    assert binding["candidate_id"] == "v2-82-kronos-only"
+    assert binding["model_revision"] == "7fdcc628d87f325ccdbcae0a372622ca7e6813aa"
+    with pytest.raises(EmpiricalReleaseBlocked):
+        require_empirical_release(binding)
+
+
+def test_pit_context_preserves_trace_and_adapter_boundary() -> None:
+    context = build_pit_context(_market(), "2026-08-11T23:59:00Z")
+    assert list(context["contract_id"]) == ["NGU6", "NGU6"]
+    adapted = adapter_frame(context)
+    assert list(adapted.columns) == ["open", "high", "low", "close", "volume"]
+    assert adapted.index.is_monotonic_increasing
+    manifest = build_input_manifest(context, "2026-08-11T23:59:00Z")
+    assert manifest["row_count"] == 2
+    assert len(manifest["context_sha256"]) == 64
+
+
+def test_pit_context_rejects_missing_or_invalid_selected_data() -> None:
+    frame = _market()
+    frame.loc[1, "high"] = 2.0
+    with pytest.raises(KronosContractError, match="OHLC ordering"):
+        build_pit_context(frame, "2026-08-11T23:59:00Z")
+
+    frame = _market()
+    frame.loc[1, "close"] = float("nan")
+    with pytest.raises(KronosContractError, match="non-finite"):
+        build_pit_context(frame, "2026-08-11T23:59:00Z")
+
+
+def test_pit_context_rejects_ambiguous_time_and_order() -> None:
+    with pytest.raises(KronosContractError, match="timezone-aware"):
+        build_pit_context(_market(), "2026-08-11 23:59:00")
+    reversed_frame = _market().iloc[::-1].reset_index(drop=True)
+    with pytest.raises(KronosContractError, match="strictly chronological"):
+        build_pit_context(reversed_frame, "2026-08-11T23:59:00Z")
+
+
+def test_target_mapping_fails_closed_on_roll_transition() -> None:
+    value = governed_return_prediction(
+        predicted_close_next=3.3,
+        observed_close_at_cutoff=3.2,
+        current_contract_id="NGU6",
+        target_contract_id="NGU6",
+    )
+    assert value > 0
+    with pytest.raises(KronosContractError, match="cross-contract"):
+        governed_return_prediction(
+            predicted_close_next=3.3,
+            observed_close_at_cutoff=3.2,
+            current_contract_id="NGU6",
+            target_contract_id="NGV6",
+        )
+
+
+def test_replay_and_cost_caps_fail_closed() -> None:
+    verify_replay("a" * 64, "a" * 64)
+    with pytest.raises(KronosContractError, match="replay"):
+        verify_replay("a" * 64, "b" * 64)
+    enforce_cost_caps(
+        elapsed_hours=1.0,
+        paid_compute_usd=0.0,
+        new_data_acquisition_usd=0.0,
+        max_wall_clock_hours=12.0,
+    )
+    with pytest.raises(KronosContractError, match="paid compute"):
+        enforce_cost_caps(
+            elapsed_hours=1.0,
+            paid_compute_usd=0.01,
+            new_data_acquisition_usd=0.0,
+            max_wall_clock_hours=12.0,
+        )
+
+
+def test_seed_runtime_sets_cpu_seed_and_rejects_cuda() -> None:
+    class _Cuda:
+        @staticmethod
+        def is_available() -> bool:
+            return False
+
+    class _Torch:
+        cuda = _Cuda()
+        seed = None
+
+        @classmethod
+        def manual_seed(cls, value: int) -> None:
+            cls.seed = value
+
+    seed_runtime(_Torch)
+    assert _Torch.seed == 0
+
+    class _CudaAvailable:
+        @staticmethod
+        def is_available() -> bool:
+            return True
+
+    _Torch.cuda = _CudaAvailable()
+    with pytest.raises(KronosContractError, match="CUDA"):
+        seed_runtime(_Torch)
+
+
+def test_checkpoint_preflight_is_local_only_and_hash_verified(tmp_path, monkeypatch) -> None:
+    cache = tmp_path / "cache"
+    snapshot = tmp_path / "snapshot"
+    cache.mkdir()
+    snapshot.mkdir()
+    artifact = snapshot / "model.safetensors"
+    artifact.write_bytes(b"frozen-checkpoint")
+    digest = hashlib.sha256(artifact.read_bytes()).hexdigest()
+
+    fake_hf = types.ModuleType("huggingface_hub")
+
+    def snapshot_download(**kwargs):
+        assert kwargs["local_files_only"] is True
+        assert kwargs["revision"] == "model-revision"
+        assert Path(kwargs["cache_dir"]) == cache
+        return str(snapshot)
+
+    fake_hf.snapshot_download = snapshot_download
+    monkeypatch.setitem(sys.modules, "huggingface_hub", fake_hf)
+    monkeypatch.setenv("TEST_KRONOS_CACHE", str(cache))
+    cfg = {
+        "local_files_only": True,
+        "checkpoint_cache_env": "TEST_KRONOS_CACHE",
+        "model_id": "model-id",
+        "model_revision": "model-revision",
+        "tokenizer_id": "tokenizer-id",
+        "tokenizer_revision": "tokenizer-revision",
+        "checkpoint_artifacts": {
+            "model": {"filename": "model.safetensors", "sha256": digest},
+            "tokenizer": {"filename": "model.safetensors", "sha256": digest},
+        },
+    }
+    resolved = kronos._resolve_pinned_snapshot(cfg, "model")
+    assert resolved["artifact_sha256"] == digest
+
+    cfg["checkpoint_artifacts"]["model"]["sha256"] = "0" * 64
+    with pytest.raises(kronos.KronosArtifactError, match="hash mismatch"):
+        kronos._resolve_pinned_snapshot(cfg, "model")
