@@ -14,6 +14,7 @@ from commodity.v2_kronos import (
     adapter_frame,
     bind_activation_contract,
     build_input_manifest,
+    build_longitudinal_handoff,
     build_pit_context,
     enforce_cost_caps,
     governed_return_prediction,
@@ -23,16 +24,27 @@ from commodity.v2_kronos import (
 )
 
 ROOT = Path(__file__).resolve().parents[1]
+SYNTHETIC_BOUND_IMPLEMENTATION = "1" * 40
 
 
 def _load(path: str) -> dict:
     return json.loads((ROOT / path).read_text(encoding="utf-8-sig"))
 
 
+def _candidate_registry() -> dict:
+    candidates = _load("config/experiment_candidates.json")
+    candidates["candidates"]["v2-82-kronos-only"]["implementation_revision"] = {
+        "pr": 100,
+        "head": SYNTHETIC_BOUND_IMPLEMENTATION,
+        "path": "src/commodity/v2_kronos.py",
+    }
+    return candidates
+
+
 def _binding() -> dict:
     return bind_activation_contract(
         _load("docs/development/v2-activation-preregistration/activation-contract.json"),
-        _load("config/experiment_candidates.json"),
+        _candidate_registry(),
         _load("config/models.json")["models"]["kronos_mini"],
         _load("config/assumptions.json"),
     )
@@ -58,8 +70,39 @@ def test_binding_is_exact_but_empirically_blocked() -> None:
     binding = _binding()
     assert binding["candidate_id"] == "v2-82-kronos-only"
     assert binding["model_revision"] == "7fdcc628d87f325ccdbcae0a372622ca7e6813aa"
+    assert binding["implementation_revision"]["head"] == SYNTHETIC_BOUND_IMPLEMENTATION
     with pytest.raises(EmpiricalReleaseBlocked):
         require_empirical_release(binding)
+
+
+def test_binding_requires_separate_exact_implementation_revision() -> None:
+    candidates = _load("config/experiment_candidates.json")
+    with pytest.raises(KronosContractError, match="implementation revision"):
+        bind_activation_contract(
+            _load("docs/development/v2-activation-preregistration/activation-contract.json"),
+            candidates,
+            _load("config/models.json")["models"]["kronos_mini"],
+            _load("config/assumptions.json"),
+        )
+
+
+def test_longitudinal_handoff_enforces_bound_runtime_revision() -> None:
+    binding = _binding()
+    handoff = build_longitudinal_handoff(
+        binding,
+        code_revision=SYNTHETIC_BOUND_IMPLEMENTATION,
+        config_sha256="a" * 64,
+        artifact_sha256s=["b" * 64],
+    )
+    assert handoff["code_revision"] == SYNTHETIC_BOUND_IMPLEMENTATION
+    assert handoff["activation_binding_sha256"] == binding["binding_sha256"]
+    with pytest.raises(KronosContractError, match="does not match"):
+        build_longitudinal_handoff(
+            binding,
+            code_revision="2" * 40,
+            config_sha256="a" * 64,
+            artifact_sha256s=["b" * 64],
+        )
 
 
 def test_pit_context_preserves_trace_and_adapter_boundary() -> None:
