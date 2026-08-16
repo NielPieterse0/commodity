@@ -1,0 +1,563 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://commodity.local/contracts/research-metrics/v1",
+  "title": "Commodity Longitudinal Research Metrics Ledger",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "ledger_id",
+    "comparison_policy",
+    "stages"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "integer",
+      "const": 1
+    },
+    "ledger_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "comparison_policy": {
+      "$ref": "#/$defs/comparisonPolicy"
+    },
+    "stages": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/stage"
+      }
+    }
+  },
+  "$defs": {
+    "sha256": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "pattern": "^[0-9a-fA-F]{64}$"
+    },
+    "comparisonPolicy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "policy_id",
+        "metric_policies"
+      ],
+      "properties": {
+        "policy_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "metric_policies": {
+          "type": "object",
+          "minProperties": 1,
+          "additionalProperties": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "direction",
+              "required",
+              "absolute_tolerance",
+              "relative_tolerance"
+            ],
+            "properties": {
+              "direction": {
+                "type": "string",
+                "enum": [
+                  "lower",
+                  "higher"
+                ]
+              },
+              "required": {
+                "type": "boolean"
+              },
+              "absolute_tolerance": {
+                "type": "number",
+                "minimum": 0
+              },
+              "relative_tolerance": {
+                "type": "number",
+                "minimum": 0
+              }
+            }
+          }
+        }
+      }
+    },
+    "stage": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "stage_id",
+        "sequence",
+        "label",
+        "evidence_status",
+        "context_id",
+        "context",
+        "metrics",
+        "methodology_change_summary",
+        "interpretations",
+        "evidence"
+      ],
+      "properties": {
+        "stage_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "sequence": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "label": {
+          "type": "string",
+          "minLength": 1
+        },
+        "evidence_status": {
+          "type": "string",
+          "enum": [
+            "native",
+            "backfilled",
+            "partial"
+          ]
+        },
+        "context_id": {
+          "type": "string",
+          "pattern": "^ctx-[0-9a-f]{24}$"
+        },
+        "context": {
+          "$ref": "#/$defs/context"
+        },
+        "metrics": {
+          "type": "object",
+          "minProperties": 1,
+          "additionalProperties": {
+            "$ref": "#/$defs/metric"
+          }
+        },
+        "methodology_change_summary": {
+          "type": "string",
+          "minLength": 1
+        },
+        "interpretations": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/interpretation"
+          }
+        },
+        "evidence": {
+          "$ref": "#/$defs/evidence"
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "evidence_status": {
+                "const": "native"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "evidence": {
+                "properties": {
+                  "code_revision": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "config_sha256": {
+                    "type": "string",
+                    "pattern": "^[0-9a-fA-F]{64}$"
+                  },
+                  "artifact_sha256s": {
+                    "minItems": 1
+                  },
+                  "source_refs": {
+                    "minItems": 1
+                  }
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "metric": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "value",
+        "unit",
+        "direction"
+      ],
+      "properties": {
+        "value": {
+          "type": "number"
+        },
+        "unit": {
+          "type": "string",
+          "minLength": 1
+        },
+        "direction": {
+          "type": "string",
+          "enum": [
+            "lower",
+            "higher"
+          ]
+        }
+      }
+    },
+    "context": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "forecast",
+        "dataset",
+        "evaluation",
+        "availability",
+        "features",
+        "model"
+      ],
+      "properties": {
+        "forecast": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "target",
+            "horizon",
+            "prediction_timestamp_semantics",
+            "target_timestamp_semantics",
+            "information_cutoff_semantics"
+          ],
+          "properties": {
+            "target": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "minLength": 1
+            },
+            "horizon": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "minLength": 1
+            },
+            "prediction_timestamp_semantics": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "minLength": 1
+            },
+            "target_timestamp_semantics": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "minLength": 1
+            },
+            "information_cutoff_semantics": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "minLength": 1
+            }
+          }
+        },
+        "dataset": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "dataset_id",
+            "freeze_id",
+            "dataset_sha256",
+            "rows",
+            "oos_rows",
+            "oos_start",
+            "oos_end",
+            "coverage_signature_sha256"
+          ],
+          "properties": {
+            "dataset_id": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "minLength": 1
+            },
+            "freeze_id": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "dataset_sha256": {
+              "$ref": "#/$defs/sha256"
+            },
+            "rows": {
+              "type": [
+                "integer",
+                "null"
+              ],
+              "minimum": 0
+            },
+            "oos_rows": {
+              "type": [
+                "integer",
+                "null"
+              ],
+              "minimum": 0
+            },
+            "oos_start": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "format": "date-time"
+            },
+            "oos_end": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "format": "date-time"
+            },
+            "coverage_signature_sha256": {
+              "$ref": "#/$defs/sha256"
+            }
+          }
+        },
+        "evaluation": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "protocol_id",
+            "protocol_sha256",
+            "split_id",
+            "split_sha256",
+            "baseline_id",
+            "baseline_configuration_id"
+          ],
+          "properties": {
+            "protocol_id": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "minLength": 1
+            },
+            "protocol_sha256": {
+              "$ref": "#/$defs/sha256"
+            },
+            "split_id": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "minLength": 1
+            },
+            "split_sha256": {
+              "$ref": "#/$defs/sha256"
+            },
+            "baseline_id": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "minLength": 1
+            },
+            "baseline_configuration_id": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "minLength": 1
+            }
+          }
+        },
+        "availability": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "rule_id",
+            "rule_sha256"
+          ],
+          "properties": {
+            "rule_id": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "minLength": 1
+            },
+            "rule_sha256": {
+              "$ref": "#/$defs/sha256"
+            }
+          }
+        },
+        "features": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "definition_id",
+            "definition_sha256",
+            "feature_family_ids"
+          ],
+          "properties": {
+            "definition_id": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "minLength": 1
+            },
+            "definition_sha256": {
+              "$ref": "#/$defs/sha256"
+            },
+            "feature_family_ids": {
+              "type": [
+                "array",
+                "null"
+              ],
+              "items": {
+                "type": "string",
+                "minLength": 1
+              },
+              "uniqueItems": true
+            }
+          }
+        },
+        "model": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "family",
+            "configuration_id"
+          ],
+          "properties": {
+            "family": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "minLength": 1
+            },
+            "configuration_id": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "minLength": 1
+            }
+          }
+        }
+      }
+    },
+    "interpretation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "comparison_kind",
+        "reference_stage_id",
+        "metric",
+        "classification",
+        "explanation",
+        "accepted",
+        "tracking_ref"
+      ],
+      "properties": {
+        "comparison_kind": {
+          "type": "string",
+          "enum": [
+            "previous_stage",
+            "best_comparable"
+          ]
+        },
+        "reference_stage_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "metric": {
+          "type": "string",
+          "minLength": 1
+        },
+        "classification": {
+          "type": "string",
+          "enum": [
+            "expected_intentional",
+            "methodology_tightening",
+            "likely_defect",
+            "unresolved",
+            "genuine_model_or_data_change"
+          ]
+        },
+        "explanation": {
+          "type": "string",
+          "minLength": 1
+        },
+        "accepted": {
+          "type": "boolean"
+        },
+        "tracking_ref": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "minLength": 1
+        }
+      }
+    },
+    "evidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "code_revision",
+        "config_sha256",
+        "artifact_sha256s",
+        "reproducibility_status",
+        "source_refs"
+      ],
+      "properties": {
+        "code_revision": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "minLength": 1
+        },
+        "config_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "artifact_sha256s": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^[0-9a-fA-F]{64}$"
+          },
+          "uniqueItems": true
+        },
+        "reproducibility_status": {
+          "type": "string",
+          "enum": [
+            "passed",
+            "failed",
+            "not_reproduced",
+            "unknown"
+          ]
+        },
+        "source_refs": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "uniqueItems": true
+        }
+      }
+    }
+  }
+}
