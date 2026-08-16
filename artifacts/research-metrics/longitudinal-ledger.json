@@ -1,0 +1,417 @@
+{
+  "schema_version": 1,
+  "ledger_id": "commodity-longitudinal-research-metrics-v1",
+  "comparison_policy": {
+    "policy_id": "strict-no-silent-regression-v1",
+    "metric_policies": {
+      "model_rmse": {
+        "direction": "lower",
+        "required": true,
+        "absolute_tolerance": 0.0,
+        "relative_tolerance": 0.0
+      },
+      "baseline_rmse": {
+        "direction": "lower",
+        "required": true,
+        "absolute_tolerance": 0.0,
+        "relative_tolerance": 0.0
+      },
+      "rmse_improvement_vs_baseline": {
+        "direction": "higher",
+        "required": true,
+        "absolute_tolerance": 0.0,
+        "relative_tolerance": 0.0
+      },
+      "ridge_rmse": {
+        "direction": "lower",
+        "required": false,
+        "absolute_tolerance": 0.0,
+        "relative_tolerance": 0.0
+      },
+      "model_mae": {
+        "direction": "lower",
+        "required": false,
+        "absolute_tolerance": 0.0,
+        "relative_tolerance": 0.0
+      },
+      "direction_accuracy": {
+        "direction": "higher",
+        "required": false,
+        "absolute_tolerance": 0.0,
+        "relative_tolerance": 0.0
+      },
+      "brier_score": {
+        "direction": "lower",
+        "required": false,
+        "absolute_tolerance": 0.0,
+        "relative_tolerance": 0.0
+      },
+      "log_loss": {
+        "direction": "lower",
+        "required": false,
+        "absolute_tolerance": 0.0,
+        "relative_tolerance": 0.0
+      },
+      "volatility_rmse": {
+        "direction": "lower",
+        "required": false,
+        "absolute_tolerance": 0.0,
+        "relative_tolerance": 0.0
+      },
+      "material_incremental_value_count": {
+        "direction": "higher",
+        "required": false,
+        "absolute_tolerance": 0.0,
+        "relative_tolerance": 0.0
+      },
+      "robust_edge_demonstrated": {
+        "direction": "higher",
+        "required": false,
+        "absolute_tolerance": 0.0,
+        "relative_tolerance": 0.0
+      }
+    }
+  },
+  "stages": [
+    {
+      "stage_id": "provider-boundary-screening",
+      "sequence": 10,
+      "label": "Pre-V1 provider-boundary return screening",
+      "evidence_status": "partial",
+      "context_id": "ctx-f6c9757705c0627c4b42c968",
+      "context": {
+        "forecast": {
+          "target": "next observed session same-contract front-month settlement return; roll-boundary targets excluded",
+          "horizon": "1 observed session",
+          "prediction_timestamp_semantics": null,
+          "target_timestamp_semantics": "next observed same-contract front-month settlement",
+          "information_cutoff_semantics": null
+        },
+        "dataset": {
+          "dataset_id": "20240813-20260812-v1-m1-m12",
+          "freeze_id": null,
+          "dataset_sha256": null,
+          "rows": 474,
+          "oos_rows": 290,
+          "oos_start": null,
+          "oos_end": null,
+          "coverage_signature_sha256": "985c8ca3222e598680d3618fa4159daa3f4ac110fb1c453c02149f9110d2f780"
+        },
+        "evaluation": {
+          "protocol_id": "provider-boundary-screening-v1",
+          "protocol_sha256": "2552060e01a53f5cab12918e90f9d4d9ae65413ecb3cb3bbb73cd048a3137f03",
+          "split_id": null,
+          "split_sha256": null,
+          "baseline_id": "zero_return_naive",
+          "baseline_configuration_id": "semantic:zero-return-naive-v1"
+        },
+        "availability": {
+          "rule_id": null,
+          "rule_sha256": null
+        },
+        "features": {
+          "definition_id": "provider-screen-price-only",
+          "definition_sha256": "1730fc419595296b1f6c3db274f71a5d86a887d494e50c80276dcc4e69ad0ddd",
+          "feature_family_ids": [
+            "market"
+          ]
+        },
+        "model": {
+          "family": "ridge",
+          "configuration_id": "fixed-regularization:price-only"
+        }
+      },
+      "metrics": {
+        "model_rmse": {
+          "value": 0.045928,
+          "unit": "return",
+          "direction": "lower"
+        },
+        "baseline_rmse": {
+          "value": 0.045274,
+          "unit": "return",
+          "direction": "lower"
+        },
+        "rmse_improvement_vs_baseline": {
+          "value": -0.000654,
+          "unit": "return",
+          "direction": "higher"
+        }
+      },
+      "methodology_change_summary": "Earliest preserved numeric return screen. Exact split timestamps and availability-rule identities were not preserved, so this stage is intentionally partial and comparisons fail closed.",
+      "interpretations": [],
+      "evidence": {
+        "code_revision": "6b2ff991b586e36323825c8566048747aa3746cc",
+        "config_sha256": null,
+        "artifact_sha256s": [
+          "38e4585ec2b7dce2bc74c9ff44c14c3228f8dab41ce0a93b269dc9974869a3a6",
+          "83faf07a8de1fe3fea4cd6548dd25d9c02828e1ef4faa13a234ac8f2ad03d655",
+          "f3f1ea8de2333aae21d6cc2cb96c242d0057dfb8a0c1f458d3d5aa88d124d979"
+        ],
+        "reproducibility_status": "not_reproduced",
+        "source_refs": [
+          "docs/development/market-provider-boundary/evidence.json",
+          "docs/development/v1-research-completion/retrospective-v0-v1-metrics.json",
+          "docs/development/longitudinal-research-metrics/backfill-identity-record.json"
+        ]
+      }
+    },
+    {
+      "stage_id": "pit-core-tournament-smoke",
+      "sequence": 20,
+      "label": "V1 PIT-core tournament smoke",
+      "evidence_status": "backfilled",
+      "context_id": "ctx-7f85bddf34f6048c7531ae38",
+      "context": {
+        "forecast": {
+          "target": "target_ret_1",
+          "horizon": "1 trading session",
+          "prediction_timestamp_semantics": "after_current_daily_bar_close",
+          "target_timestamp_semantics": "next row of noncanonical bootstrap daily close series",
+          "information_cutoff_semantics": "after_current_daily_bar_close"
+        },
+        "dataset": {
+          "dataset_id": "us-ng-pit-47b7768f23e0",
+          "freeze_id": null,
+          "dataset_sha256": "47b7768f23e0d13bd70091f404dcafbbc7bb505f070d15b05a018d099f65fd58",
+          "rows": 2898,
+          "oos_rows": 2142,
+          "oos_start": "2018-02-05T00:00:00+00:00",
+          "oos_end": "2026-08-10T00:00:00+00:00",
+          "coverage_signature_sha256": "16d0661cb7501655dccecc6bf34fcf3f6fca244dcb4f3db313d07f906862b1bc"
+        },
+        "evaluation": {
+          "protocol_id": "v1-pit-core-smoke-evaluation",
+          "protocol_sha256": "936c9c219ce9d589257018f5341bbdf0520e10ea1e1377fe31711be9a37e1eae",
+          "split_id": "expanding_walk_forward:756:5:2142",
+          "split_sha256": "8f47dc688d539f5b292eb8c2164bf9229a42b50fe94044c844ae823153b406a5",
+          "baseline_id": "zero_return_naive",
+          "baseline_configuration_id": "semantic:zero-return-naive-v1"
+        },
+        "availability": {
+          "rule_id": "research-pit-after-daily-bar-close-v1",
+          "rule_sha256": "a185e619a6bda0078e79f21fda5367ce5e138f1f4c91c255972eca43bf981596"
+        },
+        "features": {
+          "definition_id": "pit-core-market-calendar",
+          "definition_sha256": "16d0661cb7501655dccecc6bf34fcf3f6fca244dcb4f3db313d07f906862b1bc",
+          "feature_family_ids": [
+            "calendar_seasonality",
+            "market"
+          ]
+        },
+        "model": {
+          "family": "hist_gb",
+          "configuration_id": "HistGB:learning_rate=0.05,max_iter=20,max_leaf_nodes=15"
+        }
+      },
+      "metrics": {
+        "model_rmse": {
+          "value": 0.04579708998875776,
+          "unit": "return",
+          "direction": "lower"
+        },
+        "ridge_rmse": {
+          "value": 0.0459850461100658,
+          "unit": "return",
+          "direction": "lower"
+        },
+        "baseline_rmse": {
+          "value": 0.04604043853786669,
+          "unit": "return",
+          "direction": "lower"
+        },
+        "rmse_improvement_vs_baseline": {
+          "value": 0.00024334854910892934,
+          "unit": "return",
+          "direction": "higher"
+        },
+        "relative_rmse_improvement_pct": {
+          "value": 0.5285539339699891,
+          "unit": "percent",
+          "direction": "higher"
+        }
+      },
+      "methodology_change_summary": "Backfilled pipeline-only PIT-core smoke on a noncanonical bootstrap market series. Standalone protocol, split, coverage, availability, feature, and model identity hashes were not emitted by the original run; deterministic identities here hash the exact preserved semantics. The result was never promotion-eligible.",
+      "interpretations": [],
+      "evidence": {
+        "code_revision": "e2da35e56a4a67a9974082ecbaa4ecfd5adcd9a6",
+        "config_sha256": null,
+        "artifact_sha256s": [
+          "46d41e5f6ca3b90b88034943c57d11c08af39ae8c758a29946042ae586fe5354",
+          "70d565969fa67a72a1ddac13d43ffd3e55a6c8f61827f176cf59a6035832051a",
+          "6e6e4137ed2c0ad56a255a068bd3eedc5ee6f2c33034c44a766e12d30d16a288"
+        ],
+        "reproducibility_status": "not_reproduced",
+        "source_refs": [
+          "docs/development/v1-pit-model-tournament/evidence.json",
+          "docs/development/v1-research-completion/retrospective-v0-v1-metrics.json",
+          "docs/development/v1-research-completion/retrospective-baseline-divergence.md",
+          "docs/development/longitudinal-research-metrics/backfill-identity-record.json"
+        ]
+      }
+    },
+    {
+      "stage_id": "phase-d-full-v1-hist-gb",
+      "sequence": 30,
+      "label": "Governed full-V1 Phase D \u2014 HistGB full model",
+      "evidence_status": "backfilled",
+      "context_id": "ctx-63323081b9bab02fde348f58",
+      "context": {
+        "forecast": {
+          "target": "target_ret_1",
+          "horizon": "1 trading session",
+          "prediction_timestamp_semantics": "after_current_daily_bar_close",
+          "target_timestamp_semantics": "next-session selected-contract within-contract settlement log return; cross-contract returns prohibited",
+          "information_cutoff_semantics": "after_current_daily_bar_close"
+        },
+        "dataset": {
+          "dataset_id": "us-ng-pit-0c0a39b36692",
+          "freeze_id": "b6aaf445500f2841",
+          "dataset_sha256": "0c0a39b3669215b4bdc45a0fdedf90697f0c2c92690cb33700bd0bc47c80a45f",
+          "rows": 456,
+          "oos_rows": 204,
+          "oos_start": "2025-10-03T23:59:00+00:00",
+          "oos_end": "2026-08-11T23:59:00+00:00",
+          "coverage_signature_sha256": "3621260e37817b4063527f485701f8d7fea45284547db4a8397691b400ffbd36"
+        },
+        "evaluation": {
+          "protocol_id": "phase-d-v1",
+          "protocol_sha256": "6c3ffbc586a60a972d9bb567140411f9838a60beff9d72dca7bd828b9ba130d5",
+          "split_id": "c0a407ce414bf44737388e27dd50cb410aa73e0f5985157f4c868187ee6c5e7a",
+          "split_sha256": "c0a407ce414bf44737388e27dd50cb410aa73e0f5985157f4c868187ee6c5e7a",
+          "baseline_id": "zero_return_naive",
+          "baseline_configuration_id": "semantic:zero-return-naive-v1"
+        },
+        "availability": {
+          "rule_id": "evaluation-pit-after-daily-bar-close-v1",
+          "rule_sha256": "1ec62a3bb3c222d158fdd69ab031b3c0a519ba2ac9881a054fae34a26d2aeccc"
+        },
+        "features": {
+          "definition_id": "full-v1-feature-definition",
+          "definition_sha256": "83b81eecdb56b6636ca09ef948c6749cf43978fc5fc96cded8b88b26e397efda",
+          "feature_family_ids": [
+            "calendar_seasonality",
+            "market",
+            "market_structure",
+            "positioning",
+            "power",
+            "storage",
+            "weather"
+          ]
+        },
+        "model": {
+          "family": "hist_gb",
+          "configuration_id": "sha256:40e92155cc14b3cc43b58f6dc92b0ed69c5d8c300d16d82b6b2a0f63c394b0d1"
+        }
+      },
+      "metrics": {
+        "model_rmse": {
+          "value": 0.04650733779411404,
+          "unit": "return",
+          "direction": "lower"
+        },
+        "model_mae": {
+          "value": 0.029576806359999742,
+          "unit": "return",
+          "direction": "lower"
+        },
+        "ridge_rmse": {
+          "value": 0.055883297766646245,
+          "unit": "return",
+          "direction": "lower"
+        },
+        "baseline_rmse": {
+          "value": 0.0453230577562102,
+          "unit": "return",
+          "direction": "lower"
+        },
+        "rmse_improvement_vs_baseline": {
+          "value": -0.0011842800379038426,
+          "unit": "return",
+          "direction": "higher"
+        },
+        "relative_rmse_improvement_pct": {
+          "value": -2.612974712063799,
+          "unit": "percent",
+          "direction": "higher"
+        },
+        "direction_accuracy": {
+          "value": 0.5392156862745098,
+          "unit": "fraction",
+          "direction": "higher"
+        },
+        "brier_score": {
+          "value": 0.25053394658998096,
+          "unit": "score",
+          "direction": "lower"
+        },
+        "log_loss": {
+          "value": 0.6941625493555545,
+          "unit": "nats",
+          "direction": "lower"
+        },
+        "volatility_rmse": {
+          "value": 0.03908214084746349,
+          "unit": "absolute_return",
+          "direction": "lower"
+        },
+        "material_incremental_value_count": {
+          "value": 0,
+          "unit": "count",
+          "direction": "higher"
+        },
+        "model_family_ablation_test_count": {
+          "value": 21,
+          "unit": "count",
+          "direction": "higher"
+        },
+        "robust_edge_demonstrated": {
+          "value": 0,
+          "unit": "binary",
+          "direction": "higher"
+        },
+        "rmse_improvement_ci_lower": {
+          "value": -0.0019627502553060806,
+          "unit": "return",
+          "direction": "higher"
+        },
+        "rmse_improvement_ci_upper": {
+          "value": -0.00048633207540140085,
+          "unit": "return",
+          "direction": "higher"
+        },
+        "adjusted_p_value": {
+          "value": 0.011988011988011988,
+          "unit": "probability",
+          "direction": "lower"
+        }
+      },
+      "methodology_change_summary": "Not like-for-like with the PIT-core smoke: target construction, selected-contract market representation, dataset/history, OOS window, feature coverage, evidence tier, split identity, availability rules, and statistical protocol changed before this run. No preserved bridge experiment holds those factors constant, so the raw smoke-to-Phase-D performance flip is descriptive and non-causal rather than a controlled software regression.",
+      "interpretations": [],
+      "evidence": {
+        "code_revision": "8d3fed1c8d16c78c6fa0812ebb6f49ae9fb70230",
+        "config_sha256": "6c3ffbc586a60a972d9bb567140411f9838a60beff9d72dca7bd828b9ba130d5",
+        "artifact_sha256s": [
+          "0c0a39b3669215b4bdc45a0fdedf90697f0c2c92690cb33700bd0bc47c80a45f",
+          "30ad8d2468bce98ba0118d2b588c79b1e478130e04b29bd51d363b26b2f76c92",
+          "4922ad3eaf7835d37547edf5b2a7f4c402cca1fa30db7e5b6aa70a33f0a703e5",
+          "69087543584fb6b34eab783bd801f61e181c9770d33df9a12cca8b74cb5267bf",
+          "e1a23a5d0fe31cb473e94c3cd2ecdc19fb6683612da43bc630f0e5bf59072422",
+          "fabd7d9612cc13c965e6f5a27088e2b3dbaaecc40d122b94dba79a13dd9afcb7"
+        ],
+        "reproducibility_status": "passed",
+        "source_refs": [
+          "docs/development/v1-research-completion/phase-bc-empirical-closeout.json",
+          "docs/development/v1-research-completion/phase-d-evidence.json",
+          "docs/development/v1-research-completion/phase-d-closeout.json",
+          "docs/development/v1-research-completion/post-phase-e-hardening.json",
+          "docs/development/v1-research-completion/retrospective-v0-v1-metrics.json",
+          "docs/development/v1-research-completion/retrospective-baseline-divergence.md",
+          "docs/development/v1-research-completion/phase-d-regression-diagnostics.json",
+          "docs/development/longitudinal-research-metrics/backfill-identity-record.json"
+        ]
+      }
+    }
+  ]
+}

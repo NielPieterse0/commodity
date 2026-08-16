@@ -1,4 +1,7 @@
 import json
+from pathlib import Path
+
+import pytest
 
 from commodity import cli
 from commodity.cli import build_parser
@@ -117,3 +120,41 @@ def test_audit_v1_exogenous_reports_all_missing_families(tmp_path, monkeypatch) 
     for family in evidence["families"].values():
         assert "preserved_pit_evidence_missing" in family["blockers"]
         assert family["load_error"] == "missing preserved snapshot"
+
+
+def test_research_metrics_parser_uses_governed_default_ledger() -> None:
+    args = build_parser().parse_args(["check-research-metrics"])
+    assert isinstance(args.ledger, Path)
+    assert args.ledger.as_posix().endswith("artifacts/research-metrics/longitudinal-ledger.json")
+
+
+def test_research_metrics_check_fails_closed_when_latest_stage_is_blocked(monkeypatch) -> None:
+    monkeypatch.setattr(cli, "load_ledger", lambda _path: {"ledger": "stub"})
+    monkeypatch.setattr(cli, "latest_closeout", lambda _ledger: {"status": "blocked", "blockers": ["x"]})
+    args = build_parser().parse_args(["check-research-metrics", "--ledger", "ignored.json"])
+    with pytest.raises(SystemExit) as exc:
+        args.func(args)
+    assert exc.value.code == 2
+
+
+def test_research_metrics_summary_writes_generated_output(tmp_path, monkeypatch) -> None:
+    monkeypatch.setattr(cli, "load_ledger", lambda _path: {"ledger": "stub"})
+    monkeypatch.setattr(cli, "render_markdown_summary", lambda _ledger: "# Generated\n")
+    output = tmp_path / "summary.md"
+    args = build_parser().parse_args([
+        "summarize-research-metrics", "--ledger", "ignored.json", "--output", str(output)
+    ])
+    args.func(args)
+    assert output.read_text(encoding="utf-8") == "# Generated\n"
+
+
+def test_research_metrics_check_invalid_ledger_fails_closed(tmp_path, capsys) -> None:
+    ledger = tmp_path / "invalid-ledger.json"
+    ledger.write_text("{}", encoding="utf-8")
+    args = build_parser().parse_args(["check-research-metrics", "--ledger", str(ledger)])
+    with pytest.raises(SystemExit) as exc:
+        args.func(args)
+    assert exc.value.code == 2
+    output = json.loads(capsys.readouterr().out)
+    assert output["status"] == "blocked"
+    assert output["blockers"][0].startswith("invalid_ledger:")

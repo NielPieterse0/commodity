@@ -33,6 +33,8 @@ Build a reproducible system that can:
 | Active experiment definition | `config/experiment.json` |
 | Candidate experiment definitions | `config/experiment_candidates.json` |
 | Experiment-record contract | `contracts/experiment.schema.json` |
+| Longitudinal research metrics contract | `contracts/research_metrics.schema.json` |
+| Longitudinal stage metrics, comparison policy, and regression dispositions | `artifacts/research-metrics/longitudinal-ledger.json` |
 | Research maturity stages | `config/research_stages.json` |
 | Signal policy | `config/signal_policy.json` |
 | Simulation assumptions | `config/simulation.json` |
