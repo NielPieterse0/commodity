@@ -127,13 +127,24 @@
       "no_epsilon_added": "No V2-local numeric epsilon is invented beyond the #78 zero-tolerance metric policy."
     },
     "uncertainty_significance_rule": {
+      "evaluator_manifest": "docs/development/v2-activation-preregistration/statistical-evaluator.json",
+      "evaluator_manifest_sha256": "7f3f94aa508a85eba3d7b7723ace1b50faa7560179ae52ee4b76b168a55258e0",
       "method": "moving_block_bootstrap",
+      "primary_callable": "commodity.evaluation.paired_block_bootstrap_rmse",
+      "primary_statistic": "baseline_rmse_minus_challenger_rmse",
+      "primary_p_value_field": "p_value",
+      "primary_p_value_semantics": "two_sided_centered_bootstrap",
+      "bh_input_rule": "Only the primary moving-block-bootstrap p_value enters the prespecified BH family.",
       "secondary_method": "nonoverlapping_block_sign_flip_mse",
+      "secondary_callable": "commodity.evaluation.paired_nonoverlapping_block_sign_flip_mse",
+      "secondary_p_value_field": "p_value_one_sided_improvement",
+      "secondary_role": "diagnostic_only_non_rescuing_not_in_bh_not_an_independent_promotion_gate",
       "block_size": 20,
       "resamples": 1000,
       "confidence": 0.95,
       "seed": 0,
-      "require_positive_ci_lower": true
+      "require_positive_ci_lower": true,
+      "common_evaluator_source_preflight_required": true
     },
     "multiple_testing_rule": {
       "method": "benjamini_hochberg",
@@ -274,6 +285,11 @@
       "id": "pit_or_leakage_guard_failed",
       "action": "stop",
       "condition": "Any input violates the frozen availability cutoff, target construction, fold-local transform rule, or ex-ante robustness-regime rule."
+    },
+    {
+      "id": "statistical_evaluator_drift",
+      "action": "stop",
+      "condition": "The common statistical evaluator manifest, source hashes, primary BH p-value semantics, or secondary diagnostic role differ from the frozen #81 binding before or after empirical execution."
     },
     {
       "id": "coverage_failed",
