@@ -8,7 +8,7 @@
   "freeze": {
     "source_pr": 101,
     "candidate_config": "config/experiment_candidates.json",
-    "candidate_config_sha256": "2a25973290481c6406b16c948701207be638b531084d6f7eb09de2f62b2b915e",
+    "candidate_config_sha256": "919aab9fe6d786fa1baaf6fca251c5457163c0e7ac0c54ffaa6fdadebe3fc356",
     "multiplicity_manifest": "docs/development/v2-activation-preregistration/multiplicity-families.json",
     "multiplicity_manifest_sha256": "07ebd1f753268a81687cc2759aa009348cb389377c53603f22fab32fe7939a86",
     "contract_scope": "Freeze V2 experiment identities and decision rules before any V2 empirical result is produced.",
@@ -93,7 +93,7 @@
       "indicators_only": "v2-83-indicators-only"
     },
     "contract_code_revision": "e11a891b58e67b61593b9c2ec5c86974e64cb0bc",
-    "execution_code_revision_rule": "A child may add implementation required by its frozen specification, but the exact implementation commit must be bound separately from its preparation/specification revision before any result-producing run and #88 must audit that exact binding. No post-result code mutation is permitted.",
+    "execution_code_revision_rule": "Each child preparation/specification revision and exact child implementation revision are frozen separately. Result-affecting source manifests are frozen with the child implementation; later integrated runtime repository SHAs are recorded separately and are valid only when the recomputed source manifest equals the #81-bound child manifest. No post-result code mutation is permitted.",
     "seed_semantics": {
       "seed": 0,
       "python_random_seed": 0,
@@ -176,9 +176,9 @@
   "preparation_bindings": {
     "82": {
       "pr": 96,
-      "head": "f150a0bb001af078632b1e3b33720b5dddf362ff",
+      "head": "a58030b6d993e31574940f2b63fa74b152ca7d90",
       "path": "docs/development/v2-kronos-challenger/preparation-contract.json",
-      "normal_ci_run": 31932345360,
+      "normal_ci_run": 31933086050,
       "normal_ci_conclusion": "success"
     },
     "83": {
@@ -194,19 +194,38 @@
   "implementation_bindings": {
     "82": {
       "pr": 100,
-      "head": "34a6e388695932722b8bb54377cc6fe67431be36",
+      "head": "a1d1c7cb46e698555a7c221d75537829c9c00c6b",
       "path": "src/commodity/v2_kronos.py",
-      "normal_ci_run": 31932248200,
+      "normal_ci_run": 31932936638,
       "normal_ci_conclusion": "success",
-      "checkpoint_preflight_run": 31932248268,
-      "checkpoint_preflight_conclusion": "success"
+      "checkpoint_preflight_run": 31932936671,
+      "checkpoint_preflight_conclusion": "success",
+      "source_manifest_sha256": "02083ca257d896c42db9d6e442e194c6ea353a5a78e8751d1fc46d971c586ff0",
+      "source_manifest_paths": [
+        "config/models.json",
+        "src/commodity/kronos.py",
+        "src/commodity/v2_kronos.py"
+      ],
+      "kronos_source_revision": "67b630e67f6a18c9e9be918d9b4337c960db1e9a",
+      "model_sha256": "a7d5f37e2e9fbd9891f7d7d4f72574512dd1f704fee14223e0a8cd0fbf54197c",
+      "tokenizer_sha256": "b97ec46b3b72160509e289183eaf7bdf5f0dac5bb9b49522f6d46638a99a8717"
     },
     "83": {
       "pr": 99,
-      "head": "a8861e48082d2a280075f27a7224e7f8d642460b",
+      "head": "6462f6acb0eb764f016f7adef527dc12728f6374",
       "path": "src/commodity/v2_indicator_contract.py",
-      "normal_ci_run": 31931096518,
-      "normal_ci_conclusion": "success"
+      "normal_ci_run": 31934218854,
+      "normal_ci_conclusion": "success",
+      "implementation_preflight_run": 31934218855,
+      "implementation_preflight_conclusion": "success",
+      "source_manifest_sha256": "6da05bfd7ebb982cb7a0e4bd0d7797171af87b2a265ec1202c55069298a112af",
+      "source_manifest_paths": [
+        "config/data_sources.json",
+        "src/commodity/v2_indicator_contract.py",
+        "src/commodity/v2_indicator_market.py",
+        "src/commodity/v2_indicator_weather_storage.py",
+        "src/commodity/v2_indicators.py"
+      ]
     }
   },
   "empirical_release_gate": {
@@ -221,13 +240,13 @@
       "84": false,
       "85": false
     },
-    "rule": "Freezing #81 does not authorize empirical V2 work. #88 must independently pass this exact corrected #81 freeze and its bound child implementation revisions before #82/#83 may execute."
+    "rule": "Freezing #81 does not authorize empirical V2 work. #88 must independently pass this exact corrected #81 freeze, including exact child implementation heads and source manifests, before #82/#83 may execute."
   },
   "stop_failure_criteria": [
     {
       "id": "independent_review_missing",
       "action": "block",
-      "condition": "#88 has not passed against this exact frozen #81 contract and bound child implementation revisions."
+      "condition": "#88 has not passed against this exact frozen #81 contract and bound child implementation revisions/source manifests."
     },
     {
       "id": "hard_context_changed",
