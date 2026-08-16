@@ -1,23 +1,117 @@
 {
   "schema_version": 1,
   "owner": "commodity_experiment_candidates",
+  "freeze": {
+    "issue": 81,
+    "state": "frozen",
+    "base_revision": "e11a891b58e67b61593b9c2ec5c86974e64cb0bc",
+    "metric_comparability_authority": {
+      "issue": 78,
+      "landing_pr": 95,
+      "authority_revision": "3e2aa9117a82368782eb5c674eb33c62ef2fd9ee",
+      "contract": "contracts/research_metrics.schema.json",
+      "ledger": "artifacts/research-metrics/longitudinal-ledger.json",
+      "policy_id": "strict-no-silent-regression-v1",
+      "comparison_kinds": [
+        "previous_stage",
+        "best_comparable"
+      ]
+    },
+    "activation_audit_issue": 88,
+    "execution_authorized": false,
+    "empirical_release_rule": "No V2 candidate may execute until issue #88 independently passes against this frozen #81 contract."
+  },
   "candidates": {
     "ng-volatility-direction-v1": {
       "status": "design_candidate",
       "does_not_replace": "config/experiment.json#ng-next-session-return-baseline-v1",
       "hypothesis": "Point-in-time weather, storage, term-structure, volatility, positioning, and seasonality features improve volatility and settlement-direction forecasts versus simple temporal baselines.",
       "targets": [
-        {"name": "next_session_realized_volatility", "role": "primary", "metric": "qlike"},
-        {"name": "next_session_settlement_direction", "role": "secondary", "metric": "direction_accuracy"}
+        {
+          "name": "next_session_realized_volatility",
+          "role": "primary",
+          "metric": "qlike"
+        },
+        {
+          "name": "next_session_settlement_direction",
+          "role": "secondary",
+          "metric": "direction_accuracy"
+        }
       ],
       "required_feature_families": [
-        "weather_forecast_surprise", "storage_surprise", "term_structure",
-        "volatility_persistence", "seasonality"
+        "weather_forecast_surprise",
+        "storage_surprise",
+        "term_structure",
+        "volatility_persistence",
+        "seasonality"
       ],
-      "optional_feature_families": ["cftc_managed_money", "production", "lng", "power_burn"],
-      "controls": ["walk_forward", "point_in_time_cutoff", "purge_or_embargo_if_horizons_overlap"],
+      "optional_feature_families": [
+        "cftc_managed_money",
+        "production",
+        "lng",
+        "power_burn"
+      ],
+      "controls": [
+        "walk_forward",
+        "point_in_time_cutoff",
+        "purge_or_embargo_if_horizons_overlap"
+      ],
       "promotion_scope": "research_only",
       "canonical_market_evidence_required": true
+    },
+    "v2-82-kronos-only": {
+      "status": "frozen_blocked_on_88",
+      "issue": 82,
+      "role": "kronos_only_component_control",
+      "hypothesis": "A fixed Kronos market representation adds material robust out-of-sample information versus the frozen strongest comparable V1 control.",
+      "preparation_revision": {
+        "pr": 96,
+        "head": "0a5317f2981c29e1e90dc8106cb3aa2713ab0163",
+        "path": "docs/development/v2-kronos-challenger/preparation-contract.json"
+      },
+      "inherits_contract": "docs/development/v2-activation-preregistration/activation-contract.json",
+      "model_authority": "config/models.json#models.kronos_mini",
+      "permitted_inputs": "expiry-aware market OHLCV only, exactly as pinned by the #82 preparation contract",
+      "artifact_namespace": "artifacts/v2/v2-82-kronos-only/",
+      "execution_authorized": false
+    },
+    "v2-83-indicators-only": {
+      "status": "frozen_blocked_on_88",
+      "issue": 83,
+      "role": "indicators_only_component_control",
+      "hypothesis": "A fixed PIT indicator/surprise feature set adds material robust out-of-sample information versus the frozen strongest comparable V1 control without Kronos.",
+      "preparation_revision": {
+        "pr": 98,
+        "head": "3e55213b967b590187223e2b286063c81672274a",
+        "path": "docs/development/v2-indicator-surprise-challenger/spec.md"
+      },
+      "inherits_contract": "docs/development/v2-activation-preregistration/activation-contract.json",
+      "model_authority": "config/models.json#models.hist_gb",
+      "primary_variant": "I-ALL",
+      "attribution_only_variants": [
+        "I-NO-W",
+        "I-NO-S",
+        "I-NO-C",
+        "I-NO-V",
+        "I-NO-P",
+        "I-NO-L"
+      ],
+      "artifact_namespace": "artifacts/v2/v2-83-indicators-only/",
+      "execution_authorized": false
+    },
+    "v2-84-kronos-indicator-fusion": {
+      "status": "frozen_definition_blocked_on_components_and_88",
+      "issue": 84,
+      "role": "fusion_primary_claim",
+      "hypothesis": "A fixed fusion of the preregistered Kronos and indicator components provides material robust incremental value over the strongest comparable V1 control and both frozen component controls.",
+      "component_controls": [
+        "v2-82-kronos-only",
+        "v2-83-indicators-only"
+      ],
+      "inherits_contract": "docs/development/v2-activation-preregistration/activation-contract.json",
+      "fusion_design_owner": "issue #84; architecture/combination rule must be frozen there before any fusion result is inspected",
+      "artifact_namespace": "artifacts/v2/v2-84-kronos-indicator-fusion/",
+      "execution_authorized": false
     }
   }
 }
