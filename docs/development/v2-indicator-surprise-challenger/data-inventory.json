@@ -1,0 +1,122 @@
+{
+  "schema_version": 1,
+  "issue": 83,
+  "preparation_base": "e11a891b58e67b61593b9c2ec5c86974e64cb0bc",
+  "status": "preparation_only_non_executable",
+  "inventory_observed_at": "2026-08-16",
+  "guardrails": {
+    "new_acquisition_performed": false,
+    "feature_execution_performed": false,
+    "model_fitting_performed": false,
+    "prediction_generation_performed": false,
+    "target_conditioned_analysis_performed": false,
+    "results_used_for_design": false
+  },
+  "full_v1_freeze": {
+    "path": "data/processed/full-v1-freezes/us-ng-pit-0c0a39b36692-b6aaf445500f2841",
+    "dataset_id": "us-ng-pit-0c0a39b36692",
+    "dataset_sha256": "0c0a39b3669215b4bdc45a0fdedf90697f0c2c92690cb33700bd0bc47c80a45f",
+    "evidence_mode": "evaluation_pit",
+    "coverage_start": "2024-09-12T23:59:00+00:00",
+    "coverage_end": "2026-08-11T23:59:00+00:00",
+    "rows": 456,
+    "prediction_timestamp_semantics": "after_current_daily_bar_close"
+  },
+  "sources": {
+    "weather": {
+      "source_id": "open_meteo_single_runs_v1",
+      "local_root": "data/raw/snapshots/open_meteo_v1",
+      "model": "ecmwf_ifs",
+      "coverage_start_available_at": "2024-08-13T06:10:00+00:00",
+      "coverage_end_available_at": "2026-08-12T06:10:00+00:00",
+      "normalized_source_rows": 723,
+      "revision_status": "issued_run_immutable",
+      "availability_status": "reconstructed_conservative",
+      "research_pit_ready": true,
+      "canonical_evidence": false,
+      "declared_archive_or_feature_gaps": 7,
+      "v2_use": "eligible_for_levels_and_same-valid-window_forecast_revisions",
+      "constraint": "exact historical source availability remains unverified; no reanalysis substitute"
+    },
+    "storage": {
+      "source_id": "eia_wngsr_vintage_reconstruction",
+      "local_root": "data/raw/snapshots/eia_wngsr/2024-08-13_2026-08-12",
+      "coverage_start_available_at": "2024-08-01T14:30:00+00:00",
+      "coverage_end_available_at": "2026-08-06T14:30:00+00:00",
+      "normalized_source_rows": 107,
+      "revision_status": "point_in_time",
+      "research_pit_ready": true,
+      "expectation_series_present": false,
+      "v2_use": "eligible_for_level_change_and_change_acceleration_only",
+      "constraint": "storage surprise excluded unless a separately governed PIT expectation vintage exists before activation"
+    },
+    "power": {
+      "source_id": "nyiso_p7_iso_load_forecast",
+      "local_root": "data/raw/snapshots/nyiso_p7",
+      "coverage_start_available_at": "2024-08-13T16:00:00+00:00",
+      "coverage_end_available_at": "2026-08-12T16:00:00+00:00",
+      "normalized_source_rows": 730,
+      "revision_status": "issued_run_immutable",
+      "availability_status": "reconstructed_conservative",
+      "research_pit_ready": true,
+      "v2_use": "eligible_for_issued_load_level_range_and_one-run-change",
+      "constraint": "EIA-930 current/revised history is not a strict PIT realization side for surprise"
+    },
+    "positioning": {
+      "source_id": "cftc_disaggregated_futures_only_023651",
+      "local_root": "data/raw/snapshots/cftc_cot",
+      "coverage_start_available_at": "2024-01-10T04:59:00+00:00",
+      "coverage_end_available_at": "2026-08-08T03:59:00+00:00",
+      "normalized_source_rows": 136,
+      "revision_status": "point_in_time",
+      "availability_status": "reconstructed_conservative",
+      "research_pit_ready": true,
+      "v2_use": "eligible_for_normalized_positioning_level_and_one-report-change",
+      "constraint": "report date is not publication time; configured release reconstruction must be used"
+    },
+    "market_structure": {
+      "source_id": "massive_futures_rest_v1",
+      "local_root": "data/raw/snapshots/massive/20240813-20260812-v1-m1-m12",
+      "coverage_start_trade_date": "2024-08-13",
+      "coverage_end_trade_date": "2026-08-12",
+      "source_contract_count": 36,
+      "canonical_rows": 11200,
+      "preserved_curve": "M1-M12",
+      "v1_feature_surface": "M1-M4 plus spreads/slope/volume ratio/DTE",
+      "canonical_evidence": false,
+      "v2_use": "eligible only under the exact evaluation evidence identity frozen by #81",
+      "constraint": "licensing/non-display gate remains unresolved; no provider expansion in #83"
+    },
+    "eia_current_state_fundamentals": {
+      "local_roots": [
+        "data/raw/snapshots/eia/20260813-v1-ng-bulk",
+        "data/raw/snapshots/eia_api/20260813-v1-power-demand",
+        "data/raw/snapshots/eia_api/20260813-v1-power-ng"
+      ],
+      "research_pit_ready": false,
+      "v2_use": "excluded",
+      "constraint": "historical publication/revision vintages are incomplete"
+    },
+    "databento": {
+      "local_root": "data/raw/snapshots/databento/ng-full-history-v1",
+      "status": "acquired_quarantined_integrity_complete",
+      "canonical_evidence": false,
+      "v2_use": "excluded_from_83",
+      "constraint": "licensing/adoption and incremental-value decision belongs to #51"
+    }
+  },
+  "absence_findings": {
+    "pit_storage_consensus_expectation": "not_present",
+    "governed_weather_realization_pair_for_surprise": "not_present",
+    "strict_pit_eia930_realization_history": "not_present",
+    "new_geographic_layer": "not_inventoried_or_acquired"
+  },
+  "authority": {
+    "source_policy": "config/data_sources.json",
+    "source_policy_sha256": "179e53ff12a5a0a42b4276dd8baef65209c558f896dd15c08b166e18506b35fd",
+    "v1_dataset_manifest": "data/processed/full-v1-freezes/us-ng-pit-0c0a39b36692-b6aaf445500f2841/manifest.json",
+    "v2_feature_preparation": "docs/development/v2-indicator-surprise-challenger/spec.md",
+    "executable_contract_owner": "#81",
+    "activation_audit_owner": "#88"
+  }
+}
