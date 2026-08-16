@@ -4,11 +4,11 @@
   "issue": 81,
   "status": "frozen_pending_independent_88_audit",
   "execution_authorized": false,
-  "base_revision": "026f3cc206e79351ada2ecc2edc4a6ba70d3a2c2",
+  "base_revision": "e11a891b58e67b61593b9c2ec5c86974e64cb0bc",
   "freeze": {
     "source_pr": 101,
     "candidate_config": "config/experiment_candidates.json",
-    "candidate_config_sha256": "0e7a045510f6c1ea3b3a21aaaa3720006b36198216de8d9bc1a475f735e6e4c7",
+    "candidate_config_sha256": "0947cb893f706c5a0fa8e608b52e151693aebb8b523b31fb84813f80af0981cc",
     "multiplicity_manifest": "docs/development/v2-activation-preregistration/multiplicity-families.json",
     "multiplicity_manifest_sha256": "12c73b6648afcd1184f030adabd715634b312ecc6ebfc93a2fc1d249f5ee6d9b",
     "contract_scope": "Freeze V2 experiment identities and decision rules before any V2 empirical result is produced.",
