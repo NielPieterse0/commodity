@@ -1,0 +1,37 @@
+name: Indicator implementation preflight
+
+on:
+  pull_request:
+    paths:
+      - "config/data_sources.json"
+      - "src/commodity/v2_indicator_contract.py"
+      - "src/commodity/v2_indicator_market.py"
+      - "src/commodity/v2_indicator_weather_storage.py"
+      - "src/commodity/v2_indicators.py"
+      - "scripts/hash_v2_indicator_implementation.py"
+      - "tests/test_v2_indicators.py"
+      - "tests/test_v2_indicator_governance.py"
+      - ".github/workflows/indicator-preflight.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  implementation-preflight:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - name: Install locked environment
+        run: |
+          python -m pip install -r requirements.lock.txt
+          python -m pip install -e . --no-deps
+      - name: Run #83 governance tests
+        run: python -m pytest -q tests/test_v2_indicators.py tests/test_v2_indicator_governance.py
+      - name: Hash exact result-affecting sources
+        run: python scripts/hash_v2_indicator_implementation.py
