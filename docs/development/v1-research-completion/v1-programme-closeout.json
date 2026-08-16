@@ -1,0 +1,153 @@
+{
+  "schema_version": 1,
+  "record": "v1_programme_closeout",
+  "assessment_as_of": "2026-08-16",
+  "parent_program_issue": 15,
+  "completed_prerequisite_issue": 78,
+  "issue_78_cumulative_head": "b4d785cbb41c31255cb172e65478c815d7962411",
+  "issue_78_landing_pr": 95,
+  "issue_78_merged_main_revision": "3e2aa9117a82368782eb5c674eb33c62ef2fd9ee",
+  "issue_78_exact_head_ci_run": 31920494542,
+  "state": "final_v1_programme_closeout_packet",
+  "authority_references": {
+    "repository": "AGENTS.md",
+    "experiment": "config/experiment.json",
+    "execution": "config/policy.json"
+  },
+  "observed_status": {
+    "v1_empirical_disposition": "complete_with_bounded_caveats",
+    "predictive_edge": "no_robust_edge",
+    "predictive_edge_claim": false,
+    "research_promotion_allowed": false,
+    "trading_authority": false,
+    "issue_78_longitudinal_metrics_operational": true,
+    "programme_issue_15_closure_authorized_after_verified_pr_92_landing": true,
+    "v2_empirical_activation_allowed_before_issue_15_closure": false
+  },
+  "current_gate": {
+    "issue_78_state": "closed_accepted",
+    "issue_15_state": "final_closeout_only",
+    "required_sequence": [
+      "verify_exact_final_pr_92_head",
+      "merge_pr_92_only_at_that_verified_head",
+      "verify_actual_post_merge_main",
+      "reconcile_and_close_issue_15",
+      "only_then_activate_v2_empirical_work"
+    ]
+  },
+  "evidence_index": [
+    {
+      "role": "phase_e_closeout",
+      "path": "docs/development/v1-research-completion/phase-e-closeout.json",
+      "status": "landed_historical_evidence"
+    },
+    {
+      "role": "phase_e_evidence_index",
+      "path": "docs/development/v1-research-completion/phase-e-evidence-index.json",
+      "status": "landed_historical_evidence"
+    },
+    {
+      "role": "post_phase_e_hardening",
+      "path": "docs/development/v1-research-completion/post-phase-e-hardening.json",
+      "status": "landed_historical_evidence"
+    },
+    {
+      "role": "longitudinal_metrics_contract",
+      "pull_request": 90,
+      "head": "47d9ce6ef372112ef57da2a859799b2f8d8f5444",
+      "status": "accepted_via_pr_95"
+    },
+    {
+      "role": "longitudinal_regression_alarm_hardening",
+      "pull_request": 93,
+      "head": "c25017f26876718679118c3016b8cbf05d36e89e",
+      "base_pull_request": 90,
+      "status": "accepted_via_pr_95"
+    },
+    {
+      "role": "retrospective_v0_v1_evidence",
+      "pull_request": 87,
+      "head": "5c784eb7c1e60683c727f21f39d44a26e3a2ac7f",
+      "status": "accepted_via_pr_95"
+    },
+    {
+      "role": "phase_d_regression_diagnostics",
+      "path": "docs/development/v1-research-completion/phase-d-regression-diagnostics.json",
+      "head": "68185b03a47977a88740ba2cc7a1e5d2ae606d00",
+      "pull_request": 95,
+      "status": "accepted_via_pr_95"
+    },
+    {
+      "role": "longitudinal_metrics_ledger",
+      "path": "artifacts/research-metrics/longitudinal-ledger.json",
+      "head": "b4d785cbb41c31255cb172e65478c815d7962411",
+      "pull_request": 95,
+      "status": "operational_accepted"
+    },
+    {
+      "role": "cumulative_issue_78_closeout",
+      "head": "b4d785cbb41c31255cb172e65478c815d7962411",
+      "landing_pr": 95,
+      "merged_main_revision": "3e2aa9117a82368782eb5c674eb33c62ef2fd9ee",
+      "github_actions_run": 31920494542,
+      "status": "closed_accepted_verified"
+    }
+  ],
+  "accepted_issue_78_interpretation": {
+    "status": "final_accepted",
+    "classification": "non_comparable_no_established_software_or_data_regression",
+    "basis": [
+      "the_early_smoke_and_final_phase_d_runs_changed_target_data_representation_and_evaluation_semantics",
+      "no_preserved_bridge_run_holds_those_dimensions_constant",
+      "therefore_the_apparent_change_is_not_a_controlled_like_for_like_regression",
+      "no_new_software_or_data_defect_was_established_by_issue_78"
+    ],
+    "prohibited_claims": [
+      "historical_degradation_proves_a_software_bug",
+      "historical_degradation_proves_a_data_defect",
+      "historical_degradation_proves_genuine_like_for_like_model_deterioration"
+    ]
+  },
+  "final_closeout_bindings": {
+    "issue_78_closed": true,
+    "cumulative_issue_78_head_sha": "b4d785cbb41c31255cb172e65478c815d7962411",
+    "cumulative_issue_78_main_sha": "3e2aa9117a82368782eb5c674eb33c62ef2fd9ee",
+    "issue_78_landing_pr": 95,
+    "accepted_longitudinal_metrics_artifact": "artifacts/research-metrics/longitudinal-ledger.json",
+    "accepted_retrospective_artifacts": [
+      "docs/development/v1-research-completion/retrospective-v0-v1-metrics.json",
+      "docs/development/v1-research-completion/retrospective-baseline-divergence.md"
+    ],
+    "accepted_diagnostics_artifact": "docs/development/v1-research-completion/phase-d-regression-diagnostics.json",
+    "issue_15_landing_pr": 92,
+    "exact_pr_92_head_verification": "required_before_merge_and_recorded_in_pr_92_and_work_management",
+    "post_merge_main_verification": "required_before_issue_15_terminal_closeout",
+    "final_v1_authority_revision": "record_in_issue_15_closeout_comment_and_work_management_after_pr_92_merge",
+    "v2_activation_check": "must_remain_blocked_until_issue_15_closes"
+  },
+  "closeout_statements": [
+    "Issue #78 is integrated, accepted, closed, and its longitudinal measurement and regression infrastructure is operational.",
+    "The early smoke result and final Phase D result are non-comparable; no like-for-like software or data regression was established.",
+    "The accepted V1 empirical result remains no_robust_edge; research promotion and trading authority remain false.",
+    "V1 programme closure is governed by issue #15 and PR #92 exact-head plus post-merge verification.",
+    "V2 empirical execution may start only after issue #15 is terminally closed and reconciled."
+  ],
+  "work_management": {
+    "issue_15": {
+      "desired_terminal_state": "done",
+      "desired_verification": "passed",
+      "desired_delivery_stage": "complete",
+      "desired_documentation_impact": "post_merge_complete",
+      "desired_disposition": "accepted",
+      "desired_confidence": "high",
+      "terminal_transition_gate": "only_after_pr_92_verified_merge_and_actual_post_merge_main_verification"
+    }
+  },
+  "scope_guards": [
+    "no_issue_78_integration",
+    "no_statistical_re_review",
+    "no_regression_gate_implementation",
+    "no_v2_empirical_execution",
+    "do_not_close_issue_15_before_pr_92_exact_head_and_post_merge_main_verification"
+  ]
+}
