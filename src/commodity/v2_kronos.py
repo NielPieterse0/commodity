@@ -4,6 +4,7 @@ import hashlib
 import json
 import math
 import random
+import re
 from collections.abc import Mapping
 from typing import Any
 
@@ -33,6 +34,8 @@ REQUIRED_MARKET_COLUMNS = (
     "volume",
 )
 OHLCV_COLUMNS = ("open", "high", "low", "close", "volume")
+_GIT_SHA_RE = re.compile(r"^[0-9a-f]{40}$")
+_SHA256_RE = re.compile(r"^[0-9a-f]{64}$")
 
 
 class KronosContractError(ValueError):
@@ -65,6 +68,20 @@ def _require_mapping(value: Any, label: str) -> Mapping[str, Any]:
     return value
 
 
+def _require_git_sha(value: Any, label: str) -> str:
+    normalized = str(value).lower()
+    if not _GIT_SHA_RE.fullmatch(normalized):
+        raise KronosContractError(f"{label} must be an exact 40-hex Git SHA")
+    return normalized
+
+
+def _require_sha256(value: Any, label: str) -> str:
+    normalized = str(value).lower()
+    if not _SHA256_RE.fullmatch(normalized):
+        raise KronosContractError(f"{label} must be an exact 64-hex SHA-256")
+    return normalized
+
+
 def bind_activation_contract(
     activation_contract: Mapping[str, Any],
     experiment_candidates: Mapping[str, Any],
@@ -88,6 +105,18 @@ def bind_activation_contract(
         raise KronosContractError("#82 does not inherit the frozen #81 contract")
     if candidate.get("model_authority") != MODEL_AUTHORITY:
         raise KronosContractError("#82 model authority changed")
+    preparation_revision = _require_mapping(
+        candidate.get("preparation_revision"), "#82 preparation revision"
+    )
+    _require_git_sha(preparation_revision.get("head"), "#82 preparation revision head")
+    implementation_revision = _require_mapping(
+        candidate.get("implementation_revision"), "#82 implementation revision"
+    )
+    _require_git_sha(
+        implementation_revision.get("head"), "#82 implementation revision head"
+    )
+    if implementation_revision.get("path") != "src/commodity/v2_kronos.py":
+        raise KronosContractError("#82 implementation path changed")
 
     rules = _require_mapping(contract.get("frozen_execution_rules"), "#81 rules")
     candidate_ids = _require_mapping(rules.get("candidate_ids"), "#81 candidate IDs")
@@ -153,7 +182,9 @@ def bind_activation_contract(
     )
     if roll_owner.get("default_roll_policy") != "volume_crossover_dte_v1":
         raise KronosContractError("authoritative #82 roll-policy identity changed")
-    parse_volume_crossover_policy(dict(_require_mapping(roll_owner.get("policy"), "roll policy")))
+    parse_volume_crossover_policy(
+        dict(_require_mapping(roll_owner.get("policy"), "roll policy"))
+    )
 
     control = _require_mapping(contract.get("frozen_v1_control"), "frozen V1 control")
     context = _require_mapping(control.get("context_identity"), "frozen V1 context")
@@ -172,8 +203,8 @@ def bind_activation_contract(
         "activation_contract_status": contract.get("status"),
         "activation_execution_authorized": bool(contract.get("execution_authorized")),
         "empirical_release_gate": contract.get("empirical_release_gate"),
-        "preparation_revision": candidate.get("preparation_revision"),
-        "implementation_revision": candidate.get("implementation_revision"),
+        "preparation_revision": preparation_revision,
+        "implementation_revision": implementation_revision,
         "model_authority": MODEL_AUTHORITY,
         "model_revision": MODEL_REVISION,
         "tokenizer_revision": TOKENIZER_REVISION,
@@ -215,7 +246,9 @@ def seed_runtime(torch_module: Any) -> None:
     if torch_module is None or not hasattr(torch_module, "manual_seed"):
         raise KronosContractError("PyTorch seed interface is unavailable")
     torch_module.manual_seed(0)
-    if hasattr(torch_module, "cuda") and getattr(torch_module.cuda, "is_available", lambda: False)():
+    if hasattr(torch_module, "cuda") and getattr(
+        torch_module.cuda, "is_available", lambda: False
+    )():
         raise KronosContractError("CUDA is prohibited by the frozen #82 contract")
 
 
@@ -244,14 +277,18 @@ def build_pit_context(
     cutoff = _utc_timestamp(prediction_time, "prediction_time")
     frame = selected_market.loc[:, REQUIRED_MARKET_COLUMNS].copy()
     frame["trade_date"] = pd.to_datetime(frame["trade_date"], utc=True, errors="coerce")
-    frame["available_at"] = pd.to_datetime(frame["available_at"], utc=True, errors="coerce")
+    frame["available_at"] = pd.to_datetime(
+        frame["available_at"], utc=True, errors="coerce"
+    )
     frame["expiration"] = pd.to_datetime(frame["expiration"], utc=True, errors="coerce")
     if frame[["trade_date", "available_at", "expiration"]].isna().any().any():
         raise KronosContractError("#82 market identity timestamps must be explicit and valid")
     if frame["trade_date"].duplicated().any():
         raise KronosContractError("#82 selected market series must have one row per trade_date")
     if not frame["trade_date"].is_monotonic_increasing:
-        raise KronosContractError("#82 selected market input must already be strictly chronological")
+        raise KronosContractError(
+            "#82 selected market input must already be strictly chronological"
+        )
     if (frame["contract_id"].astype(str).str.strip() == "").any():
         raise KronosContractError("#82 contract_id must be present for every source row")
 
@@ -325,7 +362,9 @@ def build_input_manifest(context: pd.DataFrame, prediction_time: Any) -> dict[st
     manifest = {
         "schema_version": 1,
         "candidate_id": CANDIDATE_ID,
-        "prediction_time": _utc_timestamp(prediction_time, "prediction_time").isoformat(),
+        "prediction_time": _utc_timestamp(
+            prediction_time, "prediction_time"
+        ).isoformat(),
         "row_count": len(trace),
         "columns": list(REQUIRED_MARKET_COLUMNS),
         "rows": trace,
@@ -367,7 +406,12 @@ def enforce_cost_caps(
     new_data_acquisition_usd: float,
     max_wall_clock_hours: float,
 ) -> None:
-    values = (elapsed_hours, paid_compute_usd, new_data_acquisition_usd, max_wall_clock_hours)
+    values = (
+        elapsed_hours,
+        paid_compute_usd,
+        new_data_acquisition_usd,
+        max_wall_clock_hours,
+    )
     if any(not math.isfinite(float(value)) or float(value) < 0 for value in values):
         raise KronosContractError("#82 cost/runtime values must be finite and non-negative")
     if elapsed_hours > max_wall_clock_hours:
@@ -385,24 +429,42 @@ def build_longitudinal_handoff(
     config_sha256: str,
     artifact_sha256s: list[str],
 ) -> dict[str, Any]:
-    metrics = _require_mapping(binding.get("longitudinal_metrics_binding"), "metrics binding")
+    bound = _json_copy(binding)
+    binding_digest = bound.pop("binding_sha256", None)
+    if not isinstance(binding_digest, str) or canonical_sha256(bound) != binding_digest:
+        raise KronosContractError("#82 activation binding hash is invalid")
+    implementation = _require_mapping(
+        bound.get("implementation_revision"), "#82 implementation revision"
+    )
+    bound_revision = _require_git_sha(
+        implementation.get("head"), "#82 bound implementation revision"
+    )
+    observed_revision = _require_git_sha(code_revision, "#82 runtime code revision")
+    if observed_revision != bound_revision:
+        raise KronosContractError(
+            "#82 runtime code revision does not match the exact implementation bound by #81"
+        )
+    metrics = _require_mapping(
+        bound.get("longitudinal_metrics_binding"), "metrics binding"
+    )
     if metrics.get("comparison_kinds") != ["previous_stage", "best_comparable"]:
         raise KronosContractError("#78 longitudinal comparison kinds changed")
-    if not code_revision or not isinstance(code_revision, str):
-        raise KronosContractError("#82 longitudinal handoff requires exact code revision")
-    if len(config_sha256) != 64 or any(len(value) != 64 for value in artifact_sha256s):
-        raise KronosContractError("#82 longitudinal handoff requires SHA-256 identities")
+    config_digest = _require_sha256(config_sha256, "#82 config SHA-256")
+    artifact_digests = [
+        _require_sha256(value, "#82 artifact SHA-256") for value in artifact_sha256s
+    ]
     return {
         "schema_version": 1,
         "candidate_id": CANDIDATE_ID,
+        "activation_binding_sha256": binding_digest,
         "authority_contract": metrics.get("authority_contract"),
         "authority_ledger": metrics.get("authority_ledger"),
         "ledger_id": metrics.get("ledger_id"),
         "policy_id": metrics.get("policy_id"),
         "comparison_kinds": list(metrics["comparison_kinds"]),
         "required_metric_ids": list(metrics.get("required_metric_ids", [])),
-        "code_revision": code_revision,
-        "config_sha256": config_sha256,
-        "artifact_sha256s": list(artifact_sha256s),
+        "code_revision": observed_revision,
+        "config_sha256": config_digest,
+        "artifact_sha256s": artifact_digests,
         "result_disposition_required": True,
     }
