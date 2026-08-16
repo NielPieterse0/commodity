@@ -1,0 +1,224 @@
+{
+  "schema_version": 1,
+  "record": "v2_activation_contract_frozen",
+  "issue": 81,
+  "status": "frozen_pending_independent_88_audit",
+  "execution_authorized": false,
+  "base_revision": "e11a891b58e67b61593b9c2ec5c86974e64cb0bc",
+  "freeze": {
+    "source_pr": 91,
+    "candidate_config": "config/experiment_candidates.json",
+    "candidate_config_sha256": "e7d1c67832881c9f9ef9067d8a89a87075461d857d8b6c7374ab59028061bfbc",
+    "contract_scope": "Freeze V2 experiment identities and decision rules before any V2 empirical result is produced.",
+    "mutation_rule": "Any change to a frozen field requires reopening #81 and a fresh #88 audit before empirical execution."
+  },
+  "hard_dependencies": {
+    "78": {
+      "current_state": "closed_reconciled",
+      "satisfied": true,
+      "landing_pr": 95,
+      "authority_revision": "3e2aa9117a82368782eb5c674eb33c62ef2fd9ee"
+    },
+    "15": {
+      "current_state": "closed_reconciled",
+      "satisfied": true,
+      "landing_pr": 92,
+      "authority_revision": "e11a891b58e67b61593b9c2ec5c86974e64cb0bc"
+    }
+  },
+  "longitudinal_metrics_binding": {
+    "authority_contract": "contracts/research_metrics.schema.json",
+    "authority_ledger": "artifacts/research-metrics/longitudinal-ledger.json",
+    "ledger_id": "commodity-longitudinal-research-metrics-v1",
+    "policy_id": "strict-no-silent-regression-v1",
+    "comparison_kinds": [
+      "previous_stage",
+      "best_comparable"
+    ],
+    "required_metric_ids": [
+      "model_rmse",
+      "baseline_rmse",
+      "rmse_improvement_vs_baseline"
+    ],
+    "optional_metric_ids": [
+      "ridge_rmse",
+      "model_mae",
+      "direction_accuracy",
+      "brier_score",
+      "log_loss",
+      "volatility_rmse",
+      "material_incremental_value_count",
+      "robust_edge_demonstrated"
+    ],
+    "materiality": "Use the #78 zero-tolerance directionality policy for longitudinal regression/improvement classification; do not introduce V2-local metric substitutes."
+  },
+  "frozen_v1_control": {
+    "context_stage_id": "phase-d-full-v1-hist-gb",
+    "control_role": "strongest_comparable_v1_control",
+    "baseline_id": "zero_return_naive",
+    "baseline_configuration_id": "semantic:zero-return-naive-v1",
+    "reference_rmse": 0.0453230577562102,
+    "selection_rationale": "Within the final governed Phase-D V1 context, the zero-return naive baseline outperformed both HistGB and Ridge on RMSE, so it is the strongest V1 control for the primary V2 comparison.",
+    "context_identity": {
+      "forecast_target": "target_ret_1",
+      "forecast_horizon": "1 trading session",
+      "prediction_timestamp_semantics": "after_current_daily_bar_close",
+      "target_timestamp_semantics": "next-session selected-contract within-contract settlement log return; cross-contract returns prohibited",
+      "information_cutoff_semantics": "after_current_daily_bar_close",
+      "dataset_id": "us-ng-pit-0c0a39b36692",
+      "data_vintage_id": "b6aaf445500f2841",
+      "dataset_sha256": "0c0a39b3669215b4bdc45a0fdedf90697f0c2c92690cb33700bd0bc47c80a45f",
+      "oos_rows": 204,
+      "oos_start": "2025-10-03T23:59:00+00:00",
+      "oos_end": "2026-08-11T23:59:00+00:00",
+      "coverage_signature_sha256": "3621260e37817b4063527f485701f8d7fea45284547db4a8397691b400ffbd36",
+      "protocol_id": "phase-d-v1",
+      "protocol_sha256": "6c3ffbc586a60a972d9bb567140411f9838a60beff9d72dca7bd828b9ba130d5",
+      "split_id": "c0a407ce414bf44737388e27dd50cb410aa73e0f5985157f4c868187ee6c5e7a",
+      "split_sha256": "c0a407ce414bf44737388e27dd50cb410aa73e0f5985157f4c868187ee6c5e7a",
+      "availability_rule_id": "evaluation-pit-after-daily-bar-close-v1",
+      "availability_rule_sha256": "1ec62a3bb3c222d158fdd69ab031b3c0a519ba2ac9881a054fae34a26d2aeccc"
+    }
+  },
+  "frozen_execution_rules": {
+    "candidate_ids": {
+      "82": "v2-82-kronos-only",
+      "83": "v2-83-indicators-only",
+      "84": "v2-84-kronos-indicator-fusion"
+    },
+    "component_control_ids": {
+      "kronos_only": "v2-82-kronos-only",
+      "indicators_only": "v2-83-indicators-only"
+    },
+    "contract_code_revision": "e11a891b58e67b61593b9c2ec5c86974e64cb0bc",
+    "execution_code_revision_rule": "A child may add implementation required by its frozen specification, but the exact implementation commit must be bound before any result-producing run and #88 must audit that exact binding. No post-result code mutation is permitted.",
+    "seed_semantics": {
+      "seed": 0,
+      "python_random_seed": 0,
+      "numpy_seed": 0,
+      "pytorch_seed": 0,
+      "cuda_permitted": false,
+      "seed_search_permitted": false
+    },
+    "leakage_guard": {
+      "information_cutoff": "after_current_daily_bar_close",
+      "target_construction": "next-session selected-contract within-contract settlement log return; cross-contract returns prohibited",
+      "pit_required": true,
+      "whole_sample_transform_fit_prohibited": true,
+      "post_cutoff_input_prohibited": true
+    },
+    "coverage_thresholds": {
+      "primary_scored_rows": 1.0,
+      "fit_rows_for_required_features": 1.0,
+      "indicator_family_failure_rule": "If any required W/S/C/V/P/L feature is unavailable on a fit/scored row, I-ALL is invalid and no reduced aggregate may substitute as the primary #83 challenger.",
+      "kronos_failure_rule": "Any missing/non-finite selected OHLCV context or missing governed prediction blocks the run."
+    },
+    "material_improvement_rule": {
+      "primary_measure": "RMSE",
+      "pairwise_requirement": "challenger RMSE must be strictly lower than every required comparator RMSE",
+      "baseline_requirement": "rmse_improvement_vs_baseline must be strictly positive",
+      "fusion_required_comparators": [
+        "zero_return_naive",
+        "v2-82-kronos-only",
+        "v2-83-indicators-only"
+      ],
+      "no_epsilon_added": "No V2-local numeric epsilon is invented beyond the #78 zero-tolerance metric policy."
+    },
+    "uncertainty_significance_rule": {
+      "method": "moving_block_bootstrap",
+      "secondary_method": "nonoverlapping_block_sign_flip_mse",
+      "block_size": 20,
+      "resamples": 1000,
+      "confidence": 0.95,
+      "seed": 0,
+      "require_positive_ci_lower": true
+    },
+    "multiple_testing_rule": {
+      "method": "benjamini_hochberg",
+      "max_adjusted_p_value": 0.05
+    },
+    "robustness_rule": {
+      "chronological_periods": 3,
+      "regime_definition": "absolute_target_return_initial_train_tertiles",
+      "minimum_positive_periods": 2,
+      "minimum_positive_regimes": 2,
+      "all_criteria_required": true
+    },
+    "compute_cost_cap": {
+      "device": "cpu",
+      "max_wall_clock_hours_per_candidate": 12,
+      "paid_compute_usd": 0
+    },
+    "data_cost_cap": {
+      "new_data_acquisition_usd": 0,
+      "paid_provider_expansion_permitted": false
+    },
+    "artifact_namespaces": {
+      "82": "artifacts/v2/v2-82-kronos-only/",
+      "83": "artifacts/v2/v2-83-indicators-only/",
+      "84": "artifacts/v2/v2-84-kronos-indicator-fusion/"
+    }
+  },
+  "preparation_bindings": {
+    "82": {
+      "pr": 96,
+      "head": "0a5317f2981c29e1e90dc8106cb3aa2713ab0163",
+      "path": "docs/development/v2-kronos-challenger/preparation-contract.json"
+    },
+    "83": {
+      "pr": 98,
+      "head": "3e55213b967b590187223e2b286063c81672274a",
+      "path": "docs/development/v2-indicator-surprise-challenger/spec.md"
+    },
+    "84": {
+      "issue": 84,
+      "rule": "Fusion architecture/combination rule remains owned by #84 and must be frozen before fusion results; #84 may not redefine #81 target, metrics, comparators, seeds, leakage, cost, or stop rules."
+    }
+  },
+  "empirical_release_gate": {
+    "88": {
+      "current_state": "not_executed",
+      "required_state": "independent_activation_audit_passed",
+      "satisfied": false
+    },
+    "release_state": {
+      "82": false,
+      "83": false,
+      "84": false,
+      "85": false
+    },
+    "rule": "Freezing #81 does not authorize empirical V2 work. Agent 3 must independently pass #88 before #82/#83 may execute."
+  },
+  "stop_failure_criteria": [
+    {
+      "id": "independent_review_missing",
+      "action": "block",
+      "condition": "#88 has not passed against this exact frozen #81 contract and bound child implementation revisions."
+    },
+    {
+      "id": "hard_context_changed",
+      "action": "block_primary_comparable_claim",
+      "condition": "Any frozen target/dataset/vintage/OOS/protocol/split/baseline/PIT identity changes without a separately governed non-comparable experiment identity."
+    },
+    {
+      "id": "pit_or_leakage_guard_failed",
+      "action": "stop",
+      "condition": "Any input violates the frozen availability cutoff, target construction, or fold-local transform rule."
+    },
+    {
+      "id": "coverage_failed",
+      "action": "stop",
+      "condition": "A required primary-candidate input or governed prediction fails its 1.0 coverage rule."
+    },
+    {
+      "id": "unbounded_rescue_search",
+      "action": "stop",
+      "condition": "A negative/null result would trigger post-hoc feature, model, seed, threshold, horizon, or provider search inside the same experiment."
+    },
+    {
+      "id": "fusion_increment_gate_failed",
+      "action": "stop_v2_core",
+      "condition": "#84 later fails the preregistered material/robust increment gate against any required comparator."
+    }
+  ]
+}
