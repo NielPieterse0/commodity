@@ -22,6 +22,7 @@
     "issue_88_independent_audit_passed": false,
     "inference_knobs_authority_locked": true,
     "checkpoint_artifacts_hash_preflight_passed": true,
+    "implementation_source_manifest_preflight_passed": true,
     "implementation_revision_published": true
   },
   "authority_refs": {
@@ -34,22 +35,34 @@
   },
   "implementation_revision": {
     "pr": 100,
-    "head": "34a6e388695932722b8bb54377cc6fe67431be36",
+    "head": "a1d1c7cb46e698555a7c221d75537829c9c00c6b",
     "path": "src/commodity/v2_kronos.py",
     "separate_from_preparation_revision": true,
-    "normal_ci_run": 31932248200,
-    "normal_ci_conclusion": "success"
+    "normal_ci_run": 31932936638,
+    "normal_ci_conclusion": "success",
+    "normal_ci_tree_sha256_equivalence": "PR synthetic merge tree equals exact implementation-head tree: 75f6c1337e2f600d4ec0fa52ae232fc39e5a5736"
+  },
+  "implementation_source_manifest": {
+    "sha256": "02083ca257d896c42db9d6e442e194c6ea353a5a78e8751d1fc46d971c586ff0",
+    "paths": [
+      "config/models.json",
+      "src/commodity/kronos.py",
+      "src/commodity/v2_kronos.py"
+    ],
+    "kronos_source_revision": "67b630e67f6a18c9e9be918d9b4337c960db1e9a",
+    "purpose": "Bind exact result-affecting child implementation sources while allowing a later integration commit SHA only when these source bytes and the vendored Kronos source revision remain unchanged."
   },
   "checkpoint_preflight_evidence": {
     "workflow": "Kronos checkpoint preflight",
-    "run_id": 31932248268,
-    "head": "34a6e388695932722b8bb54377cc6fe67431be36",
+    "run_id": 31932936671,
+    "head": "a1d1c7cb46e698555a7c221d75537829c9c00c6b",
     "conclusion": "success",
     "empirical_execution": false,
     "model_inference": false,
     "model_sha256": "a7d5f37e2e9fbd9891f7d7d4f72574512dd1f704fee14223e0a8cd0fbf54197c",
     "tokenizer_sha256": "b97ec46b3b72160509e289183eaf7bdf5f0dac5bb9b49522f6d46638a99a8717",
-    "measured_run_loading_rule": "local_files_only"
+    "measured_run_loading_rule": "local_files_only",
+    "implementation_source_manifest_sha256": "02083ca257d896c42db9d6e442e194c6ea353a5a78e8751d1fc46d971c586ff0"
   },
   "checkpoint_snapshot": {
     "authority_must_match_at_activation": true,
@@ -61,6 +74,7 @@
     "tokenizer_revision": "b22fb9cb30a2de2f77e8b617169cd756ba964a08",
     "tokenizer_artifact": "model.safetensors",
     "tokenizer_artifact_sha256": "b97ec46b3b72160509e289183eaf7bdf5f0dac5bb9b49522f6d46638a99a8717",
+    "kronos_source_revision": "67b630e67f6a18c9e9be918d9b4337c960db1e9a",
     "device": "cpu",
     "max_context": 512,
     "local_source_path": "vendor/Kronos",
@@ -116,7 +130,7 @@
   "metrics": {
     "resolution": "inherit_exactly_from_corrected_frozen_81_and_78_authority",
     "fail_closed_if_unresolved": true,
-    "runtime_code_revision_rule": "the exact runtime code revision recorded in the #78 longitudinal handoff must equal the implementation revision bound by corrected #81"
+    "runtime_provenance_rule": "Record the actual integrated runtime repository revision separately; require its recomputed #82 implementation-source manifest to equal the source-manifest SHA-256 bound by corrected #81 to the exact child implementation revision."
   },
   "seed_semantics": {
     "primary_seed": 0,
@@ -149,10 +163,10 @@
   "stop_failure_rules": [
     "block until corrected #81 binds this exact preparation revision and exact separate implementation revision and #88 passes",
     "block if any inherited #81 hard-context, comparator, metric, threshold or review identity is unresolved or mismatched",
-    "block if checkpoint/tokenizer/config identity differs from the preregistered snapshot",
+    "block if checkpoint/tokenizer/config/source identity differs from the preregistered snapshot",
     "block if pinned model/tokenizer artifacts are not locally resolvable and hash-verified before the measured run",
     "stop if input schema, PIT cutoff, explicit timezone, ordering, uniqueness, finiteness or coverage is invalid",
-    "stop if the runtime code revision differs from the exact implementation revision bound by #81",
+    "stop if the recomputed implementation-source manifest differs from the exact source-manifest identity bound by #81",
     "stop on a cross-contract target return",
     "stop if runtime exceeds the compute cap",
     "stop if output timestamps/schema are invalid or any governed prediction is non-finite",
@@ -165,7 +179,7 @@
     "Kronos checkpoint/interface/input/seed/compute/artifact/stop rules are specified",
     "inference knob authority is immutable",
     "exact pinned checkpoint hashes have passed a non-empirical preflight",
-    "exact implementation revision is separately published and exact-head CI passes",
+    "exact child implementation revision and deterministic result-affecting source-manifest identity are separately published and verified",
     "no empirical output exists in this slice"
   ]
 }
