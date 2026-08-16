@@ -43,8 +43,8 @@ def test_child_preparation_and_implementation_revisions_are_bound_separately() -
     expected = {
         "82": (
             "v2-82-kronos-only",
-            "d6e61d4fb3b30cccfe8cdcb0f4aeed5d08182139",
-            "15a837ca7dc8e4217f9f4afc6dbfa31dd35fe52e",
+            "f150a0bb001af078632b1e3b33720b5dddf362ff",
+            "34a6e388695932722b8bb54377cc6fe67431be36",
         ),
         "83": (
             "v2-83-indicators-only",
@@ -65,11 +65,14 @@ def test_child_preparation_and_implementation_revisions_are_bound_separately() -
 
 def test_82_checkpoint_preflight_and_83_ci_are_bound_to_exact_implementation_heads() -> None:
     contract = _load(CONTRACT)
+    prep82 = contract["preparation_bindings"]["82"]
     impl82 = contract["implementation_bindings"]["82"]
     impl83 = contract["implementation_bindings"]["83"]
-    assert impl82["normal_ci_run"] == 31931814991
+    assert prep82["normal_ci_run"] == 31932345360
+    assert prep82["normal_ci_conclusion"] == "success"
+    assert impl82["normal_ci_run"] == 31932248200
     assert impl82["normal_ci_conclusion"] == "success"
-    assert impl82["checkpoint_preflight_run"] == 31931815058
+    assert impl82["checkpoint_preflight_run"] == 31932248268
     assert impl82["checkpoint_preflight_conclusion"] == "success"
     assert impl83["normal_ci_run"] == 31931096518
     assert impl83["normal_ci_conclusion"] == "success"
