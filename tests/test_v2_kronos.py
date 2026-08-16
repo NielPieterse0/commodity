@@ -98,6 +98,7 @@ def test_binding_is_exact_but_empirically_blocked() -> None:
 
 def test_binding_requires_separate_exact_implementation_revision() -> None:
     candidates = _load("config/experiment_candidates.json")
+    candidates["candidates"]["v2-82-kronos-only"].pop("implementation_revision", None)
     with pytest.raises(KronosContractError, match="implementation revision"):
         bind_activation_contract(
             _load("docs/development/v2-activation-preregistration/activation-contract.json"),
