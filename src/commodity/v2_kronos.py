@@ -5,7 +5,9 @@ import json
 import math
 import random
 import re
+import subprocess
 from collections.abc import Mapping
+from pathlib import Path
 from typing import Any
 
 import numpy as np
@@ -20,8 +22,14 @@ ACTIVATION_CONTRACT_PATH = (
 MODEL_AUTHORITY = "config/models.json#models.kronos_mini"
 MODEL_REVISION = "7fdcc628d87f325ccdbcae0a372622ca7e6813aa"
 TOKENIZER_REVISION = "b22fb9cb30a2de2f77e8b617169cd756ba964a08"
+KRONOS_SOURCE_REVISION = "67b630e67f6a18c9e9be918d9b4337c960db1e9a"
 MODEL_SHA256 = "a7d5f37e2e9fbd9891f7d7d4f72574512dd1f704fee14223e0a8cd0fbf54197c"
 TOKENIZER_SHA256 = "b97ec46b3b72160509e289183eaf7bdf5f0dac5bb9b49522f6d46638a99a8717"
+IMPLEMENTATION_SOURCE_PATHS = (
+    "config/models.json",
+    "src/commodity/kronos.py",
+    "src/commodity/v2_kronos.py",
+)
 REQUIRED_MARKET_COLUMNS = (
     "trade_date",
     "contract_id",
@@ -62,6 +70,14 @@ def canonical_sha256(value: Any) -> str:
     return hashlib.sha256(payload).hexdigest()
 
 
+def _sha256_file(path: Path) -> str:
+    digest = hashlib.sha256()
+    with path.open("rb") as handle:
+        for chunk in iter(lambda: handle.read(1024 * 1024), b""):
+            digest.update(chunk)
+    return digest.hexdigest()
+
+
 def _require_mapping(value: Any, label: str) -> Mapping[str, Any]:
     if not isinstance(value, Mapping):
         raise KronosContractError(f"{label} must be an object")
@@ -80,6 +96,41 @@ def _require_sha256(value: Any, label: str) -> str:
     if not _SHA256_RE.fullmatch(normalized):
         raise KronosContractError(f"{label} must be an exact 64-hex SHA-256")
     return normalized
+
+
+def _git_head(path: Path) -> str:
+    try:
+        completed = subprocess.run(
+            ["git", "-C", str(path), "rev-parse", "HEAD"],
+            check=True,
+            capture_output=True,
+            text=True,
+        )
+    except (OSError, subprocess.CalledProcessError) as exc:
+        raise KronosContractError(
+            f"unable to resolve Git revision for required source path: {path}"
+        ) from exc
+    return _require_git_sha(completed.stdout.strip(), "Kronos source revision")
+
+
+def build_implementation_source_manifest(repo_root: Path) -> dict[str, Any]:
+    """Hash result-affecting #82 sources and the exact vendored Kronos revision."""
+    root = repo_root.resolve()
+    files: dict[str, str] = {}
+    for relative in IMPLEMENTATION_SOURCE_PATHS:
+        path = root / relative
+        if not path.is_file():
+            raise KronosContractError(f"required #82 implementation source is missing: {relative}")
+        files[relative] = _sha256_file(path)
+    source_revision = _git_head(root / "vendor" / "Kronos")
+    manifest: dict[str, Any] = {
+        "schema_version": 1,
+        "candidate_id": CANDIDATE_ID,
+        "files": files,
+        "kronos_source_revision": source_revision,
+    }
+    manifest["manifest_sha256"] = canonical_sha256(manifest)
+    return manifest
 
 
 def bind_activation_contract(
@@ -117,6 +168,14 @@ def bind_activation_contract(
     )
     if implementation_revision.get("path") != "src/commodity/v2_kronos.py":
         raise KronosContractError("#82 implementation path changed")
+    _require_sha256(
+        implementation_revision.get("source_manifest_sha256"),
+        "#82 implementation source manifest SHA-256",
+    )
+    if tuple(implementation_revision.get("source_manifest_paths", ())) != IMPLEMENTATION_SOURCE_PATHS:
+        raise KronosContractError("#82 implementation source-manifest paths changed")
+    if implementation_revision.get("kronos_source_revision") != KRONOS_SOURCE_REVISION:
+        raise KronosContractError("#82 bound Kronos source revision changed")
 
     rules = _require_mapping(contract.get("frozen_execution_rules"), "#81 rules")
     candidate_ids = _require_mapping(rules.get("candidate_ids"), "#81 candidate IDs")
@@ -126,6 +185,8 @@ def bind_activation_contract(
     if candidate.get("artifact_namespace") != namespaces.get("82"):
         raise KronosContractError("#82 artifact namespace diverges from #81")
 
+    if model.get("source_revision") != KRONOS_SOURCE_REVISION:
+        raise KronosContractError("Kronos inference-source revision changed")
     if model.get("model_revision") != MODEL_REVISION:
         raise KronosContractError("Kronos model revision changed")
     if model.get("tokenizer_revision") != TOKENIZER_REVISION:
@@ -208,6 +269,7 @@ def bind_activation_contract(
         "model_authority": MODEL_AUTHORITY,
         "model_revision": MODEL_REVISION,
         "tokenizer_revision": TOKENIZER_REVISION,
+        "kronos_source_revision": KRONOS_SOURCE_REVISION,
         "artifact_namespace": namespaces["82"],
         "frozen_v1_control": control,
         "longitudinal_metrics_binding": contract.get("longitudinal_metrics_binding"),
@@ -388,6 +450,7 @@ def build_model_manifest(
         "model_revision": model.get("model_revision"),
         "tokenizer_id": model.get("tokenizer_id"),
         "tokenizer_revision": model.get("tokenizer_revision"),
+        "kronos_source_revision": model.get("source_revision"),
         "device": model.get("device"),
         "max_context": model.get("max_context"),
         "inference": model.get("inference"),
@@ -429,7 +492,8 @@ def enforce_cost_caps(
 def build_longitudinal_handoff(
     binding: Mapping[str, Any],
     *,
-    code_revision: str,
+    runtime_code_revision: str,
+    runtime_source_manifest: Mapping[str, Any],
     config_sha256: str,
     artifact_sha256s: list[str],
 ) -> dict[str, Any]:
@@ -437,17 +501,35 @@ def build_longitudinal_handoff(
     binding_digest = bound.pop("binding_sha256", None)
     if not isinstance(binding_digest, str) or canonical_sha256(bound) != binding_digest:
         raise KronosContractError("#82 activation binding hash is invalid")
+
     implementation = _require_mapping(
         bound.get("implementation_revision"), "#82 implementation revision"
     )
     bound_revision = _require_git_sha(
         implementation.get("head"), "#82 bound implementation revision"
     )
-    observed_revision = _require_git_sha(code_revision, "#82 runtime code revision")
-    if observed_revision != bound_revision:
+    bound_source_digest = _require_sha256(
+        implementation.get("source_manifest_sha256"),
+        "#82 bound implementation source manifest SHA-256",
+    )
+
+    observed_manifest = _json_copy(runtime_source_manifest)
+    observed_source_digest = observed_manifest.pop("manifest_sha256", None)
+    if not isinstance(observed_source_digest, str):
+        raise KronosContractError("#82 runtime implementation source manifest is missing its digest")
+    observed_source_digest = _require_sha256(
+        observed_source_digest, "#82 runtime implementation source manifest SHA-256"
+    )
+    if canonical_sha256(observed_manifest) != observed_source_digest:
+        raise KronosContractError("#82 runtime implementation source manifest hash is invalid")
+    if observed_source_digest != bound_source_digest:
         raise KronosContractError(
-            "#82 runtime code revision does not match the exact implementation bound by #81"
+            "#82 runtime implementation sources differ from the exact child implementation bound by #81"
         )
+
+    runtime_revision = _require_git_sha(
+        runtime_code_revision, "#82 integrated runtime code revision"
+    )
     metrics = _require_mapping(
         bound.get("longitudinal_metrics_binding"), "metrics binding"
     )
@@ -461,13 +543,15 @@ def build_longitudinal_handoff(
         "schema_version": 1,
         "candidate_id": CANDIDATE_ID,
         "activation_binding_sha256": binding_digest,
+        "bound_implementation_revision": bound_revision,
+        "implementation_source_manifest_sha256": bound_source_digest,
+        "runtime_code_revision": runtime_revision,
         "authority_contract": metrics.get("authority_contract"),
         "authority_ledger": metrics.get("authority_ledger"),
         "ledger_id": metrics.get("ledger_id"),
         "policy_id": metrics.get("policy_id"),
         "comparison_kinds": list(metrics["comparison_kinds"]),
         "required_metric_ids": list(metrics.get("required_metric_ids", [])),
-        "code_revision": observed_revision,
         "config_sha256": config_digest,
         "artifact_sha256s": artifact_digests,
         "result_disposition_required": True,
