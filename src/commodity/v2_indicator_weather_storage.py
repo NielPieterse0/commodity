@@ -287,9 +287,9 @@ def build_storage_public_value_events(
     if not isinstance(policy, Mapping):
         raise IndicatorContractError("storage availability policy is missing")
     zone = ZoneInfo(str(policy.get("timezone", "")))
-    sample_weeks = set(
+    sample_weeks = {
         str(value) for value in policy.get("sample_reselection_weeks", ())
-    )
+    }
     special_events = policy.get("special_revision_events", {})
     if not isinstance(special_events, Mapping):
         raise IndicatorContractError(
