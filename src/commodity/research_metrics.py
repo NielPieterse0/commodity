@@ -243,12 +243,16 @@ def compare_context(previous: dict[str, Any], current: dict[str, Any]) -> dict[s
             methodology.append(field)
     if missing:
         status = "insufficient_context"
+        reason_code = "missing_required_context_identity"
     elif changed:
         status = "non_comparable"
+        reason_code = "hard_context_changed"
     else:
         status = "comparable"
+        reason_code = "comparable_context"
     return {
         "status": status,
+        "reason_code": reason_code,
         "missing_fields": sorted(set(missing)),
         "hard_context_changes": changed,
         "methodology_movements": methodology,
@@ -262,10 +266,12 @@ def _metric_comparison(
     policy: dict[str, Any],
     *,
     comparison_kind: str,
+    baseline_kind: str,
 ) -> dict[str, Any]:
     context = compare_context(previous, current)
     base = {
         "comparison_kind": comparison_kind,
+        "baseline_kind": baseline_kind,
         "metric": metric_name,
         "reference_stage_id": previous["stage_id"],
         "context_status": context["status"],
@@ -273,17 +279,31 @@ def _metric_comparison(
         "methodology_movements": context["methodology_movements"],
     }
     if context["status"] != "comparable":
-        return {**base, "status": "not_comparable"}
+        return {
+            **base,
+            "status": "not_comparable",
+            "reason_code": context["reason_code"],
+        }
     previous_metric = previous.get("metrics", {}).get(metric_name)
     current_metric = current.get("metrics", {}).get(metric_name)
     if previous_metric is None or current_metric is None:
-        return {**base, "status": "unavailable"}
+        return {**base, "status": "unavailable", "reason_code": "metric_unavailable"}
     _validate_metric(metric_name, previous_metric)
     _validate_metric(metric_name, current_metric)
     if previous_metric["unit"] != current_metric["unit"]:
-        return {**base, "status": "not_comparable", "reason": "metric_unit_changed"}
+        return {
+            **base,
+            "status": "not_comparable",
+            "reason": "metric_unit_changed",
+            "reason_code": "metric_unit_changed",
+        }
     if previous_metric["direction"] != current_metric["direction"]:
-        return {**base, "status": "not_comparable", "reason": "metric_direction_changed"}
+        return {
+            **base,
+            "status": "not_comparable",
+            "reason": "metric_direction_changed",
+            "reason_code": "metric_direction_changed",
+        }
     if current_metric["direction"] != policy["direction"]:
         raise MetricsContractError(f"Policy direction mismatch for metric {metric_name!r}")
     previous_value = float(previous_metric["value"])
@@ -301,14 +321,41 @@ def _metric_comparison(
         deterioration = delta < -materiality
         improvement = delta > materiality
     status = "regression" if deterioration else "improvement" if improvement else "unchanged"
+    reason_code = {
+        "regression": "material_regression",
+        "improvement": "material_improvement",
+        "unchanged": "within_tolerance",
+    }[status]
     return {
         **base,
         "status": status,
+        "reason_code": reason_code,
         "previous_value": previous_value,
         "current_value": current_value,
         "delta": delta,
         "materiality": materiality,
     }
+
+
+def _previous_reference(
+    history: Iterable[dict[str, Any]],
+    current: dict[str, Any],
+    metric_name: str,
+    direction: str,
+) -> dict[str, Any] | None:
+    current_metric = current.get("metrics", {}).get(metric_name)
+    if current_metric is None:
+        return None
+    for stage in reversed(list(history)):
+        if compare_context(stage, current)["status"] != "comparable":
+            continue
+        metric = stage.get("metrics", {}).get(metric_name)
+        if metric is None:
+            continue
+        if metric.get("unit") != current_metric.get("unit") or metric.get("direction") != direction:
+            continue
+        return stage
+    return None
 
 
 def _best_reference(
@@ -327,8 +374,15 @@ def _best_reference(
         candidates.append(stage)
     if not candidates:
         return None
-    key = lambda item: float(item["metrics"][metric_name]["value"])
-    return min(candidates, key=key) if direction == "lower" else max(candidates, key=key)
+
+    def metric_value(item: dict[str, Any]) -> float:
+        return float(item["metrics"][metric_name]["value"])
+
+    return (
+        min(candidates, key=metric_value)
+        if direction == "lower"
+        else max(candidates, key=metric_value)
+    )
 
 
 def evaluate_comparisons(
@@ -349,26 +403,37 @@ def evaluate_comparisons(
             results.append(
                 {
                     "comparison_kind": "current",
+                    "baseline_kind": "current",
                     "metric": metric_name,
                     "status": "missing_required_metric",
+                    "reason_code": "missing_required_metric",
                     "reference_stage_id": None,
                 }
             )
             continue
         if metric_name not in current["metrics"]:
             continue
-        if previous_stage is not None:
+        previous_comparable = _previous_reference(
+            history,
+            current,
+            metric_name,
+            metric_policy["direction"],
+        )
+        if previous_comparable is not None:
             results.append(
                 _metric_comparison(
-                    previous_stage,
+                    previous_comparable,
                     current,
                     metric_name,
                     metric_policy,
                     comparison_kind="previous_stage",
+                    baseline_kind="previous_comparable",
                 )
             )
         best = _best_reference(history, current, metric_name, metric_policy["direction"])
-        if best is not None and (previous_stage is None or best["stage_id"] != previous_stage["stage_id"]):
+        if best is not None and (
+            previous_comparable is None or best["stage_id"] != previous_comparable["stage_id"]
+        ):
             results.append(
                 _metric_comparison(
                     best,
@@ -376,6 +441,7 @@ def evaluate_comparisons(
                     metric_name,
                     metric_policy,
                     comparison_kind="best_comparable",
+                    baseline_kind="best_historical_comparable",
                 )
             )
     previous_context = (
@@ -395,11 +461,29 @@ def _find_interpretation(stage: dict[str, Any], comparison: dict[str, Any]) -> d
     return None
 
 
+def _missing_required_context_identities(stage: dict[str, Any]) -> list[str]:
+    missing: list[str] = []
+    context = stage.get("context")
+    if not isinstance(context, dict):
+        return list(HARD_CONTEXT_FIELDS)
+    for field in HARD_CONTEXT_FIELDS:
+        try:
+            value = _read_path(context, field)
+        except MetricsContractError:
+            missing.append(field)
+            continue
+        if value is None or (isinstance(value, str) and not value.strip()):
+            missing.append(field)
+    return missing
+
+
 def evaluate_closeout(
     current: dict[str, Any], history: list[dict[str, Any]], policy: dict[str, Any]
 ) -> dict[str, Any]:
     evaluated = evaluate_comparisons(current, history, policy)
     blockers: list[str] = []
+    for field in _missing_required_context_identities(current):
+        blockers.append(f"current_stage_missing_required_context_identity:{field}")
     previous_context = evaluated["previous_context"]
     if previous_context is not None:
         if previous_context["status"] == "insufficient_context":
@@ -423,15 +507,20 @@ def evaluate_closeout(
             blockers.append(f"material_regression_requires_interpretation:{key}")
             continue
         classification = interpretation["classification"]
+        accepted = interpretation.get("accepted") is True
+        if not accepted:
+            blockers.append(f"regression_not_accepted:{key}")
         if classification in {"likely_defect", "unresolved"}:
             if not interpretation.get("tracking_ref"):
                 blockers.append(f"regression_requires_tracking_ref:{key}")
-            if interpretation.get("accepted") is not True:
+            if not accepted:
                 blockers.append(f"regression_not_resolved_or_accepted:{key}")
+    alarm_reason_codes = sorted({blocker.split(":", 1)[0] for blocker in blockers})
     return {
         **evaluated,
         "status": "passed" if not blockers else "blocked",
         "blockers": blockers,
+        "alarm_reason_codes": alarm_reason_codes,
     }
 
 
