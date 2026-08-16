@@ -13,6 +13,13 @@ def _load(path: Path) -> dict:
     return json.loads(path.read_text(encoding="utf-8"))
 
 
+def test_corrected_freeze_binds_exact_candidate_registry() -> None:
+    contract = _load(CONTRACT)
+    digest = hashlib.sha256(CANDIDATES.read_bytes()).hexdigest()
+    assert contract["freeze"]["candidate_config"] == "config/experiment_candidates.json"
+    assert contract["freeze"]["candidate_config_sha256"] == digest
+
+
 def test_corrected_freeze_binds_exact_multiplicity_manifest() -> None:
     contract = _load(CONTRACT)
     manifest = _load(MULTIPLICITY)
@@ -43,13 +50,13 @@ def test_child_preparation_and_implementation_revisions_are_bound_separately() -
     expected = {
         "82": (
             "v2-82-kronos-only",
-            "f150a0bb001af078632b1e3b33720b5dddf362ff",
-            "34a6e388695932722b8bb54377cc6fe67431be36",
+            "a58030b6d993e31574940f2b63fa74b152ca7d90",
+            "a1d1c7cb46e698555a7c221d75537829c9c00c6b",
         ),
         "83": (
             "v2-83-indicators-only",
             "3e55213b967b590187223e2b286063c81672274a",
-            "a8861e48082d2a280075f27a7224e7f8d642460b",
+            "6462f6acb0eb764f016f7adef527dc12728f6374",
         ),
     }
     for issue, (candidate_id, prep_sha, implementation_sha) in expected.items():
@@ -63,19 +70,29 @@ def test_child_preparation_and_implementation_revisions_are_bound_separately() -
         assert candidates[candidate_id]["execution_authorized"] is False
 
 
-def test_82_checkpoint_preflight_and_83_ci_are_bound_to_exact_implementation_heads() -> None:
+def test_child_preflights_and_source_manifests_are_bound_exactly() -> None:
     contract = _load(CONTRACT)
+    candidates = _load(CANDIDATES)["candidates"]
     prep82 = contract["preparation_bindings"]["82"]
     impl82 = contract["implementation_bindings"]["82"]
     impl83 = contract["implementation_bindings"]["83"]
-    assert prep82["normal_ci_run"] == 31932345360
+
+    assert prep82["normal_ci_run"] == 31933086050
     assert prep82["normal_ci_conclusion"] == "success"
-    assert impl82["normal_ci_run"] == 31932248200
-    assert impl82["normal_ci_conclusion"] == "success"
-    assert impl82["checkpoint_preflight_run"] == 31932248268
-    assert impl82["checkpoint_preflight_conclusion"] == "success"
-    assert impl83["normal_ci_run"] == 31931096518
-    assert impl83["normal_ci_conclusion"] == "success"
+    assert impl82["normal_ci_run"] == 31932936638
+    assert impl82["checkpoint_preflight_run"] == 31932936671
+    assert impl82["source_manifest_sha256"] == (
+        "02083ca257d896c42db9d6e442e194c6ea353a5a78e8751d1fc46d971c586ff0"
+    )
+    assert impl83["normal_ci_run"] == 31934218854
+    assert impl83["implementation_preflight_run"] == 31934218855
+    assert impl83["source_manifest_sha256"] == (
+        "6da05bfd7ebb982cb7a0e4bd0d7797171af87b2a265ec1202c55069298a112af"
+    )
+    for candidate_id, issue in (("v2-82-kronos-only", "82"), ("v2-83-indicators-only", "83")):
+        candidate_impl = candidates[candidate_id]["implementation_revision"]
+        assert candidate_impl["source_manifest_sha256"] == contract["implementation_bindings"][issue]["source_manifest_sha256"]
+        assert candidate_impl["source_manifest_paths"] == contract["implementation_bindings"][issue]["source_manifest_paths"]
 
 
 def test_refreeze_does_not_release_any_empirical_candidate() -> None:
