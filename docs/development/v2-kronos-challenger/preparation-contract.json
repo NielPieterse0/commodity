@@ -1,0 +1,189 @@
+{
+  "schema_version": 1,
+  "record": "issue_82_kronos_only_preparation_contract",
+  "issue": 82,
+  "agent": 4,
+  "base_revision": "3e2aa9117a82368782eb5c674eb33c62ef2fd9ee",
+  "status": "blocked_preparation_only",
+  "execution_authorized": false,
+  "scope": {
+    "role": "kronos_only_component_control",
+    "empirical_execution": false,
+    "model_fitting": false,
+    "prediction_generation": false,
+    "new_data_acquisition": false,
+    "tuning": false,
+    "results_driven_design": false
+  },
+  "activation_gate": {
+    "issue_78_closed_reconciled": true,
+    "issue_15_closed_reconciled": false,
+    "issue_81_frozen": false,
+    "issue_88_independent_audit_passed": false,
+    "inference_knobs_authority_locked": false,
+    "checkpoint_artifacts_locally_hash_manifested": false
+  },
+  "authority_refs": {
+    "model": "config/models.json#models.kronos_mini",
+    "adapter": "src/commodity/kronos.py#KronosMiniAdapter",
+    "metrics_contract": "contracts/research_metrics.schema.json",
+    "metrics_ledger": "artifacts/research-metrics/longitudinal-ledger.json",
+    "inherited_executable_context": "#81 frozen candidate record"
+  },
+  "checkpoint_snapshot": {
+    "authority_must_match_at_activation": true,
+    "model_id": "NeoQuasar/Kronos-mini",
+    "model_revision": "7fdcc628d87f325ccdbcae0a372622ca7e6813aa",
+    "tokenizer_id": "NeoQuasar/Kronos-Tokenizer-2k",
+    "tokenizer_revision": "b22fb9cb30a2de2f77e8b617169cd756ba964a08",
+    "device": "cpu",
+    "max_context": 512,
+    "local_source_path": "vendor/Kronos",
+    "implicit_network_fetch_during_measured_run": false
+  },
+  "inference_interface": {
+    "adapter": "KronosMiniAdapter.forecast",
+    "input_columns": ["open", "high", "low", "close", "volume"],
+    "input_order": "strictly increasing prediction-time history",
+    "future_index": "exact target timestamps inherited from frozen #81 split",
+    "temperature_T": 1.0,
+    "top_p": 0.9,
+    "sample_count": 1,
+    "post_result_mutation_allowed": false,
+    "authority_gap": "T/top_p/sample_count are currently hard-coded in src/commodity/kronos.py; #88 must verify immutable ownership before release"
+  },
+  "inputs": {
+    "permitted_family": "expiry_aware_market_ohlcv_only",
+    "schema_owner": "config/data_sources.json#canonical_contract_schema",
+    "roll_policy_owner": "config/assumptions.json#assumptions.continuous_series_policy",
+    "source_grain": "one row per trade_date and contract_id",
+    "source_identity_fields": ["trade_date", "contract_id", "expiration"],
+    "adapter_value_fields": ["open", "high", "low", "close", "volume"],
+    "adapter_index_source": "trade_date",
+    "adapter_index_timezone": null,
+    "index_rule": "strictly increasing and unique after explicit timezone normalization frozen by #81; no implicit localization or timestamp substitution",
+    "continuous_series_rule": "derive from raw per-contract rows using the active authoritative roll policy; no stored price adjustment and no cross-contract return construction",
+    "observed_roll_policy_at_base": "volume_crossover_dte_v1",
+    "roll_policy_must_match_authority_at_activation": true,
+    "contract_trace_rule": "contract_id and expiration remain in the input manifest for every adapter row even though only OHLCV values are passed to Kronos",
+    "context_window_rule": "for each prediction cutoff use the most recent min(512, N) PIT-eligible rows from the frozen #81 market series, where N is the number available at that cutoff",
+    "minimum_context_rows": 1,
+    "short_history_rule": "use all PIT-eligible rows when N < 512; if the pinned adapter/checkpoint rejects that deterministic context, the run fails rather than changing the window",
+    "numeric_dtype": "float64 before adapter invocation",
+    "price_units": "canonical dataset native price unit identified by required metadata price_semantics; no rescaling",
+    "volume_units": "canonical exchange-reported contract volume as stored; no normalization",
+    "missing_value_rule": "no imputation, forward fill, interpolation, or silent row dropping; any missing/non-finite adapter value in a selected context blocks that run",
+    "ohlcv_validation": "open/high/low/close must be finite; high >= max(open, close, low); low <= min(open, close, high); volume must be finite and >= 0",
+    "prohibited_families": [
+      "fundamentals",
+      "indicators",
+      "cross_market",
+      "europe_norway",
+      "future_known_fields"
+    ],
+    "pit_rule": "Every source row must be knowable at or before the frozen #81 information cutoff for that prediction; later rows are prohibited.",
+    "dataset_id": null,
+    "data_vintage_id": null,
+    "dataset_sha256": null,
+    "oos_identity": null,
+    "availability_rule_id": null,
+    "availability_rule_sha256": null,
+    "resolution": "inherit dataset/vintage/OOS/PIT/timezone exactly from frozen #81; validate schema and roll semantics against their authoritative owners",
+    "fail_closed_if_unresolved": true
+  },
+  "target_and_split": {
+    "target": null,
+    "horizon": null,
+    "prediction_timestamp_semantics": null,
+    "target_timestamp_semantics": null,
+    "protocol_id": null,
+    "protocol_sha256": null,
+    "split_id": null,
+    "split_sha256": null,
+    "resolution": "inherit_exactly_from_frozen_81",
+    "fail_closed_if_unresolved": true,
+    "permitted_target_mapping": "If and only if #81 freezes target_ret_1 at one session: log(predicted_close_next / observed_close_at_cutoff); otherwise block and re-review before execution."
+  },
+  "comparator": {
+    "identity": null,
+    "selection_rule": "exact strongest comparable V1 control frozen by #81 under #78 comparability rules",
+    "may_agent_4_substitute": false,
+    "fail_closed_if_unresolved": true
+  },
+  "metrics": {
+    "primary_metric_id": null,
+    "secondary_metric_ids": [],
+    "material_improvement_rule": null,
+    "uncertainty_significance_rule": null,
+    "multiple_testing_rule": null,
+    "resolution": "inherit_exactly_from_frozen_81_and_78_authority",
+    "fail_closed_if_unresolved": true
+  },
+  "seed_semantics": {
+    "primary_seed": 0,
+    "python_random_seed": 0,
+    "numpy_seed": 0,
+    "pytorch_seed": 0,
+    "cuda_permitted": false,
+    "performance_seed_search_permitted": false,
+    "reproducibility_replay_count": 1,
+    "replay_seed": 0,
+    "replay_requirement": "prediction artifact SHA-256 must equal the primary prediction artifact SHA-256"
+  },
+  "compute_cap": {
+    "device": "cpu",
+    "fitting_passes": 0,
+    "primary_inference_passes": 1,
+    "reproducibility_replay_passes": 1,
+    "max_context": 512,
+    "max_wall_clock_hours_per_pass": 6,
+    "max_wall_clock_hours_total": 12,
+    "external_market_data_cost_usd": 0,
+    "lower_frozen_81_cap_wins": true
+  },
+  "artifact_contract": {
+    "namespace_template": "artifacts/v2/kronos-only/<candidate_id>/",
+    "candidate_id": null,
+    "required_outputs_after_release": [
+      "input-manifest.json",
+      "model-manifest.json",
+      "predictions.parquet",
+      "metrics.json",
+      "run-manifest.json",
+      "reproducibility.json",
+      "hashes.json"
+    ],
+    "hash_algorithm": "sha256",
+    "prediction_identity_fields": [
+      "prediction_timestamp",
+      "target_timestamp",
+      "fold_id",
+      "observed_close_at_cutoff",
+      "predicted_open",
+      "predicted_high",
+      "predicted_low",
+      "predicted_close",
+      "predicted_volume",
+      "governed_scalar_prediction"
+    ],
+    "longitudinal_ledger_record_required": true
+  },
+  "stop_failure_rules": [
+    "block if any activation_gate field is false",
+    "block if any inherited #81 hard-context, comparator, metric, threshold, or review identity is unresolved or mismatched",
+    "block if checkpoint/tokenizer/config identity differs from the preregistered snapshot",
+    "block if pinned model/tokenizer artifacts are not locally resolvable and hash-manifested before the measured run",
+    "stop if input schema, PIT cutoff, ordering, uniqueness, finiteness, or coverage is invalid",
+    "stop if runtime exceeds the compute cap",
+    "stop if output timestamps/schema are invalid or any governed prediction is non-finite",
+    "stop if primary and exact-replay prediction hashes differ",
+    "stop if governed artifact hashing or manifest completion fails",
+    "preserve negative/null/inferior results without checkpoint, seed, sampling, horizon, input, model-family, or feature rescue search"
+  ],
+  "release_rule": "Only Agent 3's #88 pass over the frozen #81 record may release #82 empirically after #15 is closed/reconciled.",
+  "preparation_complete_when": [
+    "Kronos checkpoint/interface/input/seed/compute/artifact/stop rules are specified",
+    "all #81-owned values are explicit fail-closed inherited fields",
+    "no empirical output exists in this slice"
+  ]
+}
