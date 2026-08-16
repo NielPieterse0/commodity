@@ -1,0 +1,33 @@
+name: Kronos checkpoint preflight
+
+on:
+  pull_request:
+    paths:
+      - "config/models.json"
+      - "src/commodity/kronos.py"
+      - "src/commodity/v2_kronos.py"
+      - "scripts/preflight_kronos_checkpoint.py"
+      - ".github/workflows/kronos-preflight.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  checkpoint-preflight:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install preflight dependency
+        run: python -m pip install --disable-pip-version-check "huggingface-hub>=0.25,<1"
+      - name: Resolve and hash exact pinned snapshots
+        run: >-
+          python scripts/preflight_kronos_checkpoint.py
+          --cache-dir "${{ runner.temp }}/kronos-cache"
+          --output "${{ runner.temp }}/kronos-preflight.json"
