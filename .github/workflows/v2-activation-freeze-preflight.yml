@@ -5,7 +5,10 @@ on:
     paths:
       - "config/experiment_candidates.json"
       - "docs/development/v2-activation-preregistration/**"
+      - "src/commodity/evaluation.py"
       - "tests/test_v2_activation_refreeze.py"
+      - "tests/test_v2_robustness.py"
+      - "tests/test_v2_statistical_evaluator_binding.py"
       - ".github/workflows/v2-activation-freeze-preflight.yml"
   workflow_dispatch:
 
@@ -27,8 +30,14 @@ jobs:
           python -m pip install -r requirements.lock.txt
           python -m pip install -e . --no-deps
       - name: Verify frozen V2 activation identities
-        run: python -m pytest -q tests/test_v2_activation_refreeze.py
+        run: >-
+          python -m pytest -q
+          tests/test_v2_activation_refreeze.py
+          tests/test_v2_statistical_evaluator_binding.py
+          tests/test_v2_robustness.py
       - name: Emit frozen identity hashes
         run: |
           sha256sum config/experiment_candidates.json
           sha256sum docs/development/v2-activation-preregistration/multiplicity-families.json
+          sha256sum docs/development/v2-activation-preregistration/statistical-evaluator.json
+          sha256sum src/commodity/evaluation.py

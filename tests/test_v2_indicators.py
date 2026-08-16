@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import hashlib
 import json
 from pathlib import Path
 
@@ -7,7 +8,6 @@ import numpy as np
 import pandas as pd
 import pytest
 
-from commodity.v2_indicator_contract import build_implementation_source_manifest
 from commodity.v2_indicators import (
     ALL_INCREMENT_FEATURES,
     ATTRIBUTION_VARIANTS,
@@ -65,6 +65,21 @@ def activation_binding():
         (ROOT / "config" / "experiment_candidates.json").read_text(encoding="utf-8")
     )
     return bind_activation_contract(contract, candidates)
+
+
+def _contract_normalized_source_manifest(binding: dict) -> dict:
+    implementation = binding["implementation_revision"]
+    files = {}
+    for relative in implementation["source_manifest_paths"]:
+        raw = (ROOT / relative).read_bytes().replace(b"\r\n", b"\n")
+        files[relative] = hashlib.sha256(raw).hexdigest()
+    manifest = {
+        "schema_version": 1,
+        "candidate_id": CANDIDATE_ID,
+        "files": files,
+    }
+    manifest["manifest_sha256"] = canonical_sha256(manifest)
+    return manifest
 
 
 def test_repository_bindings_are_exact_and_empirical_execution_is_blocked(
@@ -428,7 +443,7 @@ def test_hashes_and_lineage_handoff_are_deterministic(activation_binding) -> Non
         feature_frame=increments,
         implementation_config={"fit_scope": "fold_train_only"},
         implementation_revision="a" * 40,
-        runtime_source_manifest=build_implementation_source_manifest(ROOT),
+        runtime_source_manifest=_contract_normalized_source_manifest(activation_binding),
     )
     identity = handoff.pop("artifact_identity_sha256")
     assert handoff["candidate_id"] == CANDIDATE_ID
