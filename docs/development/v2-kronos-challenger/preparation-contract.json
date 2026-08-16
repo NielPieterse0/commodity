@@ -34,16 +34,16 @@
   },
   "implementation_revision": {
     "pr": 100,
-    "head": "15a837ca7dc8e4217f9f4afc6dbfa31dd35fe52e",
+    "head": "34a6e388695932722b8bb54377cc6fe67431be36",
     "path": "src/commodity/v2_kronos.py",
     "separate_from_preparation_revision": true,
-    "normal_ci_run": 31931814991,
+    "normal_ci_run": 31932248200,
     "normal_ci_conclusion": "success"
   },
   "checkpoint_preflight_evidence": {
     "workflow": "Kronos checkpoint preflight",
-    "run_id": 31931815058,
-    "head": "15a837ca7dc8e4217f9f4afc6dbfa31dd35fe52e",
+    "run_id": 31932248268,
+    "head": "34a6e388695932722b8bb54377cc6fe67431be36",
     "conclusion": "success",
     "empirical_execution": false,
     "model_inference": false,
@@ -87,7 +87,7 @@
     "source_identity_fields": ["trade_date", "contract_id", "expiration", "available_at"],
     "adapter_value_fields": ["open", "high", "low", "close", "volume"],
     "adapter_index_source": "trade_date",
-    "index_rule": "strictly increasing and unique after explicit timezone normalization; no implicit localization or timestamp substitution",
+    "index_rule": "strictly increasing and unique after explicit timezone normalization; naive timestamps, implicit localization and timestamp substitution are prohibited",
     "continuous_series_rule": "derive from raw per-contract rows using the active authoritative roll policy; no stored price adjustment and no cross-contract return construction",
     "observed_roll_policy_at_base": "volume_crossover_dte_v1",
     "roll_policy_must_match_authority_at_activation": true,
@@ -115,7 +115,8 @@
   },
   "metrics": {
     "resolution": "inherit_exactly_from_corrected_frozen_81_and_78_authority",
-    "fail_closed_if_unresolved": true
+    "fail_closed_if_unresolved": true,
+    "runtime_code_revision_rule": "the exact runtime code revision recorded in the #78 longitudinal handoff must equal the implementation revision bound by corrected #81"
   },
   "seed_semantics": {
     "primary_seed": 0,
@@ -150,7 +151,8 @@
     "block if any inherited #81 hard-context, comparator, metric, threshold or review identity is unresolved or mismatched",
     "block if checkpoint/tokenizer/config identity differs from the preregistered snapshot",
     "block if pinned model/tokenizer artifacts are not locally resolvable and hash-verified before the measured run",
-    "stop if input schema, PIT cutoff, ordering, uniqueness, finiteness or coverage is invalid",
+    "stop if input schema, PIT cutoff, explicit timezone, ordering, uniqueness, finiteness or coverage is invalid",
+    "stop if the runtime code revision differs from the exact implementation revision bound by #81",
     "stop on a cross-contract target return",
     "stop if runtime exceeds the compute cap",
     "stop if output timestamps/schema are invalid or any governed prediction is non-finite",
@@ -163,7 +165,7 @@
     "Kronos checkpoint/interface/input/seed/compute/artifact/stop rules are specified",
     "inference knob authority is immutable",
     "exact pinned checkpoint hashes have passed a non-empirical preflight",
-    "exact implementation revision is separately published",
+    "exact implementation revision is separately published and exact-head CI passes",
     "no empirical output exists in this slice"
   ]
 }
