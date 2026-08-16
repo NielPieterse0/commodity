@@ -95,6 +95,22 @@ def test_child_preflights_and_source_manifests_are_bound_exactly() -> None:
         assert candidate_impl["source_manifest_paths"] == contract["implementation_bindings"][issue]["source_manifest_paths"]
 
 
+def test_robustness_regimes_use_only_ex_ante_pit_information() -> None:
+    contract = _load(CONTRACT)
+    robustness = contract["frozen_execution_rules"]["robustness_rule"]
+    regime = robustness["regime_definition"]
+
+    assert robustness["chronological_periods"] == 3
+    assert regime["id"] == "pit-trailing-range20-initial-train-tertiles-v1"
+    assert regime["signal"] == "trailing_range20_mean"
+    assert "prediction cutoff" in regime["point_in_time_rule"]
+    assert "no target" in regime["point_in_time_rule"]
+    assert regime["threshold_fit_scope"] == "initial training window only"
+    assert regime["recompute_thresholds_per_fold"] is False
+    assert regime["post_result_threshold_or_label_change_permitted"] is False
+    assert regime["labels"] == ["low", "medium", "high"]
+
+
 def test_refreeze_does_not_release_any_empirical_candidate() -> None:
     contract = _load(CONTRACT)
     candidates = _load(CANDIDATES)
