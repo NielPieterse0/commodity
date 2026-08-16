@@ -19,7 +19,7 @@
     },
     "activation_audit_issue": 88,
     "execution_authorized": false,
-    "empirical_release_rule": "No V2 candidate may execute until issue #88 independently passes against this frozen #81 contract."
+    "empirical_release_rule": "No V2 candidate may execute until issue #88 independently passes against this corrected frozen #81 contract and its exact bound child revisions."
   },
   "candidates": {
     "ng-volatility-direction-v1": {
@@ -66,8 +66,25 @@
       "hypothesis": "A fixed Kronos market representation adds material robust out-of-sample information versus the frozen strongest comparable V1 control.",
       "preparation_revision": {
         "pr": 96,
-        "head": "0a5317f2981c29e1e90dc8106cb3aa2713ab0163",
-        "path": "docs/development/v2-kronos-challenger/preparation-contract.json"
+        "head": "a58030b6d993e31574940f2b63fa74b152ca7d90",
+        "path": "docs/development/v2-kronos-challenger/preparation-contract.json",
+        "normal_ci_run": 31933086050
+      },
+      "implementation_revision": {
+        "pr": 100,
+        "head": "a1d1c7cb46e698555a7c221d75537829c9c00c6b",
+        "path": "src/commodity/v2_kronos.py",
+        "normal_ci_run": 31932936638,
+        "checkpoint_preflight_run": 31932936671,
+        "source_manifest_sha256": "02083ca257d896c42db9d6e442e194c6ea353a5a78e8751d1fc46d971c586ff0",
+        "source_manifest_paths": [
+          "config/models.json",
+          "src/commodity/kronos.py",
+          "src/commodity/v2_kronos.py"
+        ],
+        "kronos_source_revision": "67b630e67f6a18c9e9be918d9b4337c960db1e9a",
+        "model_sha256": "a7d5f37e2e9fbd9891f7d7d4f72574512dd1f704fee14223e0a8cd0fbf54197c",
+        "tokenizer_sha256": "b97ec46b3b72160509e289183eaf7bdf5f0dac5bb9b49522f6d46638a99a8717"
       },
       "inherits_contract": "docs/development/v2-activation-preregistration/activation-contract.json",
       "model_authority": "config/models.json#models.kronos_mini",
@@ -84,6 +101,21 @@
         "pr": 98,
         "head": "3e55213b967b590187223e2b286063c81672274a",
         "path": "docs/development/v2-indicator-surprise-challenger/spec.md"
+      },
+      "implementation_revision": {
+        "pr": 99,
+        "head": "6462f6acb0eb764f016f7adef527dc12728f6374",
+        "path": "src/commodity/v2_indicator_contract.py",
+        "normal_ci_run": 31934218854,
+        "implementation_preflight_run": 31934218855,
+        "source_manifest_sha256": "6da05bfd7ebb982cb7a0e4bd0d7797171af87b2a265ec1202c55069298a112af",
+        "source_manifest_paths": [
+          "config/data_sources.json",
+          "src/commodity/v2_indicator_contract.py",
+          "src/commodity/v2_indicator_market.py",
+          "src/commodity/v2_indicator_weather_storage.py",
+          "src/commodity/v2_indicators.py"
+        ]
       },
       "inherits_contract": "docs/development/v2-activation-preregistration/activation-contract.json",
       "model_authority": "config/models.json#models.hist_gb",
