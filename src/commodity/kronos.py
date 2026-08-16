@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import hashlib
 import os
+import subprocess
 import sys
 from pathlib import Path
 from typing import Any
@@ -21,6 +22,42 @@ def _sha256_file(path: Path) -> str:
         for chunk in iter(lambda: handle.read(1024 * 1024), b""):
             digest.update(chunk)
     return digest.hexdigest()
+
+
+def verify_kronos_source_checkout(path: Path, expected_revision: str) -> str:
+    source = path.resolve()
+    if not source.is_dir():
+        raise KronosArtifactError(f"Kronos source checkout is missing: {source}")
+    try:
+        top_level = subprocess.run(
+            ["git", "-C", str(source), "rev-parse", "--show-toplevel"],
+            check=True,
+            capture_output=True,
+            text=True,
+        ).stdout.strip()
+        if Path(top_level).resolve() != source:
+            raise KronosArtifactError("Kronos source checkout is not initialized as its own Git worktree")
+        head = subprocess.run(
+            ["git", "-C", str(source), "rev-parse", "HEAD"],
+            check=True,
+            capture_output=True,
+            text=True,
+        ).stdout.strip().lower()
+        status = subprocess.run(
+            ["git", "-C", str(source), "status", "--porcelain", "--untracked-files=all"],
+            check=True,
+            capture_output=True,
+            text=True,
+        ).stdout
+    except (OSError, subprocess.CalledProcessError) as exc:
+        raise KronosArtifactError("Unable to verify the vendored Kronos source checkout") from exc
+    if head != str(expected_revision).lower():
+        raise KronosArtifactError(
+            f"Kronos source revision mismatch: expected {expected_revision}, observed {head}"
+        )
+    if status.strip():
+        raise KronosArtifactError("Kronos source checkout must be clean before inference")
+    return head
 
 
 def _resolve_pinned_snapshot(cfg: dict[str, Any], role: str) -> dict[str, str]:
@@ -112,6 +149,10 @@ class KronosMiniAdapter:
         local_path = REPO_ROOT / cfg["local_path"]
         if not local_path.exists():
             raise RuntimeError("Kronos source is not installed under vendor/Kronos")
+        source_revision = cfg.get("source_revision")
+        if not isinstance(source_revision, str):
+            raise KronosArtifactError("Kronos source revision is not configured")
+        verify_kronos_source_checkout(local_path, source_revision)
         import_path = str(local_path)
         if import_path not in sys.path:
             sys.path.insert(0, import_path)
