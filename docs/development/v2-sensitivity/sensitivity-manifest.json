@@ -1,0 +1,102 @@
+{
+  "schema_version": 1,
+  "record": "v2_85_sensitivity_manifest",
+  "issue": 85,
+  "status": "frozen_pending_empirical_release",
+  "execution_authorized": false,
+  "authority": {
+    "v2_activation_issue": 81,
+    "v2_activation_merge_revision": "396ad7ec8489a9c5a4a5db251b1fd80508cd6b56",
+    "activation_contract": "docs/development/v2-activation-preregistration/activation-contract.json",
+    "activation_contract_git_blob": "4f462b9dfd452f0801f152579d94b21f760c1eff",
+    "multiplicity_manifest": "docs/development/v2-activation-preregistration/multiplicity-families.json",
+    "family": "F85_SENSITIVITY",
+    "independent_activation_gate_issue": 88,
+    "empirical_release_rule": "No #85 empirical execution or result inspection is permitted unless #88 independently passes against the exact corrected #81 freeze."
+  },
+  "primary_boundary": {
+    "primary_target": "target_ret_1",
+    "primary_horizon_sessions": 1,
+    "primary_claim_owner": 81,
+    "replacement_by_sensitivity_permitted": false,
+    "rescue_failed_primary_permitted": false
+  },
+  "secondary_horizons": [
+    {
+      "id": "H5",
+      "horizon_sessions": 5,
+      "reason": "A five-session horizon is the single preregistered weekly operational sensitivity and aligns with the frozen five-row retraining cadence without introducing a horizon sweep.",
+      "target_id": "target_ret_5_same_contract",
+      "target_formula": "sum the five consecutive governed next-session selected-contract within-contract log returns beginning after the prediction cutoff",
+      "roll_rule": "All five constituent next-session returns must be valid within-contract returns under the frozen selected-contract semantics; any origin whose five-session path contains a prohibited cross-contract return is ineligible rather than stitched across the roll.",
+      "information_cutoff": "after_current_daily_bar_close",
+      "overlap_rule": "Daily prediction origins are retained, so adjacent five-session targets may overlap; the frozen dependence-aware uncertainty procedure remains required.",
+      "training_label_availability_rule": "At each prediction cutoff, training labels are usable only when their complete five-session endpoint is already observable.",
+      "purge_rule": "Purge the final H-1 = 4 candidate training origins at each OOS boundary when their five-session labels are not fully observable at that cutoff.",
+      "embargo_rule": "No additional post-OOS embargo is introduced; the label-availability and H-1 purge rules are the leakage control.",
+      "oos_origin_rule": "Use the frozen primary OOS origin sequence, retaining only origins for which the complete five-session target is deterministically observable under the same-contract rule; the final incomplete origins and roll-invalid origins are ineligible by construction.",
+      "coverage_rule": "Predictions and required inputs must cover 100% of eligible H5 origins; ineligible origins may not be silently imputed or redefined.",
+      "model_rule": "Reuse the exact frozen #82, #83 and #84 model/component definitions, source-manifest identities, seeds and deterministic 50/50 fusion rule. The horizon change may alter only the supervised target/label construction required to estimate the same candidate definitions; no hyperparameter, feature, seed, checkpoint, fusion-weight or architecture search is permitted.",
+      "metric_rule": "Use the #78 RMSE identity and directionality on the H5 target with a distinct H5 experiment identity. H5 metric values are sensitivity evidence and are not directly substituted for the primary H1 longitudinal metric.",
+      "uncertainty_rule": "Use the #81 moving-block bootstrap and secondary nonoverlapping-block sign-flip MSE procedure with the frozen block size, resample count, confidence and seed; no H5-specific tuning is permitted."
+    }
+  ],
+  "regime_and_period_sensitivity": {
+    "new_regime_definitions_permitted": false,
+    "new_calendar_slices_permitted": false,
+    "regime_definition": "Reuse exactly #81 pit-trailing-range20-initial-train-tertiles-v1 with thresholds frozen from the initial training window.",
+    "chronological_period_definition": "Reuse exactly the #81 three contiguous chronological OOS periods and remainder assignment rule.",
+    "reporting": "Report candidate/comparator RMSE deltas for every frozen low/medium/high regime and chronological third for H1 and H5 when eligible. These slices are robustness diagnostics and do not create additional F85 p-values or promotion authority.",
+    "post_result_slice_selection_permitted": false
+  },
+  "inferential_members": [
+    {
+      "id": "S85_H5_FUSION_V1",
+      "axis": "H5",
+      "challenger": "v2-84-kronos-indicator-fusion",
+      "comparator": "zero_return_naive",
+      "p_value": "paired H5 fusion-vs-zero loss-difference significance p-value under the frozen #81 uncertainty procedure"
+    },
+    {
+      "id": "S85_H5_FUSION_KRONOS",
+      "axis": "H5",
+      "challenger": "v2-84-kronos-indicator-fusion",
+      "comparator": "v2-82-kronos-only",
+      "p_value": "paired H5 fusion-vs-Kronos loss-difference significance p-value under the frozen #81 uncertainty procedure"
+    },
+    {
+      "id": "S85_H5_FUSION_INDICATORS",
+      "axis": "H5",
+      "challenger": "v2-84-kronos-indicator-fusion",
+      "comparator": "v2-83-indicators-only",
+      "p_value": "paired H5 fusion-vs-indicators loss-difference significance p-value under the frozen #81 uncertainty procedure"
+    }
+  ],
+  "multiplicity": {
+    "method": "benjamini_hochberg",
+    "max_adjusted_p_value": 0.05,
+    "family": "F85_SENSITIVITY",
+    "members": [
+      "S85_H5_FUSION_V1",
+      "S85_H5_FUSION_KRONOS",
+      "S85_H5_FUSION_INDICATORS"
+    ],
+    "all_members_adjusted_together": true,
+    "missing_invalid_member_rule": "fail_closed_and_use_p_1_if_numeric_vector_required",
+    "post_result_member_add_drop_regroup_permitted": false,
+    "promotion_or_rescue_authority": false
+  },
+  "recording": {
+    "longitudinal_metrics_owner": "artifacts/research-metrics/longitudinal-ledger.json",
+    "record_failures": true,
+    "record_invalid_runs": true,
+    "record_all_frozen_slices": true,
+    "primary_secondary_claim_separation_required": true
+  },
+  "stop_rules": [
+    "Stop if #88 has not independently passed the exact corrected #81 freeze.",
+    "Stop if an H5 target would require a cross-contract return or post-cutoff value.",
+    "Stop rather than change the H5 horizon, purge, eligibility, comparator, uncertainty or multiplicity rule after any #85 result is inspected.",
+    "Stop rather than add another horizon, regime, calendar slice, model family, feature family, seed, threshold or fusion rule to rescue a null or negative result."
+  ]
+}
