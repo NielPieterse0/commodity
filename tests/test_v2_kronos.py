@@ -95,12 +95,25 @@ def test_source_hash_is_newline_invariant(tmp_path: Path) -> None:
     assert v2_kronos_module._sha256_file(source) == lf_digest
 
 
-def test_binding_is_exact_but_empirically_blocked() -> None:
+def test_binding_is_exact_and_empirically_released() -> None:
     binding = _binding()
     assert binding["candidate_id"] == "v2-82-kronos-only"
     assert binding["model_revision"] == "7fdcc628d87f325ccdbcae0a372622ca7e6813aa"
     assert binding["kronos_source_revision"] == KRONOS_SOURCE_REVISION
     assert binding["implementation_revision"]["head"] == SYNTHETIC_BOUND_IMPLEMENTATION
+    require_empirical_release(binding)
+
+
+def test_binding_still_fails_closed_without_88_release() -> None:
+    binding = _binding()
+    binding["activation_execution_authorized"] = False
+    gate = binding["empirical_release_gate"]
+    gate["88"]["satisfied"] = False
+    gate["88"]["current_state"] = "not_executed"
+    gate["release_state"]["82"] = False
+    binding["binding_sha256"] = canonical_sha256(
+        {key: value for key, value in binding.items() if key != "binding_sha256"}
+    )
     with pytest.raises(EmpiricalReleaseBlocked):
         require_empirical_release(binding)
 

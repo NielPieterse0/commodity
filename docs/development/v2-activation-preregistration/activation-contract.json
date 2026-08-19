@@ -2,13 +2,13 @@
   "schema_version": 1,
   "record": "v2_activation_contract_frozen",
   "issue": 81,
-  "status": "frozen_pending_independent_88_audit",
-  "execution_authorized": false,
+  "status": "frozen_released_after_independent_88_audit",
+  "execution_authorized": true,
   "base_revision": "e11a891b58e67b61593b9c2ec5c86974e64cb0bc",
   "freeze": {
     "source_pr": 123,
     "candidate_config": "config/experiment_candidates.json",
-    "candidate_config_sha256": "dfc2b7eb706dccacb470be1b4ea66b0f779b05cbb5d06ac2de893e3a008da22c",
+    "candidate_config_sha256": "1c354c4bcab9d07faff795f980c7097519900e0420b2fc9cb5cdf0c4b7cc93f2",
     "multiplicity_manifest": "docs/development/v2-activation-preregistration/multiplicity-families.json",
     "multiplicity_manifest_sha256": "07ebd1f753268a81687cc2759aa009348cb389377c53603f22fab32fe7939a86",
     "contract_scope": "Freeze V2 experiment identities and decision rules before any V2 empirical result is produced.",
@@ -269,13 +269,13 @@
   },
   "empirical_release_gate": {
     "88": {
-      "current_state": "not_executed",
+      "current_state": "independent_activation_audit_passed",
       "required_state": "independent_activation_audit_passed",
-      "satisfied": false
+      "satisfied": true
     },
     "release_state": {
-      "82": false,
-      "83": false,
+      "82": true,
+      "83": true,
       "84": false,
       "85": false
     },
