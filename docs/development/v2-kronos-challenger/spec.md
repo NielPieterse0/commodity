@@ -15,10 +15,10 @@ This work has not performed model inference, model fitting, prediction generatio
 The preparation revision and executable implementation revision are intentionally separate identities. Corrected #81 must bind both independently.
 
 - Preparation evidence: this directory / PR #96, at the exact refreshed head used by #81.
-- Implementation: PR #100, exact head `a1d1c7cb46e698555a7c221d75537829c9c00c6b`.
-- Implementation CI: GitHub Actions run `31932936638`, passed. Its synthetic PR merge commit has the same tree `75f6c1337e2f600d4ec0fa52ae232fc39e5a5736` as the exact child head, so the verified source tree is exact.
-- Checkpoint/source preflight: GitHub Actions run `31932936671`, passed.
-- Result-affecting implementation source-manifest SHA-256: `02083ca257d896c42db9d6e442e194c6ea353a5a78e8751d1fc46d971c586ff0`.
+- Implementation: PR #122, exact head `a0a6d2e2f1b08d62cd8fe739807f09217af20f5c`.
+- Implementation CI: GitHub Actions run `32301730280`, passed against that exact head and tree `02cb8e8d800909f0ed026c5af5343dfd1c961c39`.
+- Checkpoint/source preflight: GitHub Actions run `32301730257`, passed against that exact head.
+- Result-affecting implementation source-manifest SHA-256: `691d45f6ed1fc1e5a223e738c07c744fdf9e95ced0cf10b4e97dc7c1f73e8aeb`.
 
 The child implementation SHA remains a frozen provenance identity. Because later integration necessarily creates a different repository commit SHA, runtime reproducibility is enforced by the bound result-affecting source manifest: the integrated runtime revision may differ only if the bound #82 implementation files and vendored Kronos source revision are byte/identity-equivalent. Any source-manifest change requires reopening the relevant binding and renewed #88 review before empirical inspection.
 
@@ -68,6 +68,6 @@ Lineage records both identities separately: (1) the exact child implementation r
 
 ## Stop/failure rules
 
-Execution remains blocked unless corrected #81 binds this exact refreshed preparation revision separately from implementation SHA `a1d1c7cb46e698555a7c221d75537829c9c00c6b`, source-manifest SHA-256 `02083ca257d896c42db9d6e442e194c6ea353a5a78e8751d1fc46d971c586ff0`, and #88 independently passes that exact freeze. Checkpoint/config/source mismatch, failed local hash resolution, PIT/coverage/trace/timezone failure, cross-contract target construction, runtime/cost violation, invalid outputs, replay mismatch, or incomplete artifact/longitudinal identity fails closed.
+Execution remains blocked unless corrected #81 binds this exact refreshed preparation revision separately from implementation SHA `a0a6d2e2f1b08d62cd8fe739807f09217af20f5c`, source-manifest SHA-256 `691d45f6ed1fc1e5a223e738c07c744fdf9e95ced0cf10b4e97dc7c1f73e8aeb`, and #88 independently passes that exact freeze. Checkpoint/config/source mismatch, failed local hash resolution, PIT/coverage/trace/timezone failure, cross-contract target construction, runtime/cost violation, invalid outputs, replay mismatch, or incomplete artifact/longitudinal identity fails closed.
 
 A negative, null, or inferior result is preserved. It does not authorize checkpoint swaps, seed search, sampling changes, horizon changes, input substitution, model-family search, or compensating features.
