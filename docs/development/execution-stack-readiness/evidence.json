@@ -1,0 +1,77 @@
+{
+  "schema_version": 1,
+  "issue": 109,
+  "as_of": "2026-08-20",
+  "status": "blocked_account_verification",
+  "execution_authority_granted": false,
+  "policy_owner": "config/policy.json",
+  "primary_candidate": {
+    "broker": "Saxo Bank",
+    "api": "Saxo OpenAPI SIM",
+    "instrument": "MNG",
+    "exchange": "NYMEX",
+    "account_verified": false,
+    "api_instrument_verified": false,
+    "realtime_api_entitlement_verified": false,
+    "paper_lifecycle_verified": false
+  },
+  "fallback_candidate": {
+    "broker": "Interactive Brokers",
+    "api": "IBKR Web API or TWS API paper",
+    "instrument": "MNG",
+    "norway_account_opening_publicly_supported": true,
+    "product_publicly_listed": true,
+    "account_verified": false,
+    "paper_lifecycle_verified": false
+  },
+  "mng_contract": {
+    "contract_size_mmbtu": 1000,
+    "minimum_tick_usd_per_mmbtu": 0.001,
+    "tick_value_usd": 1,
+    "settlement": "financial",
+    "standard_ng_contract_size_mmbtu": 10000,
+    "expiration_relation": "one_business_day_before_corresponding_ng_termination"
+  },
+  "mapping": {
+    "research_owner": "config/assumptions.json#assumptions.continuous_series_policy",
+    "method": "same_delivery_month_ng_to_mng",
+    "continuous_symbol_ordering_allowed": false,
+    "automatic_ng_size_fallback_allowed": false,
+    "execution_expiry_guard_required": true
+  },
+  "saxo_public_evidence": {
+    "norway_henry_hub_listed": true,
+    "micro_futures_generic_listed": true,
+    "mng_norway_account_specific_public_confirmation": false,
+    "private_nymex_level1_usd_month": 7,
+    "private_nymex_level2_usd_month": 15,
+    "indicative_henry_hub_commission_usd_per_contract_per_trade": 3,
+    "openapi_extra_market_data_agreement_may_be_required": true
+  },
+  "ibkr_public_evidence": {
+    "norway_supported_country": true,
+    "mng_listed_in_margin_table": true,
+    "published_micro_execution_commission_usd_first_1000_contracts": 0.25,
+    "live_account_funded_required_for_individual_web_api_paper_access": true,
+    "paper_api_supported": true
+  },
+  "local_probe": {
+    "saxo_sim_access_token_present": true,
+    "authenticated_probe_executed": true,
+    "command": "python -m commodity.cli probe-saxo-market --max-contracts 24 --output .work/issue-109-saxo-probe.json",
+    "token_expiry_utc": "2026-08-13T16:32:29Z",
+    "token_expired": true,
+    "authenticated_probe_result": "http_401_unauthorized"
+  },
+  "blocking_evidence": [
+    "fresh_saxo_sim_access_token_required",
+    "saxo_sim_account_context_verified",
+    "exact_saxo_mng_uic_and_tradability",
+    "saxo_contractfutures_account_permission",
+    "saxo_nymex_realtime_openapi_entitlement",
+    "exact_saxo_mng_order_types_durations_margin_fees",
+    "saxo_sim_end_to_end_order_lifecycle",
+    "ibkr_authenticated_fallback_end_to_end_verification",
+    "empirical_mng_spread_depth_and_slippage_verified"
+  ]
+}
