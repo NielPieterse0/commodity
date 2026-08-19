@@ -2,6 +2,10 @@
 
 Natural-gas ML research repository. Repository authority is assigned in [`AGENTS.md`](AGENTS.md#repository-authority); this README is a non-authoritative onboarding and current-state projection.
 
+**Repository status:** experimental research, not trading advice or an execution system. Live trading is disabled by policy. See [`SECURITY.md`](SECURITY.md) for sensitive-reporting rules and [`CONTRIBUTING.md`](CONTRIBUTING.md) for change/PR hygiene.
+
+**License:** no project-wide open-source license has been granted yet. Public visibility, if enabled, does not by itself grant reuse, modification, or redistribution rights. Third-party components retain their own licenses; see [`docs/THIRD_PARTY.md`](docs/THIRD_PARTY.md).
+
 ## Current state
 
 - **Research target:** U.S. / CME Henry Hub remains the first serious forecasting target. Geographic expansion and desired source families are owned by [`docs/data-manifest.md`](docs/data-manifest.md).

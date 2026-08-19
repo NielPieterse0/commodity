@@ -40,6 +40,8 @@ Build a reproducible system that can:
 | Simulation assumptions | `config/simulation.json` |
 | External development tools and LLM roles | `config/tools.json` |
 | Third-party approval, licensing boundaries, GitHub API/MCP technical-source registry | `docs/THIRD_PARTY.md` |
+| Security reporting and secret/local-state boundary | `SECURITY.md` |
+| Public contribution and pull-request hygiene | `CONTRIBUTING.md` |
 | Desired dataset and geographic/source acquisition architecture | `docs/data-manifest.md` |
 | Research milestone sequence | `docs/roadmap.md` |
 | Explanatory component architecture | `docs/architecture/` |
@@ -85,18 +87,15 @@ Use `.work/` for local implementation scratch, probes, temporary scripts, and ot
 
 ## Mandatory Development Startup
 
-Every repository work run MUST source and invoke Agent Skills exclusively through the KIS MCP skills module before repository inspection or change.
+Every repository work run MUST use the live KIS MCP capability and workflow authority before repository change.
 
-- The canonical Agent Skill catalogue is currently rooted at `C:\Projects\.agents\skills`; treat that location as KIS-managed catalogue state, never as a filesystem invocation interface.
-- Discover skills by logical ID through KIS MCP `runtime.search_skills`.
-- Load skills only through KIS MCP `runtime.load_skill`; do not open, copy, vendor, mirror, or execute skill instruction files directly from any filesystem path.
-- Read supporting skill references/assets only through KIS MCP `runtime.read_skill_file` after loading the owning skill.
-- Load `kis-mcp` through `runtime.load_skill` for KIS repository, Work Management, Project, issue, change-control, review, publication, or closeout workflows.
-- Load `develop-code` through `runtime.load_skill` for code, configuration, schema, tests, provider integrations, mixed work, or any run whose scope is not yet known.
-- Load `develop-docs` through `runtime.load_skill` only for documentation-only work. If executable/configuration changes emerge, switch to `develop-code` through the same KIS MCP skill-loading path.
-- Repository-local Agent Skill catalogues, copies, mirrors, or symlinked skill trees are forbidden. Skill IDs in repository documentation are references to the canonical KIS catalogue, not repository files.
+- Discover the relevant workflow, capability, and supporting skill through the operations exposed by the connected KIS runtime at the time of the run.
+- Treat the workflow/capability contract returned by KIS as authoritative for operation names, required steps, effects, approvals, verification, publication, landing, and cleanup.
+- Do not encode KIS catalogue filesystem locations, operation names, provider inventories, or current tool surfaces as repository truth; those are external runtime state and may evolve independently of this repository.
+- Do not open, copy, vendor, mirror, symlink, or execute KIS-managed skill/catalogue files directly from filesystem locations. Repository-local Agent Skill catalogues remain forbidden.
+- If KIS exposes or selects a development controller or supporting skill, resolve and use it through the live KIS interface rather than a repository-pinned invocation sequence.
 
-The selected controller owns engineering-complexity classification, slice specification/planning, applicable supporting skills, review and verification. KIS owns repository-change effect classification and applies the current operation-specific mutation and consent controls within this repository mandate and `config/policy.json`. Use an ignored `.work/` linked worktree on a non-default branch for parallel or non-trivial development. Git publication, review, landing, cleanup, and any required consent follow the currently advertised KIS change workflow rather than a duplicated fixed sequence in this file. Any default-branch change remains subject to KIS exact-change verification and the applicable mutation controls. When KIS selects a `PR-completion workflow`, follow its exact-head controls as part of that live workflow.
+The selected live KIS workflow owns engineering-complexity classification, slice specification/planning, applicable supporting skills, review and verification. KIS owns repository-change effect classification and applies the current operation-specific mutation and consent controls within this repository mandate and `config/policy.json`. Use an ignored `.work/` linked worktree on a non-default branch for parallel or non-trivial development. Git publication, review, landing, cleanup, and any required consent follow the currently advertised KIS change workflow rather than a duplicated fixed sequence in this file. Any default-branch change remains subject to KIS exact-change verification and the applicable mutation controls. When KIS selects a PR-completion workflow, follow its exact-head controls as part of that live workflow.
 
 ## Work Management
 
@@ -110,15 +109,9 @@ KIS Work Management is the required operational projection for actionable projec
 
 ## Repository Tools and Skills
 
-This repository uses KIS MCP through `kis-op` or `kis-dev`. Agent Skill discovery, loading, and supporting-file access MUST use the KIS MCP skills module operations defined in `Mandatory Development Startup`; direct filesystem skill loading is not an approved interface.
+This repository uses KIS MCP through the runtime surfaces available to the active agent. External KIS operations, workflow IDs, provider inventories, skill IDs, and catalogue locations are runtime-owned and MUST NOT be duplicated here as a fixed repository interface.
 
-Mandatory development-controller skill IDs: `develop-code`, `develop-docs`.
-
-Shared ML research skill IDs: `data-engineer`, `dataset-auditor`, `experiment-designer`, `experiment-tracker`, `feature-engineer`, `model-trainer`, `model-evaluator`, `statistical-analyst`, `reproducibility-auditor`, `bayesian-modeler`, `hyperparameter-optimizer`, `neural-network-engineer`.
-
-Commodity domain skill IDs: `commodity-market-data`, `time-series-research`, `forecast-backtesting`.
-
-Resolve the relevant skill ID against the live canonical KIS catalogue before use. Skill instructions refine workflow only; they do not override this repository mandate, `config/policy.json`, or execution boundaries.
+Resolve development controllers, supporting skills, provider actions, and change workflows from live KIS discovery for each run. KIS instructions refine workflow only; they do not override this repository mandate, `config/policy.json`, or execution boundaries.
 
 ## Initial Research Boundary
 

@@ -40,7 +40,7 @@ Massive source/history and the roll methodology are technically ready, but canon
 
 Mode A, 90-day horizon, explicit changed Python units. Collector:
 
-`python C:\Projects\.agents\skills\modularity-assessment\scripts\seams.py --repo . --since "90 days ago" --granularity file --unit src/commodity/massive.py --unit src/commodity/rolls.py --unit src/commodity/market_data.py --unit src/commodity/cli.py --top 10 --format md`
+`[historical modularity seam-analysis command omitted: the original invocation used a machine-specific external tool path]`
 
 Evidence strength: **LOW**. The collector measured LOC, commit/subject counts, Python fan-in/out, and co-change, but read-set/edit-set, test isolation, hidden coupling, and reviewed RFC-kind clusters remain unmeasured; therefore MAS is `n/a`.
 

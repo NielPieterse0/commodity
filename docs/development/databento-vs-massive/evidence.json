@@ -50,7 +50,7 @@
     ]
   },
   "databento_account_probe": {
-    "credential_file": "C:/Projects/commodity/.env",
+    "credential_file": ".env (local and ignored)",
     "credential_name": "DATABENTO_API_KEY",
     "credential_present": true,
     "credential_shape_valid": true,
