@@ -7,7 +7,7 @@
 
 Use **Saxo OpenAPI/SIM as the primary verification path** and **Micro Henry Hub Natural Gas futures (`MNG`) as the preferred tradable instrument candidate**, but do not promote either to an approved execution stack yet. Keep **Interactive Brokers (IBKR)** as the fallback verification path.
 
-This is the strongest decision support currently available without a valid authenticated brokerage session. Public documentation establishes product and API feasibility, but it does **not** satisfy #109's account-specific acceptance criteria. The exact local authentication result is owned by `evidence.json#local_probe`; exact Norway-account entitlements, UIC identity, real-time OpenAPI feed rights, account margin, supported order types, and an end-to-end SIM order lifecycle remain unverified.
+A fresh authenticated Saxo SIM session now proves the user is active and `ContractFutures` is a legal asset type. It also exposes two material blockers: OpenAPI market-data terms are not accepted and NYMEX `ContractFutures` is delayed rather than real-time. Standard NG is tradable in SIM, while the observed September 2026 MNG contract is explicitly `NonTradable`. The exact safe probe facts are owned by `evidence.json#local_probe`; margin, executable MNG availability, and an end-to-end MNG SIM lifecycle remain unverified.
 
 ## Decision-ready stack
 
@@ -37,7 +37,7 @@ The 10:1 contract-size ratio means a one-contract MNG position is not economical
 
 ## Saxo findings
 
-Saxo Norway publicly lists Henry Hub Natural Gas futures and micro futures generally, but its public page explicitly says actual product availability depends on account setup and country of residence. That is insufficient to prove MNG for this account.
+Saxo Norway publicly lists Henry Hub Natural Gas futures and micro futures generally, but actual product availability remains account/environment-specific. Authenticated SIM evidence now finds both NG and MNG instrument identities: NGU6 is tradable, while MNGU6 is non-tradable. The MNG continuous parent is visible in search, but Saxo's futures-space endpoint returns 404 for the observed MNG identifiers, so SIM does not currently provide a verified executable MNG path.
 
 OpenAPI supports account-scoped instrument search, `ContractFutures` futures-space resolution, instrument details and trading schedules. Its price endpoints expose trading prices, bid/ask, delay state and market depth subject to feed rights. User entitlements distinguish real-time top-of-book and full-book rights by asset type.
 
@@ -81,10 +81,9 @@ Until empirical MNG spread/depth observations are captured, paper evaluation mus
 
 ## Current blockers requiring user action
 
-- Obtain/refresh a Saxo OpenAPI SIM access token and make it available locally as `SAXO_SIM_ACCESS_TOKEN` without committing it.
-- Confirm the intended Saxo Norway account has futures permission and can see MNG specifically, not merely standard Henry Hub NG.
-- Accept/subscribe to the required NYMEX real-time market-data agreement and confirm that the entitlement applies to OpenAPI/third-party use; platform-only display rights are insufficient.
-- Provide or create the intended Saxo SIM account context needed for the paper order proof.
+- In SaxoTraderGO, enable **Open API Data Access** and accept the OpenAPI market-data disclaimer/terms; the authenticated user currently reports `MarketDataViaOpenApiTermsAccepted=false`.
+- Enable/subscribe to NYMEX real-time futures data for OpenAPI use; authenticated entitlement currently reports delayed `ContractFutures`, and chart data is delayed by 10 minutes.
+- Determine whether MNG can be enabled/traded in the intended Saxo environment/account. The observed MNGU6 contract is `NonTradable` even though standard NGU6 is tradable. If Saxo SIM cannot expose tradable MNG, explicitly disposition Saxo SIM as unsuitable for the required MNG paper lifecycle and advance the IBKR fallback proof.
 - For fallback verification, open/fund an eligible IBKR Pro live account if none exists, enable futures permissions, create/enable paper trading, and subscribe/share the required CME/NYMEX market data.
 
 ## Repository probe available now
@@ -118,6 +117,6 @@ Public sources support feasibility only. Account-specific broker responses are t
 
 ## Authenticated probe attempt
 
-The exact local authentication result and token-expiry evidence are recorded only in `evidence.json#local_probe`. That evidence establishes that a fresh SIM token is required before account-specific checks can continue. Saxo documents that developer-portal quick SIM tokens have limited one-day validity.
+The exact authenticated read-only results are recorded only in `evidence.json#local_probe`. Authentication now succeeds with a fresh one-day SIM token. `ContractFutures` permission is present, but OpenAPI market-data terms are not accepted, NYMEX futures data is delayed, and the observed MNG contract is non-tradable.
 
-This does not change execution authority or satisfy any account/API acceptance criterion.
+This does not change execution authority and does not satisfy the MNG paper-lifecycle acceptance criterion.
