@@ -17,15 +17,17 @@ def _contract() -> dict:
     return _load(V2 / "activation-contract.json")
 
 
-def test_v2_contract_is_frozen_but_empirically_blocked_on_88() -> None:
+def test_v2_contract_is_frozen_and_released_by_independent_88() -> None:
     contract = _contract()
-    assert contract["status"] == "frozen_pending_independent_88_audit"
-    assert contract["execution_authorized"] is False
+    assert contract["status"] == "frozen_released_after_independent_88_audit"
+    assert contract["execution_authorized"] is True
     assert contract["hard_dependencies"]["78"]["satisfied"] is True
     assert contract["hard_dependencies"]["15"]["satisfied"] is True
     assert contract["hard_dependencies"]["15"]["current_state"] == "closed_reconciled"
-    assert contract["empirical_release_gate"]["88"]["satisfied"] is False
-    assert not any(contract["empirical_release_gate"]["release_state"].values())
+    gate = contract["empirical_release_gate"]
+    assert gate["88"]["satisfied"] is True
+    assert gate["88"]["current_state"] == gate["88"]["required_state"]
+    assert gate["release_state"] == {"82": True, "83": True, "84": False, "85": False}
 
 
 def test_v2_contract_inherits_landed_78_metric_policy_exactly() -> None:
@@ -70,14 +72,15 @@ def test_frozen_candidate_registry_matches_contract_identity_and_digest() -> Non
     frozen = contract["frozen_execution_rules"]["candidate_ids"]
     assert digest == contract["freeze"]["candidate_config_sha256"]
     assert candidates["freeze"]["state"] == "frozen"
-    assert candidates["freeze"]["execution_authorized"] is False
+    assert candidates["freeze"]["execution_authorized"] is True
     assert frozen == {
         "82": "v2-82-kronos-only",
         "83": "v2-83-indicators-only",
         "84": "v2-84-kronos-indicator-fusion",
     }
-    for candidate_id in frozen.values():
-        assert candidates["candidates"][candidate_id]["execution_authorized"] is False
+    assert candidates["candidates"][frozen["82"]]["execution_authorized"] is True
+    assert candidates["candidates"][frozen["83"]]["execution_authorized"] is True
+    assert candidates["candidates"][frozen["84"]]["execution_authorized"] is False
 
 
 def test_frozen_statistical_and_cost_rules_are_complete_and_predeclared() -> None:
