@@ -1,1 +1,5 @@
 tests/fixtures/mdp3-golden/**/metadata.json -text
+docs/references/commodity-external-review-2.1.md -text
+docs/references/commodity-external-review-2.2.md -text
+docs/references/commodity-external-review-2.2.zip -text
+docs/references/commodity-external-review-2.2/** -text
