@@ -55,20 +55,15 @@ def test_commodity_research_stages_do_not_authorize_live_execution() -> None:
     assert policy["execution"]["live_trading_allowed"] is False
 
 
-def test_agents_md_requires_canonical_kis_skill_loading() -> None:
+def test_agents_md_defers_kis_surface_to_live_runtime() -> None:
     agents = (ROOT / "AGENTS.md").read_text(encoding="utf-8")
-    expected_ids = {
-        "bayesian-modeler", "commodity-market-data", "data-engineer",
-        "dataset-auditor", "experiment-designer", "experiment-tracker",
-        "develop-code", "develop-docs", "feature-engineer", "forecast-backtesting",
-        "hyperparameter-optimizer", "model-evaluator", "model-trainer", "neural-network-engineer",
-        "reproducibility-auditor", "statistical-analyst", "time-series-research",
-    }
-    assert "C:\\Projects\\.agents\\skills" in agents
-    assert "runtime.search_skills" in agents
-    assert "runtime.load_skill" in agents
-    assert "runtime.read_skill_file" in agents
-    assert all(name in agents for name in expected_ids)
+    assert "live KIS MCP capability and workflow authority" in agents
+    assert "live KIS discovery" in agents
+    assert "MUST NOT be duplicated here as a fixed repository interface" in agents
+    assert "C:\\Projects\\.agents\\skills" not in agents
+    assert "runtime.search_skills" not in agents
+    assert "runtime.load_skill" not in agents
+    assert "runtime.read_skill_file" not in agents
 
 
 def test_repo_contains_no_local_agent_skill_catalogue() -> None:
@@ -226,11 +221,10 @@ def test_active_experiment_uses_pit_core_tournament_contract() -> None:
     assert models["hist_gb"]["baseline_implementation"] == "hist_gradient_boosting_return"
 
 
-def test_agents_md_requires_kis_change_flow() -> None:
+def test_agents_md_requires_live_kis_change_flow() -> None:
     agents = (ROOT / "AGENTS.md").read_text(encoding="utf-8")
-    assert "runtime.load_skill" in agents
-    assert "runtime.search_skills" in agents
-    assert "runtime.read_skill_file" in agents
+    assert "workflow/capability contract returned by KIS" in agents
+    assert "operations exposed by the connected KIS runtime" in agents
     assert "`.work/` linked worktree" in agents
     assert "PR-completion workflow" in agents
     assert "KIS owns repository-change effect classification" in agents
