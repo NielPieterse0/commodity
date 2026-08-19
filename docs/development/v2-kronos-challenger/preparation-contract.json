@@ -34,16 +34,16 @@
     "inherited_executable_context": "docs/development/v2-activation-preregistration/activation-contract.json"
   },
   "implementation_revision": {
-    "pr": 100,
-    "head": "a1d1c7cb46e698555a7c221d75537829c9c00c6b",
+    "pr": 122,
+    "head": "a0a6d2e2f1b08d62cd8fe739807f09217af20f5c",
     "path": "src/commodity/v2_kronos.py",
     "separate_from_preparation_revision": true,
-    "normal_ci_run": 31932936638,
+    "normal_ci_run": 32301730280,
     "normal_ci_conclusion": "success",
-    "normal_ci_tree_sha256_equivalence": "PR synthetic merge tree equals exact implementation-head tree: 75f6c1337e2f600d4ec0fa52ae232fc39e5a5736"
+    "normal_ci_tree_sha256_equivalence": "Exact implementation-head tree verified by PR #122 CI: 02cb8e8d800909f0ed026c5af5343dfd1c961c39"
   },
   "implementation_source_manifest": {
-    "sha256": "02083ca257d896c42db9d6e442e194c6ea353a5a78e8751d1fc46d971c586ff0",
+    "sha256": "691d45f6ed1fc1e5a223e738c07c744fdf9e95ced0cf10b4e97dc7c1f73e8aeb",
     "paths": [
       "config/models.json",
       "src/commodity/kronos.py",
@@ -54,15 +54,15 @@
   },
   "checkpoint_preflight_evidence": {
     "workflow": "Kronos checkpoint preflight",
-    "run_id": 31932936671,
-    "head": "a1d1c7cb46e698555a7c221d75537829c9c00c6b",
+    "run_id": 32301730257,
+    "head": "a0a6d2e2f1b08d62cd8fe739807f09217af20f5c",
     "conclusion": "success",
     "empirical_execution": false,
     "model_inference": false,
     "model_sha256": "a7d5f37e2e9fbd9891f7d7d4f72574512dd1f704fee14223e0a8cd0fbf54197c",
     "tokenizer_sha256": "b97ec46b3b72160509e289183eaf7bdf5f0dac5bb9b49522f6d46638a99a8717",
     "measured_run_loading_rule": "local_files_only",
-    "implementation_source_manifest_sha256": "02083ca257d896c42db9d6e442e194c6ea353a5a78e8751d1fc46d971c586ff0"
+    "implementation_source_manifest_sha256": "691d45f6ed1fc1e5a223e738c07c744fdf9e95ced0cf10b4e97dc7c1f73e8aeb"
   },
   "checkpoint_snapshot": {
     "authority_must_match_at_activation": true,

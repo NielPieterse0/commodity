@@ -56,12 +56,12 @@ def test_child_preparation_and_implementation_revisions_are_bound_separately() -
         "82": (
             "v2-82-kronos-only",
             "a58030b6d993e31574940f2b63fa74b152ca7d90",
-            "a1d1c7cb46e698555a7c221d75537829c9c00c6b",
+            "a0a6d2e2f1b08d62cd8fe739807f09217af20f5c",
         ),
         "83": (
             "v2-83-indicators-only",
             "3e55213b967b590187223e2b286063c81672274a",
-            "6462f6acb0eb764f016f7adef527dc12728f6374",
+            "3924274b59f9081247dfb7ad6c9280363a359196",
         ),
     }
     for issue, (candidate_id, prep_sha, implementation_sha) in expected.items():
@@ -84,15 +84,15 @@ def test_child_preflights_and_source_manifests_are_bound_exactly() -> None:
 
     assert prep82["normal_ci_run"] == 31933086050
     assert prep82["normal_ci_conclusion"] == "success"
-    assert impl82["normal_ci_run"] == 31932936638
-    assert impl82["checkpoint_preflight_run"] == 31932936671
+    assert impl82["normal_ci_run"] == 32301730280
+    assert impl82["checkpoint_preflight_run"] == 32301730257
     assert impl82["source_manifest_sha256"] == (
-        "02083ca257d896c42db9d6e442e194c6ea353a5a78e8751d1fc46d971c586ff0"
+        "691d45f6ed1fc1e5a223e738c07c744fdf9e95ced0cf10b4e97dc7c1f73e8aeb"
     )
-    assert impl83["normal_ci_run"] == 31934218854
-    assert impl83["implementation_preflight_run"] == 31934218855
+    assert impl83["normal_ci_run"] == 32299571389
+    assert impl83["implementation_preflight_run"] == 32299571393
     assert impl83["source_manifest_sha256"] == (
-        "6da05bfd7ebb982cb7a0e4bd0d7797171af87b2a265ec1202c55069298a112af"
+        "91e1f9f899086ee2fe677b28b3b9d6f72a2daca8d7d503a4d5da254ded004c16"
     )
     for candidate_id, issue in (("v2-82-kronos-only", "82"), ("v2-83-indicators-only", "83")):
         candidate_impl = candidates[candidate_id]["implementation_revision"]

@@ -73,12 +73,12 @@
         "normal_ci_run": 31933086050
       },
       "implementation_revision": {
-        "pr": 100,
-        "head": "a1d1c7cb46e698555a7c221d75537829c9c00c6b",
+        "pr": 122,
+        "head": "a0a6d2e2f1b08d62cd8fe739807f09217af20f5c",
         "path": "src/commodity/v2_kronos.py",
-        "normal_ci_run": 31932936638,
-        "checkpoint_preflight_run": 31932936671,
-        "source_manifest_sha256": "02083ca257d896c42db9d6e442e194c6ea353a5a78e8751d1fc46d971c586ff0",
+        "normal_ci_run": 32301730280,
+        "checkpoint_preflight_run": 32301730257,
+        "source_manifest_sha256": "691d45f6ed1fc1e5a223e738c07c744fdf9e95ced0cf10b4e97dc7c1f73e8aeb",
         "source_manifest_paths": [
           "config/models.json",
           "src/commodity/kronos.py",
@@ -105,12 +105,12 @@
         "path": "docs/development/v2-indicator-surprise-challenger/spec.md"
       },
       "implementation_revision": {
-        "pr": 99,
-        "head": "6462f6acb0eb764f016f7adef527dc12728f6374",
+        "pr": 117,
+        "head": "3924274b59f9081247dfb7ad6c9280363a359196",
         "path": "src/commodity/v2_indicator_contract.py",
-        "normal_ci_run": 31934218854,
-        "implementation_preflight_run": 31934218855,
-        "source_manifest_sha256": "6da05bfd7ebb982cb7a0e4bd0d7797171af87b2a265ec1202c55069298a112af",
+        "normal_ci_run": 32299571389,
+        "implementation_preflight_run": 32299571393,
+        "source_manifest_sha256": "91e1f9f899086ee2fe677b28b3b9d6f72a2daca8d7d503a4d5da254ded004c16",
         "source_manifest_paths": [
           "config/data_sources.json",
           "src/commodity/v2_indicator_contract.py",
