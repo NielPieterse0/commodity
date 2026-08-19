@@ -169,6 +169,15 @@ def test_pit_context_rejects_ambiguous_time_and_order() -> None:
         build_pit_context(reversed_frame, "2026-08-11T23:59:00Z")
 
 
+def test_pit_context_rejects_future_trade_date_even_if_marked_available() -> None:
+    frame = _market()
+    frame.loc[1, "trade_date"] = "2026-08-12T23:59:00Z"
+    frame.loc[1, "available_at"] = "2026-08-11T22:00:00Z"
+
+    with pytest.raises(KronosContractError, match="trade_date after the prediction cutoff"):
+        build_pit_context(frame, "2026-08-11T23:59:00Z")
+
+
 def test_target_mapping_fails_closed_on_roll_transition() -> None:
     value = governed_return_prediction(
         predicted_close_next=3.3,

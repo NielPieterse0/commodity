@@ -5,7 +5,6 @@ import json
 import math
 import random
 import re
-import subprocess
 from collections.abc import Mapping
 from pathlib import Path
 from typing import Any
@@ -13,6 +12,7 @@ from typing import Any
 import numpy as np
 import pandas as pd
 
+from commodity.kronos import KronosArtifactError, verify_kronos_source_checkout
 from commodity.roll_policy import parse_volume_crossover_policy
 
 CANDIDATE_ID = "v2-82-kronos-only"
@@ -98,23 +98,8 @@ def _require_sha256(value: Any, label: str) -> str:
     return normalized
 
 
-def _git_head(path: Path) -> str:
-    try:
-        completed = subprocess.run(
-            ["git", "-C", str(path), "rev-parse", "HEAD"],
-            check=True,
-            capture_output=True,
-            text=True,
-        )
-    except (OSError, subprocess.CalledProcessError) as exc:
-        raise KronosContractError(
-            f"unable to resolve Git revision for required source path: {path}"
-        ) from exc
-    return _require_git_sha(completed.stdout.strip(), "Kronos source revision")
-
-
 def build_implementation_source_manifest(repo_root: Path) -> dict[str, Any]:
-    """Hash result-affecting #82 sources and the exact vendored Kronos revision."""
+    """Hash result-affecting #82 sources and require the exact clean Kronos checkout."""
     root = repo_root.resolve()
     files: dict[str, str] = {}
     for relative in IMPLEMENTATION_SOURCE_PATHS:
@@ -122,7 +107,12 @@ def build_implementation_source_manifest(repo_root: Path) -> dict[str, Any]:
         if not path.is_file():
             raise KronosContractError(f"required #82 implementation source is missing: {relative}")
         files[relative] = _sha256_file(path)
-    source_revision = _git_head(root / "vendor" / "Kronos")
+    try:
+        source_revision = verify_kronos_source_checkout(
+            root / "vendor" / "Kronos", KRONOS_SOURCE_REVISION
+        )
+    except KronosArtifactError as exc:
+        raise KronosContractError(str(exc)) from exc
     manifest: dict[str, Any] = {
         "schema_version": 1,
         "candidate_id": CANDIDATE_ID,
@@ -359,6 +349,10 @@ def build_pit_context(
         raise KronosContractError("#82 contract_id must be present for every source row")
 
     eligible = frame.loc[frame["available_at"] <= cutoff].copy()
+    if (eligible["trade_date"] > cutoff).any():
+        raise KronosContractError(
+            "#82 context contains trade_date after the prediction cutoff"
+        )
     if eligible.empty:
         raise KronosContractError("#82 has no PIT-eligible context rows at the prediction cutoff")
     context = eligible.tail(max_context).copy()
