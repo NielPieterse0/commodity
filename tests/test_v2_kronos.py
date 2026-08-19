@@ -8,6 +8,7 @@ import pandas as pd
 import pytest
 
 from commodity import kronos
+from commodity import v2_kronos as v2_kronos_module
 from commodity.v2_kronos import (
     CANDIDATE_ID,
     IMPLEMENTATION_SOURCE_PATHS,
@@ -84,6 +85,14 @@ def _market() -> pd.DataFrame:
             "volume": [1000.0, 1100.0],
         }
     )
+
+
+def test_source_hash_is_newline_invariant(tmp_path: Path) -> None:
+    source = tmp_path / "source.py"
+    source.write_bytes(b"first\nsecond\n")
+    lf_digest = v2_kronos_module._sha256_file(source)
+    source.write_bytes(b"first\r\nsecond\r\n")
+    assert v2_kronos_module._sha256_file(source) == lf_digest
 
 
 def test_binding_is_exact_but_empirically_blocked() -> None:
