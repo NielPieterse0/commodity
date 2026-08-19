@@ -40,6 +40,8 @@ Build a reproducible system that can:
 | Simulation assumptions | `config/simulation.json` |
 | External development tools and LLM roles | `config/tools.json` |
 | Third-party approval, licensing boundaries, GitHub API/MCP technical-source registry | `docs/THIRD_PARTY.md` |
+| Security reporting and secret/local-state boundary | `SECURITY.md` |
+| Public contribution and pull-request hygiene | `CONTRIBUTING.md` |
 | Desired dataset and geographic/source acquisition architecture | `docs/data-manifest.md` |
 | Research milestone sequence | `docs/roadmap.md` |
 | Explanatory component architecture | `docs/architecture/` |

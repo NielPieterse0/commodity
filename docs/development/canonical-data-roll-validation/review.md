@@ -18,7 +18,7 @@ Final read-only review: no surviving P0-P3 correctness findings in the changed b
 Mode: A plus direct inspection. Horizon: 90 days. Subject: changed Python implementation units.
 
 Collector command:
-`python C:\Projects\.agents\skills\modularity-assessment\scripts\seams.py --repo . --since "90 days ago" --granularity file --unit src/commodity/providers.py --unit src/commodity/market_data.py --unit src/commodity/cli.py --top 10 --format md`
+`[historical modularity seam-analysis command omitted: the original invocation used a machine-specific external tool path]`
 
 Evidence strength: **LOW**. The repository has only two relevant historical commits, and read-set/edit-set plus isolation evidence are unavailable; MAS is therefore `n/a`.
 

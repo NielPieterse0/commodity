@@ -113,9 +113,9 @@ On the exact E2 closeout head, run the live KIS-selected verification for the fi
 Baseline exact-head commands from the Phase E worktree are:
 
 ```powershell
-C:\Projects\commodity\.venv\Scripts\python.exe -m pytest -q
-C:\Projects\commodity\.venv\Scripts\python.exe -m ruff check .
-C:\Projects\commodity\.venv\Scripts\python.exe -c "import json, pathlib; [json.load(p.open(encoding='utf-8')) for p in pathlib.Path('.').rglob('*.json')]"
+.\.venv\Scripts\python.exe -m pytest -q
+.\.venv\Scripts\python.exe -m ruff check .
+.\.venv\Scripts\python.exe -c "import json, pathlib; [json.load(p.open(encoding='utf-8')) for p in pathlib.Path('.').rglob('*.json')]"
 git diff --check main...HEAD
 git status --short --branch
 ```
