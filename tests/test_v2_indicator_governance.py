@@ -46,7 +46,7 @@ def _prospective_candidates() -> dict:
     manifest = _manifest()
     candidate = candidates["candidates"][CANDIDATE_ID]
     candidate["preparation_revision"] = {
-        "pr": 98,
+        "pr": 117,
         "head": SPEC_REVISION,
         "path": SPEC_PATH,
     }
@@ -79,6 +79,59 @@ def _released(binding: dict, *, candidate_released: bool) -> dict:
     released.pop("binding_sha256")
     released["binding_sha256"] = canonical_sha256(released)
     return released
+
+
+def test_exact_refrozen_authorities_bind_and_runtime_release_stays_blocked(monkeypatch) -> None:
+    contract = _load("docs/development/v2-activation-preregistration/activation-contract.json")
+    candidates = _load("config/experiment_candidates.json")
+    multiplicity = read_frozen_multiplicity_manifest(ROOT)
+    binding = bind_activation_contract(contract, candidates, multiplicity)
+    candidate = candidates["candidates"][CANDIDATE_ID]
+    implementation = candidate["implementation_revision"]
+    manifest = _manifest()
+
+    assert candidate["preparation_revision"] == {
+        "pr": 117,
+        "head": SPEC_REVISION,
+        "path": SPEC_PATH,
+    }
+    assert implementation["pr"] == 140
+    assert implementation["head"] == "6e36173dd32eafe438557ac411a85257b2f08479"
+    assert implementation["source_manifest_sha256"] == manifest["manifest_sha256"]
+    assert tuple(manifest["files"]) == IMPLEMENTATION_SOURCE_PATHS
+
+    def _committed_json(_root: Path, relative: str, *, label: str) -> dict:
+        del label
+        if relative == indicator_contract.ACTIVATION_CONTRACT_PATH:
+            return json.loads(json.dumps(contract))
+        if relative == indicator_contract.EXPERIMENT_CANDIDATES_PATH:
+            return json.loads(json.dumps(candidates))
+        raise AssertionError(f"unexpected committed authority path: {relative}")
+
+    monkeypatch.setattr(indicator_contract, "_read_committed_json", _committed_json)
+    monkeypatch.setattr(
+        indicator_contract,
+        "read_frozen_multiplicity_manifest",
+        lambda _root: multiplicity,
+    )
+    with pytest.raises(EmpiricalReleaseBlocked, match="release the exact bound implementation"):
+        require_empirical_release(binding)
+
+
+def test_pre_refreeze_pr98_preparation_head_is_rejected() -> None:
+    contract = _load("docs/development/v2-activation-preregistration/activation-contract.json")
+    candidates = _load("config/experiment_candidates.json")
+    candidates["candidates"][CANDIDATE_ID]["preparation_revision"] = {
+        "pr": 98,
+        "head": "3e55213b967b590187223e2b286063c81672274a",
+        "path": SPEC_PATH,
+    }
+    with pytest.raises(IndicatorContractError, match="preparation revision"):
+        bind_activation_contract(
+            contract,
+            candidates,
+            read_frozen_multiplicity_manifest(ROOT),
+        )
 
 
 def test_release_cannot_be_forged_by_rehashing_caller_binding() -> None:

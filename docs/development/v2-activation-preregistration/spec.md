@@ -25,11 +25,11 @@ The primary V2 claim therefore requires a challenger RMSE strictly below every r
 
 ## Frozen candidate identities
 
-- `v2-82-kronos-only` — Kronos-only component control, bound to #82 preparation PR #96 at `0a5317f2981c29e1e90dc8106cb3aa2713ab0163`.
-- `v2-83-indicators-only` — indicators-only component control, bound to #83 preparation PR #98 at `3e55213b967b590187223e2b286063c81672274a`; `I-ALL` is primary and `I-NO-*` variants are attribution-only.
+- `v2-82-kronos-only` — Kronos-only component control.
+- `v2-83-indicators-only` — indicators-only component control; `I-ALL` is primary and `I-NO-*` variants are attribution-only.
 - `v2-84-kronos-indicator-fusion` — fusion claim using both frozen component-control identities. #84 still owns its combination-rule implementation, but it may not redefine #81 target, metrics, comparators, seeds, leakage, cost, or stop rules.
 
-Each candidate has a deterministic artifact namespace. Any mutation of a frozen #81 field requires reopening #81 and a fresh #88 audit.
+Exact preparation/implementation revisions, source manifests, audit lineage, and release state are owned by `activation-contract.json` and `config/experiment_candidates.json`; this historical design note does not duplicate those mutable bindings. Each candidate has a deterministic artifact namespace. Any mutation of a frozen #81 field requires reopening #81 and a fresh independent successor activation audit.
 
 ## Frozen common rules
 
@@ -39,4 +39,4 @@ Uncertainty and robustness inherit the established V1 discipline: moving-block b
 
 ## Execution boundary
 
-`execution_authorized` remains false for every V2 candidate. Agent 3 must execute #88 against this exact frozen contract and the bound child implementation revisions. Only an explicit #88 pass may release #82/#83 for empirical work.
+Empirical authorization is owned by `activation-contract.json` and the candidate registry. The currently affected #83 path remains fail-closed until the independently governed successor audit recorded there passes the exact frozen preparation/implementation bindings and a separate explicit release change is landed.

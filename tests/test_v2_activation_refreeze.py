@@ -60,7 +60,7 @@ def test_child_preparation_and_implementation_revisions_are_bound_separately() -
         ),
         "83": (
             "v2-83-indicators-only",
-            "3e55213b967b590187223e2b286063c81672274a",
+            "2c2b260971739f6dc39437614d769dea57fe58e2",
             "6e36173dd32eafe438557ac411a85257b2f08479",
         ),
     }
@@ -73,6 +73,10 @@ def test_child_preparation_and_implementation_revisions_are_bound_separately() -
         assert candidates[candidate_id]["implementation_revision"]["head"] == implementation_sha
     assert candidates["v2-82-kronos-only"]["execution_authorized"] is True
     assert candidates["v2-83-indicators-only"]["execution_authorized"] is False
+    assert prep["83"]["pr"] == 117
+    assert candidates["v2-83-indicators-only"]["preparation_revision"]["pr"] == 117
+    assert implementation["83"]["pr"] == 140
+    assert candidates["v2-83-indicators-only"]["implementation_revision"]["pr"] == 140
     assert prep["83"]["head"] != implementation["83"]["head"]
 
 
@@ -125,13 +129,17 @@ def test_robustness_regimes_use_only_ex_ante_pit_information() -> None:
     assert regime["labels"] == ["low", "medium", "high"]
 
 
-def test_corrected_refreeze_is_fail_closed_pending_independent_88_reaudit() -> None:
+def test_corrected_refreeze_is_fail_closed_pending_successor_142_audit() -> None:
     contract = _load(CONTRACT)
     candidates = _load(CANDIDATES)
     gate = contract["empirical_release_gate"]
     assert contract["execution_authorized"] is False
     assert candidates["freeze"]["execution_authorized"] is False
+    assert candidates["freeze"]["activation_audit_issue"] == 142
+    assert candidates["freeze"]["activation_audit_predecessor_issue"] == 88
     assert candidates["candidates"]["v2-83-indicators-only"]["execution_authorized"] is False
+    assert gate["88"]["historical_issue"] == 88
+    assert gate["88"]["successor_issue"] == 142
     assert gate["88"]["satisfied"] is False
-    assert gate["88"]["current_state"] == "reopened_pending_reaudit"
+    assert gate["88"]["current_state"] == "successor_142_pending_reaudit"
     assert gate["release_state"] == {"82": True, "83": False, "84": False, "85": False}
