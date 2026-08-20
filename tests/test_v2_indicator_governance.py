@@ -81,7 +81,7 @@ def _released(binding: dict, *, candidate_released: bool) -> dict:
     return released
 
 
-def test_exact_refrozen_authorities_bind_and_runtime_release_stays_blocked(monkeypatch) -> None:
+def test_exact_refrozen_authorities_bind_and_runtime_release_is_enabled(monkeypatch) -> None:
     contract = _load("docs/development/v2-activation-preregistration/activation-contract.json")
     candidates = _load("config/experiment_candidates.json")
     multiplicity = read_frozen_multiplicity_manifest(ROOT)
@@ -114,8 +114,7 @@ def test_exact_refrozen_authorities_bind_and_runtime_release_stays_blocked(monke
         "read_frozen_multiplicity_manifest",
         lambda _root: multiplicity,
     )
-    with pytest.raises(EmpiricalReleaseBlocked, match="release the exact bound implementation"):
-        require_empirical_release(binding)
+    require_empirical_release(binding)
 
 
 def test_pre_refreeze_pr98_preparation_head_is_rejected() -> None:
