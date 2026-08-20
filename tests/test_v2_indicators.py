@@ -119,7 +119,7 @@ def _prospective_current_source_binding() -> tuple[dict, dict]:
     return binding, manifest
 
 
-def test_repository_bindings_are_exact_and_empirical_execution_is_released(
+def test_repository_bindings_are_exact_and_release_fails_closed_on_source_drift(
     source_policy, activation_binding
 ) -> None:
     assert source_policy.sha256 == SOURCE_POLICY_SHA256
@@ -128,7 +128,16 @@ def test_repository_bindings_are_exact_and_empirical_execution_is_released(
         "head": SPEC_REVISION,
         "path": SPEC_PATH,
     }
-    require_empirical_release(activation_binding)
+    runtime_manifest = indicator_contract.build_implementation_source_manifest(ROOT)
+    bound_manifest = activation_binding["implementation_revision"]["source_manifest_sha256"]
+    if runtime_manifest["manifest_sha256"] == bound_manifest:
+        require_empirical_release(activation_binding)
+    else:
+        with pytest.raises(
+            indicator_contract.EmpiricalReleaseBlocked,
+            match="runtime implementation sources",
+        ):
+            require_empirical_release(activation_binding)
 
 
 def test_activation_binding_hash_detects_tampering(activation_binding) -> None:
@@ -532,6 +541,61 @@ def test_curve_increments_require_exact_frozen_dataset_artifact(
             source_policy=source_policy,
             activation_binding=binding,
         )
+
+
+def test_curve_first_fit_row_uses_exact_pinned_prefit_market_context(
+    source_policy, activation_binding, tmp_path, monkeypatch
+) -> None:
+    frozen = pd.DataFrame(
+        {
+            "prediction_time": ["2026-01-05T23:59:00Z"],
+            "curve_spread_m1_m2": [1.5],
+            "curve_spread_m2_m3": [0.75],
+            "curve_slope_m1_m4": [3.0],
+        }
+    )
+    dataset_path = tmp_path / "dataset.csv"
+    frozen.to_csv(dataset_path, index=False, lineterminator="\n")
+    dataset_digest = hashlib.sha256(dataset_path.read_bytes()).hexdigest()
+    frozen_context = dict(indicator_market.FROZEN_MARKET_CONTEXT)
+    frozen_context["dataset_sha256"] = dataset_digest
+    monkeypatch.setattr(indicator_market, "FROZEN_MARKET_CONTEXT", frozen_context)
+    binding = json.loads(json.dumps(activation_binding))
+    binding["frozen_v1_control"]["context_identity"]["dataset_sha256"] = dataset_digest
+    binding.pop("binding_sha256")
+    binding["binding_sha256"] = canonical_sha256(binding)
+
+    canonical = pd.DataFrame(
+        {
+            "trade_date": ["2026-01-02T00:00Z"] * 4 + ["2026-01-05T00:00Z"] * 4,
+            "contract_id": ["A", "B", "C", "D"] * 2,
+            "expiration": ["2026-01-10T00:00Z", "2026-02-10T00:00Z", "2026-03-10T00:00Z", "2026-04-10T00:00Z"] * 2,
+            "settle": [1.0, 2.0, 3.0, 4.0, 1.5, 2.5, 3.5, 4.5],
+        }
+    )
+    context_path = tmp_path / "canonical.csv"
+    canonical.to_csv(context_path, index=False, lineterminator="\n")
+    prefit_context = dict(indicator_market.FROZEN_PREFIT_CURVE_CONTEXT)
+    prefit_context["canonical_sha256"] = hashlib.sha256(context_path.read_bytes()).hexdigest()
+    monkeypatch.setattr(indicator_market, "FROZEN_PREFIT_CURVE_CONTEXT", prefit_context)
+
+    result = build_curve_increments(
+        dataset_path,
+        current_trade_date="2026-01-05",
+        prediction_time="2026-01-06T00:00Z",
+        session_sequence=["2026-01-05"],
+        source_policy=source_policy,
+        activation_binding=binding,
+        pre_fit_market_path=context_path,
+    )
+    prior_slope = (4.0 - 1.0) / 90.0
+    assert result == pytest.approx(
+        {
+            "curve_curvature_123": 0.75,
+            "curve_spread_m1_m2_change_1": 2.5,
+            "curve_slope_m1_m4_change_1": 3.0 - prior_slope,
+        }
+    )
 
 
 def test_curve_frozen_artifact_requires_immediate_prior_session(
