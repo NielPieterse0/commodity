@@ -65,6 +65,7 @@ ALL_INCREMENT_FEATURES = tuple(
 )
 IMPLEMENTATION_SOURCE_PATHS = (
     "config/data_sources.json",
+    "src/commodity/roll_safe_market.py",
     "src/commodity/v2_indicator_contract.py",
     "src/commodity/v2_indicator_market.py",
     "src/commodity/v2_indicator_weather_storage.py",
@@ -342,6 +343,7 @@ def bind_activation_contract(
         "activation_contract_issue": 81,
         "activation_contract_status": contract.get("status"),
         "activation_execution_authorized": bool(contract.get("execution_authorized")),
+        "candidate_execution_authorized": bool(candidate.get("execution_authorized")),
         "model_authority": candidate.get("model_authority"),
         "frozen_v1_control": contract.get("frozen_v1_control"),
         "longitudinal_metrics_binding": contract.get("longitudinal_metrics_binding"),
@@ -411,6 +413,7 @@ def require_empirical_release(binding: Mapping[str, Any]) -> None:
     implementation = bound.get("implementation_revision")
     if (
         not bound.get("activation_execution_authorized")
+        or not bound.get("candidate_execution_authorized")
         or not isinstance(audit, Mapping)
         or not audit.get("satisfied")
         or audit.get("current_state") != audit.get("required_state")

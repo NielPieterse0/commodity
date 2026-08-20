@@ -8,6 +8,7 @@ import numpy as np
 import pandas as pd
 import pytest
 
+import commodity.v2_indicator_contract as indicator_contract
 import commodity.v2_indicator_market as indicator_market
 import commodity.v2_indicator_weather_storage as indicator_weather_storage
 from commodity.v2_indicator_weather_storage import (
@@ -77,6 +78,7 @@ def activation_binding():
         "path": SPEC_PATH,
     }
     current = candidate["implementation_revision"]
+    current["source_manifest_paths"] = list(indicator_contract.IMPLEMENTATION_SOURCE_PATHS)
     manifest = _contract_normalized_source_manifest({"implementation_revision": current})
     current["source_manifest_sha256"] = manifest["manifest_sha256"]
     return bind_activation_contract(
@@ -117,6 +119,7 @@ def _prospective_current_source_binding() -> tuple[dict, dict]:
         "path": SPEC_PATH,
     }
     current = candidate["implementation_revision"]
+    current["source_manifest_paths"] = list(indicator_contract.IMPLEMENTATION_SOURCE_PATHS)
     manifest = _contract_normalized_source_manifest({"implementation_revision": current})
     current["source_manifest_sha256"] = manifest["manifest_sha256"]
     binding = bind_activation_contract(
@@ -596,12 +599,64 @@ def test_curve_legacy_dataframe_api_fails_closed_with_governance_error() -> None
         )
 
 
-def test_volatility_ratio_is_exact_and_zero_denominator_fails() -> None:
-    assert build_volatility_increment({"vol_5": 0.2, "vol_20": 0.1}) == {
-        "vol_ratio_5_20": 2.0
-    }
-    with pytest.raises(IndicatorContractError, match="zero"):
-        build_volatility_increment({"vol_5": 0.2, "vol_20": 0.0})
+def test_volatility_uses_same_contract_returns_across_roll() -> None:
+    dates = pd.date_range("2026-01-01", periods=25, tz="UTC")
+    rows: list[dict[str, object]] = []
+    selected: list[dict[str, object]] = []
+    for i, date in enumerate(dates):
+        for contract, expiry, price in (
+            ("NGF26", "2026-02-25", 3.0 + 0.01 * i),
+            ("NGG26", "2026-03-25", 10.0 + 0.02 * i),
+        ):
+            rows.append(
+                {
+                    "trade_date": date,
+                    "contract_id": contract,
+                    "expiration": pd.Timestamp(expiry, tz="UTC"),
+                    "available_at": date + pd.Timedelta(hours=23),
+                    "settle": price,
+                }
+            )
+        contract = "NGF26" if i < 20 else "NGG26"
+        expiry = "2026-02-25" if i < 20 else "2026-03-25"
+        selected.append(
+            {
+                "trade_date": date,
+                "contract_id": contract,
+                "expiration": pd.Timestamp(expiry, tz="UTC"),
+                "available_at": date + pd.Timedelta(hours=23),
+                "roll_reason": "prior_session_volume_crossover" if i == 20 else "hold",
+            }
+        )
+
+    raw = pd.DataFrame(rows)
+    path = pd.DataFrame(selected)
+    result = indicator_market.build_roll_safe_volatility_features(
+        raw, path, current_trade_date=dates[-1]
+    )
+    expected_returns = []
+    for i in range(5, 25):
+        if i < 20:
+            expected_returns.append(np.log((3.0 + 0.01 * i) / (3.0 + 0.01 * (i - 1))))
+        else:
+            expected_returns.append(np.log((10.0 + 0.02 * i) / (10.0 + 0.02 * (i - 1))))
+    expected = pd.Series(expected_returns, dtype=float)
+    assert result["vol_20"] == pytest.approx(expected.std(ddof=1))
+    assert result["vol_5"] == pytest.approx(expected.iloc[-5:].std(ddof=1))
+    assert result["vol_ratio_5_20"] == pytest.approx(
+        expected.iloc[-5:].std(ddof=1) / expected.std(ddof=1)
+    )
+    assert build_volatility_increment(
+        raw, path, current_trade_date=dates[-1]
+    ) == {"vol_ratio_5_20": pytest.approx(result["vol_ratio_5_20"])}
+    with pytest.raises(IndicatorContractError, match="legacy inherited"):
+        build_volatility_increment({"vol_5": 0.2, "vol_20": 0.1})
+    with pytest.raises(IndicatorContractError, match="requires 20 selected sessions"):
+        indicator_market.build_roll_safe_volatility_features(
+            raw.loc[raw["trade_date"] <= dates[9]],
+            path.iloc[:10],
+            current_trade_date=dates[9],
+        )
 
 
 def test_positioning_uses_distinct_pit_reports(source_policy) -> None:
