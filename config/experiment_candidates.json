@@ -20,7 +20,7 @@
     "activation_audit_issue": 88,
     "common_evaluator_manifest": "docs/development/v2-activation-preregistration/statistical-evaluator.json",
     "common_evaluator_manifest_sha256": "d180989ac77952376a07b4ae9e501008e12f4dabc8f04e251c9d4c0f56cc72b3",
-    "execution_authorized": false,
+    "execution_authorized": true,
     "empirical_release_rule": "No V2 candidate may execute until issue #88 independently passes against this corrected frozen #81 contract and its exact bound child revisions."
   },
   "candidates": {
@@ -62,7 +62,7 @@
       "canonical_market_evidence_required": true
     },
     "v2-82-kronos-only": {
-      "status": "frozen_pending_fresh_independent_88_audit",
+      "status": "frozen_released_after_independent_88_audit",
       "issue": 82,
       "role": "kronos_only_component_control",
       "hypothesis": "A fixed Kronos market representation adds material robust out-of-sample information versus the frozen strongest comparable V1 control.",
@@ -92,10 +92,10 @@
       "model_authority": "config/models.json#models.kronos_mini",
       "permitted_inputs": "expiry-aware market OHLCV only, exactly as pinned by the #82 preparation contract",
       "artifact_namespace": "artifacts/v2/v2-82-kronos-only/",
-      "execution_authorized": false
+      "execution_authorized": true
     },
     "v2-83-indicators-only": {
-      "status": "frozen_pending_fresh_independent_88_audit",
+      "status": "frozen_released_after_independent_88_audit",
       "issue": 83,
       "role": "indicators_only_component_control",
       "hypothesis": "A fixed PIT indicator/surprise feature set adds material robust out-of-sample information versus the frozen strongest comparable V1 control without Kronos.",
@@ -131,7 +131,7 @@
         "I-NO-L"
       ],
       "artifact_namespace": "artifacts/v2/v2-83-indicators-only/",
-      "execution_authorized": false
+      "execution_authorized": true
     },
     "v2-84-kronos-indicator-fusion": {
       "status": "frozen_definition_blocked_on_components_and_88",

@@ -74,14 +74,14 @@ def test_f85_has_exactly_three_h5_inferential_members() -> None:
     assert f85["unmanifested_post_hoc_supports_promotion"] is False
 
 
-def test_refreeze_blocks_all_empirical_work_pending_fresh_88() -> None:
+def test_component_release_does_not_release_sensitivity_work() -> None:
     activation = _load(ACTIVATION)
 
-    assert activation["execution_authorized"] is False
-    assert activation["empirical_release_gate"]["88"]["satisfied"] is False
+    assert activation["execution_authorized"] is True
+    assert activation["empirical_release_gate"]["88"]["satisfied"] is True
     assert activation["empirical_release_gate"]["release_state"] == {
-        "82": False,
-        "83": False,
+        "82": True,
+        "83": True,
         "84": False,
         "85": False,
     }
