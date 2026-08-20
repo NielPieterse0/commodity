@@ -6,7 +6,7 @@
   "execution_authorized": false,
   "base_revision": "e11a891b58e67b61593b9c2ec5c86974e64cb0bc",
   "freeze": {
-    "source_pr": 128,
+    "source_pr": 141,
     "candidate_config": "config/experiment_candidates.json",
     "candidate_config_sha256": "9dcfb822b6b5e82f50a47ead8765d4370cf14b6f70a0f83b680cba0825213f14",
     "multiplicity_manifest": "docs/development/v2-activation-preregistration/multiplicity-families.json",
