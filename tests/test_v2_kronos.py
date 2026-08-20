@@ -62,9 +62,22 @@ def _candidate_registry() -> dict:
     return candidates
 
 
+def _activation_contract() -> dict:
+    contract = _load("docs/development/v2-activation-preregistration/activation-contract.json")
+    contract["frozen_execution_rules"]["kronos_target_interface"] = {
+        "model_forecast_field": "close",
+        "prediction_mapping": "log(predicted_close_next / observed_close_at_cutoff)",
+        "prediction_role": "uncalibrated_close_return_proxy_for_target_ret_1",
+        "actual_target": "selected_contract_settlement_log_return",
+        "settlement_reconstruction_permitted": False,
+        "calibration_permitted": False,
+    }
+    return contract
+
+
 def _binding() -> dict:
     return bind_activation_contract(
-        _load("docs/development/v2-activation-preregistration/activation-contract.json"),
+        _activation_contract(),
         _candidate_registry(),
         _load("config/models.json")["models"]["kronos_mini"],
         _load("config/assumptions.json"),
@@ -101,7 +114,20 @@ def test_binding_is_exact_and_empirically_released() -> None:
     assert binding["model_revision"] == "7fdcc628d87f325ccdbcae0a372622ca7e6813aa"
     assert binding["kronos_source_revision"] == KRONOS_SOURCE_REVISION
     assert binding["implementation_revision"]["head"] == SYNTHETIC_BOUND_IMPLEMENTATION
+    assert binding["target_interface"]["prediction_role"] == "uncalibrated_close_return_proxy_for_target_ret_1"
     require_empirical_release(binding)
+
+
+def test_binding_requires_explicit_close_proxy_target_interface() -> None:
+    contract = _activation_contract()
+    contract["frozen_execution_rules"].pop("kronos_target_interface")
+    with pytest.raises(KronosContractError, match="target interface"):
+        bind_activation_contract(
+            contract,
+            _candidate_registry(),
+            _load("config/models.json")["models"]["kronos_mini"],
+            _load("config/assumptions.json"),
+        )
 
 
 def test_binding_still_fails_closed_without_88_release() -> None:

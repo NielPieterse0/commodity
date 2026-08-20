@@ -244,6 +244,20 @@ def bind_activation_contract(
     if control.get("baseline_id") != "zero_return_naive":
         raise KronosContractError("#82 strongest comparable V1 control changed")
 
+    target_interface = _require_mapping(
+        rules.get("kronos_target_interface"), "#82 target interface"
+    )
+    expected_target_interface = {
+        "model_forecast_field": "close",
+        "prediction_mapping": "log(predicted_close_next / observed_close_at_cutoff)",
+        "prediction_role": "uncalibrated_close_return_proxy_for_target_ret_1",
+        "actual_target": "selected_contract_settlement_log_return",
+        "settlement_reconstruction_permitted": False,
+        "calibration_permitted": False,
+    }
+    if dict(target_interface) != expected_target_interface:
+        raise KronosContractError("#82 explicit target-interface contract changed")
+
     binding = {
         "schema_version": 1,
         "issue": 82,
@@ -260,6 +274,7 @@ def bind_activation_contract(
         "kronos_source_revision": KRONOS_SOURCE_REVISION,
         "artifact_namespace": namespaces["82"],
         "frozen_v1_control": control,
+        "target_interface": target_interface,
         "longitudinal_metrics_binding": contract.get("longitudinal_metrics_binding"),
         "seed_semantics": seed,
         "compute_cost_cap": compute_cap,
@@ -392,7 +407,11 @@ def governed_return_prediction(
     current_contract_id: str,
     target_contract_id: str,
 ) -> float:
-    """Map the model close forecast to target_ret_1 without permitting a cross-contract return."""
+    """Use the fixed Kronos close-return forecast as an uncalibrated proxy for target_ret_1.
+
+    The actual frozen target remains selected-contract settlement return. This mapping does not
+    reconstruct or calibrate a settlement price; that distinction is explicit in #81.
+    """
     if str(current_contract_id) != str(target_contract_id):
         raise KronosContractError("cross-contract target returns are prohibited")
     try:
