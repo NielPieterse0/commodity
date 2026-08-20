@@ -138,7 +138,10 @@ def test_release_cannot_be_forged_by_rehashing_caller_binding() -> None:
     binding = _binding()
     for candidate_released in (False, True):
         forged = _released(binding, candidate_released=candidate_released)
-        with pytest.raises(EmpiricalReleaseBlocked, match="committed #81/#83"):
+        with pytest.raises(
+            IndicatorContractError,
+            match="differs from exact committed frozen authorities",
+        ):
             require_empirical_release(forged)
 
 

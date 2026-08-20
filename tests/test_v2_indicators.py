@@ -139,7 +139,7 @@ def test_repository_bindings_are_exact_and_empirical_execution_is_blocked(
         "head": SPEC_REVISION,
         "path": SPEC_PATH,
     }
-    with pytest.raises(EmpiricalReleaseBlocked, match="committed #81/#83"):
+    with pytest.raises(EmpiricalReleaseBlocked, match="empirical execution remains blocked"):
         require_empirical_release(activation_binding)
 
 
