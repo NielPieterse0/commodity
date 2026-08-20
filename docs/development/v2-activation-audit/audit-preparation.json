@@ -7,8 +7,8 @@
   "audit_passed": true,
   "execution_authorized": true,
   "empirical_children_released": true,
-  "authority_revision": "1823c6fbb931295f9b9789baa2fd4e9181163425",
-  "scope": "Final independent #88 activation audit against exact merged #81 authority; no empirical V2 execution.",
+  "authority_revision": "286e7b1d842721439ca54f6bd643eeddcdbf02da",
+  "scope": "Renewed independent #88 activation audit against exact merged #81 target-interface correction authority; no empirical V2 execution.",
   "prohibited_actions": [
     "V2 empirical execution",
     "model fitting",
@@ -20,7 +20,7 @@
   "gate_state": {
     "issue_78": "satisfied_closed_reconciled",
     "issue_15": "satisfied_closed_reconciled",
-    "issue_81": "frozen_merged_1823c6fbb931295f9b9789baa2fd4e9181163425",
+    "issue_81": "frozen_merged_286e7b1d842721439ca54f6bd643eeddcdbf02da",
     "independent_final_review": "passed_no_activation_blockers"
   },
   "required_gate_order": [
@@ -217,19 +217,19 @@
   "next_trigger": "Execute frozen #82/#83 component experiments under exact preregistered contracts; do not release #84/#85.",
   "independent_review_evidence": {
     "reviewed_range": {
-      "base": "c188c9c514e517d07dfb6de6fe912c3a1f460660",
-      "head": "1823c6fbb931295f9b9789baa2fd4e9181163425"
+      "base": "0e15efad27680a66cae9d5356b356c7b00e88bbc",
+      "head": "286e7b1d842721439ca54f6bd643eeddcdbf02da"
     },
     "statistical_research_contract_lane": {
       "backend": "nvidia-nim",
       "model": "nvidia/nemotron-3-super-120b-a12b",
-      "source_fingerprint": "438941b370e84d5eac93b9e3f46701e2a70fa162a509bda41001e22405aee449",
+      "source_fingerprint": "6ac16f80ced4c737b2d7e4f6e51bf5185347e0968743a1b246c26bb92ead3258",
       "result": "pass_no_activation_blockers"
     },
     "governance_reproducibility_lane": {
       "backend": "nvidia-nim",
       "model": "nvidia/nemotron-3-super-120b-a12b",
-      "source_fingerprint": "438941b370e84d5eac93b9e3f46701e2a70fa162a509bda41001e22405aee449",
+      "source_fingerprint": "6ac16f80ced4c737b2d7e4f6e51bf5185347e0968743a1b246c26bb92ead3258",
       "result": "pass_no_activation_blockers"
     }
   }
