@@ -72,11 +72,11 @@ def test_statistical_evaluator_drift_is_fail_closed() -> None:
     stop_rules = {item["id"]: item for item in contract["stop_failure_criteria"]}
 
     assert stop_rules["statistical_evaluator_drift"]["action"] == "stop"
-    assert contract["execution_authorized"] is True
-    assert contract["empirical_release_gate"]["88"]["satisfied"] is True
+    assert contract["execution_authorized"] is False
+    assert contract["empirical_release_gate"]["88"]["satisfied"] is False
     assert contract["empirical_release_gate"]["release_state"] == {
-        "82": True,
-        "83": True,
+        "82": False,
+        "83": False,
         "84": False,
         "85": False,
     }

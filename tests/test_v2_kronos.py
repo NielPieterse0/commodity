@@ -108,14 +108,15 @@ def test_source_hash_is_newline_invariant(tmp_path: Path) -> None:
     assert v2_kronos_module._sha256_file(source) == lf_digest
 
 
-def test_binding_is_exact_and_empirically_released() -> None:
+def test_binding_is_exact_and_empirically_blocked_pending_88() -> None:
     binding = _binding()
     assert binding["candidate_id"] == "v2-82-kronos-only"
     assert binding["model_revision"] == "7fdcc628d87f325ccdbcae0a372622ca7e6813aa"
     assert binding["kronos_source_revision"] == KRONOS_SOURCE_REVISION
     assert binding["implementation_revision"]["head"] == SYNTHETIC_BOUND_IMPLEMENTATION
     assert binding["target_interface"]["prediction_role"] == "uncalibrated_close_return_proxy_for_target_ret_1"
-    require_empirical_release(binding)
+    with pytest.raises(EmpiricalReleaseBlocked):
+        require_empirical_release(binding)
 
 
 def test_binding_requires_explicit_close_proxy_target_interface() -> None:
