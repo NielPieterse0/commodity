@@ -67,16 +67,20 @@ def test_primary_and_secondary_inference_roles_are_fully_bound() -> None:
     assert secondary["rescue_authority"] is False
 
 
-def test_statistical_evaluator_drift_is_fail_closed() -> None:
+def test_statistical_evaluator_drift_remains_fail_closed_after_release() -> None:
     contract = _load(CONTRACT)
     stop_rules = {item["id"]: item for item in contract["stop_failure_criteria"]}
+    drift = stop_rules["statistical_evaluator_drift"]
 
-    assert stop_rules["statistical_evaluator_drift"]["action"] == "stop"
-    assert contract["execution_authorized"] is False
-    assert contract["empirical_release_gate"]["88"]["satisfied"] is False
+    assert drift["action"] == "stop"
+    assert "differ" in drift["condition"]
+    assert contract["frozen_execution_rules"]["uncertainty_significance_rule"][
+        "common_evaluator_source_preflight_required"
+    ] is True
+    assert contract["execution_authorized"] is True
     assert contract["empirical_release_gate"]["release_state"] == {
         "82": True,
-        "83": False,
+        "83": True,
         "84": False,
         "85": False,
     }

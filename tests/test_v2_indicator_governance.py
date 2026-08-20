@@ -81,7 +81,7 @@ def _released(binding: dict, *, candidate_released: bool) -> dict:
     return released
 
 
-def test_exact_refrozen_authorities_bind_and_runtime_release_stays_blocked(monkeypatch) -> None:
+def test_exact_refrozen_authorities_bind_and_runtime_release_is_enabled(monkeypatch) -> None:
     contract = _load("docs/development/v2-activation-preregistration/activation-contract.json")
     candidates = _load("config/experiment_candidates.json")
     multiplicity = read_frozen_multiplicity_manifest(ROOT)
@@ -114,8 +114,7 @@ def test_exact_refrozen_authorities_bind_and_runtime_release_stays_blocked(monke
         "read_frozen_multiplicity_manifest",
         lambda _root: multiplicity,
     )
-    with pytest.raises(EmpiricalReleaseBlocked, match="release the exact bound implementation"):
-        require_empirical_release(binding)
+    require_empirical_release(binding)
 
 
 def test_pre_refreeze_pr98_preparation_head_is_rejected() -> None:
@@ -212,6 +211,57 @@ def test_release_accepts_only_exact_reconstructed_committed_authority(monkeypatc
     state["multiplicity"] = b"{}\n"
     with pytest.raises(EmpiricalReleaseBlocked, match="internally consistent"):
         require_empirical_release(expected)
+
+
+def test_release_guard_requires_all_three_authorization_inputs(monkeypatch) -> None:
+    base_contract = _load("docs/development/v2-activation-preregistration/activation-contract.json")
+    base_candidates = _prospective_candidates()
+    multiplicity = read_frozen_multiplicity_manifest(ROOT)
+    state: dict[str, object] = {}
+
+    def _committed_json(_root: Path, relative: str, *, label: str) -> dict:
+        del label
+        if relative == indicator_contract.ACTIVATION_CONTRACT_PATH:
+            return json.loads(json.dumps(state["contract"]))
+        if relative == indicator_contract.EXPERIMENT_CANDIDATES_PATH:
+            return json.loads(json.dumps(state["candidates"]))
+        raise AssertionError(f"unexpected committed authority path: {relative}")
+
+    monkeypatch.setattr(indicator_contract, "_read_committed_json", _committed_json)
+    monkeypatch.setattr(
+        indicator_contract,
+        "read_frozen_multiplicity_manifest",
+        lambda _root: multiplicity,
+    )
+
+    for global_authorized in (False, True):
+        for candidate_authorized in (False, True):
+            for release_authorized in (False, True):
+                contract = json.loads(json.dumps(base_contract))
+                candidates = json.loads(json.dumps(base_candidates))
+                contract["execution_authorized"] = global_authorized
+                contract["empirical_release_gate"]["88"]["satisfied"] = True
+                contract["empirical_release_gate"]["88"]["current_state"] = (
+                    contract["empirical_release_gate"]["88"]["required_state"]
+                )
+                contract["empirical_release_gate"]["release_state"]["83"] = (
+                    release_authorized
+                )
+                candidates["candidates"][CANDIDATE_ID]["execution_authorized"] = (
+                    candidate_authorized
+                )
+                binding = bind_activation_contract(contract, candidates, multiplicity)
+                state["contract"] = contract
+                state["candidates"] = candidates
+
+                if global_authorized and candidate_authorized and release_authorized:
+                    require_empirical_release(binding)
+                else:
+                    with pytest.raises(
+                        EmpiricalReleaseBlocked,
+                        match="release the exact bound implementation",
+                    ):
+                        require_empirical_release(binding)
 
 
 def test_release_reads_exact_committed_git_authorities_not_dirty_worktree(

@@ -24,7 +24,6 @@ from commodity.v2_indicators import (
     SOURCE_POLICY_SHA256,
     SPEC_PATH,
     SPEC_REVISION,
-    EmpiricalReleaseBlocked,
     IndicatorContractError,
     bind_activation_contract,
     build_curve_increments,
@@ -71,16 +70,6 @@ def activation_binding():
     candidates = json.loads(
         (ROOT / "config" / "experiment_candidates.json").read_text(encoding="utf-8")
     )
-    candidate = candidates["candidates"][CANDIDATE_ID]
-    candidate["preparation_revision"] = {
-        "pr": 98,
-        "head": SPEC_REVISION,
-        "path": SPEC_PATH,
-    }
-    current = candidate["implementation_revision"]
-    current["source_manifest_paths"] = list(indicator_contract.IMPLEMENTATION_SOURCE_PATHS)
-    manifest = _contract_normalized_source_manifest({"implementation_revision": current})
-    current["source_manifest_sha256"] = manifest["manifest_sha256"]
     return bind_activation_contract(
         contract,
         candidates,
@@ -130,7 +119,7 @@ def _prospective_current_source_binding() -> tuple[dict, dict]:
     return binding, manifest
 
 
-def test_repository_bindings_are_exact_and_empirical_execution_is_blocked(
+def test_repository_bindings_are_exact_and_empirical_execution_is_released(
     source_policy, activation_binding
 ) -> None:
     assert source_policy.sha256 == SOURCE_POLICY_SHA256
@@ -139,8 +128,7 @@ def test_repository_bindings_are_exact_and_empirical_execution_is_blocked(
         "head": SPEC_REVISION,
         "path": SPEC_PATH,
     }
-    with pytest.raises(EmpiricalReleaseBlocked, match="empirical execution remains blocked"):
-        require_empirical_release(activation_binding)
+    require_empirical_release(activation_binding)
 
 
 def test_activation_binding_hash_detects_tampering(activation_binding) -> None:
