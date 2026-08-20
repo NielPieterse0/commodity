@@ -1,0 +1,34 @@
+{
+  "schema_version": 1,
+  "issue": 114,
+  "as_of": "2026-08-20",
+  "decision": "preregister_noaa_gfs_first_follow_on_but_do_not_activate",
+  "activation_authorized": false,
+  "primary_candidate": "noaa_gfs_0p5_archive",
+  "secondary_candidate": "noaa_gefs_archive",
+  "deferred_candidate": "ecmwf_mars_archive",
+  "evidence_grade": {
+    "direct_revision_evidence": "medium_working_paper",
+    "peer_reviewed_adjacent_evidence": "high_indirect",
+    "pit_archive_feasibility": "gfs_feasible_gefs_continuity_caveat_ecmwf_access_cost_blocked"
+  },
+  "sources": [
+    {"id": "zhu_hsu_park_2026", "type": "working_paper", "url": "https://ssrn.com/abstract=6985300", "role": "direct forecast-revision evidence"},
+    {"id": "chen_hartley_lan_2023", "type": "peer_reviewed", "doi": "10.1002/fut.22402", "role": "temperature and economic-weighting evidence"},
+    {"id": "noaa_gfs_0p5", "type": "official_archive", "url": "https://www.ncei.noaa.gov/access/metadata/landing-page/bin/iso?id=gov.noaa.ncdc%3AC00634", "role": "preferred historical issued-forecast archive"},
+    {"id": "noaa_gefs", "type": "official_archive", "url": "https://www.ncei.noaa.gov/products/weather-climate-models/global-ensemble-forecast", "role": "ensemble sensitivity candidate with archive discontinuity caveat"},
+    {"id": "ecmwf_open_data", "type": "official_documentation", "url": "https://www.ecmwf.int/en/forecasts/datasets/open-data", "role": "documents rolling 12-run retention"},
+    {"id": "ecmwf_archive_pricing", "type": "official_documentation", "url": "https://www.ecmwf.int/en/forecasts/accessing-forecasts/payment-rules-and-options/tariffs", "role": "documents archive access fee and discretionary research waiver"}
+  ],
+  "frozen_future_requirements": [
+    "exact product/grid and historical coverage",
+    "eligible model cycles and decision cutoff mapping",
+    "fixed forecast horizons",
+    "immediately preceding eligible issued-cycle revision definition",
+    "lagged gas-demand weighting rule",
+    "missing-cycle handling",
+    "GFS model-version treatment",
+    "predeclared warm/cold asymmetry",
+    "no reanalysis substitution"
+  ]
+}
