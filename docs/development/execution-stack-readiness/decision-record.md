@@ -7,7 +7,7 @@
 
 Use **Saxo OpenAPI/SIM as the primary verification path** and **Micro Henry Hub Natural Gas futures (`MNG`) as the preferred tradable instrument candidate**, but do not promote either to an approved execution stack yet. Keep **Interactive Brokers (IBKR)** as the fallback verification path.
 
-A fresh authenticated Saxo SIM session now proves the user is active and `ContractFutures` is a legal asset type. It also exposes two material blockers: OpenAPI market-data terms are not accepted and NYMEX `ContractFutures` is delayed rather than real-time. Standard NG is tradable in SIM, while the observed September 2026 MNG contract is explicitly `NonTradable`. The exact safe probe facts are owned by `evidence.json#local_probe`; margin, executable MNG availability, and an end-to-end MNG SIM lifecycle remain unverified.
+A fresh authenticated Saxo **SIM** session proves the simulation user is active and `ContractFutures` is a legal asset type. In that SIM identity, OpenAPI market-data terms remain unaccepted, NYMEX `ContractFutures` data is delayed, standard NG is tradable, and the observed September 2026 MNG contract is `NonTradable`. These are SIM-environment findings only: the user has since opened a separate Saxo LIVE individual account and accepted its disclaimer, but the 24-hour developer token targets Saxo's SIM environment and does not verify the new LIVE account. The exact safe probe facts are owned by `evidence.json#local_probe`; LIVE-account MNG availability, permissions, data entitlements, margin, and any end-to-end paper lifecycle remain unverified.
 
 ## Decision-ready stack
 
@@ -37,7 +37,7 @@ The 10:1 contract-size ratio means a one-contract MNG position is not economical
 
 ## Saxo findings
 
-Saxo Norway publicly lists Henry Hub Natural Gas futures and micro futures generally, but actual product availability remains account/environment-specific. Authenticated SIM evidence now finds both NG and MNG instrument identities: NGU6 is tradable, while MNGU6 is non-tradable. The MNG continuous parent is visible in search, but Saxo's futures-space endpoint returns 404 for the observed MNG identifiers, so SIM does not currently provide a verified executable MNG path.
+Saxo Norway publicly lists Henry Hub Natural Gas futures and micro futures generally, but actual product availability remains account/environment-specific. Authenticated SIM evidence finds both NG and MNG instrument identities: NGU6 is tradable, while MNGU6 is non-tradable. The MNG continuous parent is visible in search, but Saxo's futures-space endpoint returns 404 for the observed MNG identifiers. This establishes a SIM limitation only; it does not establish that MNG is unavailable in the newly opened LIVE account.
 
 OpenAPI supports account-scoped instrument search, `ContractFutures` futures-space resolution, instrument details and trading schedules. Its price endpoints expose trading prices, bid/ask, delay state and market depth subject to feed rights. User entitlements distinguish real-time top-of-book and full-book rights by asset type.
 
@@ -81,9 +81,10 @@ Until empirical MNG spread/depth observations are captured, paper evaluation mus
 
 ## Current blockers requiring user action
 
-- In SaxoTraderGO, enable **Open API Data Access** and accept the OpenAPI market-data disclaimer/terms; the authenticated user currently reports `MarketDataViaOpenApiTermsAccepted=false`.
-- Enable/subscribe to NYMEX real-time futures data for OpenAPI use; authenticated entitlement currently reports delayed `ContractFutures`, and chart data is delayed by 10 minutes.
-- Determine whether MNG can be enabled/traded in the intended Saxo environment/account. The observed MNGU6 contract is `NonTradable` even though standard NGU6 is tradable. If Saxo SIM cannot expose tradable MNG, explicitly disposition Saxo SIM as unsuitable for the required MNG paper lifecycle and advance the IBKR fallback proof.
+- The user has now opened the Saxo LIVE individual account and accepted its OpenAPI market-data disclaimer. Verify that acceptance against the LIVE identity once LIVE OpenAPI access is linked; the current 24-hour SIM token still reports `MarketDataViaOpenApiTermsAccepted=false` for the separate simulation user.
+- Verify NYMEX real-time futures entitlement in the LIVE/OpenAPI identity. The current 10-minute delay is SIM evidence and must not be projected onto the new LIVE account.
+- Verify whether MNG is tradable in the LIVE account. The observed SIM MNGU6 contract is `NonTradable` even though SIM NGU6 is tradable, but Saxo documents that SIM has functionality/market-data differences from LIVE.
+- Complete the required SIM application testing and, once the LIVE account is eligible/funded, link the SIM developer account to the LIVE account and request LIVE OpenAPI application credentials before any LIVE read-only account verification.
 - For fallback verification, open/fund an eligible IBKR Pro live account if none exists, enable futures permissions, create/enable paper trading, and subscribe/share the required CME/NYMEX market data.
 
 ## Repository probe available now
@@ -117,6 +118,6 @@ Public sources support feasibility only. Account-specific broker responses are t
 
 ## Authenticated probe attempt
 
-The exact authenticated read-only results are recorded only in `evidence.json#local_probe`. Authentication now succeeds with a fresh one-day SIM token. `ContractFutures` permission is present, but OpenAPI market-data terms are not accepted, NYMEX futures data is delayed, and the observed MNG contract is non-tradable.
+The exact authenticated read-only results are recorded only in `evidence.json#local_probe`. Authentication succeeds with a fresh one-day **SIM** token. That SIM identity has `ContractFutures` permission, reports OpenAPI market-data terms unaccepted, exposes delayed NYMEX futures data, and marks the observed MNG contract non-tradable. The user has separately opened a LIVE individual account and accepted its disclaimer, but the SIM token does not authenticate that LIVE identity.
 
-This does not change execution authority and does not satisfy the MNG paper-lifecycle acceptance criterion.
+This does not change execution authority, does not establish LIVE MNG availability, and does not satisfy the MNG paper-lifecycle acceptance criterion.

@@ -17,7 +17,9 @@
     "mng_tradable_in_sim": false,
     "mng_primary_uic": 59045839,
     "mng_continuous_uic": 47975482,
-    "user_context_verified": true
+    "user_context_verified": true,
+    "live_account_opened_user_reported": true,
+    "live_openapi_disclaimer_accepted_user_reported": true
   },
   "fallback_candidate": {
     "broker": "Interactive Brokers",
@@ -78,12 +80,17 @@
     "mng_trading_status": "NonTradable",
     "mng_chart_delayed_by_minutes": 10,
     "mng_futures_space_lookup": "not_found",
-    "generic_probe_result": "ambiguous_continuous_parent_ng_and_mng"
+    "generic_probe_result": "ambiguous_continuous_parent_ng_and_mng",
+    "environment": "SIM",
+    "live_account_authenticated": false,
+    "market_data_terms_scope": "simulation_user_only",
+    "nymex_entitlement_scope": "simulation_user_only",
+    "mng_tradability_scope": "simulation_user_only"
   },
   "blocking_evidence": [
-    "saxo_openapi_market_data_terms_acceptance",
-    "saxo_nymex_realtime_openapi_entitlement",
-    "tradable_saxo_mng_contract_or_explicit_saxo_sim_unavailable_disposition",
+    "live_openapi_identity_linked_and_authenticated",
+    "live_saxo_mng_tradability_verified",
+    "live_saxo_nymex_realtime_openapi_entitlement",
     "exact_saxo_mng_order_types_durations_margin_fees",
     "saxo_sim_end_to_end_order_lifecycle_or_explicit_unavailable_disposition",
     "ibkr_authenticated_fallback_end_to_end_verification",
