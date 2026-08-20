@@ -52,7 +52,7 @@ For each prediction cutoff, context is deterministically the most recent `min(51
 
 Corrected #81 remains the owner of the frozen dataset/vintage/hash, OOS identity, target/horizon, prediction and target timestamp semantics, split/protocol identities, PIT rule, strongest comparable V1 control, metric identities, materiality, uncertainty/significance, multiplicity, robustness, cost, and stop rules. #82 does not redefine them.
 
-The implementation validates the V1-comparable `target_ret_1` / one-trading-session mapping and computes the governed scalar as `log(predicted_close_next / observed_close_at_cutoff)`. Any cross-contract target mapping blocks the run.
+The actual frozen target remains the selected-contract settlement-to-settlement `target_ret_1` at one trading session. Kronos forecasts next `close`, not settlement, so the governed scalar `log(predicted_close_next / observed_close_at_cutoff)` is preregistered explicitly as an **uncalibrated close-return proxy estimate** of that target. No settlement reconstruction or calibration is permitted, and any cross-contract target mapping blocks the run.
 
 ## Seed, reproducibility, and cost
 

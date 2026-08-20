@@ -120,7 +120,7 @@
   "target_and_split": {
     "resolution": "inherit_exactly_from_corrected_frozen_81",
     "fail_closed_if_unresolved": true,
-    "permitted_target_mapping": "Only the frozen target_ret_1 at one trading session is accepted: log(predicted_close_next / observed_close_at_cutoff), with cross-contract target returns prohibited."
+    "permitted_target_mapping": "The actual frozen target remains selected-contract settlement-to-settlement target_ret_1. Kronos forecasts next close only, so log(predicted_close_next / observed_close_at_cutoff) is preregistered explicitly as an uncalibrated proxy estimate of that target. Settlement reconstruction/calibration and cross-contract returns are prohibited."
   },
   "comparator": {
     "selection_rule": "exact strongest comparable V1 control frozen by #81 under #78 comparability rules",
