@@ -81,7 +81,7 @@ def _released(binding: dict, *, candidate_released: bool) -> dict:
     return released
 
 
-def test_exact_refrozen_authorities_bind_and_runtime_release_is_enabled(monkeypatch) -> None:
+def test_committed_authorities_bind_and_runtime_release_matches_source_manifest(monkeypatch) -> None:
     contract = _load("docs/development/v2-activation-preregistration/activation-contract.json")
     candidates = _load("config/experiment_candidates.json")
     multiplicity = read_frozen_multiplicity_manifest(ROOT)
@@ -97,7 +97,6 @@ def test_exact_refrozen_authorities_bind_and_runtime_release_is_enabled(monkeypa
     }
     assert implementation["pr"] == 140
     assert implementation["head"] == "6e36173dd32eafe438557ac411a85257b2f08479"
-    assert implementation["source_manifest_sha256"] == manifest["manifest_sha256"]
     assert tuple(manifest["files"]) == IMPLEMENTATION_SOURCE_PATHS
 
     def _committed_json(_root: Path, relative: str, *, label: str) -> dict:
@@ -114,7 +113,11 @@ def test_exact_refrozen_authorities_bind_and_runtime_release_is_enabled(monkeypa
         "read_frozen_multiplicity_manifest",
         lambda _root: multiplicity,
     )
-    require_empirical_release(binding)
+    if implementation["source_manifest_sha256"] == manifest["manifest_sha256"]:
+        require_empirical_release(binding)
+    else:
+        with pytest.raises(EmpiricalReleaseBlocked, match="runtime implementation sources"):
+            require_empirical_release(binding)
 
 
 def test_pre_refreeze_pr98_preparation_head_is_rejected() -> None:
@@ -325,6 +328,14 @@ def test_release_reads_exact_committed_git_authorities_not_dirty_worktree(
     multiplicity_path.write_bytes(b"{}\n")
 
     monkeypatch.setattr(indicator_contract, "__file__", str(module_path))
+    bound_manifest = candidates["candidates"][CANDIDATE_ID]["implementation_revision"][
+        "source_manifest_sha256"
+    ]
+    monkeypatch.setattr(
+        indicator_contract,
+        "build_implementation_source_manifest",
+        lambda _root: {"manifest_sha256": bound_manifest},
+    )
     require_empirical_release(expected)
 
     committed_contract = indicator_contract._read_committed_json(

@@ -405,6 +405,18 @@ def require_empirical_release(binding: Mapping[str, Any]) -> None:
         )
 
     bound = _validated_activation_binding(authoritative)
+    implementation = bound.get("implementation_revision")
+    if not isinstance(implementation, Mapping):
+        raise EmpiricalReleaseBlocked("#83 implementation revision is missing")
+    runtime_manifest = build_implementation_source_manifest(repo_root)
+    if (
+        runtime_manifest["manifest_sha256"]
+        != implementation.get("source_manifest_sha256")
+    ):
+        raise EmpiricalReleaseBlocked(
+            "#83 empirical execution remains blocked because runtime implementation "
+            "sources differ from the exact implementation bound by #81"
+        )
     gate = bound.get("empirical_release_gate")
     if not isinstance(gate, Mapping):
         raise EmpiricalReleaseBlocked("#83 empirical release gate is missing")
