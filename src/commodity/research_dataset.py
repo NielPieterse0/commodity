@@ -23,6 +23,7 @@ from commodity.market_data import (
     ensure_canonical_market_availability,
     validate_contract_history,
 )
+from commodity.roll_safe_market import same_contract_selected_returns
 from commodity.rolls import build_derived_continuous_series
 
 TARGET_COLUMN = "target_ret_1"
@@ -103,8 +104,22 @@ def _canonical_supervised_dataset(
 
     path, ledger = build_derived_continuous_series(normalized, schema, policy)
     prediction_time = pd.DatetimeIndex(pd.to_datetime(path["available_at"], utc=True))
-    within_contract_returns = path["settle_log_return"].astype(float)
-    synthetic_close = np.exp(within_contract_returns.fillna(0.0).cumsum())
+    target_returns = path["settle_log_return"].astype(float)
+    feature_returns = same_contract_selected_returns(
+        normalized, path, price_col="settle"
+    ).reset_index(drop=True)
+    missing_positions = np.flatnonzero(feature_returns.isna().to_numpy())
+    missing_positions = missing_positions[missing_positions != 0]
+    if len(missing_positions):
+        missing_dates = path.iloc[missing_positions]["trade_date"]
+        raise ValueError(
+            "Canonical roll-safe features require selected-contract prior-session history; "
+            f"missing at {list(pd.to_datetime(missing_dates, utc=True))}"
+        )
+    feature_steps = feature_returns.copy()
+    if pd.isna(feature_steps.iloc[0]):
+        feature_steps.iloc[0] = 0.0
+    synthetic_close = np.exp(feature_steps.cumsum())
     settle = path["settle"].astype(float)
     synthetic_market = pd.DataFrame(
         {
@@ -118,7 +133,7 @@ def _canonical_supervised_dataset(
     synthetic_market = _validate_market_frame(synthetic_market)
     features = build_market_features(synthetic_market)
     target = pd.Series(
-        within_contract_returns.shift(-1).to_numpy(),
+        target_returns.shift(-1).to_numpy(),
         index=prediction_time,
         name=TARGET_COLUMN,
     )
@@ -182,6 +197,9 @@ def _canonical_supervised_dataset(
         "market_semantics_sha256": _json_sha256(market_semantics),
         "synthetic_series": "return_neutral_within_contract_index",
         "synthetic_series_tradable": False,
+        "feature_return_semantics": "selected_contract_own_prior_session",
+        "feature_returns_sha256": _table_sha256(feature_returns.to_frame()),
+        "target_return_semantics": "consecutive_selected_rows_same_contract_only",
         "cross_contract_returns_allowed": False,
     }
     return dataset, lineage
