@@ -1,0 +1,75 @@
+{
+  "schema_version": 1,
+  "issue": 115,
+  "parent_issue": 86,
+  "as_of": "2026-08-20",
+  "decision": "defer_all_historical_activation_pending_pit_closure",
+  "activation_authorized": false,
+  "preferred_future_candidate": "gassco_outage_event_revisions",
+  "families": {
+    "nod_ncs_production": {
+      "source": "Norwegian Offshore Directorate FactPages and dated production releases",
+      "history_depth": "multi_decade_current_state_monthly_history; field-specific starts vary",
+      "publication_timing": "dated monthly preliminary NCS production releases verified",
+      "revision_behavior": "FactPages is synchronized current-state history; historical values can change",
+      "historical_vintage_status": "field_level_vintages_not_verified",
+      "access": "public CSV/XML/Excel and web",
+      "licensing_cost": "public access; no acquisition cost observed; reuse terms require source attribution review",
+      "pit_disposition": "defer_field_level; aggregate dated-release reconstruction may be researched separately",
+      "incremental_mechanism": "slow supply/regime control; weak short-horizon novelty versus European balance controls"
+    },
+    "gassco_flow_and_events": {
+      "source": "Gassco FLOW publication contract",
+      "history_depth": "final daily aggregated nominations up to two years; event-vintage archive depth not verified",
+      "publication_timing": "current/next gasday nominations updated every five minutes; event records include publication time and revision",
+      "revision_behavior": "events explicitly revisioned; historical nomination display is final daily state",
+      "historical_vintage_status": "event_revision_archive_not_verified",
+      "access": "public FLOW web; GREP/API machine services are for authorized users",
+      "licensing_cost": "public web observed; automated historical acquisition rights not verified",
+      "pit_disposition": "preferred_capture_forward_or_archive_verification_candidate; not historical-ready",
+      "incremental_mechanism": "unexpected upstream outage publication/revision before full transmission into TTF/storage/balance variables"
+    },
+    "ssb_gas_exports": {
+      "source": "Statistics Norway Statbank tables 08864 and 08799",
+      "history_depth": "08864 from 2005M01; 08799 from 1988M01",
+      "publication_timing": "table updates expose an exact publication timestamp; current 08799 update observed at 08:00",
+      "revision_behavior": "same-year months revised on each release, then annual revisions in t+1 and finalization in t+2; exceptional historical revisions documented",
+      "historical_vintage_status": "current Statbank API is not a historical-vintage archive",
+      "access": "public PxWebApi v2 without registration",
+      "licensing_cost": "CC BY 4.0; no access charge",
+      "pit_disposition": "defer unless release snapshots/vintages are reconstructed; current history forbidden as PIT evidence",
+      "incremental_mechanism": "monthly destination/export regime information; likely lagged/duplicative for short-horizon prediction"
+    },
+    "entsog_norway_interfaces": {
+      "source": "ENTSOG Transparency Platform API",
+      "history_depth": "historical operational data available with source/point-specific depth; API example reaches 2007",
+      "publication_timing": "records expose periodFrom/periodTo and lastUpdateDateTime",
+      "revision_behavior": "current API documentation does not establish retention of every superseded value",
+      "historical_vintage_status": "conditional_only; revision-vintage preservation not proven",
+      "access": "public API with JSON/XML/CSV/XLSX endpoints",
+      "licensing_cost": "no API fee observed; ENTSOG terms restrict redistribution/derivative publication and disproportionate automated extraction",
+      "pit_disposition": "defer pending vintage-semantics and terms review; use as corroboration/control rather than separate geographic family",
+      "incremental_mechanism": "Norway-interface physical-flow state, but substantially overlaps existing European-flow controls"
+    }
+  },
+  "sources": [
+    {"id": "nod_factpages_monthly", "url": "https://factpages.sodir.no/en/field/tableview/production/saleable/monthly", "role": "current field-level monthly production history"},
+    {"id": "nod_june_2026_release", "url": "https://www.sodir.no/en/whats-new/news/production-figures/2026/production-figures-june-2026/", "role": "dated preliminary publication evidence"},
+    {"id": "gassco_publication_principles", "url": "https://gassco.eu/wp-content/uploads/2023/04/principles-for-publication_rev-01.12.2020.pdf", "role": "flow and outage publication/revision contract"},
+    {"id": "gassco_reporting_access", "url": "https://gassco.eu/en/shippers/capacity-booking-and-reporting/", "role": "machine-service authorization boundary"},
+    {"id": "ssb_08864", "url": "https://www.ssb.no/en/statbank1/table/08864/", "role": "natural-gas export aggregate and revision policy"},
+    {"id": "ssb_08799", "url": "https://www.ssb.no/en/statbank1/table/08799", "role": "partner-country trade history and revision policy"},
+    {"id": "ssb_api_v2", "url": "https://www.ssb.no/en/api/pxwebapiv2", "role": "API and CC BY 4.0 terms"},
+    {"id": "entsog_api_v3", "url": "https://transparency.entsog.eu/api/archiveDirectories/8/api-manual/ENTSOG_TP_API_UserManual_v3.0.pdf", "role": "operational-data API fields and endpoints"},
+    {"id": "entsog_terms", "url": "https://www.entsog.eu/privacy-policy-and-terms-use", "role": "reuse and automated-extraction boundary"}
+  ],
+  "activation_requirements": [
+    "freeze exact source and point/asset identities",
+    "prove historical publication/vintage reconstruction or use capture-forward vintages",
+    "freeze timestamp and cutoff semantics",
+    "freeze revision and cancellation handling",
+    "condition incremental tests on TTF and existing EU balance/flow controls",
+    "do not double-count the same physical flow through Gassco and ENTSOG",
+    "complete licensing/access approval before automated corpus acquisition"
+  ]
+}
