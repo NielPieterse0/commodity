@@ -444,3 +444,55 @@ def test_evaluation_dataset_does_not_weaken_canonical_rights_gate() -> None:
             evidence_mode="canonical",
             canonical_contracts=_canonical_contracts_four(),
         )
+
+
+def test_canonical_roll_day_features_use_selected_contract_own_return(monkeypatch) -> None:
+    from commodity import research_dataset
+    from commodity.config import assumptions_config, data_config
+    from commodity.roll_safe_market import same_contract_selected_returns
+    from commodity.rolls import build_derived_continuous_series
+
+    monkeypatch.setattr(research_dataset, "assert_canonical_market_ready", lambda *_: None)
+    contracts = _rolling_canonical_contracts()
+    policy = assumptions_config()["assumptions"]["continuous_series_policy"]["policy"]
+    path, ledger = build_derived_continuous_series(
+        contracts, data_config()["canonical_contract_schema"], policy
+    )
+    assert not ledger.empty
+    roll_date = pd.Timestamp(ledger.iloc[0]["trade_date"])
+    roll_row = path.loc[path["trade_date"] == roll_date].iloc[0]
+    roll_time = pd.Timestamp(roll_row["available_at"])
+    expected = same_contract_selected_returns(contracts, path).loc[roll_date]
+    assert pd.notna(expected)
+
+    dataset, manifest = research_dataset.build_pit_dataset(
+        None, evidence_mode="canonical", canonical_contracts=contracts
+    )
+
+    assert roll_time in dataset.index
+    assert dataset.loc[roll_time, "ret_1"] == pytest.approx(float(expected))
+    assert dataset.loc[roll_time, "ret_1"] != pytest.approx(0.0)
+    assert manifest["market_structure"]["feature_return_semantics"] == "selected_contract_own_prior_session"
+
+
+def test_canonical_roll_safe_features_fail_when_new_contract_has_no_prior_history(monkeypatch) -> None:
+    from commodity import research_dataset
+    from commodity.config import assumptions_config, data_config
+    from commodity.rolls import build_derived_continuous_series
+
+    monkeypatch.setattr(research_dataset, "assert_canonical_market_ready", lambda *_: None)
+    contracts = _rolling_canonical_contracts()
+    policy = assumptions_config()["assumptions"]["continuous_series_policy"]["policy"]
+    _, ledger = build_derived_continuous_series(
+        contracts, data_config()["canonical_contract_schema"], policy
+    )
+    roll_date = pd.Timestamp(ledger.iloc[0]["trade_date"])
+    new_contract = str(ledger.iloc[0]["new_contract"])
+    deprived = contracts.loc[
+        ~((contracts["contract_id"] == new_contract) & (contracts["trade_date"] < roll_date))
+    ].copy()
+
+    with pytest.raises(ValueError, match="selected-contract prior-session history"):
+        research_dataset.build_pit_dataset(
+            None, evidence_mode="canonical", canonical_contracts=deprived
+        )
