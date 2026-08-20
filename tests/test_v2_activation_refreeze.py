@@ -55,8 +55,8 @@ def test_child_preparation_and_implementation_revisions_are_bound_separately() -
     expected = {
         "82": (
             "v2-82-kronos-only",
-            "a58030b6d993e31574940f2b63fa74b152ca7d90",
-            "a0a6d2e2f1b08d62cd8fe739807f09217af20f5c",
+            "0ff7497e6ce0b5e535604b9fbcfdbd6d131472d9",
+            "0ff7497e6ce0b5e535604b9fbcfdbd6d131472d9",
         ),
         "83": (
             "v2-83-indicators-only",
@@ -67,12 +67,12 @@ def test_child_preparation_and_implementation_revisions_are_bound_separately() -
     for issue, (candidate_id, prep_sha, implementation_sha) in expected.items():
         assert prep[issue]["head"] == prep_sha
         assert implementation[issue]["head"] == implementation_sha
-        assert prep_sha != implementation_sha
         assert len(prep_sha) == 40
         assert len(implementation_sha) == 40
         assert candidates[candidate_id]["preparation_revision"]["head"] == prep_sha
         assert candidates[candidate_id]["implementation_revision"]["head"] == implementation_sha
-        assert candidates[candidate_id]["execution_authorized"] is True
+        assert candidates[candidate_id]["execution_authorized"] is False
+    assert prep["83"]["head"] != implementation["83"]["head"]
 
 
 def test_child_preflights_and_source_manifests_are_bound_exactly() -> None:
@@ -82,12 +82,12 @@ def test_child_preflights_and_source_manifests_are_bound_exactly() -> None:
     impl82 = contract["implementation_bindings"]["82"]
     impl83 = contract["implementation_bindings"]["83"]
 
-    assert prep82["normal_ci_run"] == 31933086050
+    assert prep82["normal_ci_run"] == 32323382105
     assert prep82["normal_ci_conclusion"] == "success"
-    assert impl82["normal_ci_run"] == 32301730280
-    assert impl82["checkpoint_preflight_run"] == 32301730257
+    assert impl82["normal_ci_run"] == 32323382105
+    assert impl82["checkpoint_preflight_run"] == 32323382079
     assert impl82["source_manifest_sha256"] == (
-        "691d45f6ed1fc1e5a223e738c07c744fdf9e95ced0cf10b4e97dc7c1f73e8aeb"
+        "8c65fdf0c100b3c6d8858f88ca54cadafada4e7470821fb202ab39418457ea72"
     )
     assert impl83["normal_ci_run"] == 32299571389
     assert impl83["implementation_preflight_run"] == 32299571393
@@ -116,12 +116,12 @@ def test_robustness_regimes_use_only_ex_ante_pit_information() -> None:
     assert regime["labels"] == ["low", "medium", "high"]
 
 
-def test_independent_88_release_is_limited_to_component_candidates() -> None:
+def test_fresh_independent_88_is_required_before_component_release() -> None:
     contract = _load(CONTRACT)
     candidates = _load(CANDIDATES)
     gate = contract["empirical_release_gate"]
-    assert contract["execution_authorized"] is True
-    assert candidates["freeze"]["execution_authorized"] is True
-    assert gate["88"]["satisfied"] is True
-    assert gate["88"]["current_state"] == gate["88"]["required_state"]
-    assert gate["release_state"] == {"82": True, "83": True, "84": False, "85": False}
+    assert contract["execution_authorized"] is False
+    assert candidates["freeze"]["execution_authorized"] is False
+    assert gate["88"]["satisfied"] is False
+    assert gate["88"]["current_state"] == "not_executed"
+    assert gate["release_state"] == {"82": False, "83": False, "84": False, "85": False}
