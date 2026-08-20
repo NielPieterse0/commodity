@@ -146,3 +146,37 @@ def test_corrected_refreeze_records_successor_142_release_without_releasing_fusi
     assert gate["88"]["satisfied"] is True
     assert gate["88"]["current_state"] == "independent_activation_audit_passed"
     assert gate["release_state"] == {"82": True, "83": True, "84": False, "85": False}
+
+
+def test_release_authorization_requires_all_three_authority_keys() -> None:
+    contract = _load(CONTRACT)
+    registry = _load(CANDIDATES)
+    candidate_ids = {
+        "82": "v2-82-kronos-only",
+        "83": "v2-83-indicators-only",
+        "84": "v2-84-kronos-indicator-fusion",
+        "85": None,
+    }
+
+    def permitted(issue: str) -> bool:
+        candidate_id = candidate_ids[issue]
+        candidate_authorized = bool(
+            candidate_id
+            and registry["candidates"].get(candidate_id, {}).get("execution_authorized")
+        )
+        return bool(
+            contract["execution_authorized"]
+            and candidate_authorized
+            and contract["empirical_release_gate"]["release_state"].get(issue) is True
+        )
+
+    assert permitted("82") is True
+    assert permitted("83") is True
+    assert permitted("84") is False
+    assert permitted("85") is False
+
+    assert not (
+        contract["execution_authorized"]
+        and registry["candidates"]["v2-84-kronos-indicator-fusion"]["execution_authorized"]
+        and contract["empirical_release_gate"]["release_state"]["84"]
+    )
