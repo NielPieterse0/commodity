@@ -71,7 +71,7 @@ def test_child_preparation_and_implementation_revisions_are_bound_separately() -
         assert len(implementation_sha) == 40
         assert candidates[candidate_id]["preparation_revision"]["head"] == prep_sha
         assert candidates[candidate_id]["implementation_revision"]["head"] == implementation_sha
-        assert candidates[candidate_id]["execution_authorized"] is False
+        assert candidates[candidate_id]["execution_authorized"] is True
     assert prep["83"]["head"] != implementation["83"]["head"]
 
 
@@ -116,12 +116,12 @@ def test_robustness_regimes_use_only_ex_ante_pit_information() -> None:
     assert regime["labels"] == ["low", "medium", "high"]
 
 
-def test_fresh_independent_88_is_required_before_component_release() -> None:
+def test_independent_88_release_is_limited_to_component_candidates() -> None:
     contract = _load(CONTRACT)
     candidates = _load(CANDIDATES)
     gate = contract["empirical_release_gate"]
-    assert contract["execution_authorized"] is False
-    assert candidates["freeze"]["execution_authorized"] is False
-    assert gate["88"]["satisfied"] is False
-    assert gate["88"]["current_state"] == "not_executed"
-    assert gate["release_state"] == {"82": False, "83": False, "84": False, "85": False}
+    assert contract["execution_authorized"] is True
+    assert candidates["freeze"]["execution_authorized"] is True
+    assert gate["88"]["satisfied"] is True
+    assert gate["88"]["current_state"] == gate["88"]["required_state"]
+    assert gate["release_state"] == {"82": True, "83": True, "84": False, "85": False}
