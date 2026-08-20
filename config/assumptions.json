@@ -67,8 +67,9 @@
     },
     "weather_archive": {
       "status": "active_assumption",
-      "statement": "Actually-issued historical forecasts are required; Open-Meteo historical forecasts are the low-friction candidate and NOAA GFS/GEFS is the heavier fallback.",
-      "review_trigger": "Coverage, licensing, timestamp fidelity, or reproducibility is inadequate."
+      "statement": "Actually-issued historical forecasts are required. For a post-V2 weather-revision challenger, NOAA GFS 0.5-degree issued forecasts are the preferred baseline because NCEI provides a long official archive with explicit run-cycle and horizon identity. GEFS is a secondary ensemble candidate with an archive-continuity caveat, while ECMWF historical MARS access is deferred pending explicit access/cost approval.",
+      "review_trigger": "GFS archive continuity or metadata proves inadequate, GEFS continuity is resolved, ECMWF historical access is approved, or materially stronger peer-reviewed revision evidence changes the design.",
+      "evidence": "docs/development/weather-revision-readiness/evidence.json"
     },
     "broker_candidate": {
       "status": "active_assumption",
