@@ -94,6 +94,7 @@ def test_release_accepts_only_exact_reconstructed_committed_authority(monkeypatc
     candidates = _prospective_candidates()
     multiplicity = read_frozen_multiplicity_manifest(ROOT)
     contract["execution_authorized"] = True
+    candidates["candidates"][CANDIDATE_ID]["execution_authorized"] = True
     gate = contract["empirical_release_gate"]
     gate["88"]["satisfied"] = True
     gate["88"]["current_state"] = gate["88"]["required_state"]
@@ -164,6 +165,7 @@ def test_release_reads_exact_committed_git_authorities_not_dirty_worktree(
     candidates = _prospective_candidates()
     multiplicity = read_frozen_multiplicity_manifest(ROOT)
     contract["execution_authorized"] = True
+    candidates["candidates"][CANDIDATE_ID]["execution_authorized"] = True
     gate = contract["empirical_release_gate"]
     gate["88"]["satisfied"] = True
     gate["88"]["current_state"] = gate["88"]["required_state"]
