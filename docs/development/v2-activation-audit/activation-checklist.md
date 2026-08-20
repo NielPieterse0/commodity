@@ -2,15 +2,15 @@
 
 **Owner:** Agent 3
 **State:** Executed ? PASS
-**Authority revision:** `1823c6fbb931295f9b9789baa2fd4e9181163425`
+**Authority revision:** `286e7b1d842721439ca54f6bd643eeddcdbf02da`
 
-This checklist is fail-closed. All checks below were re-evaluated against the exact merged #81 authority revision before release.
+This checklist is fail-closed. All checks below were freshly re-evaluated against the exact merged #81 target-interface correction authority before re-release.
 
 ## Current hard gates
 
 - [x] #78 is closed/reconciled and the longitudinal metrics/comparability owner is landed.
 - [x] #15 is closed/reconciled.
-- [x] #81 is frozen and merged via PR #128 at exact main authority `1823c6fbb931295f9b9789baa2fd4e9181163425`.
+- [x] #81 is frozen and merged via corrective PR #130 at exact main authority `286e7b1d842721439ca54f6bd643eeddcdbf02da`.
 - [x] Independent statistical/research-contract and governance/reproducibility reviews completed with no activation-blocking findings.
 
 ## Inherited recommendation/control audit
