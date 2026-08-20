@@ -20,18 +20,31 @@ def main() -> int:
     )
     parser.add_argument("--cache-dir", type=Path, required=True)
     parser.add_argument("--output", type=Path, required=True)
+    parser.add_argument(
+        "--model-key",
+        default="kronos_mini",
+        help="Exact config.models key to preflight (default: kronos_mini).",
+    )
     args = parser.parse_args()
 
     from huggingface_hub import snapshot_download
 
     root = Path(__file__).resolve().parents[1]
     config = json.loads((root / "config" / "models.json").read_text(encoding="utf-8"))
-    cfg = config["models"]["kronos_mini"]
+    try:
+        cfg = config["models"][args.model_key]
+    except KeyError as exc:
+        raise SystemExit(f"unknown model key: {args.model_key}") from exc
+    if cfg.get("family") != "foundation_model":
+        raise SystemExit(f"model key is not a foundation model: {args.model_key}")
+    if not cfg.get("enabled", False) and not cfg.get("checkpoint_preflight_enabled", False):
+        raise SystemExit(f"checkpoint preflight is not enabled for model key: {args.model_key}")
     args.cache_dir.mkdir(parents=True, exist_ok=True)
 
     manifest: dict[str, object] = {
         "schema_version": 1,
         "record": "kronos_checkpoint_preflight",
+        "model_key": args.model_key,
         "empirical_execution": False,
         "model_inference": False,
         "cache_semantics": "preflight_only; measured execution must use local_files_only",

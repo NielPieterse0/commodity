@@ -3,32 +3,46 @@
   "default_model": "ridge",
   "models": {
     "naive": {
-      "kind": "baseline", "enabled": true,
-      "family": "linear_baseline", "architecture": "zero_return",
+      "kind": "baseline",
+      "enabled": true,
+      "family": "linear_baseline",
+      "architecture": "zero_return",
       "baseline_implementation": "zero_return",
       "description": "zero-return/random-walk benchmark"
     },
     "ridge": {
-      "kind": "sklearn", "enabled": true,
-      "family": "linear_baseline", "architecture": "ridge",
-      "baseline_implementation": "ridge_return", "alpha": 10.0
+      "kind": "sklearn",
+      "enabled": true,
+      "family": "linear_baseline",
+      "architecture": "ridge",
+      "baseline_implementation": "ridge_return",
+      "alpha": 10.0
     },
     "hist_gb": {
-      "kind": "sklearn", "enabled": true,
-      "family": "tree_boosting_baseline", "architecture": "hist_gradient_boosting",
+      "kind": "sklearn",
+      "enabled": true,
+      "family": "tree_boosting_baseline",
+      "architecture": "hist_gradient_boosting",
       "baseline_implementation": "hist_gradient_boosting_return",
-      "learning_rate": 0.05, "max_iter": 20, "max_leaf_nodes": 15, "random_state": 0
+      "learning_rate": 0.05,
+      "max_iter": 20,
+      "max_leaf_nodes": 15,
+      "random_state": 0
     },
     "kronos_mini": {
-      "kind": "optional_foundation_model", "enabled": true,
-      "family": "foundation_model", "architecture": "kronos_mini",
-      "repository": "shiyu-coder/Kronos", "local_path": "vendor/Kronos",
+      "kind": "optional_foundation_model",
+      "enabled": true,
+      "family": "foundation_model",
+      "architecture": "kronos_mini",
+      "repository": "shiyu-coder/Kronos",
+      "local_path": "vendor/Kronos",
       "source_revision": "67b630e67f6a18c9e9be918d9b4337c960db1e9a",
       "model_id": "NeoQuasar/Kronos-mini",
       "model_revision": "7fdcc628d87f325ccdbcae0a372622ca7e6813aa",
       "tokenizer_id": "NeoQuasar/Kronos-Tokenizer-2k",
       "tokenizer_revision": "b22fb9cb30a2de2f77e8b617169cd756ba964a08",
-      "device": "cpu", "max_context": 512,
+      "device": "cpu",
+      "max_context": 512,
       "inference": {
         "T": 1.0,
         "top_p": 0.9,
@@ -48,6 +62,91 @@
         }
       },
       "reason": "smallest open Kronos variant; laptop-safe evaluation candidate"
+    },
+    "kronos_base": {
+      "kind": "optional_foundation_model",
+      "enabled": false,
+      "checkpoint_preflight_enabled": true,
+      "family": "foundation_model",
+      "architecture": "kronos_base",
+      "repository": "shiyu-coder/Kronos",
+      "local_path": "vendor/Kronos",
+      "source_revision": "67b630e67f6a18c9e9be918d9b4337c960db1e9a",
+      "model_id": "NeoQuasar/Kronos-base",
+      "model_revision": "2b554741eca47781b64468546e77fef3e85130e6",
+      "tokenizer_id": "NeoQuasar/Kronos-Tokenizer-base",
+      "tokenizer_revision": "0e0117387f39004a9016484a186a908917e22426",
+      "device": "cpu",
+      "max_context": 512,
+      "checkpoint_cache_env": "COMMODITY_KRONOS_CACHE_DIR",
+      "local_files_only": true,
+      "checkpoint_artifacts": {
+        "model": {
+          "filename": "model.safetensors",
+          "sha256": "abff193acab6db1a0368e9773e75799d11403b6d054ee6d5f0a11aeabc5f4b83"
+        },
+        "tokenizer": {
+          "filename": "model.safetensors",
+          "sha256": "59d85f6af76a2c3b8240ea06cb21db4213b4eeca053f246b23e29cf832fc6bee"
+        }
+      },
+      "reason": "#134 checkpoint preflight only; empirical use remains disabled pending frozen inference and roll-safe authority"
+    },
+    "kronos_small": {
+      "kind": "optional_foundation_model",
+      "enabled": false,
+      "checkpoint_preflight_enabled": true,
+      "family": "foundation_model",
+      "architecture": "kronos_small",
+      "repository": "shiyu-coder/Kronos",
+      "local_path": "vendor/Kronos",
+      "source_revision": "67b630e67f6a18c9e9be918d9b4337c960db1e9a",
+      "model_id": "NeoQuasar/Kronos-small",
+      "model_revision": "901c26c1332695a2a8f243eb2f37243a37bea320",
+      "tokenizer_id": "NeoQuasar/Kronos-Tokenizer-base",
+      "tokenizer_revision": "0e0117387f39004a9016484a186a908917e22426",
+      "device": "cpu",
+      "max_context": 512,
+      "checkpoint_cache_env": "COMMODITY_KRONOS_CACHE_DIR",
+      "local_files_only": true,
+      "checkpoint_artifacts": {
+        "model": {
+          "filename": "model.safetensors",
+          "sha256": "b082dfcbd8e8c142a725c8bbb99781802f38fec81210e13479effb32b3c3e020"
+        },
+        "tokenizer": {
+          "filename": "model.safetensors",
+          "sha256": "59d85f6af76a2c3b8240ea06cb21db4213b4eeca053f246b23e29cf832fc6bee"
+        }
+      },
+      "reason": "#134 capacity control; empirical use remains disabled pending frozen diagnostic authority"
     }
+  },
+  "kronos_confirmation_profile": {
+    "source_revision": "67b630e67f6a18c9e9be918d9b4337c960db1e9a",
+    "paper_backtest_inference": {
+      "T": 0.6,
+      "top_p": 0.9,
+      "sample_count": 5,
+      "source": "vendor/Kronos/finetune/config.py"
+    },
+    "upstream_usage_defaults": {
+      "T": 1.0,
+      "top_p": 0.9,
+      "sample_count": 1,
+      "source": "vendor/Kronos/README.md"
+    },
+    "repository_diagnostic": {
+      "context_rule": "most_recent_min_512_N_same_contract_PIT_rows",
+      "horizon_trading_sessions": 1,
+      "target_role": "uncalibrated_close_return_proxy",
+      "purpose": "consumed_82_window_diagnostic_only"
+    },
+    "model_roles": {
+      "primary": "kronos_base",
+      "capacity_control": "kronos_small",
+      "historical_reference": "kronos_mini"
+    },
+    "empirical_execution_authorized": false
   }
 }
