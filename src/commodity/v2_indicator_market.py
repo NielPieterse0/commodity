@@ -10,6 +10,10 @@ from zoneinfo import ZoneInfo
 import numpy as np
 import pandas as pd
 
+from commodity.roll_safe_market import (
+    RollSafeMarketError,
+    same_contract_selected_returns,
+)
 from commodity.v2_indicator_contract import (
     IndicatorContractError,
     PinnedSourcePolicy,
@@ -157,15 +161,71 @@ def build_curve_increments(
     }
 
 
-def build_volatility_increment(inherited_row: Mapping[str, Any]) -> dict[str, float]:
-    vol_5 = _finite(inherited_row.get("vol_5"), label="vol_5")
-    vol_20 = _finite(inherited_row.get("vol_20"), label="vol_20")
+def build_roll_safe_volatility_features(
+    canonical_rows: pd.DataFrame,
+    selected_path: pd.DataFrame,
+    *,
+    current_trade_date: Any,
+) -> dict[str, float]:
+    """Derive #83 volatility controls from selected contracts' own prior-session returns."""
+    try:
+        returns = same_contract_selected_returns(
+            canonical_rows,
+            selected_path,
+            price_col="settle",
+        )
+    except RollSafeMarketError as exc:
+        raise IndicatorContractError("roll-safe volatility input is invalid") from exc
+
+    current = pd.to_datetime(current_trade_date, utc=True, errors="coerce")
+    if pd.isna(current):
+        raise IndicatorContractError("current_trade_date must be known")
+    eligible = returns.loc[returns.index <= current]
+    current_matches = eligible.index == current
+    if current_matches.sum() != 1:
+        raise IndicatorContractError(
+            "current trade date must identify exactly one selected-contract return"
+        )
+    if len(eligible) < 20:
+        raise IndicatorContractError("volatility increment requires 20 selected sessions")
+    window = eligible.iloc[-20:]
+    if window.isna().any() or not np.isfinite(window.to_numpy(dtype="float64")).all():
+        raise IndicatorContractError(
+            "volatility increment requires 20 finite same-contract returns"
+        )
+    vol_5 = float(window.iloc[-5:].std(ddof=1))
+    vol_20 = float(window.std(ddof=1))
+    if not np.isfinite(vol_5) or not np.isfinite(vol_20):
+        raise IndicatorContractError("volatility increment is non-finite")
     if vol_20 == 0.0:
         raise IndicatorContractError("vol_20 denominator is zero")
     ratio = vol_5 / vol_20
     if not np.isfinite(ratio):
         raise IndicatorContractError("vol_ratio_5_20 is non-finite")
-    return {"vol_ratio_5_20": float(ratio)}
+    return {
+        "vol_5": vol_5,
+        "vol_20": vol_20,
+        "vol_ratio_5_20": float(ratio),
+    }
+
+
+def build_volatility_increment(
+    canonical_rows: pd.DataFrame | Mapping[str, Any],
+    selected_path: pd.DataFrame | None = None,
+    *,
+    current_trade_date: Any = None,
+) -> dict[str, float]:
+    if selected_path is None:
+        raise IndicatorContractError(
+            "legacy inherited vol_5/vol_20 input is superseded; canonical rows and "
+            "selected path are required for roll-safe volatility"
+        )
+    features = build_roll_safe_volatility_features(
+        canonical_rows,
+        selected_path,
+        current_trade_date=current_trade_date,
+    )
+    return {"vol_ratio_5_20": features["vol_ratio_5_20"]}
 
 
 def build_positioning_increments(

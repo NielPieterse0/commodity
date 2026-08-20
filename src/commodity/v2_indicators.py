@@ -32,6 +32,7 @@ from commodity.v2_indicator_market import (
     build_curve_increments,
     build_positioning_increments,
     build_power_increments,
+    build_roll_safe_volatility_features,
     build_volatility_increment,
 )
 from commodity.v2_indicator_weather_storage import (
@@ -179,6 +180,7 @@ __all__ = [
     "build_lineage_handoff",
     "build_positioning_increments",
     "build_power_increments",
+    "build_roll_safe_volatility_features",
     "build_storage_increment",
     "build_storage_public_value_events",
     "build_variant_matrix",

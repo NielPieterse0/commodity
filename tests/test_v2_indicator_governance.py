@@ -123,6 +123,14 @@ def test_release_accepts_only_exact_reconstructed_committed_authority(monkeypatc
 
     require_empirical_release(expected)
 
+    blocked_candidates = json.loads(json.dumps(candidates))
+    blocked_candidates["candidates"][CANDIDATE_ID]["execution_authorized"] = False
+    blocked = bind_activation_contract(contract, blocked_candidates, multiplicity)
+    state["candidates"] = blocked_candidates
+    with pytest.raises(EmpiricalReleaseBlocked, match="release the exact bound implementation"):
+        require_empirical_release(blocked)
+    state["candidates"] = candidates
+
     forged = json.loads(json.dumps(expected))
     forged["artifact_namespace"] = "artifacts/forged-83/"
     forged.pop("binding_sha256")
