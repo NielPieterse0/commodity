@@ -17,11 +17,12 @@
         "best_comparable"
       ]
     },
-    "activation_audit_issue": 88,
+    "activation_audit_issue": 142,
+    "activation_audit_predecessor_issue": 88,
     "common_evaluator_manifest": "docs/development/v2-activation-preregistration/statistical-evaluator.json",
     "common_evaluator_manifest_sha256": "d180989ac77952376a07b4ae9e501008e12f4dabc8f04e251c9d4c0f56cc72b3",
-    "execution_authorized": true,
-    "empirical_release_rule": "No V2 candidate may execute until issue #88 independently passes against this corrected frozen #81 contract and its exact bound child revisions."
+    "execution_authorized": false,
+    "empirical_release_rule": "No V2 candidate may execute under this refreeze until successor audit #142 independently passes against the exact corrected #81 contract and its bound child revisions; #88 remains immutable historical audit evidence."
   },
   "candidates": {
     "ng-volatility-direction-v1": {
@@ -95,24 +96,25 @@
       "execution_authorized": true
     },
     "v2-83-indicators-only": {
-      "status": "frozen_released_after_independent_88_audit",
+      "status": "frozen_pending_independent_142_audit",
       "issue": 83,
       "role": "indicators_only_component_control",
       "hypothesis": "A fixed PIT indicator/surprise feature set adds material robust out-of-sample information versus the frozen strongest comparable V1 control without Kronos.",
       "preparation_revision": {
-        "pr": 98,
-        "head": "3e55213b967b590187223e2b286063c81672274a",
+        "pr": 117,
+        "head": "2c2b260971739f6dc39437614d769dea57fe58e2",
         "path": "docs/development/v2-indicator-surprise-challenger/spec.md"
       },
       "implementation_revision": {
-        "pr": 117,
-        "head": "3924274b59f9081247dfb7ad6c9280363a359196",
+        "pr": 140,
+        "head": "6e36173dd32eafe438557ac411a85257b2f08479",
         "path": "src/commodity/v2_indicator_contract.py",
-        "normal_ci_run": 32299571389,
-        "implementation_preflight_run": 32299571393,
-        "source_manifest_sha256": "91e1f9f899086ee2fe677b28b3b9d6f72a2daca8d7d503a4d5da254ded004c16",
+        "normal_ci_run": 32349434071,
+        "implementation_preflight_run": 32349434116,
+        "source_manifest_sha256": "1464b8c5f7558fe727f0ed6c3674ffc96b1de164b50ac8696790da2759ecbc83",
         "source_manifest_paths": [
           "config/data_sources.json",
+          "src/commodity/roll_safe_market.py",
           "src/commodity/v2_indicator_contract.py",
           "src/commodity/v2_indicator_market.py",
           "src/commodity/v2_indicator_weather_storage.py",
@@ -131,7 +133,7 @@
         "I-NO-L"
       ],
       "artifact_namespace": "artifacts/v2/v2-83-indicators-only/",
-      "execution_authorized": true
+      "execution_authorized": false
     },
     "v2-84-kronos-indicator-fusion": {
       "status": "frozen_definition_blocked_on_components_and_88",

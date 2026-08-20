@@ -2,17 +2,17 @@
   "schema_version": 1,
   "record": "v2_activation_contract_frozen",
   "issue": 81,
-  "status": "frozen_released_after_independent_88_audit",
-  "execution_authorized": true,
+  "status": "frozen_pending_independent_142_audit",
+  "execution_authorized": false,
   "base_revision": "e11a891b58e67b61593b9c2ec5c86974e64cb0bc",
   "freeze": {
-    "source_pr": 128,
+    "source_pr": 141,
     "candidate_config": "config/experiment_candidates.json",
-    "candidate_config_sha256": "aed893f762a69eb08a73eecc9f0f8ab895201ce3782609cfdbdc58239c00eb07",
+    "candidate_config_sha256": "d1971a7fe45706d9d0641d7125f51ba8e648edc19a9a008656a7057609b7d0f8",
     "multiplicity_manifest": "docs/development/v2-activation-preregistration/multiplicity-families.json",
     "multiplicity_manifest_sha256": "07ebd1f753268a81687cc2759aa009348cb389377c53603f22fab32fe7939a86",
     "contract_scope": "Freeze V2 experiment identities and decision rules before any V2 empirical result is produced.",
-    "mutation_rule": "Any change to a frozen field or bound preparation/implementation revision requires reopening #81 and a fresh #88 audit before empirical execution."
+    "mutation_rule": "Any change to a frozen field or bound preparation/implementation revision requires reopening #81 and a fresh independent successor activation audit before empirical execution."
   },
   "hard_dependencies": {
     "78": {
@@ -229,8 +229,8 @@
       "normal_ci_conclusion": "success"
     },
     "83": {
-      "pr": 98,
-      "head": "3e55213b967b590187223e2b286063c81672274a",
+      "pr": 117,
+      "head": "2c2b260971739f6dc39437614d769dea57fe58e2",
       "path": "docs/development/v2-indicator-surprise-challenger/spec.md"
     },
     "84": {
@@ -258,16 +258,17 @@
       "tokenizer_sha256": "b97ec46b3b72160509e289183eaf7bdf5f0dac5bb9b49522f6d46638a99a8717"
     },
     "83": {
-      "pr": 117,
-      "head": "3924274b59f9081247dfb7ad6c9280363a359196",
+      "pr": 140,
+      "head": "6e36173dd32eafe438557ac411a85257b2f08479",
       "path": "src/commodity/v2_indicator_contract.py",
-      "normal_ci_run": 32299571389,
+      "normal_ci_run": 32349434071,
       "normal_ci_conclusion": "success",
-      "implementation_preflight_run": 32299571393,
+      "implementation_preflight_run": 32349434116,
       "implementation_preflight_conclusion": "success",
-      "source_manifest_sha256": "91e1f9f899086ee2fe677b28b3b9d6f72a2daca8d7d503a4d5da254ded004c16",
+      "source_manifest_sha256": "1464b8c5f7558fe727f0ed6c3674ffc96b1de164b50ac8696790da2759ecbc83",
       "source_manifest_paths": [
         "config/data_sources.json",
+        "src/commodity/roll_safe_market.py",
         "src/commodity/v2_indicator_contract.py",
         "src/commodity/v2_indicator_market.py",
         "src/commodity/v2_indicator_weather_storage.py",
@@ -277,23 +278,25 @@
   },
   "empirical_release_gate": {
     "88": {
-      "current_state": "independent_activation_audit_passed",
+      "historical_issue": 88,
+      "successor_issue": 142,
+      "current_state": "successor_142_pending_reaudit",
       "required_state": "independent_activation_audit_passed",
-      "satisfied": true
+      "satisfied": false
     },
     "release_state": {
       "82": true,
-      "83": true,
+      "83": false,
       "84": false,
       "85": false
     },
-    "rule": "Freezing #81 does not authorize empirical V2 work. #88 must independently pass this exact corrected #81 freeze, including exact child implementation heads and source manifests, before #82/#83 may execute."
+    "rule": "This corrected #81 refreeze does not authorize #83 empirical work. Successor audit #142, preserving lineage to completed historical audit #88, must independently pass this exact refreeze, including PR #117 preparation commit 2c2b260971739f6dc39437614d769dea57fe58e2, PR #140 implementation head 6e36173dd32eafe438557ac411a85257b2f08479, and source manifest 1464b8c5f7558fe727f0ed6c3674ffc96b1de164b50ac8696790da2759ecbc83, before #83 may execute."
   },
   "stop_failure_criteria": [
     {
       "id": "independent_review_missing",
       "action": "block",
-      "condition": "#88 has not passed against this exact frozen #81 contract and bound child implementation revisions/source manifests."
+      "condition": "Successor audit #142, preserving lineage to completed historical audit #88, has not passed against this exact frozen #81 contract and bound child preparation/implementation revisions/source manifests."
     },
     {
       "id": "hard_context_changed",
