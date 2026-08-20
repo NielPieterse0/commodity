@@ -134,7 +134,9 @@ def test_corrected_refreeze_records_successor_142_release_without_releasing_fusi
     candidates = _load(CANDIDATES)
     gate = contract["empirical_release_gate"]
     assert contract["execution_authorized"] is True
+    assert "never sufficient" in contract["execution_authorization_semantics"]
     assert candidates["freeze"]["execution_authorized"] is True
+    assert "never sufficient" in candidates["freeze"]["execution_authorization_semantics"]
     assert candidates["freeze"]["activation_audit_issue"] == 142
     assert candidates["freeze"]["activation_audit_predecessor_issue"] == 88
     assert candidates["candidates"]["v2-83-indicators-only"]["execution_authorized"] is True
