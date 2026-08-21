@@ -81,7 +81,7 @@ def test_component_release_does_not_release_sensitivity_work() -> None:
     assert activation["empirical_release_gate"]["88"]["satisfied"] is True
     assert activation["empirical_release_gate"]["release_state"] == {
         "82": True,
-        "83": True,
+        "83": False,
         "84": False,
         "85": False,
     }

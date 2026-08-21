@@ -81,7 +81,7 @@ def _released(binding: dict, *, candidate_released: bool) -> dict:
     return released
 
 
-def test_committed_authorities_bind_and_runtime_release_matches_source_manifest(monkeypatch) -> None:
+def test_committed_successor_freeze_matches_manifest_but_blocks_pending_audit(monkeypatch) -> None:
     contract = _load("docs/development/v2-activation-preregistration/activation-contract.json")
     candidates = _load("config/experiment_candidates.json")
     multiplicity = read_frozen_multiplicity_manifest(ROOT)
@@ -95,8 +95,8 @@ def test_committed_authorities_bind_and_runtime_release_matches_source_manifest(
         "head": SPEC_REVISION,
         "path": SPEC_PATH,
     }
-    assert implementation["pr"] == 140
-    assert implementation["head"] == "6e36173dd32eafe438557ac411a85257b2f08479"
+    assert implementation["pr"] == 162
+    assert implementation["head"] == "d0b72db8e3c671d3f828e845c214be2bc9ac70cb"
     assert tuple(manifest["files"]) == IMPLEMENTATION_SOURCE_PATHS
 
     def _committed_json(_root: Path, relative: str, *, label: str) -> dict:
@@ -113,11 +113,9 @@ def test_committed_authorities_bind_and_runtime_release_matches_source_manifest(
         "read_frozen_multiplicity_manifest",
         lambda _root: multiplicity,
     )
-    if implementation["source_manifest_sha256"] == manifest["manifest_sha256"]:
+    assert implementation["source_manifest_sha256"] == manifest["manifest_sha256"]
+    with pytest.raises(EmpiricalReleaseBlocked, match="release the exact bound implementation"):
         require_empirical_release(binding)
-    else:
-        with pytest.raises(EmpiricalReleaseBlocked, match="runtime implementation sources"):
-            require_empirical_release(binding)
 
 
 def test_pre_refreeze_pr98_preparation_head_is_rejected() -> None:

@@ -17,9 +17,9 @@ def _contract() -> dict:
     return _load(V2 / "activation-contract.json")
 
 
-def test_v2_contract_records_successor_142_pass_and_releases_only_components() -> None:
+def test_v2_contract_preserves_142_pass_but_blocks_83_pending_164() -> None:
     contract = _contract()
-    assert contract["status"] == "frozen_released_after_independent_142_audit"
+    assert contract["status"] == "frozen_blocked_pending_independent_164_audit"
     assert contract["execution_authorized"] is True
     assert contract["hard_dependencies"]["78"]["satisfied"] is True
     assert contract["hard_dependencies"]["15"]["satisfied"] is True
@@ -30,7 +30,10 @@ def test_v2_contract_records_successor_142_pass_and_releases_only_components() -
     assert gate["88"]["satisfied"] is True
     assert gate["88"]["current_state"] == "independent_activation_audit_passed"
     assert gate["88"]["required_state"] == "independent_activation_audit_passed"
-    assert gate["release_state"] == {"82": True, "83": True, "84": False, "85": False}
+    assert gate["release_state"] == {"82": True, "83": False, "84": False, "85": False}
+    assert gate["83_successor"]["refreeze_issue"] == 163
+    assert gate["83_successor"]["successor_audit_issue"] == 164
+    assert gate["83_successor"]["satisfied"] is False
 
 
 def test_kronos_target_interface_is_explicit_and_frozen() -> None:
@@ -95,7 +98,7 @@ def test_frozen_candidate_registry_matches_contract_identity_and_digest() -> Non
         "84": "v2-84-kronos-indicator-fusion",
     }
     assert candidates["candidates"][frozen["82"]]["execution_authorized"] is True
-    assert candidates["candidates"][frozen["83"]]["execution_authorized"] is True
+    assert candidates["candidates"][frozen["83"]]["execution_authorized"] is False
     assert candidates["candidates"][frozen["84"]]["execution_authorized"] is False
 
 
