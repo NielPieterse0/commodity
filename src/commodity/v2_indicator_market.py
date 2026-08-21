@@ -35,6 +35,10 @@ FROZEN_MARKET_CONTEXT = {
     "availability_rule_sha256": "1ec62a3bb3c222d158fdd69ab031b3c0a519ba2ac9881a054fae34a26d2aeccc",
     "prediction_timestamp_semantics": "after_current_daily_bar_close",
 }
+FROZEN_PREFIT_CURVE_CONTEXT = {
+    "snapshot_id": "20240813-20260812-v1-m1-m12",
+    "canonical_sha256": "83faf07a8de1fe3fea4cd6548dd25d9c02828e1ef4faa13a234ac8f2ad03d655",
+}
 
 
 def _load_frozen_curve_dataset(
@@ -68,6 +72,52 @@ def _load_frozen_curve_dataset(
     return pd.read_csv(io.BytesIO(raw))
 
 
+def _load_prefit_curve_predecessor(
+    canonical_path: Path,
+    current_date: Any,
+    source_policy: PinnedSourcePolicy,
+) -> tuple[pd.Timestamp, dict[str, float]]:
+    policy = _source_settings(source_policy, "market_canonical")
+    if policy.get("provider") != "massive_futures":
+        raise IndicatorContractError("pinned market source policy changed")
+    raw = canonical_path.read_bytes()
+    if hashlib.sha256(raw).hexdigest() != FROZEN_PREFIT_CURVE_CONTEXT["canonical_sha256"]:
+        raise IndicatorContractError("pre-fit curve context differs from the pinned market artifact")
+    rows = pd.read_csv(io.BytesIO(raw))
+    _require_columns(rows, ("trade_date", "contract_id", "expiration", "settle"), label="pre-fit curve context")
+    rows = rows.copy()
+    rows["trade_date"] = pd.to_datetime(rows["trade_date"], utc=True, errors="coerce")
+    rows["expiration"] = pd.to_datetime(rows["expiration"], utc=True, errors="coerce")
+    if rows[["trade_date", "expiration"]].isna().any().any():
+        raise IndicatorContractError("pre-fit curve context timestamps must be known")
+    if rows.duplicated(["trade_date", "contract_id"]).any():
+        raise IndicatorContractError("pre-fit curve context must be unique by trade_date and contract_id")
+    current = pd.Timestamp(current_date, tz="UTC") if pd.Timestamp(current_date).tzinfo is None else pd.Timestamp(current_date).tz_convert("UTC")
+    prior_dates = rows.loc[rows["trade_date"] < current, "trade_date"]
+    if prior_dates.empty:
+        raise IndicatorContractError("pre-fit curve context has no prior market session")
+    prior_date = prior_dates.max()
+    active = rows.loc[
+        (rows["trade_date"] == prior_date) & (rows["expiration"] >= prior_date)
+    ].sort_values(["expiration", "contract_id"])
+    if len(active) < 4:
+        raise IndicatorContractError("pre-fit curve context requires four active contracts")
+    active = active.iloc[:4]
+    settles = pd.to_numeric(active["settle"], errors="coerce")
+    if settles.isna().any() or not np.isfinite(settles.to_numpy(dtype="float64")).all():
+        raise IndicatorContractError("pre-fit curve settles must be finite")
+    dte = (active["expiration"] - prior_date).dt.total_seconds() / 86400.0
+    span = float(dte.iloc[3] - dte.iloc[0])
+    if span <= 0.0:
+        raise IndicatorContractError("pre-fit curve M1-M4 expiry span must be positive")
+    values = settles.to_numpy(dtype="float64")
+    return prior_date, {
+        "curve_spread_m1_m2": float(values[0] - values[1]),
+        "curve_spread_m2_m3": float(values[1] - values[2]),
+        "curve_slope_m1_m4": float((values[3] - values[0]) / span),
+    }
+
+
 def build_curve_increments(
     dataset_path: Path | pd.DataFrame,
     *,
@@ -76,6 +126,7 @@ def build_curve_increments(
     session_sequence: Sequence[Any],
     source_policy: PinnedSourcePolicy | None = None,
     activation_binding: Mapping[str, Any] | None = None,
+    pre_fit_market_path: Path | None = None,
 ) -> dict[str, float]:
     """Build curve increments only from the exact frozen #81 dataset artifact.
 
@@ -117,9 +168,21 @@ def build_curve_increments(
         raise IndicatorContractError(
             "current trade_date is not in the frozen session sequence"
         ) from exc
+    prefit_prior: dict[str, float] | None = None
     if position == 0:
-        raise IndicatorContractError("curve increment requires a prior market session")
-    prior_date = sessions[position - 1]
+        frozen_dates = pd.to_datetime(rows["trade_date"], errors="coerce").dt.date
+        if frozen_dates.isna().any() or current_date != frozen_dates.min():
+            raise IndicatorContractError(
+                "pre-fit curve context is permitted only for the first frozen dataset row"
+            )
+        if pre_fit_market_path is None:
+            raise IndicatorContractError("curve increment requires a prior market session")
+        prior_timestamp, prefit_prior = _load_prefit_curve_predecessor(
+            Path(pre_fit_market_path), current_date, source_policy
+        )
+        prior_date = prior_timestamp.date()
+    else:
+        prior_date = sessions[position - 1]
 
     eligible = eligible.copy()
     eligible["trade_date"] = pd.to_datetime(
@@ -128,14 +191,22 @@ def build_curve_increments(
     if eligible["trade_date"].isna().any():
         raise IndicatorContractError("curve trade_date must be known")
 
-    selected: dict[str, pd.Series] = {}
-    for label, trade_date in (("current", current_date), ("prior", prior_date)):
-        match = eligible.loc[eligible["trade_date"] == trade_date]
-        if len(match) != 1:
+    selected: dict[str, Mapping[str, Any]] = {}
+    current_match = eligible.loc[eligible["trade_date"] == current_date]
+    if len(current_match) != 1:
+        raise IndicatorContractError(
+            "curve current session must have exactly one eligible row"
+        )
+    selected["current"] = current_match.iloc[0]
+    if prefit_prior is not None:
+        selected["prior"] = prefit_prior
+    else:
+        prior_match = eligible.loc[eligible["trade_date"] == prior_date]
+        if len(prior_match) != 1:
             raise IndicatorContractError(
-                f"curve {label} session must have exactly one eligible row"
+                "curve prior session must have exactly one eligible row"
             )
-        selected[label] = match.iloc[0]
+        selected["prior"] = prior_match.iloc[0]
 
     current = selected["current"]
     prior = selected["prior"]
