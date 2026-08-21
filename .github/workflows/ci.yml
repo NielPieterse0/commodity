@@ -32,4 +32,16 @@ jobs:
       - name: Lint
         run: python -m ruff check .
       - name: Whitespace
-        run: git diff --check HEAD^1 HEAD
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          BEFORE_SHA: ${{ github.event.before }}
+          PR_BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          PR_HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+        run: |
+          if [ "$EVENT_NAME" = "pull_request" ]; then
+            git diff --check "$PR_BASE_SHA" "$PR_HEAD_SHA"
+          elif [ -n "$BEFORE_SHA" ] && [ "$BEFORE_SHA" != "0000000000000000000000000000000000000000" ] && git cat-file -e "$BEFORE_SHA^{commit}"; then
+            git diff --check "$BEFORE_SHA" "$GITHUB_SHA"
+          else
+            git diff --check "$GITHUB_SHA^" "$GITHUB_SHA"
+          fi

@@ -7,7 +7,7 @@ from typing import Any
 
 import pandas as pd
 
-from commodity.config import REPO_ROOT, experiment_config
+from commodity.config import REPO_ROOT, config_path, experiment_config
 from commodity.dataset_audit import audit_full_v1_dataset
 from commodity.provenance import sha256_file
 from commodity.research_dataset import dataframe_sha256
@@ -67,8 +67,8 @@ def _freeze_manifest(
     dataset_hash = dataframe_sha256(frame)
     experiment = experiment_config()
     configuration_sha256 = {
-        "experiment": sha256_file(REPO_ROOT / "config" / "experiment.json"),
-        "data_sources": sha256_file(REPO_ROOT / "config" / "data_sources.json"),
+        "experiment": sha256_file(config_path("experiment.json")),
+        "data_sources": sha256_file(config_path("data_sources.json")),
     }
     transformation_sha256 = {
         "research_dataset": sha256_file(REPO_ROOT / "src" / "commodity" / "research_dataset.py"),

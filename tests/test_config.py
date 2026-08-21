@@ -28,6 +28,7 @@ def test_config_resolution_honors_explicit_override(monkeypatch, tmp_path) -> No
     monkeypatch.setenv("COMMODITY_CONFIG_DIR", str(override))
     loaded = config.load_json("models.json")
     assert loaded["models"]["override"]["enabled"] is True
+    assert config.config_path("models.json") == override / "models.json"
 
 
 def test_kronos_base_checkpoint_is_pinned_but_empirically_disabled() -> None:

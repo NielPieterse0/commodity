@@ -76,6 +76,14 @@ def test_feature_family_mapping_partitions_all_features() -> None:
     assert set(assigned) == set(frame.columns) - {"target_ret_1"}
 
 
+def test_feature_family_mapping_rejects_unclaimed_feature() -> None:
+    from commodity.phase_d_evaluation import feature_family_columns
+
+    frame = _frame().assign(misspelled_weather_signl=1.0)
+    with pytest.raises(ValueError, match="unassigned=.*misspelled_weather_signl"):
+        feature_family_columns(frame, _manifest(), target="target_ret_1")
+
+
 def test_walk_forward_folds_match_retrain_blocks() -> None:
     from commodity.phase_d_evaluation import build_walk_forward_folds
 
@@ -142,7 +150,8 @@ def test_phase_d_evaluation_runs_full_ladder_and_all_ablations() -> None:
         "without:positioning",
         "without:calendar_seasonality",
     }
-    assert len(result["candidate_comparisons"]) == 3
+    assert len(result["candidate_comparisons"]) == 2
+    assert {item["model"] for item in result["candidate_comparisons"]} == {"ridge", "hist_gb"}
     assert len(result["ablation_effects"]) == 21
     assert all(0.0 <= item["adjusted_p_value"] <= 1.0 for item in result["ablation_effects"])
     assert result["regime_thresholds"]["low"] < result["regime_thresholds"]["high"]

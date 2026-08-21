@@ -94,7 +94,9 @@ def feature_family_columns(
 
     if "market" in assigned:
         for column in feature_columns:
-            if column not in claimed:
+            if column in claimed:
+                continue
+            if column == "range_pct" or column.startswith(("ret_", "vol_", "ma_gap_")):
                 assigned["market"].append(column)
                 claimed.add(column)
 
@@ -364,6 +366,8 @@ def run_phase_d_evaluation(
     baseline_full = predictions[f"{baseline_model}|full"]
     candidate_comparisons: list[dict[str, Any]] = []
     for model_name in resolved_model_names:
+        if model_name == baseline_model:
+            continue
         challenger = predictions[f"{model_name}|full"]
         report = _paired_report(challenger, baseline_full, significance)
         candidate_comparisons.append(
