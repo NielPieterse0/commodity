@@ -58,23 +58,8 @@ def source_policy():
 
 @pytest.fixture(scope="module")
 def activation_binding():
-    contract = json.loads(
-        (
-            ROOT
-            / "docs"
-            / "development"
-            / "v2-activation-preregistration"
-            / "activation-contract.json"
-        ).read_text(encoding="utf-8")
-    )
-    candidates = json.loads(
-        (ROOT / "config" / "experiment_candidates.json").read_text(encoding="utf-8")
-    )
-    return bind_activation_contract(
-        contract,
-        candidates,
-        read_frozen_multiplicity_manifest(ROOT),
-    )
+    binding, _ = _prospective_current_source_binding()
+    return binding
 
 
 def _contract_normalized_source_manifest(binding: dict) -> dict:
@@ -102,11 +87,6 @@ def _prospective_current_source_binding() -> tuple[dict, dict]:
         (ROOT / "config/experiment_candidates.json").read_text(encoding="utf-8")
     )
     candidate = candidates["candidates"][CANDIDATE_ID]
-    candidate["preparation_revision"] = {
-        "pr": 98,
-        "head": SPEC_REVISION,
-        "path": SPEC_PATH,
-    }
     current = candidate["implementation_revision"]
     current["source_manifest_paths"] = list(indicator_contract.IMPLEMENTATION_SOURCE_PATHS)
     manifest = _contract_normalized_source_manifest({"implementation_revision": current})

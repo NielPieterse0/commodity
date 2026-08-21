@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import ast
 import hashlib
 import json
 import subprocess
@@ -81,11 +82,9 @@ def _released(binding: dict, *, candidate_released: bool) -> dict:
     return released
 
 
-def test_committed_successor_freeze_matches_manifest_but_blocks_pending_audit(monkeypatch) -> None:
+def test_committed_pre_167_freeze_is_invalidated_by_manifest_closure_expansion() -> None:
     contract = _load("docs/development/v2-activation-preregistration/activation-contract.json")
     candidates = _load("config/experiment_candidates.json")
-    multiplicity = read_frozen_multiplicity_manifest(ROOT)
-    binding = bind_activation_contract(contract, candidates, multiplicity)
     candidate = candidates["candidates"][CANDIDATE_ID]
     implementation = candidate["implementation_revision"]
     manifest = _manifest()
@@ -98,24 +97,15 @@ def test_committed_successor_freeze_matches_manifest_but_blocks_pending_audit(mo
     assert implementation["pr"] == 162
     assert implementation["head"] == "d0b72db8e3c671d3f828e845c214be2bc9ac70cb"
     assert tuple(manifest["files"]) == IMPLEMENTATION_SOURCE_PATHS
+    assert tuple(implementation["source_manifest_paths"]) != IMPLEMENTATION_SOURCE_PATHS
+    assert implementation["source_manifest_sha256"] != manifest["manifest_sha256"]
 
-    def _committed_json(_root: Path, relative: str, *, label: str) -> dict:
-        del label
-        if relative == indicator_contract.ACTIVATION_CONTRACT_PATH:
-            return json.loads(json.dumps(contract))
-        if relative == indicator_contract.EXPERIMENT_CANDIDATES_PATH:
-            return json.loads(json.dumps(candidates))
-        raise AssertionError(f"unexpected committed authority path: {relative}")
-
-    monkeypatch.setattr(indicator_contract, "_read_committed_json", _committed_json)
-    monkeypatch.setattr(
-        indicator_contract,
-        "read_frozen_multiplicity_manifest",
-        lambda _root: multiplicity,
-    )
-    assert implementation["source_manifest_sha256"] == manifest["manifest_sha256"]
-    with pytest.raises(EmpiricalReleaseBlocked, match="release the exact bound implementation"):
-        require_empirical_release(binding)
+    with pytest.raises(IndicatorContractError, match="source-manifest paths changed"):
+        bind_activation_contract(
+            contract,
+            candidates,
+            read_frozen_multiplicity_manifest(ROOT),
+        )
 
 
 def test_pre_refreeze_pr98_preparation_head_is_rejected() -> None:
@@ -134,13 +124,13 @@ def test_pre_refreeze_pr98_preparation_head_is_rejected() -> None:
         )
 
 
-def test_release_cannot_be_forged_by_rehashing_caller_binding() -> None:
+def test_release_cannot_be_forged_while_committed_authority_is_stale() -> None:
     binding = _binding()
     for candidate_released in (False, True):
         forged = _released(binding, candidate_released=candidate_released)
         with pytest.raises(
-            IndicatorContractError,
-            match="differs from exact committed frozen authorities",
+            EmpiricalReleaseBlocked,
+            match="authorities are frozen and internally consistent",
         ):
             require_empirical_release(forged)
 
@@ -414,6 +404,67 @@ def test_source_manifest_is_exact_and_runtime_revision_is_separate() -> None:
             implementation_revision=RUNTIME_REVISION,
             runtime_source_manifest=mutated,
         )
+
+
+def _first_party_module_path(module: str) -> str | None:
+    if module != "commodity" and not module.startswith("commodity."):
+        return None
+    parts = module.split(".")
+    module_file = ROOT / "src" / Path(*parts).with_suffix(".py")
+    package_file = ROOT / "src" / Path(*parts) / "__init__.py"
+    for candidate in (module_file, package_file):
+        if candidate.is_file():
+            return candidate.relative_to(ROOT).as_posix()
+    raise AssertionError(f"unresolved first-party import module: {module}")
+
+
+def _first_party_imports(relative: str) -> set[str]:
+    source = ROOT / relative
+    tree = ast.parse(source.read_text(encoding="utf-8"))
+    current_parts = source.relative_to(ROOT / "src").with_suffix("").parts
+    current_package = current_parts[:-1]
+    discovered: set[str] = set()
+    for node in ast.walk(tree):
+        modules: list[str] = []
+        if isinstance(node, ast.Import):
+            modules.extend(alias.name for alias in node.names)
+        elif isinstance(node, ast.ImportFrom):
+            if node.level:
+                keep = len(current_package) - (node.level - 1)
+                if keep < 1:
+                    raise AssertionError(f"invalid relative import in {relative}")
+                base = list(current_package[:keep])
+                if node.module:
+                    base.extend(node.module.split("."))
+                modules.append(".".join(base))
+                if not node.module:
+                    modules.extend(".".join([*base, alias.name]) for alias in node.names)
+            elif node.module:
+                modules.append(node.module)
+                if node.module == "commodity":
+                    modules.extend(f"commodity.{alias.name}" for alias in node.names)
+        for module in modules:
+            try:
+                dependency = _first_party_module_path(module)
+            except AssertionError:
+                if module == "commodity" or module.startswith("commodity."):
+                    raise
+                continue
+            if dependency is not None:
+                discovered.add(dependency)
+    return discovered
+
+
+def test_source_manifest_closes_over_first_party_python_imports() -> None:
+    manifest_paths = set(IMPLEMENTATION_SOURCE_PATHS)
+    discovered: set[str] = set()
+    for relative in IMPLEMENTATION_SOURCE_PATHS:
+        if relative.startswith("src/commodity/") and relative.endswith(".py"):
+            discovered.update(_first_party_imports(relative))
+
+    assert "src/commodity/availability.py" in discovered
+    assert "src/commodity/evidence_authority.py" in discovered
+    assert discovered <= manifest_paths
 
 
 def test_implementation_source_hash_is_newline_invariant(tmp_path: Path) -> None:

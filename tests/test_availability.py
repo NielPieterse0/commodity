@@ -182,6 +182,24 @@ def test_asof_join_never_uses_future_information() -> None:
     assert joined.iloc[1]["evidence_mode"] == "research_pit"
 
 
+def test_asof_join_includes_information_available_exactly_at_cutoff() -> None:
+    cutoff = pd.Timestamp("2026-01-01T16:00:00Z")
+    cutoffs = pd.DataFrame({"prediction_time": [cutoff]})
+    exogenous = pd.DataFrame(
+        {
+            "available_at": [cutoff],
+            "availability_status": ["verified"],
+            "revision_status": ["point_in_time"],
+            "storage_signal": [11.0],
+        }
+    )
+    joined = asof_join_point_in_time(
+        cutoffs, exogenous, ["storage_signal"], mode="canonical"
+    )
+    assert joined.iloc[0]["storage_signal"] == 11.0
+    assert joined.iloc[0]["available_at"] == cutoff
+
+
 def test_asof_join_rejects_ambiguous_duplicate_availability_times() -> None:
     cutoffs = pd.DataFrame(
         {"prediction_time": pd.to_datetime(["2026-01-01T17:00:00Z"], utc=True)}
