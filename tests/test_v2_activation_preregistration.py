@@ -17,9 +17,9 @@ def _contract() -> dict:
     return _load(V2 / "activation-contract.json")
 
 
-def test_v2_contract_preserves_142_pass_but_blocks_83_pending_164() -> None:
+def test_v2_contract_preserves_prior_audits_but_blocks_83_pending_174() -> None:
     contract = _contract()
-    assert contract["status"] == "frozen_blocked_pending_independent_164_audit"
+    assert contract["status"] == "frozen_blocked_pending_independent_174_audit"
     assert contract["execution_authorized"] is True
     assert contract["hard_dependencies"]["78"]["satisfied"] is True
     assert contract["hard_dependencies"]["15"]["satisfied"] is True
@@ -31,8 +31,9 @@ def test_v2_contract_preserves_142_pass_but_blocks_83_pending_164() -> None:
     assert gate["88"]["current_state"] == "independent_activation_audit_passed"
     assert gate["88"]["required_state"] == "independent_activation_audit_passed"
     assert gate["release_state"] == {"82": True, "83": False, "84": False, "85": False}
-    assert gate["83_successor"]["refreeze_issue"] == 163
-    assert gate["83_successor"]["successor_audit_issue"] == 164
+    assert gate["83_successor"]["refreeze_issue"] == 173
+    assert gate["83_successor"]["historical_audit_issue"] == 164
+    assert gate["83_successor"]["successor_audit_issue"] == 174
     assert gate["83_successor"]["satisfied"] is False
 
 

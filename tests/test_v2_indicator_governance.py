@@ -82,7 +82,7 @@ def _released(binding: dict, *, candidate_released: bool) -> dict:
     return released
 
 
-def test_committed_pre_167_freeze_is_invalidated_by_manifest_closure_expansion() -> None:
+def test_committed_successor_173_freeze_matches_corrected_manifest_but_blocks_pending_174() -> None:
     contract = _load("docs/development/v2-activation-preregistration/activation-contract.json")
     candidates = _load("config/experiment_candidates.json")
     candidate = candidates["candidates"][CANDIDATE_ID]
@@ -94,18 +94,19 @@ def test_committed_pre_167_freeze_is_invalidated_by_manifest_closure_expansion()
         "head": SPEC_REVISION,
         "path": SPEC_PATH,
     }
-    assert implementation["pr"] == 162
-    assert implementation["head"] == "d0b72db8e3c671d3f828e845c214be2bc9ac70cb"
+    assert implementation["pr"] == 172
+    assert implementation["head"] == "cc5decb5fb9d718edbbf706cf9169e3e73c15f0f"
     assert tuple(manifest["files"]) == IMPLEMENTATION_SOURCE_PATHS
-    assert tuple(implementation["source_manifest_paths"]) != IMPLEMENTATION_SOURCE_PATHS
-    assert implementation["source_manifest_sha256"] != manifest["manifest_sha256"]
+    assert tuple(implementation["source_manifest_paths"]) == IMPLEMENTATION_SOURCE_PATHS
+    assert implementation["source_manifest_sha256"] == manifest["manifest_sha256"]
 
-    with pytest.raises(IndicatorContractError, match="source-manifest paths changed"):
-        bind_activation_contract(
-            contract,
-            candidates,
-            read_frozen_multiplicity_manifest(ROOT),
-        )
+    binding = bind_activation_contract(
+        contract,
+        candidates,
+        read_frozen_multiplicity_manifest(ROOT),
+    )
+    with pytest.raises(EmpiricalReleaseBlocked, match="release the exact bound implementation"):
+        require_empirical_release(binding)
 
 
 def test_pre_refreeze_pr98_preparation_head_is_rejected() -> None:
@@ -124,13 +125,13 @@ def test_pre_refreeze_pr98_preparation_head_is_rejected() -> None:
         )
 
 
-def test_release_cannot_be_forged_while_committed_authority_is_stale() -> None:
+def test_release_cannot_be_forged_by_rehashing_caller_binding() -> None:
     binding = _binding()
     for candidate_released in (False, True):
         forged = _released(binding, candidate_released=candidate_released)
         with pytest.raises(
-            EmpiricalReleaseBlocked,
-            match="authorities are frozen and internally consistent",
+            IndicatorContractError,
+            match="differs from exact committed frozen authorities",
         ):
             require_empirical_release(forged)
 
