@@ -61,7 +61,7 @@ def test_child_preparation_and_implementation_revisions_are_bound_separately() -
         "83": (
             "v2-83-indicators-only",
             "2c2b260971739f6dc39437614d769dea57fe58e2",
-            "6e36173dd32eafe438557ac411a85257b2f08479",
+            "d0b72db8e3c671d3f828e845c214be2bc9ac70cb",
         ),
     }
     for issue, (candidate_id, prep_sha, implementation_sha) in expected.items():
@@ -72,11 +72,11 @@ def test_child_preparation_and_implementation_revisions_are_bound_separately() -
         assert candidates[candidate_id]["preparation_revision"]["head"] == prep_sha
         assert candidates[candidate_id]["implementation_revision"]["head"] == implementation_sha
     assert candidates["v2-82-kronos-only"]["execution_authorized"] is True
-    assert candidates["v2-83-indicators-only"]["execution_authorized"] is True
+    assert candidates["v2-83-indicators-only"]["execution_authorized"] is False
     assert prep["83"]["pr"] == 117
     assert candidates["v2-83-indicators-only"]["preparation_revision"]["pr"] == 117
-    assert implementation["83"]["pr"] == 140
-    assert candidates["v2-83-indicators-only"]["implementation_revision"]["pr"] == 140
+    assert implementation["83"]["pr"] == 162
+    assert candidates["v2-83-indicators-only"]["implementation_revision"]["pr"] == 162
     assert prep["83"]["head"] != implementation["83"]["head"]
 
 
@@ -94,10 +94,10 @@ def test_child_preflights_and_source_manifests_are_bound_exactly() -> None:
     assert impl82["source_manifest_sha256"] == (
         "8c65fdf0c100b3c6d8858f88ca54cadafada4e7470821fb202ab39418457ea72"
     )
-    assert impl83["normal_ci_run"] == 32349434071
-    assert impl83["implementation_preflight_run"] == 32349434116
+    assert impl83["normal_ci_run"] == 32408993173
+    assert impl83["implementation_preflight_run"] == 32408993097
     assert impl83["source_manifest_sha256"] == (
-        "1464b8c5f7558fe727f0ed6c3674ffc96b1de164b50ac8696790da2759ecbc83"
+        "e36461671269f6e4927620e316ec316b45c39bd133d3ad5d80c045e97c0949a9"
     )
     assert impl83["source_manifest_paths"] == [
         "config/data_sources.json",
@@ -129,7 +129,7 @@ def test_robustness_regimes_use_only_ex_ante_pit_information() -> None:
     assert regime["labels"] == ["low", "medium", "high"]
 
 
-def test_corrected_refreeze_records_successor_142_release_without_releasing_fusion() -> None:
+def test_successor_163_refreeze_blocks_83_pending_independent_164_audit() -> None:
     contract = _load(CONTRACT)
     candidates = _load(CANDIDATES)
     gate = contract["empirical_release_gate"]
@@ -137,15 +137,17 @@ def test_corrected_refreeze_records_successor_142_release_without_releasing_fusi
     assert "never sufficient" in contract["execution_authorization_semantics"]
     assert candidates["freeze"]["execution_authorized"] is True
     assert "never sufficient" in candidates["freeze"]["execution_authorization_semantics"]
-    assert candidates["freeze"]["activation_audit_issue"] == 142
-    assert candidates["freeze"]["activation_audit_predecessor_issue"] == 88
-    assert candidates["candidates"]["v2-83-indicators-only"]["execution_authorized"] is True
+    assert candidates["freeze"]["activation_audit_issue"] == 164
+    assert candidates["freeze"]["activation_audit_predecessor_issue"] == 142
+    assert candidates["candidates"]["v2-83-indicators-only"]["execution_authorized"] is False
     assert candidates["candidates"]["v2-84-kronos-indicator-fusion"]["execution_authorized"] is False
     assert gate["88"]["historical_issue"] == 88
     assert gate["88"]["successor_issue"] == 142
+    assert gate["83_successor"]["successor_audit_issue"] == 164
     assert gate["88"]["satisfied"] is True
+    assert gate["83_successor"]["satisfied"] is False
     assert gate["88"]["current_state"] == "independent_activation_audit_passed"
-    assert gate["release_state"] == {"82": True, "83": True, "84": False, "85": False}
+    assert gate["release_state"] == {"82": True, "83": False, "84": False, "85": False}
 
 
 def test_release_authorization_requires_all_three_authority_keys() -> None:
@@ -171,7 +173,7 @@ def test_release_authorization_requires_all_three_authority_keys() -> None:
         )
 
     assert permitted("82") is True
-    assert permitted("83") is True
+    assert permitted("83") is False
     assert permitted("84") is False
     assert permitted("85") is False
 

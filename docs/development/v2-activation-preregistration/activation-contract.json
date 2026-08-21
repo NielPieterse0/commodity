@@ -2,18 +2,20 @@
   "schema_version": 1,
   "record": "v2_activation_contract_frozen",
   "issue": 81,
-  "status": "frozen_released_after_independent_142_audit",
+  "status": "frozen_blocked_pending_independent_164_audit",
   "execution_authorized": true,
   "execution_authorization_semantics": "Global release prerequisite only; never sufficient to authorize a candidate. Empirical execution additionally requires that candidate's execution_authorized flag and empirical_release_gate.release_state[issue] are both true.",
   "base_revision": "e11a891b58e67b61593b9c2ec5c86974e64cb0bc",
   "freeze": {
-    "source_pr": 141,
+    "source_pr": 165,
     "candidate_config": "config/experiment_candidates.json",
-    "candidate_config_sha256": "35e5d84fe1fc4885ef91757f4bc20106454fd960f96b71067ed128305da54c99",
+    "candidate_config_sha256": "0303e9a47e10c8eb4cf050102f1917d84535890a55e5b03aecf7d377909795f6",
     "multiplicity_manifest": "docs/development/v2-activation-preregistration/multiplicity-families.json",
     "multiplicity_manifest_sha256": "07ebd1f753268a81687cc2759aa009348cb389377c53603f22fab32fe7939a86",
     "contract_scope": "Freeze V2 experiment identities and decision rules before any V2 empirical result is produced.",
-    "mutation_rule": "Any change to a frozen field or bound preparation/implementation revision requires reopening #81 and a fresh independent successor activation audit before empirical execution."
+    "mutation_rule": "Any change to a frozen field or bound preparation/implementation revision requires a new successor refreeze preserving lineage to completed #81 and a fresh independent successor activation audit before empirical execution.",
+    "successor_refreeze_issue": 163,
+    "successor_audit_issue": 164
   },
   "hard_dependencies": {
     "78": {
@@ -259,14 +261,14 @@
       "tokenizer_sha256": "b97ec46b3b72160509e289183eaf7bdf5f0dac5bb9b49522f6d46638a99a8717"
     },
     "83": {
-      "pr": 140,
-      "head": "6e36173dd32eafe438557ac411a85257b2f08479",
+      "pr": 162,
+      "head": "d0b72db8e3c671d3f828e845c214be2bc9ac70cb",
       "path": "src/commodity/v2_indicator_contract.py",
-      "normal_ci_run": 32349434071,
+      "normal_ci_run": 32408993173,
       "normal_ci_conclusion": "success",
-      "implementation_preflight_run": 32349434116,
+      "implementation_preflight_run": 32408993097,
       "implementation_preflight_conclusion": "success",
-      "source_manifest_sha256": "1464b8c5f7558fe727f0ed6c3674ffc96b1de164b50ac8696790da2759ecbc83",
+      "source_manifest_sha256": "e36461671269f6e4927620e316ec316b45c39bd133d3ad5d80c045e97c0949a9",
       "source_manifest_paths": [
         "config/data_sources.json",
         "src/commodity/roll_safe_market.py",
@@ -283,21 +285,30 @@
       "successor_issue": 142,
       "current_state": "independent_activation_audit_passed",
       "required_state": "independent_activation_audit_passed",
-      "satisfied": true
+      "satisfied": true,
+      "predecessor_successor_issue": null
     },
     "release_state": {
       "82": true,
-      "83": true,
+      "83": false,
       "84": false,
       "85": false
     },
-    "rule": "Successor audit #142 independently passed the exact corrected #81/#83 authority. #83 is released only for PR #117 preparation commit 2c2b260971739f6dc39437614d769dea57fe58e2, PR #140 implementation head 6e36173dd32eafe438557ac411a85257b2f08479, and source manifest 1464b8c5f7558fe727f0ed6c3674ffc96b1de164b50ac8696790da2759ecbc83; #84/#85 remain unauthorized."
+    "rule": "Successor audit #164 must independently pass the exact #163 refreeze binding #83 to PR #162 head d0b72db8e3c671d3f828e845c214be2bc9ac70cb and source manifest e36461671269f6e4927620e316ec316b45c39bd133d3ad5d80c045e97c0949a9; #83 remains unauthorized until then.",
+    "83_successor": {
+      "refreeze_issue": 163,
+      "historical_audit_issue": 142,
+      "successor_audit_issue": 164,
+      "current_state": "pending_independent_activation_audit",
+      "required_state": "independent_activation_audit_passed",
+      "satisfied": false
+    }
   },
   "stop_failure_criteria": [
     {
       "id": "independent_review_missing",
       "action": "block",
-      "condition": "Successor audit #142, preserving lineage to completed historical audit #88, has not passed against this exact frozen #81 contract and bound child preparation/implementation revisions/source manifests."
+      "condition": "Successor audit #164, preserving lineage through completed audits #88 and #142, has not passed against this exact #163 successor freeze and bound #83 implementation/source manifest."
     },
     {
       "id": "hard_context_changed",
