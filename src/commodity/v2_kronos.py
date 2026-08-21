@@ -14,6 +14,10 @@ import pandas as pd
 
 from commodity.kronos import KronosArtifactError, verify_kronos_source_checkout
 from commodity.roll_policy import parse_volume_crossover_policy
+from commodity.roll_safe_market import (
+    RollSafeMarketError,
+    build_same_contract_model_context,
+)
 
 CANDIDATE_ID = "v2-82-kronos-only"
 ACTIVATION_CONTRACT_PATH = (
@@ -29,6 +33,15 @@ IMPLEMENTATION_SOURCE_PATHS = (
     "config/models.json",
     "src/commodity/kronos.py",
     "src/commodity/v2_kronos.py",
+)
+CORRECTED_IMPLEMENTATION_SOURCE_PATHS = IMPLEMENTATION_SOURCE_PATHS + (
+    "src/commodity/roll_safe_market.py",
+)
+SUCCESSOR_LINEAGE_COLUMNS = (
+    "selection_trade_date",
+    "selection_roll_reason",
+    "source_row_sha256",
+    "transformation",
 )
 REQUIRED_MARKET_COLUMNS = (
     "trade_date",
@@ -333,6 +346,99 @@ def _utc_series(frame: pd.DataFrame, column: str) -> pd.Series:
         for index, value in frame[column].items()
     ]
     return pd.Series(values, index=frame.index, dtype="datetime64[ns, UTC]")
+
+
+def _validate_market_identity_timezones(frame: pd.DataFrame, label: str) -> None:
+    for column in ("trade_date", "expiration", "available_at"):
+        if column in frame:
+            _utc_series(frame, column)
+        else:
+            raise KronosContractError(f"{label} is missing timestamp column: {column}")
+
+
+def build_execution_pit_context(
+    canonical_market: pd.DataFrame,
+    selected_market: pd.DataFrame,
+    prediction_time: Any,
+    *,
+    max_context: int = 512,
+) -> pd.DataFrame:
+    """Build successor Kronos history from only the contract selected at the cutoff."""
+    if max_context != 512:
+        raise KronosContractError("Kronos max_context must remain 512")
+    _validate_market_identity_timezones(canonical_market, "canonical market")
+    _validate_market_identity_timezones(selected_market, "selected market")
+    try:
+        same_contract = build_same_contract_model_context(
+            canonical_market,
+            selected_market,
+            prediction_time,
+            max_context=max_context,
+        )
+    except RollSafeMarketError as exc:
+        raise KronosContractError(f"Kronos same-contract context is invalid: {exc}") from exc
+
+    missing_lineage = [
+        column for column in SUCCESSOR_LINEAGE_COLUMNS if column not in same_contract
+    ]
+    if missing_lineage:
+        raise KronosContractError(
+            f"Kronos same-contract context is missing lineage columns: {missing_lineage}"
+        )
+    if same_contract["contract_id"].astype(str).nunique() != 1:
+        raise KronosContractError("Kronos execution context must contain a single contract_id")
+    if (same_contract["selection_roll_reason"].astype(str).str.strip() == "").any():
+        raise KronosContractError("Kronos execution context must retain selection roll reason")
+    if not same_contract["source_row_sha256"].astype(str).map(_SHA256_RE.fullmatch).all():
+        raise KronosContractError("Kronos execution context has invalid source-row identity")
+    if (same_contract["transformation"] != "same_contract_history_v1").any():
+        raise KronosContractError("Kronos execution context has unexpected transformation lineage")
+
+    validated = build_pit_context(same_contract, prediction_time, max_context=max_context)
+    out = same_contract.loc[validated.index].copy()
+    out.loc[:, REQUIRED_MARKET_COLUMNS] = validated.loc[:, REQUIRED_MARKET_COLUMNS]
+    return out
+
+
+def execution_adapter_frame(context: pd.DataFrame) -> pd.DataFrame:
+    """Apply successor-only identity checks immediately before the generic adapter."""
+    missing = [
+        column
+        for column in ("contract_id", *SUCCESSOR_LINEAGE_COLUMNS)
+        if column not in context
+    ]
+    if missing:
+        raise KronosContractError(f"Kronos execution context is missing columns: {missing}")
+    if context.empty or context["contract_id"].astype(str).nunique() != 1:
+        raise KronosContractError("Kronos adapter context must contain a single contract_id")
+    return adapter_frame(context)
+
+
+def governed_kronos_forecast(
+    *,
+    adapter: Any,
+    canonical_market: pd.DataFrame,
+    selected_market: pd.DataFrame,
+    prediction_time: Any,
+    target_timestamp: Any,
+    max_context: int = 512,
+) -> tuple[pd.DataFrame, pd.DataFrame]:
+    """Invoke the generic adapter only through the corrected successor execution boundary."""
+    cutoff = _utc_timestamp(prediction_time, "prediction_time")
+    target = _utc_timestamp(target_timestamp, "target_timestamp")
+    if target <= cutoff:
+        raise KronosContractError("Kronos target timestamp must be after prediction_time")
+    context = build_execution_pit_context(
+        canonical_market,
+        selected_market,
+        cutoff,
+        max_context=max_context,
+    )
+    model_input = execution_adapter_frame(context)
+    forecast = adapter.forecast(model_input, pd.DatetimeIndex([target]))
+    if not isinstance(forecast, pd.DataFrame) or len(forecast) != 1:
+        raise KronosContractError("Kronos governed execution must emit exactly one session")
+    return forecast, context
 
 
 def build_pit_context(
