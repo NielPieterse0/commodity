@@ -286,6 +286,7 @@ def asof_join_point_in_time(
         right_on="available_at",
         by=by_columns or None,
         direction="backward",
+        allow_exact_matches=True,
     )
     return (
         merged.sort_values("_row_order")

@@ -65,6 +65,8 @@ ALL_INCREMENT_FEATURES = tuple(
 )
 IMPLEMENTATION_SOURCE_PATHS = (
     "config/data_sources.json",
+    "src/commodity/availability.py",
+    "src/commodity/evidence_authority.py",
     "src/commodity/roll_safe_market.py",
     "src/commodity/v2_indicator_contract.py",
     "src/commodity/v2_indicator_market.py",
