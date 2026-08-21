@@ -7,7 +7,7 @@
   "execution_authorization_semantics": "Global release prerequisite only; never sufficient to authorize a candidate. Empirical execution additionally requires that candidate's execution_authorized flag and empirical_release_gate.release_state[issue] are both true.",
   "base_revision": "e11a891b58e67b61593b9c2ec5c86974e64cb0bc",
   "freeze": {
-    "source_pr": null,
+    "source_pr": 165,
     "candidate_config": "config/experiment_candidates.json",
     "candidate_config_sha256": "0303e9a47e10c8eb4cf050102f1917d84535890a55e5b03aecf7d377909795f6",
     "multiplicity_manifest": "docs/development/v2-activation-preregistration/multiplicity-families.json",
