@@ -7,7 +7,15 @@ import pytest
 
 from commodity.kronos import KronosMiniAdapter
 from commodity.roll_safe_market import build_same_contract_model_context
-from commodity.v2_kronos import build_pit_context, governed_return_prediction
+from commodity.v2_kronos import (
+    CORRECTED_IMPLEMENTATION_SOURCE_PATHS,
+    KronosContractError,
+    build_execution_pit_context,
+    build_pit_context,
+    execution_adapter_frame,
+    governed_kronos_forecast,
+    governed_return_prediction,
+)
 
 
 def _canonical_rows() -> pd.DataFrame:
@@ -54,8 +62,8 @@ def _selected_path(rows: pd.DataFrame) -> pd.DataFrame:
     return pd.DataFrame(chosen)
 
 
-def test_current_v2_context_still_accepts_mixed_contract_levels() -> None:
-    """Document the residual #154/#133 integration gap without changing runtime semantics."""
+def test_historical_v2_context_still_accepts_mixed_contract_levels() -> None:
+    """Preserve consumed #82 runtime semantics under its original frozen identity."""
     raw = _canonical_rows()
     selected = _selected_path(raw)
 
@@ -63,6 +71,94 @@ def test_current_v2_context_still_accepts_mixed_contract_levels() -> None:
 
     assert list(context["contract_id"].unique()) == ["NGF26", "NGG26"]
     assert context["close"].tolist() == pytest.approx([3.0, 3.1, 10.2])
+
+
+def test_execution_context_uses_same_contract_history_and_preserves_lineage() -> None:
+    raw = _canonical_rows()
+    selected = _selected_path(raw)
+
+    context = build_execution_pit_context(
+        raw,
+        selected,
+        "2026-01-07T23:30:00Z",
+    )
+
+    assert list(context["contract_id"].unique()) == ["NGG26"]
+    assert context["close"].tolist() == pytest.approx([10.0, 10.1, 10.2])
+    assert set(context["selection_roll_reason"]) == {"prior_session_volume_crossover"}
+    assert set(context["transformation"]) == {"same_contract_history_v1"}
+    assert context["source_row_sha256"].str.fullmatch(r"[0-9a-f]{64}").all()
+
+
+def test_execution_adapter_boundary_rejects_mixed_contract_context() -> None:
+    raw = _canonical_rows()
+    selected = _selected_path(raw)
+    context = build_execution_pit_context(raw, selected, "2026-01-07T23:30:00Z")
+    mixed = context.copy()
+    mixed.loc[mixed.index[0], "contract_id"] = "NGF26"
+
+    with pytest.raises(KronosContractError, match="single contract"):
+        execution_adapter_frame(mixed)
+
+
+def test_execution_context_requires_explicit_timezone_identity() -> None:
+    raw = _canonical_rows()
+    selected = _selected_path(raw)
+    raw["trade_date"] = raw["trade_date"].dt.tz_localize(None)
+
+    with pytest.raises(KronosContractError, match="timezone-aware"):
+        build_execution_pit_context(raw, selected, "2026-01-07T23:30:00Z")
+
+
+def test_corrected_source_paths_include_roll_safe_dependency() -> None:
+    assert "src/commodity/roll_safe_market.py" in CORRECTED_IMPLEMENTATION_SOURCE_PATHS
+
+
+def test_governed_executor_uses_same_contract_history_end_to_end() -> None:
+    raw = _canonical_rows()
+    selected = _selected_path(raw)
+    calls: list[tuple[pd.DataFrame, pd.DatetimeIndex]] = []
+
+    class _Adapter:
+        def forecast(self, ohlcv: pd.DataFrame, future_index: pd.DatetimeIndex) -> pd.DataFrame:
+            calls.append((ohlcv.copy(), future_index.copy()))
+            return pd.DataFrame({"close": [10.3]}, index=future_index)
+
+    forecast, context = governed_kronos_forecast(
+        adapter=_Adapter(),
+        canonical_market=raw,
+        selected_market=selected,
+        prediction_time="2026-01-07T23:30:00Z",
+        target_timestamp="2026-01-08T23:30:00Z",
+    )
+
+    assert len(calls) == 1
+    assert calls[0][0]["close"].tolist() == pytest.approx([10.0, 10.1, 10.2])
+    assert list(context["contract_id"].unique()) == ["NGG26"]
+    assert calls[0][1].equals(pd.DatetimeIndex(["2026-01-08T23:30:00Z"]))
+    assert forecast.iloc[0]["close"] == pytest.approx(10.3)
+
+
+def test_governed_executor_rejects_nonfuture_target_before_adapter_call() -> None:
+    raw = _canonical_rows()
+    selected = _selected_path(raw)
+    called = False
+
+    class _Adapter:
+        def forecast(self, ohlcv: pd.DataFrame, future_index: pd.DatetimeIndex) -> pd.DataFrame:
+            nonlocal called
+            called = True
+            return pd.DataFrame()
+
+    with pytest.raises(KronosContractError, match="after prediction_time"):
+        governed_kronos_forecast(
+            adapter=_Adapter(),
+            canonical_market=raw,
+            selected_market=selected,
+            prediction_time="2026-01-07T23:30:00Z",
+            target_timestamp="2026-01-07T23:30:00Z",
+        )
+    assert called is False
 
 
 def test_roll_safe_builder_removes_contract_level_discontinuity() -> None:
