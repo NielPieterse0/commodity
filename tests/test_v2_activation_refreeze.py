@@ -73,7 +73,7 @@ def test_child_preparation_and_implementation_revisions_are_bound_separately() -
         assert candidates[candidate_id]["preparation_revision"]["head"] == prep_sha
         assert candidates[candidate_id]["implementation_revision"]["head"] == implementation_sha
     assert candidates["v2-82-kronos-only"]["execution_authorized"] is True
-    assert candidates["v2-83-indicators-only"]["execution_authorized"] is False
+    assert candidates["v2-83-indicators-only"]["execution_authorized"] is True
     assert prep["83"]["pr"] == 117
     assert candidates["v2-83-indicators-only"]["preparation_revision"]["pr"] == 117
     assert implementation["83"]["pr"] == 172
@@ -132,7 +132,7 @@ def test_robustness_regimes_use_only_ex_ante_pit_information() -> None:
     assert regime["labels"] == ["low", "medium", "high"]
 
 
-def test_successor_173_refreeze_blocks_83_pending_independent_174_audit() -> None:
+def test_successor_173_refreeze_records_174_pass_and_releases_83_only() -> None:
     contract = _load(CONTRACT)
     candidates = _load(CANDIDATES)
     gate = contract["empirical_release_gate"]
@@ -142,7 +142,7 @@ def test_successor_173_refreeze_blocks_83_pending_independent_174_audit() -> Non
     assert "never sufficient" in candidates["freeze"]["execution_authorization_semantics"]
     assert candidates["freeze"]["activation_audit_issue"] == 174
     assert candidates["freeze"]["activation_audit_predecessor_issue"] == 164
-    assert candidates["candidates"]["v2-83-indicators-only"]["execution_authorized"] is False
+    assert candidates["candidates"]["v2-83-indicators-only"]["execution_authorized"] is True
     assert candidates["candidates"]["v2-84-kronos-indicator-fusion"]["execution_authorized"] is False
     assert gate["88"]["historical_issue"] == 88
     assert gate["88"]["successor_issue"] == 142
@@ -150,9 +150,10 @@ def test_successor_173_refreeze_blocks_83_pending_independent_174_audit() -> Non
     assert gate["83_successor"]["historical_audit_issue"] == 164
     assert gate["83_successor"]["successor_audit_issue"] == 174
     assert gate["88"]["satisfied"] is True
-    assert gate["83_successor"]["satisfied"] is False
+    assert gate["83_successor"]["current_state"] == "independent_activation_audit_passed"
+    assert gate["83_successor"]["satisfied"] is True
     assert gate["88"]["current_state"] == "independent_activation_audit_passed"
-    assert gate["release_state"] == {"82": True, "83": False, "84": False, "85": False}
+    assert gate["release_state"] == {"82": True, "83": True, "84": False, "85": False}
 
 
 def test_release_authorization_requires_all_three_authority_keys() -> None:
@@ -178,7 +179,7 @@ def test_release_authorization_requires_all_three_authority_keys() -> None:
         )
 
     assert permitted("82") is True
-    assert permitted("83") is False
+    assert permitted("83") is True
     assert permitted("84") is False
     assert permitted("85") is False
 
