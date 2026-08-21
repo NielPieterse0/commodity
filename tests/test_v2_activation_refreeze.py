@@ -23,6 +23,7 @@ def test_corrected_freeze_binds_exact_candidate_registry() -> None:
     digest = _sha256(CANDIDATES)
     assert contract["freeze"]["candidate_config"] == "config/experiment_candidates.json"
     assert contract["freeze"]["candidate_config_sha256"] == digest
+    assert contract["freeze"]["source_pr"] == 175
 
 
 def test_corrected_freeze_binds_exact_multiplicity_manifest() -> None:
