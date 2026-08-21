@@ -23,7 +23,7 @@
     "common_evaluator_manifest_sha256": "d180989ac77952376a07b4ae9e501008e12f4dabc8f04e251c9d4c0f56cc72b3",
     "execution_authorized": true,
     "execution_authorization_semantics": "Global release prerequisite only; never sufficient to authorize a candidate.",
-    "empirical_release_rule": "Successor audit #174 must independently pass the exact #173/#83 refreeze before #83 may execute. #82 historical release remains recorded; #83/#84/#85 are blocked."
+    "empirical_release_rule": "Successor audit #174 independently passed the exact #173/#83 refreeze. Only candidates whose per-candidate execution_authorized flag and #81 release_state are both true may execute; #84/#85 remain blocked."
   },
   "candidates": {
     "ng-volatility-direction-v1": {
@@ -97,7 +97,7 @@
       "execution_authorized": true
     },
     "v2-83-indicators-only": {
-      "status": "frozen_blocked_pending_independent_174_audit",
+      "status": "frozen_released_after_independent_174_audit",
       "issue": 83,
       "role": "indicators_only_component_control",
       "hypothesis": "A fixed PIT indicator/surprise feature set adds material robust out-of-sample information versus the frozen strongest comparable V1 control without Kronos.",
@@ -136,7 +136,7 @@
         "I-NO-L"
       ],
       "artifact_namespace": "artifacts/v2/v2-83-indicators-only/",
-      "execution_authorized": false
+      "execution_authorized": true
     },
     "v2-84-kronos-indicator-fusion": {
       "status": "frozen_definition_blocked_pending_84_design",

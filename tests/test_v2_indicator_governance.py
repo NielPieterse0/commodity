@@ -82,7 +82,7 @@ def _released(binding: dict, *, candidate_released: bool) -> dict:
     return released
 
 
-def test_committed_successor_173_freeze_matches_corrected_manifest_but_blocks_pending_174() -> None:
+def test_committed_successor_173_freeze_matches_corrected_manifest_and_releases_after_174() -> None:
     contract = _load("docs/development/v2-activation-preregistration/activation-contract.json")
     candidates = _load("config/experiment_candidates.json")
     candidate = candidates["candidates"][CANDIDATE_ID]
@@ -105,8 +105,7 @@ def test_committed_successor_173_freeze_matches_corrected_manifest_but_blocks_pe
         candidates,
         read_frozen_multiplicity_manifest(ROOT),
     )
-    with pytest.raises(EmpiricalReleaseBlocked, match="release the exact bound implementation"):
-        require_empirical_release(binding)
+    require_empirical_release(binding)
 
 
 def test_pre_refreeze_pr98_preparation_head_is_rejected() -> None:

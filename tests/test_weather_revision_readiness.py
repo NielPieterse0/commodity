@@ -34,4 +34,4 @@ def test_weather_revision_readiness_does_not_mutate_frozen_v2_candidates() -> No
 
     activation = _json("docs/development/v2-activation-preregistration/activation-contract.json")
     release_state = activation["empirical_release_gate"]["release_state"]
-    assert release_state == {"82": True, "83": False, "84": False, "85": False}
+    assert release_state == {"82": True, "83": True, "84": False, "85": False}

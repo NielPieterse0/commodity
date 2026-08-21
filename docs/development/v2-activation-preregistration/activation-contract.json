@@ -2,14 +2,14 @@
   "schema_version": 1,
   "record": "v2_activation_contract_frozen",
   "issue": 81,
-  "status": "frozen_blocked_pending_independent_174_audit",
+  "status": "frozen_released_after_independent_174_audit",
   "execution_authorized": true,
   "execution_authorization_semantics": "Global release prerequisite only; never sufficient to authorize a candidate. Empirical execution additionally requires that candidate's execution_authorized flag and empirical_release_gate.release_state[issue] are both true.",
   "base_revision": "e11a891b58e67b61593b9c2ec5c86974e64cb0bc",
   "freeze": {
     "source_pr": 175,
     "candidate_config": "config/experiment_candidates.json",
-    "candidate_config_sha256": "36d149070b94bb872743dc75bc8dabd78df9b8faed802cb88d1872d65db63392",
+    "candidate_config_sha256": "49fc1c14197fa0fe81bc8764fc9d6c7cce2198666e321bf7f7ce9126f502ca5a",
     "multiplicity_manifest": "docs/development/v2-activation-preregistration/multiplicity-families.json",
     "multiplicity_manifest_sha256": "07ebd1f753268a81687cc2759aa009348cb389377c53603f22fab32fe7939a86",
     "contract_scope": "Freeze V2 experiment identities and decision rules before any V2 empirical result is produced.",
@@ -292,18 +292,18 @@
     },
     "release_state": {
       "82": true,
-      "83": false,
+      "83": true,
       "84": false,
       "85": false
     },
-    "rule": "Successor audit #174 must independently pass the exact #173 refreeze binding #83 to PR #172 head cc5decb5fb9d718edbbf706cf9169e3e73c15f0f and source manifest d34b907396a8df22e28de639e2bbdb5dd6e755a142346f76f7a92eac43d6f128; #83 remains unauthorized until then.",
+    "rule": "Successor audit #174 independently passed the exact #173 refreeze binding #83 to PR #172 head cc5decb5fb9d718edbbf706cf9169e3e73c15f0f and source manifest d34b907396a8df22e28de639e2bbdb5dd6e755a142346f76f7a92eac43d6f128. #83 is released only for this exact bound authority; #84/#85 remain unauthorized.",
     "83_successor": {
       "refreeze_issue": 173,
       "historical_audit_issue": 164,
       "successor_audit_issue": 174,
-      "current_state": "pending_independent_activation_audit",
+      "current_state": "independent_activation_audit_passed",
       "required_state": "independent_activation_audit_passed",
-      "satisfied": false
+      "satisfied": true
     }
   },
   "stop_failure_criteria": [

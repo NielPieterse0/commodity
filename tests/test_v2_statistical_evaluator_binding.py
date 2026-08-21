@@ -80,7 +80,7 @@ def test_statistical_evaluator_drift_remains_fail_closed_after_release() -> None
     assert contract["execution_authorized"] is True
     assert contract["empirical_release_gate"]["release_state"] == {
         "82": True,
-        "83": False,
+        "83": True,
         "84": False,
         "85": False,
     }

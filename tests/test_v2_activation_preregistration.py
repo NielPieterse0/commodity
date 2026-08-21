@@ -17,9 +17,9 @@ def _contract() -> dict:
     return _load(V2 / "activation-contract.json")
 
 
-def test_v2_contract_preserves_prior_audits_but_blocks_83_pending_174() -> None:
+def test_v2_contract_records_174_pass_and_releases_83_only() -> None:
     contract = _contract()
-    assert contract["status"] == "frozen_blocked_pending_independent_174_audit"
+    assert contract["status"] == "frozen_released_after_independent_174_audit"
     assert contract["execution_authorized"] is True
     assert contract["hard_dependencies"]["78"]["satisfied"] is True
     assert contract["hard_dependencies"]["15"]["satisfied"] is True
@@ -30,11 +30,12 @@ def test_v2_contract_preserves_prior_audits_but_blocks_83_pending_174() -> None:
     assert gate["88"]["satisfied"] is True
     assert gate["88"]["current_state"] == "independent_activation_audit_passed"
     assert gate["88"]["required_state"] == "independent_activation_audit_passed"
-    assert gate["release_state"] == {"82": True, "83": False, "84": False, "85": False}
+    assert gate["release_state"] == {"82": True, "83": True, "84": False, "85": False}
     assert gate["83_successor"]["refreeze_issue"] == 173
     assert gate["83_successor"]["historical_audit_issue"] == 164
     assert gate["83_successor"]["successor_audit_issue"] == 174
-    assert gate["83_successor"]["satisfied"] is False
+    assert gate["83_successor"]["current_state"] == "independent_activation_audit_passed"
+    assert gate["83_successor"]["satisfied"] is True
 
 
 def test_kronos_target_interface_is_explicit_and_frozen() -> None:
@@ -99,7 +100,14 @@ def test_frozen_candidate_registry_matches_contract_identity_and_digest() -> Non
         "84": "v2-84-kronos-indicator-fusion",
     }
     assert candidates["candidates"][frozen["82"]]["execution_authorized"] is True
-    assert candidates["candidates"][frozen["83"]]["execution_authorized"] is False
+    candidate83 = candidates["candidates"][frozen["83"]]
+    assert candidate83["status"] == "frozen_released_after_independent_174_audit"
+    assert candidate83["execution_authorized"] is True
+    assert candidates["freeze"]["empirical_release_rule"] == (
+        "Successor audit #174 independently passed the exact #173/#83 refreeze. "
+        "Only candidates whose per-candidate execution_authorized flag and #81 release_state "
+        "are both true may execute; #84/#85 remain blocked."
+    )
     assert candidates["candidates"][frozen["84"]]["execution_authorized"] is False
 
 

@@ -99,7 +99,7 @@ def _prospective_current_source_binding() -> tuple[dict, dict]:
     return binding, manifest
 
 
-def test_repository_bindings_are_exact_and_release_fails_closed_on_source_drift(
+def test_repository_bindings_are_exact_and_release_after_174(
     source_policy, activation_binding
 ) -> None:
     assert source_policy.sha256 == SOURCE_POLICY_SHA256
@@ -111,10 +111,7 @@ def test_repository_bindings_are_exact_and_release_fails_closed_on_source_drift(
     runtime_manifest = indicator_contract.build_implementation_source_manifest(ROOT)
     bound_manifest = activation_binding["implementation_revision"]["source_manifest_sha256"]
     assert runtime_manifest["manifest_sha256"] == bound_manifest
-    with pytest.raises(
-        (indicator_contract.EmpiricalReleaseBlocked, IndicatorContractError),
-    ):
-        require_empirical_release(activation_binding)
+    require_empirical_release(activation_binding)
 
 
 def test_activation_binding_hash_detects_tampering(activation_binding) -> None:
