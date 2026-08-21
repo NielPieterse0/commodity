@@ -22,8 +22,13 @@ def _config_dir() -> Path:
     raise FileNotFoundError(f"Commodity config directory not found; checked: {candidates}")
 
 
+def config_path(name: str) -> Path:
+    """Resolve the exact config file used by runtime configuration loading."""
+    return _config_dir() / name
+
+
 def load_json(name: str) -> dict[str, Any]:
-    path = _config_dir() / name
+    path = config_path(name)
     with path.open("r", encoding="utf-8") as handle:
         return json.load(handle)
 

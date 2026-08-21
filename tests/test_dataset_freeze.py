@@ -1,6 +1,8 @@
 from __future__ import annotations
 
+import hashlib
 import json
+import shutil
 from pathlib import Path
 
 import numpy as np
@@ -110,6 +112,26 @@ def test_freeze_is_content_addressed_and_repeatable(tmp_path: Path) -> None:
     assert frozen["transformation_sha256"]["research_dataset"]
     assert frozen["dataset_audit"]["verdict"] == "fit"
     assert (first / "upstream-manifest.json").is_file()
+
+
+def test_freeze_hashes_the_config_files_resolved_at_runtime(monkeypatch, tmp_path: Path) -> None:
+    from commodity import config
+    from commodity.dataset_freeze import freeze_full_v1_dataset
+
+    override = tmp_path / "config"
+    override.mkdir()
+    for name in ("experiment.json", "data_sources.json"):
+        shutil.copy2(config.SOURCE_CONFIG_DIR / name, override / name)
+    data_path = override / "data_sources.json"
+    data_path.write_text(data_path.read_text(encoding="utf-8") + "\n", encoding="utf-8")
+    monkeypatch.setenv("COMMODITY_CONFIG_DIR", str(override))
+
+    frozen = freeze_full_v1_dataset(_dataset(), _manifest(_dataset()), tmp_path / "frozen")
+    payload = json.loads((frozen / "manifest.json").read_text(encoding="utf-8"))
+    expected = hashlib.sha256(data_path.read_bytes()).hexdigest()
+    source_digest = hashlib.sha256((config.SOURCE_CONFIG_DIR / "data_sources.json").read_bytes()).hexdigest()
+    assert payload["configuration_sha256"]["data_sources"] == expected
+    assert expected != source_digest
 
 
 def test_freeze_refuses_conflicting_existing_artifact(tmp_path: Path) -> None:
