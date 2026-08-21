@@ -61,7 +61,7 @@ def test_child_preparation_and_implementation_revisions_are_bound_separately() -
         "83": (
             "v2-83-indicators-only",
             "2c2b260971739f6dc39437614d769dea57fe58e2",
-            "d0b72db8e3c671d3f828e845c214be2bc9ac70cb",
+            "cc5decb5fb9d718edbbf706cf9169e3e73c15f0f",
         ),
     }
     for issue, (candidate_id, prep_sha, implementation_sha) in expected.items():
@@ -75,8 +75,8 @@ def test_child_preparation_and_implementation_revisions_are_bound_separately() -
     assert candidates["v2-83-indicators-only"]["execution_authorized"] is False
     assert prep["83"]["pr"] == 117
     assert candidates["v2-83-indicators-only"]["preparation_revision"]["pr"] == 117
-    assert implementation["83"]["pr"] == 162
-    assert candidates["v2-83-indicators-only"]["implementation_revision"]["pr"] == 162
+    assert implementation["83"]["pr"] == 172
+    assert candidates["v2-83-indicators-only"]["implementation_revision"]["pr"] == 172
     assert prep["83"]["head"] != implementation["83"]["head"]
 
 
@@ -94,13 +94,15 @@ def test_child_preflights_and_source_manifests_are_bound_exactly() -> None:
     assert impl82["source_manifest_sha256"] == (
         "8c65fdf0c100b3c6d8858f88ca54cadafada4e7470821fb202ab39418457ea72"
     )
-    assert impl83["normal_ci_run"] == 32408993173
-    assert impl83["implementation_preflight_run"] == 32408993097
+    assert impl83["normal_ci_run"] == 32481850560
+    assert impl83["implementation_preflight_run"] == 32481850498
     assert impl83["source_manifest_sha256"] == (
-        "e36461671269f6e4927620e316ec316b45c39bd133d3ad5d80c045e97c0949a9"
+        "d34b907396a8df22e28de639e2bbdb5dd6e755a142346f76f7a92eac43d6f128"
     )
     assert impl83["source_manifest_paths"] == [
         "config/data_sources.json",
+        "src/commodity/availability.py",
+        "src/commodity/evidence_authority.py",
         "src/commodity/roll_safe_market.py",
         "src/commodity/v2_indicator_contract.py",
         "src/commodity/v2_indicator_market.py",
@@ -129,7 +131,7 @@ def test_robustness_regimes_use_only_ex_ante_pit_information() -> None:
     assert regime["labels"] == ["low", "medium", "high"]
 
 
-def test_successor_163_refreeze_blocks_83_pending_independent_164_audit() -> None:
+def test_successor_173_refreeze_blocks_83_pending_independent_174_audit() -> None:
     contract = _load(CONTRACT)
     candidates = _load(CANDIDATES)
     gate = contract["empirical_release_gate"]
@@ -137,13 +139,15 @@ def test_successor_163_refreeze_blocks_83_pending_independent_164_audit() -> Non
     assert "never sufficient" in contract["execution_authorization_semantics"]
     assert candidates["freeze"]["execution_authorized"] is True
     assert "never sufficient" in candidates["freeze"]["execution_authorization_semantics"]
-    assert candidates["freeze"]["activation_audit_issue"] == 164
-    assert candidates["freeze"]["activation_audit_predecessor_issue"] == 142
+    assert candidates["freeze"]["activation_audit_issue"] == 174
+    assert candidates["freeze"]["activation_audit_predecessor_issue"] == 164
     assert candidates["candidates"]["v2-83-indicators-only"]["execution_authorized"] is False
     assert candidates["candidates"]["v2-84-kronos-indicator-fusion"]["execution_authorized"] is False
     assert gate["88"]["historical_issue"] == 88
     assert gate["88"]["successor_issue"] == 142
-    assert gate["83_successor"]["successor_audit_issue"] == 164
+    assert gate["83_successor"]["refreeze_issue"] == 173
+    assert gate["83_successor"]["historical_audit_issue"] == 164
+    assert gate["83_successor"]["successor_audit_issue"] == 174
     assert gate["88"]["satisfied"] is True
     assert gate["83_successor"]["satisfied"] is False
     assert gate["88"]["current_state"] == "independent_activation_audit_passed"

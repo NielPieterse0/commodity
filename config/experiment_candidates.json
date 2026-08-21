@@ -17,13 +17,13 @@
         "best_comparable"
       ]
     },
-    "activation_audit_issue": 164,
-    "activation_audit_predecessor_issue": 142,
+    "activation_audit_issue": 174,
+    "activation_audit_predecessor_issue": 164,
     "common_evaluator_manifest": "docs/development/v2-activation-preregistration/statistical-evaluator.json",
     "common_evaluator_manifest_sha256": "d180989ac77952376a07b4ae9e501008e12f4dabc8f04e251c9d4c0f56cc72b3",
     "execution_authorized": true,
     "execution_authorization_semantics": "Global release prerequisite only; never sufficient to authorize a candidate.",
-    "empirical_release_rule": "Successor audit #164 must independently pass the exact #163/#83 refreeze before #83 may execute. #82 historical release remains recorded; #83/#84/#85 are blocked."
+    "empirical_release_rule": "Successor audit #174 must independently pass the exact #173/#83 refreeze before #83 may execute. #82 historical release remains recorded; #83/#84/#85 are blocked."
   },
   "candidates": {
     "ng-volatility-direction-v1": {
@@ -97,7 +97,7 @@
       "execution_authorized": true
     },
     "v2-83-indicators-only": {
-      "status": "frozen_blocked_pending_independent_164_audit",
+      "status": "frozen_blocked_pending_independent_174_audit",
       "issue": 83,
       "role": "indicators_only_component_control",
       "hypothesis": "A fixed PIT indicator/surprise feature set adds material robust out-of-sample information versus the frozen strongest comparable V1 control without Kronos.",
@@ -107,14 +107,16 @@
         "path": "docs/development/v2-indicator-surprise-challenger/spec.md"
       },
       "implementation_revision": {
-        "pr": 162,
-        "head": "d0b72db8e3c671d3f828e845c214be2bc9ac70cb",
+        "pr": 172,
+        "head": "cc5decb5fb9d718edbbf706cf9169e3e73c15f0f",
         "path": "src/commodity/v2_indicator_contract.py",
-        "normal_ci_run": 32408993173,
-        "implementation_preflight_run": 32408993097,
-        "source_manifest_sha256": "e36461671269f6e4927620e316ec316b45c39bd133d3ad5d80c045e97c0949a9",
+        "normal_ci_run": 32481850560,
+        "implementation_preflight_run": 32481850498,
+        "source_manifest_sha256": "d34b907396a8df22e28de639e2bbdb5dd6e755a142346f76f7a92eac43d6f128",
         "source_manifest_paths": [
           "config/data_sources.json",
+          "src/commodity/availability.py",
+          "src/commodity/evidence_authority.py",
           "src/commodity/roll_safe_market.py",
           "src/commodity/v2_indicator_contract.py",
           "src/commodity/v2_indicator_market.py",
