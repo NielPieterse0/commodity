@@ -75,12 +75,52 @@ def test_artifact_namespaces_are_distinct_and_do_not_reuse_82() -> None:
     assert artifacts["historical_82_namespace_prohibited"] not in namespaces
 
 
-def test_freeze_cannot_release_itself_and_audit_record_is_absent() -> None:
+def test_independent_audit_release_binds_exact_freeze(tmp_path: Path) -> None:
     freeze = load_confirmation_freeze(ROOT)
     release = ROOT / AUDIT_RELEASE_PATH
-    assert not release.exists()
+    assert release.is_file()
+    audited = require_independent_release(ROOT, freeze)
+    assert audited["audit_issue"] == 183
+    assert audited["state"] == "independent_audit_passed"
+    assert audited["execution_authorized"] is True
+
+    blocked_root = tmp_path / "blocked"
+    (blocked_root / "config").mkdir(parents=True)
+    (blocked_root / "config" / "kronos_confirmation.json").write_bytes(
+        (ROOT / "config" / "kronos_confirmation.json").read_bytes()
+    )
     with pytest.raises(KronosConfirmationError, match="#183 audit release"):
-        require_independent_release(ROOT, freeze)
+        require_independent_release(blocked_root, freeze)
+
+    stale_root = tmp_path / "stale"
+    (stale_root / "config").mkdir(parents=True)
+    stale_config = (ROOT / "config" / "kronos_confirmation.json").read_text(
+        encoding="utf-8"
+    ).replace("frozen_pending_independent_audit", "tampered_after_audit")
+    (stale_root / "config" / "kronos_confirmation.json").write_text(
+        stale_config, encoding="utf-8"
+    )
+    stale_release = stale_root / AUDIT_RELEASE_PATH
+    stale_release.parent.mkdir(parents=True)
+    stale_release.write_bytes(release.read_bytes())
+    with pytest.raises(KronosConfirmationError, match="does not bind this exact freeze"):
+        require_independent_release(stale_root, freeze)
+
+    incomplete_root = tmp_path / "incomplete"
+    (incomplete_root / "config").mkdir(parents=True)
+    (incomplete_root / "config" / "kronos_confirmation.json").write_bytes(
+        (ROOT / "config" / "kronos_confirmation.json").read_bytes()
+    )
+    incomplete_release = incomplete_root / AUDIT_RELEASE_PATH
+    incomplete_release.parent.mkdir(parents=True)
+    incomplete_release.write_text(
+        release.read_text(encoding="utf-8").replace(
+            '  "execution_authorized": true,\n', ""
+        ),
+        encoding="utf-8",
+    )
+    with pytest.raises(KronosConfirmationError, match="has not authorized"):
+        require_independent_release(incomplete_root, freeze)
 
 
 def test_decision_rule_cannot_be_rescued_by_diagnostics_or_tuning() -> None:
