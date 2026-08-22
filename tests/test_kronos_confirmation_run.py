@@ -77,6 +77,24 @@ def test_peak_rss_measurement_is_positive() -> None:
     assert run._peak_rss_bytes() > 0
 
 
+def test_atomic_json_writes_lf_only(tmp_path: Path) -> None:
+    path = tmp_path / "evidence.json"
+    run._atomic_json(path, {"value": 1})
+
+    payload = path.read_bytes()
+    assert b"\r" not in payload
+    assert payload.endswith(b"\n")
+
+
+def test_atomic_csv_writes_lf_only(tmp_path: Path) -> None:
+    path = tmp_path / "predictions.csv"
+    run._atomic_csv(path, pd.DataFrame({"prediction": [0.1], "actual": [0.2]}))
+
+    payload = path.read_bytes()
+    assert b"\r" not in payload
+    assert payload.endswith(b"\n")
+
+
 def _prepared_for_checkpoint(tmp_path: Path) -> dict[str, object]:
     freeze = _freeze(tmp_path)
     index = pd.date_range("2026-01-05T23:59:00Z", periods=2, freq="D")

@@ -75,14 +75,16 @@ def _json(path: Path) -> dict[str, Any]:
 def _atomic_json(path: Path, value: Any) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     temp = path.with_suffix(path.suffix + ".tmp")
-    temp.write_text(json.dumps(value, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    with temp.open("w", encoding="utf-8", newline="\n") as handle:
+        handle.write(json.dumps(value, indent=2, sort_keys=True) + "\n")
     temp.replace(path)
 
 
 def _atomic_csv(path: Path, frame: pd.DataFrame) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     temp = path.with_suffix(path.suffix + ".tmp")
-    frame.to_csv(temp, index=False, lineterminator="\n", float_format="%.17g")
+    with temp.open("w", encoding="utf-8", newline="\n") as handle:
+        frame.to_csv(handle, index=False, lineterminator="\n", float_format="%.17g")
     temp.replace(path)
 
 
