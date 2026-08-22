@@ -412,6 +412,163 @@
           "docs/development/longitudinal-research-metrics/backfill-identity-record.json"
         ]
       }
+    },
+    {
+      "stage_id": "kronos-180-corrected-three-checkpoint",
+      "sequence": 40,
+      "label": "Corrected Kronos Mini/Small/Base confirmation \u2014 Small best checkpoint",
+      "evidence_status": "native",
+      "context": {
+        "forecast": {
+          "target": "target_ret_1",
+          "horizon": "1 trading session",
+          "prediction_timestamp_semantics": "after_current_daily_bar_close",
+          "target_timestamp_semantics": "next-session selected-contract within-contract settlement log return; cross-contract returns prohibited",
+          "information_cutoff_semantics": "after_current_daily_bar_close"
+        },
+        "dataset": {
+          "dataset_id": "us-ng-pit-0c0a39b36692",
+          "freeze_id": "b6aaf445500f2841",
+          "dataset_sha256": "0c0a39b3669215b4bdc45a0fdedf90697f0c2c92690cb33700bd0bc47c80a45f",
+          "rows": 456,
+          "oos_rows": 204,
+          "oos_start": "2025-10-03T23:59:00+00:00",
+          "oos_end": "2026-08-11T23:59:00+00:00",
+          "coverage_signature_sha256": "3621260e37817b4063527f485701f8d7fea45284547db4a8397691b400ffbd36"
+        },
+        "evaluation": {
+          "protocol_id": "phase-d-v1",
+          "protocol_sha256": "6c3ffbc586a60a972d9bb567140411f9838a60beff9d72dca7bd828b9ba130d5",
+          "split_id": "c0a407ce414bf44737388e27dd50cb410aa73e0f5985157f4c868187ee6c5e7a",
+          "split_sha256": "c0a407ce414bf44737388e27dd50cb410aa73e0f5985157f4c868187ee6c5e7a",
+          "baseline_id": "zero_return_naive",
+          "baseline_configuration_id": "semantic:zero-return-naive-v1"
+        },
+        "availability": {
+          "rule_id": "evaluation-pit-after-daily-bar-close-v1",
+          "rule_sha256": "1ec62a3bb3c222d158fdd69ab031b3c0a519ba2ac9881a054fae34a26d2aeccc"
+        },
+        "features": {
+          "definition_id": "kronos-same-contract-history-v1",
+          "definition_sha256": "538bf650cccc4ef3719f26aa09829be632f3b08dd44c694f1491eaa15b1b3517",
+          "feature_family_ids": [
+            "market"
+          ]
+        },
+        "model": {
+          "family": "kronos",
+          "configuration_id": "NeoQuasar/Kronos-small@901c26c1332695a2a8f243eb2f37243a37bea320"
+        }
+      },
+      "metrics": {
+        "model_rmse": {
+          "value": 0.05529307513018762,
+          "unit": "return",
+          "direction": "lower"
+        },
+        "model_mae": {
+          "value": 0.03983768778145722,
+          "unit": "return",
+          "direction": "lower"
+        },
+        "baseline_rmse": {
+          "value": 0.0453230577562102,
+          "unit": "return",
+          "direction": "lower"
+        },
+        "rmse_improvement_vs_baseline": {
+          "value": -0.009970017373977423,
+          "unit": "return",
+          "direction": "higher"
+        },
+        "direction_accuracy": {
+          "value": 0.5,
+          "unit": "fraction",
+          "direction": "higher"
+        },
+        "prediction_actual_corr": {
+          "value": -0.024363027165673307,
+          "unit": "correlation",
+          "direction": "higher"
+        },
+        "robust_edge_demonstrated": {
+          "value": 0,
+          "unit": "binary",
+          "direction": "higher"
+        },
+        "kronos_mini_rmse": {
+          "value": 0.06160964344136518,
+          "unit": "return",
+          "direction": "lower"
+        },
+        "kronos_small_rmse": {
+          "value": 0.05529307513018762,
+          "unit": "return",
+          "direction": "lower"
+        },
+        "kronos_base_rmse": {
+          "value": 0.06648013639481652,
+          "unit": "return",
+          "direction": "lower"
+        }
+      },
+      "methodology_change_summary": "The hard evaluation context, 204 scored rows, target, split, availability rule, and zero-return baseline remain unchanged from Phase D. The methodology intentionally changes from engineered-feature HistGB to corrected same-contract Kronos OHLCV context. Mini, Small, and Base were frozen and run identically; Small is recorded here only as the best Kronos checkpoint while the joint result artifact preserves all three.",
+      "interpretations": [
+        {
+          "comparison_kind": "previous_stage",
+          "reference_stage_id": "phase-d-full-v1-hist-gb",
+          "metric": "model_rmse",
+          "classification": "genuine_model_or_data_change",
+          "explanation": "The frozen corrected Kronos challenger materially underperformed the comparable Phase-D result on this metric. This is accepted as the empirical model-methodology outcome required by issue #180, not as a software regression or a reason for post-result tuning.",
+          "accepted": true,
+          "tracking_ref": "https://github.com/NielPieterse0/commodity/issues/180"
+        },
+        {
+          "comparison_kind": "previous_stage",
+          "reference_stage_id": "phase-d-full-v1-hist-gb",
+          "metric": "rmse_improvement_vs_baseline",
+          "classification": "genuine_model_or_data_change",
+          "explanation": "The frozen corrected Kronos challenger materially underperformed the comparable Phase-D result on this metric. This is accepted as the empirical model-methodology outcome required by issue #180, not as a software regression or a reason for post-result tuning.",
+          "accepted": true,
+          "tracking_ref": "https://github.com/NielPieterse0/commodity/issues/180"
+        },
+        {
+          "comparison_kind": "previous_stage",
+          "reference_stage_id": "phase-d-full-v1-hist-gb",
+          "metric": "model_mae",
+          "classification": "genuine_model_or_data_change",
+          "explanation": "The frozen corrected Kronos challenger materially underperformed the comparable Phase-D result on this metric. This is accepted as the empirical model-methodology outcome required by issue #180, not as a software regression or a reason for post-result tuning.",
+          "accepted": true,
+          "tracking_ref": "https://github.com/NielPieterse0/commodity/issues/180"
+        },
+        {
+          "comparison_kind": "previous_stage",
+          "reference_stage_id": "phase-d-full-v1-hist-gb",
+          "metric": "direction_accuracy",
+          "classification": "genuine_model_or_data_change",
+          "explanation": "The frozen corrected Kronos challenger materially underperformed the comparable Phase-D result on this metric. This is accepted as the empirical model-methodology outcome required by issue #180, not as a software regression or a reason for post-result tuning.",
+          "accepted": true,
+          "tracking_ref": "https://github.com/NielPieterse0/commodity/issues/180"
+        }
+      ],
+      "evidence": {
+        "code_revision": "207596eb8501b7f44071f8c7564c4752f38404b3",
+        "config_sha256": "a6cd1a86836f09df08c6d1e6c82ed24738cc34a57998eda6124660397580605f",
+        "artifact_sha256s": [
+          "93feb34a97aa898ebe07a11ce28e4c9df082a7fc81d6d804f375b523564134da",
+          "6e219d5ecc3c97ce6778deaa68079248a10ff3fbd9047df62c71ef70213dc210",
+          "284fe77c4385db1a975ee901b39419d50582dc33a6064f7e096c294a90d64597"
+        ],
+        "reproducibility_status": "passed",
+        "source_refs": [
+          "artifacts/kronos-confirmation/kronos-180-corrected-three-checkpoint-v1/result.json",
+          "artifacts/kronos-confirmation/kronos-180-corrected-three-checkpoint-v1/comparisons.json",
+          "artifacts/kronos-confirmation/kronos-180-corrected-three-checkpoint-v1/run-manifest.json",
+          "config/kronos_confirmation.json",
+          "docs/development/kronos-three-checkpoint-confirmation/audit-release.json"
+        ]
+      },
+      "context_id": "ctx-99a5ee94f7306928d3c89cf4"
     }
   ]
 }

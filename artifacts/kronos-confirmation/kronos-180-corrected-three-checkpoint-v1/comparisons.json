@@ -1,0 +1,200 @@
+{
+  "base_vs_mini": {
+    "primary": {
+      "adjusted_p_value": 0.5924075924075924,
+      "block_size": 20,
+      "ci_lower": -0.02293782935360397,
+      "ci_upper": 0.00906125526585281,
+      "effective_blocks": 10.2,
+      "method": "moving_block_bootstrap",
+      "p_value": 0.5924075924075924,
+      "passes_frozen_gate": false,
+      "resamples": 1000,
+      "rmse_improvement": -0.004870492953451343,
+      "significant": false
+    },
+    "secondary_diagnostic": {
+      "block_size": 20,
+      "complete_blocks": 10,
+      "method": "nonoverlapping_block_sign_flip_mse",
+      "mse_improvement": -0.0006205939244077114,
+      "p_value_one_sided_improvement": 0.6741463414634147
+    }
+  },
+  "base_vs_small": {
+    "primary": {
+      "adjusted_p_value": 0.1314935064935065,
+      "block_size": 20,
+      "ci_lower": -0.0281555818836046,
+      "ci_upper": 0.00029406067292617774,
+      "effective_blocks": 10.2,
+      "method": "moving_block_bootstrap",
+      "p_value": 0.11688311688311688,
+      "passes_frozen_gate": false,
+      "resamples": 1000,
+      "rmse_improvement": -0.0111870612646289,
+      "significant": false
+    },
+    "secondary_diagnostic": {
+      "block_size": 20,
+      "complete_blocks": 10,
+      "method": "nonoverlapping_block_sign_flip_mse",
+      "mse_improvement": -0.0013619663161285505,
+      "p_value_one_sided_improvement": 0.9307317073170732
+    }
+  },
+  "base_vs_v1_hist_gb": {
+    "primary": {
+      "adjusted_p_value": 0.02055087769373484,
+      "block_size": 20,
+      "ci_lower": -0.038085365398875554,
+      "ci_upper": -0.007343264174991563,
+      "effective_blocks": 10.2,
+      "method": "moving_block_bootstrap",
+      "p_value": 0.015984015984015984,
+      "passes_frozen_gate": false,
+      "resamples": 1000,
+      "rmse_improvement": -0.019972798600702515,
+      "significant": false
+    },
+    "secondary_diagnostic": {
+      "block_size": 20,
+      "complete_blocks": 10,
+      "method": "nonoverlapping_block_sign_flip_mse",
+      "mse_improvement": -0.002267626313997276,
+      "p_value_one_sided_improvement": 1.0
+    }
+  },
+  "base_vs_zero": {
+    "primary": {
+      "adjusted_p_value": 0.01798201798201798,
+      "block_size": 20,
+      "ci_lower": -0.039087326520745494,
+      "ci_upper": -0.00859984079195952,
+      "effective_blocks": 10.2,
+      "method": "moving_block_bootstrap",
+      "p_value": 0.011988011988011988,
+      "passes_frozen_gate": false,
+      "resamples": 1000,
+      "rmse_improvement": -0.02115707863860635,
+      "significant": false
+    },
+    "secondary_diagnostic": {
+      "block_size": 20,
+      "complete_blocks": 10,
+      "method": "nonoverlapping_block_sign_flip_mse",
+      "mse_improvement": -0.00237474159366631,
+      "p_value_one_sided_improvement": 1.0
+    }
+  },
+  "mini_vs_v1_hist_gb": {
+    "primary": {
+      "adjusted_p_value": 0.002247752247752248,
+      "block_size": 20,
+      "ci_lower": -0.019341702122444317,
+      "ci_upper": -0.010882325424412457,
+      "effective_blocks": 10.2,
+      "method": "moving_block_bootstrap",
+      "p_value": 0.000999000999000999,
+      "passes_frozen_gate": false,
+      "resamples": 1000,
+      "rmse_improvement": -0.015102305647251173,
+      "significant": false
+    },
+    "secondary_diagnostic": {
+      "block_size": 20,
+      "complete_blocks": 10,
+      "method": "nonoverlapping_block_sign_flip_mse",
+      "mse_improvement": -0.0016470323895895647,
+      "p_value_one_sided_improvement": 1.0
+    }
+  },
+  "mini_vs_zero": {
+    "primary": {
+      "adjusted_p_value": 0.002247752247752248,
+      "block_size": 20,
+      "ci_lower": -0.020519256234077715,
+      "ci_upper": -0.012261757168092786,
+      "effective_blocks": 10.2,
+      "method": "moving_block_bootstrap",
+      "p_value": 0.000999000999000999,
+      "passes_frozen_gate": false,
+      "resamples": 1000,
+      "rmse_improvement": -0.01628658568515501,
+      "significant": false
+    },
+    "secondary_diagnostic": {
+      "block_size": 20,
+      "complete_blocks": 10,
+      "method": "nonoverlapping_block_sign_flip_mse",
+      "mse_improvement": -0.0017541476692585988,
+      "p_value_one_sided_improvement": 1.0
+    }
+  },
+  "small_vs_mini": {
+    "primary": {
+      "adjusted_p_value": 0.005394605394605395,
+      "block_size": 20,
+      "ci_lower": 0.002036352001542259,
+      "ci_upper": 0.010706357308556002,
+      "effective_blocks": 10.2,
+      "method": "moving_block_bootstrap",
+      "p_value": 0.002997002997002997,
+      "passes_frozen_gate": true,
+      "resamples": 1000,
+      "rmse_improvement": 0.0063165683111775575,
+      "significant": true
+    },
+    "secondary_diagnostic": {
+      "block_size": 20,
+      "complete_blocks": 10,
+      "method": "nonoverlapping_block_sign_flip_mse",
+      "mse_improvement": 0.000741372391720839,
+      "p_value_one_sided_improvement": 0.004878048780487805
+    }
+  },
+  "small_vs_v1_hist_gb": {
+    "primary": {
+      "adjusted_p_value": 0.002247752247752248,
+      "block_size": 20,
+      "ci_lower": -0.012255143569035726,
+      "ci_upper": -0.004852469645210309,
+      "effective_blocks": 10.2,
+      "method": "moving_block_bootstrap",
+      "p_value": 0.000999000999000999,
+      "passes_frozen_gate": false,
+      "resamples": 1000,
+      "rmse_improvement": -0.008785737336073615,
+      "significant": false
+    },
+    "secondary_diagnostic": {
+      "block_size": 20,
+      "complete_blocks": 10,
+      "method": "nonoverlapping_block_sign_flip_mse",
+      "mse_improvement": -0.0009056599978687259,
+      "p_value_one_sided_improvement": 1.0
+    }
+  },
+  "small_vs_zero": {
+    "primary": {
+      "adjusted_p_value": 0.002247752247752248,
+      "block_size": 20,
+      "ci_lower": -0.013297418169011789,
+      "ci_upper": -0.0059888938466320435,
+      "effective_blocks": 10.2,
+      "method": "moving_block_bootstrap",
+      "p_value": 0.000999000999000999,
+      "passes_frozen_gate": false,
+      "resamples": 1000,
+      "rmse_improvement": -0.00997001737397745,
+      "significant": false
+    },
+    "secondary_diagnostic": {
+      "block_size": 20,
+      "complete_blocks": 10,
+      "method": "nonoverlapping_block_sign_flip_mse",
+      "mse_improvement": -0.00101277527753776,
+      "p_value_one_sided_improvement": 0.9990243902439024
+    }
+  }
+}

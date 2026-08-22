@@ -1,0 +1,37 @@
+{
+  "artifact_manifest": {
+    "model": {
+      "artifact_path": "C:\\Projects\\.kis-mcp\\.cache\\huggingface\\hub\\models--NeoQuasar--Kronos-base\\snapshots\\2b554741eca47781b64468546e77fef3e85130e6\\model.safetensors",
+      "artifact_sha256": "abff193acab6db1a0368e9773e75799d11403b6d054ee6d5f0a11aeabc5f4b83",
+      "repo_id": "NeoQuasar/Kronos-base",
+      "revision": "2b554741eca47781b64468546e77fef3e85130e6",
+      "snapshot_path": "C:\\Projects\\.kis-mcp\\.cache\\huggingface\\hub\\models--NeoQuasar--Kronos-base\\snapshots\\2b554741eca47781b64468546e77fef3e85130e6"
+    },
+    "tokenizer": {
+      "artifact_path": "C:\\Projects\\.kis-mcp\\.cache\\huggingface\\hub\\models--NeoQuasar--Kronos-Tokenizer-base\\snapshots\\0e0117387f39004a9016484a186a908917e22426\\model.safetensors",
+      "artifact_sha256": "59d85f6af76a2c3b8240ea06cb21db4213b4eeca053f246b23e29cf832fc6bee",
+      "repo_id": "NeoQuasar/Kronos-Tokenizer-base",
+      "revision": "0e0117387f39004a9016484a186a908917e22426",
+      "snapshot_path": "C:\\Projects\\.kis-mcp\\.cache\\huggingface\\hub\\models--NeoQuasar--Kronos-Tokenizer-base\\snapshots\\0e0117387f39004a9016484a186a908917e22426"
+    }
+  },
+  "canonical_market_sha256": "83faf07a8de1fe3fea4cd6548dd25d9c02828e1ef4faa13a234ac8f2ad03d655",
+  "checkpoint": "base",
+  "execution_runner_commit": "207596eb8501b7f44071f8c7564c4752f38404b3",
+  "experiment_id": "kronos-180-corrected-three-checkpoint-v1",
+  "inference": {
+    "T": 1.0,
+    "sample_count": 1,
+    "top_p": 0.9,
+    "verbose": false
+  },
+  "model_key": "kronos_base",
+  "observed_device": "cpu",
+  "peak_process_rss_bytes": 1195413504,
+  "predictions_sha256": "3a1d31f115d2c43357943781260963adda3c50d10ebab067a8b87464c94e477d",
+  "rows": 204,
+  "schema_version": 1,
+  "seed": 0,
+  "state": "prediction_complete_pending_joint_evaluation",
+  "wall_clock_seconds": 501.63287090003723
+}
