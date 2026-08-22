@@ -36,11 +36,13 @@ def test_governed_v1_ledger_matches_preserved_metric_evidence() -> None:
     provider = stages["provider-boundary-screening"]
     pit = stages["pit-core-tournament-smoke"]
     phase_d = stages["phase-d-full-v1-hist-gb"]
+    kronos = stages["kronos-180-corrected-three-checkpoint"]
 
     assert [item["stage_id"] for item in ledger["stages"]] == [
         "provider-boundary-screening",
         "pit-core-tournament-smoke",
         "phase-d-full-v1-hist-gb",
+        "kronos-180-corrected-three-checkpoint",
     ]
     assert provider["evidence_status"] == "partial"
     assert provider["context"]["dataset"]["dataset_sha256"] is None
@@ -61,12 +63,22 @@ def test_governed_v1_ledger_matches_preserved_metric_evidence() -> None:
     ]["material_incremental_value_count"]
     assert diagnostic["per_fold_loss"]["fold_count"] == 41
     assert diagnostic["conclusion"]["new_defect_established"] is False
+    assert kronos["metrics"]["model_rmse"]["value"] == pytest.approx(0.05529307513018762)
+    assert kronos["metrics"]["kronos_mini_rmse"]["value"] == pytest.approx(0.06160964344136518)
+    assert kronos["metrics"]["kronos_base_rmse"]["value"] == pytest.approx(0.06648013639481652)
+    assert kronos["evidence"]["reproducibility_status"] == "passed"
 
 
 def test_real_v1_transition_is_non_comparable_not_a_regression_alarm() -> None:
     ledger = load_ledger(LEDGER_PATH)
-    phase_d = ledger["stages"][-1]
-    result = evaluate_comparisons(phase_d, ledger["stages"][:-1], ledger["comparison_policy"])
+    phase_d_index = next(
+        index for index, stage in enumerate(ledger["stages"])
+        if stage["stage_id"] == "phase-d-full-v1-hist-gb"
+    )
+    phase_d = ledger["stages"][phase_d_index]
+    result = evaluate_comparisons(
+        phase_d, ledger["stages"][:phase_d_index], ledger["comparison_policy"]
+    )
 
     assert result["previous_context"]["status"] == "non_comparable"
     assert "dataset.dataset_sha256" in result["previous_context"]["hard_context_changes"]
@@ -82,14 +94,16 @@ def test_real_v1_ledger_conforms_to_contract_schema() -> None:
     Draft202012Validator(schema).validate(ledger)
 
 
-def test_default_metrics_cli_operates_on_real_v1_ledger(capsys) -> None:
+def test_default_metrics_cli_operates_on_real_longitudinal_ledger(capsys) -> None:
     args = build_parser().parse_args(["check-research-metrics"])
     args.func(args)
     output = json.loads(capsys.readouterr().out)
 
     assert output["status"] == "passed"
     assert output["blockers"] == []
-    assert output["previous_context"]["status"] == "non_comparable"
+    assert output["previous_context"]["status"] == "comparable"
+    assert "model.family" in output["previous_context"]["methodology_movements"]
+    assert any(item["status"] == "regression" for item in output["metric_comparisons"])
 
 
 def test_backfilled_identity_hashes_are_reproducible_from_documented_preimages() -> None:
