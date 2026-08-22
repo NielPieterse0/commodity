@@ -118,10 +118,12 @@ def _set_seed(seed: int) -> None:
 
 def _peak_rss_bytes() -> int:
     if os.name == "nt":
+        from ctypes import wintypes
+
         class Counters(ctypes.Structure):
             _fields_ = [
-                ("cb", ctypes.c_ulong),
-                ("PageFaultCount", ctypes.c_ulong),
+                ("cb", wintypes.DWORD),
+                ("PageFaultCount", wintypes.DWORD),
                 ("PeakWorkingSetSize", ctypes.c_size_t),
                 ("WorkingSetSize", ctypes.c_size_t),
                 ("QuotaPeakPagedPoolUsage", ctypes.c_size_t),
@@ -132,15 +134,27 @@ def _peak_rss_bytes() -> int:
                 ("PeakPagefileUsage", ctypes.c_size_t),
             ]
 
+        kernel32 = ctypes.WinDLL("kernel32", use_last_error=True)
+        psapi = ctypes.WinDLL("psapi", use_last_error=True)
+        kernel32.GetCurrentProcess.restype = wintypes.HANDLE
+        psapi.GetProcessMemoryInfo.argtypes = [
+            wintypes.HANDLE,
+            ctypes.POINTER(Counters),
+            wintypes.DWORD,
+        ]
+        psapi.GetProcessMemoryInfo.restype = wintypes.BOOL
         counters = Counters()
         counters.cb = ctypes.sizeof(counters)
-        ok = ctypes.windll.psapi.GetProcessMemoryInfo(
-            ctypes.windll.kernel32.GetCurrentProcess(),
+        ok = psapi.GetProcessMemoryInfo(
+            kernel32.GetCurrentProcess(),
             ctypes.byref(counters),
             counters.cb,
         )
         if not ok:
-            raise KronosConfirmationRunError("cannot read process peak RSS")
+            error = ctypes.get_last_error()
+            raise KronosConfirmationRunError(
+                f"cannot read process peak RSS (Windows error {error})"
+            )
         return int(counters.PeakWorkingSetSize)
     import resource
 

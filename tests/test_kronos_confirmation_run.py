@@ -73,6 +73,10 @@ def test_comparison_family_order_is_fixed() -> None:
     ]
 
 
+def test_peak_rss_measurement_is_positive() -> None:
+    assert run._peak_rss_bytes() > 0
+
+
 def _prepared_for_checkpoint(tmp_path: Path) -> dict[str, object]:
     freeze = _freeze(tmp_path)
     index = pd.date_range("2026-01-05T23:59:00Z", periods=2, freq="D")
