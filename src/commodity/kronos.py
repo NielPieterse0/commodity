@@ -4,6 +4,7 @@ import hashlib
 import os
 import subprocess
 import sys
+from collections.abc import Mapping
 from pathlib import Path
 from typing import Any
 
@@ -169,6 +170,54 @@ class KronosMiniAdapter:
         )
         self.artifact_manifest = artifacts
         self.inference = dict(cfg["inference"])
+
+    def forecast(self, ohlcv: pd.DataFrame, future_index: pd.DatetimeIndex) -> pd.DataFrame:
+        x = ohlcv[["open", "high", "low", "close", "volume"]].copy()
+        return self.predictor.predict(
+            df=x,
+            x_timestamp=pd.Series(x.index),
+            y_timestamp=pd.Series(future_index),
+            pred_len=len(future_index),
+            T=float(self.inference["T"]),
+            top_p=float(self.inference["top_p"]),
+            sample_count=int(self.inference["sample_count"]),
+            verbose=bool(self.inference["verbose"]),
+        )
+
+
+class KronosCheckpointAdapter:
+    """Load one explicitly named pinned checkpoint for the #180 successor run."""
+
+    ALLOWED_MODEL_KEYS = frozenset({"kronos_mini", "kronos_small", "kronos_base"})
+
+    def __init__(self, model_key: str, inference: Mapping[str, Any]) -> None:
+        if model_key not in self.ALLOWED_MODEL_KEYS:
+            raise KronosArtifactError(f"unsupported Kronos checkpoint: {model_key}")
+        cfg = model_config()["models"][model_key]
+        expected_inference = {"T", "top_p", "sample_count", "verbose"}
+        if set(inference) != expected_inference:
+            raise KronosArtifactError("Kronos confirmation inference profile is incomplete")
+        self.inference = dict(inference)
+        local_path = REPO_ROOT / cfg["local_path"]
+        source_revision = cfg.get("source_revision")
+        if not isinstance(source_revision, str):
+            raise KronosArtifactError("Kronos source revision is not configured")
+        verify_kronos_source_checkout(local_path, source_revision)
+        import_path = str(local_path)
+        if import_path not in sys.path:
+            sys.path.insert(0, import_path)
+        try:
+            from model import Kronos, KronosPredictor, KronosTokenizer
+        except ImportError as exc:
+            raise RuntimeError("Install the 'kronos' extra before using Kronos") from exc
+        artifacts = resolve_kronos_artifacts(cfg)
+        tokenizer = KronosTokenizer.from_pretrained(artifacts["tokenizer"]["snapshot_path"])
+        model = Kronos.from_pretrained(artifacts["model"]["snapshot_path"])
+        self.predictor = KronosPredictor(
+            model, tokenizer, device=cfg["device"], max_context=cfg["max_context"]
+        )
+        self.model_key = model_key
+        self.artifact_manifest = artifacts
 
     def forecast(self, ohlcv: pd.DataFrame, future_index: pd.DatetimeIndex) -> pd.DataFrame:
         x = ohlcv[["open", "high", "low", "close", "volume"]].copy()
