@@ -1,0 +1,92 @@
+{
+  "schema_version": 1,
+  "record": "v2_post_experiment_model_criticism",
+  "issue": 89,
+  "assessment_as_of": "2026-08-22",
+  "new_empirical_execution_performed": false,
+  "overall_disposition": "change_research_question_before_model_size",
+  "evidence_boundary": {
+    "phase_d": "no_robust_edge",
+    "indicator_83": "invalid_before_fit_coverage_failed",
+    "fusion_84": "not_empirically_executed",
+    "sensitivity_85": "not_empirically_executed",
+    "kronos_180": "drop_direct_one_step_for_target_and_grain"
+  },
+  "assumptions": [
+    {"id":"target_next_session_return","disposition":"revise","route":[147,155]},
+    {"id":"zero_return_baseline","disposition":"retain","route":[]},
+    {"id":"strict_pit_fail_closed_coverage","disposition":"retain","route":[]},
+    {"id":"rmse_primary_h1_loss","disposition":"retain_for_h1_investigate_for_new_targets","route":[147]},
+    {"id":"dependence_multiplicity_robustness_controls","disposition":"retain","route":[]},
+    {"id":"full_session_level_representation","disposition":"revise","route":[148]},
+    {"id":"direct_one_step_kronos","disposition":"retire_for_current_target_grain","route":[153]},
+    {"id":"kronos_size_search","disposition":"retire","route":[]},
+    {"id":"current_83_weather_coverage_design","disposition":"retire","route":[148]},
+    {"id":"weather_revision_hypothesis","disposition":"investigate","route":[148,114]},
+    {"id":"storage_surprise_hypothesis","disposition":"investigate","route":[113]},
+    {"id":"equal_weight_v2_fusion_path","disposition":"retire","route":[]},
+    {"id":"h5_as_rescue","disposition":"retire","route":[147]},
+    {"id":"current_oos_sufficient_for_broad_null","disposition":"revise","route":[155,149]},
+    {"id":"more_history_automatically_better","disposition":"retire","route":[149]},
+    {"id":"post_hoc_regime_search","disposition":"retire","route":[150]},
+    {"id":"selected_contract_same_contract_semantics","disposition":"retain","route":[]},
+    {"id":"undefined_correlation_reported_as_zero","disposition":"revise_reporting_only","route":[170]}
+  ],
+  "ranked_next_stage": [
+    {"rank":1,"issues":[155,149],"hypothesis":"quantify_effective_n_and_detectable_effect_before_activation"},
+    {"rank":2,"issues":[147],"hypothesis":"compare_economically_motivated_target_and_horizon_designs"},
+    {"rank":3,"issues":[148,113],"hypothesis":"test_pit_safe_news_surprise_revision_representations"},
+    {"rank":4,"issues":[150],"hypothesis":"preregister_small_mechanism_led_event_regime_interactions"},
+    {"rank":5,"issues":[137],"hypothesis":"require_untouched_confirmation_for_any_adaptive_candidate"},
+    {"rank":6,"issues":[153],"hypothesis":"diagnose_historical_kronos_information_vs_calibration_without_rescue"},
+    {"rank":7,"issues":[170],"hypothesis":"correct_evaluator_undefined_correlation_reporting"}
+  ],
+  "preserved_negative_or_null_findings": [
+    "phase_d_full_v1_no_robust_edge",
+    "pit_core_smoke_not_a_stable_comparable_edge",
+    "phase_d_0_of_21_family_tests_material",
+    "kronos_180_all_checkpoints_fail_external_baselines",
+    "kronos_checkpoint_size_not_monotonic",
+    "indicator_83_invalid_before_fit_not_a_performance_null",
+    "fusion_84_no_empirical_result",
+    "sensitivity_85_no_empirical_result"
+  ],
+  "not_recommended_now": [
+    "larger_kronos_checkpoint_search",
+    "post_hoc_kronos_calibration_or_fusion",
+    "loosen_83_weather_staleness_or_coverage",
+    "row_drop_or_imputation_to_rescue_83",
+    "post_hoc_regime_or_event_slicing",
+    "unbounded_feature_or_model_search",
+    "robust_loss_as_standalone_rescue_hypothesis"
+  ],
+  "fresh_confirmation": {
+    "required": true,
+    "owner_issue": 137,
+    "rule": "evidence_used_to_generate_a_hypothesis_cannot_confirm_that_hypothesis"
+  },
+  "source_refs": [
+    "artifacts/research-metrics/longitudinal-ledger.json",
+    "docs/development/v1-research-completion/phase-d-closeout.json",
+    "docs/development/v1-research-completion/phase-d-regression-diagnostics.json",
+    "docs/development/v1-research-completion/retrospective-baseline-divergence.md",
+    "docs/development/v2-indicator-surprise-challenger/empirical-closeout.json",
+    "docs/development/kronos-three-checkpoint-confirmation/results/closeout.md",
+    "docs/development/weather-revision-readiness/decision-record.md",
+    "docs/development/v2-fusion-challenger/fusion-contract.json",
+    "docs/development/v2-sensitivity/sensitivity-manifest.json"
+  ],
+  "future_issue_routes": {
+    "target_horizon": 147,
+    "surprise_revision_representation": 148,
+    "deeper_history": 149,
+    "regime_event_conditioning": 150,
+    "kronos_diagnostic": 153,
+    "power_effective_n": 155,
+    "storage_surprise": 113,
+    "fresh_confirmation": 137,
+    "evaluator_reporting": 170
+  },
+  "new_issue_created_by_89": false,
+  "new_issue_rationale": "Existing separately governed issues cover every recommended adaptive change; robust-loss work is not currently recommended as a standalone experiment."
+}
