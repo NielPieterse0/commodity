@@ -1,0 +1,113 @@
+{
+  "schema_version": 1,
+  "issue": 147,
+  "assessment_date": "2026-08-23",
+  "scope": "Rank target and horizon redesigns without model fitting or fresh OOS inspection",
+  "decision": {
+    "generic_next_session_return_model_search": "reject",
+    "primary_next_candidate": "realized_volatility_variance",
+    "secondary_next_candidate": "mechanism_led_event_window_return",
+    "fresh_confirmation_required": true
+  },
+  "candidates": [
+    {
+      "rank": 1,
+      "id": "realized_volatility_variance",
+      "disposition": "test_after_preregistration",
+      "primary_loss": "QLIKE",
+      "baseline": "frozen_trailing_variance",
+      "main_reason": "persistent economically meaningful target that does not require signed daily-price prediction",
+      "blocking_gates": [
+        "freeze_positive_realized_variance_proxy",
+        "estimate_target_native_dependence_and_mde",
+        "freeze_untouched_confirmation"
+      ]
+    },    {
+      "rank": 2,
+      "id": "mechanism_led_event_window_return",
+      "disposition": "test_conditional",
+      "primary_loss": "fixed_in_child_preregistration",
+      "baseline": "zero_return_or_event_native_baseline_fixed_in_child_contract",
+      "main_reason": "event timing can concentrate storage/weather information and improve effect size",
+      "blocking_gates": [
+        "pit_safe_event_or_revision_source",
+        "freeze_exact_event_window_before_outcomes",
+        "budget_events_not_daily_rows",
+        "freeze_untouched_confirmation"
+      ],
+      "routes": ["issue_113_storage_surprise", "issue_114_weather_revision", "issue_148_representation"]
+    },
+    {
+      "rank": 3,
+      "id": "curve_spread_change",
+      "disposition": "defer",
+      "primary_loss": "fixed_regression_loss",
+      "baseline": "zero_change_or_economic_baseline",
+      "main_reason": "economically natural market-only target for a storage commodity with deep preserved market history",
+      "blocking_gates": [
+        "freeze_exact_roll_safe_spread_target",
+        "canonical_market_data_rights",
+        "freeze_untouched_confirmation"
+      ]
+    },    {
+      "rank": 4,
+      "id": "generic_2_to_5_session_return",
+      "disposition": "defer_unless_mechanism_led",
+      "primary_loss": "RMSE_where_zero_return_is_valid",
+      "baseline": "zero_return_where_semantically_valid",
+      "main_reason": "aggregation alone does not increase independent information",
+      "blocking_gates": [
+        "one_economic_mechanism_selects_one_horizon_ex_ante",
+        "explicit_overlapping_return_dependence",
+        "freeze_untouched_confirmation"
+      ]
+    },
+    {
+      "rank": 5,
+      "id": "settlement_direction",
+      "disposition": "secondary_only",
+      "primary_loss": "Brier_or_log_loss_as_predeclared_secondary",
+      "baseline": "frozen_naive_or_training_history_rate",
+      "main_reason": "current direction evidence is near chance and accuracy is badly underpowered",
+      "blocking_gates": ["must_accompany_primary_target", "no_accuracy_only_promotion"]
+    },
+    {
+      "rank": 6,
+      "id": "generic_weekly_return",
+      "disposition": "reject_power_only_redesign",
+      "primary_loss": null,
+      "baseline": null,
+      "main_reason": "fewer weekly rows preserve roughly the same block-equivalent information while blurring event timing",
+      "reconsider_only_if": "a_specific_weekly_mechanism_defines_the_target"
+    }
+  ],  "mandatory_child_contract": [
+    "target_formula",
+    "horizon_or_event_clock",
+    "prediction_cutoff",
+    "pit_source_identity",
+    "training_and_scored_calendar",
+    "information_event_count",
+    "dependence_block_and_sensitivity",
+    "primary_loss_and_baseline",
+    "economically_useful_effect",
+    "power_and_mde",
+    "multiplicity_family",
+    "robustness_slices",
+    "cost_assumptions",
+    "untouched_confirmation_path"
+  ],
+  "evidence": {
+    "phase_d_oos_rows": 204,
+    "phase_d_zero_return_rmse": 0.0453230577562102,
+    "phase_d_histgb_rmse": 0.04650733779411404,
+    "phase_d_histgb_prediction_actual_corr": -0.05802067839908679,
+    "current_block_equivalent_units_20_session": 10.2,
+    "deeper_history_note": "Working issue #149 evidence indicates preserved 2010-2026 market depth can materially improve precision once rights/canonical/PIT gates are cleared."
+  },
+  "boundaries": {
+    "model_fit": false,
+    "predictions_generated": false,
+    "fresh_oos_inspected": false,
+    "trading_authority_changed": false
+  }
+}
