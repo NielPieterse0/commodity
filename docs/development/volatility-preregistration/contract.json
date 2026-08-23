@@ -1,0 +1,194 @@
+{
+  "schema_version": 1,
+  "contract_id": "volatility-preregistration-191-v1",
+  "issue": 191,
+  "status": "frozen_design_execution_unauthorized",
+  "assessment_date": "2026-08-23",
+  "purpose": "Test whether same-contract daily realized-variance persistence is forecastable before adding exogenous or larger-model complexity.",
+  "lineage": {
+    "parent_issue": 147,
+    "power_issue": 155,
+    "history_issue": 149,
+    "confirmation_issue": 137,
+    "licensing_issue_operator_deferred": 51
+  },
+  "prediction": {
+    "horizon_trading_sessions": 1,
+    "information_cutoff": "after_current_daily_bar_close",
+    "calendar": "CME_NYMEX",
+    "session_timezone": "America/Chicago",
+    "timestamp_storage": "UTC",
+    "target_contract_rule": "freeze contract selected at cutoff by existing deterministic roll policy",
+    "next_session_contract_substitution_allowed": false
+  },
+  "target": {
+    "name": "next_session_same_contract_garman_klass_variance",
+    "unit": "squared_log_return",
+    "formula": "0.5*ln(high/low)^2-(2*ln(2)-1)*ln(close/open)^2",
+    "epsilon": 1e-12,
+    "source": "raw_per_contract_daily_ohlc",
+    "availability": "only after the target session raw daily bar is available",
+    "row_requirements": [
+      "exactly_one_next_session_bar_for_target_contract",
+      "finite_positive_open_high_low_close",
+      "valid_ohlc_ordering",
+      "twenty_prior_same_contract_realized_variance_observations_available_at_cutoff"
+    ],
+    "failure_policy": "fail_closed_no_row_drop_no_imputation_no_cross_contract_substitution"
+  },
+  "primary_loss": {
+    "name": "qlike",
+    "formula": "y/h-log(y/h)-1",
+    "epsilon": 1e-12,
+    "comparison_direction": "lower_is_better",
+    "paired_improvement": "baseline_qlike_minus_challenger_qlike"
+  },
+  "primary_baseline": {
+    "id": "same_contract_rv20_mean",
+    "formula": "arithmetic_mean_of_20_most_recent_available_same_contract_garman_klass_variances",
+    "fallback_window_allowed": false
+  },
+  "challenger": {
+    "id": "log_har_ols_v1",
+    "family": "ordinary_least_squares",
+    "fit_intercept": true,
+    "response": "log(max(next_session_same_contract_garman_klass_variance,1e-12))",
+    "prediction_transform": "max(exp(predicted_log_variance),1e-12)",
+    "hyperparameter_tuning": "prohibited",
+    "feature_selection": "prohibited",
+    "features": [
+      "log_rv_d1",
+      "log_rv_w5",
+      "log_rv_m20"
+    ],
+    "feature_definitions": {
+      "log_rv_d1": "log(max(current_same_contract_garman_klass_variance,1e-12))",
+      "log_rv_w5": "log(max(mean(current_and_previous_4_same_contract_garman_klass_variances),1e-12))",
+      "log_rv_m20": "log(max(mean(current_and_previous_19_same_contract_garman_klass_variances),1e-12))"
+    }
+  },
+  "walk_forward": {
+    "strategy": "expanding",
+    "initial_train_rows": 252,
+    "refit_every_scored_rows": 5,
+    "label_rule": "only_target_bars_already_available_may_enter_training",
+    "preprocessing": "none"
+  },
+  "diagnostic": {
+    "authority": "consumed_history_diagnostic_only",
+    "candidate_rows": 456,
+    "initial_train_rows": 252,
+    "scored_rows": 204,
+    "oos_start": "2025-10-03T23:59:00+00:00",
+    "oos_end": "2026-08-11T23:59:00+00:00",
+    "row_identity_authority": "artifacts/research-metrics/longitudinal-ledger.json#phase-d-v1",
+    "coverage_required": 1.0,
+    "promotion_authority": false
+  },
+  "confirmation": {
+    "authority": "untouched_confirmation_only_after_separate_release",
+    "boundary": "prediction_time_strictly_after_2026-08-11T23:59:00+00:00",
+    "scored_rows": 504,
+    "selection": "first_504_consecutive_admissible_prediction_rows",
+    "interim_metric_inspection": "prohibited",
+    "historical_holdout_substitution": "prohibited_requires_new_preregistration",
+    "requires_issue_137": true,
+    "requires_canonical_promotion_eligible_market_evidence": true,
+    "requires_project_use_rights": true,
+    "current_status": "locked"
+  },
+  "inference": {
+    "method": "moving_block_bootstrap",
+    "resamples": 1000,
+    "confidence": 0.95,
+    "seed": 0,
+    "primary_block_size_sessions": 40,
+    "block_sensitivity_sessions": [20, 60],
+    "primary_p_value_max": 0.05,
+    "multiple_testing": "one_primary_hypothesis_no_bh",
+    "period_robustness": {
+      "chronological_periods": 3,
+      "minimum_positive_periods": 2
+    },
+    "regime_robustness": {
+      "regimes": 3,
+      "definition": "tertiles_of_primary_baseline_forecast_with_cutpoints_from_initial_252_training_rows",
+      "minimum_positive_regimes": 2
+    }
+  },
+  "materiality": {
+    "metric": "mean_qlike_relative_reduction_vs_primary_baseline",
+    "minimum_relative_improvement": 0.05,
+    "meaning": "forecast_quality_not_trading_return"
+  },
+  "power": {
+    "target_power": 0.8,
+    "planning_test": "two_sided_one_primary",
+    "diagnostic_block_equivalent_units": 5.1,
+    "diagnostic_standardized_mde": 1.2406,
+    "confirmation_block_equivalent_units": 12.6,
+    "confirmation_standardized_mde": 0.7893,
+    "pre_confirmation_rule": "use_consumed_history_once_for_paired_qlike_scale_then_compute_504_row_relative_mde_before_opening_confirmation",
+    "lock_rule": "if_504_row_relative_mde_exceeds_5_percent_do_not_open_confirmation_create_new_preregistration"
+  },
+  "secondary_descriptive_only": {
+    "metrics": [
+      "rmse_of_sqrt_realized_variance"
+    ],
+    "comparators": [
+      "last_observation_variance"
+    ],
+    "target_sensitivities": [
+      "squared_same_contract_settlement_log_return",
+      "absolute_same_contract_settlement_log_return"
+    ],
+    "promotion_authority": false
+  },
+  "excluded_from_primary": [
+    "weather",
+    "storage",
+    "positioning",
+    "power",
+    "lng",
+    "production",
+    "curve_features",
+    "kronos",
+    "hist_gradient_boosting",
+    "ridge_tuning",
+    "alternative_har_lag_search",
+    "post_result_feature_selection"
+  ],
+  "stop_rules": [
+    "stop_before_fit_on_any_diagnostic_row_coverage_failure",
+    "stop_before_fit_on_cross_contract_target_or_changed_roll_semantics",
+    "primary_failure_if_mean_qlike_improvement_nonpositive",
+    "primary_failure_if_95pct_ci_lower_not_positive",
+    "primary_failure_if_p_value_above_0.05",
+    "primary_failure_if_relative_qlike_improvement_below_0.05",
+    "primary_failure_if_period_robustness_fails",
+    "primary_failure_if_regime_robustness_fails",
+    "secondary_outputs_cannot_rescue_primary_failure"
+  ],
+  "resource_budget": {
+    "device": "cpu",
+    "gpu_required": false,
+    "paid_acquisition": false,
+    "model_search": false
+  },
+  "authority": {
+    "design_frozen": true,
+    "empirical_execution_authorized": false,
+    "research_promotion_authorized": false,
+    "trading_authority": false,
+    "issue_51_must_remain_untouched_without_operator_request": true
+  },
+  "evidence": [
+    "github_issue_147_and_pr_190_reviewed_target_horizon_decision",
+    "docs/development/effective-n-detectable-effect/analysis.md",
+    "docs/development/v2-model-criticism/review.md",
+    "docs/development/v1-research-completion/phase-d-closeout.json",
+    "config/phase_d_evaluation.json",
+    "src/commodity/roll_safe_market.py",
+    "artifacts/research-metrics/longitudinal-ledger.json"
+  ]
+}
