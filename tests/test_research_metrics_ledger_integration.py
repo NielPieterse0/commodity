@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import csv
 import hashlib
 import json
 from pathlib import Path
@@ -30,6 +31,16 @@ def test_governed_v1_ledger_matches_preserved_metric_evidence() -> None:
             encoding="utf-8"
         )
     )
+    volatility_summary = json.loads(
+        (ROOT / "artifacts/volatility-diagnostic/volatility-195-gk-har-v1/summary.json").read_text(
+            encoding="utf-8"
+        )
+    )
+    volatility_manifest = json.loads(
+        (ROOT / "artifacts/volatility-diagnostic/volatility-195-gk-har-v1/run-manifest.json").read_text(
+            encoding="utf-8"
+        )
+    )
 
     checkpoints = {item["id"]: item for item in retrospective["checkpoints"]}
     stages = {item["stage_id"]: item for item in ledger["stages"]}
@@ -37,12 +48,14 @@ def test_governed_v1_ledger_matches_preserved_metric_evidence() -> None:
     pit = stages["pit-core-tournament-smoke"]
     phase_d = stages["phase-d-full-v1-hist-gb"]
     kronos = stages["kronos-180-corrected-three-checkpoint"]
+    volatility = stages["volatility-195-gk-har-diagnostic"]
 
     assert [item["stage_id"] for item in ledger["stages"]] == [
         "provider-boundary-screening",
         "pit-core-tournament-smoke",
         "phase-d-full-v1-hist-gb",
         "kronos-180-corrected-three-checkpoint",
+        "volatility-195-gk-har-diagnostic",
     ]
     assert provider["evidence_status"] == "partial"
     assert provider["context"]["dataset"]["dataset_sha256"] is None
@@ -67,6 +80,72 @@ def test_governed_v1_ledger_matches_preserved_metric_evidence() -> None:
     assert kronos["metrics"]["kronos_mini_rmse"]["value"] == pytest.approx(0.06160964344136518)
     assert kronos["metrics"]["kronos_base_rmse"]["value"] == pytest.approx(0.06648013639481652)
     assert kronos["evidence"]["reproducibility_status"] == "passed"
+    assert volatility["metrics"]["mean_challenger_qlike"]["value"] == pytest.approx(
+        volatility_summary["primary"]["mean_challenger_qlike"]
+    )
+    assert volatility["metrics"]["relative_qlike_improvement_pct"]["value"] == pytest.approx(
+        100.0 * volatility_summary["primary"]["relative_qlike_improvement"]
+    )
+    assert volatility["metrics"]["confirmation_relative_mde_pct"]["value"] == pytest.approx(
+        100.0 * volatility_summary["confirmation_power_planning"]["confirmation_relative_mde_vs_baseline_qlike"]
+    )
+    assert volatility["metrics"]["robust_edge_demonstrated"]["value"] == 0
+    assert volatility["metrics"]["primary_qlike_gate_passes"]["value"] == 1
+    assert volatility["metrics"]["rmse_secondary_descriptive_only"]["value"] == 1
+    assert volatility["metrics"]["model_rmse"]["unit"].startswith("secondary_descriptive_")
+    assert volatility["evidence"]["reproducibility_status"] == "passed"
+    assert volatility_manifest["execution_revision"] == volatility["evidence"]["code_revision"]
+    assert volatility_manifest["result_disposition"] == "diagnostic_pass_confirmation_power_gate_fail"
+
+
+def test_volatility_195_manifest_binds_exact_result_artifacts() -> None:
+    result_dir = ROOT / "artifacts/volatility-diagnostic/volatility-195-gk-har-v1"
+    manifest = json.loads((result_dir / "run-manifest.json").read_text(encoding="utf-8"))
+    summary = json.loads((result_dir / "summary.json").read_text(encoding="utf-8"))
+    coverage = json.loads((result_dir / "coverage.json").read_text(encoding="utf-8"))
+    ledger = load_ledger(LEDGER_PATH)
+    stage = next(item for item in ledger["stages"] if item["stage_id"] == "volatility-195-gk-har-diagnostic")
+
+    expected_hashes = {
+        "predictions.csv": manifest["predictions_sha256"],
+        "summary.json": manifest["summary_sha256"],
+        "coverage.json": manifest["coverage_sha256"],
+        "run-manifest.json": "bb43485ece5330f92c1fab270404daeaac5ed9a703b6dcab30d01149a9a409b2",
+        "candidate-prediction-times.txt": manifest["candidate_prediction_times_sha256"],
+    }
+    for filename, expected in expected_hashes.items():
+        observed = hashlib.sha256((result_dir / filename).read_bytes()).hexdigest()
+        assert observed == expected
+        assert expected in stage["evidence"]["artifact_sha256s"]
+
+    candidate_bytes = (result_dir / "candidate-prediction-times.txt").read_bytes()
+    candidate_times = candidate_bytes.decode("utf-8").splitlines()
+    assert len(candidate_times) == coverage["candidate_rows"] == 456
+    assert hashlib.sha256(candidate_bytes).hexdigest() == coverage["candidate_prediction_times_sha256"]
+    assert candidate_times[0] == "2024-09-12 23:59:00+00:00"
+    assert candidate_times[-1] == "2026-08-11 23:59:00+00:00"
+
+    with (result_dir / "predictions.csv").open(encoding="utf-8", newline="") as handle:
+        scored_times = [row["prediction_time"] for row in csv.DictReader(handle)]
+    scored_preimage = ("\n".join(scored_times) + "\n").encode()
+    assert len(scored_times) == coverage["scored_rows"] == 204
+    assert scored_times[0] == coverage["oos_start"]
+    assert scored_times[-1] == coverage["oos_end"]
+    assert hashlib.sha256(scored_preimage).hexdigest() == coverage["scored_prediction_times_sha256"]
+
+    assert summary["authority"]["diagnostic_only"] is True
+    assert summary["authority"]["confirmation_execution_authorized"] is False
+    assert summary["authority"]["research_promotion_authorized"] is False
+    assert summary["authority"]["trading_authority"] is False
+    assert summary["authority"]["issue_51_touched"] is False
+    assert manifest["diagnostic_execution_authorized"] is True
+    assert manifest["confirmation_execution_authorized"] is False
+    assert manifest["research_promotion_authorized"] is False
+    assert manifest["trading_authority"] is False
+    assert manifest["issue_51_touched"] is False
+    assert manifest["reproducibility_runs"] == 2
+    assert coverage["row_drops"] == 0
+    assert coverage["cross_contract_substitutions"] == 0
 
 
 def test_real_v1_transition_is_non_comparable_not_a_regression_alarm() -> None:
@@ -101,9 +180,11 @@ def test_default_metrics_cli_operates_on_real_longitudinal_ledger(capsys) -> Non
 
     assert output["status"] == "passed"
     assert output["blockers"] == []
-    assert output["previous_context"]["status"] == "comparable"
+    assert output["previous_context"]["status"] == "non_comparable"
+    assert "forecast.target" in output["previous_context"]["hard_context_changes"]
+    assert "evaluation.protocol_id" in output["previous_context"]["hard_context_changes"]
     assert "model.family" in output["previous_context"]["methodology_movements"]
-    assert any(item["status"] == "regression" for item in output["metric_comparisons"])
+    assert not any(item["status"] == "regression" for item in output["metric_comparisons"])
 
 
 def test_backfilled_identity_hashes_are_reproducible_from_documented_preimages() -> None:
