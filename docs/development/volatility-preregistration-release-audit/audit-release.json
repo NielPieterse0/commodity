@@ -1,0 +1,56 @@
+{
+  "schema_version": 1,
+  "release_id": "volatility-preregistration-191-diagnostic-release-v1",
+  "issue": 193,
+  "decision": "pass_diagnostic_only",
+  "assessment_date": "2026-08-23",
+  "audit_base_revision": "759b45b62f53f5f7e21d32a39f52ce937eaf2bb5",
+  "audited_contract_commit": "47d8c93ce7d364fe63fda94ef0671451f5fef82e",
+  "identities": {
+    "contract_sha256": "f89a381dbe570c79573732a563b52ec1900a2f22b2f4a287d95de698d5db29fe",
+    "preregistration_sha256": "a4eff3933b1290067a990081c3648285328a189d98f1980ecdfc208a6ce61073",
+    "roll_safe_market_sha256": "d14fd50d8ce06ee1df82cbd420c2bb3b1918ed1a4eb1cfbd45984ec8fb063cd9",
+    "rolls_sha256": "66873b7da806d2e001d41c44954358656c4b8d3efbd55d47eecf618b5a7ebe11"
+  },
+  "diagnostic": {
+    "candidate_rows": 456,
+    "initial_train_rows": 252,
+    "scored_rows": 204,
+    "oos_start": "2025-10-03T23:59:00+00:00",
+    "oos_end": "2026-08-11T23:59:00+00:00",
+    "promotion_authority": false,
+    "execution_authorized": true
+  },
+  "confirmation": {
+    "scored_rows": 504,
+    "boundary": "prediction_time_strictly_after_2026-08-11T23:59:00+00:00",
+    "execution_authorized": false,
+    "promotion_authority": false
+  },
+  "power_reconstruction": {
+    "primary_block_size_sessions": 40,
+    "diagnostic_block_equivalent_units": 5.1,
+    "diagnostic_standardized_mde": 1.2405627861349697,
+    "confirmation_block_equivalent_units": 12.6,
+    "confirmation_standardized_mde": 0.7892572223575648
+  },
+  "checks": {
+    "target_and_loss_reconstructed": true,
+    "baseline_and_challenger_reconstructed": true,
+    "walk_forward_reconstructed": true,
+    "diagnostic_identity_matches_ledger": true,
+    "same_contract_fail_closed_semantics_verified": true,
+    "roll_semantics_verified": true,
+    "excluded_search_axes_preserved": true,
+    "confirmation_remains_locked": true,
+    "issue_51_untouched": true
+  },
+  "authority": {
+    "diagnostic_execution_authorized": true,
+    "confirmation_execution_authorized": false,
+    "research_promotion_authorized": false,
+    "trading_authority": false,
+    "paid_acquisition_authorized": false,
+    "model_or_feature_search_authorized": false
+  }
+}
