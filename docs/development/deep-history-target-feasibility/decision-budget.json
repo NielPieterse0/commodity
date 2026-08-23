@@ -1,0 +1,100 @@
+{
+  "schema_version": 1,
+  "record": "deep_history_target_feasibility_decision",
+  "issue": 149,
+  "assessment_as_of": "2026-08-22",
+  "new_model_fit_performed": false,
+  "new_prediction_generated": false,
+  "new_oos_outcome_inspected": false,
+  "paid_acquisition_performed": false,
+  "market_history": {
+    "dataset": "GLBX.MDP3",
+    "symbol": "NG.FUT",
+    "start": "2010-06-06",
+    "end_inclusive": "2026-08-12",
+    "provider_batch_state": "done",
+    "original_integrity_state": "quarantined_integrity_incomplete",
+    "repaired_integrity_state": "complete",
+    "repair_verified_artifacts": 19,
+    "repair_bad_artifacts": 0,
+    "repair_missing_artifacts": 0,
+    "canonical_market_source": false,
+    "backtest_evidence_allowed": false,
+    "licensing_rights_verified": false,
+    "additional_paid_reacquisition_approved": false
+  },
+  "planning_assumptions": {
+    "current_rows": 204,
+    "sessions_per_added_year": 252,
+    "dependence_block_sessions": 20,
+    "target_power": 0.8,
+    "rmse_mde_scaling": "current_mde * sqrt(current_rows / scenario_rows)",
+    "current_relative_rmse_mde_pct": {
+      "one_primary": 2.3281875498,
+      "nine_member_bound": 3.0037754547,
+      "twenty_one_member_bound": 3.2241242534
+    }
+  },
+  "added_history_scenarios": {
+    "five_years": {
+      "total_rows": 1464,
+      "block_equivalent": 73.2,
+      "relative_rmse_mde_pct": {"one_primary": 0.8691, "nine_member_bound": 1.1213, "twenty_one_member_bound": 1.2035},
+      "standardized_mde": {"one_primary": 0.3275, "nine_member_bound": 0.4225, "twenty_one_member_bound": 0.4535}
+    },
+    "ten_years": {
+      "total_rows": 2724,
+      "block_equivalent": 136.2,
+      "relative_rmse_mde_pct": {"one_primary": 0.6371, "nine_member_bound": 0.8220, "twenty_one_member_bound": 0.8823},
+      "standardized_mde": {"one_primary": 0.2401, "nine_member_bound": 0.3097, "twenty_one_member_bound": 0.3324}
+    },
+    "fifteen_years": {
+      "total_rows": 3984,
+      "block_equivalent": 199.2,
+      "relative_rmse_mde_pct": {"one_primary": 0.5268, "nine_member_bound": 0.6797, "twenty_one_member_bound": 0.7296},
+      "standardized_mde": {"one_primary": 0.1985, "nine_member_bound": 0.2561, "twenty_one_member_bound": 0.2749}
+    },
+    "full_market_span_weekday_upper_proxy": {
+      "total_rows": 4223,
+      "block_equivalent": 211.15,
+      "relative_rmse_mde_pct": {"one_primary": 0.5117, "nine_member_bound": 0.6602, "twenty_one_member_bound": 0.7086}
+    }
+  },
+  "decisions": {
+    "additional_databento_market_history": "reject_now_existing_depth_sufficient",
+    "databento_canonical_research_use": "defer_pending_issue_51_licensing_and_adoption",
+    "noaa_gfs_revision_history": "advance_bounded_readiness_after_preregistration",
+    "historical_storage_consensus": "defer_pending_issue_113_pit_source_gate",
+    "longer_or_weekly_return_as_power_fix": "reject",
+    "realized_volatility_target": "advance_design_defer_execution",
+    "curve_or_spread_target": "defer_to_issue_147_mechanism_ranking"
+  },
+  "successor_actions": {
+    "issue_51_review_trigger_met": true,
+    "issue_51_reason": "deeper-history testing is now decision-relevant and licensing/canonical authority is the binding Databento gate",
+    "issue_113_still_required": true,
+    "issue_114_constraints_still_required": true,
+    "issue_137_untouched_confirmation_required": true,
+    "issue_147_target_portfolio_should_use_this_budget": true,
+    "issue_148_surprise_revision_design_should_use_this_budget": true
+  },
+  "boundaries": {
+    "market_history_is_sample_ceiling_not_candidate_usable_count": true,
+    "aggregation_does_not_create_independent_calendar_information": true,
+    "regime_transport_risk_increases_with_history_depth": true,
+    "candidate_specific_pit_overlap_required": true
+  },
+  "source_refs": [
+    "docs/development/effective-n-detectable-effect/power-budget.json",
+    "docs/development/databento-full-history-acquisition/evidence.json",
+    "docs/development/databento-full-history-acquisition/repair-evidence.json",
+    "docs/development/databento-offline-dbn/evidence.json",
+    "config/data_sources.json",
+    "docs/development/weather-revision-readiness/evidence.json",
+    "https://github.com/NielPieterse0/commodity/issues/51",
+    "https://github.com/NielPieterse0/commodity/issues/113",
+    "https://github.com/NielPieterse0/commodity/issues/137",
+    "https://github.com/NielPieterse0/commodity/issues/147",
+    "https://github.com/NielPieterse0/commodity/issues/148"
+  ]
+}
