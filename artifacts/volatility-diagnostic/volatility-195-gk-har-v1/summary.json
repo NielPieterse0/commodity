@@ -1,0 +1,108 @@
+{
+  "authority": {
+    "confirmation_execution_authorized": false,
+    "diagnostic_only": true,
+    "issue_51_touched": false,
+    "research_promotion_authorized": false,
+    "trading_authority": false
+  },
+  "confirmation_power_planning": {
+    "confirmation_absolute_qlike_mde": 0.16290115707215677,
+    "confirmation_relative_mde_vs_baseline_qlike": 0.5919598680991206,
+    "confirmation_remains_locked": true,
+    "confirmation_standardized_mde": 0.7893,
+    "materiality_threshold": 0.05,
+    "paired_qlike_improvement_sd": 0.2063868707362939,
+    "sample_size_power_gate_passes": false
+  },
+  "execution": {
+    "canonical_market_sha256": "83faf07a8de1fe3fea4cd6548dd25d9c02828e1ef4faa13a234ac8f2ad03d655",
+    "dataset_sha256": "0c0a39b3669215b4bdc45a0fdedf90697f0c2c92690cb33700bd0bc47c80a45f",
+    "evaluator_sha256": "16933c32a3948af06ddf9864278c99fc75e07ae701934ac5cd2b3523c8fbe608",
+    "execution_revision": "31d733eaa171573ad14da0cc68da1da38f1b33fa",
+    "frozen_dataset_id": "us-ng-pit-0c0a39b36692",
+    "predictions_sha256": "8ab6121cc24ddd12ce251e1bd4fd9d01959a5b0ec5fffecb45e6e33cc59142a8",
+    "release_sha256": "8ad51c693ed1406799d4e116815b0872ee6f40cb719c57fe196c327404ca16cd"
+  },
+  "experiment_id": "volatility-195-gk-har-v1",
+  "primary": {
+    "disposition": "diagnostic_pass",
+    "gates": {
+      "mean_qlike_improvement_positive": true,
+      "period_robustness": true,
+      "primary_ci_lower_positive": true,
+      "primary_p_value_at_most_threshold": true,
+      "regime_robustness": true,
+      "relative_qlike_improvement_at_least_materiality": true
+    },
+    "inference": {
+      "20": {
+        "block_size": 20,
+        "ci_lower": 0.02221933964336579,
+        "ci_upper": 0.070653086313409,
+        "effective_block_equivalent_units": 10.2,
+        "mean_improvement": 0.04278062292002822,
+        "method": "moving_block_bootstrap",
+        "p_value_two_sided": 0.002997002997002997,
+        "resamples": 1000
+      },
+      "40": {
+        "block_size": 40,
+        "ci_lower": 0.022747284270724775,
+        "ci_upper": 0.07346640268937397,
+        "effective_block_equivalent_units": 5.1,
+        "mean_improvement": 0.04278062292002822,
+        "method": "moving_block_bootstrap",
+        "p_value_two_sided": 0.002997002997002997,
+        "resamples": 1000
+      },
+      "60": {
+        "block_size": 60,
+        "ci_lower": 0.02890425372022257,
+        "ci_upper": 0.07451289302141302,
+        "effective_block_equivalent_units": 3.4,
+        "mean_improvement": 0.04278062292002822,
+        "method": "moving_block_bootstrap",
+        "p_value_two_sided": 0.002997002997002997,
+        "resamples": 1000
+      }
+    },
+    "materiality_threshold": 0.05,
+    "mean_baseline_qlike": 0.2751895286335185,
+    "mean_challenger_qlike": 0.2324089057134903,
+    "mean_qlike_improvement": 0.04278062292002822,
+    "passes_all_primary_gates": true,
+    "relative_qlike_improvement": 0.15545876012237714,
+    "robustness": {
+      "period_mean_improvements": [
+        0.029742471246412272,
+        0.09001374934013942,
+        0.008585648173532983
+      ],
+      "positive_periods": 3,
+      "positive_regimes": 3,
+      "regime_counts": [
+        109,
+        33,
+        62
+      ],
+      "regime_cutpoints": [
+        0.0007908798155687816,
+        0.001194134349427809
+      ],
+      "regime_mean_improvements": [
+        0.028430955785081993,
+        0.09110468727754835,
+        0.04228739056375365
+      ]
+    },
+    "rows": 204
+  },
+  "secondary_descriptive_only": {
+    "sqrt_realized_variance_rmse": {
+      "baseline_rv20": 0.014123688175847457,
+      "challenger_log_har": 0.013108115347363385,
+      "last_observation": 0.013418753594997225
+    }
+  }
+}

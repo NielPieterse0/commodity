@@ -569,6 +569,165 @@
         ]
       },
       "context_id": "ctx-99a5ee94f7306928d3c89cf4"
+    },
+    {
+      "stage_id": "volatility-195-gk-har-diagnostic",
+      "sequence": 50,
+      "label": "Consumed-history volatility diagnostic \u2014 log-HAR",
+      "evidence_status": "native",
+      "context": {
+        "forecast": {
+          "target": "next_session_same_contract_garman_klass_variance",
+          "horizon": "1 trading session",
+          "prediction_timestamp_semantics": "after_current_daily_bar_close",
+          "target_timestamp_semantics": "next CME_NYMEX session raw per-contract daily OHLC for the contract selected at prediction cutoff",
+          "information_cutoff_semantics": "after_current_daily_bar_close"
+        },
+        "dataset": {
+          "dataset_id": "us-ng-pit-0c0a39b36692",
+          "freeze_id": "b6aaf445500f2841",
+          "dataset_sha256": "0c0a39b3669215b4bdc45a0fdedf90697f0c2c92690cb33700bd0bc47c80a45f",
+          "rows": 456,
+          "oos_rows": 204,
+          "oos_start": "2025-10-03T23:59:00+00:00",
+          "oos_end": "2026-08-11T23:59:00+00:00",
+          "coverage_signature_sha256": "fe2814ad84ba4ed790fa9e9b0d386056ec0902f09817167ed0189ee80c98f6ff"
+        },
+        "evaluation": {
+          "protocol_id": "volatility-191-diagnostic-v1",
+          "protocol_sha256": "f89a381dbe570c79573732a563b52ec1900a2f22b2f4a287d95de698d5db29fe",
+          "split_id": "volatility-191:expanding:252:5:204",
+          "split_sha256": "2668ecba4d0817c8f20bf294c052bbdfb2f802a5dc716fdb3517fb303f37833e",
+          "baseline_id": "same_contract_rv20_mean",
+          "baseline_configuration_id": "semantic:same-contract-rv20-mean-v1"
+        },
+        "availability": {
+          "rule_id": "evaluation-pit-after-daily-bar-close-v1",
+          "rule_sha256": "1ec62a3bb3c222d158fdd69ab031b3c0a519ba2ac9881a054fae34a26d2aeccc"
+        },
+        "features": {
+          "definition_id": "log-har-rv-1-5-20",
+          "definition_sha256": "f89a381dbe570c79573732a563b52ec1900a2f22b2f4a287d95de698d5db29fe",
+          "feature_family_ids": [
+            "market_volatility_persistence"
+          ]
+        },
+        "model": {
+          "family": "ordinary_least_squares",
+          "configuration_id": "log_har_ols_v1"
+        }
+      },
+      "metrics": {
+        "model_rmse": {
+          "value": 0.013108115347363385,
+          "unit": "secondary_descriptive_sqrt_realized_variance",
+          "direction": "lower"
+        },
+        "baseline_rmse": {
+          "value": 0.014123688175847457,
+          "unit": "secondary_descriptive_sqrt_realized_variance",
+          "direction": "lower"
+        },
+        "rmse_improvement_vs_baseline": {
+          "value": 0.0010155728284840723,
+          "unit": "secondary_descriptive_sqrt_realized_variance",
+          "direction": "higher"
+        },
+        "mean_challenger_qlike": {
+          "value": 0.2324089057134903,
+          "unit": "qlike",
+          "direction": "lower"
+        },
+        "mean_baseline_qlike": {
+          "value": 0.2751895286335185,
+          "unit": "qlike",
+          "direction": "lower"
+        },
+        "mean_qlike_improvement": {
+          "value": 0.04278062292002822,
+          "unit": "qlike",
+          "direction": "higher"
+        },
+        "relative_qlike_improvement_pct": {
+          "value": 15.545876012237715,
+          "unit": "percent",
+          "direction": "higher"
+        },
+        "primary_ci_lower": {
+          "value": 0.022747284270724775,
+          "unit": "qlike",
+          "direction": "higher"
+        },
+        "primary_ci_upper": {
+          "value": 0.07346640268937397,
+          "unit": "qlike",
+          "direction": "higher"
+        },
+        "primary_p_value": {
+          "value": 0.002997002997002997,
+          "unit": "probability",
+          "direction": "lower"
+        },
+        "positive_periods": {
+          "value": 3,
+          "unit": "count",
+          "direction": "higher"
+        },
+        "positive_regimes": {
+          "value": 3,
+          "unit": "count",
+          "direction": "higher"
+        },
+        "confirmation_relative_mde_pct": {
+          "value": 59.19598680991206,
+          "unit": "percent",
+          "direction": "lower"
+        },
+        "confirmation_power_gate_passes": {
+          "value": 0,
+          "unit": "binary",
+          "direction": "higher"
+        },
+        "rmse_secondary_descriptive_only": {
+          "value": 1,
+          "unit": "binary",
+          "direction": "higher"
+        },
+        "primary_qlike_gate_passes": {
+          "value": 1,
+          "unit": "binary",
+          "direction": "higher"
+        },
+        "robust_edge_demonstrated": {
+          "value": 0,
+          "unit": "binary",
+          "direction": "higher"
+        }
+      },
+      "methodology_change_summary": "New volatility target and QLIKE protocol on the same consumed Phase-D dates. The log-HAR diagnostic passed its frozen primary gates, but this history has zero promotion authority and the preregistered 504-row confirmation power gate failed, so no robust promotable edge is recorded.",
+      "interpretations": [],
+      "evidence": {
+        "code_revision": "31d733eaa171573ad14da0cc68da1da38f1b33fa",
+        "config_sha256": "f89a381dbe570c79573732a563b52ec1900a2f22b2f4a287d95de698d5db29fe",
+        "artifact_sha256s": [
+          "8ab6121cc24ddd12ce251e1bd4fd9d01959a5b0ec5fffecb45e6e33cc59142a8",
+          "623a6b4dd48ddc3b93141868e85e487a23cb34b40da5a8d8aec0dd4fe0000d4b",
+          "bf44fd667d6735b00c11cfdc5fde9659b104448e21291acb24dbd56f674cf894",
+          "bb43485ece5330f92c1fab270404daeaac5ed9a703b6dcab30d01149a9a409b2",
+          "fe2814ad84ba4ed790fa9e9b0d386056ec0902f09817167ed0189ee80c98f6ff"
+        ],
+        "reproducibility_status": "passed",
+        "source_refs": [
+          "artifacts/volatility-diagnostic/volatility-195-gk-har-v1/predictions.csv",
+          "artifacts/volatility-diagnostic/volatility-195-gk-har-v1/summary.json",
+          "artifacts/volatility-diagnostic/volatility-195-gk-har-v1/coverage.json",
+          "artifacts/volatility-diagnostic/volatility-195-gk-har-v1/run-manifest.json",
+          "artifacts/volatility-diagnostic/volatility-195-gk-har-v1/candidate-prediction-times.txt",
+          "docs/development/volatility-preregistration/contract.json",
+          "docs/development/volatility-preregistration-release-audit/audit-release.json"
+        ]
+      },
+      "context_id": "ctx-a8a66b8bc39410e7147f1691"
     }
   ]
 }
