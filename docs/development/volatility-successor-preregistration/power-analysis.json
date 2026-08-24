@@ -1,0 +1,135 @@
+{
+  "schema_version": 1,
+  "issue": 197,
+  "assessment_as_of": "2026-08-24",
+  "authority": "planning_from_consumed_195_history_only",
+  "new_model_fit_performed": false,
+  "new_prediction_generated": false,
+  "untouched_confirmation_outcome_inspected": false,
+  "paid_acquisition_performed": false,
+  "source_identity": {
+    "diagnostic_experiment_id": "volatility-195-gk-har-v1",
+    "diagnostic_rows": 204,
+    "predictions_sha256": "8ab6121cc24ddd12ce251e1bd4fd9d01959a5b0ec5fffecb45e6e33cc59142a8",
+    "diagnostic_contract_sha256": "f89a381dbe570c79573732a563b52ec1900a2f22b2f4a287d95de698d5db29fe",
+    "diagnostic_preregistration_sha256": "a4eff3933b1290067a990081c3648285328a189d98f1980ecdfc208a6ce61073"
+  },
+  "correction": {
+    "historical_195_planning_relative_mde": 0.5919598680991206,
+    "problem": "the 195 planner multiplied a block-equivalent standardized MDE by row-level paired-loss SD, mixing block-mean and row-level scales",
+    "historical_result_mutated": false,
+    "historical_lock_decision_preserved": true,
+    "reason": "corrected 504-row power remains below the governed 80% target for a 5% QLIKE effect"
+  },
+  "consumed_scale": {
+    "mean_baseline_qlike": 0.2751895286335185,
+    "mean_challenger_qlike": 0.2324089057134903,
+    "mean_paired_qlike_improvement": 0.04278062292002822,
+    "row_level_paired_improvement_sd": 0.2063868707362939,
+    "materiality_relative_reduction": 0.05,
+    "materiality_absolute_qlike": 0.013759476431675924
+  },
+  "planning_method": {
+    "target_power": 0.8,
+    "alpha_two_sided": 0.05,
+    "z_alpha_over_2": 1.959963984540054,
+    "z_power": 0.8416212335729143,
+    "one_primary_hypothesis": true,
+    "primary_block_sessions": 40,
+    "block_sensitivity_sessions": [20, 60],
+    "scale_estimator": "SD of overlapping contiguous block means from the consumed 204-row paired QLIKE-improvement sequence",
+    "absolute_mde_formula": "(z_alpha_over_2 + z_power) * block_mean_sd / sqrt(planned_rows / block_sessions)",
+    "relative_mde_formula": "absolute_mde / consumed_mean_baseline_qlike",
+    "required_rows_formula": "block_sessions * ((z_alpha_over_2 + z_power) * block_mean_sd / materiality_absolute_qlike)^2",
+    "note": "design approximation aligned to the moving-block inference scale; it does not replace confirmation bootstrap inference"
+  },
+  "block_scale": {
+    "20": {
+      "overlapping_block_windows": 185,
+      "block_mean_sd": 0.038952880421331326,
+      "required_blocks_for_5pct": 62.904687991409,
+      "required_rows_for_5pct": 1258.09375982818
+    },
+    "40": {
+      "overlapping_block_windows": 165,
+      "block_mean_sd": 0.02905340242691949,
+      "required_blocks_for_5pct": 34.994343993096564,
+      "required_rows_for_5pct": 1399.7737597238624
+    },
+    "60": {
+      "overlapping_block_windows": 145,
+      "block_mean_sd": 0.022134902630199058,
+      "required_blocks_for_5pct": 20.312299385402046,
+      "required_rows_for_5pct": 1218.7379631241226
+    }
+  },
+  "sample_decision": {
+    "analytical_binding_block_sessions": 40,
+    "analytical_binding_rows": 1399.7737597238624,
+    "rounded_full_block_minimum_rows": 1400,
+    "governed_minimum_rows": 1440,
+    "governed_minimum_primary_blocks": 36,
+    "planned_scored_rows": 1800,
+    "planned_primary_blocks": 45,
+    "status": "conditional_plugin_planning_pass",
+    "reason": "1800 exceeds the consumed-history plug-in floor, but confirmation stays locked until nuisance-only historical calibration validates the same power gate without using scored confirmation outcomes"
+  },
+  "relative_mde_scenarios": {
+    "504_rows": {
+      "20_sessions": 0.07899711667897862,
+      "40_sessions": 0.0833265997197323,
+      "60_sessions": 0.07775170221954195,
+      "consumed_plugin_primary_40_session_power_gate_passes_5pct": false
+    },
+    "1440_rows": {
+      "20_sessions": 0.0467353244907667,
+      "40_sessions": 0.04929668119963425,
+      "60_sessions": 0.045998527360261374,
+      "consumed_plugin_primary_40_session_power_gate_passes_5pct": true
+    },
+    "1800_rows": {
+      "20_sessions": 0.04180134500474602,
+      "40_sessions": 0.04409229209100722,
+      "60_sessions": 0.041142333616971345,
+      "consumed_plugin_primary_40_session_power_gate_passes_5pct": true
+    }
+  },
+  "pre_confirmation_calibration": {
+    "rows": 720,
+    "role": "nuisance_parameters_only",
+    "position": "immediately_after_the_252_initial_training_rows_and_before_the_1800_scored_confirmation_rows",
+    "allowed_outputs": ["mean_baseline_qlike", "centered_paired_loss_block_sd_20", "centered_paired_loss_block_sd_40", "centered_paired_loss_block_sd_60", "relative_mde_at_1800"],
+    "forbidden_outputs": ["mean_challenger_qlike", "mean_paired_improvement", "p_value", "confidence_interval", "period_result", "regime_result", "secondary_performance"],
+    "conservative_combination_rule": "for each block use max(consumed_195_block_mean_sd, calibration_centered_block_mean_sd); use min(consumed_195_mean_baseline_qlike, calibration_mean_baseline_qlike) as the relative-effect scale",
+    "pass_rule": "relative_mde_at_1800_must_be_at_or_below_0.05_for_20_40_and_60_session_blocks",
+    "failure_rule": "stop_before_scored_confirmation_and_create_a_new_preregistration_without_opening_confirmation_outcomes"
+  },
+  "data_feasibility": {
+    "existing_market_history": "GLBX.MDP3 NG.FUT 2010-06-06 through 2026-08-12",
+    "integrity_status": "complete",
+    "additional_paid_acquisition_required": false,
+    "canonical_market_source": false,
+    "backtest_evidence_allowed": false,
+    "licensing_rights_verified": false,
+    "execution_blocked_until_all_three_authority_gates_pass": true
+  },
+  "authority_boundary": {
+    "confirmation_execution_authorized": false,
+    "independent_release_audit_required": true,
+    "research_promotion_authorized": false,
+    "trading_authority": false,
+    "issue_51_touched": false,
+    "existing_504_confirmation_remains_locked": true
+  },
+  "source_refs": [
+    "artifacts/volatility-diagnostic/volatility-195-gk-har-v1/predictions.csv",
+    "artifacts/volatility-diagnostic/volatility-195-gk-har-v1/summary.json",
+    "docs/development/volatility-preregistration/contract.json",
+    "docs/development/deep-history-target-feasibility/analysis.md",
+    "docs/development/deep-history-target-feasibility/decision-budget.json",
+    "docs/development/databento-full-history-acquisition/repair-evidence.json",
+    "config/data_sources.json",
+    "config/policy.json",
+    "https://github.com/NielPieterse0/commodity/issues/137"
+  ]
+}
