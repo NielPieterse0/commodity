@@ -2,7 +2,6 @@ from __future__ import annotations
 
 import hashlib
 import json
-import subprocess
 from pathlib import Path
 
 import numpy as np
@@ -51,9 +50,10 @@ ROOT = Path(__file__).resolve().parents[1]
 
 @pytest.fixture(scope="module")
 def source_policy():
-    raw = subprocess.check_output(
-        ["git", "-C", str(ROOT), "show", f"{SPEC_REVISION}:config/data_sources.json"]
-    )
+    raw = (
+        ROOT
+        / "docs/development/v2-indicator-surprise-challenger/source-policy-frozen.json"
+    ).read_bytes()
     policy = parse_pinned_source_policy(raw)
     assert policy.sha256 == SOURCE_POLICY_SHA256
     return policy

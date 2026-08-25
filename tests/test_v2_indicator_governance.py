@@ -488,9 +488,10 @@ def test_implementation_source_hash_is_newline_invariant(tmp_path: Path) -> None
 def _source_policy() -> object:
     from commodity.v2_indicator_contract import parse_pinned_source_policy
 
-    raw = subprocess.check_output(
-        ["git", "-C", str(ROOT), "show", f"{SPEC_REVISION}:config/data_sources.json"]
-    )
+    raw = (
+        ROOT
+        / "docs/development/v2-indicator-surprise-challenger/source-policy-frozen.json"
+    ).read_bytes()
     return parse_pinned_source_policy(raw)
 
 
