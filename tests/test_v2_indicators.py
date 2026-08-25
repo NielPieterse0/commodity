@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import subprocess
 from pathlib import Path
 
 import numpy as np
@@ -50,7 +51,9 @@ ROOT = Path(__file__).resolve().parents[1]
 
 @pytest.fixture(scope="module")
 def source_policy():
-    raw = (ROOT / "config" / "data_sources.json").read_bytes()
+    raw = subprocess.check_output(
+        ["git", "-C", str(ROOT), "show", f"{SPEC_REVISION}:config/data_sources.json"]
+    )
     policy = parse_pinned_source_policy(raw)
     assert policy.sha256 == SOURCE_POLICY_SHA256
     return policy
@@ -99,7 +102,7 @@ def _prospective_current_source_binding() -> tuple[dict, dict]:
     return binding, manifest
 
 
-def test_repository_bindings_are_exact_and_release_after_174(
+def test_repository_bindings_preserve_historical_source_policy_and_block_stale_release(
     source_policy, activation_binding
 ) -> None:
     assert source_policy.sha256 == SOURCE_POLICY_SHA256
@@ -111,7 +114,11 @@ def test_repository_bindings_are_exact_and_release_after_174(
     runtime_manifest = indicator_contract.build_implementation_source_manifest(ROOT)
     bound_manifest = activation_binding["implementation_revision"]["source_manifest_sha256"]
     assert runtime_manifest["manifest_sha256"] == bound_manifest
-    require_empirical_release(activation_binding)
+    with pytest.raises(
+        IndicatorContractError,
+        match="differs from exact committed frozen authorities",
+    ):
+        require_empirical_release(activation_binding)
 
 
 def test_activation_binding_hash_detects_tampering(activation_binding) -> None:

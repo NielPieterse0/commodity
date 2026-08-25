@@ -82,7 +82,7 @@ def _released(binding: dict, *, candidate_released: bool) -> dict:
     return released
 
 
-def test_committed_successor_173_freeze_matches_corrected_manifest_and_releases_after_174() -> None:
+def test_committed_successor_173_freeze_stays_frozen_after_source_authority_change() -> None:
     contract = _load("docs/development/v2-activation-preregistration/activation-contract.json")
     candidates = _load("config/experiment_candidates.json")
     candidate = candidates["candidates"][CANDIDATE_ID]
@@ -98,14 +98,15 @@ def test_committed_successor_173_freeze_matches_corrected_manifest_and_releases_
     assert implementation["head"] == "cc5decb5fb9d718edbbf706cf9169e3e73c15f0f"
     assert tuple(manifest["files"]) == IMPLEMENTATION_SOURCE_PATHS
     assert tuple(implementation["source_manifest_paths"]) == IMPLEMENTATION_SOURCE_PATHS
-    assert implementation["source_manifest_sha256"] == manifest["manifest_sha256"]
+    assert implementation["source_manifest_sha256"] != manifest["manifest_sha256"]
 
     binding = bind_activation_contract(
         contract,
         candidates,
         read_frozen_multiplicity_manifest(ROOT),
     )
-    require_empirical_release(binding)
+    with pytest.raises(EmpiricalReleaseBlocked, match="sources differ"):
+        require_empirical_release(binding)
 
 
 def test_pre_refreeze_pr98_preparation_head_is_rejected() -> None:
@@ -487,7 +488,10 @@ def test_implementation_source_hash_is_newline_invariant(tmp_path: Path) -> None
 def _source_policy() -> object:
     from commodity.v2_indicator_contract import parse_pinned_source_policy
 
-    return parse_pinned_source_policy((ROOT / "config" / "data_sources.json").read_bytes())
+    raw = subprocess.check_output(
+        ["git", "-C", str(ROOT), "show", f"{SPEC_REVISION}:config/data_sources.json"]
+    )
+    return parse_pinned_source_policy(raw)
 
 
 def _weather_rows() -> tuple[pd.DataFrame, pd.Timestamp]:
