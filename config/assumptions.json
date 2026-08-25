@@ -36,9 +36,9 @@
     },
     "canonical_market_provider": {
       "status": "active_assumption",
-      "statement": "Massive Futures remains configured for canonical expiry-aware NG contract settlement/OHLCV ingestion. The existing paid Databento full-history acquisition is quarantined for integrity/governance review and must not be reacquired or promoted to canonical backtest evidence without a new explicit approval and resolved licensing/integrity evidence.",
+      "statement": "The existing paid Databento GLBX.MDP3 NG full-history batch is approved for this project's private research and backtesting use after integrity verification and explicit operator approval. Raw values remain local and non-redistributable; no paid reacquisition or trading authority is implied.",
       "excluded_for_now": [],
-      "review_trigger": "The Databento account probe completes, Massive or Databento licensing/history/cost evidence changes, or another materially better provider is identified."
+      "review_trigger": "Databento licensing/history/cost evidence changes, the approved private-use scope changes, or another materially better provider is identified."
     },
     "continuous_series_policy": {
       "status": "active_assumption",

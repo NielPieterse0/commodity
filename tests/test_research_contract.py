@@ -181,7 +181,10 @@ def test_revisable_constraints_live_in_assumption_registry() -> None:
     assert policy["execution"]["live_trading_allowed"] is False
     assert assumptions["assumptions"]["canonical_market_provider"]["excluded_for_now"] == []
     assert data["sources"]["market_canonical"]["provider"] == "massive_futures"
-    assert data["sources"]["databento_henry_hub_probe"]["canonical_market_source"] is False
+    databento = data["sources"]["databento_henry_hub_probe"]
+    assert databento["canonical_market_source"] is True
+    assert databento["backtest_evidence_allowed"] is True
+    assert databento["licensing_rights_verified"] is True
 
 
 def test_raw_contracts_are_canonical_and_roll_is_derived_policy() -> None:
