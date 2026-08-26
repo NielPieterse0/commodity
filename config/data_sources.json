@@ -393,6 +393,13 @@
       "historical_volume": true,
       "historical_open_interest": true,
       "account_history_validated": true,
+      "historical_availability_status": "reconstructed_conservative",
+      "availability_policy": {
+        "method": "trade_date_2359_utc",
+        "status": "reconstructed_conservative",
+        "timezone": "UTC",
+        "basis": "CME Henry Hub daily OHLCV is treated as available at 23:59 UTC on its trade date, the same conservative bound already validated for the canonical Henry Hub market path; this is later than the NYMEX settlement close and daily trading pause across U.S. DST"
+      },
       "licensing_rights_verified": true,
       "approved_use_scope": "private project research and backtesting of the already-purchased historical batch; no redistribution authority",
       "evaluation_evidence": "docs/development/databento-vs-massive/evidence.json"
