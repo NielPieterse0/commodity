@@ -1,0 +1,22 @@
+{
+  "calibration_id": "volatility-203-nuisance-v1",
+  "calibration_identity_sha256": "555203a63990d77223f1becb0806409808d17bb5ddcb542883123d94c16fdaef",
+  "calibration_rows": 720,
+  "centered_paired_loss_block_sd_20": 0.15462797503019446,
+  "centered_paired_loss_block_sd_40": 0.1292164826041949,
+  "centered_paired_loss_block_sd_60": 0.11641279126338613,
+  "existing_504_future_rows_inspected": false,
+  "issue": 203,
+  "mean_baseline_qlike": 0.47107987744012747,
+  "power_gate_pass": false,
+  "protected_1800_performance_inspected": false,
+  "relative_mde_at_1800": {
+    "20_sessions": 0.16593528544509872,
+    "40_sessions": 0.19610270804901425,
+    "60_sessions": 0.21637745489364316
+  },
+  "release_id": "volatility-successor-197-calibration-release-v1",
+  "release_sha256": "e0f649035805693d56eea35c1354920947220ddc8867e3d7d36d2405ee53ca83",
+  "schema_version": 1,
+  "train_identity_sha256": "f132195bc1b77ec42bf98b8c2d636f11a7131ad5350b7694cf1288885d055e1c"
+}
