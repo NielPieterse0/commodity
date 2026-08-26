@@ -1,1 +1,94 @@
-test
+{
+  "schema_version": 1,
+  "release_id": "volatility-successor-197-calibration-release-v1",
+  "issue": 201,
+  "decision": "pass_nuisance_calibration_only",
+  "audited_main": "0bb92add224f78f5a06074bcd00413de04d4862e",
+  "audited_at": "2026-08-26",
+  "freeze_id": "volatility-successor-confirmation-197-v1",
+  "identities": {
+    "preregistration_sha256": "046a52d7363488f55fe4b3a8f83bdaaca842bceae04c7b2930a047e08e05cfef",
+    "contract_sha256": "5ff3311b263081ea2952ef3c14b484133282de5eab2c4572a59e1e6e5fc7eb45",
+    "power_analysis_sha256": "0edb316c4d642bc50c7447000fc41208d31bca14ec31c9a740f32f4c25f6a916",
+    "freeze_sha256": "4c67bf055c3e19d140cf22df3f5ecb148ead58ba331816c6392a05e29524fb75",
+    "inherited_191_contract_sha256": "f89a381dbe570c79573732a563b52ec1900a2f22b2f4a287d95de698d5db29fe"
+  },
+  "source_authority": {
+    "source": "config/data_sources.json#sources.databento_henry_hub_probe",
+    "dataset": "GLBX.MDP3",
+    "product_code": "NG",
+    "canonical_market_source": true,
+    "backtest_evidence_allowed": true,
+    "licensing_rights_verified": true,
+    "approved_use_scope": "private project research and backtesting of the already-purchased historical batch; no redistribution authority",
+    "historical_availability_method": "trade_date_2359_utc",
+    "additional_paid_acquisition_authorized": false,
+    "trading_authority": false
+  },
+  "historical_window": {
+    "boundary": "prediction_time < 2024-08-13T00:00:00+00:00",
+    "rows": 2772,
+    "first_prediction_time": "2015-09-09T23:59:00+00:00",
+    "last_prediction_time": "2024-08-12T23:59:00+00:00",
+    "coverage": 1.0,
+    "inadmissible_rows": 0,
+    "minimum_same_contract_history_rows": 549,
+    "identity_sha256": "63a33cfa0221aceeccae738628628163ebee3206850e2c84d8c3d8d8924cef6f"
+  },
+  "roles": {
+    "initial_train": {
+      "rows": 252,
+      "first_prediction_time": "2015-09-09T23:59:00+00:00",
+      "last_prediction_time": "2016-07-01T23:59:00+00:00",
+      "identity_sha256": "6c368b5e711c46edea1c8e3d26880bbf8869ce0db80a7fa6cd28ba4094ede874"
+    },
+    "nuisance_calibration": {
+      "rows": 720,
+      "first_prediction_time": "2016-07-03T23:59:00+00:00",
+      "last_prediction_time": "2018-10-26T23:59:00+00:00",
+      "identity_sha256": "eccf4456bf2b7de1c1d7ddddba871c8d1b3128a85e3eda1463e53cf56bd3e532"
+    },
+    "scored_confirmation": {
+      "rows": 1800,
+      "first_prediction_time": "2018-10-28T23:59:00+00:00",
+      "last_prediction_time": "2024-08-12T23:59:00+00:00",
+      "identity_sha256": "15d9ae068f131af380344c83156b6c9cfc42469e87337622daa2fcbf4e99b4dd",
+      "performance_inspected": false
+    }
+  },
+  "lineage": {
+    "issue_149_precedes_191": true,
+    "issue_191_design_frozen_before_195_result": true,
+    "issue_193_independent_diagnostic_release_precedes_195": true,
+    "issue_195_used_only_consumed_diagnostic_rows": true,
+    "issue_197_frozen_after_195_and_before_historical_confirmation_inspection": true,
+    "issue_137_fresh_confirmation_boundary_preserved": true,
+    "final_1800_influenced_design": false
+  },
+  "authority": {
+    "nuisance_calibration_720_authorized": true,
+    "allowed_calibration_outputs": [
+      "mean_baseline_qlike",
+      "centered_paired_loss_block_sd_20",
+      "centered_paired_loss_block_sd_40",
+      "centered_paired_loss_block_sd_60",
+      "relative_mde_at_1800"
+    ],
+    "scored_confirmation_1800_authorized": false,
+    "existing_504_future_rows_authorized": false,
+    "model_or_feature_search_authorized": false,
+    "research_promotion_authorized": false,
+    "trading_authority": false
+  },
+  "forbidden_calibration_outputs": [
+    "mean_challenger_qlike",
+    "mean_paired_improvement",
+    "p_value",
+    "confidence_interval",
+    "period_performance",
+    "regime_performance",
+    "secondary_performance"
+  ],
+  "release_condition": "After nuisance calibration, use the frozen conservative combination rule and require all 20/40/60-session relative MDEs at 1800 rows to be <= 0.05. Otherwise stop before scored confirmation and create a new preregistration.",
+  "evidence_note": "The audit reconstructed only source, contract, calendar, PIT, row identity, history coverage and OHLC validity. It did not compute or inspect scored-confirmation volatility, forecasts, QLIKE, improvements, significance, period/regime results or secondary performance."
+}
