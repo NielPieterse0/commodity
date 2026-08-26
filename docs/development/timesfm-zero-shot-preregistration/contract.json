@@ -1,0 +1,481 @@
+{
+  "schema_version": 1,
+  "contract_id": "timesfm-198-zero-shot-v1",
+  "issue": 198,
+  "status": "frozen_design_execution_unauthorized",
+  "authority_scope": "experiment_local_preregistration_only",
+  "global_model_registry_mutated": false,
+  "global_v2_candidate_registry_mutated": false,
+  "model": {
+    "kind": "optional_foundation_model",
+    "enabled": false,
+    "checkpoint_preflight_enabled": true,
+    "family": "foundation_model",
+    "architecture": "timesfm_2_5_200m",
+    "repository": "google-research/timesfm",
+    "source_revision": "3dae50b20d7a724981e8ea36cda75578f80dd2dc",
+    "model_id": "google/timesfm-2.5-200m-pytorch",
+    "model_revision": "1d952420fba87f3c6dee4f240de0f1a0fbc790e3",
+    "device": "cpu",
+    "max_context": 16384,
+    "source_checkout_env": "COMMODITY_TIMESFM_SOURCE_DIR",
+    "checkpoint_cache_env": "COMMODITY_TIMESFM_CACHE_DIR",
+    "local_files_only": true,
+    "checkpoint_artifacts": {
+      "model": {
+        "filename": "model.safetensors",
+        "sha256": "2f776efe6245e42b24bc4153ffdf61810140210e4bd3b01fb21f7aa779ab6ce8"
+      }
+    },
+    "reason": "#198 pinned TimesFM 2.5 zero-shot benchmark; empirical execution is controlled by the frozen candidate contract."
+  },
+  "experiment": {
+    "status": "frozen_design_execution_unauthorized",
+    "issue": 198,
+    "role": "independent_foundation_model_zero_shot_benchmark",
+    "hypothesis": "Pinned TimesFM 2.5 provides useful same-contract next-session NG forecasts or calibrated uncertainty versus governed naive and project-model controls.",
+    "model_authority": "docs/development/timesfm-zero-shot-preregistration/contract.json#model",
+    "source_reviewed_at": "2026-08-26",
+    "zero_shot_only": true,
+    "fine_tuning_permitted": false,
+    "xreg_permitted": false,
+    "horizon_trading_sessions": 1,
+    "prediction_timestamp_semantics": "after_current_daily_bar_close",
+    "context_rule": "most_recent_available_same_contract_PIT_rows_at_cutoff",
+    "single_contract_required": true,
+    "cross_contract_history_permitted": false,
+    "cross_contract_target_permitted": false,
+    "context_lengths": [
+      128,
+      256,
+      512,
+      1024
+    ],
+    "longer_context_in_this_experiment_permitted": false,
+    "representations": {
+      "settlement_level": {
+        "series": "same_contract_settle",
+        "positive": true,
+        "role": "primary_representation"
+      },
+      "log_settlement": {
+        "series": "log_same_contract_settle",
+        "positive": false,
+        "role": "primary_representation"
+      },
+      "log_return": {
+        "series": "same_contract_settlement_log_return",
+        "positive": false,
+        "role": "primary_representation"
+      },
+      "garman_klass_variance": {
+        "series": "same_contract_garman_klass_variance",
+        "positive": true,
+        "role": "auxiliary_volatility_task"
+      }
+    },
+    "inference": {
+      "backend": "pytorch",
+      "torch_compile": false,
+      "max_horizon": 1,
+      "normalize_inputs": true,
+      "use_continuous_quantile_head": true,
+      "force_flip_invariance": true,
+      "fix_quantile_crossing": true,
+      "quantiles": [
+        0.1,
+        0.2,
+        0.3,
+        0.4,
+        0.5,
+        0.6,
+        0.7,
+        0.8,
+        0.9
+      ],
+      "point_output": "median_q50",
+      "quantile_output_layout": "index_0_mean_then_q10_through_q90"
+    },
+    "data_identity": {
+      "inherits_activation_contract": "docs/development/v2-activation-preregistration/activation-contract.json",
+      "dataset_id": "us-ng-pit-0c0a39b36692",
+      "dataset_sha256": "0c0a39b3669215b4bdc45a0fdedf90697f0c2c92690cb33700bd0bc47c80a45f",
+      "oos_rows": 204,
+      "oos_start": "2025-10-03T23:59:00+00:00",
+      "oos_end": "2026-08-11T23:59:00+00:00",
+      "coverage_signature_sha256": "3621260e37817b4063527f485701f8d7fea45284547db4a8397691b400ffbd36",
+      "data_vintage_id": "b6aaf445500f2841",
+      "forecast_target": "target_ret_1",
+      "split_rule": "first_252_rows_context_only_last_204_rows_scored",
+      "protocol_id": "phase-d-v1",
+      "split_id": "c0a407ce414bf44737388e27dd50cb410aa73e0f5985157f4c868187ee6c5e7a"
+    },
+    "evaluation": {
+      "primary_metric": "rmse_on_next_session_log_return",
+      "headline_metrics": [
+        "rmse",
+        "mae",
+        "mase",
+        "direction_accuracy",
+        "prediction_actual_correlation"
+      ],
+      "probabilistic_metrics": [
+        "mean_pinball_loss_q10_q90",
+        "central_interval_coverage_80",
+        "central_interval_coverage_60"
+      ],
+      "volatility_metrics": [
+        "rmse",
+        "mae",
+        "mase",
+        "qlike"
+      ],
+      "baselines": {
+        "zero_return_naive": {
+          "rmse": 0.0453230577562102
+        },
+        "phase_d_full_v1_hist_gb": {
+          "rmse": 0.04650733779411404
+        },
+        "kronos_180_small": {
+          "rmse": 0.0552930751,
+          "role": "error_complementarity_reference"
+        }
+      },
+      "representation_selection_after_results_permitted": false,
+      "context_selection_after_results_permitted": false,
+      "diebold_mariano_required": true,
+      "moving_block_bootstrap": {
+        "block_size": 20,
+        "resamples": 1000,
+        "confidence": 0.95,
+        "seed": 0
+      },
+      "multiple_testing": {
+        "method": "benjamini_hochberg",
+        "family": "F198_TIMESFM_ZERO_SHOT",
+        "post_result_regrouping_permitted": false,
+        "members": 24,
+        "max_adjusted_p_value": 0.05
+      },
+      "primary_point_comparisons": "3_return_representations_x_4_context_lengths_x_2_governed_primary_baselines",
+      "volatility_baseline": "frozen_20_session_mean_garman_klass_variance",
+      "test_contract": {
+        "primary_loss": "squared_error_on_next_session_same_contract_settlement_log_return",
+        "primary_inference": "moving_block_bootstrap_rmse_improvement",
+        "primary_null": "baseline_rmse_minus_timesfm_rmse <= 0",
+        "primary_sidedness": "one_sided_improvement",
+        "bh_p_value_source": "moving_block_bootstrap_one_sided_improvement_p_value",
+        "invalid_member_rule": "fail_closed_and_assign_p_1",
+        "bh_ordering": "lexicographic_representation_then_context_then_baseline",
+        "diebold_mariano": "secondary_confirmatory_reported_for_same_squared_error_loss_not_used_for_bh"
+      },
+      "primary_hypotheses": [
+        {
+          "representation": "settlement_level",
+          "context": 128,
+          "baseline": "zero_return_naive"
+        },
+        {
+          "representation": "settlement_level",
+          "context": 128,
+          "baseline": "phase_d_full_v1_hist_gb"
+        },
+        {
+          "representation": "settlement_level",
+          "context": 256,
+          "baseline": "zero_return_naive"
+        },
+        {
+          "representation": "settlement_level",
+          "context": 256,
+          "baseline": "phase_d_full_v1_hist_gb"
+        },
+        {
+          "representation": "settlement_level",
+          "context": 512,
+          "baseline": "zero_return_naive"
+        },
+        {
+          "representation": "settlement_level",
+          "context": 512,
+          "baseline": "phase_d_full_v1_hist_gb"
+        },
+        {
+          "representation": "settlement_level",
+          "context": 1024,
+          "baseline": "zero_return_naive"
+        },
+        {
+          "representation": "settlement_level",
+          "context": 1024,
+          "baseline": "phase_d_full_v1_hist_gb"
+        },
+        {
+          "representation": "log_settlement",
+          "context": 128,
+          "baseline": "zero_return_naive"
+        },
+        {
+          "representation": "log_settlement",
+          "context": 128,
+          "baseline": "phase_d_full_v1_hist_gb"
+        },
+        {
+          "representation": "log_settlement",
+          "context": 256,
+          "baseline": "zero_return_naive"
+        },
+        {
+          "representation": "log_settlement",
+          "context": 256,
+          "baseline": "phase_d_full_v1_hist_gb"
+        },
+        {
+          "representation": "log_settlement",
+          "context": 512,
+          "baseline": "zero_return_naive"
+        },
+        {
+          "representation": "log_settlement",
+          "context": 512,
+          "baseline": "phase_d_full_v1_hist_gb"
+        },
+        {
+          "representation": "log_settlement",
+          "context": 1024,
+          "baseline": "zero_return_naive"
+        },
+        {
+          "representation": "log_settlement",
+          "context": 1024,
+          "baseline": "phase_d_full_v1_hist_gb"
+        },
+        {
+          "representation": "log_return",
+          "context": 128,
+          "baseline": "zero_return_naive"
+        },
+        {
+          "representation": "log_return",
+          "context": 128,
+          "baseline": "phase_d_full_v1_hist_gb"
+        },
+        {
+          "representation": "log_return",
+          "context": 256,
+          "baseline": "zero_return_naive"
+        },
+        {
+          "representation": "log_return",
+          "context": 256,
+          "baseline": "phase_d_full_v1_hist_gb"
+        },
+        {
+          "representation": "log_return",
+          "context": 512,
+          "baseline": "zero_return_naive"
+        },
+        {
+          "representation": "log_return",
+          "context": 512,
+          "baseline": "phase_d_full_v1_hist_gb"
+        },
+        {
+          "representation": "log_return",
+          "context": 1024,
+          "baseline": "zero_return_naive"
+        },
+        {
+          "representation": "log_return",
+          "context": 1024,
+          "baseline": "phase_d_full_v1_hist_gb"
+        }
+      ],
+      "distribution_family": {
+        "family": "F198_TIMESFM_DISTRIBUTION_12",
+        "members": 12,
+        "baseline": "same_context_empirical_same_contract_return_quantiles",
+        "loss": "mean_pinball_loss_q10_through_q90",
+        "test": "moving_block_bootstrap_mean_loss_improvement",
+        "null": "baseline_mean_pinball_minus_timesfm_mean_pinball <= 0",
+        "sidedness": "one_sided_improvement",
+        "max_adjusted_p_value": 0.05,
+        "coverage_guard": {
+          "central_80_absolute_error_max": 0.05,
+          "central_60_absolute_error_max": 0.05
+        },
+        "invalid_member_rule": "fail_closed_and_assign_p_1"
+      },
+      "distribution_hypotheses": [
+        {
+          "representation": "settlement_level",
+          "context": 128
+        },
+        {
+          "representation": "settlement_level",
+          "context": 256
+        },
+        {
+          "representation": "settlement_level",
+          "context": 512
+        },
+        {
+          "representation": "settlement_level",
+          "context": 1024
+        },
+        {
+          "representation": "log_settlement",
+          "context": 128
+        },
+        {
+          "representation": "log_settlement",
+          "context": 256
+        },
+        {
+          "representation": "log_settlement",
+          "context": 512
+        },
+        {
+          "representation": "log_settlement",
+          "context": 1024
+        },
+        {
+          "representation": "log_return",
+          "context": 128
+        },
+        {
+          "representation": "log_return",
+          "context": 256
+        },
+        {
+          "representation": "log_return",
+          "context": 512
+        },
+        {
+          "representation": "log_return",
+          "context": 1024
+        }
+      ],
+      "complementarity_family": {
+        "family": "F198_TIMESFM_FIXED_BLEND_12",
+        "members": 12,
+        "blend": "0.5_timesfm_point_return_plus_0.5_phase_d_hist_gb_return",
+        "baseline": "phase_d_full_v1_hist_gb",
+        "loss": "squared_error_on_next_session_same_contract_settlement_log_return",
+        "test": "moving_block_bootstrap_rmse_improvement",
+        "null": "histgb_rmse_minus_fixed_blend_rmse <= 0",
+        "sidedness": "one_sided_improvement",
+        "max_adjusted_p_value": 0.05,
+        "invalid_member_rule": "fail_closed_and_assign_p_1",
+        "fitted_or_post_result_blend_weights_permitted": false
+      },
+      "complementarity_hypotheses": [
+        {
+          "representation": "settlement_level",
+          "context": 128
+        },
+        {
+          "representation": "settlement_level",
+          "context": 256
+        },
+        {
+          "representation": "settlement_level",
+          "context": 512
+        },
+        {
+          "representation": "settlement_level",
+          "context": 1024
+        },
+        {
+          "representation": "log_settlement",
+          "context": 128
+        },
+        {
+          "representation": "log_settlement",
+          "context": 256
+        },
+        {
+          "representation": "log_settlement",
+          "context": 512
+        },
+        {
+          "representation": "log_settlement",
+          "context": 1024
+        },
+        {
+          "representation": "log_return",
+          "context": 128
+        },
+        {
+          "representation": "log_return",
+          "context": 256
+        },
+        {
+          "representation": "log_return",
+          "context": 512
+        },
+        {
+          "representation": "log_return",
+          "context": 1024
+        }
+      ],
+      "volatility_claim_role": "secondary_descriptive_non_promotional"
+    },
+    "decision_rule": {
+      "standalone_point_keep": "at least one variant beats both zero-return and Phase-D HistGB under F198_TIMESFM_ZERO_SHOT with positive RMSE improvement and BH-adjusted p <= 0.05 for both comparisons",
+      "distribution_keep": "at least one variant has positive pinball improvement versus the frozen same-context empirical quantile baseline with BH-adjusted p <= 0.05 under F198_TIMESFM_DISTRIBUTION_12 and both central coverage guards pass",
+      "complementarity_keep": "at least one prespecified 50/50 TimesFM+HistGB blend beats HistGB RMSE with BH-adjusted p <= 0.05 under F198_TIMESFM_FIXED_BLEND_12",
+      "volatility_can_keep_return_programme": false,
+      "diagnostic_correlation_or_direction_can_rescue": false,
+      "followup_lora_or_xreg_requires_new_experiment": true,
+      "post_result_variant_selection_permitted": false
+    },
+    "artifact_namespace": "artifacts/timesfm/timesfm-198-zero-shot-v1/",
+    "execution_authorized": false,
+    "freeze_self_authorizes_execution": false,
+    "required_before_execution": [
+      "exact_freeze_commit",
+      "source_and_checkpoint_preflight",
+      "frozen_row_identity_and_coverage_gate",
+      "clean_committed_execution_tree"
+    ],
+    "prohibitions": [
+      "no_prediction_generation_before_freeze_commit",
+      "no_performance_metric_inspection_before_freeze_commit",
+      "no_post_result_context_selection",
+      "no_post_result_representation_selection",
+      "no_fine_tuning",
+      "no_xreg",
+      "no_cross_contract_history",
+      "no_cross_contract_target"
+    ],
+    "contract_selection": {
+      "selected_path_authority": "commodity.rolls.build_derived_continuous_series using config/assumptions.json continuous_series_policy",
+      "selection_at_cutoff": "exact selected-path row whose available_at equals the frozen prediction_time",
+      "target_trade_date": "next selected-path trading-session date after the cutoff trade_date",
+      "target_contract": "same contract_id selected at the cutoff even if the selected path rolls next session",
+      "required_target_columns": [
+        "settle",
+        "open",
+        "high",
+        "low",
+        "close",
+        "available_at"
+      ],
+      "target_availability": "target canonical row must have available_at strictly after prediction_time",
+      "missing_same_contract_target": "fail_entire_experiment_without_scoring_or_row_drop",
+      "row_drop_allowed": false,
+      "cross_contract_substitution_allowed": false
+    },
+    "history_coverage": {
+      "minimum_same_contract_rows": 20,
+      "context_lengths_are_caps_not_minima": true,
+      "insufficient_history": "fail_entire_experiment_without_scoring",
+      "nonfinite_or_nonpositive_settlement": "fail_entire_experiment_without_scoring",
+      "required_scored_row_coverage": 1.0,
+      "realized_context_length_must_be_recorded": true,
+      "identical_effective_contexts_must_be_reported_not_deduplicated": true
+    }
+  }
+}
