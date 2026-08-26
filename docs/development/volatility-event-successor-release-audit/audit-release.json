@@ -1,0 +1,101 @@
+{
+  "schema_version": 1,
+  "release_id": "volatility-event-successor-205-calibration-release-v1",
+  "issue": 207,
+  "decision": "pass_nuisance_calibration_only",
+  "audited_main": "4dab55b89afb68ff8c92c8a09383f39133c8b5a6",
+  "audited_at": "2026-08-26",
+  "freeze_id": "volatility-event-successor-205-v1",
+  "identities": {
+    "contract_sha256": "c4cbdae78e29b9dc6bd77dff99c72f53236940096a68ccebeb8c4cf30b9f69f6",
+    "power_analysis_sha256": "081aeba3283cd2cff4f8ebfb74d45753c910382883e72109c7bbb87c70e5de01",
+    "preregistration_sha256": "c0e33177ff4fde8cb22a587ece0b7bacec14c3313099ac0b08d7b0563a7c425e",
+    "freeze_sha256": "93a83dc9cb6760c8d5888fdae621d0bacd4e13293b1440fa75a48d577a992c1b",
+    "data_sources_sha256": "8fb567163b1b703aebb2849a42a31c6ad1c81fa5114f334d032a3f1215609033"
+  },
+  "source_authority": {
+    "source": "config/data_sources.json#sources.databento_henry_hub_probe",
+    "canonical_market_source": true,
+    "backtest_evidence_allowed": true,
+    "licensing_rights_verified": true,
+    "historical_availability_method": "trade_date_2359_utc",
+    "additional_paid_acquisition_authorized": false,
+    "trading_authority": false
+  },
+  "schedule_audit": {
+    "development_scheduled": 195,
+    "development_admissible": 183,
+    "development_same_contract_target_drops": 12,
+    "confirmation_scheduled": 360,
+    "confirmation_admissible": 342,
+    "confirmation_same_contract_target_drops": 18,
+    "history_failures": 0,
+    "pit_failures": 0,
+    "confirmation_minimum_required": 300,
+    "confirmation_minimum_pass": true
+  },
+  "roles": {
+    "initial_training": {
+      "events": 80,
+      "first_prediction_time": "2015-09-09T23:59:00+00:00",
+      "last_prediction_time": "2017-01-11T23:59:00+00:00",
+      "minimum_same_contract_history_rows": 600,
+      "identity_sha256": "b928f239cca2936b1930825129125cb42c753d480cd65aa83c26ecf83eca6745"
+    },
+    "nuisance_calibration": {
+      "events": 80,
+      "first_prediction_time": "2017-01-17T23:59:00+00:00",
+      "last_prediction_time": "2018-06-07T23:59:00+00:00",
+      "minimum_same_contract_history_rows": 552,
+      "identity_sha256": "2e7c428735b74e304c5ed6412b3c279b98372abca093acbf77737f537a287fc6"
+    },
+    "unused_development": {
+      "events": 23,
+      "first_prediction_time": "2018-06-13T23:59:00+00:00",
+      "last_prediction_time": "2018-10-19T23:59:00+00:00",
+      "identity_sha256": "13da58a37bae47a86067eb5a78d22102e250e70e1812403640335bf0305647da"
+    },
+    "candidate_confirmation": {
+      "events": 342,
+      "first_prediction_time": "2018-10-28T23:59:00+00:00",
+      "last_prediction_time": "2024-08-07T23:59:00+00:00",
+      "minimum_same_contract_history_rows": 567,
+      "identity_sha256": "e05fa0d6b1be0a3b66c72ff6244ef924c78e5e1e7894fb798a1400e7d8b0f97d",
+      "performance_inspected": false
+    }
+  },
+  "protected_evidence": {
+    "daily_1800_performance_inspected": false,
+    "future_504_performance_inspected": false,
+    "evidence_sources": [
+      "docs/development/volatility-nuisance-calibration/result.json",
+      "docs/development/volatility-event-successor-preregistration/freeze.json"
+    ]
+  },
+  "authority": {
+    "nuisance_calibration_80_authorized": true,
+    "allowed_calibration_outputs": [
+      "mean_baseline_qlike",
+      "centered_paired_loss_block_sd_2",
+      "centered_paired_loss_block_sd_4",
+      "centered_paired_loss_block_sd_8",
+      "relative_mde_at_exact_confirmation_n"
+    ],
+    "confirmation_342_authorized": false,
+    "future_504_authorized": false,
+    "model_or_feature_search_authorized": false,
+    "research_promotion_authorized": false,
+    "trading_authority": false
+  },
+  "forbidden_calibration_outputs": [
+    "mean_challenger_qlike",
+    "mean_paired_improvement",
+    "p_value",
+    "confidence_interval",
+    "period_result",
+    "regime_result",
+    "secondary_performance"
+  ],
+  "release_condition": "Run only the frozen 80-event nuisance calibration. All 2/4/8-event relative MDEs at exact confirmation n=342 must be <= 0.05 before any confirmation performance may be opened.",
+  "evidence_note": "Audit used only row identity, contract identity, source coverage, calendar ordering, same-contract history, OHLC validity and PIT availability. No candidate-confirmation volatility, forecast, QLIKE, improvement, significance, period/regime or secondary performance was calculated or inspected."
+}
