@@ -1,0 +1,73 @@
+{
+  "schema_version": 1,
+  "issue": 205,
+  "assessment_as_of": "2026-08-26",
+  "authority": "planning_only_no_protected_outcomes_inspected",
+  "new_model_fit_performed": false,
+  "protected_1800_performance_inspected": false,
+  "locked_504_performance_inspected": false,
+  "failure_evidence": {
+    "source": "docs/development/volatility-nuisance-calibration/result.json",
+    "mean_baseline_qlike": 0.47107987744012747,
+    "relative_mde_at_1800": {"20_sessions": 0.16593528544509872, "40_sessions": 0.19610270804901425, "60_sessions": 0.21637745489364316},
+    "power_gate_pass": false
+  },
+  "same_design_rows_required_for_5pct": {
+    "20_sessions": 19825,
+    "40_sessions": 27689,
+    "60_sessions": 33710
+  },
+  "design_change": {
+    "old_target": "next-session daily realized variance",
+    "new_target": "non-overlapping next-5-session integrated realized variance",
+    "reason": "reduce overlap and raise independent information per scored outcome without outcome-driven model search"
+  },
+  "fixed_daily_identity": {
+    "source": "docs/development/volatility-successor-release-audit/audit-release.json",
+    "audited_rows": 2772,
+    "development_rows": 972,
+    "untouched_candidate_rows": 1800
+  },
+  "information_budget": {
+    "old_daily_1800": {
+      "20_session_blocks": {"block_equivalent": 90.0, "standardized_mde": 0.29531301160988654},
+      "40_session_primary": {"block_equivalent": 45.0, "standardized_mde": 0.4176356661639448},
+      "60_session_blocks": {"block_equivalent": 30.0, "standardized_mde": 0.5114971402445012}
+    },
+    "new_event_minimum_300": {
+      "2_event_blocks": {"block_equivalent": 150.0, "standardized_mde": 0.22874847517668964},
+      "4_event_primary": {"block_equivalent": 75.0, "standardized_mde": 0.3234991959670397},
+      "8_event_blocks": {"block_equivalent": 37.5, "standardized_mde": 0.4574969503533793}
+    },
+    "new_event_theoretical_upper_360": {
+      "2_event_blocks": {"block_equivalent": 180.0, "standardized_mde": 0.2088178330819724},
+      "4_event_primary": {"block_equivalent": 90.0, "standardized_mde": 0.29531301160988654},
+      "8_event_blocks": {"block_equivalent": 45.0, "standardized_mde": 0.4176356661639448}
+    },
+    "interpretation": "the new design improves standardized information at the primary and conservative sensitivity scales, but relative QLIKE power remains unknown until frozen nuisance calibration"
+  },
+  "nuisance_calibration": {
+    "events": 80,
+    "primary_block_events": 4,
+    "sensitivity_block_events": [2, 8],
+    "allowed_outputs_only": ["mean_baseline_qlike", "centered_paired_loss_block_sd_2", "centered_paired_loss_block_sd_4", "centered_paired_loss_block_sd_8", "relative_mde_at_exact_confirmation_n"],
+    "target_power": 0.8,
+    "alpha_two_sided": 0.05,
+    "materiality_relative_qlike_reduction": 0.05,
+    "pass_rule": "all relative MDE values must be <= 0.05"
+  },
+  "selection_gate": {
+    "minimum_confirmation_events": 300,
+    "theoretical_upper_confirmation_events": 360,
+    "exact_count_source": "independent identity audit before model output",
+    "performance_based_sample_selection": false,
+    "failure_if_below_minimum": true
+  },
+  "conclusion": {
+    "same_daily_design_rejected": true,
+    "event_design_selected": true,
+    "event_design_power_proven": false,
+    "next_required_step": "independent source-bound identity audit followed by nuisance-only event calibration",
+    "confirmation_remains_locked": true
+  }
+}
