@@ -7,3 +7,5 @@ The power gate failed. Relative detectable QLIKE improvement at the exact 342-ev
 Therefore confirmation execution remains unauthorized. This result does not establish that the challenger lacks forecasting value; it establishes that this frozen confirmation design cannot reliably detect a 5% relative QLIKE improvement at the observed nuisance-loss variability.
 
 Only the outputs permitted by #207 are recorded in `result.json`. Mean challenger loss, paired mean improvement, p-values, confidence intervals, period/regime results, and secondary performance remain unreported.
+
+<!-- temporary ci-trigger marker; reverted in next commit -->
