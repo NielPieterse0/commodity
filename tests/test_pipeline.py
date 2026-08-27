@@ -1,5 +1,6 @@
 import numpy as np
 import pandas as pd
+import pytest
 
 from commodity.evaluation import evaluate_predictions, walk_forward_predict
 from commodity.models import RidgeReturnModel, ZeroReturnModel
@@ -80,8 +81,15 @@ def test_forecast_metrics_exclude_strategy_and_execution_fields() -> None:
     pred = walk_forward_predict(ZeroReturnModel, x, y, initial_train=30)
     metrics = evaluate_predictions(pred)
     assert metrics["n"] == 50.0
+    assert metrics["prediction_actual_corr"] is None
     assert "net_log_return" not in metrics
     assert "cost_bps" not in metrics
+
+
+def test_forecast_metrics_preserve_defined_correlation() -> None:
+    pred = pd.DataFrame({"prediction": [1.0, 2.0, 3.0], "actual": [2.0, 4.0, 6.0]})
+    metrics = evaluate_predictions(pred)
+    assert metrics["prediction_actual_corr"] == pytest.approx(1.0)
 
 
 def test_simulation_requires_explicit_policy_and_cost_configuration() -> None:
@@ -370,11 +378,15 @@ def test_run_tournament_writes_schema_valid_experiment_records(tmp_path) -> None
     )
     args.func(args)
 
-    tournament_summary = json.loads((output / "summary.json").read_text(encoding="utf-8"))
+    summary_text = (output / "summary.json").read_text(encoding="utf-8")
+    assert "NaN" not in summary_text
+    tournament_summary = json.loads(summary_text)
     assert tournament_summary["evidence_mode"] == "research_pit"
     assert tournament_summary["canonical_market_evidence"] is False
     assert tournament_summary["research_evaluation_eligible"] is False
     assert tournament_summary["research_promotion_eligible"] is False
+    naive_summary = next(row for row in tournament_summary["ranking"] if row["model"] == "naive")
+    assert naive_summary["prediction_actual_corr"] is None
 
     schema_path = REPO_ROOT / "contracts" / "experiment.schema.json"
     schema = json.loads(schema_path.read_text(encoding="utf-8"))
@@ -382,7 +394,11 @@ def test_run_tournament_writes_schema_valid_experiment_records(tmp_path) -> None
     for model_name in ("naive", "ridge", "hist_gb"):
         record_path = output / model_name / "experiment.json"
         assert record_path.is_file()
-        record = json.loads(record_path.read_text(encoding="utf-8"))
+        record_text = record_path.read_text(encoding="utf-8")
+        assert "NaN" not in record_text
+        record = json.loads(record_text)
         validator.validate(record)
         assert record["controls"]["leakage_check"] == "passed"
         assert record["results"]["significance"] is not None
+        if model_name == "naive":
+            assert record["evaluation"]["metrics"]["prediction_actual_corr"] is None

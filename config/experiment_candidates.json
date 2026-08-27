@@ -20,10 +20,10 @@
     "activation_audit_issue": 174,
     "activation_audit_predecessor_issue": 164,
     "common_evaluator_manifest": "docs/development/v2-activation-preregistration/statistical-evaluator.json",
-    "common_evaluator_manifest_sha256": "d180989ac77952376a07b4ae9e501008e12f4dabc8f04e251c9d4c0f56cc72b3",
-    "execution_authorized": true,
+    "common_evaluator_manifest_sha256": "a30630d5ddb55013db914b88af49207aad846e7b4347172ae8de7cab079af435",
+    "execution_authorized": false,
     "execution_authorization_semantics": "Global release prerequisite only; never sufficient to authorize a candidate.",
-    "empirical_release_rule": "Successor audit #174 independently passed the exact #173/#83 refreeze. Only candidates whose per-candidate execution_authorized flag and #81 release_state are both true may execute; #84/#85 remain blocked."
+    "empirical_release_rule": "Successor evaluator refreeze #170 is pending fresh independent audit; all affected empirical execution remains blocked until that audit passes."
   },
   "candidates": {
     "ng-volatility-direction-v1": {

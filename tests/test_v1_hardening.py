@@ -97,6 +97,16 @@ def test_atomic_json_write_replaces_complete_document(tmp_path: Path) -> None:
     assert list(tmp_path.glob("*.tmp")) == []
 
 
+def test_json_write_normalizes_non_finite_values_to_null(tmp_path: Path) -> None:
+    from commodity.provenance import write_json
+
+    target = tmp_path / "metrics.json"
+    write_json(target, {"corr": float("nan"), "nested": [float("inf"), -float("inf")]})
+    text = target.read_text(encoding="utf-8")
+    assert "NaN" not in text and "Infinity" not in text
+    assert json.loads(text) == {"corr": None, "nested": [None, None]}
+
+
 def test_bootstrap_rejects_full_v1_claim_without_governed_sources(tmp_path: Path) -> None:
     import numpy as np
 
