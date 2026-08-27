@@ -1,0 +1,27 @@
+{
+  "schema_version": 1,
+  "issue": 214,
+  "change_id": "214-weather-gap-veto",
+  "checked_against_main": "94ad9af5e2fd09b4df7273aedf82d04d692699b7",
+  "declared_gap_runs": [
+    "2025-08-05T00:00:00Z",
+    "2025-08-06T00:00:00Z",
+    "2025-08-07T00:00:00Z",
+    "2025-08-08T00:00:00Z",
+    "2025-08-09T00:00:00Z",
+    "2026-06-11T00:00:00Z",
+    "2026-06-23T00:00:00Z"
+  ],
+  "local_preserved_manifest_matches": 0,
+  "v1_weather_window": {
+    "start": "2024-08-13",
+    "end": "2026-08-12",
+    "scheduled_daily_runs": 730,
+    "declared_gap_runs": 7,
+    "expected_admissible_runs": 723,
+    "recorded_source_rows": 723,
+    "source_rows_evidence": "docs/development/v1-research-completion/phase-bc-empirical-closeout.json#phase_b.family_audits.weather.source_rows"
+  },
+  "historical_impact": "No evidence that a now-excluded weather run entered the frozen V1 dataset. The preserved snapshot check found no manifest for any declared gap, and the frozen V1 weather audit row count equals the full daily schedule minus exactly the seven declared gaps.",
+  "model_rerun_required": false
+}
