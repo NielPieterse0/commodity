@@ -96,7 +96,7 @@ def test_independent_audit_release_binds_exact_freeze(tmp_path: Path) -> None:
     (stale_root / "config").mkdir(parents=True)
     stale_config = (ROOT / "config" / "kronos_confirmation.json").read_text(
         encoding="utf-8"
-    ).replace("frozen_pending_independent_audit", "tampered_after_audit")
+    ).replace("frozen_released_with_successor_evaluator_audit", "tampered_after_audit")
     (stale_root / "config" / "kronos_confirmation.json").write_text(
         stale_config, encoding="utf-8"
     )

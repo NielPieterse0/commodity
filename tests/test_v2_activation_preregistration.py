@@ -17,9 +17,9 @@ def _contract() -> dict:
     return _load(V2 / "activation-contract.json")
 
 
-def test_v2_contract_records_174_pass_and_releases_83_only() -> None:
+def test_v2_contract_records_successor_170_audit_and_preserves_component_release() -> None:
     contract = _contract()
-    assert contract["status"] == "frozen_released_after_independent_174_audit"
+    assert contract["status"] == "successor_refreeze_170_released_after_independent_audit"
     assert contract["execution_authorized"] is True
     assert contract["hard_dependencies"]["78"]["satisfied"] is True
     assert contract["hard_dependencies"]["15"]["satisfied"] is True
@@ -103,11 +103,10 @@ def test_frozen_candidate_registry_matches_contract_identity_and_digest() -> Non
     candidate83 = candidates["candidates"][frozen["83"]]
     assert candidate83["status"] == "frozen_released_after_independent_174_audit"
     assert candidate83["execution_authorized"] is True
-    assert candidates["freeze"]["empirical_release_rule"] == (
-        "Successor audit #174 independently passed the exact #173/#83 refreeze. "
-        "Only candidates whose per-candidate execution_authorized flag and #81 release_state "
-        "are both true may execute; #84/#85 remain blocked."
+    assert "Independent #170 evaluator audit passed exact refreeze commit 42805a3" in (
+        candidates["freeze"]["empirical_release_rule"]
     )
+    assert "#84/#85 remain blocked" in candidates["freeze"]["empirical_release_rule"]
     assert candidates["candidates"][frozen["84"]]["execution_authorized"] is False
 
 

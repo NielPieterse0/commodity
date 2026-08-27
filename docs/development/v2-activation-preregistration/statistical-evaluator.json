@@ -2,8 +2,8 @@
   "schema_version": 1,
   "record": "v2_common_statistical_evaluator_binding",
   "issue": 81,
-  "status": "successor_refrozen_pending_independent_170_audit",
-  "execution_authorized": false,
+  "status": "successor_refrozen_released_after_independent_170_audit",
+  "execution_authorized": true,
   "source_identity": {
     "checkout_rule": "core.autocrlf=false; raw runtime source bytes must match the frozen SHA-256 values before empirical execution",
     "paths": [
@@ -84,6 +84,8 @@
     "successor_issue": 170,
     "reason": "Preserve undefined Pearson correlation as null and prohibit non-standard NaN in evaluator outputs.",
     "empirical_results_inspected": false,
-    "independent_audit_required": true
+    "independent_audit_required": false,
+    "independent_audit_state": "passed",
+    "reviewed_refreeze_commit": "42805a3cb37da3015b56b5639e02615db2d065fd"
   }
 }

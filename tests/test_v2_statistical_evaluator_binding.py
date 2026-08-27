@@ -67,7 +67,7 @@ def test_primary_and_secondary_inference_roles_are_fully_bound() -> None:
     assert secondary["rescue_authority"] is False
 
 
-def test_statistical_evaluator_successor_refreeze_fails_closed_pending_audit() -> None:
+def test_statistical_evaluator_successor_refreeze_is_released_only_after_audit() -> None:
     contract = _load(CONTRACT)
     stop_rules = {item["id"]: item for item in contract["stop_failure_criteria"]}
     drift = stop_rules["statistical_evaluator_drift"]
@@ -77,11 +77,15 @@ def test_statistical_evaluator_successor_refreeze_fails_closed_pending_audit() -
     assert contract["frozen_execution_rules"]["uncertainty_significance_rule"][
         "common_evaluator_source_preflight_required"
     ] is True
-    assert contract["execution_authorized"] is False
-    assert contract["status"] == "successor_refreeze_170_pending_independent_audit"
+    assert contract["execution_authorized"] is True
+    assert contract["status"] == "successor_refreeze_170_released_after_independent_audit"
+    successor = contract["empirical_release_gate"]["evaluator_successor"]
+    assert successor["refreeze_issue"] == 170
+    assert successor["satisfied"] is True
+    assert successor["current_state"] == "independent_activation_audit_passed"
     assert contract["empirical_release_gate"]["release_state"] == {
-        "82": False,
-        "83": False,
+        "82": True,
+        "83": True,
         "84": False,
         "85": False,
     }
