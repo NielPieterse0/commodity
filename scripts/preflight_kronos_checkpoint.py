@@ -3,6 +3,7 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import sys
 from pathlib import Path
 
 
@@ -30,6 +31,9 @@ def main() -> int:
     from huggingface_hub import snapshot_download
 
     root = Path(__file__).resolve().parents[1]
+    source_root = str(root / "src")
+    if source_root not in sys.path:
+        sys.path.insert(0, source_root)
     from commodity.kronos_runtime import runtime_lock_authority
 
     runtime_lock = runtime_lock_authority(root)
