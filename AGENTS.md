@@ -2,22 +2,23 @@
 
 ## Repository Mandate
 
-`Commodity` is an experimental ML research repository for forecasting tradable commodity markets and validating whether those forecasts can produce useful trading decisions.
+`Commodity` is an experimental trading research platform for discovering, forecasting, and validating tradable commodity-market opportunities and determining whether combined signals can produce useful trading decisions.
 
-Initial scope: **natural gas only**.
+Initial implementation scope: **natural gas only**. The platform is designed to generalize across tradable instruments and, when later justified by evidence, additional commodity markets.
 
-The first target market is **CME Henry Hub Natural Gas futures**, with **Micro Henry Hub Natural Gas (`MNG`)** as the preferred eventual retail execution instrument, subject to broker/API verification.
+The first complete reference market is **CME Henry Hub Natural Gas futures**, with **Micro Henry Hub Natural Gas (`MNG`)** as the preferred eventual retail execution instrument, subject to broker/API verification. Henry Hub is the proving ground for the full research lifecycle, not a permanent hard-coded identity for reusable platform components.
 
 ## Primary Objective
 
 Build a reproducible system that can:
 
-1. ingest and version natural-gas market and explanatory data;
-2. engineer predictive features from weather, storage, production, LNG, flows, seasonality and market structure;
-3. train and compare forecasting models;
-4. backtest decisions without leakage;
-5. forward-test predictions through a simulated brokerage environment;
-6. measure whether model signals survive realistic execution costs and risk controls.
+1. screen tradable instruments and market states for economically plausible opportunities before committing deep research effort;
+2. ingest and version market, fundamental, cross-market and explanatory data with point-in-time controls;
+3. produce complementary signal families from forecasting models, regime/trend analysis, technical structure, fundamentals/events, volatility and cross-market relationships;
+4. validate, calibrate and combine those signals without leakage, including simple baselines and governed tuning/ensembling;
+5. translate validated evidence into bounded trade candidates, position/risk decisions and realistic execution assumptions;
+6. forward-test the complete decision process through a simulated brokerage environment; and
+7. measure whether the integrated system survives realistic costs, regime changes, uncertainty and risk controls.
 
 ## Repository Authority
 
@@ -75,11 +76,14 @@ Live trading is out of scope until simulation evidence, execution controls and a
 
 ## Architecture Rules
 
-- Keep data, models, policy, execution and evaluation as separate modules with explicit interfaces.
+- Keep market/instrument discovery, data, signal generation, model research, decision logic, risk, policy, execution and evaluation as separate modules with explicit interfaces.
+- Treat forecasting models as signal producers and challengers, not as trading authority or the complete trading system.
+- Keep reusable framework logic instrument-independent. Put contract metadata, calendars, roll rules, currencies, source mappings, instrument-specific fundamentals and broker mappings in configuration or bounded adapters.
+- Do not introduce new Henry-Hub-specific assumptions into generic modules when an instrument contract or adapter can express the difference.
 - Keep model/tool/broker requirements in configuration or policy files; do not hard-code them into implementation logic.
 - Treat authoritative ownership as the change boundary: update the owner first, then all dependants, tests, provenance and documentation.
-- Prefer simple baselines before increasing model complexity.
-- Record datasets, features, model parameters, predictions and evaluation results so experiments are reproducible.
+- Prefer simple baselines before increasing model complexity, and prefer cheap instrument/target screening before expensive model or data acquisition work after the Henry Hub reference implementation is complete.
+- Record datasets, features, model parameters, predictions and evaluation results so experiments are reproducible and comparable across instruments.
 
 ## Working Area
 
