@@ -46,6 +46,7 @@ def test_screening_source_is_rejected_from_pit_dataset() -> None:
             }
         ),
         value_columns=("power_signal",),
+        group_columns=(),
         evidence_mode="screening",
     )
 
@@ -68,11 +69,37 @@ def test_pit_join_respects_availability_cutoff() -> None:
             }
         ),
         value_columns=("weather_signal",),
+        group_columns=(),
     )
     dataset, _ = build_pit_dataset(_market_frame(), exogenous=[source])
 
     assert dataset.index.min() >= pd.Timestamp("2025-03-01T12:00:00Z")
     assert dataset["weather_signal"].eq(7.0).all()
+
+
+def test_pit_dataset_rejects_declared_grouped_source_until_preaggregated() -> None:
+    from commodity.research_dataset import PitFeatureSource, build_pit_dataset
+
+    source = PitFeatureSource(
+        name="regional_weather",
+        family="weather",
+        frame=pd.DataFrame(
+            {
+                "available_at": pd.to_datetime(
+                    ["2025-03-01T12:00:00Z", "2025-03-01T12:30:00Z"], utc=True
+                ),
+                "region": ["east", "west"],
+                "availability_status": ["reconstructed_conservative"] * 2,
+                "revision_status": ["issued_run_immutable"] * 2,
+                "weather_signal": [7.0, 9.0],
+            }
+        ),
+        value_columns=("weather_signal",),
+        group_columns=("region",),
+    )
+
+    with pytest.raises(ValueError, match="aggregated or pivoted"):
+        build_pit_dataset(_market_frame(), exogenous=[source])
 
 
 def test_full_v1_requires_all_configured_families() -> None:
@@ -105,6 +132,7 @@ def test_full_v1_power_requires_configured_nyiso_source_identity() -> None:
                 }
             ),
             value_columns=("power_signal",),
+            group_columns=(),
             source_id=source_id,
         )
 
@@ -143,6 +171,7 @@ def test_full_v1_rejects_family_name_without_full_window_evidence() -> None:
             }
         ),
         value_columns=("weather_signal",),
+        group_columns=(),
     )
     with pytest.raises(ValueError, match="weather.*coverage_incomplete"):
         build_pit_dataset(
@@ -362,6 +391,7 @@ def test_exogenous_manifest_binds_source_lineage_without_metadata_features() -> 
         family="weather",
         frame=source_frame,
         value_columns=("weather_signal",),
+        group_columns=(),
         source_id="open_meteo_single_runs",
         source_vintage="2025-03-01T00:00:00Z",
     )
@@ -404,6 +434,7 @@ def test_full_v1_keeps_all_audits_for_duplicate_required_family_sources() -> Non
                 }
             ),
             value_columns=(column,),
+            group_columns=(),
         )
 
     with pytest.raises(ValueError, match="weather.*coverage_incomplete"):

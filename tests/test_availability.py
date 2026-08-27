@@ -175,7 +175,11 @@ def test_asof_join_never_uses_future_information() -> None:
         }
     )
     joined = asof_join_point_in_time(
-        cutoffs, exogenous, ["weather_signal"], mode="research_pit"
+        cutoffs,
+        exogenous,
+        ["weather_signal"],
+        mode="research_pit",
+        source_group_columns=(),
     )
     assert pd.isna(joined.iloc[0]["weather_signal"])
     assert joined.iloc[1]["weather_signal"] == 7.0
@@ -194,7 +198,11 @@ def test_asof_join_includes_information_available_exactly_at_cutoff() -> None:
         }
     )
     joined = asof_join_point_in_time(
-        cutoffs, exogenous, ["storage_signal"], mode="canonical"
+        cutoffs,
+        exogenous,
+        ["storage_signal"],
+        mode="canonical",
+        source_group_columns=(),
     )
     assert joined.iloc[0]["storage_signal"] == 11.0
     assert joined.iloc[0]["available_at"] == cutoff
@@ -216,7 +224,11 @@ def test_asof_join_rejects_ambiguous_duplicate_availability_times() -> None:
     )
     with pytest.raises(ValueError, match="unique available_at"):
         asof_join_point_in_time(
-            cutoffs, exogenous, ["weather_signal"], mode="research_pit"
+            cutoffs,
+            exogenous,
+            ["weather_signal"],
+            mode="research_pit",
+            source_group_columns=(),
         )
 
 
@@ -233,7 +245,11 @@ def test_screening_join_retains_revision_risk_labels() -> None:
         }
     )
     joined = asof_join_point_in_time(
-        cutoffs, exogenous, ["power_signal"], mode="screening"
+        cutoffs,
+        exogenous,
+        ["power_signal"],
+        mode="screening",
+        source_group_columns=(),
     )
     assert joined.iloc[0]["power_signal"] == 5.0
     assert joined.iloc[0]["revision_status"] == "current_snapshot_revised_history"
@@ -280,12 +296,43 @@ def test_asof_join_keeps_independent_series_grouped() -> None:
         }
     )
     joined = asof_join_point_in_time(
-        cutoffs, exogenous, ["power_signal"], mode="research_pit", by="series"
+        cutoffs,
+        exogenous,
+        ["power_signal"],
+        mode="research_pit",
+        by="series",
+        source_group_columns="series",
     )
     assert list(joined["power_signal"]) == [7.0, 9.0]
 
 
-def test_asof_join_requires_group_key_for_multi_series_source() -> None:
+def test_asof_join_requires_explicit_source_identity_contract() -> None:
+    cutoffs = pd.DataFrame(
+        {"prediction_time": pd.to_datetime(["2026-01-01T17:00:00Z"], utc=True)}
+    )
+    exogenous = pd.DataFrame(
+        {
+            "available_at": [pd.Timestamp("2026-01-01T16:00:00Z")],
+            "availability_status": ["reconstructed_conservative"],
+            "revision_status": ["issued_run_immutable"],
+            "weather_signal": [7.0],
+        }
+    )
+    with pytest.raises(TypeError, match="source_group_columns"):
+        asof_join_point_in_time(  # type: ignore[call-arg]
+            cutoffs, exogenous, ["weather_signal"], mode="research_pit"
+        )
+    with pytest.raises(TypeError, match="source_group_columns"):
+        asof_join_point_in_time(
+            cutoffs,
+            exogenous,
+            ["weather_signal"],
+            mode="research_pit",
+            source_group_columns=None,  # type: ignore[arg-type]
+        )
+
+
+def test_asof_join_requires_group_key_for_declared_multi_series_source() -> None:
     cutoffs = pd.DataFrame(
         {"prediction_time": pd.to_datetime(["2026-01-01T17:00:00Z"], utc=True)}
     )
@@ -294,15 +341,19 @@ def test_asof_join_requires_group_key_for_multi_series_source() -> None:
             "available_at": pd.to_datetime(
                 ["2026-01-01T16:00:00Z", "2026-01-01T16:30:00Z"], utc=True
             ),
-            "type": ["D", "DF"],
+            "region": ["east", "west"],
             "availability_status": ["reconstructed_conservative"] * 2,
             "revision_status": ["issued_run_immutable"] * 2,
             "power_signal": [7.0, 9.0],
         }
     )
-    with pytest.raises(ValueError, match="group"):
+    with pytest.raises(ValueError, match="explicit by= grouping"):
         asof_join_point_in_time(
-            cutoffs, exogenous, ["power_signal"], mode="research_pit"
+            cutoffs,
+            exogenous,
+            ["power_signal"],
+            mode="research_pit",
+            source_group_columns="region",
         )
 
 

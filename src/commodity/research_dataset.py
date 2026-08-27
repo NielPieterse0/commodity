@@ -36,9 +36,17 @@ class PitFeatureSource:
     family: str
     frame: pd.DataFrame
     value_columns: tuple[str, ...]
+    group_columns: tuple[str, ...]
     evidence_mode: str = "research_pit"
     source_id: str | None = None
     source_vintage: str | None = None
+
+    def __post_init__(self) -> None:
+        if self.group_columns is None:
+            raise TypeError(
+                "PitFeatureSource.group_columns must explicitly declare () for a "
+                "single/pre-aggregated source or name the source group identity"
+            )
 
 
 def _required_families() -> tuple[str, ...]:
@@ -213,6 +221,12 @@ def _join_source(
     if not source.value_columns:
         raise ValueError(f"PIT source {source.name!r} has no value columns")
     validated = validate_availability(source.frame, source.evidence_mode)
+    if source.group_columns:
+        raise ValueError(
+            f"PIT source {source.name!r} declares group identity {list(source.group_columns)}; "
+            "build_pit_dataset currently requires grouped sources to be aggregated or pivoted "
+            "to one row per available_at before joining"
+        )
     input_rows = len(dataset)
     cutoffs = pd.DataFrame({"prediction_time": dataset.index})
     joined = asof_join_point_in_time(
@@ -220,6 +234,7 @@ def _join_source(
         validated,
         list(source.value_columns),
         mode=source.evidence_mode,
+        source_group_columns=list(source.group_columns),
     )
     out = dataset.copy()
     for column in source.value_columns:
@@ -248,6 +263,7 @@ def _join_source(
         "unmatched_rows": input_rows - joined_rows,
         "join_coverage_ratio": joined_rows / input_rows,
         "value_columns": list(source.value_columns),
+        "group_columns": list(source.group_columns),
         "available_start": available_at.min().isoformat(),
         "available_end": available_at.max().isoformat(),
         "availability_statuses": sorted(

@@ -235,24 +235,35 @@ def asof_join_point_in_time(
     mode: str = "research_pit",
     cutoff_col: str = "prediction_time",
     by: str | list[str] | None = None,
+    *,
+    source_group_columns: str | list[str] | tuple[str, ...],
 ) -> pd.DataFrame:
     _require_columns(cutoffs, {cutoff_col})
     _require_columns(exogenous, {"available_at", *value_columns})
     by_columns = [by] if isinstance(by, str) else list(by or [])
+    if source_group_columns is None:
+        raise TypeError(
+            "source_group_columns must explicitly declare () for a single/pre-aggregated "
+            "source or name the source group identity"
+        )
+    declared_groups = (
+        [source_group_columns]
+        if isinstance(source_group_columns, str)
+        else list(source_group_columns)
+    )
+    if declared_groups and not by_columns:
+        raise ValueError(
+            "Point-in-time join requires explicit by= grouping for a source with "
+            f"group identity {declared_groups}"
+        )
+    if declared_groups and declared_groups != by_columns:
+        raise ValueError(
+            "Point-in-time join grouping does not match the declared source group identity: "
+            f"by={by_columns}, source_group_columns={declared_groups}"
+        )
     if by_columns:
         _require_columns(cutoffs, set(by_columns))
         _require_columns(exogenous, set(by_columns))
-    else:
-        identity_columns = [
-            column
-            for column in ("series", "series_id", "type")
-            if column in exogenous.columns and exogenous[column].nunique(dropna=False) > 1
-        ]
-        if identity_columns:
-            raise ValueError(
-                "Point-in-time join requires an explicit group key for multi-series sources: "
-                f"{identity_columns}"
-            )
     right = validate_availability(exogenous, mode)
     unique_key = [*by_columns, "available_at"]
     if right.duplicated(unique_key).any():
