@@ -3,6 +3,7 @@ from __future__ import annotations
 import hashlib
 import importlib.metadata
 import json
+import math
 import os
 import subprocess
 import tempfile
@@ -19,9 +20,23 @@ def sha256_file(path: Path) -> str:
     return digest.hexdigest()
 
 
+def _json_compatible(value: Any) -> Any:
+    if isinstance(value, float) and not math.isfinite(value):
+        return None
+    if isinstance(value, dict):
+        return {key: _json_compatible(item) for key, item in value.items()}
+    if isinstance(value, (list, tuple)):
+        return [_json_compatible(item) for item in value]
+    return value
+
+
 def canonical_json_bytes(value: Any) -> bytes:
     return json.dumps(
-        value, sort_keys=True, separators=(",", ":"), ensure_ascii=True
+        _json_compatible(value),
+        sort_keys=True,
+        separators=(",", ":"),
+        ensure_ascii=True,
+        allow_nan=False,
     ).encode("utf-8")
 
 
@@ -110,7 +125,15 @@ def utc_now() -> str:
 def write_json(path: Path, payload: dict[str, Any]) -> None:
     path = Path(path)
     path.parent.mkdir(parents=True, exist_ok=True)
-    content = (json.dumps(payload, indent=2, sort_keys=True) + "\n").encode("utf-8")
+    content = (
+        json.dumps(
+            _json_compatible(payload),
+            indent=2,
+            sort_keys=True,
+            allow_nan=False,
+        )
+        + "\n"
+    ).encode("utf-8")
     fd, temporary = tempfile.mkstemp(prefix=f".{path.name}.", suffix=".tmp", dir=path.parent)
     try:
         with os.fdopen(fd, "wb") as handle:

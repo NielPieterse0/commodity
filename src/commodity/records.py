@@ -23,7 +23,7 @@ def build_baseline_record(
     input_path: Path,
     run_dir: Path,
     model_name: str,
-    metrics: dict[str, float],
+    metrics: dict[str, float | None],
     feature_index: pd.DatetimeIndex,
     initial_train: int,
 ) -> dict[str, Any]:
@@ -140,7 +140,7 @@ def build_tournament_record(
     dataset_path: Path,
     model_dir: Path,
     model_name: str,
-    metrics: dict[str, float],
+    metrics: dict[str, float | None],
     feature_index: pd.DatetimeIndex,
     initial_train: int,
     significance: dict[str, Any],

@@ -2,20 +2,20 @@
   "schema_version": 1,
   "record": "v2_activation_contract_frozen",
   "issue": 81,
-  "status": "frozen_released_after_independent_174_audit",
+  "status": "successor_refreeze_170_released_after_independent_audit",
   "execution_authorized": true,
   "execution_authorization_semantics": "Global release prerequisite only; never sufficient to authorize a candidate. Empirical execution additionally requires that candidate's execution_authorized flag and empirical_release_gate.release_state[issue] are both true.",
   "base_revision": "e11a891b58e67b61593b9c2ec5c86974e64cb0bc",
   "freeze": {
     "source_pr": 175,
     "candidate_config": "config/experiment_candidates.json",
-    "candidate_config_sha256": "49fc1c14197fa0fe81bc8764fc9d6c7cce2198666e321bf7f7ce9126f502ca5a",
+    "candidate_config_sha256": "d24cbbefdb46dd823b1c85d9fbd251bad3b81c4a4c7ba23358fd1cd859901af7",
     "multiplicity_manifest": "docs/development/v2-activation-preregistration/multiplicity-families.json",
     "multiplicity_manifest_sha256": "07ebd1f753268a81687cc2759aa009348cb389377c53603f22fab32fe7939a86",
     "contract_scope": "Freeze V2 experiment identities and decision rules before any V2 empirical result is produced.",
-    "mutation_rule": "Any change to a frozen field or bound preparation/implementation revision requires a new successor refreeze preserving lineage to completed #81 and a fresh independent successor activation audit before empirical execution.",
-    "successor_refreeze_issue": 173,
-    "successor_audit_issue": 174
+    "mutation_rule": "Any change to a frozen field or bound preparation/implementation revision requires a governed successor refreeze preserving lineage and a fresh independent successor activation audit before empirical execution.",
+    "successor_refreeze_issue": 170,
+    "successor_audit_issue": 170
   },
   "hard_dependencies": {
     "78": {
@@ -131,7 +131,7 @@
     },
     "uncertainty_significance_rule": {
       "evaluator_manifest": "docs/development/v2-activation-preregistration/statistical-evaluator.json",
-      "evaluator_manifest_sha256": "d180989ac77952376a07b4ae9e501008e12f4dabc8f04e251c9d4c0f56cc72b3",
+      "evaluator_manifest_sha256": "bdc7f412176e3fd690e7a474896963e48cdc9b340d20f8cb68e60d8f49510ab6",
       "method": "moving_block_bootstrap",
       "primary_callable": "commodity.evaluation.paired_block_bootstrap_rmse",
       "primary_statistic": "baseline_rmse_minus_challenger_rmse",
@@ -167,7 +167,7 @@
     },
     "robustness_rule": {
       "evaluator_manifest": "docs/development/v2-activation-preregistration/statistical-evaluator.json",
-      "evaluator_manifest_sha256": "d180989ac77952376a07b4ae9e501008e12f4dabc8f04e251c9d4c0f56cc72b3",
+      "evaluator_manifest_sha256": "bdc7f412176e3fd690e7a474896963e48cdc9b340d20f8cb68e60d8f49510ab6",
       "signal_callable": "commodity.evaluation.v2_trailing_range20_signal",
       "threshold_callable": "commodity.evaluation.v2_fit_regime_thresholds",
       "assignment_callable": "commodity.evaluation.v2_assign_regimes",
@@ -296,11 +296,18 @@
       "84": false,
       "85": false
     },
-    "rule": "Successor audit #174 independently passed the exact #173 refreeze binding #83 to PR #172 head cc5decb5fb9d718edbbf706cf9169e3e73c15f0f and source manifest d34b907396a8df22e28de639e2bbdb5dd6e755a142346f76f7a92eac43d6f128. #83 is released only for this exact bound authority; #84/#85 remain unauthorized.",
+    "rule": "Successor evaluator audit #170 independently passed exact refreeze commit 42805a3 while preserving prior #174 component authority. #82/#83 remain released only under the exact successor evaluator identity; #84/#85 remain unauthorized.",
     "83_successor": {
       "refreeze_issue": 173,
       "historical_audit_issue": 164,
       "successor_audit_issue": 174,
+      "current_state": "independent_activation_audit_passed",
+      "required_state": "independent_activation_audit_passed",
+      "satisfied": true
+    },
+    "evaluator_successor": {
+      "refreeze_issue": 170,
+      "reviewed_refreeze_commit": "42805a3cb37da3015b56b5639e02615db2d065fd",
       "current_state": "independent_activation_audit_passed",
       "required_state": "independent_activation_audit_passed",
       "satisfied": true

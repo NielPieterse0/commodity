@@ -2,8 +2,8 @@
   "schema_version": 1,
   "record": "v2_common_statistical_evaluator_binding",
   "issue": 81,
-  "status": "frozen_pending_independent_88_audit",
-  "execution_authorized": false,
+  "status": "successor_refrozen_released_after_independent_170_audit",
+  "execution_authorized": true,
   "source_identity": {
     "checkout_rule": "core.autocrlf=false; raw runtime source bytes must match the frozen SHA-256 values before empirical execution",
     "paths": [
@@ -11,10 +11,10 @@
       "src/commodity/evaluation_protocol.py"
     ],
     "sha256": {
-      "src/commodity/evaluation.py": "eed814b90cef698688297fac1309ef39ed5d0d6c66eee7a16daadaa4aed3fbde",
+      "src/commodity/evaluation.py": "76b5da0c97a323b4e25714dec804584166352f862087b1ffb399826aa1eb6c35",
       "src/commodity/evaluation_protocol.py": "410d6d02ada9b99739f556ad341584b2240318052fc4a6eae4dd331ca8cd02cd"
     },
-    "drift_rule": "Any mismatch blocks result generation and requires reopening #81 plus a fresh #88 audit."
+    "drift_rule": "Any mismatch blocks result generation and requires a new governed successor refreeze plus fresh independent activation audit."
   },
   "primary_inference": {
     "callable": "commodity.evaluation.paired_block_bootstrap_rmse",
@@ -76,5 +76,16 @@
     "required_before_82_83_84_85": true,
     "required_after_execution_before_accepting_results": true,
     "failure_action": "stop_and_record_invalid_no_result_inspection_or_rescue_search"
+  },
+  "successor_lineage": {
+    "origin_issue": 81,
+    "prior_successor_refreeze_issue": 173,
+    "prior_successor_audit_issue": 174,
+    "successor_issue": 170,
+    "reason": "Preserve undefined Pearson correlation as null and prohibit non-standard NaN in evaluator outputs.",
+    "empirical_results_inspected": false,
+    "independent_audit_required": false,
+    "independent_audit_state": "passed",
+    "reviewed_refreeze_commit": "42805a3cb37da3015b56b5639e02615db2d065fd"
   }
 }

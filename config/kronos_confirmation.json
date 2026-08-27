@@ -4,7 +4,7 @@
   "issue": 180,
   "freeze_issue": 182,
   "audit_issue": 183,
-  "status": "frozen_pending_independent_audit",
+  "status": "frozen_released_with_successor_evaluator_audit",
   "freeze_self_authorizes_execution": false,
   "historical_evidence_rule": "Consumed #82 evidence remains unchanged and is not part of this experiment identity.",
   "implementation_authority": {
@@ -85,7 +85,7 @@
   },
   "data_and_target": {
     "inherits_activation_contract": "docs/development/v2-activation-preregistration/activation-contract.json",
-    "activation_contract_sha256": "18b2488fc2fdd7f063fa0dc5c42916c8a20f4a894b78f491bf4ac0fded68ea7b",
+    "activation_contract_sha256": "bcae5fae05255088c467be0773f6041e9f99fe8a35cc9733047db949f6bb80d2",
     "v1_experiment": "config/experiment.json",
     "v1_experiment_sha256": "ea6cd135c59687d1bfa382cac9eb64162d8db2ab0bc41c5b98f4a5dbce07dafb",
     "dataset_id": "us-ng-pit-0c0a39b36692",
@@ -107,17 +107,26 @@
     "full_scored_row_coverage_required": true
   },
   "benchmarks": {
-    "zero_return_naive": {"rmse": 0.0453230577562102},
-    "phase_d_full_v1_hist_gb": {"rmse": 0.04650733779411404},
+    "zero_return_naive": {
+      "rmse": 0.0453230577562102
+    },
+    "phase_d_full_v1_hist_gb": {
+      "rmse": 0.04650733779411404
+    },
     "authority": "docs/development/v1-research-completion/phase-d-closeout.json",
     "authority_sha256": "da2b78c599e3216efdd84071c31593db49793bbd12b352d6eb89538519375beb"
   },
   "evaluation": {
     "primary_metric": "rmse",
-    "headline_metrics": ["rmse", "mae", "prediction_actual_correlation", "direction_accuracy"],
+    "headline_metrics": [
+      "rmse",
+      "mae",
+      "prediction_actual_correlation",
+      "direction_accuracy"
+    ],
     "correlation_and_direction_role": "diagnostic_non_rescuing",
     "statistical_evaluator": "docs/development/v2-activation-preregistration/statistical-evaluator.json",
-    "statistical_evaluator_sha256": "d180989ac77952376a07b4ae9e501008e12f4dabc8f04e251c9d4c0f56cc72b3",
+    "statistical_evaluator_sha256": "bdc7f412176e3fd690e7a474896963e48cdc9b340d20f8cb68e60d8f49510ab6",
     "bootstrap": {
       "method": "moving_block_bootstrap",
       "block_size": 20,
@@ -127,10 +136,15 @@
       "require_positive_ci_lower_for_improvement": true
     },
     "primary_comparisons": [
-      "mini_vs_zero", "mini_vs_v1_hist_gb",
-      "small_vs_zero", "small_vs_v1_hist_gb",
-      "base_vs_zero", "base_vs_v1_hist_gb",
-      "small_vs_mini", "base_vs_mini", "base_vs_small"
+      "mini_vs_zero",
+      "mini_vs_v1_hist_gb",
+      "small_vs_zero",
+      "small_vs_v1_hist_gb",
+      "base_vs_zero",
+      "base_vs_v1_hist_gb",
+      "small_vs_mini",
+      "base_vs_mini",
+      "base_vs_small"
     ],
     "multiple_testing": {
       "method": "benjamini_hochberg",
@@ -139,7 +153,8 @@
       "max_adjusted_p_value": 0.05,
       "post_result_regrouping_permitted": false
     },
-    "period_and_regime_breakdowns": "inherit_v2_activation_contract_robustness_rule_identically_for_all_three_models"
+    "period_and_regime_breakdowns": "inherit_v2_activation_contract_robustness_rule_identically_for_all_three_models",
+    "execution_authorized": true
   },
   "artifacts": {
     "root": "artifacts/kronos-confirmation/kronos-180-corrected-three-checkpoint-v1/",
@@ -174,7 +189,10 @@
     "required_audit_state": "independent_audit_passed",
     "audit_state_at_freeze": "pending",
     "audit_release_required": true,
-    "release_rule": "#180 may execute only after #182 is landed and #183 independently verifies this exact frozen contract and its source/model/data/evaluation bindings in a separate release record."
+    "release_rule": "#180 may execute only after #182 is landed and #183 independently verifies this exact frozen contract and its source/model/data/evaluation bindings in a separate release record.",
+    "successor_evaluator_issue": 170,
+    "successor_evaluator_reviewed_commit": "42805a3cb37da3015b56b5639e02615db2d065fd",
+    "successor_evaluator_audit_state": "independent_audit_passed"
   },
   "prohibitions": [
     "no_prediction_generation_before_release",

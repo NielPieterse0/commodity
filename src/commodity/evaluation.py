@@ -33,7 +33,7 @@ def walk_forward_predict(
     return pd.DataFrame(rows).set_index("date")
 
 
-def evaluate_predictions(pred: pd.DataFrame) -> dict[str, float]:
+def evaluate_predictions(pred: pd.DataFrame) -> dict[str, float | None]:
     """Score forecast quality only; strategy and execution metrics live downstream."""
     error = pred["prediction"] - pred["actual"]
     corr = pred[["prediction", "actual"]].corr().iloc[0, 1]
@@ -45,7 +45,7 @@ def evaluate_predictions(pred: pd.DataFrame) -> dict[str, float]:
         "direction_accuracy": float(
             (np.sign(pred["prediction"]) == np.sign(pred["actual"])).mean()
         ),
-        "prediction_actual_corr": float(corr) if np.isfinite(corr) else 0.0,
+        "prediction_actual_corr": float(corr) if np.isfinite(corr) else None,
     }
 
 

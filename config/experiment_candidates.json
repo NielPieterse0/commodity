@@ -20,10 +20,10 @@
     "activation_audit_issue": 174,
     "activation_audit_predecessor_issue": 164,
     "common_evaluator_manifest": "docs/development/v2-activation-preregistration/statistical-evaluator.json",
-    "common_evaluator_manifest_sha256": "d180989ac77952376a07b4ae9e501008e12f4dabc8f04e251c9d4c0f56cc72b3",
+    "common_evaluator_manifest_sha256": "bdc7f412176e3fd690e7a474896963e48cdc9b340d20f8cb68e60d8f49510ab6",
     "execution_authorized": true,
     "execution_authorization_semantics": "Global release prerequisite only; never sufficient to authorize a candidate.",
-    "empirical_release_rule": "Successor audit #174 independently passed the exact #173/#83 refreeze. Only candidates whose per-candidate execution_authorized flag and #81 release_state are both true may execute; #84/#85 remain blocked."
+    "empirical_release_rule": "Independent #170 evaluator audit passed exact refreeze commit 42805a3; prior #174 component release remains valid under the successor evaluator identity. Only candidates whose per-candidate execution_authorized flag and #81 release_state are both true may execute; #84/#85 remain blocked."
   },
   "candidates": {
     "ng-volatility-direction-v1": {

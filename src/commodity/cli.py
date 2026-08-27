@@ -441,7 +441,10 @@ def _run_tournament(args: argparse.Namespace) -> None:
             dataset_path=dataset_path,
             model_dir=model_dir,
             model_name=model_name,
-            metrics={key: float(row[key]) for key in metric_keys},
+            metrics={
+                key: float(row[key]) if pd.notna(row[key]) else None
+                for key in metric_keys
+            },
             feature_index=x.index,
             initial_train=args.initial_train,
             significance=significance,
