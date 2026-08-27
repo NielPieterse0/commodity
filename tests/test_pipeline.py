@@ -181,7 +181,11 @@ def test_asof_features_respect_release_time() -> None:
         "storage_surprise": [7.0],
     })
     joined = asof_join_point_in_time(
-        cutoffs, exog, ["storage_surprise"], mode="research_pit"
+        cutoffs,
+        exog,
+        ["storage_surprise"],
+        mode="research_pit",
+        source_group_columns=(),
     )
     assert pd.isna(joined.iloc[0]["storage_surprise"])
     assert joined.iloc[1]["storage_surprise"] == 7.0
