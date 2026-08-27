@@ -2,6 +2,7 @@ import json
 from pathlib import Path
 
 import pandas as pd
+import pytest
 
 from commodity.weather import (
     OpenMeteoSingleRunClient,
@@ -221,3 +222,87 @@ def test_weather_v1_window_allows_only_declared_issued_run_gaps(tmp_path: Path) 
     assert list(loaded["issued_at"]) == list(
         pd.to_datetime(["2025-08-04T00:00Z", "2025-08-10T00:00Z"])
     )
+
+
+@pytest.mark.parametrize(
+    ("window_start", "excluded_run_text", "expected_reason"),
+    [
+        ("2025-08-04", "2025-08-05T00:00Z", "declared_issued_run_archive_gap"),
+        ("2026-06-22", "2026-06-23T00:00Z", "declared_issued_run_feature_gap"),
+    ],
+)
+def test_declared_weather_gap_vetoes_preexisting_snapshot_without_deleting_it(
+    tmp_path: Path,
+    window_start: str,
+    excluded_run_text: str,
+    expected_reason: str,
+) -> None:
+    from commodity.config import data_config
+
+    cfg = data_config()["sources"]["weather"]
+    excluded_run = pd.Timestamp(excluded_run_text)
+    snapshot_id = excluded_run.strftime("%Y%m%dT%H%MZ")
+
+    class SnapshotClient:
+        def fetch(self, latitude, longitude, run, model, hourly, forecast_days):
+            return _payload(pd.Timestamp(run, tz="UTC"), 18.0)
+
+    excluded_manifest = capture_weather_v1_run(
+        SnapshotClient(),
+        excluded_run,
+        tmp_path,
+        snapshot_id,
+        "2026-08-14T01:00:00Z",
+    )
+    assert excluded_manifest.is_file()
+
+    class WindowClient:
+        def __init__(self):
+            self.calls = 0
+
+        def fetch(self, latitude, longitude, run, model, hourly, forecast_days):
+            self.calls += 1
+            return _payload(pd.Timestamp(run, tz="UTC"), 19.0)
+
+    client = WindowClient()
+    manifests = capture_weather_v1_window(
+        client,
+        window_start,
+        excluded_run,
+        tmp_path,
+        "2026-08-14T22:00:00Z",
+    )
+
+    assert excluded_manifest.is_file()
+    assert excluded_manifest not in manifests
+    assert client.calls == len(cfg["v1_anchors"])
+
+    loaded = load_weather_v1_window(tmp_path, window_start, excluded_run)
+    assert list(loaded["issued_at"]) == [pd.Timestamp(window_start, tz="UTC")]
+    assert loaded.attrs["declared_gap_exclusions"][-1] == {
+        "issued_at": excluded_run.isoformat(),
+        "reason": expected_reason,
+        "snapshot_preserved": True,
+    }
+
+
+def test_weather_loader_rejects_window_containing_only_declared_gap_snapshot(
+    tmp_path: Path,
+) -> None:
+    excluded_run = pd.Timestamp("2025-08-05T00:00Z")
+
+    class Client:
+        def fetch(self, latitude, longitude, run, model, hourly, forecast_days):
+            return _payload(pd.Timestamp(run, tz="UTC"), 18.0)
+
+    manifest = capture_weather_v1_run(
+        Client(),
+        excluded_run,
+        tmp_path,
+        "20250805T0000Z",
+        "2026-08-14T01:00:00Z",
+    )
+
+    with pytest.raises(ValueError, match="declared_issued_run_archive_gap"):
+        load_weather_v1_window(tmp_path, excluded_run, excluded_run)
+    assert manifest.is_file()
