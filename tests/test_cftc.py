@@ -5,6 +5,7 @@ import zipfile
 from pathlib import Path
 
 import pandas as pd
+import pytest
 
 from commodity.cftc import (
     CftcCotClient,
@@ -82,6 +83,18 @@ def test_cftc_availability_uses_special_schedule_and_conservative_bounds() -> No
     assert scheduled["available_at"] == pd.Timestamp("2026-08-15T03:59:00Z")
     assert scheduled["availability_basis"] == "cftc_2026_release_schedule_end_of_day"
     assert scheduled["availability_status"] == "reconstructed_conservative"
+
+
+def test_cftc_availability_fails_closed_outside_supported_schedule_horizon() -> None:
+    end_boundary = cftc_research_availability("2026-12-22")
+    assert end_boundary["available_at"] == pd.Timestamp("2026-12-29T04:59:00Z")
+    assert end_boundary["availability_basis"] == "cftc_2026_release_schedule_end_of_day"
+
+    for unsupported in ("2024-08-06", "2027-01-05"):
+        with pytest.raises(
+            ValueError, match="outside supported publication-schedule coverage"
+        ):
+            cftc_research_availability(unsupported)
 
 
 def test_cftc_normalization_preserves_variant_raw_hash_and_position_features() -> None:
