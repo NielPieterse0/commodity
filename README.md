@@ -1,6 +1,6 @@
 # Commodity
 
-Natural-gas ML research repository. Repository authority is assigned in [`AGENTS.md`](AGENTS.md#repository-authority); this README is a non-authoritative onboarding and current-state projection.
+Reusable commodity trading research platform, with natural gas and CME Henry Hub as the first complete reference implementation. Repository authority is assigned in [`AGENTS.md`](AGENTS.md#repository-authority); this README is a non-authoritative onboarding and current-state projection.
 
 **Repository status:** experimental research, not trading advice or an execution system. Live trading is disabled by policy. See [`SECURITY.md`](SECURITY.md) for sensitive-reporting rules and [`CONTRIBUTING.md`](CONTRIBUTING.md) for change/PR hygiene.
 
@@ -8,7 +8,7 @@ Natural-gas ML research repository. Repository authority is assigned in [`AGENTS
 
 ## Current state
 
-- **Research target:** U.S. / CME Henry Hub remains the first serious forecasting target. Geographic expansion and desired source families are owned by [`docs/data-manifest.md`](docs/data-manifest.md).
+- **Reference market:** U.S. / CME Henry Hub remains the first serious end-to-end research target and proving ground. Reusable framework components are intended to support later governed replication onto other justified tradable instruments; geographic expansion and desired source families are owned by [`docs/data-manifest.md`](docs/data-manifest.md).
 - **Market evidence:** ingestion is provider-adapted; current source selection, readiness, and evidence gates are owned by `config/data_sources.json`.
 - **Databento preservation:** acquisition has progressed beyond the earlier probe stage; the current local integrity state is recorded in [`docs/development/databento-full-history-acquisition/evidence.json`](docs/development/databento-full-history-acquisition/evidence.json).
 - **Point-in-time research:** U.S. fundamentals/weather preservation and evidence-tier handling are operational, with revision-risk restrictions explicit. Rules are owned by `config/data_sources.json`; `src/commodity/availability.py` implements the joins.
@@ -18,6 +18,7 @@ Natural-gas ML research repository. Repository authority is assigned in [`AGENTS
 
 ## Research direction
 
+- [Integrated trading research system](docs/architecture/trading-system.md)
 - [Kronos + indicator fusion architecture](docs/architecture/kronos-indicator-fusion.md)
 - [Natural-gas data manifest](docs/data-manifest.md)
 - [Compact research roadmap](docs/roadmap.md)

@@ -1,21 +1,49 @@
 # Commodity Research Roadmap
 
-> **North star:** demonstrate a robust, reproducible natural-gas forecasting advantage out of sample and in forward testing after realistic costs and risk constraints.
+> **North star:** demonstrate a robust, reproducible trading advantage out of sample and in forward testing after realistic costs and risk constraints.
 
-This file owns only the research milestone sequence. The repository authority map is in `AGENTS.md`; current operational gates remain in their assigned configuration owners. Geographic/data expansion is owned by `docs/data-manifest.md`: U.S. / Henry Hub first, then Global/Interconnect and Norway/Europe when incremental evidence justifies promotion.
+Henry Hub remains the first complete reference implementation. Its purpose is to take one market through the full research lifecycle while building reusable platform machinery. After that reference path is complete, additional instruments enter a governed replication workflow rather than rebuilding the research stack.
 
-**Current milestone:** the V1 empirical evidence baseline is complete with bounded caveats and concluded `no_robust_edge`. Issue #78 is closed/accepted and its governed longitudinal measurement/regression infrastructure is operational; the early-smoke → Phase-D result change is non-comparable and does not establish a software/data regression. V1 programme closure is through #15. Research promotion and trading authority remain false, and V2 empirical activation becomes eligible only after #15 itself is terminally closed and reconciled.
+Geographic/data expansion is owned by `docs/data-manifest.md`. System component architecture is described in `docs/architecture/trading-system.md`.
+
+**Current milestone:** the Henry Hub V1 empirical evidence baseline is complete with bounded caveats and concluded `no_robust_edge`. Current experiment decisions remain owned by their assigned configuration and immutable evidence; this roadmap does not reinterpret them.
+
+## Reference implementation — Henry Hub
 
 ```text
-DATA TRUTH  ->  BASELINES  ->  KRONOS + INDICATORS  ->  ROBUST ENSEMBLE  ->  FORWARD TEST  ->  APPROVED EXECUTION
-   V0              V1                 V2                     V3                  V4                  V5
+DATA TRUTH -> BASELINES -> MODEL + SIGNAL FAMILIES -> ROBUST DECISION SYSTEM -> FORWARD TEST -> APPROVED EXECUTION
+   V0             V1                  V2                        V3                   V4                 V5
 ```
 
 | Phase | Outcome | Promotion gate |
-|---|---|---|
+| --- | --- | --- |
 | **V0 - Data truth** | Provider-neutral per-contract data, deterministic roll/term structure, point-in-time fundamentals/weather, reproducible provenance | Data contract and leakage controls pass |
-| **V1 - Evidence baseline** | Naive/statistical/tree-boosting benchmarks, volatility + direction targets, compact hypothesis-led indicator library | Full-V1 walk-forward, robustness, and ablation evidence is reproducible and supports a governed disposition; robust edge is required for an edge/promotion claim, not for V1 system completion |
-| **V2 - Market-aware fusion** | Kronos market layer + fundamental, futures-structure and technical indicators; component ablations | Fusion adds robust incremental signal over Kronos-only and indicators-only |
-| **V3 - Robust ensemble** | Calibrated uncertainty, regime testing, selective challenger models and evidence-based ensembling | Gains persist across regimes, horizons and realistic friction |
-| **V4 - Forward validation** | Frozen forecasts, live vintage capture, broker simulation/paper execution, drift monitoring | Forward evidence confirms research assumptions and execution realism |
+| **V1 - Evidence baseline** | Naive/statistical/tree-boosting benchmarks, volatility + direction targets, compact hypothesis-led indicator library | Full-V1 walk-forward, robustness, and ablation evidence is reproducible and supports a governed disposition |
+| **V2 - Market-aware signals** | Forecast-model challengers plus fundamental, futures-structure, technical, regime/trend and cross-market signal families; component ablations | Added signal families provide robust incremental information over the strongest component controls |
+| **V3 - Robust decision system** | Calibrated uncertainty, selective challengers, evidence-based ensembling and bounded trade-decision rules | Gains persist across regimes, horizons and realistic friction |
+| **V4 - Forward validation** | Frozen decisions, live vintage capture, broker simulation/paper execution and drift monitoring | Forward evidence confirms research assumptions and execution realism |
 | **V5 - Controlled execution** | Replaceable broker adapter, explicit risk controls and human-governed deployment | Only after binding policy and explicit approval permit it |
+
+## Post-reference replication
+
+Once the Henry Hub reference path has reached the appropriate completion gate, additional tradable instruments follow a bounded replication sequence:
+
+```text
+INSTRUMENT FEASIBILITY
+-> instrument/data adapter
+-> data truth + naive baselines
+-> existing model/signal ladder
+-> instrument-specific fundamentals
+-> decision/risk/execution validation
+-> cross-instrument comparison
+```
+
+Replication is not permission to mine many markets for the best historical backtest. Candidate instruments and targets must pass cheap feasibility screens, then serious empirical tests remain preregistered and leakage-safe.
+
+The purpose of replication is to learn which findings transfer and which are market-specific: baseline difficulty, model usefulness, signal families, horizons, calibration, costs and execution viability.
+
+## Integrated system direction
+
+Forecasting models are one branch of the platform. The intended system combines instrument selection, market-state/regime analysis, technical structure, fundamentals/events, cross-market information, model forecasts, uncertainty, signal fusion, trade decisions, risk controls and execution evidence.
+
+No roadmap stage grants trading authority. `config/policy.json` remains the sole binding owner of execution permission.

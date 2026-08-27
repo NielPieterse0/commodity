@@ -111,8 +111,9 @@ This register owns desired upstream data/API sources by dataset family. GitHub S
 1. Use the preserved Databento corpus through the validated offline DBN path, close the independent project-use/licensing gate before any canonical promotion, then compare source outputs behind the existing provider interface.
 2. Treat the frozen leakage-safe U.S. V1 dataset and completed baseline/model comparison ladder as the V1 evidence baseline. Further infrastructure work should be justified by a measured data or modeling gap or a pre-registered post-V1 hypothesis.
 3. For post-V1 U.S. research, close point-in-time gaps only when they materially constrain a pre-registered experiment, especially revision vintages and demand-region issued-weather coverage.
-4. Add Global/Interconnect V1 inputs, then measure their incremental value for Henry Hub before broadening forecast targets.
-5. Add Norway/Europe V1 supply inputs through the same evidence and feature interfaces.
-6. Add Later sources only when ablation results or a pre-registered hypothesis justify their acquisition or licensing cost.
+4. Complete the Henry Hub reference implementation with justified Global/Interconnect and Norway/Europe inputs through the same reusable evidence and feature interfaces; measure their incremental value where a preregistered Henry Hub hypothesis requires it.
+5. After the Henry Hub reference path reaches its appropriate completion gate, admit additional tradable instruments through feasibility screening and instrument/data adapters, then rerun the existing governed baseline/model/signal ladder before adding expensive instrument-specific data.
+6. Treat TTF, JKM and other later targets as independent empirical programmes: Henry Hub findings do not transfer automatically, and cross-market screening must not become retrospective best-backtest selection.
+7. Add Later sources only when ablation results or a pre-registered hypothesis justify their acquisition or licensing cost.
 
 The manifest should be updated when a source is proven unusable, a materially better authoritative source is identified, or a data family is promoted into active implementation. Operational status changes belong in `config/data_sources.json`, not here.
