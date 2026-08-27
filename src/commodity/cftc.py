@@ -53,6 +53,14 @@ def _local_end_of_day(value: str | dt.date) -> pd.Timestamp:
 def cftc_research_availability(report_date: str | pd.Timestamp) -> dict[str, Any]:
     policy = _policy()
     report_day = pd.Timestamp(report_date).date()
+    coverage_start = pd.Timestamp(policy["supported_report_date_start"]).date()
+    coverage_end = pd.Timestamp(policy["supported_report_date_end"]).date()
+    if not coverage_start <= report_day <= coverage_end:
+        raise ValueError(
+            "CFTC report date is outside supported publication-schedule coverage: "
+            f"{report_day.isoformat()} not in "
+            f"[{coverage_start.isoformat()}, {coverage_end.isoformat()}]"
+        )
     report_key = report_day.isoformat()
     special = policy["special_publication_dates"].get(report_key)
     if special is not None:
