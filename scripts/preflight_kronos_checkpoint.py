@@ -30,6 +30,9 @@ def main() -> int:
     from huggingface_hub import snapshot_download
 
     root = Path(__file__).resolve().parents[1]
+    from commodity.kronos_runtime import runtime_lock_authority
+
+    runtime_lock = runtime_lock_authority(root)
     config = json.loads((root / "config" / "models.json").read_text(encoding="utf-8"))
     try:
         cfg = config["models"][args.model_key]
@@ -48,6 +51,13 @@ def main() -> int:
         "empirical_execution": False,
         "model_inference": False,
         "cache_semantics": "preflight_only; measured execution must use local_files_only",
+        "runtime_lock": {
+            "path": runtime_lock["path"],
+            "sha256": runtime_lock["sha256"],
+            "python": runtime_lock["python"],
+            "platform": runtime_lock["platform"],
+            "torch": runtime_lock["torch"],
+        },
         "artifacts": {},
     }
     artifacts = manifest["artifacts"]

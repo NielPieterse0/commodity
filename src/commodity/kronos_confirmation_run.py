@@ -33,6 +33,7 @@ from commodity.kronos_confirmation import (
     require_independent_release,
     validate_confirmation_freeze,
 )
+from commodity.kronos_runtime import validate_installed_runtime
 from commodity.market_data import (
     ensure_canonical_market_availability,
     validate_contract_history,
@@ -349,6 +350,7 @@ def run_checkpoint(
         execution_revision=execution_revision,
     ):
         return _json(_checkpoint_paths(repo_root, freeze, checkpoint)[1])
+    runtime = validate_installed_runtime(repo_root)
     predictions_path, manifest_path = _checkpoint_paths(repo_root, freeze, checkpoint)
     if predictions_path.exists() or manifest_path.exists():
         raise KronosConfirmationRunError(f"incomplete existing checkpoint artifact: {checkpoint}")
@@ -426,6 +428,13 @@ def run_checkpoint(
         "seed": seed,
         "inference": freeze["common_execution"]["inference"],
         "artifact_manifest": adapter.artifact_manifest,
+        "runtime_lock": {
+            "path": runtime["path"],
+            "sha256": runtime["sha256"],
+            "python": runtime["python"],
+            "platform": runtime["platform"],
+            "torch": runtime["torch"],
+        },
         "observed_device": "cpu",
         "wall_clock_seconds": elapsed,
         "peak_process_rss_bytes": _peak_rss_bytes(),
