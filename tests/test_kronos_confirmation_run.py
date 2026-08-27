@@ -128,6 +128,17 @@ def test_checkpoint_writes_prediction_only_artifacts(monkeypatch: pytest.MonkeyP
     monkeypatch.setattr(run, "_validate_evaluator_source", lambda root: {})
     monkeypatch.setattr(
         run,
+        "validate_installed_runtime",
+        lambda root: {
+            "path": "requirements.kronos-cpu.lock.txt",
+            "sha256": "a" * 64,
+            "python": "3.11",
+            "platform": "windows_x86_64",
+            "torch": "2.13.0+cpu",
+        },
+    )
+    monkeypatch.setattr(
+        run,
         "build_released_checkpoint_adapter",
         lambda root, checkpoint: (adapter, freeze),
     )
@@ -162,10 +173,22 @@ def test_checkpoint_writes_prediction_only_artifacts(monkeypatch: pytest.MonkeyP
     assert manifest["execution_runner_commit"] == "a" * 40
     assert manifest["rows"] == 2
     assert manifest["inference"] == {"T": 1.0, "top_p": 0.9, "sample_count": 1, "verbose": False}
+    assert manifest["runtime_lock"] == {
+        "path": "requirements.kronos-cpu.lock.txt",
+        "sha256": "a" * 64,
+        "python": "3.11",
+        "platform": "windows_x86_64",
+        "torch": "2.13.0+cpu",
+    }
     for forbidden in ("metrics", "rmse", "mae", "direction_accuracy", "prediction_actual_corr"):
         assert forbidden not in manifest
     assert not (predictions_path.parent / "metrics.json").exists()
 
+    monkeypatch.setattr(
+        run,
+        "validate_installed_runtime",
+        lambda root: (_ for _ in ()).throw(AssertionError("runtime validation must be skipped on reuse")),
+    )
     resumed = run.run_checkpoint(
         repo_root=tmp_path,
         dataset_dir=tmp_path / "dataset",
