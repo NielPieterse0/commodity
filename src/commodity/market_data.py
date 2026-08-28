@@ -74,31 +74,6 @@ def validate_contract_history(
     return out.sort_values(["trade_date", "expiration", "contract_id"]).reset_index(drop=True)
 
 
-def build_term_structure(
-    frame: pd.DataFrame,
-    schema: dict[str, Any],
-    max_contracts: int = 4,
-) -> pd.DataFrame:
-    """Build point-in-time contract-rank fields from canonical contract rows."""
-    if max_contracts < 1:
-        raise ValueError("max_contracts must be positive")
-    normalized = validate_contract_history(frame, schema)
-    active = normalized[normalized["expiration"] >= normalized["trade_date"]].copy()
-    active["contract_rank"] = active.groupby("trade_date").cumcount() + 1
-    active = active[active["contract_rank"] <= max_contracts]
-    active["days_to_expiry"] = (
-        active["expiration"] - active["trade_date"]
-    ).dt.total_seconds() / 86400.0
-
-    value_columns = [schema["term_structure_price"], "contract_id", "expiration", "days_to_expiry"]
-    pieces = []
-    for column in value_columns:
-        pivot = active.pivot(index="trade_date", columns="contract_rank", values=column)
-        pivot.columns = [f"{column}_{int(rank)}" for rank in pivot.columns]
-        pieces.append(pivot)
-    return pd.concat(pieces, axis=1).sort_index()
-
-
 def canonical_market_readiness(
     data_cfg: dict[str, Any],
     assumptions_cfg: dict[str, Any],
@@ -193,13 +168,18 @@ def validate_contract_metadata(
         raise DataContractViolation("Canonical dataset metadata has invalid retrieved_at")
 
 
+def _expiry_time_span_days(expiration: pd.Timestamp, trade_date: pd.Timestamp) -> float:
+    """Return exact expiry-time distance in days for curve coordinates and slopes."""
+    return float((expiration - trade_date).total_seconds() / 86400.0)
+
+
 def build_market_structure_features(
     frame: pd.DataFrame,
     schema: dict[str, Any],
     prediction_cutoffs: pd.DataFrame,
     max_contracts: int = 4,
 ) -> tuple[pd.DataFrame, pd.DataFrame]:
-    """Build expiry-ranked curve features using only quotes available by each cutoff."""
+    """Build expiry-ranked curve features using exact expiry-time spans at each cutoff."""
     if max_contracts < 2:
         raise ValueError("max_contracts must be at least 2")
     required_quote_columns = {"available_at", "volume"}
@@ -251,8 +231,8 @@ def build_market_structure_features(
                 if quote_available:
                     feature_row[f"curve_settle_{prefix}"] = float(quote["settle"])
                     feature_row[f"curve_volume_{prefix}"] = float(quote["volume"])
-                    feature_row[f"curve_dte_{prefix}"] = float(
-                        (quote["expiration"] - trade_date).total_seconds() / 86400.0
+                    feature_row[f"curve_dte_{prefix}"] = _expiry_time_span_days(
+                        pd.Timestamp(quote["expiration"]), trade_date
                     )
                     continue
             else:

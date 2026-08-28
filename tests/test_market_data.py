@@ -9,7 +9,6 @@ from commodity.market_data import (
     assert_canonical_market_ready,
     assert_market_evaluation_ready,
     build_contract_rank_windows,
-    build_term_structure,
     canonical_market_readiness,
     validate_contract_history,
     validate_contract_metadata,
@@ -71,16 +70,6 @@ def test_canonical_contract_history_rejects_duplicate_grain() -> None:
     frame = pd.concat([_contracts(), _contracts().iloc[[0]]], ignore_index=True)
     with pytest.raises(DataContractViolation, match="Duplicate"):
         validate_contract_history(frame, _schema())
-
-
-def test_term_structure_orders_contracts_by_expiration() -> None:
-    curve = build_term_structure(_contracts(), _schema(), max_contracts=2)
-    row = curve.loc[pd.Timestamp("2026-01-20", tz="UTC")]
-    assert row["contract_id_1"] == "NGG26"
-    assert row["contract_id_2"] == "NGH26"
-    assert row["settle_1"] == pytest.approx(3.10)
-    assert row["settle_2"] == pytest.approx(3.20)
-    assert row["days_to_expiry_1"] == pytest.approx(8.0)
 
 
 def test_canonical_readiness_exposes_licensing_as_separate_blocker() -> None:
@@ -242,6 +231,26 @@ def test_market_structure_derives_ranked_curve_features_deterministically() -> N
     assert row["curve_spread_m1_m2"] == pytest.approx(-0.10)
     assert row["curve_volume_ratio_m1_m2"] == pytest.approx(1.25)
     assert row["curve_slope_m1_m4"] > 0
+
+
+def test_market_structure_curve_dte_preserves_exact_expiry_time_spans() -> None:
+    from commodity import market_data
+
+    rows = [
+        {"trade_date": "2026-01-20T12:00:00Z", "contract_id": "NGG26", "expiration": "2026-01-21T00:00:00Z", "settle": 3.10, "volume": 100, "available_at": "2026-01-20T13:00:00Z"},
+        {"trade_date": "2026-01-20T12:00:00Z", "contract_id": "NGH26", "expiration": "2026-01-22T12:00:00Z", "settle": 3.40, "volume": 80, "available_at": "2026-01-20T13:00:00Z"},
+    ]
+    cutoffs = pd.DataFrame({
+        "trade_date": ["2026-01-20T12:00:00Z"],
+        "prediction_time": ["2026-01-20T14:00:00Z"],
+    })
+    features, _ = market_data.build_market_structure_features(
+        pd.DataFrame(rows), _schema(), cutoffs, max_contracts=2
+    )
+    row = features.iloc[0]
+    assert row["curve_dte_m1"] == pytest.approx(0.5)
+    assert row["curve_dte_m2"] == pytest.approx(2.0)
+    assert row["curve_slope_m1_m2"] == pytest.approx(0.2)
 
 
 def test_canonical_market_availability_reconstructs_conservative_bound() -> None:
