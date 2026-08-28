@@ -3,6 +3,7 @@ from __future__ import annotations
 import hashlib
 import json
 import os
+import re
 import tempfile
 from dataclasses import dataclass, field
 from pathlib import Path
@@ -21,6 +22,19 @@ def _sha256(path: Path) -> str:
     return digest.hexdigest()
 
 
+_SECRET_VALUE_PATTERNS = tuple(
+    re.compile(pattern)
+    for pattern in (
+        r"^Bearer\s+\S{16,}$",
+        r"^github_pat_[A-Za-z0-9_]{20,}$",
+        r"^gh[pousr]_[A-Za-z0-9_]{20,}$",
+        r"^sk-[A-Za-z0-9_-]{20,}$",
+        r"^AKIA[A-Z0-9]{16}$",
+        r"-----BEGIN (?:RSA |EC |OPENSSH )?PRIVATE KEY-----",
+    )
+)
+
+
 def _assert_secret_free(value: Any, path: str = "metadata") -> None:
     forbidden = ("api_key", "apikey", "authorization", "access_token", "secret", "password")
     if isinstance(value, dict):
@@ -32,6 +46,8 @@ def _assert_secret_free(value: Any, path: str = "metadata") -> None:
     elif isinstance(value, (list, tuple)):
         for index, child in enumerate(value):
             _assert_secret_free(child, f"{path}[{index}]")
+    elif isinstance(value, str) and any(pattern.search(value) for pattern in _SECRET_VALUE_PATTERNS):
+        raise SnapshotIntegrityError(f"Secret-like snapshot metadata value rejected: {path}")
 
 
 @dataclass

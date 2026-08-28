@@ -38,3 +38,10 @@ def test_snapshot_manifest_rejects_secret_bearing_metadata(tmp_path: Path) -> No
     writer.write_bytes("data.csv", b"x\n1\n")
     with pytest.raises(SnapshotIntegrityError, match="Secret-bearing"):
         writer.finalize({"query": {"api_key": "must-not-be-written"}})
+
+
+def test_snapshot_manifest_rejects_high_confidence_secret_values(tmp_path: Path) -> None:
+    writer = SnapshotWriter(tmp_path, "eia", "snap")
+    writer.write_bytes("data.csv", b"x\n1\n")
+    with pytest.raises(SnapshotIntegrityError, match="Secret-like"):
+        writer.finalize({"query": {"header": "Bearer abcdefghijklmnopqrstuvwxyz"}})
