@@ -1,4 +1,4 @@
-﻿# Issue 215 review
+# Issue 215 review
 
 WNGSR workbook parsing now fails closed when more than one candidate table is structurally admissible. The parser evaluates all history candidates and all revision candidates, preserves the existing direct-revision then legacy-revision fallback for each physical table, and accepts only a unique normalized result.
 
