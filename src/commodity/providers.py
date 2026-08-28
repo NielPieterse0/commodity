@@ -98,21 +98,3 @@ class CftcCotSnapshotClient:
                 frame["report_date_as_yyyy_mm_dd"], utc=True
             )
         return frame
-
-
-def require_point_in_time_ready(
-    frame: pd.DataFrame, observation_col: str | None = None
-) -> None:
-    if "available_at" not in frame.columns:
-        raise ValueError("Dataset is not backtest-ready: missing actual available_at timestamps")
-    available = pd.to_datetime(frame["available_at"], utc=True, errors="coerce")
-    if available.isna().any():
-        raise ValueError("Dataset is not backtest-ready: invalid available_at timestamps")
-    if observation_col is not None:
-        if observation_col not in frame.columns:
-            raise ValueError(f"Dataset is missing observation timestamp column: {observation_col}")
-        observed = pd.to_datetime(frame[observation_col], utc=True, errors="coerce")
-        if observed.isna().any():
-            raise ValueError(f"Dataset has invalid {observation_col} timestamps")
-        if (available < observed).any():
-            raise ValueError("Dataset has available_at earlier than its observation timestamp")

@@ -1,24 +1,12 @@
 import pytest
 
-from commodity.providers import (
-    EiaApiV2Client,
-    MissingCredential,
-    require_point_in_time_ready,
-)
+from commodity.providers import EiaApiV2Client, MissingCredential
 
 
 def test_eia_requires_configured_environment_key(monkeypatch) -> None:
     monkeypatch.delenv("EIA_API_KEY", raising=False)
     with pytest.raises(MissingCredential):
         EiaApiV2Client().fetch("natural-gas/stor/wkly")
-
-
-def test_point_in_time_gate_rejects_observation_date_only() -> None:
-    import pandas as pd
-
-    frame = pd.DataFrame({"report_date": ["2026-01-01"], "value": [1.0]})
-    with pytest.raises(ValueError, match="available_at"):
-        require_point_in_time_ready(frame)
 
 
 def test_cftc_snapshot_uses_configured_contract_code() -> None:
@@ -43,17 +31,6 @@ def test_cftc_snapshot_uses_configured_contract_code() -> None:
     frame = CftcCotSnapshotClient(session=session).fetch(limit=2)
     assert session.params["cftc_contract_market_code"] == "023651"
     assert len(frame) == 1
-
-
-def test_point_in_time_gate_rejects_impossible_availability_order() -> None:
-    import pandas as pd
-
-    frame = pd.DataFrame({
-        "observed_at": ["2026-01-02T12:00:00Z"],
-        "available_at": ["2026-01-02T11:59:00Z"],
-    })
-    with pytest.raises(ValueError, match="earlier than"):
-        require_point_in_time_ready(frame, observation_col="observed_at")
 
 
 def test_eia_source_uses_authoritative_route_and_provider_config(monkeypatch) -> None:
