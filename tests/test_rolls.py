@@ -4,52 +4,19 @@ import pytest
 from commodity import rolls
 from commodity.config import assumptions_config, data_config
 from commodity.market_data import DataContractViolation
-from commodity.rolls import build_derived_contract_path, within_contract_log_returns
+from commodity.rolls import build_derived_contract_path
 
 
-def _contracts() -> pd.DataFrame:
-    rows = []
-    dates = pd.date_range("2026-01-05", periods=4, freq="D", tz="UTC")
-    liquidity = [
-        ((100, 100), (50, 50)),
-        ((90, 90), (120, 110)),
-        ((80, 80), (130, 120)),
-        ((70, 70), (140, 130)),
-    ]
-    for date, pair in zip(dates, liquidity, strict=True):
-        rows.extend([
-            {"trade_date": date, "contract_id": "NGF26", "expiration": "2026-01-20", "settle": 3.0, "volume": pair[0][0], "open_interest": pair[0][1]},
-            {"trade_date": date, "contract_id": "NGG26", "expiration": "2026-02-20", "settle": 3.2 + 0.01 * len(rows), "volume": pair[1][0], "open_interest": pair[1][1]},
-        ])
-    return pd.DataFrame(rows)
-
-
-def _policy() -> dict:
-    return {"method": "dual_liquidity_crossover", "confirmation_sessions": 1, "forced_roll_days_before_expiry": 0}
-
-
-def test_roll_policy_has_no_hidden_defaults() -> None:
-    with pytest.raises(ValueError, match="missing explicit fields"):
-        build_derived_contract_path(_contracts(), data_config()["canonical_contract_schema"], {"method": "dual_liquidity_crossover"})
-
-
-def test_roll_uses_prior_session_volume_and_open_interest() -> None:
-    path = build_derived_contract_path(
-        _contracts(), data_config()["canonical_contract_schema"], _policy()
-    )
-    assert list(path["contract_id"]) == ["NGF26", "NGF26", "NGG26", "NGG26"]
-    assert path.iloc[2]["roll_reason"] == "prior_session_dual_liquidity"
-
-
-def test_returns_are_blank_across_roll_boundary() -> None:
-    path = build_derived_contract_path(
-        _contracts(), data_config()["canonical_contract_schema"], _policy()
-    )
-    returns = within_contract_log_returns(path)
-    assert pd.isna(returns.iloc[0])
-    assert pd.notna(returns.iloc[1])
-    assert pd.isna(returns.iloc[2])
-    assert pd.notna(returns.iloc[3])
+def test_legacy_dual_liquidity_roll_policy_is_rejected() -> None:
+    frame = pd.DataFrame([
+        {"trade_date": "2026-01-05", "contract_id": "NGF26", "expiration": "2026-01-20", "settle": 3.0, "volume": 100},
+    ])
+    with pytest.raises(ValueError, match="Unsupported roll policy: dual_liquidity_crossover"):
+        build_derived_contract_path(
+            frame,
+            data_config()["canonical_contract_schema"],
+            {"method": "dual_liquidity_crossover"},
+        )
 
 
 def _volume_policy() -> dict:
@@ -119,6 +86,22 @@ def test_volume_roll_forces_at_three_calendar_dte() -> None:
         frame, data_config()["canonical_contract_schema"], _volume_policy()
     )
     assert list(path["contract_id"]) == ["NGF26", "NGG26"]
+    assert ledger.iloc[0]["trigger"] == "forced_dte"
+    assert ledger.iloc[0]["old_contract_dte"] == 3
+
+
+def test_volume_roll_dte_uses_calendar_dates_not_elapsed_24h_blocks() -> None:
+    frame = _volume_contracts(
+        ["2026-01-17T23:00:00Z"],
+        [100],
+        [50],
+        front_expiration="2026-01-20T01:00:00Z",
+    )
+    frame["expiration"] = pd.to_datetime(frame["expiration"], utc=True, format="mixed")
+    path, ledger = rolls.build_derived_continuous_series(
+        frame, data_config()["canonical_contract_schema"], _volume_policy()
+    )
+    assert list(path["contract_id"]) == ["NGG26"]
     assert ledger.iloc[0]["trigger"] == "forced_dte"
     assert ledger.iloc[0]["old_contract_dte"] == 3
 

@@ -9,93 +9,17 @@ from commodity.market_data import DataContractViolation, validate_contract_histo
 from commodity.roll_policy import parse_volume_crossover_policy
 
 
-def _require_dual_policy(policy: dict[str, Any]) -> tuple[int, int]:
-    required = ("confirmation_sessions", "forced_roll_days_before_expiry")
-    missing = [field for field in required if field not in policy]
-    if missing:
-        raise ValueError(f"Roll policy missing explicit fields: {missing}")
-    confirmation = int(policy["confirmation_sessions"])
-    forced_days = int(policy["forced_roll_days_before_expiry"])
-    if confirmation < 1 or forced_days < 0:
-        raise ValueError("Roll policy values are outside valid bounds")
-    return confirmation, forced_days
-
-
 def _require_policy(policy: dict[str, Any]) -> tuple[int, int]:
     method = policy.get("method")
-    if method == "dual_liquidity_crossover":
-        return _require_dual_policy(policy)
     if method == "volume_crossover_dte_v1":
         parsed = parse_volume_crossover_policy(policy)
         return parsed.confirmation_sessions, parsed.forced_roll_days_before_expiry
     raise ValueError(f"Unsupported roll policy: {method}")
 
 
-def _build_dual_liquidity_path(
-    frame: pd.DataFrame,
-    schema: dict[str, Any],
-    policy: dict[str, Any],
-) -> pd.DataFrame:
-    confirmation, forced_days = _require_policy(policy)
-    normalized = validate_contract_history(frame, schema)
-    for column in ("volume", "open_interest"):
-        if column not in normalized.columns:
-            raise DataContractViolation(f"Roll policy requires {column}")
-    dates = list(normalized["trade_date"].drop_duplicates().sort_values())
-    by_date = {
-        date: group.set_index("contract_id")
-        for date, group in normalized.groupby("trade_date")
-    }
-    current: str | None = None
-    streak = 0
-    rows: list[dict[str, object]] = []
-
-    for index, date in enumerate(dates):
-        day = normalized[normalized["trade_date"] == date].sort_values(
-            ["expiration", "contract_id"]
-        )
-        active = day[day["expiration"] >= date]
-        if active.empty:
-            continue
-        ids = list(active["contract_id"])
-        reason = "hold"
-        if current not in ids:
-            current = ids[0]
-            streak = 0
-            reason = "initial_or_expired"
-
-        current_pos = ids.index(current)
-        if current_pos + 1 < len(ids):
-            next_id = ids[current_pos + 1]
-            current_row = active[active["contract_id"] == current].iloc[0]
-            dte = int((current_row["expiration"] - date).total_seconds() // 86400)
-            prior_signal = False
-            if index > 0:
-                previous = by_date[dates[index - 1]]
-                if current in previous.index and next_id in previous.index:
-                    front = previous.loc[current]
-                    nxt = previous.loc[next_id]
-                    values = [
-                        front["volume"], front["open_interest"],
-                        nxt["volume"], nxt["open_interest"],
-                    ]
-                    if all(pd.notna(value) for value in values):
-                        prior_signal = bool(
-                            nxt["volume"] > front["volume"]
-                            and nxt["open_interest"] > front["open_interest"]
-                        )
-            streak = streak + 1 if prior_signal else 0
-            if dte <= forced_days:
-                current, streak, reason = next_id, 0, "forced_expiry_lead"
-            elif streak >= confirmation:
-                current, streak, reason = next_id, 0, "prior_session_dual_liquidity"
-
-        selected = active[active["contract_id"] == current].iloc[0]
-        row = selected.to_dict()
-        row["roll_reason"] = reason
-        rows.append(row)
-
-    return pd.DataFrame(rows).reset_index(drop=True)
+def _calendar_day_dte(expiration: pd.Timestamp, trade_date: pd.Timestamp) -> int:
+    """Return roll-trigger DTE using normalized UTC calendar dates, not elapsed hours."""
+    return int((expiration.normalize() - trade_date.normalize()).days)
 
 
 def _prior_volume_evidence(
@@ -133,7 +57,7 @@ def _ledger_row(
         "old_contract": old_contract,
         "new_contract": new_contract,
         "trigger": trigger,
-        "old_contract_dte": int((old_expiration.normalize() - trade_date.normalize()).days),
+        "old_contract_dte": _calendar_day_dte(old_expiration, trade_date),
         "prior_evidence_trade_date": prior_date,
         "prior_current_volume": prior_current_volume,
         "prior_next_volume": prior_next_volume,
@@ -177,7 +101,7 @@ def _build_volume_crossover_path(
             front_id = str(front["contract_id"])
             front_expiration = pd.Timestamp(front["expiration"])
             later = active[active["expiration"] > front_expiration]
-            front_dte = int((front_expiration.normalize() - date.normalize()).days)
+            front_dte = _calendar_day_dte(front_expiration, date)
             if front_dte <= forced_days and not later.empty:
                 selected = later.iloc[0]
                 selected_id = str(selected["contract_id"])
@@ -248,7 +172,7 @@ def _build_volume_crossover_path(
                     and prior_next > prior_current
                 )
                 streak = streak + 1 if prior_signal else 0
-                dte = int((current_expiration.normalize() - date.normalize()).days)
+                dte = _calendar_day_dte(current_expiration, date)
                 trigger: str | None = None
                 if dte <= forced_days:
                     trigger = "forced_dte"
@@ -296,8 +220,6 @@ def build_derived_contract_path(
 ) -> pd.DataFrame:
     """Select one contract per observed session using an explicit roll policy."""
     method = policy.get("method")
-    if method == "dual_liquidity_crossover":
-        return _build_dual_liquidity_path(frame, schema, policy)
     if method == "volume_crossover_dte_v1":
         path, _ = _build_volume_crossover_path(frame, schema, policy)
         return path
