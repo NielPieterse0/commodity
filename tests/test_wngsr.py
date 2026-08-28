@@ -5,6 +5,7 @@ import json
 from pathlib import Path
 
 import pandas as pd
+import pytest
 
 from commodity.wngsr import (
     WngsrEvidenceClient,
@@ -194,6 +195,40 @@ def test_wngsr_workbook_parser_promotes_semantic_header_rows(monkeypatch) -> Non
     history, revisions = parse_wngsr_workbooks(b"history", b"revisions")
     assert history.iloc[0]["storage_lower48_bcf"] == 300.0
     assert revisions.iloc[0]["original_storage_lower48_bcf"] == 290.0
+
+
+def test_wngsr_workbook_parser_rejects_multiple_admissible_tables(monkeypatch) -> None:
+    history_one = pd.DataFrame(
+        {"Week ending": ["2024-09-20"], "Lower 48 States": [300.0]}
+    )
+    history_two = pd.DataFrame(
+        {"Week ending": ["2024-09-27"], "Lower 48 States": [305.0]}
+    )
+    revisions = _revisions()
+
+    monkeypatch.setattr(
+        "commodity.wngsr._read_xls_candidates",
+        lambda content: [history_one, history_two] if content == b"history" else [revisions],
+    )
+
+    with pytest.raises(ValueError, match="multiple admissible tables"):
+        parse_wngsr_workbooks(b"history", b"revisions")
+
+
+def test_wngsr_workbook_parser_rejects_multiple_admissible_revision_tables(monkeypatch) -> None:
+    history = pd.DataFrame(
+        {"Week ending": ["2024-09-20"], "Lower 48 States": [300.0]}
+    )
+    revision_one = _revisions()
+    revision_two = _revisions().assign(revised_storage_lower48_bcf=[301.0])
+
+    monkeypatch.setattr(
+        "commodity.wngsr._read_xls_candidates",
+        lambda content: [history] if content == b"history" else [revision_one, revision_two],
+    )
+
+    with pytest.raises(ValueError, match="multiple admissible tables"):
+        parse_wngsr_workbooks(b"history", b"revisions")
 
 
 def test_wngsr_revision_chain_infers_each_revised_value_from_source_history() -> None:

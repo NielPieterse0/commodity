@@ -446,39 +446,59 @@ def _normalize_wngsr_original_data_revisions(
     ].sort_values(["revision_date", "observed_for"], kind="mergesort").reset_index(drop=True)
 
 
+def _require_unique_normalized_candidate(
+    results: list[pd.DataFrame],
+    *,
+    label: str,
+) -> pd.DataFrame:
+    if not results:
+        raise ValueError(f"WNGSR {label} workbook has no recognizable table")
+    if len(results) > 1:
+        raise ValueError(
+            f"WNGSR {label} workbook has multiple admissible tables; "
+            "table selection is ambiguous"
+        )
+    return results[0]
+
+
 def parse_wngsr_workbooks(
     history_content: bytes,
     revisions_content: bytes,
     *,
     retrieved_at: str | pd.Timestamp | None = None,
 ) -> tuple[pd.DataFrame, pd.DataFrame]:
-    history_result: pd.DataFrame | None = None
+    history_results: list[pd.DataFrame] = []
     for candidate in _read_xls_candidates(history_content):
         try:
-            history_result = normalize_wngsr_history_table(candidate)
-            break
+            history_results.append(normalize_wngsr_history_table(candidate))
         except ValueError:
             continue
-    if history_result is None:
-        raise ValueError("WNGSR history workbook has no recognizable Lower-48 history table")
+    history_result = _require_unique_normalized_candidate(
+        history_results,
+        label="history",
+    )
 
-    revisions_result: pd.DataFrame | None = None
+    revisions_results: list[pd.DataFrame] = []
     for candidate in _read_xls_candidates(revisions_content):
         try:
-            revisions_result = normalize_wngsr_revisions_table(candidate)
-            break
+            revisions_results.append(normalize_wngsr_revisions_table(candidate))
+            continue
         except ValueError:
-            try:
-                revisions_result = _normalize_wngsr_original_data_revisions(
+            pass
+        try:
+            revisions_results.append(
+                _normalize_wngsr_original_data_revisions(
                     candidate,
                     history_result,
                     retrieved_at=retrieved_at,
                 )
-                break
-            except ValueError:
-                continue
-    if revisions_result is None:
-        raise ValueError("WNGSR revisions workbook has no recognizable revision table")
+            )
+        except ValueError:
+            continue
+    revisions_result = _require_unique_normalized_candidate(
+        revisions_results,
+        label="revisions",
+    )
     return history_result, revisions_result
 
 
