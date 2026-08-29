@@ -2,8 +2,7 @@ from __future__ import annotations
 
 import math
 
-from commodity import cli, entrypoint  # noqa: F401
-from commodity import research_methodology
+from commodity import cli, entrypoint, research_methodology
 from commodity.methodology_extensions import compute_effective_information
 from commodity.programme_inference import (
     hansen_spa,
@@ -13,6 +12,7 @@ from commodity.programme_inference import (
 
 
 def test_entrypoint_installs_extended_effective_information() -> None:
+    assert entrypoint.main
     assert research_methodology.compute_effective_information is compute_effective_information
 
 
