@@ -22,7 +22,7 @@ kronos = ["torch>=2.3", "huggingface-hub>=0.33,<1", "einops>=0.8,<1", "safetenso
 dev = ["pytest>=8.2", "ruff>=0.6", "jsonschema>=4.23"]
 
 [project.scripts]
-commodity = "commodity.cli:main"
+commodity = "commodity.entrypoint:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]
