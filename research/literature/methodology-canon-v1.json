@@ -1,0 +1,12 @@
+{
+  "schema_version": 1,
+  "snapshot_id": "methodology-canon-v1",
+  "purpose": "Maintained methodological references for governed commodity research.",
+  "references": [
+    {"name": "White Reality Check", "use": "data-snooping-aware best-of-many model comparison"},
+    {"name": "Hansen Superior Predictive Ability", "use": "superior-predictive-ability testing across a candidate family"},
+    {"name": "Model Confidence Set", "use": "retain statistically indistinguishable models when evidence does not identify one winner"},
+    {"name": "Harvey-Liu-Zhu multiple-testing discipline", "use": "programme-level interpretation after many candidate predictors or strategies"},
+    {"name": "Newey-West HAC", "use": "dependence-robust uncertainty and effective-information accounting"}
+  ]
+}

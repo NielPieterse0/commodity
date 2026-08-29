@@ -39,13 +39,13 @@ Completed V1/V2 work remains historical evidence under the rules that governed i
 
 Humans decide what questions matter, explain the economic reasoning, interpret results, and decide what should happen next. Machines verify the mechanical promises: identities, freezes, eligibility, evidence levels, accounting, result bindings, and other encoded gates.
 
-For the operator, every completed important experiment should reduce to a short plain-English executive summary:
+For the operator, every completed confirmatory experiment and major research-line update must produce a short plain-English executive summary with exactly these six headings: **Where this fits**, **Where the idea came from**, **What we tested**, **What we saw**, **What it means for the bigger picture**, and **What next**.
 
-1. Where did the idea come from?
-2. What exactly did we test?
-3. What did we observe?
-4. What does it mean?
-5. What changes in the bigger project?
+## Maintained statistical canon
+
+The machine contracts implement a small maintained finance/econometrics canon rather than relying on ad-hoc significance checks. White's Reality Check is the default reference for best-of-many/data-snooping questions; Hansen's Superior Predictive Ability test is the higher-power challenger; the Model Confidence Set is used when the correct conclusion is a set of statistically indistinguishable models rather than a single winner. Harvey, Liu and Zhu motivate programme-level multiple-testing discipline when many candidate predictors have been tried. Newey-West/HAC and dependence-aware block/bootstrap methods are the reference tools for uncertainty when observations are serially dependent or horizons overlap.
+
+These names are methodological references, not automatic proof. The exact procedure, candidate family, dependence assumptions, inputs, seeds, thresholds and resulting evidence identity must still be frozen or machine-recorded for the experiment that uses them.
 
 ## Authority
 

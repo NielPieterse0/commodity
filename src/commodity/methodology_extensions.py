@@ -87,7 +87,12 @@ def freeze_with_registration(args: Any, cli: Any) -> None:
     cli.validate_inference_ledger(ledger)
     programme_evidence_path = Path(args.programme_evidence)
     programme_evidence = cli.load_methodology_json(programme_evidence_path)
+    from commodity.research_methodology import verify_lineage, verify_reference_artifact
+
     programme_context = cli.validate_programme_context(prereg, programme_evidence)
+    evidence_scan = verify_reference_artifact(prereg["evidence_scan_ref"], cli.REPO_ROOT)
+    literature_snapshot = verify_reference_artifact(prereg["literature_snapshot_ref"], cli.REPO_ROOT)
+    verify_lineage(prereg, repo_root=cli.REPO_ROOT)
     sealed_registry = cli.load_methodology_json(Path(args.sealed_registry))
     cli.validate_sealed_policy(prereg, sealed_registry)
 
@@ -136,6 +141,8 @@ def freeze_with_registration(args: Any, cli: Any) -> None:
             .as_posix(),
             "sha256": cli.sha256_file(programme_evidence_path),
         },
+        "evidence_scan": evidence_scan,
+        "literature_snapshot": literature_snapshot,
         "binding": binding,
         "inference_registration": {
             "entry_id": prereg["inference_ledger_entry_id"],

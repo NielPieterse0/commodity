@@ -3,9 +3,12 @@ from __future__ import annotations
 import hashlib
 import json
 import math
+import subprocess
 from pathlib import Path
 from statistics import NormalDist
 from typing import Any
+
+from jsonschema import Draft202012Validator
 
 from commodity.provenance import canonical_json_bytes
 
@@ -27,6 +30,35 @@ def canonical_prereg_sha256(prereg: dict[str, Any]) -> str:
 def _require(condition: bool, message: str) -> None:
     if not condition:
         raise MethodologyError(message)
+
+
+def _repo_root() -> Path:
+    return Path(__file__).resolve().parents[2]
+
+
+def _validate_schema(payload: dict[str, Any], schema_name: str) -> None:
+    schema_path = _repo_root() / "contracts" / schema_name
+    schema = json.loads(schema_path.read_text(encoding="utf-8"))
+    errors = sorted(Draft202012Validator(schema).iter_errors(payload), key=lambda item: list(item.path))
+    if errors:
+        details = "; ".join(error.message for error in errors[:5])
+        raise MethodologyError(f"{schema_name} validation failed: {details}")
+
+
+def _compare(value: Any, operator: str, expected: Any) -> bool:
+    if operator == "eq":
+        return value == expected
+    left = float(value)
+    right = float(expected)
+    if operator == "gte":
+        return left >= right
+    if operator == "lte":
+        return left <= right
+    if operator == "gt":
+        return left > right
+    if operator == "lt":
+        return left < right
+    raise MethodologyError(f"unsupported comparison operator: {operator!r}")
 
 
 def recompute_mepi(spec: dict[str, Any]) -> float:
@@ -100,17 +132,18 @@ def verify_power(prereg: dict[str, Any]) -> dict[str, Any]:
 def verify_preregistration(prereg: dict[str, Any]) -> dict[str, Any]:
     forbidden = sorted(FORBIDDEN_PREREG_FIELDS.intersection(prereg))
     _require(not forbidden, f"preregistration contains forbidden result fields: {forbidden}")
-    required = {
-        "experiment_id", "programme_id", "research_line_id", "slice_id",
-        "evidence_scan_ref", "literature_snapshot_ref", "parent_question",
-        "uncertainty_reduced", "mechanism", "hypotheses", "mepi", "forecast",
-        "datasets", "dependence", "power", "features", "model", "evaluation",
-        "inference_ledger_entry_id", "sealed_window", "coherence_triggers",
-        "outcome_logic", "permitted_human_dispositions", "reproduction", "lineage",
-    }
-    missing = sorted(required.difference(prereg))
-    _require(not missing, f"preregistration missing required fields: {missing}")
-    _require(prereg.get("schema_version") == 1, "preregistration schema_version must be 1")
+    _validate_schema(prereg, "prereg.schema.json")
+    orientation = prereg["orientation"]
+    _require(orientation.get("big_picture_ref") == "docs/big-picture.md", "orientation must bind docs/big-picture.md")
+    _require(str(orientation.get("where_this_fits", "")).strip(), "orientation requires where_this_fits")
+    _require(isinstance(orientation.get("origin_refs"), list) and orientation["origin_refs"], "orientation requires origin_refs")
+    _require(str(orientation.get("programme_question", "")).strip(), "orientation requires programme_question")
+    for name in ("evidence_scan_ref", "literature_snapshot_ref"):
+        ref = prereg[name]
+        _require(isinstance(ref, dict), f"{name} must be an immutable artifact reference")
+        _require(isinstance(ref.get("path"), str) and ref["path"], f"{name} requires path")
+        sha = ref.get("sha256")
+        _require(isinstance(sha, str) and len(sha) == 64, f"{name} requires sha256")
     dispositions = set(prereg["permitted_human_dispositions"])
     _require(dispositions == HUMAN_DISPOSITIONS, "human disposition enum is incomplete or changed")
     for name, spec in prereg["mepi"].items():
@@ -120,17 +153,14 @@ def verify_preregistration(prereg: dict[str, Any]) -> dict[str, Any]:
     power = verify_power(prereg)
     _require(power["status"] == "passed", "confirmatory design fails power/detectability gate")
     triggers = prereg["coherence_triggers"]
-    _require(isinstance(triggers, list) and len(triggers) >= 2, "at least two symmetric coherence triggers are required")
     directions = {item.get("direction") for item in triggers if isinstance(item, dict)}
     _require("unexpectedly_good" in directions or "both" in directions, "coherence triggers must cover unexpectedly good outcomes")
     _require("unexpectedly_bad" in directions or "both" in directions, "coherence triggers must cover unexpectedly bad outcomes")
-    evaluation = prereg["evaluation"]
-    benchmarks = evaluation.get("benchmarks")
+    benchmarks = prereg["evaluation"].get("benchmarks")
     _require(isinstance(benchmarks, list) and benchmarks, "at least one benchmark is required")
-    if evaluation.get("market_implied_relevant") is True:
-        _require(any(item.get("type") == "market_implied" for item in benchmarks), "market-implied comparator is required when economically relevant")
-    if evaluation.get("claim_scope") == "trading_usefulness":
+    if prereg["evaluation"].get("claim_scope") == "trading_usefulness":
         _require("economic_mepi" in prereg["mepi"], "trading-usefulness claims require economic_mepi")
+    verify_lineage(prereg)
     return {"status": "verified", "prereg_sha256": canonical_prereg_sha256(prereg), "power": power}
 
 
@@ -153,7 +183,11 @@ def validate_sealed_policy(prereg: dict[str, Any], registry: dict[str, Any]) -> 
     window_id = sealed.get("sealed_window_id")
     matches = [item for item in registry.get("windows", []) if item.get("sealed_window_id") == window_id]
     _require(len(matches) == 1, "sealed confirmation window is missing or ambiguous")
-    return verify_sealed_access(matches[0], use="confirmatory")
+    window = matches[0]
+    for key in ("dataset_id", "start", "end", "content_sha256"):
+        _require(sealed.get(key) == window.get(key), f"sealed window protected identity mismatch: {key}")
+    result = verify_sealed_access(window, use="confirmatory")
+    return {**result, "sealed_window_id": window_id, "dataset_id": window.get("dataset_id"), "content_sha256": window.get("content_sha256")}
 
 
 def classify_evidence(flags: dict[str, Any]) -> str:
@@ -171,6 +205,61 @@ def classify_evidence(flags: dict[str, Any]) -> str:
             if all(flags.get(name) is True for name in prerequisite_keys):
                 return level
     return "E0"
+
+
+def derive_evidence_level(raw_evidence: dict[str, Any]) -> str:
+    primary = raw_evidence.get("primary") or {}
+    try:
+        effect = float(primary["effect"])
+        p_value = float(primary["p_value"])
+        alpha = float(primary["alpha"])
+        scientific_mepi = float(primary["scientific_mepi"])
+    except (KeyError, TypeError, ValueError):
+        return "E0"
+    if not all(math.isfinite(value) for value in (effect, p_value, alpha, scientific_mepi)):
+        return "E0"
+    if effect == 0:
+        return "E0"
+    level = "E1"
+    if not (0 <= p_value <= alpha < 1 and abs(effect) >= scientific_mepi > 0):
+        return level
+    level = "E2"
+    robustness = (raw_evidence.get("robustness") or {}).get("checks") or []
+    if len(robustness) < 2:
+        return level
+    for check in robustness:
+        if not isinstance(check, dict) or not _compare(check.get("value"), str(check.get("operator")), check.get("threshold")):
+            return level
+    level = "E3"
+    economics = raw_evidence.get("economics") or {}
+    try:
+        if float(economics["net_effect"]) < float(economics["economic_mepi"]):
+            return level
+    except (KeyError, TypeError, ValueError):
+        return level
+    level = "E4"
+    replications = (raw_evidence.get("replication") or {}).get("independent_results") or []
+    successful_replication = False
+    for item in replications:
+        try:
+            successful_replication = (
+                abs(float(item["effect"])) >= float(item["scientific_mepi"]) > 0
+                and 0 <= float(item["p_value"]) <= float(item["alpha"]) < 1
+            )
+        except (KeyError, TypeError, ValueError):
+            successful_replication = False
+        if successful_replication:
+            break
+    if not successful_replication:
+        return level
+    level = "E5"
+    programme = raw_evidence.get("programme") or {}
+    try:
+        if not (0 <= float(programme["adjusted_p_value"]) <= float(programme["alpha"]) < 1):
+            return level
+    except (KeyError, TypeError, ValueError):
+        return level
+    return "E6"
 
 
 def verification_finding(truth_class: str, code: str, message: str) -> dict[str, str]:
@@ -290,14 +379,55 @@ def audit_leakage(checks: dict[str, Any]) -> list[dict[str, str]]:
     )
     findings: list[dict[str, str]] = []
     for name in required:
-        state = checks.get(name)
-        if state is True:
-            findings.append(verification_finding("CHECKED", name, f"No known {name.replace('_', ' ')} violation detected by the declared check."))
-        elif state is False:
-            findings.append(verification_finding("CHECKED", name, f"Declared {name.replace('_', ' ')} check detected a violation."))
-        else:
-            findings.append(verification_finding("CHECKED", name, f"Declared {name.replace('_', ' ')} check is incomplete."))
+        evidence = checks.get(name)
+        _require(isinstance(evidence, dict), f"{name} requires bounded check evidence, not a boolean declaration")
+        sha = evidence.get("evidence_sha256")
+        _require(isinstance(sha, str) and len(sha) == 64, f"{name} evidence requires evidence_sha256")
+        evidence_path = evidence.get("evidence_path")
+        _require(isinstance(evidence_path, str) and evidence_path, f"{name} evidence requires evidence_path")
+        artifact_path = Path(evidence_path)
+        _require(artifact_path.is_file(), f"{name} evidence artifact is missing")
+        actual_sha = hashlib.sha256(artifact_path.read_bytes()).hexdigest()
+        _require(actual_sha == sha, f"{name} evidence hash mismatch")
+        artifact = load_json(artifact_path)
+        _require("observed" in artifact, f"{name} evidence artifact lacks observed value")
+        try:
+            passed = _compare(artifact.get("observed"), str(evidence.get("operator")), evidence.get("expected"))
+        except (TypeError, ValueError):
+            findings.append(verification_finding("CHECKED", name, f"Bounded {name.replace('_', ' ')} check is incomplete."))
+            continue
+        message = (
+            f"Bounded {name.replace('_', ' ')} check passed against evidence {sha[:12]}."
+            if passed
+            else f"Bounded {name.replace('_', ' ')} check failed against evidence {sha[:12]}."
+        )
+        findings.append(verification_finding("CHECKED", name, message))
     return findings
+
+
+def derive_coherence(prereg: dict[str, Any], observed_metrics: dict[str, Any]) -> dict[str, Any]:
+    triggered: list[str] = []
+    declared: dict[str, str] = {}
+    for item in prereg.get("coherence_triggers", []):
+        trigger_id = item.get("id")
+        direction = item.get("direction")
+        if not trigger_id or not direction:
+            continue
+        declared[trigger_id] = direction
+        metric = item.get("metric")
+        if metric is None:
+            continue
+        if metric not in observed_metrics:
+            continue
+        if _compare(observed_metrics[metric], str(item.get("operator")), item.get("threshold")):
+            triggered.append(trigger_id)
+    return {
+        "declared": declared,
+        "triggered": sorted(triggered),
+        "trigger_directions": {key: declared[key] for key in sorted(triggered)},
+        "undeclared_observations": [],
+        "enhanced_audit_required": bool(triggered),
+    }
 
 
 def evaluate_coherence(prereg: dict[str, Any], observed_triggers: list[str]) -> dict[str, Any]:
@@ -323,15 +453,30 @@ def verify_results(prereg: dict[str, Any], results: dict[str, Any]) -> dict[str,
     expected_sha = prereg_verification["prereg_sha256"]
     _require(results.get("prereg_sha256") == expected_sha, "results do not bind to exact preregistration")
     _require(results.get("experiment_id") == prereg["experiment_id"], "results experiment_id mismatch")
+    expected_dataset = prereg["datasets"][0]
+    identities = (
+        (results.get("data", {}).get("dataset_id"), expected_dataset.get("id"), "dataset"),
+        (results.get("data", {}).get("vintage_id"), expected_dataset.get("vintage"), "vintage"),
+        (results.get("data", {}).get("split_id"), expected_dataset.get("split_id"), "split"),
+        (results.get("features", {}).get("definition_id"), prereg["features"].get("definition_id"), "feature definition"),
+        (results.get("features", {}).get("preprocessing_id"), prereg["features"].get("preprocessing_id"), "preprocessing"),
+        (results.get("model", {}).get("family"), prereg["model"].get("family"), "model family"),
+        (results.get("model", {}).get("configuration_id"), prereg["model"].get("configuration_id"), "model configuration"),
+    )
+    for observed, expected, label in identities:
+        _require(observed == expected, f"results execution identity mismatch: {label}")
     method = results.get("method_compliance")
     _require(method in {"VERIFIED", "FAILED", "INCOMPLETE"}, "invalid method compliance")
     raw = results.get("raw_evidence")
     _require(isinstance(raw, dict), "results require raw_evidence")
-    derived = classify_evidence(raw.get("evidence_flags", {}))
-    _require(results.get("scientific_evidence") == derived, "scientific evidence must be machine-derived")
+    derived = derive_evidence_level(raw)
+    _require(results.get("scientific_evidence") == derived, "scientific evidence must be machine-derived from numeric evidence")
     findings = results.get("verification", [])
     for finding in findings:
         verification_finding(finding["truth_class"], finding["code"], finding["message"])
+    coherence = results.get("coherence") or {}
+    if coherence.get("enhanced_audit_required") is True:
+        _require(coherence.get("audit_completed") is True or method == "INCOMPLETE", "triggered coherence audit must be completed or results marked INCOMPLETE")
     return {"status": "verified", "prereg_sha256": expected_sha, "scientific_evidence": derived, "method_compliance": method}
 
 
@@ -386,6 +531,8 @@ def validate_research_line(line: dict[str, Any]) -> None:
 def validate_programme_context(prereg: dict[str, Any], evidence_map: dict[str, Any]) -> dict[str, Any]:
     _require(evidence_map.get("schema_version") == 1, "programme evidence schema_version must be 1")
     _require(evidence_map.get("programme_id") == prereg.get("programme_id"), "programme evidence does not match preregistration")
+    scan_ref = prereg.get("evidence_scan_ref") or {}
+    _require(scan_ref.get("scan_id") == evidence_map.get("current_scan_id"), "preregistration evidence scan is not the current programme scan")
     lines = [item for item in evidence_map.get("research_lines", []) if item.get("research_line_id") == prereg.get("research_line_id")]
     _require(len(lines) == 1, "research line is missing or ambiguous in programme evidence map")
     line = lines[0]
@@ -397,16 +544,25 @@ def validate_programme_context(prereg: dict[str, Any], evidence_map: dict[str, A
         if item.get("target") == prereg.get("forecast", {}).get("target")
         and item.get("horizon") == prereg.get("forecast", {}).get("horizon")
         and item.get("information_family") in families
+        and item.get("feasibility") == "go"
     ]
-    _require(matches, "no matching programme feasibility entry exists")
-    _require(any(item.get("feasibility") == "go" for item in matches), "programme feasibility does not permit confirmatory freeze")
-    return {"status": "selected_and_feasible", "research_line_id": line["research_line_id"]}
+    _require(matches, "programme feasibility does not permit confirmatory freeze")
+    match = matches[0]
+    for key in ("scientific_mepi", "economic_mepi"):
+        if key in match:
+            prereg_value = float(prereg.get("mepi", {}).get(key, {}).get("value", math.nan))
+            _require(math.isclose(prereg_value, float(match[key]), rel_tol=1e-12, abs_tol=1e-12), f"programme {key} MEPI mismatch")
+    if match.get("market_implied_benchmark_required") is True:
+        benchmarks = prereg.get("evaluation", {}).get("benchmarks", [])
+        _require(any(item.get("type") == "market_implied" for item in benchmarks), "market-implied comparator is required by governed target/horizon context")
+    return {"status": "selected_and_feasible", "research_line_id": line["research_line_id"], "scan_id": evidence_map.get("current_scan_id")}
 
 
 def build_results(
     prereg: dict[str, Any], *, run_id: str, code: dict[str, Any], data: dict[str, Any],
     model: dict[str, Any], environment: dict[str, Any], raw_evidence: dict[str, Any],
-    verification: list[dict[str, str]], coherence: dict[str, Any], artifacts: list[dict[str, Any]],
+    verification: list[dict[str, str]], coherence: dict[str, Any] | None, artifacts: list[dict[str, Any]],
+    features: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
     prereg_check = verify_preregistration(prereg)
     checked_messages = [
@@ -414,28 +570,33 @@ def build_results(
         for item in verification
         if item.get("truth_class") == "CHECKED"
     ]
-    detected_violation = any("detected a violation" in message for message in checked_messages)
+    detected_violation = any("failed" in message or "detected a violation" in message for message in checked_messages)
     incomplete_check = any("incomplete" in message for message in checked_messages)
-    coherence_incomplete = (
-        coherence.get("enhanced_audit_required") is True
-        and coherence.get("audit_completed") is not True
-    )
+    derived_coherence = derive_coherence(prereg, raw_evidence.get("metrics", {}))
+    supplied_coherence = coherence or {}
+    derived_coherence["audit_completed"] = supplied_coherence.get("audit_completed") is True
+    coherence_incomplete = derived_coherence["enhanced_audit_required"] and not derived_coherence["audit_completed"]
     if detected_violation:
         method_compliance = "FAILED"
     elif incomplete_check or coherence_incomplete:
         method_compliance = "INCOMPLETE"
     else:
         method_compliance = "VERIFIED"
-    evidence = classify_evidence(raw_evidence.get("evidence_flags", {}))
+    evidence = derive_evidence_level(raw_evidence)
+    family_record = run_family_inference(prereg, raw_evidence) if raw_evidence.get("family_inference") else None
+    feature_identity = features or {
+        "definition_id": prereg["features"].get("definition_id"),
+        "preprocessing_id": prereg["features"].get("preprocessing_id"),
+    }
     return {
         "schema_version": 1,
         "experiment_id": prereg["experiment_id"],
         "run_id": run_id,
         "prereg_sha256": prereg_check["prereg_sha256"],
-        "code": code, "data": data, "model": model, "environment": environment,
+        "code": code, "data": data, "features": feature_identity, "model": model, "environment": environment,
         "raw_evidence": raw_evidence, "verification": verification,
         "method_compliance": method_compliance, "scientific_evidence": evidence,
-        "coherence": coherence, "artifacts": artifacts,
+        "coherence": derived_coherence, "family_inference": family_record, "artifacts": artifacts,
     }
 
 
@@ -466,7 +627,13 @@ def verify_remote_prereg_binding(repo_root: Path, prereg_path: Path, tag: str, r
     head = _git_text(repo_root, "rev-parse", "HEAD")
     tag_commit = _git_text(repo_root, "rev-list", "-n", "1", tag)
     _require(tag_commit == head, "preregistration tag does not point at HEAD")
-    import subprocess
+    signature = subprocess.run(
+        ["git", "-C", str(repo_root), "verify-tag", tag],
+        capture_output=True,
+        text=True,
+        check=False,
+    )
+    _require(signature.returncode == 0, f"preregistration tag signature verification failed: {signature.stderr.strip()}")
     remote_tag = subprocess.run(["git", "-C", str(repo_root), "ls-remote", remote, f"refs/tags/{tag}^{{}}"], capture_output=True, text=True, check=False)
     if remote_tag.returncode != 0 or not remote_tag.stdout.strip():
         remote_tag = subprocess.run(["git", "-C", str(repo_root), "ls-remote", remote, f"refs/tags/{tag}"], capture_output=True, text=True, check=False)
@@ -564,3 +731,132 @@ def record_family_inference(ledger: dict[str, Any], record: dict[str, Any]) -> d
     updated["family_inference"].append(json.loads(json.dumps(record)))
     validate_inference_ledger(updated)
     return updated
+
+
+def verify_reference_artifact(ref: dict[str, Any], repo_root: Path) -> dict[str, Any]:
+    _require(isinstance(ref, dict), "frozen reference must be an object")
+    relative = ref.get("path")
+    _require(isinstance(relative, str) and relative, "frozen reference requires path")
+    root = Path(repo_root).resolve()
+    path = (root / relative).resolve()
+    _require(root == path or root in path.parents, "frozen reference escapes repository root")
+    _require(path.is_file(), f"frozen reference artifact does not exist: {relative}")
+    actual = hashlib.sha256(path.read_bytes()).hexdigest()
+    _require(actual == ref.get("sha256"), f"frozen reference hash mismatch: {relative}")
+    return {"path": relative, "sha256": actual}
+
+
+def verify_lineage(
+    prereg: dict[str, Any],
+    known_predecessor_sha256: str | None = None,
+    repo_root: Path | None = None,
+) -> None:
+    lineage = prereg.get("lineage") or {}
+    predecessor = lineage.get("supersedes_prereg_sha256")
+    if predecessor is None:
+        _require(not lineage.get("amendment_reason"), "initial preregistration cannot declare amendment reason")
+        _require(not lineage.get("supersedes_prereg_path"), "initial preregistration cannot declare predecessor path")
+        return
+    _require(isinstance(predecessor, str) and len(predecessor) == 64, "successor preregistration requires exact predecessor SHA")
+    predecessor_path = lineage.get("supersedes_prereg_path")
+    _require(isinstance(predecessor_path, str) and predecessor_path, "successor preregistration requires predecessor path")
+    _require(str(lineage.get("amendment_reason", "")).strip(), "successor preregistration requires amendment reason")
+    if known_predecessor_sha256 is not None:
+        _require(predecessor == known_predecessor_sha256, "successor preregistration predecessor mismatch")
+    if repo_root is not None:
+        root = Path(repo_root).resolve()
+        path = (root / predecessor_path).resolve()
+        _require(root in path.parents, "successor predecessor path escapes repository root")
+        _require(path.is_file(), "successor predecessor preregistration is missing")
+        _require(canonical_prereg_sha256(load_json(path)) == predecessor, "successor predecessor preregistration identity mismatch")
+
+
+def run_family_inference(prereg: dict[str, Any], raw_evidence: dict[str, Any]) -> dict[str, Any]:
+    from commodity.programme_inference import (
+        benjamini_hochberg,
+        hansen_spa,
+        model_confidence_set,
+        white_reality_check,
+    )
+
+    spec = raw_evidence.get("family_inference") or {}
+    procedure = spec.get("procedure")
+    frozen_procedure = prereg.get("evaluation", {}).get("programme_inference_procedure")
+    _require(procedure == frozen_procedure, "family inference procedure does not match frozen preregistration")
+    declared = set(prereg.get("evaluation", {}).get("candidate_family", []))
+    if procedure in {"white_reality_check", "hansen_spa"}:
+        values = spec.get("loss_differentials") or {}
+        _require(set(values) == declared, "family inference inputs do not match declared candidate family")
+        fn = white_reality_check if procedure == "white_reality_check" else hansen_spa
+        result = fn(values, bootstrap_samples=int(spec.get("bootstrap_samples", 2000)), block_length=int(spec.get("block_length", 5)), seed=int(spec.get("seed", 0)))
+    elif procedure == "model_confidence_set":
+        values = spec.get("losses") or {}
+        _require(set(values) == declared, "family inference inputs do not match declared candidate family")
+        result = model_confidence_set(values, alpha=float(spec.get("alpha", 0.05)), bootstrap_samples=int(spec.get("bootstrap_samples", 2000)), block_length=int(spec.get("block_length", 5)), seed=int(spec.get("seed", 0)))
+    elif procedure == "benjamini_hochberg":
+        values = spec.get("pvalues") or {}
+        _require(set(values) == declared, "family inference inputs do not match declared candidate family")
+        result = benjamini_hochberg(values, alpha=float(spec.get("alpha", 0.05)))
+        result["inputs_sha256"] = hashlib.sha256(canonical_json_bytes(values)).hexdigest()
+    else:
+        raise MethodologyError(f"unsupported family inference procedure: {procedure!r}")
+    return {"family_id": prereg["evaluation"]["statistical_family"], "procedure": procedure, "inputs_sha256": result["inputs_sha256"], "implementation_ref": f"commodity.programme_inference.{procedure}", "result": result}
+
+
+def update_programme_evidence_map(
+    evidence_map: dict[str, Any], prereg: dict[str, Any], results: dict[str, Any], *, new_scan_id: str
+) -> dict[str, Any]:
+    _require(evidence_map.get("programme_id") == prereg.get("programme_id"), "programme evidence does not match preregistration")
+    _require(isinstance(new_scan_id, str) and new_scan_id.strip(), "programme update requires new_scan_id")
+    updated = json.loads(json.dumps(evidence_map))
+    matches = [item for item in updated.get("research_lines", []) if item.get("research_line_id") == prereg.get("research_line_id")]
+    _require(len(matches) == 1, "programme update research line is missing or ambiguous")
+    line = matches[0]
+    history = line.setdefault("experiment_history", [])
+    _require(not any(item.get("experiment_id") == prereg["experiment_id"] for item in history), "programme evidence already records experiment")
+    history.append({
+        "experiment_id": prereg["experiment_id"],
+        "prereg_sha256": canonical_prereg_sha256(prereg),
+        "scientific_evidence": results.get("scientific_evidence"),
+        "method_compliance": results.get("method_compliance"),
+    })
+    updated["previous_scan_id"] = updated.get("current_scan_id")
+    updated["current_scan_id"] = new_scan_id
+    return updated
+
+
+def execute_reproduction(
+    command: list[str], output_path: Path, reference: dict[str, Any], tolerance: dict[str, float], *, cwd: Path
+) -> dict[str, Any]:
+    _require(isinstance(command, list) and command and all(isinstance(item, str) and item for item in command), "reproduction requires argv")
+    output_path = Path(output_path)
+    _require(not output_path.exists(), "reproduction output must not pre-exist")
+    result = subprocess.run(command, cwd=str(cwd), capture_output=True, text=True, check=False)
+    _require(result.returncode == 0, f"reproduction command failed: {result.stderr.strip()}")
+    _require(output_path.is_file(), "reproduction command did not produce declared output")
+    candidate = load_json(output_path)
+    verified = verify_reproduction(reference, candidate, tolerance)
+    command_sha = hashlib.sha256(canonical_json_bytes({"argv": command})).hexdigest()
+    return {**verified, "executed": True, "command_sha256": command_sha, "output": str(output_path)}
+
+
+def verify_completion_artifacts(experiment_dir: Path) -> dict[str, Any]:
+    experiment_dir = Path(experiment_dir)
+    required = ("prereg.json", "results.json", "interpretation.md", "record.json", "executive-summary.md")
+    missing = [name for name in required if not (experiment_dir / name).is_file()]
+    _require(not missing, f"completed experiment missing required artifacts: {', '.join(missing)}")
+    return {"status": "complete", "artifacts": list(required)}
+
+
+def verify_reproduction_contract(prereg: dict[str, Any], command_spec_path: Path, output_path: Path) -> dict[str, Any]:
+    reproduction = prereg.get("reproduction") or {}
+    expected_sha = reproduction.get("command_spec_sha256")
+    _require(isinstance(expected_sha, str) and len(expected_sha) == 64, "frozen reproduction contract does not permit command execution")
+    command_spec_path = Path(command_spec_path)
+    _require(command_spec_path.is_file(), "reproduction command spec is missing")
+    actual_sha = hashlib.sha256(command_spec_path.read_bytes()).hexdigest()
+    _require(actual_sha == expected_sha, "reproduction command spec does not match frozen contract")
+    expected_output = reproduction.get("output_filename")
+    if expected_output is not None:
+        _require(Path(output_path).name == expected_output, "reproduction output does not match frozen contract")
+    return {"command_spec_sha256": actual_sha, "output_filename": Path(output_path).name}
