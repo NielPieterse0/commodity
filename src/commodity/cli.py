@@ -5,6 +5,7 @@ import json
 from pathlib import Path
 
 import pandas as pd
+from jsonschema import Draft202012Validator
 
 from commodity.canonical_provider import load_canonical_provider
 from commodity.cftc import CftcCotClient, capture_cftc_v1_window, load_cftc_v1_window
@@ -52,6 +53,28 @@ from commodity.provenance import (
 from commodity.providers import EiaApiV2Client
 from commodity.records import build_baseline_record, build_tournament_record
 from commodity.research_dataset import TARGET_COLUMN, build_pit_dataset
+from commodity.research_methodology import (
+    MethodologyError,
+    assert_confirmatory_execution_allowed,
+    audit_leakage,
+    build_results,
+    record_inference_outcome,
+    record_sealed_opening,
+    register_inference_entry,
+    render_executive_summary_from_interpretation,
+    validate_inference_ledger,
+    validate_programme_context,
+    validate_sealed_policy,
+    verify_power,
+    verify_preregistration,
+    verify_remote_prereg_binding,
+    verify_reproduction,
+    verify_results,
+    write_immutable_json,
+)
+from commodity.research_methodology import (
+    load_json as load_methodology_json,
+)
 from commodity.research_metrics import (
     MetricsContractError,
     latest_closeout,
@@ -553,6 +576,166 @@ def _summarize_research_metrics(args: argparse.Namespace) -> None:
         print(summary)
 
 
+def _experiment_register(args: argparse.Namespace) -> None:
+    prereg = load_methodology_json(Path(args.prereg))
+    verify_preregistration(prereg)
+    if prereg["experiment_id"] != args.experiment_id:
+        raise MethodologyError("experiment_id does not match preregistration")
+    ledger_path = Path(args.ledger)
+    ledger = load_methodology_json(ledger_path)
+    updated = register_inference_entry(ledger, prereg)
+    write_json(ledger_path, updated)
+    print(json.dumps({"status": "registered", "entry_id": prereg["inference_ledger_entry_id"]}, indent=2))
+
+
+def _experiment_verify(args: argparse.Namespace) -> None:
+    prereg = load_methodology_json(Path(args.prereg))
+    result = verify_preregistration(prereg)
+    print(json.dumps(result, indent=2, sort_keys=True))
+
+
+def _experiment_verify_power(args: argparse.Namespace) -> None:
+    prereg = load_methodology_json(Path(args.prereg))
+    result = verify_power(prereg)
+    print(json.dumps(result, indent=2, sort_keys=True))
+    if result["status"] != "passed":
+        raise SystemExit(2)
+
+
+def _experiment_freeze(args: argparse.Namespace) -> None:
+    prereg = load_methodology_json(Path(args.prereg))
+    verification = verify_preregistration(prereg)
+    if prereg["experiment_id"] != args.experiment_id:
+        raise MethodologyError("experiment_id does not match preregistration")
+    ledger = load_methodology_json(Path(args.ledger))
+    validate_inference_ledger(ledger)
+    programme_evidence_path = Path(args.programme_evidence)
+    programme_evidence = load_methodology_json(programme_evidence_path)
+    programme_context = validate_programme_context(prereg, programme_evidence)
+    sealed_registry = load_methodology_json(Path(args.sealed_registry))
+    validate_sealed_policy(prereg, sealed_registry)
+    matches = [item for item in ledger["entries"] if item["entry_id"] == prereg["inference_ledger_entry_id"] and item["experiment_id"] == args.experiment_id]
+    if len(matches) != 1:
+        raise MethodologyError("preregistration is not registered exactly once in programme inference ledger")
+    binding = verify_remote_prereg_binding(REPO_ROOT, Path(args.prereg), args.tag, args.remote)
+    record = {
+        "schema_version": 1,
+        "experiment_id": args.experiment_id,
+        "frozen": True,
+        "prereg_sha256": verification["prereg_sha256"],
+        "power": verification["power"],
+        "programme_context": {
+            **programme_context,
+            "path": programme_evidence_path.resolve().relative_to(REPO_ROOT.resolve()).as_posix(),
+            "sha256": sha256_file(programme_evidence_path),
+        },
+        "binding": binding,
+    }
+    output = Path(args.output)
+    write_immutable_json(output, record)
+    print(json.dumps(record, indent=2, sort_keys=True))
+
+
+def _experiment_can_run(args: argparse.Namespace) -> None:
+    prereg = load_methodology_json(Path(args.prereg))
+    freeze = load_methodology_json(Path(args.freeze))
+    ledger = load_methodology_json(Path(args.ledger))
+    sealed = load_methodology_json(Path(args.sealed_registry))
+    result = assert_confirmatory_execution_allowed(prereg, freeze, ledger, sealed)
+    print(json.dumps(result, indent=2, sort_keys=True))
+
+
+def _experiment_open_sealed(args: argparse.Namespace) -> None:
+    registry_path = Path(args.sealed_registry)
+    registry = load_methodology_json(registry_path)
+    prereg = load_methodology_json(Path(args.prereg))
+    freeze = load_methodology_json(Path(args.freeze))
+    ledger = load_methodology_json(Path(args.ledger))
+    assert_confirmatory_execution_allowed(prereg, freeze, ledger, registry)
+    if prereg["experiment_id"] != args.experiment_id:
+        raise MethodologyError("experiment_id does not match preregistration")
+    if prereg.get("sealed_window", {}).get("sealed_window_id") != args.sealed_window_id:
+        raise MethodologyError("sealed_window_id does not match preregistration")
+    updated = record_sealed_opening(
+        registry,
+        args.sealed_window_id,
+        args.experiment_id,
+        [item.strip() for item in args.artifacts_exposed.split(",") if item.strip()],
+    )
+    write_json(registry_path, updated)
+    print(json.dumps({"status": "opened", "sealed_window_id": args.sealed_window_id, "experiment_id": args.experiment_id}, indent=2))
+
+
+def _experiment_build_results(args: argparse.Namespace) -> None:
+    prereg = load_methodology_json(Path(args.prereg))
+    freeze = load_methodology_json(Path(args.freeze))
+    ledger = load_methodology_json(Path(args.ledger))
+    sealed = load_methodology_json(Path(args.sealed_registry))
+    assert_confirmatory_execution_allowed(prereg, freeze, ledger, sealed)
+    run = load_methodology_json(Path(args.run_evidence))
+    checks = load_methodology_json(Path(args.checks))
+    verification = audit_leakage(checks)
+    results = build_results(
+        prereg,
+        run_id=str(run["run_id"]),
+        code=run["code"],
+        data=run["data"],
+        model=run["model"],
+        environment=run["environment"],
+        raw_evidence=run["raw_evidence"],
+        verification=verification,
+        coherence=run["coherence"],
+        artifacts=run.get("artifacts", []),
+    )
+    verified = verify_results(prereg, results)
+    results_schema = load_methodology_json(REPO_ROOT / "contracts/results.schema.json")
+    validator = Draft202012Validator(results_schema)
+    schema_errors = sorted(validator.iter_errors(results), key=lambda item: list(item.path))
+    if schema_errors:
+        details = "; ".join(error.message for error in schema_errors[:5])
+        raise MethodologyError(f"results violate results.schema.json: {details}")
+    write_immutable_json(Path(args.output), results)
+    updated_ledger = record_inference_outcome(
+        ledger,
+        prereg["experiment_id"],
+        f"{verified['scientific_evidence']}:{verified['method_compliance']}",
+    )
+    write_json(Path(args.ledger), updated_ledger)
+    print(json.dumps(verified, indent=2, sort_keys=True))
+
+
+def _experiment_verify_results(args: argparse.Namespace) -> None:
+    prereg = load_methodology_json(Path(args.prereg))
+    results = load_methodology_json(Path(args.results))
+    print(json.dumps(verify_results(prereg, results), indent=2, sort_keys=True))
+
+
+def _experiment_audit_leakage(args: argparse.Namespace) -> None:
+    checks = load_methodology_json(Path(args.checks))
+    findings = audit_leakage(checks)
+    print(json.dumps({"findings": findings}, indent=2, sort_keys=True))
+    if any("violation" in item["message"].lower() or "incomplete" in item["message"].lower() for item in findings):
+        raise SystemExit(2)
+
+
+def _experiment_reproduce(args: argparse.Namespace) -> None:
+    reference = load_methodology_json(Path(args.reference))
+    candidate = load_methodology_json(Path(args.candidate))
+    tolerance = load_methodology_json(Path(args.tolerance))
+    print(json.dumps(verify_reproduction(reference, candidate, tolerance, byte_mode=args.byte), indent=2, sort_keys=True))
+
+
+def _experiment_summary(args: argparse.Namespace) -> None:
+    prereg = load_methodology_json(Path(args.prereg))
+    results = load_methodology_json(Path(args.results))
+    interpretation = Path(args.interpretation).read_text(encoding="utf-8")
+    summary = render_executive_summary_from_interpretation(interpretation, prereg, results)
+    output = Path(args.output)
+    output.parent.mkdir(parents=True, exist_ok=True)
+    output.write_text(summary, encoding="utf-8")
+    print(f"summary={output}")
+
+
 def _doctor(_: argparse.Namespace) -> None:
     assert_model_cannot_submit_orders()
     data_cfg = data_config()
@@ -783,6 +966,85 @@ def build_parser() -> argparse.ArgumentParser:
     metrics_summary.add_argument("--ledger", type=Path, default=metrics_ledger_path)
     metrics_summary.add_argument("--output", type=Path)
     metrics_summary.set_defaults(func=_summarize_research_metrics)
+
+    experiment = sub.add_parser("experiment", help="Governed hypothesis/experiment lifecycle")
+    experiment_sub = experiment.add_subparsers(required=True)
+    methodology_ledger = REPO_ROOT / "config/programme_inference_ledger.json"
+
+    register = experiment_sub.add_parser("register", help="Allocate the preregistered programme inference entry before release")
+    register.add_argument("experiment_id")
+    register.add_argument("--prereg", type=Path, required=True)
+    register.add_argument("--ledger", type=Path, default=methodology_ledger)
+    register.set_defaults(func=_experiment_register)
+
+    verify = experiment_sub.add_parser("verify", help="Verify preregistration invariants")
+    verify.add_argument("--prereg", type=Path, required=True)
+    verify.set_defaults(func=_experiment_verify)
+
+    verify_power_cmd = experiment_sub.add_parser("verify-power", help="Recompute MEPI/power and dependence-adjusted information")
+    verify_power_cmd.add_argument("--prereg", type=Path, required=True)
+    verify_power_cmd.set_defaults(func=_experiment_verify_power)
+
+    freeze_exp = experiment_sub.add_parser("freeze", help="Declare an exact remotely bound preregistration frozen")
+    freeze_exp.add_argument("experiment_id")
+    freeze_exp.add_argument("--prereg", type=Path, required=True)
+    freeze_exp.add_argument("--ledger", type=Path, default=methodology_ledger)
+    freeze_exp.add_argument("--programme-evidence", type=Path, default=REPO_ROOT / "config/programme_evidence_map.json")
+    freeze_exp.add_argument("--sealed-registry", type=Path, default=REPO_ROOT / "config/sealed_windows.json")
+    freeze_exp.add_argument("--tag", required=True)
+    freeze_exp.add_argument("--remote", default="origin")
+    freeze_exp.add_argument("--output", type=Path, required=True)
+    freeze_exp.set_defaults(func=_experiment_freeze)
+
+    can_run = experiment_sub.add_parser("can-run", help="Fail closed unless the exact frozen confirmatory experiment may execute")
+    can_run.add_argument("--prereg", type=Path, required=True)
+    can_run.add_argument("--freeze", type=Path, required=True)
+    can_run.add_argument("--ledger", type=Path, default=methodology_ledger)
+    can_run.add_argument("--sealed-registry", type=Path, default=REPO_ROOT / "config/sealed_windows.json")
+    can_run.set_defaults(func=_experiment_can_run)
+
+    open_sealed = experiment_sub.add_parser("open-sealed", help="Account for a sealed confirmation opening before protected access")
+    open_sealed.add_argument("experiment_id")
+    open_sealed.add_argument("sealed_window_id")
+    open_sealed.add_argument("--prereg", type=Path, required=True)
+    open_sealed.add_argument("--freeze", type=Path, required=True)
+    open_sealed.add_argument("--ledger", type=Path, default=methodology_ledger)
+    open_sealed.add_argument("--artifacts-exposed", required=True)
+    open_sealed.add_argument("--sealed-registry", type=Path, default=REPO_ROOT / "config/sealed_windows.json")
+    open_sealed.set_defaults(func=_experiment_open_sealed)
+
+    build_results_cmd = experiment_sub.add_parser("build-results", help="Machine-author immutable results from raw run evidence")
+    build_results_cmd.add_argument("--prereg", type=Path, required=True)
+    build_results_cmd.add_argument("--freeze", type=Path, required=True)
+    build_results_cmd.add_argument("--ledger", type=Path, default=methodology_ledger)
+    build_results_cmd.add_argument("--sealed-registry", type=Path, default=REPO_ROOT / "config/sealed_windows.json")
+    build_results_cmd.add_argument("--run-evidence", type=Path, required=True)
+    build_results_cmd.add_argument("--checks", type=Path, required=True)
+    build_results_cmd.add_argument("--output", type=Path, required=True)
+    build_results_cmd.set_defaults(func=_experiment_build_results)
+
+    verify_results_cmd = experiment_sub.add_parser("verify-results", help="Verify results bind to the exact preregistration and derived evidence")
+    verify_results_cmd.add_argument("--prereg", type=Path, required=True)
+    verify_results_cmd.add_argument("--results", type=Path, required=True)
+    verify_results_cmd.set_defaults(func=_experiment_verify_results)
+
+    leakage = experiment_sub.add_parser("audit-leakage", help="Run bounded natural-gas/futures leakage checks")
+    leakage.add_argument("--checks", type=Path, required=True)
+    leakage.set_defaults(func=_experiment_audit_leakage)
+
+    reproduce_exp = experiment_sub.add_parser("reproduce", help="Verify logical or byte reproduction")
+    reproduce_exp.add_argument("--reference", type=Path, required=True)
+    reproduce_exp.add_argument("--candidate", type=Path, required=True)
+    reproduce_exp.add_argument("--tolerance", type=Path, required=True)
+    reproduce_exp.add_argument("--byte", action="store_true")
+    reproduce_exp.set_defaults(func=_experiment_reproduce)
+
+    summary_exp = experiment_sub.add_parser("executive-summary", help="Generate the compact six-part operator summary from interpretation authority")
+    summary_exp.add_argument("--prereg", type=Path, required=True)
+    summary_exp.add_argument("--results", type=Path, required=True)
+    summary_exp.add_argument("--interpretation", type=Path, required=True)
+    summary_exp.add_argument("--output", type=Path, required=True)
+    summary_exp.set_defaults(func=_experiment_summary)
 
     doctor = sub.add_parser("doctor")
     doctor.set_defaults(func=_doctor)

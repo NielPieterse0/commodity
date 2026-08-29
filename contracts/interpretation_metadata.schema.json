@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://commodity.local/contracts/interpretation-metadata/v1",
+  "title": "Commodity Interpretation Metadata",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "experiment_id", "prereg_sha256", "results_sha256", "human_disposition"],
+  "properties": {
+    "schema_version": {"const": 1},
+    "experiment_id": {"type": "string", "minLength": 1},
+    "prereg_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "results_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "human_disposition": {"enum": ["advance", "replicate", "refine", "branch", "hold", "stop"]}
+  }
+}

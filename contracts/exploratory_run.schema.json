@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://commodity.local/contracts/exploratory-run/v1",
+  "title": "Commodity Exploratory Run Record",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "run_id", "parent_question", "purpose", "inputs", "change", "result", "promotion_decision"],
+  "properties": {
+    "schema_version": {"const": 1},
+    "run_id": {"type": "string", "minLength": 1},
+    "parent_question": {"type": "string", "minLength": 1},
+    "purpose": {"type": "string", "minLength": 1},
+    "inputs": {"type": "object"},
+    "change": {"type": "string", "minLength": 1},
+    "result": {"type": "object"},
+    "promotion_decision": {"enum": ["discard", "continue", "promote"]},
+    "promoted_to": {"type": ["string", "null"]}
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "programme_id": "commodity-ng",
+  "mission": "Determine whether Commodity can develop a defensible natural-gas forecasting or trading edge.",
+  "current_scan_id": "programme-evidence-map-2026-08-29",
+  "refresh_triggers": [
+    "major_research_line_exhausted",
+    "several_experiments_change_beliefs",
+    "important_external_evidence_changes",
+    "next_major_branch_selection"
+  ],
+  "research_lines": [],
+  "feasibility_map": [],
+  "semantics": {
+    "selection_rule": "Choose confirmatory slices for expected information value, not technical novelty.",
+    "empirical_execution_authority": false,
+    "experiment_gate_owner": "contracts/prereg.schema.json"
+  }
+}

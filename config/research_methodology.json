@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "methodology_id": "immutable-hypothesis-experiment-v1",
+  "issue": 249,
+  "parent_portfolio_issue": 244,
+  "status": "active_for_new_research_after_merge",
+  "new_confirmatory_execution_requires": [
+    "valid_preregistration",
+    "passed_mepi_power_gate",
+    "programme_inference_registration",
+    "sealed_window_eligibility_if_used",
+    "remote_bound_preregistration_freeze"
+  ],
+  "legacy_evidence": {
+    "completed_v1_v2_rewritten": false,
+    "authority": ["config/experiment.json", "config/experiment_candidates.json", "contracts/experiment.schema.json"]
+  },
+  "truth_classes": ["PROVEN", "CHECKED", "RECORDED"],
+  "evidence_levels": ["E0", "E1", "E2", "E3", "E4", "E5", "E6"],
+  "human_dispositions": ["advance", "replicate", "refine", "branch", "hold", "stop"],
+  "execution_authority": false,
+  "trading_policy_owner": "config/policy.json"
+}
