@@ -13,7 +13,7 @@ A GitHub repository does not establish market-data truth, historical availabilit
 
 ## Approved research-source families
 
-Official U.S. EIA, CFTC, NOAA/NCEI and CME sources are approved for their relevant research roles. Databento historical data already purchased for this project is approved for private research/backtesting subject to integrity verification; raw licensed values remain local and redistribution is not approved. Massive Futures may be evaluated behind the provider boundary while its project-use rights remain subject to the recorded licensing decision.
+Official U.S. EIA, CFTC, NOAA/NCEI and CME sources are approved for their relevant research roles. Databento historical data already purchased for this project is approved for private research/backtesting subject to integrity verification; raw licensed values remain local and redistribution is not approved. Massive Futures may be evaluated behind the provider boundary, but project-use rights for non-display/backtesting remain unresolved; it must not be promoted for that use until this licensing boundary is explicitly resolved here.
 
 European and Norwegian official/public-source families — including ENTSOG, GIE, ENTSO-E, Norwegian Offshore Directorate, Gassco, SSB, Statnett/NVE, MET Norway and Norges Bank — are approved for research evaluation/acquisition subject to their individual terms and point-in-time suitability.
 

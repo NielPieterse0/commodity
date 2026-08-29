@@ -28,7 +28,7 @@ docs/             durable human explanation
 docs/development/ legacy historical change evidence only
 ```
 
-A scientific experiment and a software change may be related, but they are different records. New confirmatory and exploratory research follows the #249 lifecycle under `research/`; implementation notes do not substitute for scientific records.
+A scientific experiment and a software change may be related, but they are different records. New confirmatory research follows the #249 immutable preregistration/results lifecycle under `research/experiments/`. Exploratory and diagnostic runs use `contracts/exploratory_run.schema.json` with records under `research/exploratory/`. Implementation notes do not substitute for either kind of scientific record.
 ## Drift rule
 
 A maintained document should not copy a value that can change independently. Provider status, model pins, exact metrics, experiment state, issue state, dataset identities, runtime versions, and execution permissions belong to their assigned owners. Maintained docs state the durable rule or consequence and link to the owner.
