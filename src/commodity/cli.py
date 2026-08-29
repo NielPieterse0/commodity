@@ -58,10 +58,13 @@ from commodity.research_methodology import (
     assert_confirmatory_execution_allowed,
     audit_leakage,
     build_results,
+    execute_reproduction,
+    record_family_inference,
     record_inference_outcome,
     record_sealed_opening,
     register_inference_entry,
     render_executive_summary_from_interpretation,
+    update_programme_evidence_map,
     validate_inference_ledger,
     validate_programme_context,
     validate_sealed_policy,
@@ -680,6 +683,7 @@ def _experiment_build_results(args: argparse.Namespace) -> None:
         run_id=str(run["run_id"]),
         code=run["code"],
         data=run["data"],
+        features=run.get("features"),
         model=run["model"],
         environment=run["environment"],
         raw_evidence=run["raw_evidence"],
@@ -695,13 +699,21 @@ def _experiment_build_results(args: argparse.Namespace) -> None:
         details = "; ".join(error.message for error in schema_errors[:5])
         raise MethodologyError(f"results violate results.schema.json: {details}")
     write_immutable_json(Path(args.output), results)
+    updated_ledger = ledger
+    if results.get("family_inference") is not None:
+        updated_ledger = record_family_inference(updated_ledger, results["family_inference"])
     updated_ledger = record_inference_outcome(
-        ledger,
+        updated_ledger,
         prereg["experiment_id"],
         f"{verified['scientific_evidence']}:{verified['method_compliance']}",
     )
     write_json(Path(args.ledger), updated_ledger)
-    print(json.dumps(verified, indent=2, sort_keys=True))
+    programme_path = Path(args.programme_evidence)
+    programme = load_methodology_json(programme_path)
+    new_scan_id = args.new_scan_id or f"{programme['current_scan_id']}:after:{prereg['experiment_id']}"
+    updated_programme = update_programme_evidence_map(programme, prereg, results, new_scan_id=new_scan_id)
+    write_json(programme_path, updated_programme)
+    print(json.dumps({**verified, "programme_scan_id": new_scan_id}, indent=2, sort_keys=True))
 
 
 def _experiment_verify_results(args: argparse.Namespace) -> None:
@@ -714,15 +726,25 @@ def _experiment_audit_leakage(args: argparse.Namespace) -> None:
     checks = load_methodology_json(Path(args.checks))
     findings = audit_leakage(checks)
     print(json.dumps({"findings": findings}, indent=2, sort_keys=True))
-    if any("violation" in item["message"].lower() or "incomplete" in item["message"].lower() for item in findings):
+    if any("failed" in item["message"].lower() or "incomplete" in item["message"].lower() for item in findings):
         raise SystemExit(2)
 
 
 def _experiment_reproduce(args: argparse.Namespace) -> None:
     reference = load_methodology_json(Path(args.reference))
-    candidate = load_methodology_json(Path(args.candidate))
     tolerance = load_methodology_json(Path(args.tolerance))
-    print(json.dumps(verify_reproduction(reference, candidate, tolerance, byte_mode=args.byte), indent=2, sort_keys=True))
+    if args.command:
+        if args.output is None:
+            raise MethodologyError("reproduce --command requires --output")
+        command_spec = load_methodology_json(Path(args.command))
+        argv = command_spec.get("argv")
+        result = execute_reproduction(argv, Path(args.output), reference, tolerance, cwd=Path(args.cwd))
+    else:
+        if args.candidate is None:
+            raise MethodologyError("reproduce requires --candidate or --command")
+        candidate = load_methodology_json(Path(args.candidate))
+        result = verify_reproduction(reference, candidate, tolerance, byte_mode=args.byte)
+    print(json.dumps(result, indent=2, sort_keys=True))
 
 
 def _experiment_summary(args: argparse.Namespace) -> None:
@@ -1018,6 +1040,8 @@ def build_parser() -> argparse.ArgumentParser:
     build_results_cmd.add_argument("--freeze", type=Path, required=True)
     build_results_cmd.add_argument("--ledger", type=Path, default=methodology_ledger)
     build_results_cmd.add_argument("--sealed-registry", type=Path, default=REPO_ROOT / "config/sealed_windows.json")
+    build_results_cmd.add_argument("--programme-evidence", type=Path, default=REPO_ROOT / "config/programme_evidence_map.json")
+    build_results_cmd.add_argument("--new-scan-id")
     build_results_cmd.add_argument("--run-evidence", type=Path, required=True)
     build_results_cmd.add_argument("--checks", type=Path, required=True)
     build_results_cmd.add_argument("--output", type=Path, required=True)
@@ -1032,9 +1056,12 @@ def build_parser() -> argparse.ArgumentParser:
     leakage.add_argument("--checks", type=Path, required=True)
     leakage.set_defaults(func=_experiment_audit_leakage)
 
-    reproduce_exp = experiment_sub.add_parser("reproduce", help="Verify logical or byte reproduction")
+    reproduce_exp = experiment_sub.add_parser("reproduce", help="Verify supplied output or execute a governed local reproduction command")
     reproduce_exp.add_argument("--reference", type=Path, required=True)
-    reproduce_exp.add_argument("--candidate", type=Path, required=True)
+    reproduce_exp.add_argument("--candidate", type=Path)
+    reproduce_exp.add_argument("--command", type=Path, help="JSON object containing argv for governed local reproduction")
+    reproduce_exp.add_argument("--output", type=Path, help="Declared output produced by --command")
+    reproduce_exp.add_argument("--cwd", type=Path, default=REPO_ROOT)
     reproduce_exp.add_argument("--tolerance", type=Path, required=True)
     reproduce_exp.add_argument("--byte", action="store_true")
     reproduce_exp.set_defaults(func=_experiment_reproduce)

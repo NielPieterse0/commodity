@@ -20,6 +20,27 @@ from commodity.research_methodology import (
 )
 
 
+def bounded_leakage_checks(root) -> dict:
+    names = (
+        "pit_cutoffs", "vintage_timing", "roll_contract_identity", "release_calendar",
+        "overlapping_horizons", "event_windows", "join_cardinality", "feature_availability",
+    )
+    checks = {}
+    for name in names:
+        path = root / f"{name}.json"
+        path.write_text('{"observed": 0}\n', encoding="utf-8")
+        import hashlib
+        checks[name] = {"operator": "eq", "expected": 0, "evidence_path": str(path), "evidence_sha256": hashlib.sha256(path.read_bytes()).hexdigest()}
+    return checks
+
+
+def numeric_raw_evidence() -> dict:
+    return {
+        "primary": {"effect": 0.15, "p_value": 0.01, "alpha": 0.05, "scientific_mepi": 0.10},
+        "metrics": {},
+    }
+
+
 def test_experiment_cli_exposes_full_governed_surface() -> None:
     parser = build_parser()
     commands = [
@@ -66,23 +87,19 @@ def test_checked_findings_cannot_overclaim_no_leakage() -> None:
     assert finding["truth_class"] == "CHECKED"
 
 
-def test_results_bind_exact_prereg_and_machine_derive_evidence() -> None:
+def test_results_bind_exact_prereg_and_machine_derive_evidence(tmp_path) -> None:
     prereg = sample_prereg()
-    checks = {name: True for name in (
-        "pit_cutoffs", "vintage_timing", "roll_contract_identity", "release_calendar",
-        "overlapping_horizons", "event_windows", "join_cardinality", "feature_availability",
-    )}
-    findings = audit_leakage(checks)
+    findings = audit_leakage(bounded_leakage_checks(tmp_path))
     results = build_results(
         prereg,
         run_id="run-1",
-        code={"commit_sha": "abc"},
-        data={"dataset_id": "d1"},
-        model={"configuration_id": "ridge-v1"},
+        code={"commit_sha": "abc", "working_tree_dirty": False},
+        data={"dataset_id": "d1", "vintage_id": "v1", "split_id": "split-1"},
+        model={"family": "baseline", "configuration_id": "ridge-v1", "checkpoint_id": None},
         environment={"runtime": "python"},
-        raw_evidence={"evidence_flags": {"interesting_signal": True, "statistical_support": True}},
+        raw_evidence=numeric_raw_evidence(),
         verification=findings,
-        coherence={"enhanced_audit_required": False},
+        coherence={"audit_completed": True},
         artifacts=[],
     )
     verified = verify_results(prereg, results)
@@ -213,10 +230,15 @@ def test_results_method_compliance_fails_on_detected_leakage_and_is_incomplete_o
 
 def test_results_require_completed_enhanced_coherence_audit_when_triggered() -> None:
     prereg = sample_prereg()
+    prereg["coherence_triggers"] = [
+        {"id": "too_good", "direction": "unexpectedly_good", "metric": "benchmark_improvement", "operator": "gte", "threshold": 0.10},
+        {"id": "wrong_sign", "direction": "unexpectedly_bad", "metric": "mechanism_sign", "operator": "lte", "threshold": -0.01},
+    ]
+    raw = numeric_raw_evidence()
+    raw["metrics"] = {"benchmark_improvement": 0.12, "mechanism_sign": 1.0}
     results = build_results(
         prereg, run_id="r-coherence", code={}, data={}, model={}, environment={},
-        raw_evidence={"evidence_flags": {}}, verification=[],
-        coherence={"enhanced_audit_required": True, "audit_completed": False}, artifacts=[]
+        raw_evidence=raw, verification=[], coherence={"audit_completed": False}, artifacts=[]
     )
     assert results["method_compliance"] == "INCOMPLETE"
 
@@ -254,10 +276,7 @@ def test_build_results_rejects_invalid_schema_before_writing_immutable_artifact(
         "programme_context": {"status": "selected_and_feasible", "sha256": "1" * 64},
         "binding": {"preregistration_remote_bound": "verified", "prereg_sha256": prereg_sha},
     }
-    checks = {name: True for name in (
-        "pit_cutoffs", "vintage_timing", "roll_contract_identity", "release_calendar",
-        "overlapping_horizons", "event_windows", "join_cardinality", "feature_availability",
-    )}
+    checks = bounded_leakage_checks(tmp_path)
     run = {
         "run_id": "run-invalid-schema",
         "code": {},
@@ -284,7 +303,7 @@ def test_build_results_rejects_invalid_schema_before_writing_immutable_artifact(
         "--sealed-registry", str(paths["sealed"]), "--run-evidence", str(paths["run"]),
         "--checks", str(paths["checks"]), "--output", str(paths["output"]),
     ])
-    with pytest.raises(MethodologyError, match="results.schema.json"):
+    with pytest.raises(MethodologyError, match="identity|results.schema.json"):
         args.func(args)
     assert not paths["output"].exists()
     assert json.loads(paths["ledger"].read_text(encoding="utf-8"))["entries"][0]["outcome"] is None

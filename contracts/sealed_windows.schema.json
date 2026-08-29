@@ -9,9 +9,13 @@
     "schema_version": {"const": 1},
     "windows": {"type": "array", "items": {
       "type": "object", "additionalProperties": false,
-      "required": ["sealed_window_id", "eligibility", "permitted_openings", "openings"],
+      "required": ["sealed_window_id", "dataset_id", "start", "end", "content_sha256", "eligibility", "permitted_openings", "openings"],
       "properties": {
         "sealed_window_id": {"type": "string", "minLength": 1},
+        "dataset_id": {"type": "string", "minLength": 1},
+        "start": {"type": "string", "minLength": 1},
+        "end": {"type": "string", "minLength": 1},
+        "content_sha256": {"type": "string", "pattern": "^[0-9a-fA-F]{64}$"},
         "eligibility": {"enum": ["eligible", "ineligible", "exhausted"]},
         "permitted_openings": {"type": "integer", "minimum": 1},
         "openings": {"type": "array", "items": {"type": "object", "required": ["opening_number", "experiment_id", "artifacts_exposed"], "properties": {"opening_number": {"type": "integer", "minimum": 1}, "experiment_id": {"type": "string"}, "artifacts_exposed": {"type": "array"}}}}

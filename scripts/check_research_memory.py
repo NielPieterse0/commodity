@@ -35,9 +35,12 @@ def experiment_records() -> list[Path]:
     if not root.exists():
         return []
     completed = sorted(path for path in root.iterdir() if path.is_dir() and (path / "results.json").exists())
-    missing = [path.name for path in completed if not (path / "record.json").exists()]
-    if missing:
-        raise ValueError(f"completed experiments lack durable record.json: {missing}")
+    missing_records = [path.name for path in completed if not (path / "record.json").exists()]
+    if missing_records:
+        raise ValueError(f"completed experiments lack durable record.json: {missing_records}")
+    missing_summaries = [path.name for path in completed if not (path / "executive-summary.md").exists()]
+    if missing_summaries:
+        raise ValueError(f"completed experiments lack required executive-summary.md: {missing_summaries}")
     return [path / "record.json" for path in completed]
 
 
