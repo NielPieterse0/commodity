@@ -158,3 +158,44 @@ def test_research_metrics_check_invalid_ledger_fails_closed(tmp_path, capsys) ->
     output = json.loads(capsys.readouterr().out)
     assert output["status"] == "blocked"
     assert output["blockers"][0].startswith("invalid_ledger:")
+
+
+def test_experiment_verify_power_parser() -> None:
+    args = build_parser().parse_args([
+        "experiment", "verify-power", "--prereg", "research/experiments/x/prereg.json"
+    ])
+    assert args.prereg == Path("research/experiments/x/prereg.json")
+
+
+def test_experiment_freeze_parser_requires_binding_inputs() -> None:
+    args = build_parser().parse_args([
+        "experiment", "freeze", "exp-x", "--prereg", "research/experiments/x/prereg.json",
+        "--tag", "experiment/exp-x/v1", "--output", "research/experiments/x/freeze.json",
+    ])
+    assert args.experiment_id == "exp-x"
+    assert args.tag == "experiment/exp-x/v1"
+    assert args.output == Path("research/experiments/x/freeze.json")
+
+
+def test_experiment_verify_results_and_summary_parsers() -> None:
+    verify_args = build_parser().parse_args([
+        "experiment", "verify-results", "--prereg", "p.json", "--results", "r.json"
+    ])
+    assert verify_args.results == Path("r.json")
+    summary_args = build_parser().parse_args([
+        "experiment", "executive-summary", "--prereg", "p.json", "--results", "r.json",
+        "--interpretation", "interpretation.md", "--output", "executive-summary.md",
+    ])
+    assert summary_args.output == Path("executive-summary.md")
+
+
+def test_experiment_audit_leakage_and_reproduce_parsers() -> None:
+    audit_args = build_parser().parse_args([
+        "experiment", "audit-leakage", "--checks", "checks.json"
+    ])
+    assert audit_args.checks == Path("checks.json")
+    reproduce_args = build_parser().parse_args([
+        "experiment", "reproduce", "--reference", "reference.json", "--candidate", "candidate.json",
+        "--tolerance", "tolerance.json",
+    ])
+    assert reproduce_args.byte is False

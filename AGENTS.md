@@ -31,9 +31,15 @@ Build a reproducible system that can:
 | Revisable research assumptions and decision-needed defaults | `config/assumptions.json` |
 | Data providers, operational source status, availability rules, canonical-evidence gates | `config/data_sources.json` |
 | Model enablement, model pins, hardware/runtime model settings | `config/models.json` |
-| Active experiment definition | `config/experiment.json` |
-| Candidate experiment definitions | `config/experiment_candidates.json` |
-| Experiment-record contract | `contracts/experiment.schema.json` |
+| Completed V1/V2 legacy experiment definitions and evidence pointers | `config/experiment.json`, `config/experiment_candidates.json`, `contracts/experiment.schema.json` |
+| New-research methodology activation/gates | `config/research_methodology.json` |
+| Future confirmatory preregistration contract | `contracts/prereg.schema.json` |
+| Future confirmatory results contract | `contracts/results.schema.json` |
+| Future confirmatory experiment artifact directory (`prereg.json`, `results.json`, `interpretation.md`, generated `executive-summary.md`, freeze evidence) | `research/experiments/<experiment-id>/` |
+| Programme evidence/feasibility map | `config/programme_evidence_map.json` |
+| Programme inference ledger | `config/programme_inference_ledger.json` |
+| Sealed confirmation registry | `config/sealed_windows.json` |
+| Exploratory/diagnostic run contract and records | `contracts/exploratory_run.schema.json`, `research/exploratory/*.json` |
 | Longitudinal research metrics contract | `contracts/research_metrics.schema.json` |
 | Longitudinal stage metrics, comparison policy, and regression dispositions | `artifacts/research-metrics/longitudinal-ledger.json` |
 | Research maturity stages | `config/research_stages.json` |
@@ -57,6 +63,8 @@ Build a reproducible system that can:
 - If two documents conflict, the owner assigned above wins. Resolve the non-owner by replacing duplicated authority with a reference where practical.
 - `docs/development/<slice>/` records evidence at a point in time. Historical evidence does not become current operational authority unless an authoritative owner explicitly adopts it.
 - Raw/ignored snapshots are evidence inputs, not repository authority. Commit only safe provenance summaries needed to support authoritative decisions.
+
+Completed V1/V2 experiment records remain legacy evidence under the contracts that governed them; do not retrospectively preregister or rewrite them. Any new or still-design-stage confirmatory experiment must use the future-methodology authorities above and pass the immutable preregistration gate before empirical execution.
 
 Research remains separated from trading authority; `config/policy.json` alone decides whether execution is permitted.
 
@@ -84,6 +92,7 @@ Live trading is out of scope until simulation evidence, execution controls and a
 - Treat authoritative ownership as the change boundary: update the owner first, then all dependants, tests, provenance and documentation.
 - Prefer simple baselines before increasing model complexity, and prefer cheap instrument/target screening before expensive model or data acquisition work after the Henry Hub reference implementation is complete.
 - Record datasets, features, model parameters, predictions and evaluation results so experiments are reproducible and comparable across instruments.
+- Every new confirmatory experiment runner MUST call the #249 execution gate and prove an exact remote-bound preregistration, programme-inference registration, and any required sealed-window eligibility before it can access protected outcomes or produce confirmatory results.
 
 ## Working Area
 

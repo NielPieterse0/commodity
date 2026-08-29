@@ -27,6 +27,14 @@ jobs:
         run: |
           python -m pip install -r requirements.lock.txt
           python -m pip install -e . --no-deps
+      - name: experiment-schema
+        run: python scripts/check_research_methodology.py --check experiment-schema
+      - name: experiment-freeze-integrity
+        run: python scripts/check_research_methodology.py --check experiment-freeze-integrity
+      - name: experiment-verification
+        run: python scripts/check_research_methodology.py --check experiment-verification
+      - name: programme-inference-integrity
+        run: python scripts/check_research_methodology.py --check programme-inference-integrity
       - name: Test
         run: python -m pytest -q
       - name: Lint

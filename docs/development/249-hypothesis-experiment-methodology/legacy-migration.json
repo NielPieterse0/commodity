@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "issue": 249,
+  "policy": "Completed V1/V2 experiment authority is preserved byte-for-byte at #249 adoption; no retrospective preregistration.",
+  "legacy_authority": [
+    {
+      "path": "config/experiment.json",
+      "sha256": "ea6cd135c59687d1bfa382cac9eb64162d8db2ab0bc41c5b98f4a5dbce07dafb"
+    },
+    {
+      "path": "config/experiment_candidates.json",
+      "sha256": "d24cbbefdb46dd823b1c85d9fbd251bad3b81c4a4c7ba23358fd1cd859901af7"
+    },
+    {
+      "path": "contracts/experiment.schema.json",
+      "sha256": "7d0210eab499fdbf712086d02cfb75b19fe1f50b6d0acc791c8800ff6e145f45"
+    }
+  ]
+}
