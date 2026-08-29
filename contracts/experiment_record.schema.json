@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://commodity.local/contracts/experiment-record/v1",
+  "title": "Commodity Durable Experiment Record",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "experiment_id", "orientation", "context", "frozen_setup", "outcome", "learning", "programme_consequence", "decisions", "recommendations", "open_questions"],
+  "properties": {
+    "schema_version": {"const": 1},
+    "experiment_id": {"type": "string", "minLength": 1},
+    "orientation": {"type": "string", "minLength": 20, "maxLength": 800},
+    "context": {"type": "object", "additionalProperties": false, "required": ["big_picture_ref", "origin_refs", "programme_question"], "properties": {"big_picture_ref": {"const": "docs/big-picture.md"}, "origin_refs": {"type": "array", "items": {"type": "string", "minLength": 1}}, "programme_question": {"type": "string", "minLength": 1}}},
+    "frozen_setup": {"$ref": "#/$defs/artifact_ref"},
+    "outcome": {"type": "object", "additionalProperties": false, "required": ["results", "interpretation"], "properties": {"results": {"$ref": "#/$defs/artifact_ref"}, "interpretation": {"$ref": "#/$defs/artifact_ref"}}},
+    "learning": {"type": "string", "minLength": 1},
+    "programme_consequence": {"type": "string", "minLength": 1},
+    "decisions": {"type": "array", "items": {"$ref": "#/$defs/decision"}},
+    "recommendations": {"type": "array", "items": {"$ref": "#/$defs/followup"}},
+    "open_questions": {"type": "array", "items": {"$ref": "#/$defs/followup"}}
+  },
+  "$defs": {
+    "artifact_ref": {"type": "object", "additionalProperties": false, "required": ["path", "sha256"], "properties": {"path": {"type": "string", "minLength": 1}, "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}}},
+    "decision": {"type": "object", "additionalProperties": false, "required": ["id", "decision", "status"], "properties": {"id": {"type": "string", "minLength": 1}, "decision": {"type": "string", "minLength": 1}, "status": {"enum": ["active", "superseded"]}, "superseded_by": {"type": ["string", "null"]}}},
+    "followup": {"type": "object", "additionalProperties": false, "required": ["id", "item", "status"], "properties": {"id": {"type": "string", "minLength": 1}, "item": {"type": "string", "minLength": 1}, "status": {"enum": ["open", "resolved", "rejected"]}, "work_ref": {"type": ["string", "null"]}, "resolution_ref": {"type": ["string", "null"]}}}
+  }
+}

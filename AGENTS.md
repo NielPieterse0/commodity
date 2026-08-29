@@ -39,7 +39,10 @@ After reading this file, every repository work session that may read, change, te
 | New-research methodology activation/gates | `config/research_methodology.json` |
 | Future confirmatory preregistration contract | `contracts/prereg.schema.json` |
 | Future confirmatory results contract | `contracts/results.schema.json` |
-| Future confirmatory experiment artifact directory (`prereg.json`, `results.json`, `interpretation.md`, generated `executive-summary.md`, freeze evidence) | `research/experiments/<experiment-id>/` |
+| Future confirmatory experiment evidence and durable knowledge record (`prereg.json`, freeze evidence, `results.json`, `interpretation.md`, `record.json`, generated `executive-summary.md`) | `research/experiments/<experiment-id>/` |
+| Durable programme decisions derived from experiment records | `research/programme-decisions.json` (validated projection; source authority remains each experiment `record.json`) |
+| Open research recommendations/questions derived from experiment records | `research/research-backlog.json` (validated projection; source authority remains each experiment `record.json`) |
+| Maintained-document ownership and deterministic documentation boundaries | `config/documentation_authority.json` |
 | Programme evidence/feasibility map | `config/programme_evidence_map.json` |
 | Programme inference ledger | `config/programme_inference_ledger.json` |
 | Sealed confirmation registry | `config/sealed_windows.json` |
@@ -57,7 +60,6 @@ After reading this file, every repository work session that may read, change, te
 | Research milestone sequence | `docs/roadmap.md` |
 | Human research methodology | `docs/research-methodology.md` |
 | Programme big-picture narrative | `docs/big-picture.md` |
-| Explanatory component and repository architecture | `docs/architecture/` |
 | Legacy slice-specific plans/reviews/provenance evidence | `docs/development/<slice>/` (historical only; no new change docs) |
 | Temporary change/slice working documentation | `.work/changes/<issue>-<slug>/` |
 | Onboarding projection only | `README.md` |

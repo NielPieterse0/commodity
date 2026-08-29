@@ -26,7 +26,8 @@ IDEA -> PREREGISTER -> FREEZE -> EXECUTE -> VERIFY -> INTERPRET -> DECIDE
 4. Execution produces evidence and results separately from the frozen commitment.
 5. Repository checks verify identity, eligibility, accounting, and required methodology gates.
 6. A human interprets the verified result in context.
-7. The result informs whether the programme advances, replicates, refines, branches, holds, or stops.
+7. The completed experiment writes one compact durable `record.json` linking the big-picture origin, exact frozen setup, outcome, interpretation, learning, programme consequence, decisions, recommendations, and open questions.
+8. Decisions and unresolved follow-ups are projected into the programme decision register and research backlog, while the experiment record remains their source authority.
 
 ## What is immutable
 

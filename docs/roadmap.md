@@ -18,6 +18,10 @@ DATA TRUTH -> BASELINES -> SIGNAL FAMILIES -> DECISION SYSTEM -> FORWARD TEST ->
 | **V4 — Forward validation** | Frozen decisions, live-vintage capture, simulation/paper execution and drift monitoring | Forward evidence supports the research assumptions |
 | **V5 — Controlled execution** | Replaceable broker adapter and explicit operating controls | Binding policy and explicit human approval permit it |
 
+## System flow
+
+The reusable system progresses through instrument feasibility, point-in-time data truth, market context and complementary signal producers, validation/calibration and signal combination, bounded trade/risk decisions, execution adapters with realistic costs, then forward monitoring and explicit promotion. Instrument-specific calendars, roll rules, source mappings, fundamentals and broker mappings stay behind configuration or bounded adapters rather than entering reusable core logic.
+
 ## Replication after the reference market
 
 New instruments enter through feasibility screening, instrument/data adapters, point-in-time validation, simple baselines, the existing signal ladder, instrument-specific hypotheses, decision/risk evaluation, and forward validation. Replication is not permission to search many markets for the best historical backtest.
