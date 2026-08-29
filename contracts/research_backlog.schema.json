@@ -1,0 +1,12 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://commodity.local/contracts/research-backlog/v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "generated_projection", "items"],
+  "properties": {
+    "schema_version": {"const": 1},
+    "generated_projection": {"const": true},
+    "items": {"type": "array", "items": {"type": "object", "additionalProperties": false, "required": ["id", "item", "kind", "status", "source_record"], "properties": {"id": {"type": "string", "minLength": 1}, "item": {"type": "string", "minLength": 1}, "kind": {"enum": ["recommendation", "open_question"]}, "status": {"const": "open"}, "source_record": {"type": "string", "minLength": 1}, "work_ref": {"type": ["string", "null"]}}}}
+  }
+}

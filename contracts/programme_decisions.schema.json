@@ -1,0 +1,12 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://commodity.local/contracts/programme-decisions/v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "generated_projection", "decisions"],
+  "properties": {
+    "schema_version": {"const": 1},
+    "generated_projection": {"const": true},
+    "decisions": {"type": "array", "items": {"type": "object", "additionalProperties": false, "required": ["id", "decision", "status", "source_record"], "properties": {"id": {"type": "string", "minLength": 1}, "decision": {"type": "string", "minLength": 1}, "status": {"enum": ["active", "superseded"]}, "source_record": {"type": "string", "minLength": 1}, "superseded_by": {"type": ["string", "null"]}}}}
+  }
+}

@@ -8,7 +8,6 @@ This repository is research software, not trading advice. Live trading is disabl
 
 - [`AGENTS.md`](AGENTS.md) — repository mandate, authority map, and development rules.
 - [`docs/README.md`](docs/README.md) — documentation map and boundaries.
-- [`docs/architecture/trading-system.md`](docs/architecture/trading-system.md) — durable system architecture.
 - [`docs/big-picture.md`](docs/big-picture.md) — why the project exists, what we have learned, and how experiments connect to the whole.
 - [`docs/research-methodology.md`](docs/research-methodology.md) — plain-English research method and experiment lifecycle.
 - [`docs/roadmap.md`](docs/roadmap.md) — long-term research progression.

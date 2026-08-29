@@ -11,16 +11,15 @@ Maintained documentation is intentionally small. It explains the durable system 
 | `docs/roadmap.md` | Stable research progression from data truth to controlled execution |
 | `docs/data-manifest.md` | Desired data families and acquisition architecture |
 | `docs/THIRD_PARTY.md` | Approval, licensing, and third-party trust boundaries |
-| `docs/architecture/` | Durable explanatory architecture |
 
-Repository-level authority remains in `AGENTS.md`; contribution and security rules remain in `CONTRIBUTING.md` and `SECURITY.md`.
+Repository-level authority remains in `AGENTS.md`; contribution and security rules remain in `CONTRIBUTING.md` and `SECURITY.md`. The machine-enforced maintained-document set and ownership classes are declared in `config/documentation_authority.json`.
 
 ## Where information belongs
 
 ```text
 .work/changes/             temporary change reasoning; ignored and disposable
 .work/reference-archive/   local historical/reference material when useful; ignored
-research/                  governed scientific preregistration/results/interpretation
+research/                  governed experiment records plus generated decision/backlog projections
 artifacts/                 durable machine-produced evidence
 docs/development/           frozen legacy evidence; compatibility exception only
 config/                    mutable machine authority and policy
@@ -32,7 +31,7 @@ docs/                      small set of durable human explanations
 `docs/` is not an archive. `docs/development/` is the one frozen legacy exception because completed historical experiments bind exact paths and bytes there; moving it now would rewrite their evidence identity. Nothing new may be added there. External research packages and new development notes belong under ignored `.work/`; governed scientific records belong under `research/`.
 ## Research records are not change notes
 
-A scientific experiment and a software change may be related, but they are different records. New confirmatory research follows the immutable preregistration/results lifecycle under `research/experiments/`. Exploratory and diagnostic runs use `contracts/exploratory_run.schema.json` with records under `research/exploratory/`. `.work/` notes never substitute for either kind of scientific record.
+A scientific experiment and a software change may be related, but they are different records. New confirmatory research follows the immutable lifecycle under `research/experiments/`; each completed experiment adds a compact `record.json` that links its context, frozen setup, results, interpretation, learning, decisions, recommendations and open questions without copying the underlying evidence. `research/programme-decisions.json` and `research/research-backlog.json` are validated projections from those records. Exploratory and diagnostic runs use `contracts/exploratory_run.schema.json` with records under `research/exploratory/`. `.work/` notes never substitute for either kind of scientific record.
 
 ## Drift rule
 
