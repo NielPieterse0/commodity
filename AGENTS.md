@@ -51,9 +51,10 @@ Build a reproducible system that can:
 | Public contribution and pull-request hygiene | `CONTRIBUTING.md` |
 | Desired dataset and geographic/source acquisition architecture | `docs/data-manifest.md` |
 | Research milestone sequence | `docs/roadmap.md` |
-| Explanatory component architecture | `docs/architecture/` |
-| Slice-specific historical plans/reviews/provenance evidence | `docs/development/<slice>/` |
-| Onboarding/current-state projection only | `README.md` |
+| Explanatory component and repository architecture | `docs/architecture/` |
+| Legacy slice-specific plans/reviews/provenance evidence | `docs/development/<slice>/` (historical only; no new change docs) |
+| Temporary change/slice working documentation | `.work/changes/<issue>-<slug>/` |
+| Onboarding projection only | `README.md` |
 
 ### Single-owner rule
 
@@ -61,7 +62,8 @@ Build a reproducible system that can:
 - Other files MUST reference the owner path or stable section instead of copying its values. A summary MAY state consequences at a high level, but MUST NOT become a second source of truth for details likely to drift.
 - When information changes, update the owner first, then update only dependent references, tests, provenance, and summaries that are materially affected.
 - If two documents conflict, the owner assigned above wins. Resolve the non-owner by replacing duplicated authority with a reference where practical.
-- `docs/development/<slice>/` records evidence at a point in time. Historical evidence does not become current operational authority unless an authoritative owner explicitly adopts it.
+- `docs/development/<slice>/` is legacy historical evidence only. Do not add new change/slice documentation there; new working notes belong under ignored `.work/changes/`.
+- `.work/` is temporary and non-authoritative. Scientific evidence, machine authority, tests, runtime behavior, and maintained documentation MUST NOT depend on it.
 - Raw/ignored snapshots are evidence inputs, not repository authority. Commit only safe provenance summaries needed to support authoritative decisions.
 
 Completed V1/V2 experiment records remain legacy evidence under the contracts that governed them; do not retrospectively preregister or rewrite them. Any new or still-design-stage confirmatory experiment must use the future-methodology authorities above and pass the immutable preregistration gate before empirical execution.
@@ -96,7 +98,7 @@ Live trading is out of scope until simulation evidence, execution controls and a
 
 ## Working Area
 
-Use `.work/` for local implementation scratch, probes, temporary scripts, and other non-authoritative work. It is ignored by Git; runtime code, configuration, tests, and authoritative documentation MUST NOT depend on it.
+Use `.work/` for local implementation scratch, probes, temporary scripts, and non-authoritative change documentation. New slice/change notes belong under `.work/changes/<issue>-<slug>/`. The directory is ignored by Git and disposable after closeout; runtime code, configuration, tests, governed research records, artifacts, and maintained documentation MUST NOT depend on it.
 
 ## Mandatory Development Startup
 
