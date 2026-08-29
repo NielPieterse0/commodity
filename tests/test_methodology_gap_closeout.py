@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import math
 
-from commodity import entrypoint  # noqa: F401
+from commodity import cli, entrypoint  # noqa: F401
 from commodity import research_methodology
 from commodity.methodology_extensions import compute_effective_information
 from commodity.programme_inference import (
@@ -14,6 +14,10 @@ from commodity.programme_inference import (
 
 def test_entrypoint_installs_extended_effective_information() -> None:
     assert research_methodology.compute_effective_information is compute_effective_information
+
+
+def test_entrypoint_routes_freeze_through_registration_owner() -> None:
+    assert cli._experiment_freeze.__module__ == "commodity.entrypoint"
 
 
 def test_newey_west_effective_information_is_machine_derived() -> None:
