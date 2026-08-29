@@ -20,6 +20,10 @@ Build a reproducible system that can:
 6. forward-test the complete decision process through a simulated brokerage environment; and
 7. measure whether the integrated system survives realistic costs, regime changes, uncertainty and risk controls.
 
+## Mandatory startup skill
+
+After reading this file, every repository work session that may read, change, test, execute, or evaluate repository code/data MUST load the live KIS `data-engineering` skill before substantive work. If the skill cannot be loaded, stop rather than silently proceeding without it. This requirement applies to every execution instance, not only data-specific tasks.
+
 ## Repository Authority
 
 `AGENTS.md` is the repository authority map: it assigns ownership but does not duplicate the values owned elsewhere. Use the following owner for each class of information.
@@ -51,6 +55,8 @@ Build a reproducible system that can:
 | Public contribution and pull-request hygiene | `CONTRIBUTING.md` |
 | Desired dataset and geographic/source acquisition architecture | `docs/data-manifest.md` |
 | Research milestone sequence | `docs/roadmap.md` |
+| Human research methodology | `docs/research-methodology.md` |
+| Programme big-picture narrative | `docs/big-picture.md` |
 | Explanatory component and repository architecture | `docs/architecture/` |
 | Legacy slice-specific plans/reviews/provenance evidence | `docs/development/<slice>/` (historical only; no new change docs) |
 | Temporary change/slice working documentation | `.work/changes/<issue>-<slug>/` |
@@ -62,7 +68,7 @@ Build a reproducible system that can:
 - Other files MUST reference the owner path or stable section instead of copying its values. A summary MAY state consequences at a high level, but MUST NOT become a second source of truth for details likely to drift.
 - When information changes, update the owner first, then update only dependent references, tests, provenance, and summaries that are materially affected.
 - If two documents conflict, the owner assigned above wins. Resolve the non-owner by replacing duplicated authority with a reference where practical.
-- `docs/development/<slice>/` is legacy historical evidence only. Do not add new change/slice documentation there; new working notes belong under ignored `.work/changes/`.
+- `docs/development/<slice>/` is a frozen legacy compatibility exception: completed historical experiments bind exact paths/bytes there, so moving it would rewrite evidence identity. Do not add new records there. New change notes belong under ignored `.work/changes/`; new scientific records belong under `research/`.
 - `.work/` is temporary and non-authoritative. Scientific evidence, machine authority, tests, runtime behavior, and maintained documentation MUST NOT depend on it.
 - Raw/ignored snapshots are evidence inputs, not repository authority. Commit only safe provenance summaries needed to support authoritative decisions.
 

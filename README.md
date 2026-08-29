@@ -9,6 +9,8 @@ This repository is research software, not trading advice. Live trading is disabl
 - [`AGENTS.md`](AGENTS.md) — repository mandate, authority map, and development rules.
 - [`docs/README.md`](docs/README.md) — documentation map and boundaries.
 - [`docs/architecture/trading-system.md`](docs/architecture/trading-system.md) — durable system architecture.
+- [`docs/big-picture.md`](docs/big-picture.md) — why the project exists, what we have learned, and how experiments connect to the whole.
+- [`docs/research-methodology.md`](docs/research-methodology.md) — plain-English research method and experiment lifecycle.
 - [`docs/roadmap.md`](docs/roadmap.md) — long-term research progression.
 - [`docs/data-manifest.md`](docs/data-manifest.md) — desired data architecture.
 - [`docs/THIRD_PARTY.md`](docs/THIRD_PARTY.md) — third-party approval and licensing boundaries.
@@ -17,7 +19,7 @@ This repository is research software, not trading advice. Live trading is disabl
 
 `config/` and `contracts/` hold machine authority and contracts. `src/` implements the system. `research/` holds governed scientific records under the #249 methodology. `artifacts/` holds durable machine evidence. `docs/` explains the durable system. Temporary change reasoning belongs in ignored `.work/changes/`.
 
-Completed historical change records under `docs/development/` are legacy evidence. They remain available for traceability but are not current authority and are not the destination for new change documentation.
+`docs/development/` remains only as a frozen legacy compatibility exception because historical experiments bind exact paths and bytes there; new development notes must not be added. External reference working material belongs in ignored `.work/`, not maintained `docs/`.
 
 ## Development
 
