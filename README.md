@@ -22,10 +22,14 @@ This repository is research software, not trading advice. Live trading is disabl
 
 ## Development
 
-Create an isolated governed change through the live KIS workflow described in `AGENTS.md`. A normal local verification run is:
+Create an isolated governed change through the live KIS workflow described in `AGENTS.md`. Commodity virtual environments must use a Python runtime whose base installation is under `C:\Projects`; the repository helper rejects user-profile Python rather than silently falling back to it. Select the machine's canonical Projects-local interpreter explicitly:
 
 ```powershell
-python -m pytest -q
+$env:COMMODITY_PYTHON = '<canonical C:\Projects-local python.exe>'
+.\scripts\create_venv.ps1 -InstallLockedDependencies
+.\.venv\Scripts\python.exe -m pytest -q
 ```
+
+`COMMODITY_PYTHON` is machine-local state and is intentionally not pinned to a KIS installation path in repository authority.
 
 See `CONTRIBUTING.md` for contribution and pull-request rules, and `SECURITY.md` for secrets and local-state boundaries.
