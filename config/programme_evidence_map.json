@@ -3,6 +3,12 @@
   "programme_id": "commodity-ng",
   "mission": "Determine whether Commodity can develop a defensible natural-gas forecasting or trading edge.",
   "current_scan_id": "programme-evidence-map-2026-08-29",
+  "retrospective_synthesis": {
+    "as_of": "2026-08-31",
+    "purpose": "Preserve zoom-in/zoom-out programme memory without rewriting historical experiment authority.",
+    "historical_fact_rule": "historical_facts are summaries of cited authoritative evidence; programme_interpretation is the current programme-level reading and may change as new evidence arrives.",
+    "state_rule": "Keep rejected_by_evidence, open_untested, and interesting_observation distinct; untested is not promising and a narrow rejection is not a global rejection of an information family."
+  },
   "refresh_triggers": [
     "major_research_line_exhausted",
     "several_experiments_change_beliefs",
@@ -11,20 +17,128 @@
   ],
   "research_lines": [
     {
+      "research_line_id": "line-v1-next-session-return-baseline",
+      "status": "rejected_by_evidence",
+      "big_picture": "Establish an honest leakage-safe baseline before escalating model complexity.",
+      "why_zoomed_in": "The programme needed to know whether daily market state, seasonality and PIT exogenous context could beat a simple zero-return control.",
+      "tested_role_target_horizon": "Naive/zero, Ridge and HistGB next-session log-return forecasting at a one-session horizon under expanding walk-forward evaluation.",
+      "historical_facts": {"observed": "The frozen V1 tournament completed reproducibly and did not establish a robust predictive edge.", "rules_out": "Promotion of the tested V1 hypothesis/model ladder for this target and contract.", "does_not_rule_out": "Different targets, horizons, mechanisms, signal roles or later integrated decisions."},
+      "useful_secondary_observations": ["The zero-return baseline is a strong hurdle for later return experiments.", "V1 became the common comparison baseline rather than a promoted model."],
+      "remaining_untested_roles": ["mechanism-specific returns", "volatility", "curve/spread change", "non-forecast signal roles"],
+      "revisit_trigger": "Only revisit one-session return forecasting when a bounded mechanism or new information source changes the expected-information-value case.",
+      "programme_interpretation": "Move from generic model search toward complementary, mechanism-led signal families and stronger controls.",
+      "evidence_refs": ["config/experiment.json", "docs/development/v1-research-completion/phase-d-closeout.json"],
+      "experiment_history": [{"experiment_id": "ng-next-session-return-baseline-v1", "issue_lineage": [13,15,16,17,18,19,20,21], "result": "no_robust_edge"}]
+    },
+    {
+      "research_line_id": "line-v2-original-components",
+      "status": "mixed_closed_and_untested",
+      "big_picture": "Ask whether new model and PIT indicator families add information beyond V1 before attempting fusion.",
+      "why_zoomed_in": "V1 failed to establish an edge, so V2 decomposed the problem into Kronos and indicator/surprise components with fusion only after valid component evidence.",
+      "tested_role_target_horizon": "Kronos-only and indicator-only next-session return components, with fusion/sensitivity contingent on valid predecessors.",
+      "historical_facts": {"observed": "The original Kronos result lineage was superseded after contract/target defects; the indicator path failed closed before fit on frozen weather staleness; fusion and sensitivity never produced empirical results.", "rules_out": "Treating the original #82 result or unexecuted #84/#85 designs as evidence of an edge.", "does_not_rule_out": "Corrected same-contract model tests or future bounded uses of the underlying information families."},
+      "useful_secondary_observations": ["Fail-closed data gates prevented rescue search after a frozen input violation.", "Fusion must not proceed when component evidence is invalid or absent."],
+      "remaining_untested_roles": ["corrected model role", "future PIT indicators under a new justified contract"],
+      "revisit_trigger": "A new bounded hypothesis must have valid PIT inputs, same-contract comparators and independent confirmation capacity before execution.",
+      "programme_interpretation": "Preserve the negative/untested distinction and repair contract continuity before interpreting model quality.",
+      "evidence_refs": ["config/experiment_candidates.json"],
+      "experiment_history": [{"issue":82,"result":"superseded_original_lineage"},{"issue":83,"result":"fail_closed_before_fit"},{"issue":84,"result":"not_executed"},{"issue":85,"result":"not_executed"}]
+    },
+    {
+      "research_line_id": "line-corrected-kronos-direct-return",
+      "status": "rejected_by_evidence",
+      "big_picture": "Retest Kronos only after fixing target and contract continuity so the result is comparable and auditable.",
+      "why_zoomed_in": "The original Kronos lineage could not support a trustworthy model conclusion; a corrected frozen three-checkpoint comparison was required.",
+      "tested_role_target_horizon": "Kronos Mini/Small/Base as direct one-step next-session return forecasters on 204 common OOS rows.",
+      "historical_facts": {"observed": "Mini RMSE 0.0616096, Small 0.0552931 and Base 0.0664801 were all worse than zero-return 0.0453231 and V1 HistGB 0.0465073; checkpoint size did not improve monotonically.", "rules_out": "Direct one-step Kronos promotion for the frozen target/grain and post-result size rescue.", "does_not_rule_out": "Kronos in a materially different bounded role, target, horizon or representation."},
+      "useful_secondary_observations": ["Model scale was not a reliable path to improvement.", "Corrected contract identity changed the scientific conclusion from ambiguous to negative."],
+      "remaining_untested_roles": ["non-return representation role", "different mechanism-specific target where separately justified"],
+      "revisit_trigger": "Only a preregistered role with a distinct mechanism, adequate effective information and fresh confirmation can reopen Kronos research.",
+      "programme_interpretation": "Retire direct one-step Kronos and change the research question before changing model size.",
+      "evidence_refs": ["artifacts/kronos-confirmation/kronos-180-corrected-three-checkpoint-v1/result.json"],
+      "experiment_history": [{"issue":180,"result":"drop_direct_one_step_kronos","rows":204}]
+    },
+    {
+      "research_line_id": "line-target-redesign-volatility-events",
+      "status": "interesting_observation_not_confirmed",
+      "big_picture": "Test whether changing the economic/statistical target reveals stronger structure than generic next-session returns.",
+      "why_zoomed_in": "Repeated return-model failures made target and mechanism selection more valuable than broader model search.",
+      "tested_role_target_horizon": "Realized-volatility/variance diagnostics followed by power-gated volatility and event-specific confirmation designs.",
+      "historical_facts": {"observed": "The HAR-style volatility diagnostic improved QLIKE by about 15.55% on 204 diagnostic rows, but protected confirmation was not opened because power gates showed detectable effects materially larger than the declared 5% MEPI.", "rules_out": "Claiming a confirmed volatility edge from the diagnostic or spending protected confirmation when the design is underpowered.", "does_not_rule_out": "Volatility or event mechanisms with materially more effective information, stronger effect size, or a different predeclared design."},
+      "useful_secondary_observations": ["Volatility persistence is the strongest positive diagnostic observation so far.", "Calendar row count is not equivalent to effective independent information."],
+      "remaining_untested_roles": ["adequately powered volatility confirmation", "mechanism-led event returns", "curve/spread change"],
+      "revisit_trigger": "Reopen only when nuisance-only feasibility shows detectable effect at or below the declared MEPI while preserving fresh confirmation.",
+      "programme_interpretation": "Keep volatility alive as an observation, not a promoted signal; make power and MEPI a precondition for protected testing.",
+      "evidence_refs": ["artifacts/volatility-diagnostic/volatility-195-gk-har-v1/summary.json", "config/sealed_windows.json"],
+      "experiment_history": [{"issue":195,"result":"diagnostic_signal_only","rows":204},{"issues":[197,201,203,205,207,209],"result":"stopped_by_power_gate_before_protected_confirmation"}]
+    },
+    {
+      "research_line_id": "line-timesfm-return-complementarity",
+      "status": "rejected_by_evidence",
+      "big_picture": "Test whether a strong external foundation time-series model adds standalone or complementary return information without widening the search adaptively.",
+      "why_zoomed_in": "A bounded zero-shot challenger could test model-family complementarity while preserving the same 204-row comparison contract.",
+      "tested_role_target_horizon": "TimesFM 2.5 zero-shot next-session return representations and exactly 12 preregistered 50/50 blends with V1 HistGB.",
+      "historical_facts": {"observed": "Standalone point forecasts did not beat zero-return; some representations were complementary to HistGB, but all 12 bounded blends failed the stronger zero-return joint gate.", "rules_out": "Promotion of the tested TimesFM return/blend programme and treating the consumed 204 rows as fresh confirmation.", "does_not_rule_out": "A new, distinct TimesFM role with its own bounded hypothesis and untouched confirmation path."},
+      "useful_secondary_observations": ["Complementarity against another model is insufficient if the combined system still fails the economic/statistical baseline.", "A bounded successor avoided turning an observation into open-ended blend search."],
+      "remaining_untested_roles": ["distinct non-return or representation roles only if programme-value justified"],
+      "revisit_trigger": "Require a new mechanism, target or role that could materially change a programme decision plus fresh confirmation capacity.",
+      "programme_interpretation": "Do not continue generic TimesFM return/blend search; preserve the complementarity observation without promoting it.",
+      "evidence_refs": ["artifacts/timesfm/timesfm-198-zero-shot-v1/result.json", "artifacts/timesfm/timesfm-226-ensemble-reanalysis-v1/result.json"],
+      "experiment_history": [{"issues":[198,223,224],"result":"standalone_not_promoted"},{"issues":[226,228],"result":"all_12_blends_failed_joint_zero_return_gate"}]
+    },
+    {
+      "research_line_id": "line-post-v2-portfolio-compression",
+      "status": "open_untested",
+      "big_picture": "Reduce research debt to a small set of decision-relevant gaps instead of executing every plausible idea.",
+      "why_zoomed_in": "Negative/null model evidence and power constraints made experiment selection itself a scientific control.",
+      "tested_role_target_horizon": "Portfolio disposition only; no empirical rerun or new protected result was authorized by this line.",
+      "historical_facts": {"observed": "Geographic expansion, professional-consensus sourcing, several event subcomponents and volatility confirmation were deferred/superseded or folded into bounded primary hypotheses; curve/spread remained a future direction.", "rules_out": "Treating every open hypothesis as an executable obligation.", "does_not_rule_out": "Deferred mechanisms when a concrete programme gap, PIT/source case and feasibility gate later justify them."},
+      "useful_secondary_observations": ["Untested possibilities are not evidence of promise.", "A future experiment should exist only when its result could change a programme decision."],
+      "remaining_untested_roles": ["curve/spread change", "mechanism-led event returns", "selected fundamentals or geographic sources only after a concrete gap is established"],
+      "revisit_trigger": "Promote a deferred idea only when it addresses a current programme gap and clears expected-information-value, PIT/source, MEPI, power and confirmation-capacity gates.",
+      "programme_interpretation": "Keep the next research branch small, mechanism-led and decision-relevant; speculative possibilities remain observations rather than backlog debt.",
+      "evidence_refs": ["docs/roadmap.md", "config/research_methodology.json"],
+      "experiment_history": [{"issue":244,"result":"portfolio_compressed"},{"issue":241,"result":"future_experiment_boundary_recorded"}]
+    },
+    {
+      "research_line_id": "line-methodology-hardening",
+      "status": "infrastructure_complete_live_commissioning_pending",
+      "big_picture": "Make future research claims machine-checkable and preserve programme memory so the project does not repeatedly rediscover why controls matter.",
+      "why_zoomed_in": "Historical defects exposed weaknesses in freeze discipline, evidence ownership, leakage verification, programme inference and experiment-memory continuity.",
+      "tested_role_target_horizon": "Methodology/control infrastructure rather than an empirical market hypothesis.",
+      "historical_facts": {"observed": "The repository now enforces immutable preregistration, separate result/interpretation/record authority, programme inference, sealed-window accounting, evidence classes, reproducibility controls and generated executive summaries; no real post-hardening confirmatory record exists yet.", "rules_out": "Treating prose discipline or remembered context as sufficient evidence control.", "does_not_rule_out": "Implementation defects that may emerge during the first real governed commissioning run."},
+      "useful_secondary_observations": ["Legacy V1/V2 evidence must remain byte/identity stable rather than being retrospectively converted.", "The first real future confirmatory experiment is also the live commissioning test of the hardened lifecycle."],
+      "remaining_untested_roles": ["first real post-hardening confirmatory record/projection lifecycle"],
+      "revisit_trigger": "Audit the lifecycle after the first real governed confirmatory experiment or whenever a control fails closed unexpectedly.",
+      "programme_interpretation": "Use the hardened lifecycle for all future confirmatory work while keeping research evidence separate from trading authority.",
+      "evidence_refs": ["config/research_methodology.json", "contracts/prereg.schema.json", "contracts/results.schema.json", "docs/research-methodology.md"],
+      "experiment_history": [{"issues":[249,253,256,258,260,261,262,263],"result":"methodology_hardened"}]
+    },
+    {
       "research_line_id": "line-next-defensible-edge",
       "status": "selected",
       "selection_basis": "high_value_gap",
+      "big_picture": "Find the smallest next experiment that can materially change the programme's belief about a tradable information mechanism.",
+      "why_zoomed_in": "Generic one-session return model search has repeatedly failed, while the strongest positive observation remains unconfirmed because effective information was inadequate.",
+      "tested_role_target_horizon": "Not yet selected; target, horizon and information family must be justified before preregistration.",
+      "historical_facts": {"observed": "No robust trading edge is established.", "rules_out": "Broad adaptive model search as the default next branch.", "does_not_rule_out": "Mechanism-led curve/spread, event, volatility or other complementary signal roles that clear feasibility before protected testing."},
+      "useful_secondary_observations": ["The integrated system still needs complementary signal families whose value survives simple baselines and realistic evidence gates."],
+      "remaining_untested_roles": ["curve/spread change", "mechanism-led event returns", "adequately powered volatility", "other complementary non-model information roles after programme-value screening"],
+      "revisit_trigger": "Refresh this selection when a candidate has quantified MEPI, dependence/effective information, source/PIT fitness and untouched confirmation capacity.",
+      "programme_interpretation": "The highest-value next branch is the first bounded mechanism-led candidate that is feasible enough to answer a real programme decision, not the newest model.",
       "evidence_refs": ["docs/big-picture.md", "docs/roadmap.md"],
-      "stopping_rules": {
-        "negative_evidence": "stop or branch when repeated governed evidence rejects the mechanism",
-        "feasible_power": "hold until the selected slice has a quantitative feasibility calculation",
-        "economic_relevance": "stop if the economic MEPI cannot be cleared",
-        "confirmation_capacity": "hold if no independent confirmation capacity remains",
-        "expected_information_value": "choose the next slice only when it can materially change a programme decision"
-      },
+      "stopping_rules": {"negative_evidence":"stop or branch when repeated governed evidence rejects the mechanism","feasible_power":"hold until the selected slice has a quantitative feasibility calculation","economic_relevance":"stop if the economic MEPI cannot be cleared","confirmation_capacity":"hold if no independent confirmation capacity remains","expected_information_value":"choose the next slice only when it can materially change a programme decision"},
       "experiment_history": []
     }
   ],
+  "current_helicopter_view": {
+    "known": ["No robust reproducible trading edge has been established.", "Generic next-session return forecasting has repeatedly failed strong simple baselines under corrected contracts.", "Research controls now prevent invalid data, underpowered confirmation and post-result rescue from being mistaken for evidence."],
+    "repeatedly_failed": ["generic one-session return model promotion", "direct one-step Kronos", "TimesFM return/blend promotion against the zero-return hurdle"],
+    "mechanisms_still_alive": ["volatility persistence as an unconfirmed diagnostic observation", "mechanism-led event returns", "curve/spread change", "other complementary signal roles only after programme-value screening"],
+    "missing_not_negative": ["adequately powered protected volatility confirmation", "future curve/spread experiment", "future mechanism-specific event experiment", "first real post-hardening confirmatory lifecycle commissioning"],
+    "integrated_system_needs": ["complementary signal families with incremental information", "calibration and uncertainty", "decision/risk integration", "realistic execution and forward validation after research promotion"],
+    "next_branch_reason": "The next experiment should maximize expected information value by testing one plausible mechanism with enough effective information to clear a declared MEPI while preserving fresh confirmation capacity."
+  },
   "feasibility_map": [
     {
       "target": "next_session_return",
@@ -45,6 +159,8 @@
   "semantics": {
     "selection_rule": "Choose confirmatory slices for expected information value, not technical novelty.",
     "empirical_execution_authority": false,
-    "experiment_gate_owner": "contracts/prereg.schema.json"
+    "experiment_gate_owner": "contracts/prereg.schema.json",
+    "legacy_evidence_rule": "Retrospective programme synthesis may summarize historical authority but must not modify or replace legacy experiment evidence identity.",
+    "follow_up_rule": "Create actionable follow-up only when it addresses a current programme gap and could materially change a programme decision."
   }
 }
