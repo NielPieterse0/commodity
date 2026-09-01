@@ -289,9 +289,14 @@
         "timezone": "America/New_York",
         "research_pit_allowed": true,
         "ordinary_conservative_day_offset": 7,
-        "supported_report_date_start": "2024-08-13",
+        "supported_report_date_start": "2024-01-01",
         "supported_report_date_end": "2026-12-22",
-        "supported_report_date_basis": "V1 start through the final report date supported by the verified 2026 CFTC release schedule; extend only by adding source-backed schedule evidence and tests here",
+        "supported_report_date_basis": "Versioned conservative replay support for retained 2024 annual evidence plus verified special/2026 schedules; ordinary historical reports use the seven-day conservative publication bound",
+        "policy_versions": [
+          {"id": "ordinary-conservative-v1", "report_date_start": "2024-01-01", "report_date_end": "2025-09-29", "rule": "ordinary_conservative_day_offset"},
+          {"id": "shutdown-special-v1", "report_date_start": "2025-09-30", "report_date_end": "2025-12-30", "rule": "special_or_ordinary_conservative"},
+          {"id": "published-schedule-v1", "report_date_start": "2025-12-31", "report_date_end": "2026-12-22", "rule": "scheduled_or_ordinary_conservative"}
+        ],
         "conservative_local_hour": 23,
         "conservative_local_minute": 59,
         "ordinary_basis": "cftc_ordinary_next_tuesday_end_of_day",
@@ -311,7 +316,8 @@
           "2025-12-02": "2025-12-17",
           "2025-12-09": "2025-12-19",
           "2025-12-16": "2025-12-23",
-          "2025-12-23": "2025-12-29"
+          "2025-12-23": "2025-12-29",
+          "2025-12-30": "2026-01-05"
         },
         "scheduled_release_dates": [
           "2026-01-05", "2026-01-09", "2026-01-16", "2026-01-23", "2026-01-30",

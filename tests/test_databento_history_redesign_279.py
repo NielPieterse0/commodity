@@ -26,7 +26,7 @@ def test_279_governed_record_and_literature_are_valid() -> None:
     record = _json("research/exploratory/databento-history-redesign-279.json")
     validate_literature_snapshot(_json(pre_path))
     validate_literature_snapshot(_json(post_path))
-    validate_exploratory_run(record)
+    validate_exploratory_run(record, allow_legacy=True)
     assert record["literature_snapshot_ref"]["sha256"] == _sha256(pre_path)
     assert record["external_triangulation"]["literature_snapshot_ref"]["sha256"] == _sha256(post_path)
 

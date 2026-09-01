@@ -21,7 +21,7 @@ def test_277_governed_record_and_literature_are_valid() -> None:
     record = _json("research/exploratory/volatility-reopening-gate-277.json")
     validate_literature_snapshot(pre)
     validate_literature_snapshot(post)
-    validate_exploratory_run(record)
+    validate_exploratory_run(record, allow_legacy=True)
     assert record["feasibility"]["decision"] == "hold"
     assert record["execution"]["protected_outcomes_accessed"] is False
     assert record["feasibility"]["evidence"]["mepi"]["value"] == 0.05

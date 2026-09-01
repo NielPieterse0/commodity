@@ -47,7 +47,7 @@ def test_experiment_cli_exposes_full_governed_surface() -> None:
         ["experiment", "verify", "--prereg", "x.json"],
         ["experiment", "verify-power", "--prereg", "x.json"],
         ["experiment", "register", "exp", "--prereg", "x.json"],
-        ["experiment", "freeze", "exp", "--prereg", "x.json", "--tag", "t", "--output", "o.json"],
+        ["experiment", "freeze", "exp", "--prereg", "x.json", "--dataset-manifest", "d.json", "--tag", "t", "--output", "o.json"],
         ["experiment", "can-run", "--prereg", "p.json", "--freeze", "f.json"],
         ["experiment", "open-sealed", "exp", "sw-1", "--prereg", "p.json", "--freeze", "f.json", "--artifacts-exposed", "metrics.json"],
         ["experiment", "build-results", "--prereg", "p.json", "--freeze", "f.json", "--run-evidence", "run.json", "--checks", "checks.json", "--output", "r.json"],
@@ -269,10 +269,11 @@ def test_build_results_cli_requires_exact_execution_gate_inputs() -> None:
 
 def test_freeze_cli_carries_sealed_registry_gate() -> None:
     args = build_parser().parse_args([
-        "experiment", "freeze", "exp", "--prereg", "p.json", "--tag", "experiment/exp/v1",
-        "--output", "freeze.json",
+        "experiment", "freeze", "exp", "--prereg", "p.json", "--dataset-manifest", "d.json",
+        "--tag", "experiment/exp/v1", "--output", "freeze.json",
     ])
     assert args.sealed_registry.as_posix().endswith("config/sealed_windows.json")
+    assert str(args.dataset_manifest).endswith("d.json")
 
 
 def test_build_results_rejects_invalid_schema_before_writing_immutable_artifact(tmp_path) -> None:

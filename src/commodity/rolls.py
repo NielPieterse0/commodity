@@ -26,10 +26,15 @@ def _prior_volume_evidence(
     previous: pd.DataFrame | None,
     current_id: str,
     next_id: str,
+    *,
+    decision_cutoff: pd.Timestamp,
 ) -> tuple[float | None, float | None]:
     if previous is None:
         return None, None
-    indexed = previous.set_index("contract_id")
+    if "available_at" not in previous.columns:
+        raise DataContractViolation("Roll volume evidence requires explicit available_at")
+    eligible = previous.loc[pd.to_datetime(previous["available_at"], utc=True) <= decision_cutoff]
+    indexed = eligible.set_index("contract_id")
     if current_id not in indexed.index or next_id not in indexed.index:
         return None, None
     current_volume = indexed.loc[current_id].get("volume")
@@ -75,6 +80,10 @@ def _build_volume_crossover_path(
     normalized = validate_contract_history(frame, schema)
     if "volume" not in normalized.columns:
         raise DataContractViolation("Roll policy requires volume")
+    if "available_at" not in normalized.columns:
+        raise DataContractViolation("Roll policy requires explicit available_at")
+    if normalized["available_at"].isna().any():
+        raise DataContractViolation("Roll policy available_at may not be null")
     dates = list(normalized["trade_date"].drop_duplicates().sort_values())
     by_date = {
         date: group.sort_values(["expiration", "contract_id"])
@@ -94,6 +103,7 @@ def _build_volume_crossover_path(
             continue
         previous_date = dates[index - 1] if index > 0 else None
         previous = by_date[previous_date] if previous_date is not None else None
+        decision_cutoff = pd.to_datetime(day["available_at"], utc=True).min()
         reason = "hold"
 
         if current is None:
@@ -132,7 +142,9 @@ def _build_volume_crossover_path(
                 )
             next_row = later.iloc[0]
             next_id = str(next_row["contract_id"])
-            prior_current, prior_next = _prior_volume_evidence(previous, current, next_id)
+            prior_current, prior_next = _prior_volume_evidence(
+                previous, current, next_id, decision_cutoff=decision_cutoff
+            )
             ledger_rows.append(_ledger_row(
                 trade_date=date,
                 old_contract=current,
@@ -162,7 +174,9 @@ def _build_volume_crossover_path(
             else:
                 next_row = later.iloc[0]
                 next_id = str(next_row["contract_id"])
-                prior_current, prior_next = _prior_volume_evidence(previous, current, next_id)
+                prior_current, prior_next = _prior_volume_evidence(
+                previous, current, next_id, decision_cutoff=decision_cutoff
+            )
                 if streak_next != next_id:
                     streak = 0
                     streak_next = next_id

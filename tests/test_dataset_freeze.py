@@ -9,6 +9,7 @@ import numpy as np
 import pandas as pd
 import pytest
 
+from commodity.data_assurance import build_reconstruction_contract
 from commodity.research_dataset import dataframe_sha256
 
 
@@ -51,8 +52,19 @@ def _manifest(frame: pd.DataFrame) -> dict:
                 "unmatched_rows": 0,
             }
         )
+    assurance = build_reconstruction_contract(
+        source_inputs=[{"id": "fixture-market", "sha256": "9" * 64}],
+        layers=[
+            {"name": "retained_source_evidence", "status": "verified", "sha256": "1" * 64},
+            {"name": "canonical_normalization", "status": "verified", "sha256": "2" * 64},
+            {"name": "pit_availability", "status": "verified", "sha256": "3" * 64},
+            {"name": "feature_construction", "status": "verified", "sha256": dataframe_sha256(frame)},
+        ],
+        transformation_sha256={"fixture_transform": "4" * 64},
+    )
     return {
         "schema_version": 1,
+        "data_assurance": assurance,
         "dataset_id": "us-ng-v1-pit-test",
         "dataset_sha256": dataframe_sha256(frame),
         "evidence_mode": "research_pit",
@@ -120,7 +132,9 @@ def test_freeze_hashes_the_config_files_resolved_at_runtime(monkeypatch, tmp_pat
 
     override = tmp_path / "config"
     override.mkdir()
-    for name in ("experiment.json", "data_sources.json"):
+    for name in (
+        "experiment.json", "data_sources.json", "assumptions.json", "research_methodology.json"
+    ):
         shutil.copy2(config.SOURCE_CONFIG_DIR / name, override / name)
     data_path = override / "data_sources.json"
     data_path.write_text(data_path.read_text(encoding="utf-8") + "\n", encoding="utf-8")
@@ -191,3 +205,28 @@ def test_freeze_preserves_evaluation_only_promotion_boundary(tmp_path: Path) -> 
     assert payload["research_promotion_eligible"] is False
     assert payload["dataset_audit"]["verdict"] == "fit-with-caveats"
     assert "evaluation_only_market_evidence" in payload["dataset_audit"]["caveats"]
+
+
+def test_freeze_rejects_missing_data_assurance(tmp_path: Path) -> None:
+    from commodity.data_assurance import DataAssuranceError
+    from commodity.dataset_freeze import freeze_full_v1_dataset
+
+    frame = _dataset()
+    manifest = _manifest(frame)
+    manifest.pop("data_assurance")
+    with pytest.raises(DataAssuranceError, match="lacks data-assurance"):
+        freeze_full_v1_dataset(frame, manifest, tmp_path)
+
+
+def test_freeze_binds_all_material_transform_modules(tmp_path: Path) -> None:
+    from commodity.dataset_freeze import freeze_full_v1_dataset
+
+    frame = _dataset()
+    frozen = freeze_full_v1_dataset(frame, _manifest(frame), tmp_path)
+    payload = json.loads((frozen / "manifest.json").read_text(encoding="utf-8"))
+    expected = {
+        "research_dataset", "availability", "features", "market_data", "rolls",
+        "roll_policy", "roll_safe_market", "exogenous_audit", "dataset_audit",
+        "dataset_freeze", "data_assurance",
+    }
+    assert expected <= set(payload["transformation_sha256"])

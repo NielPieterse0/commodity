@@ -61,6 +61,14 @@ def cftc_research_availability(report_date: str | pd.Timestamp) -> dict[str, Any
             f"{report_day.isoformat()} not in "
             f"[{coverage_start.isoformat()}, {coverage_end.isoformat()}]"
         )
+    versions = [
+        item for item in policy.get("policy_versions", [])
+        if pd.Timestamp(item["report_date_start"]).date() <= report_day
+        <= pd.Timestamp(item["report_date_end"]).date()
+    ]
+    if len(versions) != 1:
+        raise ValueError(f"CFTC report date has ambiguous/missing replay policy version: {report_day}")
+    policy_version = str(versions[0]["id"])
     report_key = report_day.isoformat()
     special = policy["special_publication_dates"].get(report_key)
     if special is not None:
@@ -86,6 +94,7 @@ def cftc_research_availability(report_date: str | pd.Timestamp) -> dict[str, Any
         "available_at": _local_end_of_day(publication_day),
         "availability_status": "reconstructed_conservative",
         "availability_basis": basis,
+        "availability_policy_version": policy_version,
     }
 
 
@@ -160,6 +169,9 @@ def normalize_disaggregated_futures_only_archive(
     rows["available_at"] = [item["available_at"] for item in availability]
     rows["availability_status"] = [item["availability_status"] for item in availability]
     rows["availability_basis"] = [item["availability_basis"] for item in availability]
+    rows["availability_policy_version"] = [
+        item["availability_policy_version"] for item in availability
+    ]
     rows["revision_status"] = "point_in_time"
     rows["source_id"] = _SOURCE_ID
     rows["source_variant"] = _SOURCE_VARIANT

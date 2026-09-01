@@ -92,8 +92,13 @@ def check_schema() -> None:
     validate_document(ROOT / "contracts/programme_inference.schema.json", ROOT / "config/programme_inference_ledger.json")
     validate_document(ROOT / "contracts/sealed_windows.schema.json", ROOT / "config/sealed_windows.json")
     methodology = load_json(ROOT / "config/research_methodology.json")
-    if methodology.get("issue") != 273 or methodology.get("execution_authority") is not False:
-        raise ValueError("research_methodology.json must retain #273 identity and no trading authority")
+    if methodology.get("issue") != 300 or methodology.get("execution_authority") is not False:
+        raise ValueError("research_methodology.json must retain #300 identity and no trading authority")
+    if methodology.get("new_exploratory_schema_version") != 3:
+        raise ValueError("new exploratory research must use assurance-bound schema_version 3")
+    confirmatory_requires = set(methodology.get("new_confirmatory_execution_requires", []))
+    if not {"verified_dataset_reconstruction", "verified_dataset_semantics"} <= confirmatory_requires:
+        raise ValueError("confirmatory methodology must require reconstruction and semantic verification")
     if tuple(methodology.get("lifecycle_stages", [])) != LIFECYCLE_STAGES:
         raise ValueError("research_methodology.json must declare the complete 15-stage lifecycle")
     validate_document(ROOT / "contracts/revisit_triggers.schema.json", ROOT / "config/research_revisit_triggers.json")
@@ -109,12 +114,14 @@ def check_schema() -> None:
     ):
         validate_literature_snapshot(load_json(literature_path))
     exploratory_root = ROOT / "research" / "exploratory"
-    legacy = set(methodology.get("legacy_exploratory_records", []))
+    legacy_versions = set(methodology.get("legacy_exploratory_schema_versions", []))
     if exploratory_root.exists():
         for record_path in sorted(exploratory_root.glob("*.json")):
             record = load_json(record_path)
-            relative = record_path.relative_to(ROOT).as_posix()
-            validate_exploratory_run(record, allow_legacy=relative in legacy)
+            validate_exploratory_run(
+                record,
+                allow_legacy=int(record.get("schema_version", 0)) in legacy_versions,
+            )
             serialized = json.dumps(record, sort_keys=True).lower()
             if "sealed_window" in serialized or "sealed confirmation" in serialized:
                 raise ValueError(f"exploratory record references sealed confirmation: {record_path.relative_to(ROOT)}")

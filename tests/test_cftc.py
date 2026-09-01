@@ -90,7 +90,7 @@ def test_cftc_availability_fails_closed_outside_supported_schedule_horizon() -> 
     assert end_boundary["available_at"] == pd.Timestamp("2026-12-29T04:59:00Z")
     assert end_boundary["availability_basis"] == "cftc_2026_release_schedule_end_of_day"
 
-    for unsupported in ("2024-08-06", "2027-01-05"):
+    for unsupported in ("2023-12-26", "2027-01-05"):
         with pytest.raises(
             ValueError, match="outside supported publication-schedule coverage"
         ):

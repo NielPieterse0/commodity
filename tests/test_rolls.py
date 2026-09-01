@@ -35,11 +35,14 @@ def _volume_contracts(
     for date, front_volume, next_volume in zip(
         dates, front_volumes, next_volumes, strict=True
     ):
+        trade_time = pd.Timestamp(date)
+        trade_time = trade_time.tz_localize("UTC") if trade_time.tzinfo is None else trade_time.tz_convert("UTC")
+        available_at = trade_time.normalize() + pd.Timedelta(hours=23, minutes=59)
         rows.extend([
             {"trade_date": date, "contract_id": "NGF26", "expiration": front_expiration,
-             "settle": 3.0, "volume": front_volume},
+             "settle": 3.0, "volume": front_volume, "available_at": available_at},
             {"trade_date": date, "contract_id": "NGG26", "expiration": "2026-02-20",
-             "settle": 3.2, "volume": next_volume},
+             "settle": 3.2, "volume": next_volume, "available_at": available_at},
         ])
     return pd.DataFrame(rows)
 
@@ -121,9 +124,9 @@ def test_volume_roll_counts_observed_sessions_across_calendar_gap() -> None:
 
 def test_volume_roll_advances_when_current_contract_is_unavailable() -> None:
     frame = pd.DataFrame([
-        {"trade_date": "2026-01-05", "contract_id": "NGF26", "expiration": "2026-01-20", "settle": 3.0, "volume": 100},
-        {"trade_date": "2026-01-05", "contract_id": "NGG26", "expiration": "2026-02-20", "settle": 3.2, "volume": 80},
-        {"trade_date": "2026-01-06", "contract_id": "NGG26", "expiration": "2026-02-20", "settle": 3.3, "volume": 90},
+        {"trade_date": "2026-01-05", "contract_id": "NGF26", "expiration": "2026-01-20", "settle": 3.0, "volume": 100, "available_at": "2026-01-05T23:59:00Z"},
+        {"trade_date": "2026-01-05", "contract_id": "NGG26", "expiration": "2026-02-20", "settle": 3.2, "volume": 80, "available_at": "2026-01-05T23:59:00Z"},
+        {"trade_date": "2026-01-06", "contract_id": "NGG26", "expiration": "2026-02-20", "settle": 3.3, "volume": 90, "available_at": "2026-01-06T23:59:00Z"},
     ])
     path, ledger = rolls.build_derived_continuous_series(
         frame, data_config()["canonical_contract_schema"], _volume_policy()
@@ -134,8 +137,8 @@ def test_volume_roll_advances_when_current_contract_is_unavailable() -> None:
 
 def test_volume_roll_fails_closed_when_current_disappears_without_later_contract() -> None:
     frame = pd.DataFrame([
-        {"trade_date": "2026-01-05", "contract_id": "NGF26", "expiration": "2026-01-20", "settle": 3.0, "volume": 100},
-        {"trade_date": "2026-01-06", "contract_id": "NGE26", "expiration": "2026-01-15", "settle": 2.9, "volume": 50},
+        {"trade_date": "2026-01-05", "contract_id": "NGF26", "expiration": "2026-01-20", "settle": 3.0, "volume": 100, "available_at": "2026-01-05T23:59:00Z"},
+        {"trade_date": "2026-01-06", "contract_id": "NGE26", "expiration": "2026-01-15", "settle": 2.9, "volume": 50, "available_at": "2026-01-06T23:59:00Z"},
     ])
     with pytest.raises(DataContractViolation, match="no later eligible contract"):
         rolls.build_derived_continuous_series(
@@ -206,4 +209,15 @@ def test_volume_roll_rejects_unsupported_declared_semantics(field, value) -> Non
             _volume_contracts(["2026-01-05"], [100], [80]),
             data_config()["canonical_contract_schema"],
             policy,
+        )
+
+
+def test_volume_roll_requires_explicit_availability_evidence() -> None:
+    frame = pd.DataFrame([
+        {"trade_date": "2026-01-05", "contract_id": "NGF26", "expiration": "2026-01-20", "settle": 3.0, "volume": 100},
+        {"trade_date": "2026-01-05", "contract_id": "NGG26", "expiration": "2026-02-20", "settle": 3.2, "volume": 80},
+    ])
+    with pytest.raises(DataContractViolation, match="explicit available_at"):
+        rolls.build_derived_continuous_series(
+            frame, data_config()["canonical_contract_schema"], _volume_policy()
         )
