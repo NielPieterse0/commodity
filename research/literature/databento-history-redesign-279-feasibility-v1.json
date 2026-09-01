@@ -1,0 +1,125 @@
+{
+  "schema_version": 1,
+  "snapshot_id": "databento-history-redesign-279-feasibility-v1",
+  "research_question": "Which scientifically coherent experiment families can use the largest defensible share of the already-owned 2010+ Databento Henry Hub futures history without changing source semantics after seeing outcomes?",
+  "search_scope": "Pre-audit source and literature review: Databento primary schema/dataset documentation, peer-reviewed natural-gas futures term-structure research, and EIA structural-regime evidence. No protected #271/#273 confirmation outcomes inspected.",
+  "sources": [
+    {
+      "source_id": "databento-ohlcv",
+      "title": "Aggregate bars (OHLCV)",
+      "source_type": "reputable_institution",
+      "quality": "primary",
+      "locator": "https://databento.com/docs/schemas-and-data-formats/ohlcv",
+      "year": 2026
+    },
+    {
+      "source_id": "databento-statistics",
+      "title": "Statistics",
+      "source_type": "reputable_institution",
+      "quality": "primary",
+      "locator": "https://databento.com/docs/schemas-and-data-formats/statistics",
+      "year": 2026
+    },
+    {
+      "source_id": "databento-definitions",
+      "title": "Instrument definitions",
+      "source_type": "reputable_institution",
+      "quality": "primary",
+      "locator": "https://databento.com/docs/schemas-and-data-formats/instrument-definitions",
+      "year": 2026
+    },
+    {
+      "source_id": "databento-glbx-history",
+      "title": "CME Globex MDP 3.0 data feed specifications",
+      "source_type": "reputable_institution",
+      "quality": "primary",
+      "locator": "https://databento.com/docs/knowledge-base/datasets/glbx-mdp3",
+      "year": 2026
+    },
+    {
+      "source_id": "modjtahedi-movassagh-2005",
+      "title": "Natural-gas futures: Bias, predictive performance, and the theory of storage",
+      "source_type": "peer_reviewed",
+      "quality": "high",
+      "locator": "https://doi.org/10.1016/j.eneco.2005.04.005",
+      "year": 2005
+    },
+    {
+      "source_id": "almansour-2016",
+      "title": "Convenience yield in commodity price modeling: A regime switching approach",
+      "source_type": "peer_reviewed",
+      "quality": "high",
+      "locator": "https://doi.org/10.1016/j.eneco.2014.06.016",
+      "year": 2016
+    },
+    {
+      "source_id": "eia-2010-retrospective",
+      "title": "Natural gas production/consumption retrospective 2010",
+      "source_type": "government",
+      "quality": "primary",
+      "locator": "https://www.eia.gov/todayinenergy/detail.php?id=1090",
+      "year": 2011
+    },
+    {
+      "source_id": "eia-2015-price",
+      "title": "Average annual natural gas spot price in 2015 was at lowest level since 1999",
+      "source_type": "government",
+      "quality": "primary",
+      "locator": "https://www.eia.gov/todayinenergy/detail.php?id=24412",
+      "year": 2016
+    }
+  ],
+  "claim_map": [
+    {
+      "claim": "Databento ohlcv-1d is a UTC-date electronic-trade aggregate; it is not official venue settlement and may differ from official volume/settlement.",
+      "source_ids": [
+        "databento-ohlcv",
+        "databento-statistics"
+      ]
+    },
+    {
+      "claim": "The statistics schema carries official venue summary statistics including preliminary/final settlement, cleared volume and open interest, with stat_type and flags defining semantics.",
+      "source_ids": [
+        "databento-statistics"
+      ]
+    },
+    {
+      "claim": "Definition records provide point-in-time symbol and expiration information suitable for avoiding survivorship/lookahead in contract identity.",
+      "source_ids": [
+        "databento-definitions"
+      ]
+    },
+    {
+      "claim": "CME history before 2017-05-21 comes from legacy MDP2/FIX history and lacks independent capture timestamps, so source era must be explicitly represented and checked in robustness analysis rather than silently treated as identical.",
+      "source_ids": [
+        "databento-glbx-history"
+      ]
+    },
+    {
+      "claim": "Natural-gas futures basis/term structure is economically connected to storage/convenience yield and may occupy different contango/backwardation regimes.",
+      "source_ids": [
+        "modjtahedi-movassagh-2005",
+        "almansour-2016"
+      ]
+    },
+    {
+      "claim": "The 2010-2015 U.S. natural-gas market underwent material production, price and storage changes, so calendar era cannot be assumed exchangeable without robustness checks.",
+      "source_ids": [
+        "eia-2010-retrospective",
+        "eia-2015-price"
+      ]
+    }
+  ],
+  "expected_observations": [
+    "If a data-first redesign is viable, definitions plus ohlcv-1d should support deterministic outright identity and at least two nearby outright trade bars across most of 2010+ without using settlement labels.",
+    "Official final-settlement semantics should remain materially less homogeneous in the early years than trade-bar OHLCV semantics, preserving #275's STOP for the frozen exact settlement-plus-volume extension.",
+    "A serious long-history candidate should have low single-year concentration and an effective-information envelope materially larger than the frozen #271/#273 design.",
+    "The 2017-05-21 feed transition and 2010-2015 economic transition should require predeclared robustness strata rather than outcome-driven exclusions."
+  ],
+  "disconfirming_observations": [
+    "Long-history OHLCV has material unmapped contract identity, null/duplicate core bars, or coverage concentrated in a small number of years.",
+    "A proposed candidate becomes coherent only by relabeling OHLCV close as official settlement or mixing price semantics across eras.",
+    "Dependence-adjusted effective information remains too small for a material planning effect even after using the full owned history.",
+    "A candidate requires post-outcome roll, calendar-era or source-era selection rather than frozen admissibility rules."
+  ]
+}
