@@ -17,6 +17,24 @@
       "satisfied": false,
       "successor_ref": null,
       "trigger_id": "front-curve-year-concentration"
+    },
+    {
+      "evaluated_at": "2026-09-01T13:40:00+02:00",
+      "evaluation_id": "front-curve-development-rows:2026-09-01T13:40:00+02:00",
+      "evidence_ref": "research/exploratory/front-curve-history-admissibility-275.json",
+      "observed": 1462,
+      "satisfied": false,
+      "successor_ref": "https://github.com/NielPieterse0/commodity/issues/279",
+      "trigger_id": "front-curve-development-rows"
+    },
+    {
+      "evaluated_at": "2026-09-01T13:40:00+02:00",
+      "evaluation_id": "front-curve-year-concentration:2026-09-01T13:40:00+02:00",
+      "evidence_ref": "research/exploratory/front-curve-history-admissibility-275.json",
+      "observed": 0.16415868673050615,
+      "satisfied": false,
+      "successor_ref": "https://github.com/NielPieterse0/commodity/issues/279",
+      "trigger_id": "front-curve-year-concentration"
     }
   ],
   "registry_id": "commodity-research-revisit-v1",
