@@ -1,0 +1,157 @@
+{
+  "schema_version": 2,
+  "run_id": "front-curve-history-admissibility-275",
+  "programme_id": "commodity-ng",
+  "research_line_id": "line-next-defensible-edge",
+  "lifecycle": [
+    "helicopter_view",
+    "gap",
+    "evidence_led_zoom_in",
+    "quality_literature",
+    "mechanism",
+    "hypothesis",
+    "expected_and_disconfirming_observations",
+    "feasibility",
+    "preregister_and_freeze_if_applicable",
+    "execute",
+    "verify",
+    "compare_observed_vs_expected",
+    "external_post_result_triangulation",
+    "programme_conclusion",
+    "active_revisit_triggers"
+  ],
+  "orientation": {
+    "big_picture_ref": "docs/big-picture.md",
+    "programme_question": "Can Commodity find a defensible natural-gas edge without changing rules after seeing results?",
+    "where_this_fits": "Successor audit to #273 HOLD: test whether already-owned older Databento history legitimately fixes the narrow sample-breadth gap before abandoning this exact front-curve design.",
+    "origin_refs": [
+      "issue-273",
+      "issue-275",
+      "research/exploratory/front-curve-feasibility-273-conformance.json"
+    ]
+  },
+  "gap": "The exact front-curve design has 1462 scoreable development targets versus 1500 required and maximum year share 16.42% versus 15%; determine whether already-owned pre-2015 history can close that breadth gap without changing the frozen experiment.",
+  "zoom_in": {
+    "reason": "The miss is narrow and the raw Databento batch begins in 2010, making source-admissibility the highest-value check before spending effort elsewhere.",
+    "evidence_refs": [
+      "research/exploratory/front-curve-feasibility-273-conformance.json",
+      "docs/development/databento-full-history-acquisition/evidence.json",
+      "docs/development/databento-offline-dbn/evidence.json"
+    ]
+  },
+  "literature_snapshot_ref": {
+    "path": "research/literature/front-curve-275-history-admissibility-v1.json",
+    "sha256": "76c5a322e6970a590f1be7a437353626a96226133453542caba7e86c5dac9410"
+  },
+  "mechanism": "The scientific mechanism is unchanged: roll-safe nearby Henry Hub curve shape may contain short-lived information about same-pair spread adjustment; this audit changes only the candidate historical coverage, not the target or roll rule.",
+  "hypotheses": {
+    "h0": "Already-owned pre-2015 history cannot support the exact frozen final-settlement plus volume-dependent roll semantics without changing the experiment.",
+    "h1": "Already-owned pre-2015 history supports the unchanged semantics and adds enough legitimate development breadth to clear the frozen gates."
+  },
+  "expectations": {
+    "expected": [
+      "If pre-2015 history is admissible under unchanged rules, outright NG sessions should contain final daily settlement and observed cleared volume together often enough to construct the same M1/M2 target.",
+      "The first usable 2015 date should be explainable by source/normalization lineage rather than unexplained feature loss."
+    ],
+    "disconfirming": [
+      "Pre-2015 outright NG records lack the final-settlement plus cleared-volume combination required by the frozen roll and target semantics.",
+      "Admission requires substituting OHLCV, preliminary settlement, another roll rule, or other post-result changes."
+    ]
+  },
+  "feasibility": {
+    "decision": "stop",
+    "evidence": {
+      "protected_confirmation_accessed": false,
+      "existing_scoreable_targets": 1462,
+      "minimum_required": 1500,
+      "shortfall": 38,
+      "existing_max_year_share": 0.16415868673050615,
+      "maximum_allowed_year_share": 0.15,
+      "power_gate_already_passed": true,
+      "year_source_audit": {
+        "2010": {
+          "final_settlements": 0,
+          "final_plus_volume_dates": 0
+        },
+        "2011": {
+          "final_settlements": 0,
+          "final_plus_volume_dates": 0
+        },
+        "2012": {
+          "final_settlements": 384,
+          "final_plus_volume_dates": 0
+        },
+        "2013": {
+          "final_settlements": 0,
+          "final_plus_volume_dates": 0
+        },
+        "2014": {
+          "final_settlements": 0,
+          "final_plus_volume_dates": 0
+        },
+        "2015": {
+          "final_settlements": 4586,
+          "final_plus_volume_dates": 2271,
+          "first_final_settlement": "2015-11-11",
+          "first_final_plus_volume": "2015-11-19"
+        }
+      },
+      "lineage_2015": {
+        "canonical_final_settlement_start": "2015-11-11",
+        "first_valid_positive_settlement_with_observed_nonnegative_volume": "2015-11-19",
+        "first_m1_m2_pair_session": "2015-11-19",
+        "feature_complete_start": "2015-12-01",
+        "boundary_cause": "joint final-settlement and cleared-volume availability; not feature warm-up"
+      },
+      "decision_reason": "No pre-2015 extension is admissible under the frozen source and roll semantics. 2012 has sparse qualifying settlements but zero coincident cleared-volume dates; 2010, 2011, 2013 and 2014 have no qualifying final settlements for outright NG under the approved mapping."
+    }
+  },
+  "execution": {
+    "protected_outcomes_accessed": false,
+    "preregistration_ref": null
+  },
+  "verification": {
+    "status": "verified",
+    "checks": [
+      {
+        "id": "protected_window_unopened",
+        "passed": true
+      },
+      {
+        "id": "2015_start_lineage_explained",
+        "passed": true
+      },
+      {
+        "id": "pre2015_exact_semantics_supported",
+        "passed": false
+      },
+      {
+        "id": "no_rule_relaxation_used",
+        "passed": true
+      }
+    ]
+  },
+  "comparison": {
+    "observed_vs_expected": "The audit matched the main disconfirming expectation. Raw history exists from 2010, but the exact frozen daily-final-settlement plus observed-volume combination is not available pre-2015 in the already-owned batch. The 2015-11-19 target boundary is explained by joint settlement/volume availability, while feature warm-up begins later.",
+    "disconfirmers_seen": [
+      "Pre-2015 exact target semantics are unsupported by the already-owned batch under the approved canonical mapping."
+    ]
+  },
+  "external_triangulation": {
+    "literature_snapshot_ref": {
+      "path": "research/literature/front-curve-275-history-post-result-v1.json",
+      "sha256": "b21685182904c02966c4348e468e20ae0b741188f6775cee46cdd8a624ffd833"
+    },
+    "comparison": "External venue/vendor documentation supports treating settlement identity and historical schema representation as substantive semantics, not interchangeable missing-data details. EIA evidence also warns that 2010-2015 regime transport would need separate justification. Nothing overturns the STOP."
+  },
+  "programme_conclusion": "STOP this exact frozen front-curve extension. Do not call the older data useless: #279 separately asks what scientifically valid experiments can be designed around the full 2010+ Databento inventory. Route the immediate programme branch to #276 weather revisions while preserving #279 as a deliberate data-first reopening path.",
+  "revisit_triggers": [
+    "issue-279:data-first-full-history-redesign",
+    "issue-276:weather-revision-successor"
+  ],
+  "promotion_decision": "discard",
+  "lineage": {
+    "predecessor_record": "research/exploratory/front-curve-feasibility-273-conformance.json",
+    "successor_reason": "#273 HOLD was actively tested against already-owned pre-2015 history; exact frozen semantics fail, so the HOLD becomes a STOP for this design while alternative data-first design work is captured separately in #279."
+  }
+}

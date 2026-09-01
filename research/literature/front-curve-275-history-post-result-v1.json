@@ -1,0 +1,58 @@
+{
+  "schema_version": 1,
+  "snapshot_id": "front-curve-275-history-post-result-v1",
+  "research_question": "Does independent external evidence change the interpretation of the observed pre-2015 source-semantics failure?",
+  "search_scope": "Independent post-result triangulation using CME settlement meaning, Databento historical/schema notes, and EIA regime evidence; no protected confirmation outcomes accessed.",
+  "sources": [
+    {
+      "source_id": "cme-settlements-post",
+      "title": "Daily Settlements",
+      "source_type": "exchange",
+      "quality": "primary",
+      "locator": "https://www.cmegroup.com/market-data/settlements.html",
+      "year": 2026
+    },
+    {
+      "source_id": "databento-release-notes",
+      "title": "Release notes",
+      "source_type": "reputable_institution",
+      "quality": "primary",
+      "locator": "https://databento.com/docs/release-notes",
+      "year": 2026
+    },
+    {
+      "source_id": "eia-shale",
+      "title": "US shale gas and natural gas market changes 2010-2015",
+      "source_type": "government",
+      "quality": "primary",
+      "locator": "https://www.eia.gov/naturalgas/",
+      "year": 2016
+    }
+  ],
+  "claim_map": [
+    {
+      "claim": "Daily settlement is a distinct venue statistic, so replacing it with another price field would change the experiment semantics rather than merely fill missing rows.",
+      "source_ids": [
+        "cme-settlements-post"
+      ]
+    },
+    {
+      "claim": "Historical vendor schemas and normalization have changed over time, supporting caution when treating old raw fields as automatically equivalent to current canonical fields.",
+      "source_ids": [
+        "databento-release-notes"
+      ]
+    },
+    {
+      "claim": "The older period also spans structural natural-gas changes, so scientific transport would require its own justification even if source completeness were solved.",
+      "source_ids": [
+        "eia-shale"
+      ]
+    }
+  ],
+  "expected_observations": [
+    "A source-semantics STOP should remain a STOP if external sources confirm that settlement identity matters and historical representation changed."
+  ],
+  "disconfirming_observations": [
+    "Independent evidence shows the missing fields are semantically identical under the frozen definition and can be admitted without changing the experiment."
+  ]
+}
