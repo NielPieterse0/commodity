@@ -60,17 +60,17 @@
     },
     {
       "research_line_id": "line-target-redesign-volatility-events",
-      "status": "interesting_observation_not_confirmed",
+      "status": "hold_material_reopening_gate",
       "big_picture": "Test whether changing the economic/statistical target reveals stronger structure than generic next-session returns.",
       "why_zoomed_in": "Repeated return-model failures made target and mechanism selection more valuable than broader model search.",
       "tested_role_target_horizon": "Realized-volatility/variance diagnostics followed by power-gated volatility and event-specific confirmation designs.",
       "historical_facts": {"observed": "The HAR-style volatility diagnostic improved QLIKE by about 15.55% on 204 diagnostic rows, but protected confirmation was not opened because power gates showed detectable effects materially larger than the declared 5% MEPI.", "rules_out": "Claiming a confirmed volatility edge from the diagnostic or spending protected confirmation when the design is underpowered.", "does_not_rule_out": "Volatility or event mechanisms with materially more effective information, stronger effect size, or a different predeclared design."},
       "useful_secondary_observations": ["Volatility persistence is the strongest positive diagnostic observation so far.", "Calendar row count is not equivalent to effective independent information."],
       "remaining_untested_roles": ["adequately powered volatility confirmation", "mechanism-led event returns", "curve/spread change"],
-      "revisit_trigger": "Reopen only when nuisance-only feasibility shows detectable effect at or below the declared MEPI while preserving fresh confirmation.",
-      "programme_interpretation": "Keep volatility alive as an observation, not a promoted signal; make power and MEPI a precondition for protected testing.",
-      "evidence_refs": ["artifacts/volatility-diagnostic/volatility-195-gk-har-v1/summary.json", "config/sealed_windows.json"],
-      "experiment_history": [{"issue":195,"result":"diagnostic_signal_only","rows":204},{"issues":[197,201,203,205,207,209],"result":"stopped_by_power_gate_before_protected_confirmation"}]
+      "revisit_trigger": "Reopen only after a materially distinct design produces nuisance-only max relative-MDE/MEPI <= 1.0 across every predeclared dependence sensitivity and a fresh confirmation path is proven.",
+      "programme_interpretation": "Volatility remains the strongest positive diagnostic observation, but both governed successor designs are information-limited. HOLD further experimentation; do not run another near-neighbour horizon/model variant.",
+      "evidence_refs": ["artifacts/volatility-diagnostic/volatility-195-gk-har-v1/summary.json", "config/sealed_windows.json", "research/exploratory/volatility-reopening-gate-277.json", "research/literature/volatility-reopening-277-feasibility-v1.json", "research/literature/volatility-reopening-277-post-feasibility-v1.json"],
+      "experiment_history": [{"issue":195,"result":"diagnostic_signal_only","rows":204},{"issues":[197,201,203,205,207,209],"result":"stopped_by_power_gate_before_protected_confirmation"},{"issue":277,"result":"hold_material_reopening_gate","protected_confirmation_accessed":false}]
     },
     {
       "research_line_id": "line-timesfm-return-complementarity",
@@ -184,8 +184,36 @@
       "market_implied_benchmark_required": true,
       "feasibility": "hold",
       "hold_reason": "Cross-era issued Grid-4 content continuity, PIT-safe lagged gas-demand weighting, final eligible-event loss and fresh confirmation allocation are not yet proven. Protected outcomes remain unopened."
+    },
+    {
+      "target": "ng-realized-volatility-reopening-gate-v1",
+      "horizon": "material_redesign_required",
+      "information_family": "realized_volatility",
+      "scientific_mepi": 0.05,
+      "economic_mepi": null,
+      "raw_information": 342,
+      "effective_information_method": {"method": "block_sensitivity", "binding_scale": "4_events"},
+      "detectable_effect": 0.17832722283643584,
+      "expected_snr": null,
+      "costs": {},
+      "market_implied_benchmark_required": false,
+      "feasibility": "hold",
+      "hold_reason": "Best existing nuisance-only redesign has relative-MDE/MEPI ratio 3.5665; reopening requires <=1.0 across all sensitivities plus fresh confirmation."
     }
   ],
+  "reopening_gates": {
+    "volatility": {
+      "status": "hold",
+      "mepi_relative_qlike": 0.05,
+      "current_daily_binding_ratio": 4.327549097872863,
+      "current_event_binding_ratio": 3.5665444567287167,
+      "current_best_ratio": 3.5665444567287167,
+      "release_threshold_ratio": 1.0,
+      "material_design_change_present": false,
+      "fresh_confirmation_path_proven": false,
+      "evidence_ref": "research/exploratory/volatility-reopening-gate-277.json"
+    }
+  },
   "semantics": {
     "selection_rule": "Choose confirmatory slices for expected information value, not technical novelty.",
     "empirical_execution_authority": false,

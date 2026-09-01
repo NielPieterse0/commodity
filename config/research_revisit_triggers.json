@@ -62,6 +62,15 @@
       "satisfied": false,
       "successor_ref": null,
       "trigger_id": "weather-revision-confirmation-power"
+    },
+    {
+      "evaluated_at": "2026-09-01T16:40:00+02:00",
+      "evaluation_id": "volatility-material-power-reopening:2026-09-01T16:40:00+02:00",
+      "evidence_ref": "config/programme_evidence_map.json",
+      "observed": 3.5665444567287167,
+      "satisfied": false,
+      "successor_ref": null,
+      "trigger_id": "volatility-material-power-reopening"
     }
   ],
   "registry_id": "commodity-research-revisit-v1",
@@ -127,6 +136,17 @@
       "successor_action": {"kind": "release_successor", "trace_ref": "research-line:line-next-defensible-edge/weather-revision-confirmatory-successor"},
       "threshold": true,
       "trigger_id": "weather-revision-confirmation-power"
+    },
+    {
+      "disposition": "hold",
+      "evidence_input": "config/programme_evidence_map.json",
+      "metric": "reopening_gates.volatility.current_best_ratio",
+      "operator": "lte",
+      "source_record": "research/exploratory/volatility-reopening-gate-277.json",
+      "status": "active",
+      "successor_action": {"kind": "create_successor", "trace_ref": "research-line:line-target-redesign-volatility-events/material-reopening-successor"},
+      "threshold": 1.0,
+      "trigger_id": "volatility-material-power-reopening"
     }
   ]
 }
