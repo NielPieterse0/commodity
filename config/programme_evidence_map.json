@@ -120,15 +120,15 @@
       "selection_basis": "high_value_gap",
       "big_picture": "Find the smallest next experiment that can materially change the programme's belief about a tradable information mechanism.",
       "why_zoomed_in": "Generic one-session return model search has repeatedly failed, while the strongest positive observation remains unconfirmed because effective information was inadequate.",
-      "tested_role_target_horizon": "Not yet selected; target, horizon and information family must be justified before preregistration.",
+      "tested_role_target_horizon": "Front-curve M1-M2 spread-change feasibility was tested development-only and held before preregistration; no protected confirmation was opened.",
       "historical_facts": {"observed": "No robust trading edge is established.", "rules_out": "Broad adaptive model search as the default next branch.", "does_not_rule_out": "Mechanism-led curve/spread, event, volatility or other complementary signal roles that clear feasibility before protected testing."},
       "useful_secondary_observations": ["The integrated system still needs complementary signal families whose value survives simple baselines and realistic evidence gates."],
       "remaining_untested_roles": ["curve/spread change", "mechanism-led event returns", "adequately powered volatility", "other complementary non-model information roles after programme-value screening"],
       "revisit_trigger": "Refresh this selection when a candidate has quantified MEPI, dependence/effective information, source/PIT fitness and untouched confirmation capacity.",
       "programme_interpretation": "The highest-value next branch is the first bounded mechanism-led candidate that is feasible enough to answer a real programme decision, not the newest model.",
-      "evidence_refs": ["docs/big-picture.md", "docs/roadmap.md"],
+      "evidence_refs": ["docs/big-picture.md", "docs/roadmap.md", "research/exploratory/front-curve-feasibility-271.json"],
       "stopping_rules": {"negative_evidence":"stop or branch when repeated governed evidence rejects the mechanism","feasible_power":"hold until the selected slice has a quantitative feasibility calculation","economic_relevance":"stop if the economic MEPI cannot be cleared","confirmation_capacity":"hold if no independent confirmation capacity remains","expected_information_value":"choose the next slice only when it can materially change a programme decision"},
-      "experiment_history": []
+      "experiment_history": [{"issue":271,"result":"front_curve_feasibility_hold_before_preregistration"}]
     }
   ],
   "current_helicopter_view": {
@@ -154,6 +154,21 @@
       "market_implied_benchmark_required": true,
       "feasibility": "hold",
       "hold_reason": "No confirmatory slice is authorised until target-specific MEPI, dependence and effective information are quantified."
+    },
+    {
+      "target": "ng-front-curve-m1m2-change-1session-v1",
+      "horizon": "1_observed_session",
+      "information_family": "front_curve_state",
+      "scientific_mepi": 0.15,
+      "economic_mepi": 0.005,
+      "raw_information": 1462,
+      "effective_information_method": {"method": "ar1", "rho": 0.25},
+      "detectable_effect": 0.10905155671397378,
+      "expected_snr": null,
+      "costs": {"incremental_data_usd": 0.0, "source": "existing approved Databento full-history batch"},
+      "market_implied_benchmark_required": true,
+      "feasibility": "hold",
+      "hold_reason": "minimum_development_rows, year_concentration"
     }
   ],
   "semantics": {
