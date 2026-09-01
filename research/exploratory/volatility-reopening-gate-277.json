@@ -1,0 +1,180 @@
+{
+  "schema_version": 2,
+  "run_id": "volatility-reopening-gate-277",
+  "programme_id": "commodity-ng",
+  "research_line_id": "line-target-redesign-volatility-events",
+  "lifecycle": [
+    "helicopter_view",
+    "gap",
+    "evidence_led_zoom_in",
+    "quality_literature",
+    "mechanism",
+    "hypothesis",
+    "expected_and_disconfirming_observations",
+    "feasibility",
+    "preregister_and_freeze_if_applicable",
+    "execute",
+    "verify",
+    "compare_observed_vs_expected",
+    "external_post_result_triangulation",
+    "programme_conclusion",
+    "active_revisit_triggers"
+  ],
+  "orientation": {
+    "big_picture_ref": "docs/big-picture.md",
+    "programme_question": "Can Commodity find a defensible natural-gas edge without changing rules after seeing results?",
+    "where_this_fits": "Reopening decision after the strongest positive diagnostic observation was followed by two nuisance-only power failures before protected confirmation.",
+    "origin_refs": ["issue-191", "issue-193", "issue-195", "issue-197", "issue-201", "issue-203", "issue-205", "issue-207", "issue-209", "issue-277"]
+  },
+  "gap": "Volatility remains scientifically plausible but the tested daily and five-session designs cannot detect the frozen 5% QLIKE MEPI. Define a material, quantitative reopening standard without adaptive outcome search.",
+  "zoom_in": {
+    "reason": "Volatility is the programme's strongest positive diagnostic observation, but both governed successor designs stopped on nuisance-only power. The highest-value next action is to determine what would have to change materially before another experiment is justified.",
+    "evidence_refs": ["artifacts/volatility-diagnostic/volatility-195-gk-har-v1/summary.json", "docs/development/volatility-nuisance-calibration/result.json", "docs/development/volatility-event-nuisance-calibration/result.json", "config/programme_evidence_map.json"]
+  },
+  "literature_snapshot_ref": {
+    "path": "research/literature/volatility-reopening-277-feasibility-v1.json",
+    "sha256": "e006f9f34810c950d4d5e57af4684357e58d313bdcdb57140907aa340885a58f"
+  },
+  "mechanism": "Natural-gas volatility is persistent and responds to fundamental information shocks. A successor is justified only if a mechanism-specific design changes the independent-information or nuisance-variance structure enough to detect an economically useful QLIKE improvement, not merely because HAR persistence was diagnostic-positive.",
+  "hypotheses": {
+    "h0": "No currently identified material redesign can detect a 5% QLIKE improvement across predeclared dependence sensitivities while preserving fresh confirmation.",
+    "h1": "At least one material redesign has a nuisance-only detectable effect at or below 5% QLIKE across all predeclared dependence sensitivities and preserves a genuinely independent confirmation path."
+  },
+  "expectations": {
+    "expected": [
+      "A credible reopening should add genuinely independent information or isolate a mechanism-specific event population rather than merely re-aggregate the same calendar outcomes.",
+      "Persistence can make HAR-style forecasting plausible while simultaneously reducing effective independent information, so nuisance-only dependence sensitivities must clear the MEPI before confirmation.",
+      "Event conditioning tied to ex-ante fundamental information can be scientifically distinct, but it must lower nuisance variance or increase independent event count enough to clear the frozen 5% QLIKE MEPI."
+    ],
+    "disconfirming": [
+      "The same daily design requires an implausibly large history under the already observed nuisance scale to detect a 5% QLIKE improvement across all dependence sensitivities.",
+      "The non-overlapping five-session event redesign still requires thousands of independent events under its observed nuisance scale.",
+      "A proposed successor differs only by horizon, model complexity, relabeling calendar rows, or reuse of consumed outcomes rather than by mechanism or independent-information structure.",
+      "No fresh confirmation path remains after accounting for the consumed diagnostic lineage and prior adaptive design choices."
+    ]
+  },
+  "feasibility": {
+    "decision": "hold",
+    "evidence": {
+      "mepi": {
+        "metric": "relative_qlike_reduction",
+        "value": 0.05,
+        "changed": false,
+        "rule": "Do not lower the 5% MEPI to rescue power; any future different MEPI requires new economic justification frozen before outcome inspection."
+      },
+      "lineage": [
+        {"issue": 191, "role": "freeze_next_session_realized_variance_design"},
+        {"issue": 193, "role": "independent_release_audit"},
+        {"issue": 195, "role": "204_row_diagnostic", "relative_qlike_improvement": 0.15545876012237714, "authority": "diagnostic_only"},
+        {"issue": 197, "role": "daily_successor_power_design"},
+        {"issue": 201, "role": "daily_successor_identity_release_audit"},
+        {"issue": 203, "role": "720_row_daily_nuisance_calibration", "power_gate_pass": false},
+        {"issue": 205, "role": "nonoverlapping_five_session_event_redesign"},
+        {"issue": 207, "role": "event_successor_identity_release_audit"},
+        {"issue": 209, "role": "80_event_nuisance_calibration", "power_gate_pass": false}
+      ],      "redesign_classes": {
+        "same_daily_history_extension": {
+          "material": true,
+          "status": "reject_current_path",
+          "confirmation_rows_basis": 1800,
+          "relative_mde": {"20_sessions": 0.16593528544509872, "40_sessions": 0.19610270804901425, "60_sessions": 0.21637745489364316},
+          "required_rows_for_5pct": {"20_sessions": 19825, "40_sessions": 27689, "60_sessions": 33710},
+          "binding_required_rows": 33710,
+          "interpretation": "More history could be material in principle, but the current nuisance scale requires about 33,710 scored daily rows at the binding 60-session sensitivity. Existing admissible history is nowhere near that scale."
+        },
+        "five_session_nonoverlap_extension": {
+          "material": true,
+          "status": "reject_current_path",
+          "confirmation_events_basis": 342,
+          "relative_mde": {"2_events": 0.17711959404350275, "4_events": 0.17832722283643584, "8_events": 0.1733054767039536},
+          "required_events_for_5pct": {"2_events": 4292, "4_events": 4351, "8_events": 4109},
+          "binding_required_events": 4351,
+          "interpretation": "The non-overlapping redesign improves independence but remains information-limited; thousands of genuinely independent events would be required under the measured nuisance scale."
+        },
+        "mechanism_specific_event_population": {
+          "material": true,
+          "status": "hold_for_new_information_structure",
+          "reference_confirmation_events": 342,
+          "maximum_centered_block_sd_for_5pct_at_reference_n": {"2_events": 0.017010637965773914, "4_events": 0.01202833745790807, "8_events": 0.008505318982886954},
+          "observed_centered_block_sd": {"2_events": 0.06025834581837741, "4_events": 0.04289960028416441, "8_events": 0.029480367216968187},
+          "pass_rule": "A newly justified event mechanism must either supply more independent events or lower nuisance scale enough that relative MDE <= 0.05 for every frozen dependence sensitivity, before target performance is inspected."
+        },
+        "economically_distinct_target_or_information_structure": {
+          "material": true,
+          "status": "hold_for_candidate_specific_nuisance_envelope",
+          "pass_rule": "Freeze the new economic hypothesis and target meaning first; retain 5% QLIKE MEPI if QLIKE remains comparable, otherwise freeze a new economically justified MEPI before nuisance or outcome inspection; then require all nuisance-only MDE sensitivities <= that MEPI and a fresh confirmation path."
+        }
+      },      "rejected_adaptive_variants": [
+        "third nearby 1-day/5-day/weekly horizon redesign without a separately motivated mechanism",
+        "additional model complexity or model-family sweep against consumed volatility outcomes",
+        "calendar relabeling that does not increase independent information",
+        "reuse of the 15.55% diagnostic observation as confirmatory evidence",
+        "lowering the 5% QLIKE MEPI after observing nuisance variance"
+      ],
+      "multiplicity": {
+        "consumed_diagnostic_observation_count": 1,
+        "governed_successor_designs_stopped_before_protected_outcomes": 2,
+        "future_rule": "Treat #195 as hypothesis-generating evidence and the #197/#205 adaptations as programme search history. Any future confirmatory candidate must predeclare its programme inference family and cannot claim the lineage as a fresh independent replication."
+      },
+      "confirmation_capacity": {
+        "protected_performance_opened_by_203": false,
+        "protected_performance_opened_by_209": false,
+        "fresh_path_required": true,
+        "rule": "A reopened successor must bind an untouched confirmation allocation whose outcomes did not shape #195/#197/#203/#205/#209 or the new design."
+      },
+      "reopening_gate": {
+        "threshold_relative_mde_vs_mepi_ratio": 1.0,
+        "current_daily_binding_ratio": 4.327549097872863,
+        "current_event_binding_ratio": 3.5665444567287167,
+        "current_best_ratio": 3.5665444567287167,
+        "quantitative_gate_pass": false,
+        "material_design_change_present": false,
+        "fresh_confirmation_path_proven": false,
+        "release_rule": "Only create an empirical successor after a materially distinct design has max nuisance-only relative-MDE/MEPI ratio <= 1.0 across all predeclared dependence sensitivities and a fresh confirmation path is proven."
+      },
+      "protected_confirmation_accessed": false,
+      "protected_or_fresh_target_performance_inspected": false,
+      "consumed_diagnostic_performance_used_for_lineage_reconstruction": true
+    }
+  },
+  "execution": {
+    "protected_outcomes_accessed": false,
+    "preregistration_ref": null
+  },
+  "verification": {
+    "status": "verified",
+    "checks": [
+      {"id": "protected_confirmation_unopened", "passed": true},
+      {"id": "five_percent_qlike_mepi_preserved", "passed": true},
+      {"id": "daily_nuisance_envelope_recomputed", "passed": true},
+      {"id": "event_nuisance_envelope_recomputed", "passed": true},
+      {"id": "near_neighbor_adaptive_variants_rejected", "passed": true},
+      {"id": "material_successor_power_gate_passes", "passed": false},
+      {"id": "fresh_confirmation_path_proven", "passed": false}
+    ]
+  },
+  "comparison": {
+    "observed_vs_expected": "The nuisance-only evidence matches the disconfirming side of the literature-derived expectations. HAR persistence remains plausible, but the measured dependence/noise makes both attempted designs incapable of detecting the frozen 5% QLIKE MEPI. The event redesign improved information structure but not nearly enough. No current material successor clears the reopening standard.",
+    "disconfirmers_seen": [
+      "The same daily design needs about 33,710 scored rows at the binding dependence sensitivity.",
+      "The five-session event design needs about 4,351 independent events at the binding dependence sensitivity.",
+      "No presently defined redesign both clears nuisance-only power and proves fresh confirmation capacity."
+    ]
+  },
+  "external_triangulation": {
+    "literature_snapshot_ref": {
+      "path": "research/literature/volatility-reopening-277-post-feasibility-v1.json",
+      "sha256": "aa9028b8733e32f130f74afa4d7edd0fbceca480fda045523216b241731d461e"
+    },
+    "comparison": "Independent natural-gas literature continues to support persistent, structurally changing volatility and event-linked jumps. That strengthens the case for a future mechanism-specific redesign, but it does not overturn the measured information deficit or justify another nearby model/horizon variant."
+  },
+  "programme_conclusion": "HOLD the volatility research line. Preserve #195 as the strongest positive diagnostic observation but not confirmed evidence. Reject another nearby daily/weekly/model redesign. Reopen only when a genuinely material design or information source produces nuisance-only max relative-MDE/MEPI <= 1.0 across all frozen dependence sensitivities and an untouched confirmation path is demonstrably available.",
+  "revisit_triggers": [
+    "volatility-material-power-reopening"
+  ],
+  "promotion_decision": "continue",
+  "lineage": {
+    "predecessor_record": "artifacts/volatility-diagnostic/volatility-195-gk-har-v1/summary.json",
+    "successor_reason": "#195 produced a diagnostic-only 15.55% QLIKE improvement; #197/#203 and #205/#209 then failed nuisance-only 5% MEPI power gates before protected outcomes. #277 consolidates that lineage into one quantitative reopening decision rather than authorizing a third adaptive variant."
+  }
+}

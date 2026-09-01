@@ -1,0 +1,64 @@
+{
+  "schema_version": 1,
+  "snapshot_id": "volatility-reopening-277-feasibility-v1",
+  "research_question": "What material redesign could make a natural-gas volatility experiment detect the frozen 5% QLIKE MEPI without reusing protected outcomes?",
+  "search_scope": "Pre-feasibility refresh of peer-reviewed HAR/realized-volatility and natural-gas event-volatility literature. Claims are used to define mechanisms and nuisance-only redesign classes; no protected Commodity volatility outcomes were inspected.",
+  "sources": [
+    {
+      "source_id": "corsi-2009",
+      "title": "A Simple Approximate Long-Memory Model of Realized Volatility",
+      "source_type": "peer_reviewed",
+      "quality": "primary",
+      "locator": "https://doi.org/10.1093/jjfinec/nbp001",
+      "year": 2009
+    },
+    {
+      "source_id": "mu-2007",
+      "title": "Weather, storage, and natural gas price dynamics: Fundamentals and volatility",
+      "source_type": "peer_reviewed",
+      "quality": "primary",
+      "locator": "https://doi.org/10.1016/j.eneco.2006.04.003",
+      "year": 2007
+    },
+    {
+      "source_id": "linn-zhu-2004",
+      "title": "Natural gas prices and the gas storage report: Public news and volatility in energy futures markets",
+      "source_type": "peer_reviewed",
+      "quality": "primary",
+      "locator": "https://doi.org/10.1002/fut.10115",
+      "year": 2004
+    },
+    {
+      "source_id": "lyocsa-molnar-2018",
+      "title": "Exploiting dependence: Day-ahead volatility forecasting for crude oil and natural gas exchange-traded funds",
+      "source_type": "peer_reviewed",
+      "quality": "high",
+      "locator": "https://doi.org/10.1016/j.energy.2018.04.194",
+      "year": 2018
+    }
+  ],  "claim_map": [
+    {
+      "claim": "HAR-type realized-volatility models are a parsimonious way to represent persistent multi-horizon volatility components, so the positive HAR diagnostic has a plausible prior mechanism but is not itself confirmation.",
+      "source_ids": ["corsi-2009", "lyocsa-molnar-2018"]
+    },
+    {
+      "claim": "Natural-gas volatility responds to fundamental information including weather and storage-report timing, so mechanism-specific event conditioning is scientifically distinct from an arbitrary horizon sweep.",
+      "source_ids": ["mu-2007", "linn-zhu-2004"]
+    },
+    {
+      "claim": "Adding related-market or model complexity does not reliably improve natural-gas volatility forecasts, so model expansion alone is not a material reopening condition.",
+      "source_ids": ["lyocsa-molnar-2018"]
+    }
+  ],
+  "expected_observations": [
+    "A credible reopening should add genuinely independent information or isolate a mechanism-specific event population rather than merely re-aggregate the same calendar outcomes.",
+    "Persistence can make HAR-style forecasting plausible while simultaneously reducing effective independent information, so nuisance-only dependence sensitivities must clear the MEPI before confirmation.",
+    "Event conditioning tied to ex-ante fundamental information can be scientifically distinct, but it must lower nuisance variance or increase independent event count enough to clear the frozen 5% QLIKE MEPI."
+  ],
+  "disconfirming_observations": [
+    "The same daily design requires an implausibly large history under the already observed nuisance scale to detect a 5% QLIKE improvement across all dependence sensitivities.",
+    "The non-overlapping five-session event redesign still requires thousands of independent events under its observed nuisance scale.",
+    "A proposed successor differs only by horizon, model complexity, relabeling calendar rows, or reuse of consumed outcomes rather than by mechanism or independent-information structure.",
+    "No fresh confirmation path remains after accounting for the consumed diagnostic lineage and prior adaptive design choices."
+  ]
+}
