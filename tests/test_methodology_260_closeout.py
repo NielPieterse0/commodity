@@ -267,14 +267,32 @@ def test_remote_binding_requires_cryptographic_tag_verification(monkeypatch, tmp
         methodology.verify_remote_prereg_binding(tmp_path, prereg_path, "tag-1")
 
 
-def test_synthetic_confirmatory_lifecycle_closes_big_picture_to_programme_update(tmp_path: Path) -> None:
+def test_synthetic_confirmatory_lifecycle_closes_big_picture_to_programme_update(tmp_path: Path, monkeypatch) -> None:
+    import commodity.research_lifecycle as lifecycle
+
     prereg = sample_prereg()
     scan = tmp_path / "scan.json"
     literature = tmp_path / "literature.json"
     scan.write_text('{"scan_id":"programme-evidence-map-2026-08-29"}\n', encoding="utf-8")
-    literature.write_text('{"snapshot_id":"lit-1"}\n', encoding="utf-8")
+    literature_payload = {
+        "schema_version": 1, "snapshot_id": "lit-1", "research_question": prereg["parent_question"],
+        "search_scope": "Synthetic governed fixture.",
+        "sources": [
+            {"source_id": "s1", "title": "Synthetic primary source", "source_type": "peer_reviewed", "quality": "primary", "locator": "doi:10.0000/synthetic-1"},
+            {"source_id": "s2", "title": "Synthetic corroborating source", "source_type": "government", "quality": "high", "locator": "https://example.org/synthetic-2"},
+        ],
+        "claim_map": [{"claim": prereg["mechanism"], "source_ids": ["s1", "s2"]}],
+        "expected_observations": prereg["expectations"]["expected"],
+        "disconfirming_observations": prereg["expectations"]["disconfirming"],
+    }
+    literature.write_text(json.dumps(literature_payload), encoding="utf-8")
+    contracts = tmp_path / "contracts"
+    contracts.mkdir()
+    repo_root = Path(__file__).resolve().parents[1]
+    (contracts / "literature_snapshot.schema.json").write_bytes((repo_root / "contracts/literature_snapshot.schema.json").read_bytes())
     prereg["evidence_scan_ref"] = {"path": "scan.json", "sha256": hashlib.sha256(scan.read_bytes()).hexdigest(), "scan_id": "programme-evidence-map-2026-08-29"}
     prereg["literature_snapshot_ref"] = {"path": "literature.json", "sha256": hashlib.sha256(literature.read_bytes()).hexdigest()}
+    monkeypatch.setattr(lifecycle, "_root", lambda: tmp_path)
     methodology.verify_preregistration(prereg)
     methodology.verify_reference_artifact(prereg["evidence_scan_ref"], tmp_path)
     methodology.verify_reference_artifact(prereg["literature_snapshot_ref"], tmp_path)

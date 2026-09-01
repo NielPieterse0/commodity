@@ -144,6 +144,16 @@ def verify_preregistration(prereg: dict[str, Any]) -> dict[str, Any]:
         _require(isinstance(ref.get("path"), str) and ref["path"], f"{name} requires path")
         sha = ref.get("sha256")
         _require(isinstance(sha, str) and len(sha) == 64, f"{name} requires sha256")
+    from commodity.research_lifecycle import (
+        assert_governed_research_preflight,
+        validate_literature_ref,
+    )
+
+    assert_governed_research_preflight()
+    literature = validate_literature_ref(prereg["literature_snapshot_ref"])
+    expectations = prereg["expectations"]
+    _require(set(expectations["expected"]).issubset(set(literature["expected_observations"])), "confirmatory expectations must be literature-derived")
+    _require(set(expectations["disconfirming"]).issubset(set(literature["disconfirming_observations"])), "confirmatory disconfirmers must be literature-derived")
     dispositions = set(prereg["permitted_human_dispositions"])
     _require(dispositions == HUMAN_DISPOSITIONS, "human disposition enum is incomplete or changed")
     for name, spec in prereg["mepi"].items():
@@ -481,13 +491,21 @@ def verify_results(prereg: dict[str, Any], results: dict[str, Any]) -> dict[str,
 
 
 def verify_interpretation_metadata(metadata: dict[str, Any], prereg: dict[str, Any], results: dict[str, Any]) -> None:
-    _require(metadata.get("schema_version") == 1, "interpretation metadata schema_version must be 1")
+    _validate_schema(metadata, "interpretation_metadata.schema.json")
+    _require(metadata.get("schema_version") == 2, "interpretation metadata schema_version must be 2")
     _require(metadata.get("experiment_id") == prereg["experiment_id"], "interpretation experiment_id mismatch")
     expected_prereg = canonical_prereg_sha256(prereg)
     _require(metadata.get("prereg_sha256") == expected_prereg, "interpretation prereg identity mismatch")
     result_sha = hashlib.sha256(canonical_json_bytes(results)).hexdigest()
     _require(metadata.get("results_sha256") == result_sha, "interpretation results identity mismatch")
     _require(metadata.get("human_disposition") in HUMAN_DISPOSITIONS, "invalid human disposition")
+    from commodity.research_lifecycle import validate_literature_ref
+
+    post_ref = metadata["post_result_literature_snapshot_ref"]
+    validate_literature_ref(post_ref)
+    _require(post_ref.get("sha256") != prereg["literature_snapshot_ref"].get("sha256"), "post-result triangulation must use an independent literature snapshot")
+    _require(str(metadata.get("observed_vs_expected", "")).strip(), "interpretation requires expected-vs-observed comparison")
+    _require(str(metadata.get("external_triangulation", "")).strip(), "interpretation requires external post-result triangulation")
 
 
 def render_executive_summary(sections: dict[str, str]) -> str:

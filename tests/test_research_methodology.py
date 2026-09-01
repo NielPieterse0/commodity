@@ -1,3 +1,4 @@
+import hashlib
 import json
 from pathlib import Path
 
@@ -17,6 +18,9 @@ ROOT = Path(__file__).resolve().parents[1]
 
 
 def sample_prereg() -> dict:
+    literature_path = ROOT / "research" / "literature" / "front-curve-271-conformance-v1.json"
+    literature = json.loads(literature_path.read_text(encoding="utf-8"))
+    literature_sha = hashlib.sha256(literature_path.read_bytes()).hexdigest()
     return {
         "schema_version": 1,
         "experiment_id": "exp-249-test",
@@ -24,7 +28,7 @@ def sample_prereg() -> dict:
         "research_line_id": "line-storage",
         "slice_id": "slice-a",
         "evidence_scan_ref": {"path": "research/evidence-scans/scan-test.json", "sha256": "1" * 64, "scan_id": "programme-evidence-map-2026-08-29"},
-        "literature_snapshot_ref": {"path": "research/literature/storage-v1.json", "sha256": "2" * 64},
+        "literature_snapshot_ref": {"path": "research/literature/front-curve-271-conformance-v1.json", "sha256": literature_sha},
         "orientation": {
             "big_picture_ref": "docs/big-picture.md",
             "where_this_fits": "Tests whether storage information deserves scarce confirmation evidence.",
@@ -36,6 +40,11 @@ def sample_prereg() -> dict:
         "outside_scope": ["live trading"],
         "mechanism": "Storage surprises may shift near-term scarcity expectations.",
         "hypotheses": {"h0": "No useful benchmark-relative effect.", "h1": "Useful benchmark-relative effect."},
+        "expectations": {
+            "expected": literature["expected_observations"],
+            "disconfirming": literature["disconfirming_observations"],
+        },
+        "post_result_triangulation": {"required": True, "independent_search_required": True},
         "mepi": {
             "scientific_mepi": {"formula": "absolute", "inputs": {"minimum_effect": 0.10}, "value": 0.10},
             "economic_mepi": {"formula": "cost_adjusted", "inputs": {"minimum_net_effect": 0.05, "cost": 0.03}, "value": 0.08},

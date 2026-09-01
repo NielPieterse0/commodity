@@ -1,7 +1,7 @@
 ﻿import json
 
 import pytest
-from test_research_methodology import sample_prereg
+from test_research_methodology import ROOT, sample_prereg
 
 from commodity.cli import build_parser
 from commodity.research_methodology import (
@@ -119,11 +119,18 @@ def test_interpretation_binds_both_scientific_artifacts() -> None:
 
     from commodity.provenance import canonical_json_bytes
     metadata = {
-        "schema_version": 1,
+        "schema_version": 2,
         "experiment_id": prereg["experiment_id"],
         "prereg_sha256": canonical_prereg_sha256(prereg),
         "results_sha256": hashlib.sha256(canonical_json_bytes(results)).hexdigest(),
         "human_disposition": "hold",
+        "observed_vs_expected": "Observed evidence was weaker than the preregistered expectation.",
+        "disconfirmers_observed": ["sample adequacy"],
+        "post_result_literature_snapshot_ref": {
+            "path": "research/literature/front-curve-271-post-result-triangulation-v1.json",
+            "sha256": hashlib.sha256((ROOT / "research/literature/front-curve-271-post-result-triangulation-v1.json").read_bytes()).hexdigest(),
+        },
+        "external_triangulation": "Independent literature does not override the governed evidence threshold.",
     }
     verify_interpretation_metadata(metadata, prereg, results)
 
@@ -169,11 +176,18 @@ def test_generated_summary_is_projection_of_bound_interpretation() -> None:
 
     from commodity.provenance import canonical_json_bytes
     metadata = {
-        "schema_version": 1,
+        "schema_version": 2,
         "experiment_id": prereg["experiment_id"],
         "prereg_sha256": canonical_prereg_sha256(prereg),
         "results_sha256": hashlib.sha256(canonical_json_bytes(results)).hexdigest(),
         "human_disposition": "hold",
+        "observed_vs_expected": "Observed evidence was weaker than the preregistered expectation.",
+        "disconfirmers_observed": ["sample adequacy"],
+        "post_result_literature_snapshot_ref": {
+            "path": "research/literature/front-curve-271-post-result-triangulation-v1.json",
+            "sha256": hashlib.sha256((ROOT / "research/literature/front-curve-271-post-result-triangulation-v1.json").read_bytes()).hexdigest(),
+        },
+        "external_triangulation": "Independent literature does not override the governed evidence threshold.",
     }
     bodies = {
         "Where this fits": "This experiment sits inside the natural-gas programme and tests whether storage information deserves more scarce independent confirmation evidence.",

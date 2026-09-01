@@ -40,7 +40,7 @@ EXPLORATORY_PATH = ROOT / "research" / "exploratory" / "front-curve-feasibility-
 PROGRAMME_PATH = ROOT / "config" / "programme_evidence_map.json"
 LEDGER_PATH = ROOT / "config" / "programme_inference_ledger.json"
 SCAN_PATH = ROOT / "research" / "evidence-scans" / "programme-evidence-map-2026-08-29.json"
-LITERATURE_PATH = ROOT / "research" / "literature" / "methodology-canon-v1.json"
+LITERATURE_PATH = ROOT / "research" / "literature" / "front-curve-271-conformance-v1.json"
 RETRIEVED_AT = "2026-08-13T15:33:33.834014+00:00"
 
 
@@ -201,6 +201,11 @@ def _build_prereg(feasibility: dict, design: dict, programme: dict) -> dict:
             "h0": "Neither fixed challenger improves protected-window RMSE over the unchanged-spread baseline by the declared scientific and absolute MEPI under the frozen inference and robustness gates.",
             "h1": "At least one fixed challenger improves protected-window RMSE over the unchanged-spread baseline by both declared MEPIs and clears the frozen inference and robustness gates.",
         },
+        "expectations": {
+            "expected": _json(LITERATURE_PATH)["expected_observations"],
+            "disconfirming": _json(LITERATURE_PATH)["disconfirming_observations"],
+        },
+        "post_result_triangulation": {"required": True, "independent_search_required": True},
         "mepi": {
             "scientific_mepi": {
                 "formula": "absolute",

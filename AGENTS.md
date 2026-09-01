@@ -47,6 +47,8 @@ After reading this file, every repository work session that may read, change, te
 | Programme inference ledger | `config/programme_inference_ledger.json` |
 | Sealed confirmation registry | `config/sealed_windows.json` |
 | Exploratory/diagnostic run contract and records | `contracts/exploratory_run.schema.json`, `research/exploratory/*.json` |
+| Literature quality, claim mapping, expectations, and triangulation snapshots | `contracts/literature_snapshot.schema.json`, `research/literature/*.json` |
+| Active HOLD/DEFER scientific revisit triggers and evaluation history | `contracts/revisit_triggers.schema.json`, `config/research_revisit_triggers.json` |
 | Longitudinal research metrics contract | `contracts/research_metrics.schema.json` |
 | Longitudinal stage metrics, comparison policy, and regression dispositions | `artifacts/research-metrics/longitudinal-ledger.json` |
 | Research maturity stages | `config/research_stages.json` |

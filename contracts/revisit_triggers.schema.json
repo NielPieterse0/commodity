@@ -1,0 +1,10 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema", "$id": "https://commodity.local/contracts/revisit-triggers/v1",
+  "title": "Commodity Research Revisit Trigger Registry", "type": "object", "additionalProperties": false,
+  "required": ["schema_version","registry_id","triggers","evaluation_history"],
+  "properties": {
+    "schema_version": {"const":1}, "registry_id": {"type":"string","minLength":1},
+    "triggers": {"type":"array","items":{"type":"object","additionalProperties":false,"required":["trigger_id","source_record","disposition","status","evidence_input","metric","operator","threshold","successor_action"],"properties":{"trigger_id":{"type":"string","minLength":1},"source_record":{"type":"string","minLength":1},"disposition":{"enum":["hold","defer"]},"status":{"enum":["active","satisfied","released","retired"]},"evidence_input":{"type":"string","minLength":1},"metric":{"type":"string","minLength":1},"operator":{"enum":["eq","gte","lte","gt","lt"]},"threshold":{"type":["number","string","boolean"]},"successor_action":{"type":"object","additionalProperties":false,"required":["kind","trace_ref"],"properties":{"kind":{"enum":["create_successor","release_successor"]},"trace_ref":{"type":"string","minLength":1}}}}}},
+    "evaluation_history": {"type":"array","items":{"type":"object","additionalProperties":false,"required":["evaluation_id","evaluated_at","trigger_id","observed","satisfied","evidence_ref"],"properties":{"evaluation_id":{"type":"string","minLength":1},"evaluated_at":{"type":"string","format":"date-time"},"trigger_id":{"type":"string","minLength":1},"observed":{},"satisfied":{"type":"boolean"},"evidence_ref":{"type":"string","minLength":1},"successor_ref":{"type":["string","null"]}}}}
+  }
+}

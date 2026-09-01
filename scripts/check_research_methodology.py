@@ -12,6 +12,12 @@ from jsonschema import Draft202012Validator
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
 
+from commodity.research_lifecycle import (
+    LIFECYCLE_STAGES,
+    assert_revisit_preflight_current,
+    validate_exploratory_run,
+    validate_literature_snapshot,
+)
 from commodity.research_methodology import (
     MethodologyError,
     canonical_prereg_sha256,
@@ -78,6 +84,7 @@ def check_schema() -> None:
         "prereg.schema.json", "results.schema.json", "programme_evidence.schema.json",
         "programme_inference.schema.json", "sealed_windows.schema.json",
         "exploratory_run.schema.json", "interpretation_metadata.schema.json",
+        "literature_snapshot.schema.json", "revisit_triggers.schema.json",
     )
     for name in schema_names:
         Draft202012Validator.check_schema(load_json(ROOT / "contracts" / name))
@@ -85,18 +92,29 @@ def check_schema() -> None:
     validate_document(ROOT / "contracts/programme_inference.schema.json", ROOT / "config/programme_inference_ledger.json")
     validate_document(ROOT / "contracts/sealed_windows.schema.json", ROOT / "config/sealed_windows.json")
     methodology = load_json(ROOT / "config/research_methodology.json")
-    if methodology.get("issue") != 249 or methodology.get("execution_authority") is not False:
-        raise ValueError("research_methodology.json must retain #249 identity and no trading authority")
+    if methodology.get("issue") != 273 or methodology.get("execution_authority") is not False:
+        raise ValueError("research_methodology.json must retain #273 identity and no trading authority")
+    if tuple(methodology.get("lifecycle_stages", [])) != LIFECYCLE_STAGES:
+        raise ValueError("research_methodology.json must declare the complete 15-stage lifecycle")
+    validate_document(ROOT / "contracts/revisit_triggers.schema.json", ROOT / "config/research_revisit_triggers.json")
+    assert_revisit_preflight_current(load_json(ROOT / "config/research_revisit_triggers.json"))
     migration = load_json(ROOT / "docs/development/249-hypothesis-experiment-methodology/legacy-migration.json")
     for item in migration.get("legacy_authority", []):
         path = ROOT / item["path"]
         if sha256_file(path) != item["sha256"]:
             raise ValueError(f"legacy V1/V2 authority changed after #249 adoption: {item['path']}")
+    for literature_path in (
+        ROOT / "research/literature/front-curve-271-conformance-v1.json",
+        ROOT / "research/literature/front-curve-271-post-result-triangulation-v1.json",
+    ):
+        validate_literature_snapshot(load_json(literature_path))
     exploratory_root = ROOT / "research" / "exploratory"
+    legacy = set(methodology.get("legacy_exploratory_records", []))
     if exploratory_root.exists():
         for record_path in sorted(exploratory_root.glob("*.json")):
-            validate_document(ROOT / "contracts/exploratory_run.schema.json", record_path)
             record = load_json(record_path)
+            relative = record_path.relative_to(ROOT).as_posix()
+            validate_exploratory_run(record, allow_legacy=relative in legacy)
             serialized = json.dumps(record, sort_keys=True).lower()
             if "sealed_window" in serialized or "sealed confirmation" in serialized:
                 raise ValueError(f"exploratory record references sealed confirmation: {record_path.relative_to(ROOT)}")

@@ -1,23 +1,19 @@
 {
-  "schema_version": 1,
-  "methodology_id": "immutable-hypothesis-experiment-v1",
-  "issue": 249,
-  "parent_portfolio_issue": 244,
+  "schema_version": 2,
+  "methodology_id": "literature-anchored-research-lifecycle-v2",
+  "issue": 273,
+  "supersedes_issue": 249,
   "status": "active_for_new_research_after_merge",
-  "new_confirmatory_execution_requires": [
-    "valid_preregistration",
-    "passed_mepi_power_gate",
-    "programme_inference_registration",
-    "sealed_window_eligibility_if_used",
-    "remote_bound_preregistration_freeze"
-  ],
-  "legacy_evidence": {
-    "completed_v1_v2_rewritten": false,
-    "authority": ["config/experiment.json", "config/experiment_candidates.json", "contracts/experiment.schema.json"]
-  },
-  "truth_classes": ["PROVEN", "CHECKED", "RECORDED"],
-  "evidence_levels": ["E0", "E1", "E2", "E3", "E4", "E5", "E6"],
-  "human_dispositions": ["advance", "replicate", "refine", "branch", "hold", "stop"],
+  "lifecycle_stages": ["helicopter_view","gap","evidence_led_zoom_in","quality_literature","mechanism","hypothesis","expected_and_disconfirming_observations","feasibility","preregister_and_freeze_if_applicable","execute","verify","compare_observed_vs_expected","external_post_result_triangulation","programme_conclusion","active_revisit_triggers"],
+  "new_exploratory_schema_version": 2,
+  "literature_snapshot_contract": "contracts/literature_snapshot.schema.json",
+  "revisit_trigger_registry": "config/research_revisit_triggers.json",
+  "new_confirmatory_execution_requires": ["complete_research_lifecycle","quality_literature_snapshot","valid_preregistration","passed_mepi_power_gate","programme_inference_registration","revisit_trigger_preflight","sealed_window_eligibility_if_used","remote_bound_preregistration_freeze"],
+  "legacy_exploratory_records": ["research/exploratory/front-curve-feasibility-271.json"],
+  "legacy_evidence": {"completed_v1_v2_rewritten": false, "authority": ["config/experiment.json","config/experiment_candidates.json","contracts/experiment.schema.json"]},
+  "truth_classes": ["PROVEN","CHECKED","RECORDED"],
+  "evidence_levels": ["E0","E1","E2","E3","E4","E5","E6"],
+  "human_dispositions": ["advance","replicate","refine","branch","hold","stop"],
   "execution_authority": false,
   "trading_policy_owner": "config/policy.json"
 }

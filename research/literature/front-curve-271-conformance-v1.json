@@ -1,0 +1,18 @@
+{
+  "schema_version": 1,
+  "snapshot_id": "front-curve-271-conformance-v1",
+  "research_question": "Is a one-session Henry Hub M1-M2 spread-change target sufficiently mechanism-grounded and statistically feasible to justify protected confirmatory evidence?",
+  "search_scope": "Primary and high-quality academic evidence on commodity storage, futures term structure, natural-gas term structure, and forecastability; used to derive expectations before any protected #271 outcomes are accessed.",
+  "sources": [
+    {"source_id":"working-1949","title":"The Theory of Price of Storage","source_type":"peer_reviewed","quality":"primary","locator":"JSTOR stable/1816601","year":1949},
+    {"source_id":"fama-french-1987","title":"Commodity Futures Prices: Some Evidence on Forecast Power, Premiums, and the Theory of Storage","source_type":"peer_reviewed","quality":"primary","locator":"Journal of Business 60(1):55-73","year":1987},
+    {"source_id":"martinez-torro-2023","title":"Theory of storage implications in the European natural gas market","source_type":"peer_reviewed","quality":"primary","locator":"doi:10.1016/j.jcomm.2022.100310","year":2023}
+  ],
+  "claim_map": [
+    {"claim":"Nearby futures spreads can encode scarcity, inventory, carrying-cost and convenience-yield information rather than being arbitrary technical features.","source_ids":["working-1949","fama-french-1987","martinez-torro-2023"]},
+    {"claim":"Natural-gas term-structure relationships are economically plausible but storage theory is not a complete explanation, so predictive strength should be treated as uncertain rather than assumed.","source_ids":["martinez-torro-2023"]},
+    {"claim":"A spread-based forecasting question therefore warrants feasibility and dependence checks before scarce confirmatory evidence is consumed.","source_ids":["fama-french-1987","martinez-torro-2023"]}
+  ],
+  "expected_observations": ["A valid front/next spread target should retain broad calendar coverage rather than being dominated by a narrow year or month.","Serial dependence should reduce effective information relative to raw observations but remain quantifiable.","A GO decision requires enough independent information to detect the preregistered scientifically meaningful effect before protected outcomes are opened."],
+  "disconfirming_observations": ["Development data are too concentrated or too sparse to support stable inference.","Effective information is insufficient to detect the scientific MEPI at target power.","Target construction depends materially on roll transitions or invalid curve legs rather than stable same-pair changes."]
+}
