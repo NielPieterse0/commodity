@@ -41,7 +41,7 @@
   },
   "literature_snapshot_ref": {
     "path": "research/literature/front-curve-275-history-admissibility-v1.json",
-    "sha256": "76c5a322e6970a590f1be7a437353626a96226133453542caba7e86c5dac9410"
+    "sha256": "2d15935342a06ab00849a3bd369d272d41ea3c5c16c07280c8e155273dd0bdc8"
   },
   "mechanism": "The scientific mechanism is unchanged: roll-safe nearby Henry Hub curve shape may contain short-lived information about same-pair spread adjustment; this audit changes only the candidate historical coverage, not the target or roll rule.",
   "hypotheses": {
@@ -140,7 +140,7 @@
   "external_triangulation": {
     "literature_snapshot_ref": {
       "path": "research/literature/front-curve-275-history-post-result-v1.json",
-      "sha256": "b21685182904c02966c4348e468e20ae0b741188f6775cee46cdd8a624ffd833"
+      "sha256": "191ff5f9d859e5855e16115aa4372e377496c990871b739e07a5c80c3da7f84a"
     },
     "comparison": "External venue/vendor documentation supports treating settlement identity and historical schema representation as substantive semantics, not interchangeable missing-data details. EIA evidence also warns that 2010-2015 regime transport would need separate justification. Nothing overturns the STOP."
   },
