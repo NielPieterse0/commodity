@@ -1,0 +1,1772 @@
+{
+  "schema_version": 2,
+  "run_id": "databento-history-redesign-279",
+  "programme_id": "commodity-ng",
+  "research_line_id": "line-next-defensible-edge",
+  "lifecycle": [
+    "helicopter_view",
+    "gap",
+    "evidence_led_zoom_in",
+    "quality_literature",
+    "mechanism",
+    "hypothesis",
+    "expected_and_disconfirming_observations",
+    "feasibility",
+    "preregister_and_freeze_if_applicable",
+    "execute",
+    "verify",
+    "compare_observed_vs_expected",
+    "external_post_result_triangulation",
+    "programme_conclusion",
+    "active_revisit_triggers"
+  ],
+  "orientation": {
+    "big_picture_ref": "docs/big-picture.md",
+    "programme_question": "Can Commodity find a defensible natural-gas edge without changing rules after seeing results?",
+    "where_this_fits": "Data-first redesign after #275 stopped the exact pre-2015 settlement-plus-volume extension and #276 held the weather-revision branch before outcomes.",
+    "origin_refs": [
+      "issue-271",
+      "issue-273",
+      "issue-275",
+      "issue-276",
+      "issue-279"
+    ]
+  },
+  "gap": "The programme owns broad Henry Hub futures history from June 2010, but prior research asked whether that history could satisfy one frozen experiment. #279 reverses the question: identify what scientifically coherent experiments the owned history can support as it actually exists.",
+  "zoom_in": {
+    "reason": "The exact #271/#273 semantics stopped in #275 without making the older data useless. A development-only inventory can recover information value by designing around verified source semantics while preserving protected confirmation.",
+    "evidence_refs": [
+      "research/exploratory/front-curve-history-admissibility-275.json",
+      "research/exploratory/weather-revision-mechanism-276.json",
+      "config/data_sources.json",
+      "docs/development/databento-full-history-acquisition/repair-evidence.json"
+    ]
+  },
+  "literature_snapshot_ref": {
+    "path": "research/literature/databento-history-redesign-279-feasibility-v1.json",
+    "sha256": "0e58ca64f60efcd3835ccc627ab69a971daf0aa0da97e1bcf0865907547c910f"
+  },
+  "mechanism": "Natural-gas curve shape carries storage/convenience-yield and regime information. Expiry-ranked nearby contracts can test curve dynamics using consistent electronic-trade-bar semantics even where official final-settlement semantics are historically incomplete, with source/economic regimes represented explicitly in robustness analysis.",
+  "hypotheses": {
+    "h0": "No experiment family can use materially more of the owned 2010+ history under one explicit source semantic while preserving deterministic contract identity, acceptable concentration, dependence-aware planning and untouched confirmation capacity.",
+    "h1": "At least one pre-outcome experiment family can use materially more of the owned 2010+ history under one explicit source semantic with deterministic point-in-time identity, broad year coverage, dependence-aware planning and a governable untouched confirmation path."
+  },
+  "expectations": {
+    "expected": [
+      "If a data-first redesign is viable, definitions plus ohlcv-1d should support deterministic outright identity and at least two nearby outright trade bars across most of 2010+ without using settlement labels.",
+      "Official final-settlement semantics should remain materially less homogeneous in the early years than trade-bar OHLCV semantics, preserving #275's STOP for the frozen exact settlement-plus-volume extension.",
+      "A serious long-history candidate should have low single-year concentration and an effective-information envelope materially larger than the frozen #271/#273 design.",
+      "The 2017-05-21 feed transition and 2010-2015 economic transition should require predeclared robustness strata rather than outcome-driven exclusions."
+    ],
+    "disconfirming": [
+      "Long-history OHLCV has material unmapped contract identity, null/duplicate core bars, or coverage concentrated in a small number of years.",
+      "A proposed candidate becomes coherent only by relabeling OHLCV close as official settlement or mixing price semantics across eras.",
+      "Dependence-adjusted effective information remains too small for a material planning effect even after using the full owned history.",
+      "A candidate requires post-outcome roll, calendar-era or source-era selection rather than frozen admissibility rules."
+    ]
+  },
+  "feasibility": {
+    "decision": "go",
+    "evidence": {
+      "decision_scope": "GO to a literature-anchored exploratory replication successor. #279 itself does not score target outcomes; #285 may inspect and tune development outcomes, while protected confirmation remains unopened.",
+      "source_identity": {
+        "dataset": "GLBX.MDP3",
+        "parent_symbol": "NG.FUT",
+        "start": "2010-06-06",
+        "end_exclusive": "2026-08-13",
+        "definition_job_id": "GLBX-20260813-4LWDSMFX5T",
+        "ohlcv_1d_job_id": "GLBX-20260813-5T4KKKSNG9",
+        "statistics_job_id": "GLBX-20260813-TVQMDDWSDJ",
+        "provider_record_counts": {
+          "definition": 27801205,
+          "ohlcv-1d": 840785,
+          "statistics": 113202126
+        }
+      },
+      "integrity": {
+        "definition": {
+          "all_hashes_ok": true,
+          "dbn_file_count": 17,
+          "dbn_bytes": 401209428,
+          "files": [
+            {
+              "file": "glbx-mdp3-20100606-20101231.definition.dbn.zst",
+              "sha256": "97351c1c515c4b3dfe7f977e1c8bec57aa547917a034e4b42da675820113fae7",
+              "bytes": 27112761
+            },
+            {
+              "file": "glbx-mdp3-20110101-20111231.definition.dbn.zst",
+              "sha256": "4fb862bc0eadf0b2701621d5114619dcc62a110eafeec25fcc58e9899dca69b0",
+              "bytes": 38973311
+            },
+            {
+              "file": "glbx-mdp3-20120101-20121231.definition.dbn.zst",
+              "sha256": "028510fda46f95ceb895b26eb5298ea3b9c6c811e3d0bac5d56e6827d2462600",
+              "bytes": 30413118
+            },
+            {
+              "file": "glbx-mdp3-20130101-20131231.definition.dbn.zst",
+              "sha256": "ab435bf756a89072a8f19267d98299ba99370dcd6d91e797c822e7f7ff0983e9",
+              "bytes": 22388889
+            },
+            {
+              "file": "glbx-mdp3-20140101-20141231.definition.dbn.zst",
+              "sha256": "452a51fdf0a7d83fda778d9af38066fa4f23852af7757a2fcec656b812ae8e37",
+              "bytes": 9591067
+            },
+            {
+              "file": "glbx-mdp3-20150101-20151231.definition.dbn.zst",
+              "sha256": "12f65c436294d0ab6ecd56817cebffcb5a8a0852023d86eefb9797e669778f8e",
+              "bytes": 6015936
+            },
+            {
+              "file": "glbx-mdp3-20160101-20161231.definition.dbn.zst",
+              "sha256": "607def22f1ba46735b1e13b02ce67d4fff3ac60ab1ba81e08b0f74f307d9c238",
+              "bytes": 6653311
+            },
+            {
+              "file": "glbx-mdp3-20170101-20171231.definition.dbn.zst",
+              "sha256": "a8aac7cff22adbe257239fe9895b85d5f7421576194264d070f8fcda952cdada",
+              "bytes": 8132544
+            },
+            {
+              "file": "glbx-mdp3-20180101-20181231.definition.dbn.zst",
+              "sha256": "659f765860dbb67b4d431c72f986fe7a2db05455108271c4ddcfbb9dd47c4d7e",
+              "bytes": 27371007
+            },
+            {
+              "file": "glbx-mdp3-20190101-20191231.definition.dbn.zst",
+              "sha256": "dc9cc6e7066e6737a6bce9a6c3edb5087624c386f4b8632984414248c7a7c455",
+              "bytes": 28051345
+            },
+            {
+              "file": "glbx-mdp3-20200101-20201231.definition.dbn.zst",
+              "sha256": "efc11d56f7a5c91a4d8530abcaec75e2db16e70072fd5bd19439acfed0a1d1c9",
+              "bytes": 27551661
+            },
+            {
+              "file": "glbx-mdp3-20210101-20211231.definition.dbn.zst",
+              "sha256": "c3ed6f26b9ec0e2ac38daf1df44175c7192e6e1397b7092cd723447ed609f5d8",
+              "bytes": 27560309
+            },
+            {
+              "file": "glbx-mdp3-20220101-20221231.definition.dbn.zst",
+              "sha256": "a0b8a22c8505970b8778912f530719d2ecab0f7246b4377ec7bd73dc8d6a6a4d",
+              "bytes": 28233207
+            },
+            {
+              "file": "glbx-mdp3-20230101-20231231.definition.dbn.zst",
+              "sha256": "4ce59667ab479e328eff62b6a9a4a93cf1b25437605e22ddb14da8ce27a54b68",
+              "bytes": 30308700
+            },
+            {
+              "file": "glbx-mdp3-20240101-20241231.definition.dbn.zst",
+              "sha256": "a9b1bb91fd704b419cd57bad3821a6ade8ab3eea17eeaa66368f2406ef9f7e99",
+              "bytes": 31436096
+            },
+            {
+              "file": "glbx-mdp3-20250101-20251231.definition.dbn.zst",
+              "sha256": "095c5e337c6408670c628344f8dd9fbb9e4b417a67d32e3dfe5918cf1a8d5fa0",
+              "bytes": 31734951
+            },
+            {
+              "file": "glbx-mdp3-20260101-20260812.definition.dbn.zst",
+              "sha256": "806c41613f2a02f50ba5b4820004086150f670a7fca05112e120534b8b297d58",
+              "bytes": 19681215
+            }
+          ]
+        },
+        "ohlcv-1d": {
+          "all_hashes_ok": true,
+          "dbn_file_count": 17,
+          "dbn_bytes": 12623796,
+          "files": [
+            {
+              "file": "glbx-mdp3-20100606-20101231.ohlcv-1d.dbn.zst",
+              "sha256": "2c0dd2b51d8cf34820e2190aa0d63eb208d712587886a87854e717bdb5ab9102",
+              "bytes": 348883
+            },
+            {
+              "file": "glbx-mdp3-20110101-20111231.ohlcv-1d.dbn.zst",
+              "sha256": "8e69662600f73ddbed5d8229ee9341ffed186d6832b638cc227ff110eea9b665",
+              "bytes": 559479
+            },
+            {
+              "file": "glbx-mdp3-20120101-20121231.ohlcv-1d.dbn.zst",
+              "sha256": "49743821f87e130eaed32c2b42fad18afee7508fcb194bf039cdc96f1b440210",
+              "bytes": 695440
+            },
+            {
+              "file": "glbx-mdp3-20130101-20131231.ohlcv-1d.dbn.zst",
+              "sha256": "6434d3b3aa09047d38ff569e694ac6892fa7a84fd77f6f8c27f8350d91f42c55",
+              "bytes": 605304
+            },
+            {
+              "file": "glbx-mdp3-20140101-20141231.ohlcv-1d.dbn.zst",
+              "sha256": "8430bcc512f58cf557b7a0fb4eb7d555140dbdf9043d1151ba4ba1ab763be54e",
+              "bytes": 551079
+            },
+            {
+              "file": "glbx-mdp3-20150101-20151231.ohlcv-1d.dbn.zst",
+              "sha256": "ef38122d33d1f9a183f82a3a9e1154e8c32df9acc76fdcbf1ff9cbb1323a2bb9",
+              "bytes": 540961
+            },
+            {
+              "file": "glbx-mdp3-20160101-20161231.ohlcv-1d.dbn.zst",
+              "sha256": "5f98d139d2dbeab68d15eb5fa4efb45ee7c6c1c5164cedde3f35a6f8a30d55e0",
+              "bytes": 627921
+            },
+            {
+              "file": "glbx-mdp3-20170101-20171231.ohlcv-1d.dbn.zst",
+              "sha256": "12d9a1252688ecb487ac875e8cfe8cd0fb122cc5620d737071206c50960e96b7",
+              "bytes": 694712
+            },
+            {
+              "file": "glbx-mdp3-20180101-20181231.ohlcv-1d.dbn.zst",
+              "sha256": "570426ef62db1caf3c5006d13e78c9166ea9010a7e66338d1e0d4ee0cfc5d74f",
+              "bytes": 747642
+            },
+            {
+              "file": "glbx-mdp3-20190101-20191231.ohlcv-1d.dbn.zst",
+              "sha256": "47e8842bdb23bf42566de84905f94de03c5450faf4f945532df00fb8b64a5e98",
+              "bytes": 730499
+            },
+            {
+              "file": "glbx-mdp3-20200101-20201231.ohlcv-1d.dbn.zst",
+              "sha256": "44f7a24bedd42c6c9ecfa4e11dcf5c86c1fe322685515f84bd4e171858a62c11",
+              "bytes": 868039
+            },
+            {
+              "file": "glbx-mdp3-20210101-20211231.ohlcv-1d.dbn.zst",
+              "sha256": "56a80e4b4a190c0ba7e56a402c217a8b13ed7e47bb0213a95a8dcba139f3b8b1",
+              "bytes": 857241
+            },
+            {
+              "file": "glbx-mdp3-20220101-20221231.ohlcv-1d.dbn.zst",
+              "sha256": "9a992dbe8ecd9a76d5488053ba9fe6f9b754845b4af695e6965427bebae4a2be",
+              "bytes": 940634
+            },
+            {
+              "file": "glbx-mdp3-20230101-20231231.ohlcv-1d.dbn.zst",
+              "sha256": "dd9a1f7e811314e25c04ab73aeecd854cf8776197917b0c6472afab904e44559",
+              "bytes": 898512
+            },
+            {
+              "file": "glbx-mdp3-20240101-20241231.ohlcv-1d.dbn.zst",
+              "sha256": "c0cd8af3af62ada4e2deea56b03c3f309181d1a8bf9422a55dce9b84000450ea",
+              "bytes": 1005242
+            },
+            {
+              "file": "glbx-mdp3-20250101-20251231.ohlcv-1d.dbn.zst",
+              "sha256": "fd2b36af99f5ef9d832e8752354b7013f64683a768429786fe87b0929da1b38a",
+              "bytes": 1209445
+            },
+            {
+              "file": "glbx-mdp3-20260101-20260812.ohlcv-1d.dbn.zst",
+              "sha256": "b0252da2a291b2ae1421a10b3321e9b54742e1e8c8cb1e61fd9f09fcb00f0d9a",
+              "bytes": 742763
+            }
+          ]
+        },
+        "statistics": {
+          "all_hashes_ok": true,
+          "dbn_file_count": 17,
+          "dbn_bytes": 1365767090,
+          "files": [
+            {
+              "file": "glbx-mdp3-20100606-20101231.statistics.dbn.zst",
+              "sha256": "136bbbfba272a628747de2b018365c1aecb3c9d359f1148e9608af302e26a3e3",
+              "bytes": 90783707
+            },
+            {
+              "file": "glbx-mdp3-20110101-20111231.statistics.dbn.zst",
+              "sha256": "efa10a3fa9aca32059d9ff28cd058b1e2c39ed9c0ac903bc0140b4e67c07001e",
+              "bytes": 76777592
+            },
+            {
+              "file": "glbx-mdp3-20120101-20121231.statistics.dbn.zst",
+              "sha256": "d1d532246b8f7a808e50cde680f2f0e33a5f9175415929c298d40e79b3552fd8",
+              "bytes": 62053424
+            },
+            {
+              "file": "glbx-mdp3-20130101-20131231.statistics.dbn.zst",
+              "sha256": "106797e93834f4a3f04e80560e92d5a32561c02b137d54c1150359c41b1b80a1",
+              "bytes": 44581752
+            },
+            {
+              "file": "glbx-mdp3-20140101-20141231.statistics.dbn.zst",
+              "sha256": "1cb27f4298019db3223cb9ace67e6dcb375f443f85a290d5e2642db14855e827",
+              "bytes": 39193075
+            },
+            {
+              "file": "glbx-mdp3-20150101-20151231.statistics.dbn.zst",
+              "sha256": "cfedaf6a088aca49d2c2060c41bdcab6a13c302bd4f989ca64f0b841c6b7cd4d",
+              "bytes": 32345775
+            },
+            {
+              "file": "glbx-mdp3-20160101-20161231.statistics.dbn.zst",
+              "sha256": "fb0fc5f5b466c5d3d32a799e47e33b8bf700fa4dcb6487bb630cf28832957f6f",
+              "bytes": 46492407
+            },
+            {
+              "file": "glbx-mdp3-20170101-20171231.statistics.dbn.zst",
+              "sha256": "4f322f0e8a71ab4ec0cc9bede6ff54efe38dbed02b7f98564968caa4de6e6a2a",
+              "bytes": 66035611
+            },
+            {
+              "file": "glbx-mdp3-20180101-20181231.statistics.dbn.zst",
+              "sha256": "7ac18dfe86872578a77df7b18ab23289baebb27710096082a612caee9e5de173",
+              "bytes": 78759551
+            },
+            {
+              "file": "glbx-mdp3-20190101-20191231.statistics.dbn.zst",
+              "sha256": "229ffa74450a636009f49c28e56443decc651f7121b9af19aed4443147b09e9b",
+              "bytes": 72793282
+            },
+            {
+              "file": "glbx-mdp3-20200101-20201231.statistics.dbn.zst",
+              "sha256": "d6405bc717ab5de28e7f89e15e71232d391db5459e0f88eaba3b766cfade73fe",
+              "bytes": 85646690
+            },
+            {
+              "file": "glbx-mdp3-20210101-20211231.statistics.dbn.zst",
+              "sha256": "7229645f94babbf3af77ee5d33460cd2d0cc7e00b95688d11aa998b40865b944",
+              "bytes": 89842258
+            },
+            {
+              "file": "glbx-mdp3-20220101-20221231.statistics.dbn.zst",
+              "sha256": "0dec170fe11c238ce19a6bc5dfe7bf577fddb3540c6e30b6a7b2b172684e2579",
+              "bytes": 129005832
+            },
+            {
+              "file": "glbx-mdp3-20230101-20231231.statistics.dbn.zst",
+              "sha256": "139f8af5978dc6f9dc957e8eb92d268652bb3d8be19fd7297e69c7a7b585f74f",
+              "bytes": 116692797
+            },
+            {
+              "file": "glbx-mdp3-20240101-20241231.statistics.dbn.zst",
+              "sha256": "339a2528e760e83f274d5f7cfe15cf44631b8199627d0e7f4bc1eedf9e7179fc",
+              "bytes": 115577589
+            },
+            {
+              "file": "glbx-mdp3-20250101-20251231.statistics.dbn.zst",
+              "sha256": "019361b2195046d3757ebc96abc99c8c04e5eb8fa169c82b2c8248f4ef491319",
+              "bytes": 136881218
+            },
+            {
+              "file": "glbx-mdp3-20260101-20260812.statistics.dbn.zst",
+              "sha256": "9508abecd6e56cae7c1c8abe0cf210516464176a08e6ae8459e29fa798a9e145",
+              "bytes": 82304530
+            }
+          ]
+        }
+      },
+      "inventory_by_year": {
+        "definition": {
+          "2010": {
+            "null_expiration_rows": 0,
+            "outright_definition_rows": 18117,
+            "outright_symbols": 115,
+            "raw_rows": 1802697,
+            "security_update_actions": {
+              "A": 1802697
+            }
+          },
+          "2011": {
+            "null_expiration_rows": 0,
+            "outright_definition_rows": 32052,
+            "outright_symbols": 119,
+            "raw_rows": 2580874,
+            "security_update_actions": {
+              "A": 2580874
+            }
+          },
+          "2012": {
+            "null_expiration_rows": 0,
+            "outright_definition_rows": 31864,
+            "outright_symbols": 107,
+            "raw_rows": 1992942,
+            "security_update_actions": {
+              "A": 1992942
+            }
+          },
+          "2013": {
+            "null_expiration_rows": 0,
+            "outright_definition_rows": 32130,
+            "outright_symbols": 120,
+            "raw_rows": 1474043,
+            "security_update_actions": {
+              "A": 1474043
+            }
+          },
+          "2014": {
+            "null_expiration_rows": 0,
+            "outright_definition_rows": 37113,
+            "outright_symbols": 120,
+            "raw_rows": 1137014,
+            "security_update_actions": {
+              "A": 1137014
+            }
+          },
+          "2015": {
+            "null_expiration_rows": 0,
+            "outright_definition_rows": 42378,
+            "outright_symbols": 162,
+            "raw_rows": 1005248,
+            "security_update_actions": {
+              "A": 1005248
+            }
+          },
+          "2016": {
+            "null_expiration_rows": 0,
+            "outright_definition_rows": 47280,
+            "outright_symbols": 168,
+            "raw_rows": 1064228,
+            "security_update_actions": {
+              "A": 1064228
+            }
+          },
+          "2017": {
+            "null_expiration_rows": 0,
+            "outright_definition_rows": 47546,
+            "outright_symbols": 167,
+            "raw_rows": 1161738,
+            "security_update_actions": {
+              "A": 1112547,
+              "M": 49191
+            }
+          },
+          "2018": {
+            "null_expiration_rows": 0,
+            "outright_definition_rows": 47893,
+            "outright_symbols": 167,
+            "raw_rows": 1542209,
+            "security_update_actions": {
+              "A": 1442062,
+              "M": 100147
+            }
+          },
+          "2019": {
+            "null_expiration_rows": 0,
+            "outright_definition_rows": 47452,
+            "outright_symbols": 167,
+            "raw_rows": 1777011,
+            "security_update_actions": {
+              "A": 1657526,
+              "D": 25,
+              "M": 119460
+            }
+          },
+          "2020": {
+            "null_expiration_rows": 0,
+            "outright_definition_rows": 47592,
+            "outright_symbols": 167,
+            "raw_rows": 1666744,
+            "security_update_actions": {
+              "A": 1654159,
+              "D": 6,
+              "M": 12579
+            }
+          },
+          "2021": {
+            "null_expiration_rows": 0,
+            "outright_definition_rows": 47281,
+            "outright_symbols": 168,
+            "raw_rows": 1637778,
+            "security_update_actions": {
+              "A": 1635583,
+              "D": 2,
+              "M": 2193
+            }
+          },
+          "2022": {
+            "null_expiration_rows": 0,
+            "outright_definition_rows": 47112,
+            "outright_symbols": 167,
+            "raw_rows": 1697833,
+            "security_update_actions": {
+              "A": 1683036,
+              "M": 14797
+            }
+          },
+          "2023": {
+            "null_expiration_rows": 0,
+            "outright_definition_rows": 47255,
+            "outright_symbols": 167,
+            "raw_rows": 2025412,
+            "security_update_actions": {
+              "A": 2021381,
+              "D": 11,
+              "M": 4020
+            }
+          },
+          "2024": {
+            "null_expiration_rows": 0,
+            "outright_definition_rows": 47898,
+            "outright_symbols": 167,
+            "raw_rows": 2041924,
+            "security_update_actions": {
+              "A": 2012488,
+              "M": 29436
+            }
+          },
+          "2025": {
+            "null_expiration_rows": 0,
+            "outright_definition_rows": 47927,
+            "outright_symbols": 167,
+            "raw_rows": 1998508,
+            "security_update_actions": {
+              "A": 1972345,
+              "D": 4,
+              "M": 26159
+            }
+          },
+          "2026": {
+            "null_expiration_rows": 0,
+            "outright_definition_rows": 29285,
+            "outright_symbols": 156,
+            "raw_rows": 1195002,
+            "security_update_actions": {
+              "A": 1190875,
+              "M": 4127
+            }
+          }
+        },
+        "ohlcv_1d": {
+          "2010": {
+            "days_with_1plus_outright": 179,
+            "days_with_2plus_outright": 179,
+            "days_with_3plus_outright": 179,
+            "duplicate_event_instrument_publisher": 0,
+            "first_ts": "2010-06-06T00:00:00+00:00",
+            "last_ts": "2010-12-31T00:00:00+00:00",
+            "median_outrights_per_active_day": 31.0,
+            "null_cells": 0,
+            "outright_expiration_mapping_missing_rows": 0,
+            "outright_rows": 5131,
+            "outright_symbols": 86,
+            "rows": 20636,
+            "sessions": 179,
+            "spread_rows": 15481,
+            "spread_symbols": 377,
+            "symbols": 471,
+            "zero_volume_rows": 0
+          },
+          "2011": {
+            "days_with_1plus_outright": 310,
+            "days_with_2plus_outright": 310,
+            "days_with_3plus_outright": 310,
+            "duplicate_event_instrument_publisher": 0,
+            "first_ts": "2011-01-02T00:00:00+00:00",
+            "last_ts": "2011-12-30T00:00:00+00:00",
+            "median_outrights_per_active_day": 29.0,
+            "null_cells": 0,
+            "outright_expiration_mapping_missing_rows": 0,
+            "outright_rows": 8418,
+            "outright_symbols": 103,
+            "rows": 35374,
+            "sessions": 310,
+            "spread_rows": 26955,
+            "spread_symbols": 476,
+            "symbols": 580,
+            "zero_volume_rows": 0
+          },
+          "2012": {
+            "days_with_1plus_outright": 312,
+            "days_with_2plus_outright": 312,
+            "days_with_3plus_outright": 312,
+            "duplicate_event_instrument_publisher": 0,
+            "first_ts": "2012-01-02T00:00:00+00:00",
+            "last_ts": "2012-12-31T00:00:00+00:00",
+            "median_outrights_per_active_day": 30.0,
+            "null_cells": 0,
+            "outright_expiration_mapping_missing_rows": 0,
+            "outright_rows": 8664,
+            "outright_symbols": 83,
+            "rows": 45869,
+            "sessions": 312,
+            "spread_rows": 37171,
+            "spread_symbols": 485,
+            "symbols": 576,
+            "zero_volume_rows": 0
+          },
+          "2013": {
+            "days_with_1plus_outright": 308,
+            "days_with_2plus_outright": 308,
+            "days_with_3plus_outright": 308,
+            "duplicate_event_instrument_publisher": 0,
+            "first_ts": "2013-01-01T00:00:00+00:00",
+            "last_ts": "2013-12-31T00:00:00+00:00",
+            "median_outrights_per_active_day": 30.0,
+            "null_cells": 0,
+            "outright_expiration_mapping_missing_rows": 0,
+            "outright_rows": 8593,
+            "outright_symbols": 78,
+            "rows": 41816,
+            "sessions": 308,
+            "spread_rows": 32079,
+            "spread_symbols": 527,
+            "symbols": 649,
+            "zero_volume_rows": 0
+          },
+          "2014": {
+            "days_with_1plus_outright": 305,
+            "days_with_2plus_outright": 305,
+            "days_with_3plus_outright": 305,
+            "duplicate_event_instrument_publisher": 0,
+            "first_ts": "2014-01-01T00:00:00+00:00",
+            "last_ts": "2014-12-31T00:00:00+00:00",
+            "median_outrights_per_active_day": 29.0,
+            "null_cells": 0,
+            "outright_expiration_mapping_missing_rows": 0,
+            "outright_rows": 8246,
+            "outright_symbols": 83,
+            "rows": 37927,
+            "sessions": 305,
+            "spread_rows": 28116,
+            "spread_symbols": 492,
+            "symbols": 619,
+            "zero_volume_rows": 0
+          },
+          "2015": {
+            "days_with_1plus_outright": 311,
+            "days_with_2plus_outright": 311,
+            "days_with_3plus_outright": 311,
+            "duplicate_event_instrument_publisher": 0,
+            "first_ts": "2015-01-01T00:00:00+00:00",
+            "last_ts": "2015-12-31T00:00:00+00:00",
+            "median_outrights_per_active_day": 28.0,
+            "null_cells": 0,
+            "outright_expiration_mapping_missing_rows": 0,
+            "outright_rows": 8147,
+            "outright_symbols": 80,
+            "rows": 37062,
+            "sessions": 311,
+            "spread_rows": 27006,
+            "spread_symbols": 480,
+            "symbols": 639,
+            "zero_volume_rows": 0
+          },
+          "2016": {
+            "days_with_1plus_outright": 310,
+            "days_with_2plus_outright": 310,
+            "days_with_3plus_outright": 310,
+            "duplicate_event_instrument_publisher": 0,
+            "first_ts": "2016-01-03T00:00:00+00:00",
+            "last_ts": "2016-12-30T00:00:00+00:00",
+            "median_outrights_per_active_day": 26.0,
+            "null_cells": 0,
+            "outright_expiration_mapping_missing_rows": 0,
+            "outright_rows": 7440,
+            "outright_symbols": 71,
+            "rows": 42960,
+            "sessions": 310,
+            "spread_rows": 32607,
+            "spread_symbols": 522,
+            "symbols": 674,
+            "zero_volume_rows": 0
+          },
+          "2017": {
+            "days_with_1plus_outright": 309,
+            "days_with_2plus_outright": 309,
+            "days_with_3plus_outright": 309,
+            "duplicate_event_instrument_publisher": 0,
+            "first_ts": "2017-01-02T00:00:00+00:00",
+            "last_ts": "2017-12-29T00:00:00+00:00",
+            "median_outrights_per_active_day": 26.0,
+            "null_cells": 0,
+            "outright_expiration_mapping_missing_rows": 0,
+            "outright_rows": 7763,
+            "outright_symbols": 82,
+            "rows": 48916,
+            "sessions": 309,
+            "spread_rows": 34155,
+            "spread_symbols": 532,
+            "symbols": 703,
+            "zero_volume_rows": 0
+          },
+          "2018": {
+            "days_with_1plus_outright": 312,
+            "days_with_2plus_outright": 312,
+            "days_with_3plus_outright": 312,
+            "duplicate_event_instrument_publisher": 0,
+            "first_ts": "2018-01-01T00:00:00+00:00",
+            "last_ts": "2018-12-31T00:00:00+00:00",
+            "median_outrights_per_active_day": 27.0,
+            "null_cells": 0,
+            "outright_expiration_mapping_missing_rows": 0,
+            "outright_rows": 8027,
+            "outright_symbols": 83,
+            "rows": 52218,
+            "sessions": 312,
+            "spread_rows": 34961,
+            "spread_symbols": 564,
+            "symbols": 833,
+            "zero_volume_rows": 0
+          },
+          "2019": {
+            "days_with_1plus_outright": 312,
+            "days_with_2plus_outright": 312,
+            "days_with_3plus_outright": 312,
+            "duplicate_event_instrument_publisher": 0,
+            "first_ts": "2019-01-01T00:00:00+00:00",
+            "last_ts": "2019-12-31T00:00:00+00:00",
+            "median_outrights_per_active_day": 27.0,
+            "null_cells": 0,
+            "outright_expiration_mapping_missing_rows": 0,
+            "outright_rows": 8104,
+            "outright_symbols": 82,
+            "rows": 50974,
+            "sessions": 312,
+            "spread_rows": 32748,
+            "spread_symbols": 557,
+            "symbols": 973,
+            "zero_volume_rows": 0
+          },
+          "2020": {
+            "days_with_1plus_outright": 312,
+            "days_with_2plus_outright": 312,
+            "days_with_3plus_outright": 312,
+            "duplicate_event_instrument_publisher": 0,
+            "first_ts": "2020-01-01T00:00:00+00:00",
+            "last_ts": "2020-12-31T00:00:00+00:00",
+            "median_outrights_per_active_day": 29.0,
+            "null_cells": 0,
+            "outright_expiration_mapping_missing_rows": 0,
+            "outright_rows": 8457,
+            "outright_symbols": 104,
+            "rows": 59043,
+            "sessions": 312,
+            "spread_rows": 37472,
+            "spread_symbols": 523,
+            "symbols": 1054,
+            "zero_volume_rows": 0
+          },
+          "2021": {
+            "days_with_1plus_outright": 310,
+            "days_with_2plus_outright": 310,
+            "days_with_3plus_outright": 310,
+            "duplicate_event_instrument_publisher": 0,
+            "first_ts": "2021-01-03T00:00:00+00:00",
+            "last_ts": "2021-12-31T00:00:00+00:00",
+            "median_outrights_per_active_day": 28.0,
+            "null_cells": 0,
+            "outright_expiration_mapping_missing_rows": 0,
+            "outright_rows": 8376,
+            "outright_symbols": 92,
+            "rows": 56972,
+            "sessions": 310,
+            "spread_rows": 35013,
+            "spread_symbols": 550,
+            "symbols": 1037,
+            "zero_volume_rows": 0
+          },
+          "2022": {
+            "days_with_1plus_outright": 310,
+            "days_with_2plus_outright": 310,
+            "days_with_3plus_outright": 310,
+            "duplicate_event_instrument_publisher": 0,
+            "first_ts": "2022-01-02T00:00:00+00:00",
+            "last_ts": "2022-12-30T00:00:00+00:00",
+            "median_outrights_per_active_day": 29.0,
+            "null_cells": 0,
+            "outright_expiration_mapping_missing_rows": 0,
+            "outright_rows": 8427,
+            "outright_symbols": 83,
+            "rows": 59952,
+            "sessions": 310,
+            "spread_rows": 37368,
+            "spread_symbols": 588,
+            "symbols": 1060,
+            "zero_volume_rows": 0
+          },
+          "2023": {
+            "days_with_1plus_outright": 309,
+            "days_with_2plus_outright": 309,
+            "days_with_3plus_outright": 309,
+            "duplicate_event_instrument_publisher": 0,
+            "first_ts": "2023-01-02T00:00:00+00:00",
+            "last_ts": "2023-12-29T00:00:00+00:00",
+            "median_outrights_per_active_day": 28.0,
+            "null_cells": 0,
+            "outright_expiration_mapping_missing_rows": 0,
+            "outright_rows": 7852,
+            "outright_symbols": 93,
+            "rows": 58235,
+            "sessions": 309,
+            "spread_rows": 35417,
+            "spread_symbols": 568,
+            "symbols": 1052,
+            "zero_volume_rows": 0
+          },
+          "2024": {
+            "days_with_1plus_outright": 313,
+            "days_with_2plus_outright": 313,
+            "days_with_3plus_outright": 313,
+            "duplicate_event_instrument_publisher": 0,
+            "first_ts": "2024-01-01T00:00:00+00:00",
+            "last_ts": "2024-12-31T00:00:00+00:00",
+            "median_outrights_per_active_day": 29.0,
+            "null_cells": 0,
+            "outright_expiration_mapping_missing_rows": 0,
+            "outright_rows": 8452,
+            "outright_symbols": 89,
+            "rows": 65596,
+            "sessions": 313,
+            "spread_rows": 38380,
+            "spread_symbols": 542,
+            "symbols": 1072,
+            "zero_volume_rows": 0
+          },
+          "2025": {
+            "days_with_1plus_outright": 312,
+            "days_with_2plus_outright": 312,
+            "days_with_3plus_outright": 312,
+            "duplicate_event_instrument_publisher": 0,
+            "first_ts": "2025-01-01T00:00:00+00:00",
+            "last_ts": "2025-12-31T00:00:00+00:00",
+            "median_outrights_per_active_day": 33.0,
+            "null_cells": 0,
+            "outright_expiration_mapping_missing_rows": 0,
+            "outright_rows": 9609,
+            "outright_symbols": 88,
+            "rows": 79389,
+            "sessions": 312,
+            "spread_rows": 46785,
+            "spread_symbols": 530,
+            "symbols": 1148,
+            "zero_volume_rows": 0
+          },
+          "2026": {
+            "days_with_1plus_outright": 191,
+            "days_with_2plus_outright": 191,
+            "days_with_3plus_outright": 191,
+            "duplicate_event_instrument_publisher": 0,
+            "first_ts": "2026-01-01T00:00:00+00:00",
+            "last_ts": "2026-08-12T00:00:00+00:00",
+            "median_outrights_per_active_day": 31.0,
+            "null_cells": 0,
+            "outright_expiration_mapping_missing_rows": 0,
+            "outright_rows": 5678,
+            "outright_symbols": 77,
+            "rows": 47846,
+            "sessions": 191,
+            "spread_rows": 28862,
+            "spread_symbols": 465,
+            "symbols": 935,
+            "zero_volume_rows": 0
+          }
+        },
+        "statistics": {
+          "2010": {
+            "final_settlement_rows": 0,
+            "intraday_settlement_rows": 0,
+            "outright_stat_type_counts": {
+              "1": 2029,
+              "17": 100064,
+              "18": 100166,
+              "2": 4204,
+              "3": 58622,
+              "4": 44233,
+              "5": 35277,
+              "6": 45042,
+              "7": 29737,
+              "8": 22865,
+              "9": 45042
+            },
+            "outright_symbols": 115,
+            "preliminary_settlement_rows": 58622,
+            "price_null_rows": 90084,
+            "quantity_null_rows": 0,
+            "rows": 12185363,
+            "stat_type_counts": {
+              "1": 3823,
+              "17": 4985806,
+              "18": 4985908,
+              "2": 7774,
+              "3": 1501578,
+              "4": 110113,
+              "5": 103350,
+              "6": 45042,
+              "7": 189953,
+              "8": 206974,
+              "9": 45042
+            },
+            "ts_ref_null_rows": 10683721
+          },
+          "2011": {
+            "final_settlement_rows": 0,
+            "intraday_settlement_rows": 0,
+            "outright_stat_type_counts": {
+              "1": 4086,
+              "17": 80032,
+              "18": 80032,
+              "2": 14136,
+              "3": 99735,
+              "4": 72178,
+              "5": 60684,
+              "6": 75049,
+              "7": 72909,
+              "8": 56798,
+              "9": 75049
+            },
+            "outright_symbols": 119,
+            "preliminary_settlement_rows": 99735,
+            "price_null_rows": 150098,
+            "quantity_null_rows": 0,
+            "rows": 9488169,
+            "stat_type_counts": {
+              "1": 7655,
+              "17": 3258599,
+              "18": 3258599,
+              "2": 19246,
+              "3": 2018374,
+              "4": 176554,
+              "5": 171342,
+              "6": 75049,
+              "7": 212376,
+              "8": 215326,
+              "9": 75049
+            },
+            "ts_ref_null_rows": 7469793
+          },
+          "2012": {
+            "final_settlement_rows": 384,
+            "intraday_settlement_rows": 0,
+            "outright_stat_type_counts": {
+              "1": 6029,
+              "17": 71185,
+              "18": 71185,
+              "2": 16553,
+              "3": 96747,
+              "4": 75085,
+              "5": 69687,
+              "6": 71686,
+              "7": 54608,
+              "8": 48172,
+              "9": 71686
+            },
+            "outright_symbols": 107,
+            "preliminary_settlement_rows": 96363,
+            "price_null_rows": 143372,
+            "quantity_null_rows": 0,
+            "rows": 7107291,
+            "stat_type_counts": {
+              "1": 6335,
+              "17": 2227116,
+              "18": 2227116,
+              "2": 18041,
+              "3": 1477041,
+              "4": 217686,
+              "5": 220184,
+              "6": 71686,
+              "7": 277079,
+              "8": 293321,
+              "9": 71686
+            },
+            "ts_ref_null_rows": 5630250
+          },
+          "2013": {
+            "final_settlement_rows": 0,
+            "intraday_settlement_rows": 0,
+            "outright_stat_type_counts": {
+              "1": 8311,
+              "17": 71222,
+              "18": 71222,
+              "2": 20183,
+              "3": 96298,
+              "4": 65333,
+              "5": 61463,
+              "6": 75903,
+              "7": 26096,
+              "8": 25706,
+              "9": 75903
+            },
+            "outright_symbols": 120,
+            "preliminary_settlement_rows": 96298,
+            "price_null_rows": 151806,
+            "quantity_null_rows": 0,
+            "rows": 5263870,
+            "stat_type_counts": {
+              "1": 8956,
+              "17": 1624335,
+              "18": 1624335,
+              "2": 22596,
+              "3": 1088921,
+              "4": 164208,
+              "5": 171153,
+              "6": 75903,
+              "7": 175899,
+              "8": 231661,
+              "9": 75903
+            },
+            "ts_ref_null_rows": 4174949
+          },
+          "2014": {
+            "final_settlement_rows": 0,
+            "intraday_settlement_rows": 0,
+            "outright_stat_type_counts": {
+              "1": 4841,
+              "17": 81592,
+              "18": 81592,
+              "2": 13125,
+              "3": 126711,
+              "4": 76633,
+              "5": 70791,
+              "6": 73560,
+              "7": 29050,
+              "8": 26814,
+              "9": 73560
+            },
+            "outright_symbols": 120,
+            "preliminary_settlement_rows": 126711,
+            "price_null_rows": 147120,
+            "quantity_null_rows": 0,
+            "rows": 4201390,
+            "stat_type_counts": {
+              "1": 6061,
+              "17": 1147264,
+              "18": 1147264,
+              "2": 16154,
+              "3": 810293,
+              "4": 183042,
+              "5": 182208,
+              "6": 73560,
+              "7": 266481,
+              "8": 295503,
+              "9": 73560
+            },
+            "ts_ref_null_rows": 3391097
+          },
+          "2015": {
+            "final_settlement_rows": 4586,
+            "intraday_settlement_rows": 0,
+            "outright_stat_type_counts": {
+              "1": 4606,
+              "17": 65870,
+              "18": 65870,
+              "2": 9776,
+              "3": 158734,
+              "4": 67064,
+              "5": 60911,
+              "6": 69583,
+              "7": 39135,
+              "8": 37387,
+              "9": 69583
+            },
+            "outright_symbols": 162,
+            "preliminary_settlement_rows": 154148,
+            "price_null_rows": 139166,
+            "quantity_null_rows": 0,
+            "rows": 3151748,
+            "stat_type_counts": {
+              "1": 8273,
+              "17": 719057,
+              "18": 719057,
+              "2": 12278,
+              "3": 750912,
+              "4": 168517,
+              "5": 165304,
+              "6": 69583,
+              "7": 221817,
+              "8": 247367,
+              "9": 69583
+            },
+            "ts_ref_null_rows": 2386224
+          },
+          "2016": {
+            "final_settlement_rows": 38479,
+            "intraday_settlement_rows": 0,
+            "outright_stat_type_counts": {
+              "1": 6880,
+              "2": 4515,
+              "3": 187553,
+              "4": 60107,
+              "5": 59457,
+              "6": 65034,
+              "7": 121686,
+              "8": 128014,
+              "9": 65034
+            },
+            "outright_symbols": 167,
+            "preliminary_settlement_rows": 149074,
+            "price_null_rows": 130068,
+            "quantity_null_rows": 0,
+            "rows": 3170299,
+            "stat_type_counts": {
+              "1": 40590,
+              "2": 5668,
+              "3": 843860,
+              "4": 183406,
+              "5": 187096,
+              "6": 65034,
+              "7": 887510,
+              "8": 892101,
+              "9": 65034
+            },
+            "ts_ref_null_rows": 2196371
+          },
+          "2017": {
+            "final_settlement_rows": 43157,
+            "intraday_settlement_rows": 0,
+            "outright_stat_type_counts": {
+              "1": 7046,
+              "17": 55869,
+              "18": 55869,
+              "2": 9708,
+              "3": 155254,
+              "4": 62480,
+              "5": 58293,
+              "6": 56671,
+              "7": 106775,
+              "8": 110116,
+              "9": 56671
+            },
+            "outright_symbols": 167,
+            "preliminary_settlement_rows": 112097,
+            "price_null_rows": 115270,
+            "quantity_null_rows": 0,
+            "rows": 4264036,
+            "stat_type_counts": {
+              "1": 45600,
+              "17": 469050,
+              "18": 469050,
+              "2": 12737,
+              "3": 868350,
+              "4": 189106,
+              "5": 176449,
+              "6": 56671,
+              "7": 975557,
+              "8": 944795,
+              "9": 56671
+            },
+            "ts_ref_null_rows": 3282344
+          },
+          "2018": {
+            "final_settlement_rows": 46225,
+            "intraday_settlement_rows": 0,
+            "outright_stat_type_counts": {
+              "1": 7306,
+              "17": 93003,
+              "18": 93003,
+              "2": 9333,
+              "3": 123215,
+              "4": 64773,
+              "5": 63317,
+              "6": 37972,
+              "7": 114735,
+              "8": 113442,
+              "9": 37972
+            },
+            "outright_symbols": 167,
+            "preliminary_settlement_rows": 76990,
+            "price_null_rows": 79104,
+            "quantity_null_rows": 0,
+            "rows": 5299399,
+            "stat_type_counts": {
+              "1": 48842,
+              "17": 989395,
+              "18": 989395,
+              "2": 12207,
+              "3": 1029606,
+              "4": 191408,
+              "5": 201787,
+              "6": 37972,
+              "7": 871493,
+              "8": 889322,
+              "9": 37972
+            },
+            "ts_ref_null_rows": 4193849
+          },
+          "2019": {
+            "final_settlement_rows": 46072,
+            "intraday_settlement_rows": 0,
+            "outright_stat_type_counts": {
+              "1": 7401,
+              "17": 91943,
+              "18": 91943,
+              "2": 6459,
+              "3": 123942,
+              "4": 69131,
+              "5": 60027,
+              "6": 38591,
+              "7": 128991,
+              "8": 114946,
+              "9": 38591
+            },
+            "outright_symbols": 167,
+            "preliminary_settlement_rows": 77870,
+            "price_null_rows": 2497256,
+            "quantity_null_rows": 0,
+            "rows": 6134425,
+            "stat_type_counts": {
+              "1": 47772,
+              "17": 1539415,
+              "18": 1539415,
+              "2": 8594,
+              "3": 1129315,
+              "4": 193633,
+              "5": 188603,
+              "6": 38591,
+              "7": 715525,
+              "8": 694971,
+              "9": 38591
+            },
+            "ts_ref_null_rows": 4927928
+          },
+          "2020": {
+            "final_settlement_rows": 46242,
+            "intraday_settlement_rows": 0,
+            "outright_stat_type_counts": {
+              "1": 7597,
+              "17": 151553,
+              "18": 151553,
+              "2": 6659,
+              "3": 123315,
+              "4": 83514,
+              "5": 84938,
+              "6": 46493,
+              "7": 165480,
+              "8": 173849,
+              "9": 46493
+            },
+            "outright_symbols": 167,
+            "preliminary_settlement_rows": 77073,
+            "price_null_rows": 3196638,
+            "quantity_null_rows": 0,
+            "rows": 6811731,
+            "stat_type_counts": {
+              "1": 54840,
+              "17": 1622655,
+              "18": 1622655,
+              "2": 9060,
+              "3": 1123315,
+              "4": 262599,
+              "5": 256540,
+              "6": 46493,
+              "7": 904595,
+              "8": 862486,
+              "9": 46493
+            },
+            "ts_ref_null_rows": 5595430
+          },
+          "2021": {
+            "final_settlement_rows": 46235,
+            "intraday_settlement_rows": 0,
+            "outright_stat_type_counts": {
+              "1": 7548,
+              "17": 168418,
+              "18": 168418,
+              "2": 5196,
+              "3": 122071,
+              "4": 88257,
+              "5": 103635,
+              "6": 45734,
+              "7": 189588,
+              "8": 221457,
+              "9": 45734
+            },
+            "outright_symbols": 167,
+            "preliminary_settlement_rows": 75836,
+            "price_null_rows": 3244975,
+            "quantity_null_rows": 0,
+            "rows": 7018479,
+            "stat_type_counts": {
+              "1": 52884,
+              "17": 1661430,
+              "18": 1661430,
+              "2": 9196,
+              "3": 1111261,
+              "4": 250962,
+              "5": 283141,
+              "6": 45734,
+              "7": 914307,
+              "8": 982400,
+              "9": 45734
+            },
+            "ts_ref_null_rows": 5815750
+          },
+          "2022": {
+            "final_settlement_rows": 45320,
+            "intraday_settlement_rows": 0,
+            "outright_stat_type_counts": {
+              "1": 7586,
+              "17": 160994,
+              "18": 160994,
+              "2": 27753,
+              "3": 121241,
+              "4": 117234,
+              "5": 124393,
+              "6": 46444,
+              "7": 309871,
+              "8": 311025,
+              "9": 46444
+            },
+            "outright_symbols": 167,
+            "preliminary_settlement_rows": 75921,
+            "price_null_rows": 3203778,
+            "quantity_null_rows": 0,
+            "rows": 8588508,
+            "stat_type_counts": {
+              "1": 56106,
+              "17": 1635942,
+              "18": 1635942,
+              "2": 32384,
+              "3": 1094048,
+              "4": 330256,
+              "5": 342616,
+              "6": 46444,
+              "7": 1690786,
+              "8": 1677540,
+              "9": 46444
+            },
+            "ts_ref_null_rows": 7401572
+          },
+          "2023": {
+            "final_settlement_rows": 45954,
+            "intraday_settlement_rows": 0,
+            "outright_stat_type_counts": {
+              "1": 7208,
+              "17": 165866,
+              "18": 165866,
+              "2": 5925,
+              "3": 121325,
+              "4": 101383,
+              "5": 87713,
+              "6": 57147,
+              "7": 312004,
+              "8": 263358,
+              "9": 57147
+            },
+            "outright_symbols": 167,
+            "preliminary_settlement_rows": 75371,
+            "price_null_rows": 3273654,
+            "quantity_null_rows": 0,
+            "rows": 8057840,
+            "stat_type_counts": {
+              "1": 55145,
+              "17": 1662613,
+              "18": 1662613,
+              "2": 7503,
+              "3": 1122052,
+              "4": 300745,
+              "5": 291766,
+              "6": 57147,
+              "7": 1461522,
+              "8": 1379587,
+              "9": 57147
+            },
+            "ts_ref_null_rows": 6821494
+          },
+          "2024": {
+            "final_settlement_rows": 45826,
+            "intraday_settlement_rows": 0,
+            "outright_stat_type_counts": {
+              "1": 7656,
+              "17": 168120,
+              "18": 168120,
+              "2": 4853,
+              "3": 122724,
+              "4": 102629,
+              "5": 100248,
+              "6": 51472,
+              "7": 283043,
+              "8": 283239,
+              "9": 51472
+            },
+            "outright_symbols": 167,
+            "preliminary_settlement_rows": 76898,
+            "price_null_rows": 3317452,
+            "quantity_null_rows": 0,
+            "rows": 8074712,
+            "stat_type_counts": {
+              "1": 60861,
+              "17": 1691314,
+              "18": 1691314,
+              "2": 7629,
+              "3": 1160968,
+              "4": 330338,
+              "5": 327886,
+              "6": 51472,
+              "7": 1360043,
+              "8": 1341415,
+              "9": 51472
+            },
+            "ts_ref_null_rows": 6810800
+          },
+          "2025": {
+            "final_settlement_rows": 45960,
+            "intraday_settlement_rows": 0,
+            "outright_stat_type_counts": {
+              "1": 8644,
+              "17": 167573,
+              "18": 167573,
+              "2": 6938,
+              "3": 122569,
+              "4": 139075,
+              "5": 130137,
+              "6": 47040,
+              "7": 381848,
+              "8": 383296,
+              "9": 47040
+            },
+            "outright_symbols": 167,
+            "preliminary_settlement_rows": 76609,
+            "price_null_rows": 3327003,
+            "quantity_null_rows": 0,
+            "rows": 8996266,
+            "stat_type_counts": {
+              "1": 73234,
+              "17": 1700248,
+              "18": 1700248,
+              "2": 9671,
+              "3": 1170356,
+              "4": 437423,
+              "5": 423282,
+              "6": 47040,
+              "7": 1742321,
+              "8": 1645403,
+              "9": 47040
+            },
+            "ts_ref_null_rows": 7731830
+          },
+          "2026": {
+            "final_settlement_rows": 28921,
+            "intraday_settlement_rows": 0,
+            "outright_stat_type_counts": {
+              "1": 5012,
+              "17": 104327,
+              "18": 104327,
+              "2": 8014,
+              "3": 75604,
+              "4": 78232,
+              "5": 75356,
+              "6": 25786,
+              "7": 199466,
+              "8": 191488,
+              "9": 25786
+            },
+            "outright_symbols": 156,
+            "preliminary_settlement_rows": 46683,
+            "price_null_rows": 2040655,
+            "quantity_null_rows": 0,
+            "rows": 5388600,
+            "stat_type_counts": {
+              "1": 43603,
+              "17": 1046705,
+              "18": 1046705,
+              "2": 10121,
+              "3": 723052,
+              "4": 248322,
+              "5": 254053,
+              "6": 25786,
+              "7": 982897,
+              "8": 981570,
+              "9": 25786
+            },
+            "ts_ref_null_rows": 4613976
+          }
+        }
+      },
+      "comparability": {
+        "ohlcv_1d": "Comparable as Databento UTC electronic-trade OHLCV bars from 2010-06-06 through 2026-08-12. OHLCV close is not official venue settlement and OHLCV volume is not official cleared volume; never relabel either semantic.",
+        "statistics": "Official venue statistics are semantically distinct. Final settlement is absent in 2010, 2011, 2013 and 2014, nearly absent in 2012, begins materially in late 2015, and is broad from 2016 onward. Preliminary settlements, cleared volume and OI exist earlier but cannot be silently substituted for final settlement.",
+        "definition": "Point-in-time instrument reference supports symbol/expiration identity; the audit found zero null expiration rows for NG outright definitions and zero expiration-mapping misses for audited outright OHLCV bars.",
+        "source_regime": {
+          "boundary": "2017-05-21",
+          "pre_boundary_usable_dates": 2153,
+          "post_boundary_usable_dates": 2872,
+          "rule": "always retain the source-era label and test robustness across it; exploratory development may diagnose era differences, but any final confirmatory treatment must be frozen before untouched confirmation"
+        },
+        "economic_regime": {
+          "pre_2016_usable_dates": 1725,
+          "2016_plus_usable_dates": 3300,
+          "rule": "always retain the 2010-2015 versus 2016+ regime label because shale/production/storage/price structure changed materially; exploratory development may investigate literature-consistent regime effects, while final confirmatory treatment is frozen later"
+        },
+        "normalization_constraints": [
+          "UTC-day OHLCV is not exchange-session settlement.",
+          "Use point-in-time definition identity for expiry ranking.",
+          "Do not mix preliminary and final settlement flags.",
+          "Treat sentinel/inapplicable statistics fields by stat_type rather than as generic missing-data defects.",
+          "Preserve native spread and outright symbols as distinct instrument classes."
+        ]
+      },
+      "aggregate_quality": {
+        "definition_rows": 27801205,
+        "outright_definition_rows": 698175,
+        "ohlcv_rows": 840785,
+        "outright_ohlcv_rows": 135384,
+        "native_spread_ohlcv_rows": 560576,
+        "ohlcv_dates": 5025,
+        "ohlcv_core_duplicate_keys": 0,
+        "ohlcv_core_null_cells": 0,
+        "outright_expiration_mapping_misses": 0,
+        "statistics_rows": 113202126,
+        "outright_final_settlement_rows": 483361,
+        "outright_preliminary_settlement_rows": 1552299
+      },
+      "candidate_ranking": [
+        {
+          "rank": 1,
+          "id": "calendar_expiry_ranked_nearest_two_ohlcv_curve",
+          "semantics": "synthetic nearby curve from two expiry-ranked outright ohlcv-1d closes; UTC electronic-trade bars, not settlements",
+          "coverage": {
+            "dependence": {
+              "0.2": {
+                "effective_n": 3350.0,
+                "standardized_mde_80pct": 0.04840402023006523
+              },
+              "0.4": {
+                "effective_n": 2153.571428571429,
+                "standardized_mde_80pct": 0.06037041994779294
+              },
+              "0.6": {
+                "effective_n": 1256.25,
+                "standardized_mde_80pct": 0.07904343404200947
+              }
+            },
+            "first_date": "2010-06-06",
+            "last_date": "2026-08-12",
+            "max_year_share": 0.06228855721393035,
+            "usable_dates": 5025,
+            "year_counts": {
+              "2010": 179,
+              "2011": 310,
+              "2012": 312,
+              "2013": 308,
+              "2014": 305,
+              "2015": 311,
+              "2016": 310,
+              "2017": 309,
+              "2018": 312,
+              "2019": 312,
+              "2020": 312,
+              "2021": 310,
+              "2022": 310,
+              "2023": 309,
+              "2024": 313,
+              "2025": 312,
+              "2026": 191
+            }
+          },
+          "expected_information_value": "highest",
+          "why": "preserves a curve/storage mechanism, uses all 5,025 dates, avoids the unavailable pre-2015 final-settlement dependency, and gives #285 a strong starting construction for literature replication without making it a frozen answer",
+          "next_status": "selected_as_exploratory_replication_starting_candidate"
+        },
+        {
+          "rank": 2,
+          "id": "native_exchange_calendar_spread_ohlcv",
+          "semantics": "native exchange spread ohlcv-1d close under UTC electronic-trade-bar semantics",
+          "coverage": {
+            "dependence": {
+              "0.2": {
+                "effective_n": 3350.0,
+                "standardized_mde_80pct": 0.04840402023006523
+              },
+              "0.4": {
+                "effective_n": 2153.571428571429,
+                "standardized_mde_80pct": 0.06037041994779294
+              },
+              "0.6": {
+                "effective_n": 1256.25,
+                "standardized_mde_80pct": 0.07904343404200947
+              }
+            },
+            "first_date": "2010-06-06",
+            "last_date": "2026-08-12",
+            "max_year_share": 0.06228855721393035,
+            "usable_dates": 5025,
+            "year_counts": {
+              "2010": 179,
+              "2011": 310,
+              "2012": 312,
+              "2013": 308,
+              "2014": 305,
+              "2015": 311,
+              "2016": 310,
+              "2017": 309,
+              "2018": 312,
+              "2019": 312,
+              "2020": 312,
+              "2021": 310,
+              "2022": 310,
+              "2023": 309,
+              "2024": 313,
+              "2025": 312,
+              "2026": 191
+            }
+          },
+          "expected_information_value": "medium_high",
+          "why": "directly observes traded spread instruments across all dates; the large spread universe may be explored with literature-motivated tenor/liquidity choices, with the full search history recorded",
+          "next_status": "reserve_candidate"
+        },
+        {
+          "rank": 3,
+          "id": "calendar_expiry_ranked_nearest_outlight_close_return",
+          "semantics": "expiry-ranked nearest outright ohlcv-1d close/return",
+          "coverage": {
+            "dependence": {
+              "0.2": {
+                "effective_n": 3350.0,
+                "standardized_mde_80pct": 0.04840402023006523
+              },
+              "0.4": {
+                "effective_n": 2153.571428571429,
+                "standardized_mde_80pct": 0.06037041994779294
+              },
+              "0.6": {
+                "effective_n": 1256.25,
+                "standardized_mde_80pct": 0.07904343404200947
+              }
+            },
+            "first_date": "2010-06-06",
+            "last_date": "2026-08-12",
+            "max_year_share": 0.06228855721393035,
+            "usable_dates": 5025,
+            "year_counts": {
+              "2010": 179,
+              "2011": 310,
+              "2012": 312,
+              "2013": 308,
+              "2014": 305,
+              "2015": 311,
+              "2016": 310,
+              "2017": 309,
+              "2018": 312,
+              "2019": 312,
+              "2020": 312,
+              "2021": 310,
+              "2022": 310,
+              "2023": 309,
+              "2024": 313,
+              "2025": 312,
+              "2026": 191
+            }
+          },
+          "expected_information_value": "medium",
+          "why": "broad and clean, but another generic outright return target is less valuable after repeated next-session return failures",
+          "next_status": "reserve_candidate"
+        },
+        {
+          "rank": 4,
+          "id": "official_final_settlement_curve",
+          "semantics": "official final settlement statistics only, with cleared volume/OI kept as separate official statistics",
+          "coverage_note": "not homogeneous across 2010+; final settlement absent or extremely sparse before late 2015 and broad from 2016",
+          "expected_information_value": "lower_for_full_history_goal",
+          "why": "strong official semantics but cannot satisfy the data-first goal across the full history without discarding the early period; #275 STOP remains authoritative for the frozen exact extension",
+          "next_status": "not_selected_for_279_successor"
+        }
+      ],
+      "planning_power": {
+        "metric": "standardized effect planning envelope for exploratory replication capacity; target-specific MEPI is frozen only after a literature-consistent development candidate is selected for untouched confirmation",
+        "raw_dates": 5025,
+        "max_year_share": 0.06228855721393035,
+        "ar1_sensitivities": {
+          "0.2": {
+            "effective_n": 3350.0,
+            "standardized_mde_80pct": 0.04840402023006523
+          },
+          "0.4": {
+            "effective_n": 2153.571428571429,
+            "standardized_mde_80pct": 0.06037041994779294
+          },
+          "0.6": {
+            "effective_n": 1256.25,
+            "standardized_mde_80pct": 0.07904343404200947
+          }
+        },
+        "interpretation": "At rho 0.2/0.4/0.6, effective N is 3350/2153.57/1256.25 and standardized 80% MDE is about 0.0484/0.0604/0.0790. This supports substantial exploratory replication capacity. It is not a confirmatory power PASS until development has reproduced a literature-supported phenomenon and a final specification/MEPI is then frozen for untouched confirmation."
+      },
+      "multiplicity_and_confirmation": {
+        "target_outcomes_scored": false,
+        "curve_spread_returns_computed": false,
+        "protected_271_273_confirmation_accessed": false,
+        "rule": "#279 used source/coverage structure only. #285 may inspect and tune development outcomes to replicate literature-supported market findings, with every attempted variant recorded. Only the final selected specification must be frozen before untouched confirmation; exploratory fit is not independent confirmation."
+      },
+      "selected_successor": {
+        "kind": "literature_anchored_exploratory_replication",
+        "candidate_id": "calendar_expiry_ranked_nearest_two_ohlcv_curve_starting_candidate",
+        "purpose": "Replicate credible published natural-gas market findings with the full owned Databento history. The expiry-ranked nearby curve is a starting construction, not a frozen answer.",
+        "exploratory_permissions": [
+          "inspect development outcomes",
+          "test literature-consistent parameterizations, horizons, curve definitions and transformations",
+          "debug source semantics, contract identity, timestamping and expiry/roll logic",
+          "iterate transparently until the published or expected phenomenon is reproduced or a faithful non-replication is established"
+        ],
+        "required_controls": [
+          "preserve actual Databento source semantics",
+          "record all attempted variants and multiplicity/search history",
+          "keep #271/#273 protected confirmation unopened",
+          "do not call exploratory replication independent confirmation",
+          "freeze only the final selected specification, MEPI, benchmarks, dependence method and untouched confirmation allocation before protected confirmation"
+        ],
+        "forbidden": "No OHLCV-to-settlement relabeling, hidden tuning, protected-confirmation leakage, or claiming a literature-supported mechanism is absent before implementation/data/design fidelity has been investigated."
+      }
+    }
+  },
+  "execution": {
+    "protected_outcomes_accessed": false,
+    "preregistration_ref": null
+  },
+  "verification": {
+    "status": "verified",
+    "checks": [
+      {
+        "id": "all_51_year_schema_dbn_hashes_match_provider_manifests",
+        "passed": true
+      },
+      {
+        "id": "ohlcv_core_null_or_duplicate_defect_absent",
+        "passed": true
+      },
+      {
+        "id": "outright_expiration_mapping_complete",
+        "passed": true
+      },
+      {
+        "id": "selected_candidate_spans_full_2010_plus_archive",
+        "passed": true
+      },
+      {
+        "id": "single_year_concentration_below_10_percent",
+        "passed": true
+      },
+      {
+        "id": "ohlcv_not_relabelled_as_settlement",
+        "passed": true
+      },
+      {
+        "id": "source_and_economic_regime_boundaries_declared",
+        "passed": true
+      },
+      {
+        "id": "protected_confirmation_unopened",
+        "passed": true
+      }
+    ]
+  },
+  "comparison": {
+    "observed_vs_expected": "The source audit supports H1 at the design-feasibility level. The verified archive is complete across all 17 yearly segments for definition, ohlcv-1d and statistics. OHLCV provides 5,025 dates with at least three expiry-mapped outrights on every active date, zero core null/duplicate defects, and low year concentration. Official final-settlement semantics remain discontinuous in the early years exactly as #275 warned, so the winning redesign is not an exact settlement extension: it is a new expiry-ranked nearby-curve starting construction under explicit UTC electronic-trade-bar semantics. The 2017 source and 2010-2015 economic boundaries remain mandatory labels for robustness analysis, not pre-outcome reasons to forbid exploratory learning.",
+    "disconfirmers_seen": [
+      "Official final settlement remains absent or extremely sparse before late 2015, so the full-history candidate cannot use settlement semantics.",
+      "The 2017-05-21 source protocol/timestamp boundary prevents treating all provenance details as identical.",
+      "A final confirmatory specification and untouched confirmation allocation do not yet exist; #279 therefore authorizes exploratory literature replication, not protected confirmation."
+    ]
+  },
+  "external_triangulation": {
+    "literature_snapshot_ref": {
+      "path": "research/literature/databento-history-redesign-279-post-feasibility-v1.json",
+      "sha256": "ab96ec031ca868c65a80647429609c56721661c9fd0ba84c0889fbdffab108c5"
+    },
+    "comparison": "Post-audit source documentation confirms the observed semantic split: ohlcv-1d is UTC electronic-trade data, statistics is official venue summary data, and the pre-2017 history has different timestamp provenance. Natural-gas term-structure/storage literature supports using curve shape as a replication target, while EIA evidence supports explicit regime analysis rather than assuming the 2010-2015 market is interchangeable with later years."
+  },
+  "programme_conclusion": "GO to #285 as a literature-anchored exploratory replication programme using the full 2010+ Databento archive. #279 establishes that the data is broad enough to test market findings under its actual semantics; it does not establish an edge and does not reopen #271/#273. #285 must inspect development outcomes, tune economically and literature-justified constructions transparently, and first treat failure to reproduce published findings as a possible data, implementation or design error. Freeze only the final selected candidate before untouched confirmation.",
+  "revisit_triggers": [
+    "If #285 cannot reproduce a selected high-quality literature finding, investigate source semantics, identity, timestamps, target construction and reasonable literature-consistent parameterizations before concluding faithful non-replication."
+  ],
+  "promotion_decision": "continue",
+  "lineage": {
+    "predecessor_record": "research/exploratory/front-curve-history-admissibility-275.json",
+    "successor_reason": "#275 stopped only the exact pre-2015 settlement-plus-volume extension. #279 verifies the complete 2010+ owned archive and shows that a new data-first research branch is feasible. #285 now uses that archive to reproduce credible market-research findings through transparent exploratory development before any later confirmatory freeze."
+  }
+}

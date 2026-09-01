@@ -120,24 +120,24 @@
       "selection_basis": "high_value_gap",
       "big_picture": "Find the smallest next experiment that can materially change the programme's belief about a tradable information mechanism.",
       "why_zoomed_in": "Generic one-session return model search has repeatedly failed, while the strongest positive observation remains unconfirmed because effective information was inadequate.",
-      "tested_role_target_horizon": "NOAA GFS issued 00 UTC temperature-revision feasibility is frozen to +24h through +168h shared valid timestamps and a same-session Henry Hub settlement response; #276 HOLDs before preregistration/model fitting on source/PIT-weight proof.",
-      "historical_facts": {"observed": "No robust trading edge is established.", "rules_out": "Broad adaptive model search as the default next branch.", "does_not_rule_out": "Mechanism-led curve/spread, event, volatility or other complementary signal roles that clear feasibility before protected testing."},
+      "tested_role_target_horizon": "#279 verified the full Databento archive and identified an expiry-ranked nearby OHLCV curve as a high-value starting construction for #285. #285 is exploratory replication: it may inspect and tune development outcomes to reproduce credible published natural-gas market findings; only a later confirmatory specification is frozen.",
+      "historical_facts": {"observed": "No robust trading edge is established. The owned Databento archive is manifest-verified across 17 yearly definition, ohlcv-1d and statistics segments from 2010-06-06 through 2026-08-12; expiry-ranked nearby OHLCV coverage spans 5,025 dates with 6.23% maximum single-year concentration.", "rules_out": "Broad adaptive model search as the default next branch and treating the pre-2015 archive as useless merely because it cannot satisfy the frozen settlement-plus-volume design.", "does_not_rule_out": "Mechanism-led curve/spread, event, volatility or other complementary signal roles that clear target-specific feasibility before protected testing."},
       "useful_secondary_observations": ["The integrated system still needs complementary signal families whose value survives simple baselines and realistic evidence gates."],
-      "remaining_untested_roles": ["curve/spread change", "mechanism-led event returns", "adequately powered volatility", "other complementary non-model information roles after programme-value screening"],
-      "revisit_trigger": "Refresh this selection when a candidate has quantified MEPI, dependence/effective information, source/PIT fitness and untouched confirmation capacity.",
-      "programme_interpretation": "The exact front-curve extension is stopped. Weather revisions remain the immediate mechanism-led branch, but #276 HOLDs before outcomes until cross-era issued-vintage continuity, PIT lagged gas-demand weights, and confirmation power are proven. #279 remains the separate data-first redesign branch.",
-      "evidence_refs": ["docs/big-picture.md", "docs/roadmap.md", "research/exploratory/front-curve-feasibility-271.json", "research/exploratory/front-curve-feasibility-273-conformance.json", "config/research_revisit_triggers.json", "research/exploratory/front-curve-history-admissibility-275.json", "research/exploratory/weather-revision-mechanism-276.json", "research/literature/weather-revision-276-feasibility-v1.json"],
+      "remaining_untested_roles": ["literature-anchored natural-gas market finding replication on full Databento history (#285)", "mechanism-led event returns", "adequately powered volatility", "other complementary non-model information roles after programme-value screening"],
+      "revisit_trigger": "For #285, preserve transparent exploratory search history and source semantics; if a literature finding is reproduced, freeze only the final selected candidate before untouched confirmation.",
+      "programme_interpretation": "The exact #271/#273 settlement-plus-volume extension remains stopped and #276 weather revisions remain independently HOLD. #279 completes the data-first inventory and hands #285 an exploratory literature-replication programme, not a pre-outcome freeze.",
+      "evidence_refs": ["docs/big-picture.md", "docs/roadmap.md", "research/exploratory/front-curve-feasibility-271.json", "research/exploratory/front-curve-feasibility-273-conformance.json", "config/research_revisit_triggers.json", "research/exploratory/front-curve-history-admissibility-275.json", "research/exploratory/weather-revision-mechanism-276.json", "research/literature/weather-revision-276-feasibility-v1.json", "research/exploratory/databento-history-redesign-279.json", "research/literature/databento-history-redesign-279-feasibility-v1.json", "research/literature/databento-history-redesign-279-post-feasibility-v1.json"],
       "stopping_rules": {"negative_evidence":"stop or branch when repeated governed evidence rejects the mechanism","feasible_power":"hold until the selected slice has a quantitative feasibility calculation","economic_relevance":"stop if the economic MEPI cannot be cleared","confirmation_capacity":"hold if no independent confirmation capacity remains","expected_information_value":"choose the next slice only when it can materially change a programme decision"},
-      "experiment_history": [{"issue":271,"result":"front_curve_feasibility_hold_before_preregistration"},{"issue":273,"result":"conformance_replay_hold_protected_unopened"},{"issue":275,"result":"pre2015_exact_semantics_stop_protected_unopened","follow_up_issue":279},{"issue":276,"result":"weather_revision_feasibility_hold_before_preregistration_protected_unopened"}]
+      "experiment_history": [{"issue":271,"result":"front_curve_feasibility_hold_before_preregistration"},{"issue":273,"result":"conformance_replay_hold_protected_unopened"},{"issue":275,"result":"pre2015_exact_semantics_stop_protected_unopened","follow_up_issue":279},{"issue":276,"result":"weather_revision_feasibility_hold_before_preregistration_protected_unopened"},{"issue":279,"result":"data_first_full_history_go_to_literature_replication_protected_unopened"}]
     }
   ],
   "current_helicopter_view": {
     "known": ["No robust reproducible trading edge has been established.", "Generic next-session return forecasting has repeatedly failed strong simple baselines under corrected contracts.", "Research controls now prevent invalid data, underpowered confirmation and post-result rescue from being mistaken for evidence."],
     "repeatedly_failed": ["generic one-session return model promotion", "direct one-step Kronos", "TimesFM return/blend promotion against the zero-return hurdle"],
     "mechanisms_still_alive": ["volatility persistence as an unconfirmed diagnostic observation", "mechanism-led event returns", "curve/spread change", "other complementary signal roles only after programme-value screening"],
-    "missing_not_negative": ["adequately powered protected volatility confirmation", "data-first experiments designed around the full owned 2010+ Databento inventory (#279)", "future mechanism-specific event experiment", "first real post-hardening confirmatory lifecycle commissioning"],
+    "missing_not_negative": ["adequately powered protected volatility confirmation", "literature-anchored replication of natural-gas market findings on the full owned Databento history (#285)", "future mechanism-specific event experiment", "first real post-hardening confirmatory lifecycle commissioning"],
     "integrated_system_needs": ["complementary signal families with incremental information", "calibration and uncertainty", "decision/risk integration", "realistic execution and forward validation after research promotion"],
-    "next_branch_reason": "The next experiment should maximize expected information value by testing one plausible mechanism with enough effective information to clear a declared MEPI while preserving fresh confirmation capacity."
+    "next_branch_reason": "#279 shows the full owned Databento archive has enough breadth to reproduce known market phenomena. The next move is #285: literature-first exploratory replication with transparent tuning, followed by a separate freeze only if a candidate is demonstrated and moved to untouched confirmation."
   },
   "feasibility_map": [
     {
@@ -184,6 +184,21 @@
       "market_implied_benchmark_required": true,
       "feasibility": "hold",
       "hold_reason": "Cross-era issued Grid-4 content continuity, PIT-safe lagged gas-demand weighting, final eligible-event loss and fresh confirmation allocation are not yet proven. Protected outcomes remain unopened."
+    },
+    {
+      "target": "ng-market-literature-replication-development-v1",
+      "horizon": "exploratory_replication_before_confirmatory_freeze",
+      "information_family": "literature_anchored_curve_and_market_structure_replication",
+      "scientific_mepi": null,
+      "economic_mepi": null,
+      "raw_information": 5025,
+      "effective_information_method": {"method": "ar1_planning_sensitivity", "rho_grid": [0.2, 0.4, 0.6], "effective_n_at_binding_rho_0_6": 1256.25},
+      "detectable_effect": 0.07904343404200947,
+      "expected_snr": null,
+      "costs": {"incremental_data_usd": 0.0, "source": "existing approved Databento full-history batch"},
+      "market_implied_benchmark_required": true,
+      "feasibility": "redesign",
+      "hold_reason": "Proceed under #285 as exploratory development: inspect and tune literature-consistent market constructions transparently to reproduce published or expected phenomena. Freeze only the final selected specification before untouched confirmation."
     },
     {
       "target": "ng-realized-volatility-reopening-gate-v1",

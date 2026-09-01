@@ -1,0 +1,113 @@
+{
+  "schema_version": 1,
+  "snapshot_id": "databento-history-redesign-279-post-feasibility-v1",
+  "research_question": "Does the observed 2010+ Databento inventory justify a new curve experiment under explicit trade-bar semantics and regime controls?",
+  "search_scope": "Independent post-audit triangulation against Databento schema/source semantics, natural-gas term-structure literature and EIA structural-regime evidence; no protected confirmation outcomes used.",
+  "sources": [
+    {
+      "source_id": "databento-ohlcv",
+      "title": "Aggregate bars (OHLCV)",
+      "source_type": "reputable_institution",
+      "quality": "primary",
+      "locator": "https://databento.com/docs/schemas-and-data-formats/ohlcv",
+      "year": 2026
+    },
+    {
+      "source_id": "databento-statistics",
+      "title": "Statistics",
+      "source_type": "reputable_institution",
+      "quality": "primary",
+      "locator": "https://databento.com/docs/schemas-and-data-formats/statistics",
+      "year": 2026
+    },
+    {
+      "source_id": "databento-definitions",
+      "title": "Instrument definitions",
+      "source_type": "reputable_institution",
+      "quality": "primary",
+      "locator": "https://databento.com/docs/schemas-and-data-formats/instrument-definitions",
+      "year": 2026
+    },
+    {
+      "source_id": "databento-glbx-history",
+      "title": "CME Globex MDP 3.0 data feed specifications",
+      "source_type": "reputable_institution",
+      "quality": "primary",
+      "locator": "https://databento.com/docs/knowledge-base/datasets/glbx-mdp3",
+      "year": 2026
+    },
+    {
+      "source_id": "modjtahedi-movassagh-2005",
+      "title": "Natural-gas futures: Bias, predictive performance, and the theory of storage",
+      "source_type": "peer_reviewed",
+      "quality": "high",
+      "locator": "https://doi.org/10.1016/j.eneco.2005.04.005",
+      "year": 2005
+    },
+    {
+      "source_id": "almansour-2016",
+      "title": "Convenience yield in commodity price modeling: A regime switching approach",
+      "source_type": "peer_reviewed",
+      "quality": "high",
+      "locator": "https://doi.org/10.1016/j.eneco.2014.06.016",
+      "year": 2016
+    },
+    {
+      "source_id": "eia-2010-retrospective",
+      "title": "Natural gas production/consumption retrospective 2010",
+      "source_type": "government",
+      "quality": "primary",
+      "locator": "https://www.eia.gov/todayinenergy/detail.php?id=1090",
+      "year": 2011
+    },
+    {
+      "source_id": "eia-2015-price",
+      "title": "Average annual natural gas spot price in 2015 was at lowest level since 1999",
+      "source_type": "government",
+      "quality": "primary",
+      "locator": "https://www.eia.gov/todayinenergy/detail.php?id=24412",
+      "year": 2016
+    }
+  ],
+  "claim_map": [
+    {
+      "claim": "The observed full-history OHLCV continuity is scientifically usable only as UTC electronic-trade bars, not as an extension of official settlement semantics.",
+      "source_ids": [
+        "databento-ohlcv",
+        "databento-statistics"
+      ]
+    },
+    {
+      "claim": "Expiry-ranked curve construction is mechanism-consistent with natural-gas storage/term-structure research and is more scientifically specific than another generic outright next-session-return search.",
+      "source_ids": [
+        "modjtahedi-movassagh-2005",
+        "almansour-2016"
+      ]
+    },
+    {
+      "claim": "The 2017 feed boundary is a source-provenance change and the 2010-2015 period is an economic-regime change; both should be robustness strata rather than reasons to discard the long sample automatically.",
+      "source_ids": [
+        "databento-glbx-history",
+        "eia-2010-retrospective",
+        "eia-2015-price"
+      ]
+    },
+    {
+      "claim": "Point-in-time definitions are the correct identity source for expiry-based contract ordering. Their source semantics must remain faithful, while economically justified development constructions may be explored before a final confirmatory specification is frozen.",
+      "source_ids": [
+        "databento-definitions"
+      ]
+    }
+  ],
+  "expected_observations": [
+    "A successor should use development outcomes to test whether credible natural-gas term-structure and market-structure findings can be reproduced with the owned Databento history, iterating transparently over literature-consistent constructions when needed.",
+    "If a published or expected phenomenon is not reproduced, source semantics, contract identity, timestamping, target construction and reasonable parameterizations should be investigated before concluding faithful non-replication.",
+    "Only after a literature-consistent candidate is demonstrated on development data should the final specification and untouched confirmation allocation be frozen."
+  ],
+  "disconfirming_observations": [
+    "The successor freezes an arbitrary construction before testing whether it can reproduce the literature-supported phenomenon.",
+    "The successor hides exploratory tuning or presents development fit as independent confirmation.",
+    "The successor claims official settlement evidence from ohlcv-1d or ignores material source/economic regime differences.",
+    "The successor declares the literature-supported mechanism absent without first checking implementation, data and design fidelity."
+  ]
+}
