@@ -60,8 +60,15 @@ def sha256_file(path: Path) -> str:
 def _compare(value: Any, operator: str, expected: Any) -> bool:
     if operator == "eq":
         return value == expected
-    left = float(value)
-    right = float(expected)
+    try:
+        if isinstance(value, bool) or isinstance(expected, bool):
+            raise TypeError("boolean is not a numeric comparison value")
+        left = float(value)
+        right = float(expected)
+    except (TypeError, ValueError) as exc:
+        raise MethodologyError(
+            f"comparison operator {operator!r} requires numeric metric and threshold values"
+        ) from exc
     if operator == "gte":
         return left >= right
     if operator == "lte":

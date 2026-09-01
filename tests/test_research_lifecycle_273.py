@@ -73,6 +73,19 @@ def test_active_triggers_have_current_evaluation_history() -> None:
     assert all(item["satisfied"] is False for item in registry["evaluation_history"])
 
 
+def test_non_numeric_revisit_metric_fails_closed() -> None:
+    registry = _json("config/research_revisit_triggers.json")
+    registry["evaluation_history"] = []
+    evidence = _json("research/exploratory/front-curve-feasibility-273-conformance.json")
+    evidence["feasibility"]["evidence"]["rows"]["scoreable_targets"] = "unknown"
+    with pytest.raises(MethodologyError, match="requires numeric"):
+        evaluate_revisit_registry(
+            registry,
+            evidence_loader=lambda _path: evidence,
+            evaluated_at="2026-09-02T00:00:00+02:00",
+        )
+
+
 def test_satisfied_trigger_requires_traceable_successor() -> None:
     registry = _json("config/research_revisit_triggers.json")
     registry["evaluation_history"] = []
