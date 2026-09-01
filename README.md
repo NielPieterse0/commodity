@@ -27,7 +27,7 @@ Create an isolated governed change through the live KIS workflow described in `A
 ```powershell
 $env:COMMODITY_PYTHON = '<canonical C:\Projects-local python.exe>'
 .\scripts\create_venv.ps1 -InstallLockedDependencies
-.\.venv\Scripts\python.exe -m pytest -q
+.\scripts\verify.ps1
 ```
 
 `COMMODITY_PYTHON` is machine-local state and is intentionally not pinned to a KIS installation path in repository authority.

@@ -32,8 +32,12 @@
       "role": "historical_issued_forecast_candidate"
     },
     "noaa_gfs_archive": {
-      "access": "public_archive",
-      "role": "historical_issued_forecast_fallback"
+      "access": "public_archive_and_order",
+      "role": "historical_issued_forecast_fallback",
+      "dataset_id": "NCEI DSI 6182",
+      "grid": "Grid 4 / 0.5 degree",
+      "archive_record_start": "2006-10-10",
+      "archive_order_url": "https://www.ncei.noaa.gov/has/HAS.FileAppRouter?datasetname=GFSGRB24&outdest=FILE&subqueryby=STATION"
     },
     "nyiso_mis": {
       "p7_index_url": "https://mis.nyiso.com/public/P-7list.htm",
@@ -373,6 +377,27 @@
         "research_pit_allowed_with_immutable_issued_runs": true,
         "canonical_requires_verified_source_available_at": true
       }
+    },
+    "noaa_gfs_weather_revision": {
+      "provider": "noaa_gfs_archive",
+      "status": "feasibility_hold_source_audit_required",
+      "purpose": "PIT issued 00 UTC GFS 2-m-temperature forecast revisions for a mechanism-led Henry Hub response experiment",
+      "point_in_time_required": true,
+      "product": "GFS model GRIB-2 Grid 4",
+      "grid": "0.5_degree",
+      "selected_cycle_utc_hour": 0,
+      "forecast_valid_lead_hours": [24, 168],
+      "forecast_step_hours": 3,
+      "revision_definition": "current eligible 00 UTC issued forecast minus immediately preceding eligible 00 UTC issued forecast for identical valid timestamps",
+      "forbidden_substitute": "reanalysis_or_realized_weather",
+      "missing_cycle_policy": "drop_event_if_current_or_prior_eligible_vintage_missing_or_incomplete",
+      "market_decision_cutoff": "10:00 America/New_York on target trade date; actual source availability must be proven at or before cutoff",
+      "model_version_treatment": "record NOAA implementation era; robustness stratum only; no outcome-driven era selection",
+      "weighting_status": "hold_until_pit_lagged_gas_demand_weights_are_source_verified",
+      "population_weighting": "predeclared_control_only",
+      "archive_identity": "NCEI DSI 6182 / gov.noaa.ncdc:C00634",
+      "content_identity": "order/request manifest plus SHA-256 per GRIB2 file",
+      "feasibility_evidence": "research/exploratory/weather-revision-mechanism-276.json"
     },
     "databento_henry_hub_probe": {
       "provider": "databento_futures",

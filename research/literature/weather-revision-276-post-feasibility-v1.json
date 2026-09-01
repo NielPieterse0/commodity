@@ -1,0 +1,53 @@
+{
+  "claim_map": [
+    {
+      "claim": "The official archive exposes a concrete Grid-4 GRIB-2 order path and documents the long period of record, so acquisition is operationally plausible rather than hypothetical.",
+      "source_ids": [
+        "ncei-has-grid4",
+        "ncei-dataset-selection"
+      ]
+    },
+    {
+      "claim": "The existence of a long archive does not by itself prove field-level continuity or comparability across GFS upgrades; a bounded cross-era sample audit remains necessary before GO.",
+      "source_ids": [
+        "noaa-gfs-model-changes"
+      ]
+    }
+  ],
+  "disconfirming_observations": [
+    "Any required era lacks recoverable issued files/fields or needs reanalysis substitution; archive order identity cannot be bound deterministically; PIT demand weights cannot be reconstructed conservatively."
+  ],
+  "expected_observations": [
+    "A bounded archive probe should recover exact issued Grid-4 GRIB-2 vintages and 2-m temperature fields from each predeclared GFS era with stable issue/valid-time identity."
+  ],
+  "research_question": "Does independent source evidence overturn the weather-revision feasibility HOLD caused by unresolved archive-content and PIT demand-weight verification?",
+  "schema_version": 1,
+  "search_scope": "Post-feasibility triangulation restricted to official NCEI archive ordering/coverage and official GFS implementation-history evidence; no Henry Hub target outcomes inspected.",
+  "snapshot_id": "weather-revision-276-post-feasibility-v1",
+  "sources": [
+    {
+      "locator": "https://www.ncei.noaa.gov/has/HAS.FileAppRouter?datasetname=GFSGRB24&outdest=FILE&subqueryby=STATION",
+      "quality": "primary",
+      "source_id": "ncei-has-grid4",
+      "source_type": "government",
+      "title": "Global Forecast System model (GRIB-2) Grid 4 archive ordering",
+      "year": 2026
+    },
+    {
+      "locator": "https://www.ncei.noaa.gov/has/has.dsselect",
+      "quality": "primary",
+      "source_id": "ncei-dataset-selection",
+      "source_type": "government",
+      "title": "Archive Information Request System dataset selection",
+      "year": 2026
+    },
+    {
+      "locator": "https://www.emc.ncep.noaa.gov/gmb/STATS/html/model_changes.html",
+      "quality": "primary",
+      "source_id": "noaa-gfs-model-changes",
+      "source_type": "government",
+      "title": "GFS/GDAS changes since 1991",
+      "year": 2026
+    }
+  ]
+}

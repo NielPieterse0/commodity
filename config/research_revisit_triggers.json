@@ -35,6 +35,33 @@
       "satisfied": false,
       "successor_ref": "https://github.com/NielPieterse0/commodity/issues/279",
       "trigger_id": "front-curve-year-concentration"
+    },
+    {
+      "evaluated_at": "2026-09-01T14:20:00+02:00",
+      "evaluation_id": "weather-revision-grid4-cross-era-continuity:2026-09-01T14:20:00+02:00",
+      "evidence_ref": "research/exploratory/weather-revision-mechanism-276.json",
+      "observed": false,
+      "satisfied": false,
+      "successor_ref": null,
+      "trigger_id": "weather-revision-grid4-cross-era-continuity"
+    },
+    {
+      "evaluated_at": "2026-09-01T14:20:00+02:00",
+      "evaluation_id": "weather-revision-pit-demand-weights:2026-09-01T14:20:00+02:00",
+      "evidence_ref": "research/exploratory/weather-revision-mechanism-276.json",
+      "observed": false,
+      "satisfied": false,
+      "successor_ref": null,
+      "trigger_id": "weather-revision-pit-demand-weights"
+    },
+    {
+      "evaluated_at": "2026-09-01T14:20:00+02:00",
+      "evaluation_id": "weather-revision-confirmation-power:2026-09-01T14:20:00+02:00",
+      "evidence_ref": "research/exploratory/weather-revision-mechanism-276.json",
+      "observed": false,
+      "satisfied": false,
+      "successor_ref": null,
+      "trigger_id": "weather-revision-confirmation-power"
     }
   ],
   "registry_id": "commodity-research-revisit-v1",
@@ -67,6 +94,39 @@
       },
       "threshold": 0.15,
       "trigger_id": "front-curve-year-concentration"
+    },
+    {
+      "disposition": "hold",
+      "evidence_input": "research/exploratory/weather-revision-mechanism-276.json",
+      "metric": "feasibility.evidence.release_gates.cross_era_content_continuity_proven",
+      "operator": "eq",
+      "source_record": "research/exploratory/weather-revision-mechanism-276.json",
+      "status": "active",
+      "successor_action": {"kind": "release_successor", "trace_ref": "research-line:line-next-defensible-edge/weather-revision-confirmatory-successor"},
+      "threshold": true,
+      "trigger_id": "weather-revision-grid4-cross-era-continuity"
+    },
+    {
+      "disposition": "hold",
+      "evidence_input": "research/exploratory/weather-revision-mechanism-276.json",
+      "metric": "feasibility.evidence.release_gates.pit_demand_weights_proven",
+      "operator": "eq",
+      "source_record": "research/exploratory/weather-revision-mechanism-276.json",
+      "status": "active",
+      "successor_action": {"kind": "release_successor", "trace_ref": "research-line:line-next-defensible-edge/weather-revision-confirmatory-successor"},
+      "threshold": true,
+      "trigger_id": "weather-revision-pit-demand-weights"
+    },
+    {
+      "disposition": "hold",
+      "evidence_input": "research/exploratory/weather-revision-mechanism-276.json",
+      "metric": "feasibility.evidence.release_gates.confirmation_power_at_mepi_proven",
+      "operator": "eq",
+      "source_record": "research/exploratory/weather-revision-mechanism-276.json",
+      "status": "active",
+      "successor_action": {"kind": "release_successor", "trace_ref": "research-line:line-next-defensible-edge/weather-revision-confirmatory-successor"},
+      "threshold": true,
+      "trigger_id": "weather-revision-confirmation-power"
     }
   ]
 }

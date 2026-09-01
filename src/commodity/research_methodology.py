@@ -666,7 +666,7 @@ def write_immutable_json(path: Path, payload: dict[str, Any]) -> None:
     if path.exists():
         raise MethodologyError(f"immutable artifact already exists: {path}")
     path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(json.dumps(payload, indent=2, sort_keys=True, allow_nan=False) + "\n", encoding="utf-8")
+    path.write_text(json.dumps(payload, indent=2, sort_keys=True, allow_nan=False) + "\n", encoding="utf-8", newline="\n")
 
 
 def parse_interpretation_markdown(text: str) -> tuple[dict[str, Any], dict[str, str]]:
