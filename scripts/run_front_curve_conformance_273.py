@@ -31,7 +31,8 @@ def _sha(path: Path) -> str:
 
 def _write(path: Path, payload: dict) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(json.dumps(payload, indent=2, sort_keys=True, allow_nan=False) + "\n", encoding="utf-8")
+    content = json.dumps(payload, indent=2, sort_keys=True, allow_nan=False) + "\n"
+    path.write_bytes(content.encode("utf-8"))
 
 
 def _load_cache(path: Path) -> pd.DataFrame:
