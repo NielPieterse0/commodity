@@ -1,0 +1,76 @@
+{
+  "authority": "confirmatory_successor_design_not_execution_release",
+  "benchmark": "No material Samuelson effect: M1/M12 volatility ratio <= 1.20",
+  "dependence": {
+    "alpha_one_sided": 0.05,
+    "block_length_trade_dates": 20,
+    "bootstrap_repetitions": 10000,
+    "decision_rule": "advance only if the one-sided 95% lower confidence bound for log(M1/M12 volatility ratio) exceeds log(1.20)",
+    "method": "moving-block bootstrap over ordered eligible trade dates"
+  },
+  "hypothesis": {
+    "h0": "volatility_M1 / volatility_M12 <= 1.20",
+    "h1": "volatility_M1 / volatility_M12 > 1.20"
+  },
+  "mechanism": "As expiration approaches, the same Henry Hub futures contract is more sensitive to new information and its return variability rises relative to more distant contracts.",
+  "mepi": {
+    "metric": "M1_to_M12_volatility_ratio",
+    "rationale": "A 20% nearby-over-distant volatility premium is a deliberately material stylized-fact threshold; the successor is a data/market-semantics confirmation, not a trading-PnL claim.",
+    "threshold": 1.2
+  },
+  "multiplicity": {
+    "primary_family": [
+      "samuelson_m1_vs_m12_material_ratio"
+    ],
+    "procedure": "none; exactly one confirmatory primary claim",
+    "secondary_ordering_is_confirmatory": false
+  },
+  "outcome_use": "The 2010-06-06 through 2026-08-12 archive is consumed exploratory development evidence and is forbidden as confirmation for this specification. This design freeze is not execution authority.",
+  "parameters_frozen": {
+    "annualization_factor": 252,
+    "maturity_ranks": [
+      1,
+      6,
+      12
+    ],
+    "near_expiry_exclusion": "none",
+    "return_frequency": "one ohlcv-1d observation to next observation for the same contract",
+    "source_boundary_is_not_a_selection_rule": true
+  },
+  "parent_issue": 285,
+  "power": {
+    "alpha": 0.05,
+    "dependence": {
+      "effective_information": 336.0,
+      "method": "ar1",
+      "rho": 0.2
+    },
+    "detectable_effect": 0.15283900390323857,
+    "method": "normal_effect_size",
+    "minimum_effect": 0.1823215567939546,
+    "raw_n": 504,
+    "status": "passed",
+    "target_power": 0.8
+  },
+  "selected_candidate": "samuelson_maturity_volatility",
+  "spec_id": "natural-gas-samuelson-confirmation-285-v1",
+  "status": "frozen_successor_design_pending_future_data",
+  "target": {
+    "curve": "outright Henry Hub monthly contracts ranked by delivery/expiry order; retain M1 through M12",
+    "price_semantics": "UTC electronic-trade bar close; never settlement",
+    "primary_estimand": "log(annualized_volatility_M1 / annualized_volatility_M12)",
+    "return": "same-contract consecutive-observation log close return computed before expiry ranking",
+    "secondary_diagnostic": "annualized_volatility_M1 > annualized_volatility_M6 > annualized_volatility_M12",
+    "source": "GLBX.MDP3 NG.FUT ohlcv-1d"
+  },
+  "untouched_confirmation_allocation": {
+    "current_status": "untouched_future_data_not_yet_owned",
+    "development_cutoff_inclusive": "2026-08-12",
+    "eligibility": "first 504 distinct eligible NG.FUT ohlcv-1d trade dates strictly after 2026-08-12 with both M1 and M12 same-contract returns available",
+    "execution_release": "forbidden until future acquisition is independently manifested, content-hashed, registered as a sealed confirmation window, and a repository preregistration is remotely bound",
+    "minimum_primary_return_pairs": 400,
+    "no_retrospective_substitution": true,
+    "required_eligible_dates": 504,
+    "source_identity": "future Databento acquisition must be independently manifested and SHA-256 verified before opening outcomes"
+  }
+}

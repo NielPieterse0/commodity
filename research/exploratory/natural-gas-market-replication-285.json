@@ -1,8 +1,68 @@
 {
-  "schema_version": 2,
-  "run_id": "natural-gas-market-replication-285",
-  "programme_id": "commodity-ng",
-  "research_line_id": "line-next-defensible-edge",
+  "comparison": {
+    "disconfirmers_seen": [],
+    "observed_vs_expected": "Replicated. Full-history annualized same-contract close-return volatility declines strongly with maturity rank: M1=0.4837, M6=0.2937 and M12=0.2105. M1 remains above M12 both before and after the 2017-05-21 source boundary. Same-date curve-relative winter delivery pricing exceeds injection-season delivery pricing by 0.1341 log points. These directions match the pre-outcome literature snapshot without settlement substitution or outcome-driven analytical tuning."
+  },
+  "execution": {
+    "attempts": [
+      {
+        "id": "implementation_preflight_v0",
+        "outcome": "failed_before_result",
+        "reason": "One-digit year-code parser omitted the two-digit exchange-symbol convention used in later history and stopped at 2025-05-28.",
+        "response": "Correct symbol parsing only; no research parameter or expected direction changed."
+      },
+      {
+        "history_dates": 5025,
+        "id": "primary_v1",
+        "outcome": "replicated",
+        "reason": "Same literature-first construction rerun after source-semantic parser correction."
+      }
+    ],
+    "confirmatory_successor_design_ref": "research/confirmatory-specifications/natural-gas-samuelson-confirmation-285-v1/freeze.json",
+    "confirmatory_successor_execution_authorized": false,
+    "development_result_ref": "artifacts/natural-gas-market-replication-285/result.json",
+    "preregistration_ref": null,
+    "protected_outcomes_accessed": false
+  },
+  "expectations": {
+    "disconfirming": [
+      "Maturity-ranked return volatility is flat or increases systematically with maturity across the full sample and major source eras.",
+      "Any apparent Samuelson ordering exists only under a narrow post-outcome expiry exclusion and reverses under nearby reasonable definitions.",
+      "Delivery-month relative pricing shows no repeatable seasonal ordering across years or major economic/source eras.",
+      "The findings can be obtained only by mixing official settlement with UTC OHLCV close semantics, using unmapped contracts, or hiding failed parameterizations."
+    ],
+    "expected": [
+      "For same-date expiry-ranked outrights, daily log-return volatility should generally decline with greater maturity rank; M1 should be more volatile than materially farther ranks such as M6 and M12.",
+      "The maturity-volatility ordering should not depend on one isolated calendar year and should remain directionally visible across the 2017-05-21 source boundary, even if magnitude changes.",
+      "Calendar-month structure should be non-flat: contracts delivering in winter months should show systematic relative pricing differences versus warmer/injection-season delivery months.",
+      "Economically sensible nearby-rank definitions may alter magnitude, especially near expiry, but should not require relabeling OHLCV close as settlement or outcome-driven deletion of inconvenient eras."
+    ]
+  },
+  "external_triangulation": {
+    "comparison": "Post-result independent triangulation remains consistent: peer-reviewed Henry Hub work describes the Samuelson effect as variation increasing near expiry, and CME describes winter futures premia versus summer/injection-season structure. The observed development directions therefore align with independent market descriptions, while remaining exploratory rather than independent confirmation.",
+    "literature_snapshot_ref": {
+      "path": "research/literature/natural-gas-market-replication-285-post-result-v1.json",
+      "sha256": "abfc32e6de359ec617c90c764b000cdf5c9d33606a057a5692aaa1bfbf78b2dd"
+    }
+  },
+  "feasibility": {
+    "decision": "go",
+    "evidence": {
+      "exploratory_outcome_inspection_allowed": true,
+      "owned_dates": 5025,
+      "owned_end": "2026-08-12",
+      "owned_start": "2010-06-06",
+      "protected_271_273_outcomes_required": false,
+      "settlement_required": false,
+      "source": "ng-full-history-v1",
+      "source_semantics_verified": true
+    }
+  },
+  "gap": "The programme owns deep NG.FUT history, but had not yet shown that its long-history contract mapping and OHLCV semantics can reproduce well-established Henry Hub maturity-volatility and seasonal curve structure.",
+  "hypotheses": {
+    "h0": "The owned long-history implementation does not reproduce the literature-described maturity-volatility ordering or seasonal forward-curve direction under faithful OHLCV-close semantics.",
+    "h1": "The owned long-history implementation reproduces greater nearby than distant futures volatility and a winter delivery premium relative to injection-season delivery under faithful OHLCV-close semantics."
+  },
   "lifecycle": [
     "helicopter_view",
     "gap",
@@ -20,102 +80,74 @@
     "programme_conclusion",
     "active_revisit_triggers"
   ],
-  "orientation": {
-    "big_picture_ref": "docs/big-picture.md",
-    "programme_question": "Can Commodity find a defensible natural-gas edge without changing rules after seeing results?",
-    "where_this_fits": "Pipeline/market-semantics calibration before further mechanism search: establish that the owned long-history Databento implementation reproduces robust Henry Hub market structure described by credible literature.",
-    "origin_refs": ["issue-273", "issue-275", "issue-279", "issue-285", "research/exploratory/databento-history-redesign-279.json"]
-  },
-  "gap": "The programme owns deep NG.FUT history, but had not yet shown that its long-history contract mapping and OHLCV semantics can reproduce well-established Henry Hub maturity-volatility and seasonal curve structure.",
-  "zoom_in": {
-    "reason": "Before trusting deeper experiments on the redesigned 2010+ archive, replicate stylized facts with clear literature expectations and source semantics that the owned OHLCV data can actually represent.",
-    "evidence_refs": ["research/exploratory/databento-history-redesign-279.json", "docs/development/natural-gas-market-replication-285/source-verification.json"]
+  "lineage": {
+    "predecessor_record": "research/exploratory/databento-history-redesign-279.json",
+    "successor_reason": "#279 established the authoritative 2010+ Databento inventory and semantic limits; #285 uses that inventory to verify that the implementation can reproduce externally documented market structure before deeper hypothesis work."
   },
   "literature_snapshot_ref": {
     "path": "research/literature/natural-gas-market-replication-285-development-v1.json",
     "sha256": "326cad7826c56ccbb336ec717e93a9596e7667218065ae7b2bca150a1c1d6df5"
   },
   "mechanism": "Nearer Henry Hub futures should vary more as expiry approaches because new information has less time to be absorbed across storage/production adjustments, while weather-driven demand and storage economics create a repeatable winter-versus-injection seasonal forward-curve pattern.",
-  "hypotheses": {
-    "h0": "The owned long-history implementation does not reproduce the literature-described maturity-volatility ordering or seasonal forward-curve direction under faithful OHLCV-close semantics.",
-    "h1": "The owned long-history implementation reproduces greater nearby than distant futures volatility and a winter delivery premium relative to injection-season delivery under faithful OHLCV-close semantics."
-  },
-  "expectations": {
-    "expected": [
-      "For same-date expiry-ranked outrights, daily log-return volatility should generally decline with greater maturity rank; M1 should be more volatile than materially farther ranks such as M6 and M12.",
-      "The maturity-volatility ordering should not depend on one isolated calendar year and should remain directionally visible across the 2017-05-21 source boundary, even if magnitude changes.",
-      "Calendar-month structure should be non-flat: contracts delivering in winter months should show systematic relative pricing differences versus warmer/injection-season delivery months.",
-      "Economically sensible nearby-rank definitions may alter magnitude, especially near expiry, but should not require relabeling OHLCV close as settlement or outcome-driven deletion of inconvenient eras."
+  "orientation": {
+    "big_picture_ref": "docs/big-picture.md",
+    "origin_refs": [
+      "issue-273",
+      "issue-275",
+      "issue-279",
+      "issue-285",
+      "research/exploratory/databento-history-redesign-279.json"
     ],
-    "disconfirming": [
-      "Maturity-ranked return volatility is flat or increases systematically with maturity across the full sample and major source eras.",
-      "Any apparent Samuelson ordering exists only under a narrow post-outcome expiry exclusion and reverses under nearby reasonable definitions.",
-      "Delivery-month relative pricing shows no repeatable seasonal ordering across years or major economic/source eras.",
-      "The findings can be obtained only by mixing official settlement with UTC OHLCV close semantics, using unmapped contracts, or hiding failed parameterizations."
-    ]
-  },
-  "feasibility": {
-    "decision": "go",
-    "evidence": {
-      "source": "ng-full-history-v1",
-      "owned_dates": 5025,
-      "owned_start": "2010-06-06",
-      "owned_end": "2026-08-12",
-      "source_semantics_verified": true,
-      "settlement_required": false,
-      "protected_271_273_outcomes_required": false,
-      "exploratory_outcome_inspection_allowed": true
-    }
-  },
-  "execution": {
-    "protected_outcomes_accessed": false,
-    "preregistration_ref": null,
-    "development_result_ref": "docs/development/natural-gas-market-replication-285/result.json",
-    "attempts": [
-      {
-        "id": "implementation_preflight_v0",
-        "outcome": "failed_before_result",
-        "reason": "One-digit year-code parser omitted the two-digit exchange-symbol convention used in later history and stopped at 2025-05-28.",
-        "response": "Correct symbol parsing only; no research parameter or expected direction changed."
-      },
-      {
-        "id": "primary_v1",
-        "outcome": "replicated",
-        "history_dates": 5025,
-        "reason": "Same literature-first construction rerun after source-semantic parser correction."
-      }
-    ]
-  },
-  "verification": {
-    "status": "verified",
-    "checks": [
-      {"id": "full_5025_date_history_covered", "passed": true},
-      {"id": "ohlcv_close_not_settlement", "passed": true},
-      {"id": "contract_returns_before_rank_prevent_roll_jump", "passed": true},
-      {"id": "one_and_two_digit_year_symbology_supported", "passed": true},
-      {"id": "source_boundary_robustness_checked", "passed": true},
-      {"id": "protected_271_273_confirmation_untouched", "passed": true},
-      {"id": "all_exploratory_attempts_recorded", "passed": true}
-    ]
-  },
-  "comparison": {
-    "observed_vs_expected": "Replicated. Full-history annualized same-contract close-return volatility declines strongly with maturity rank: M1=0.4837, M6=0.2937 and M12=0.2105. M1 remains above M12 both before and after the 2017-05-21 source boundary. Same-date curve-relative winter delivery pricing exceeds injection-season delivery pricing by 0.1341 log points. These directions match the pre-outcome literature snapshot without settlement substitution or outcome-driven analytical tuning.",
-    "disconfirmers_seen": []
-  },
-  "external_triangulation": {
-    "literature_snapshot_ref": {
-      "path": "research/literature/natural-gas-market-replication-285-post-result-v1.json",
-      "sha256": "abfc32e6de359ec617c90c764b000cdf5c9d33606a057a5692aaa1bfbf78b2dd"
-    },
-    "comparison": "Post-result independent triangulation remains consistent: peer-reviewed Henry Hub work describes the Samuelson effect as variation increasing near expiry, and CME describes winter futures premia versus summer/injection-season structure. The observed development directions therefore align with independent market descriptions, while remaining exploratory rather than independent confirmation."
+    "programme_question": "Can Commodity find a defensible natural-gas edge without changing rules after seeing results?",
+    "where_this_fits": "Pipeline/market-semantics calibration before further mechanism search: establish that the owned long-history Databento implementation reproduces robust Henry Hub market structure described by credible literature."
   },
   "programme_conclusion": "REPLICATED as exploratory development evidence. The 2010+ Databento pipeline reproduces two literature-supported Henry Hub market structures under honest OHLCV-close semantics. Rank Samuelson maturity-volatility first because it is directly defined, strong, monotone and cross-source-era robust; rank seasonal curve structure second because it is also directionally replicated but has more construction choices. Do not treat either as independent confirmation.",
+  "programme_id": "commodity-ng",
+  "promotion_decision": "continue",
+  "research_line_id": "line-next-defensible-edge",
   "revisit_triggers": [
     "samuelson-future-confirmation-allocation-ready"
   ],
-  "promotion_decision": "continue",
-  "lineage": {
-    "predecessor_record": "research/exploratory/databento-history-redesign-279.json",
-    "successor_reason": "#279 established the authoritative 2010+ Databento inventory and semantic limits; #285 uses that inventory to verify that the implementation can reproduce externally documented market structure before deeper hypothesis work."
+  "run_id": "natural-gas-market-replication-285",
+  "schema_version": 2,
+  "verification": {
+    "checks": [
+      {
+        "id": "full_5025_date_history_covered",
+        "passed": true
+      },
+      {
+        "id": "ohlcv_close_not_settlement",
+        "passed": true
+      },
+      {
+        "id": "contract_returns_before_rank_prevent_roll_jump",
+        "passed": true
+      },
+      {
+        "id": "one_and_two_digit_year_symbology_supported",
+        "passed": true
+      },
+      {
+        "id": "source_boundary_robustness_checked",
+        "passed": true
+      },
+      {
+        "id": "protected_271_273_confirmation_untouched",
+        "passed": true
+      },
+      {
+        "id": "all_exploratory_attempts_recorded",
+        "passed": true
+      }
+    ],
+    "status": "verified"
+  },
+  "zoom_in": {
+    "evidence_refs": [
+      "research/exploratory/databento-history-redesign-279.json",
+      "artifacts/natural-gas-market-replication-285/source-verification.json"
+    ],
+    "reason": "Before trusting deeper experiments on the redesigned 2010+ archive, replicate stylized facts with clear literature expectations and source semantics that the owned OHLCV data can actually represent."
   }
 }
