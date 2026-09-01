@@ -9,7 +9,17 @@ import numpy as np
 import pandas as pd
 
 from commodity.availability import asof_join_point_in_time, validate_availability
-from commodity.config import assumptions_config, data_config, experiment_config
+from commodity.config import (
+    REPO_ROOT,
+    assumptions_config,
+    data_config,
+    experiment_config,
+)
+from commodity.data_assurance import (
+    build_reconstruction_contract,
+    canonical_json_sha256,
+    file_identity,
+)
 from commodity.exogenous_audit import (
     REQUIRED_EXOGENOUS_FAMILIES,
     audit_configured_exogenous_family,
@@ -68,10 +78,21 @@ def dataframe_sha256(frame: pd.DataFrame) -> str:
 
 def _validate_market_frame(ohlcv: pd.DataFrame) -> pd.DataFrame:
     frame = ohlcv.copy()
-    frame.index = pd.to_datetime(frame.index, utc=True)
+    raw_index = pd.DatetimeIndex(pd.to_datetime(frame.index, utc=True))
+    if "available_at" in frame.columns:
+        available = pd.DatetimeIndex(pd.to_datetime(frame.pop("available_at"), utc=True, errors="coerce"))
+        if available.isna().any():
+            raise ValueError("Market available_at must be explicit and valid")
+        frame.index = available
+    elif (raw_index == raw_index.normalize()).all():
+        # Date-only daily bars do not literally encode when their values became knowable.
+        # Use the same conservative bound owned by canonical market availability policy.
+        frame.index = raw_index.normalize() + pd.Timedelta(hours=23, minutes=59)
+    else:
+        frame.index = raw_index
     frame = frame.sort_index()
     if frame.index.has_duplicates:
-        raise ValueError("Market frame must have a unique chronological index")
+        raise ValueError("Market frame must have a unique chronological availability index")
     return frame
 
 
@@ -299,6 +320,7 @@ def build_pit_dataset(
             promotion_required=evidence_mode == "canonical",
         )
         market_input = "canonical_contracts"
+        market_source_sha256 = str(market_structure_lineage["contract_input_sha256"])
         families.add("market_structure")
     else:
         if ohlcv is None:
@@ -309,6 +331,7 @@ def build_pit_dataset(
             )
         market = _validate_market_frame(ohlcv)
         market_input = "market_frame"
+        market_source_sha256 = dataframe_sha256(market)
         x, y = make_supervised(market)
         dataset = x.join(y.rename(TARGET_COLUMN))
 
@@ -403,7 +426,7 @@ def build_pit_dataset(
         "start": dataset.index[0].isoformat(),
         "end": dataset.index[-1].isoformat(),
         "target": TARGET_COLUMN,
-        "prediction_timestamp_semantics": "after_current_daily_bar_close",
+        "prediction_timestamp_semantics": "explicit_or_conservatively_derived_market_available_at_cutoff",
         "material_exclusions": [
             f"{family}: not included as PIT-admissible evidence" for family in missing
         ],
@@ -414,4 +437,32 @@ def build_pit_dataset(
     }
     if market_structure_lineage is not None:
         manifest["market_structure"] = market_structure_lineage
+    source_inputs = [{"id": market_input, "sha256": market_source_sha256}]
+    source_inputs.extend(
+        {
+            "id": str(item["source_id"]),
+            "vintage": item.get("source_vintage"),
+            "sha256": str(item["source_sha256"]),
+        }
+        for item in exogenous_lineage
+    )
+    transformation_sha256 = file_identity(
+        REPO_ROOT / "src" / "commodity" / name
+        for name in (
+            "research_dataset.py", "availability.py", "features.py", "market_data.py",
+            "rolls.py", "roll_policy.py", "roll_safe_market.py", "exogenous_audit.py",
+            "data_assurance.py",
+        )
+    )
+    layers = [
+        {"name": "retained_source_evidence", "status": "verified", "sha256": canonical_json_sha256(source_inputs)},
+        {"name": "canonical_normalization", "status": "verified", "sha256": market_source_sha256},
+        {"name": "pit_availability", "status": "verified", "sha256": canonical_json_sha256({"prediction_times": [value.isoformat() for value in dataset.index], "sources": exogenous_lineage})},
+        {"name": "feature_construction", "status": "verified", "sha256": digest},
+    ]
+    manifest["data_assurance"] = build_reconstruction_contract(
+        source_inputs=source_inputs,
+        layers=layers,
+        transformation_sha256=transformation_sha256,
+    )
     return dataset, manifest

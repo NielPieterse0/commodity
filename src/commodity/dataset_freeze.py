@@ -8,6 +8,10 @@ from typing import Any
 import pandas as pd
 
 from commodity.config import REPO_ROOT, config_path, experiment_config
+from commodity.data_assurance import (
+    assert_research_ready,
+    build_reconstruction_contract,
+)
 from commodity.dataset_audit import audit_full_v1_dataset
 from commodity.provenance import sha256_file
 from commodity.research_dataset import dataframe_sha256
@@ -49,6 +53,7 @@ def _validate_full_v1(frame: pd.DataFrame, manifest: dict[str, Any]) -> None:
         raise ValueError("Dataset bytes do not match upstream dataset_sha256")
     if int(manifest.get("rows", -1)) != len(frame):
         raise ValueError("Dataset row count does not match upstream manifest")
+    assert_research_ready(manifest.get("data_assurance"))
 
 
 def _stable_lineage(manifest: dict[str, Any]) -> dict[str, Any]:
@@ -69,14 +74,29 @@ def _freeze_manifest(
     configuration_sha256 = {
         "experiment": sha256_file(config_path("experiment.json")),
         "data_sources": sha256_file(config_path("data_sources.json")),
+        "assumptions": sha256_file(config_path("assumptions.json")),
+        "research_methodology": sha256_file(config_path("research_methodology.json")),
     }
     transformation_sha256 = {
-        "research_dataset": sha256_file(REPO_ROOT / "src" / "commodity" / "research_dataset.py"),
-        "availability": sha256_file(REPO_ROOT / "src" / "commodity" / "availability.py"),
-        "exogenous_audit": sha256_file(REPO_ROOT / "src" / "commodity" / "exogenous_audit.py"),
-        "dataset_audit": sha256_file(REPO_ROOT / "src" / "commodity" / "dataset_audit.py"),
-        "dataset_freeze": sha256_file(Path(__file__)),
+        name.removesuffix(".py"): sha256_file(REPO_ROOT / "src" / "commodity" / name)
+        for name in (
+            "research_dataset.py", "availability.py", "features.py", "market_data.py",
+            "rolls.py", "roll_policy.py", "roll_safe_market.py", "exogenous_audit.py",
+            "dataset_audit.py", "dataset_freeze.py", "data_assurance.py",
+        )
     }
+    upstream_assurance = assert_research_ready(upstream.get("data_assurance"))
+    freeze_assurance = build_reconstruction_contract(
+        source_inputs=list(upstream_assurance["source_inputs"]),
+        layers=[
+            *list(upstream_assurance["layers"]),
+            {"name": "experiment_freeze", "status": "verified", "sha256": dataset_hash},
+        ],
+        transformation_sha256={
+            **dict(upstream_assurance["transformation_sha256"]),
+            **transformation_sha256,
+        },
+    )
     payload: dict[str, Any] = {
         "schema_version": 1,
         "dataset_id": upstream["dataset_id"],
@@ -103,6 +123,7 @@ def _freeze_manifest(
         "initial_train_rows": int(experiment["walk_forward"]["initial_train_rows"]),
         "source_lineage": _stable_lineage(upstream),
         "dataset_audit": dataset_audit,
+        "data_assurance": freeze_assurance,
         "configuration_sha256": configuration_sha256,
         "transformation_sha256": transformation_sha256,
     }
@@ -175,4 +196,8 @@ def load_frozen_dataset(directory: Path) -> tuple[pd.DataFrame, dict[str, Any]]:
     frame.index.name = None
     if dataframe_sha256(frame) != manifest.get("dataset_sha256"):
         raise FrozenDatasetIntegrityError("Frozen dataset content hash is invalid")
+    try:
+        assert_research_ready(manifest.get("data_assurance"))
+    except Exception as exc:
+        raise FrozenDatasetIntegrityError("Frozen dataset data-assurance contract is invalid") from exc
     return frame, manifest

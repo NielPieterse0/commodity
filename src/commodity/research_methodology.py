@@ -711,6 +711,21 @@ def assert_confirmatory_execution_allowed(
     prereg_sha = verification["prereg_sha256"]
     _require(freeze_record.get("frozen") is True, "confirmatory experiment is not frozen")
     _require(freeze_record.get("experiment_id") == prereg["experiment_id"], "freeze experiment_id mismatch")
+    if int(freeze_record.get("schema_version", 1)) >= 2:
+        assurance = freeze_record.get("dataset_assurance") or {}
+        _require(
+            assurance.get("reconstruction_status") == "verified",
+            "confirmatory dataset reconstruction is not verified",
+        )
+        _require(
+            assurance.get("semantic_status") == "verified",
+            "confirmatory dataset semantic correctness is not verified",
+        )
+        _require(
+            isinstance(assurance.get("assurance_sha256"), str)
+            and len(assurance["assurance_sha256"]) == 64,
+            "confirmatory dataset assurance identity is missing",
+        )
     _require(freeze_record.get("prereg_sha256") == prereg_sha, "freeze prereg identity mismatch")
     binding = freeze_record.get("binding") or {}
     _require(binding.get("preregistration_remote_bound") == "verified", "preregistration is not remotely bound")

@@ -30,11 +30,17 @@ def test_methodology_declares_exact_fifteen_stage_lifecycle() -> None:
 
 def test_original_271_is_legacy_only_and_successor_is_governed() -> None:
     legacy = _json("research/exploratory/front-curve-feasibility-271.json")
-    with pytest.raises(MethodologyError, match="governed schema_version 2"):
+    with pytest.raises(MethodologyError, match="governed schema_version 3"):
         validate_exploratory_run(legacy)
     validate_exploratory_run(legacy, allow_legacy=True)
     successor = _json("research/exploratory/front-curve-feasibility-273-conformance.json")
-    validate_exploratory_run(successor)
+    with pytest.raises(MethodologyError, match="schema_version 3 with data assurance"):
+        validate_exploratory_run(successor)
+    validate_exploratory_run(successor, allow_legacy=True)
+    assured = copy.deepcopy(successor)
+    assured["schema_version"] = 3
+    with pytest.raises(MethodologyError, match="requires data_assurance_ref"):
+        validate_exploratory_run(assured)
     assert successor["lineage"]["predecessor_record"].endswith("front-curve-feasibility-271.json")
     assert successor["execution"]["protected_outcomes_accessed"] is False
 
@@ -53,7 +59,7 @@ def test_non_go_successor_cannot_claim_protected_access() -> None:
     broken = copy.deepcopy(record)
     broken["execution"]["protected_outcomes_accessed"] = True
     with pytest.raises(MethodologyError, match="non-GO"):
-        validate_exploratory_run(broken)
+        validate_exploratory_run(broken, allow_legacy=True)
 
 
 def test_exploratory_expectations_must_be_literature_derived() -> None:
@@ -61,7 +67,7 @@ def test_exploratory_expectations_must_be_literature_derived() -> None:
     broken = copy.deepcopy(record)
     broken["expectations"]["expected"].append("post-hoc invented expectation")
     with pytest.raises(MethodologyError, match="literature-derived"):
-        validate_exploratory_run(broken)
+        validate_exploratory_run(broken, allow_legacy=True)
 
 
 def test_active_triggers_have_current_evaluation_history() -> None:

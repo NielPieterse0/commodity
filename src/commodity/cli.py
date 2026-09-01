@@ -20,6 +20,7 @@ from commodity.config import (
     simulation_config,
 )
 from commodity.data import CsvMarketDataSource, YFinanceMarketDataSource, save_raw
+from commodity.data_assurance import assert_research_ready
 from commodity.dataset_audit import audit_full_v1_dataset
 from commodity.dataset_freeze import load_frozen_dataset
 from commodity.eia import (
@@ -621,8 +622,11 @@ def _experiment_freeze(args: argparse.Namespace) -> None:
     if len(matches) != 1:
         raise MethodologyError("preregistration is not registered exactly once in programme inference ledger")
     binding = verify_remote_prereg_binding(REPO_ROOT, Path(args.prereg), args.tag, args.remote)
+    dataset_manifest_path = Path(args.dataset_manifest)
+    dataset_manifest = load_methodology_json(dataset_manifest_path)
+    assurance = assert_research_ready(dataset_manifest.get("data_assurance"))
     record = {
-        "schema_version": 1,
+        "schema_version": 2,
         "experiment_id": args.experiment_id,
         "frozen": True,
         "prereg_sha256": verification["prereg_sha256"],
@@ -631,6 +635,15 @@ def _experiment_freeze(args: argparse.Namespace) -> None:
             **programme_context,
             "path": programme_evidence_path.resolve().relative_to(REPO_ROOT.resolve()).as_posix(),
             "sha256": sha256_file(programme_evidence_path),
+        },
+        "dataset_assurance": {
+            "dataset_id": dataset_manifest.get("dataset_id"),
+            "dataset_sha256": dataset_manifest.get("dataset_sha256"),
+            "manifest_path": dataset_manifest_path.resolve().relative_to(REPO_ROOT.resolve()).as_posix(),
+            "manifest_sha256": sha256_file(dataset_manifest_path),
+            "assurance_sha256": assurance["assurance_sha256"],
+            "reconstruction_status": assurance["reconstruction_status"],
+            "semantic_status": assurance["semantic_status"],
         },
         "binding": binding,
     }
@@ -1013,6 +1026,7 @@ def build_parser() -> argparse.ArgumentParser:
     freeze_exp.add_argument("--ledger", type=Path, default=methodology_ledger)
     freeze_exp.add_argument("--programme-evidence", type=Path, default=REPO_ROOT / "config/programme_evidence_map.json")
     freeze_exp.add_argument("--sealed-registry", type=Path, default=REPO_ROOT / "config/sealed_windows.json")
+    freeze_exp.add_argument("--dataset-manifest", type=Path, required=True)
     freeze_exp.add_argument("--tag", required=True)
     freeze_exp.add_argument("--remote", default="origin")
     freeze_exp.add_argument("--output", type=Path, required=True)

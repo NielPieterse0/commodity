@@ -170,10 +170,12 @@ def test_experiment_verify_power_parser() -> None:
 def test_experiment_freeze_parser_requires_binding_inputs() -> None:
     args = build_parser().parse_args([
         "experiment", "freeze", "exp-x", "--prereg", "research/experiments/x/prereg.json",
+        "--dataset-manifest", "artifacts/x/dataset-manifest.json",
         "--tag", "experiment/exp-x/v1", "--output", "research/experiments/x/freeze.json",
     ])
     assert args.experiment_id == "exp-x"
     assert args.tag == "experiment/exp-x/v1"
+    assert args.dataset_manifest == Path("artifacts/x/dataset-manifest.json")
     assert args.output == Path("research/experiments/x/freeze.json")
 
 

@@ -14,6 +14,7 @@ import pandas as pd
 import requests
 
 from commodity.config import data_config
+from commodity.data_assurance import canonical_json_sha256, canonical_records_sha256
 from commodity.market_data import (
     DataContractViolation,
     build_contract_rank_windows,
@@ -240,12 +241,13 @@ def normalize_massive_contract_history(
             out[source] = aggregates[source].values
     if out["settle"].isna().any():
         raise DataContractViolation("Massive aggregates contain missing settlement prices")
-    source_bytes = (
-        json.dumps(contract, sort_keys=True, default=str) + "\n" + aggregates.to_csv(index=False)
-    ).encode("utf-8")
+    source_identity = {
+        "contract": contract,
+        "aggregate_records_sha256": canonical_records_sha256(aggregates),
+    }
     metadata = {
         "source_id": "massive_futures_rest_v1",
-        "source_sha256": hashlib.sha256(source_bytes).hexdigest(),
+        "source_sha256": canonical_json_sha256(source_identity),
         "retrieved_at": retrieved_at,
         "exchange": contract["trading_venue"],
         "product_code": contract["product_code"],

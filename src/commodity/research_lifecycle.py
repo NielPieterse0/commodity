@@ -10,6 +10,7 @@ from typing import Any
 
 from jsonschema import Draft202012Validator
 
+from commodity.data_assurance import DataAssuranceError, assert_research_ready
 from commodity.research_methodology import MethodologyError
 
 LIFECYCLE_STAGES = (
@@ -106,10 +107,27 @@ def validate_literature_ref(ref: dict[str, Any]) -> dict[str, Any]:
 def validate_exploratory_run(record: dict[str, Any], *, allow_legacy: bool = False) -> None:
     _validate(record, "exploratory_run.schema.json")
     version = int(record.get("schema_version", 0))
-    if version == 1:
+    if version in {1, 2}:
         if not allow_legacy:
-            raise MethodologyError("new exploratory research must use governed schema_version 2")
-        return
+            raise MethodologyError(
+                "new exploratory research must use governed schema_version 3 with data assurance"
+            )
+        if version == 1:
+            return
+    if version == 3:
+        assurance_ref = record["execution"].get("data_assurance_ref")
+        if not isinstance(assurance_ref, dict):
+            raise MethodologyError("schema_version 3 exploratory research requires data_assurance_ref")
+        path = _root() / str(assurance_ref.get("path", ""))
+        if not path.is_file():
+            raise MethodologyError("exploratory data-assurance manifest does not exist")
+        if sha256_file(path).lower() != str(assurance_ref.get("sha256", "")).lower():
+            raise MethodologyError("exploratory data-assurance manifest sha256 mismatch")
+        manifest = _load_json(path)
+        try:
+            assert_research_ready(manifest.get("data_assurance"))
+        except DataAssuranceError as exc:
+            raise MethodologyError("exploratory dataset is not research-ready") from exc
     if tuple(record["lifecycle"]) != LIFECYCLE_STAGES:
         raise MethodologyError("exploratory lifecycle must contain the 15 governed stages in order")
     snapshot = validate_literature_ref(record["literature_snapshot_ref"])
