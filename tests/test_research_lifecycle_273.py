@@ -67,9 +67,9 @@ def test_exploratory_expectations_must_be_literature_derived() -> None:
 def test_active_triggers_have_current_evaluation_history() -> None:
     registry = _json("config/research_revisit_triggers.json")
     assert_revisit_preflight_current(registry)
-    assert {item["trigger_id"] for item in registry["evaluation_history"]} == {
-        "front-curve-development-rows", "front-curve-year-concentration"
-    }
+    active_ids = {item["trigger_id"] for item in registry["triggers"] if item["status"] == "active"}
+    evaluated_ids = {item["trigger_id"] for item in registry["evaluation_history"]}
+    assert active_ids <= evaluated_ids
     assert all(item["satisfied"] is False for item in registry["evaluation_history"])
 
 
@@ -88,6 +88,9 @@ def test_non_numeric_revisit_metric_fails_closed() -> None:
 
 def test_satisfied_trigger_requires_traceable_successor() -> None:
     registry = _json("config/research_revisit_triggers.json")
+    registry["triggers"] = [
+        item for item in registry["triggers"] if item["trigger_id"].startswith("front-curve-")
+    ]
     registry["evaluation_history"] = []
     evidence = _json("research/exploratory/front-curve-feasibility-273-conformance.json")
     evidence["feasibility"]["evidence"]["rows"]["scoreable_targets"] = 1500

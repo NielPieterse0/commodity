@@ -1,1 +1,28 @@
+# Canonical repository text format.
+* text=auto eol=lf
+
+# Explicit Windows command-script exceptions.
+*.bat text eol=crlf
+*.cmd text eol=crlf
+
+# Existing binary fixture exception: byte identity is evidence.
 tests/fixtures/mdp3-golden/**/metadata.json -text
+
+# Binary artifacts.
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.webp binary
+*.ico binary
+*.pdf binary
+*.zip binary
+*.tgz binary
+*.gz binary
+*.zst binary
+*.dbn binary
+*.parquet binary
+*.exe binary
+*.dll binary
+*.docx binary
+*.xlsx binary

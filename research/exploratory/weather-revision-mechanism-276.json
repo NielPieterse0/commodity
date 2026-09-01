@@ -1,0 +1,193 @@
+{
+  "comparison": {
+    "disconfirmers_seen": [
+      "Cross-era issued-file/field continuity has not been proven.",
+      "PIT-safe lagged gas-demand weights have not been proven."
+    ],
+    "observed_vs_expected": "The ex-ante mechanism and archive depth remain plausible, and the planning event count is large enough to make weather revisions worth pursuing. The decisive disconfirming evidence is methodological rather than market-outcome evidence: official archive coverage alone does not prove field-level cross-era continuity, and the repository does not yet own a PIT-safe lagged gas-demand weighting contract. The design therefore HOLDs before preregistration or model fitting."
+  },
+  "execution": {
+    "preregistration_ref": null,
+    "protected_outcomes_accessed": false
+  },
+  "expectations": {
+    "disconfirming": [
+      "Archive vintages cannot be reconstructed with immutable issue-time identity and required 2-m temperature fields across the intended historical span.",
+      "Lagged gas-demand weights cannot be reconstructed PIT-safely without revised-current-history leakage.",
+      "The effective independent daily-event budget cannot detect the declared minimum standardized effect with 80% power while preserving fresh confirmation.",
+      "A defensible signal requires choosing cycles, horizons, geography, weighting, or warm/cold splits after inspecting target outcomes."
+    ],
+    "expected": [
+      "A gas-demand-increasing temperature revision should be associated with a same-direction Henry Hub price response after issuance, with sign defined separately for heating and cooling demand.",
+      "The 00 UTC daily issued-cycle design should provide thousands of distinct daily information events over the archive, rather than treating intraday grid rows as independent outcomes.",
+      "Effects may differ across warm/cold seasons and GFS model-version eras, but any asymmetry must remain predeclared rather than selected from outcomes."
+    ]
+  },
+  "external_triangulation": {
+    "comparison": "Independent official NCEI evidence confirms a concrete long-history Grid-4 archive/order path, so the mechanism is not stopped for lack of a source. NOAA model-change history supports keeping the HOLD until a bounded cross-era content audit proves comparability and version identities. Nothing justifies opening target outcomes yet.",
+    "literature_snapshot_ref": {
+      "path": "research/literature/weather-revision-276-post-feasibility-v1.json",
+      "sha256": "9e41cef20ebb9a58f73e2d3fdb274935ce81945cfc55c44cfcccd65d83a04c0b"
+    }
+  },
+  "feasibility": {
+    "decision": "hold",
+    "evidence": {
+      "archive": {
+        "content_identity_required": "manifest of NCEI order/request identity plus SHA-256 per immutable GRIB2 file",
+        "cycles_per_day": 4,
+        "electronic_download_cost": "generally free; custom orders may incur fees",
+        "forecast_step": "3-hourly through +192h",
+        "grid": "0.5 degree Grid 4",
+        "official_record_start": "2006-10-10",
+        "older_archive_path": "NCEI HAS/AIRS Grid-4 GRIB-2 order path",
+        "selected_cycles_per_day": 1
+      },
+      "frozen_candidate": {
+        "asymmetry": "heating-demand and cooling-demand revision terms are predeclared; no post-outcome threshold search",
+        "availability_cutoff": "issued run must be proven available no later than 10:00 America/New_York on the target trade date; otherwise event is missing, never backfilled from later runs or reanalysis",
+        "cycle": "00 UTC only",
+        "field": "2 metre temperature",
+        "missing_cycle_policy": "drop the event if either current or immediately preceding eligible issued vintage is unavailable/incomplete",
+        "model_version_policy": "record NOAA implementation era and require sign/coherence robustness; no era-specific tuning",
+        "product": "NCEI GFS model GRIB-2 Grid 4 / 0.5 degree",
+        "response_target": "front-month Henry Hub final settlement log return from prior observed session settlement to the same trade-date final settlement",
+        "valid_horizons": "current +24h through +168h in 3-hour steps, each compared with the immediately preceding eligible 00 UTC run for identical valid timestamps",
+        "weighting": "gas-demand weights from source-backed lagged information only; no current-revised historical weights; population weighting is control-only if separately frozen"
+      },
+      "go_trigger": "A development-only source audit must prove cross-era issued-file recovery and PIT-safe lagged demand weights, then recompute eligible daily events/effective N so the frozen 0.10 standardized MEPI is detectable at >=80% power while retaining a fresh confirmation partition.",
+      "hold_reasons": [
+        "No bounded cross-era Grid-4 archive sample has yet proven 2-m temperature field continuity, issue/valid-time identity and deterministic content binding across the intended history.",
+        "The primary lagged gas-demand weighting series does not yet have a source-backed PIT vintage/release contract; current revised historical fundamentals are not admissible substitutes.",
+        "The final effective-N/MDE and fresh confirmation allocation cannot be frozen until those source eligibility losses are measured without target outcomes."
+      ],
+      "information_budget": {
+        "alpha_two_sided": 0.05,
+        "effective_n_upper_bound": 2224.285714285714,
+        "full_span_standardized_mde": 0.05940302359827151,
+        "independence_unit": "one 00 UTC forecast-revision event mapped to one Henry Hub trade-date outcome",
+        "intraday_cycles_not_independent": true,
+        "planning_ar1_rho": 0.4,
+        "power_at_mepi": "adequate in full-span planning upper bound; must be recomputed after archive/PIT eligibility and frozen development/confirmation split",
+        "raw_weekday_upper_bound_2006_10_10_to_2026_08_31": 5190,
+        "scientific_mepi_standardized": 0.1,
+        "economic_mepi_abs_log_return_per_1sd_revision": 0.005,
+        "planning_return_scale_ref": {"value": 0.0453231, "metric": "zero-return RMSE", "source": "config/programme_evidence_map.json#line-corrected-kronos-direct-return"},
+        "planning_absolute_log_return_mde": 0.002692329178846819,
+        "target_power": 0.8
+      },
+      "release_gates": {
+        "cross_era_content_continuity_proven": false,
+        "pit_demand_weights_proven": false,
+        "confirmation_power_at_mepi_proven": false
+      },
+      "multiplicity": {
+        "predeclared_secondary": [
+          "heating-demand revision",
+          "cooling-demand revision"
+        ],
+        "primary_family": [
+          "aggregate demand-weighted revision"
+        ],
+        "procedure": "Holm family-wise correction across any confirmatory primary/secondary claims; regime checks are robustness, not promotion alternatives"
+      },
+      "protected_confirmation_accessed": false,
+      "target_outcomes_inspected": false
+    }
+  },
+  "gap": "The programme still lacks a confirmed complementary information mechanism. Weather revisions are economically direct and historically deep in principle, but the archive, PIT weighting, dependence, power and confirmation path must clear before any target outcome is inspected.",
+  "hypotheses": {
+    "h0": "A frozen gas-demand-weighted GFS temperature revision has no practically meaningful association with the same-session Henry Hub settlement response after issuance.",
+    "h1": "A frozen gas-demand-weighted GFS temperature revision has at least a 0.10 standardized same-direction association and at least 0.005 absolute log-return response per one-standard-deviation revision with the same-session Henry Hub settlement response, subject to PIT, dependence, multiplicity and regime gates."
+  },
+  "lifecycle": [
+    "helicopter_view",
+    "gap",
+    "evidence_led_zoom_in",
+    "quality_literature",
+    "mechanism",
+    "hypothesis",
+    "expected_and_disconfirming_observations",
+    "feasibility",
+    "preregister_and_freeze_if_applicable",
+    "execute",
+    "verify",
+    "compare_observed_vs_expected",
+    "external_post_result_triangulation",
+    "programme_conclusion",
+    "active_revisit_triggers"
+  ],
+  "lineage": {
+    "predecessor_record": "research/exploratory/front-curve-history-admissibility-275.json",
+    "successor_reason": "#275 stopped the exact front-curve history extension and explicitly routed the immediate programme branch to #276; weather revisions have stronger direct mechanism/literature support and much deeper issued-data potential, but remain gated before outcomes."
+  },
+  "literature_snapshot_ref": {
+    "path": "research/literature/weather-revision-276-feasibility-v1.json",
+    "sha256": "dbefd2a4e01f73a5d634356a4d0d745a73952f4f6fb4d3accfc80477afbbc530"
+  },
+  "mechanism": "Unexpected changes in actually issued near-term temperature forecasts change expected residential/commercial heating or power-sector cooling gas demand before physical demand is realized; Henry Hub should reprice after the new information becomes available.",
+  "orientation": {
+    "big_picture_ref": "docs/big-picture.md",
+    "origin_refs": [
+      "issue-114",
+      "issue-273",
+      "issue-275",
+      "issue-276",
+      "research/exploratory/front-curve-history-admissibility-275.json"
+    ],
+    "programme_question": "Can Commodity find a defensible natural-gas edge without changing rules after seeing results?",
+    "where_this_fits": "Immediate mechanism-led successor after #275 stopped the exact front-curve extension; tests whether actually issued weather revisions offer a deeper and economically direct information channel."
+  },
+  "programme_conclusion": "HOLD the NOAA GFS weather-revision successor before preregistration and empirical execution. Preserve the exact 00 UTC/+24h-to-+168h/same-session design as the candidate. Release only after a source-only audit proves cross-era issued-vintage continuity, a PIT-safe lagged gas-demand weighting contract, and confirmation power at the 0.10 standardized MEPI.",
+  "programme_id": "commodity-ng",
+  "promotion_decision": "continue",
+  "research_line_id": "line-next-defensible-edge",
+  "revisit_triggers": [
+    "weather-revision-grid4-cross-era-continuity",
+    "weather-revision-pit-demand-weights",
+    "weather-revision-confirmation-power"
+  ],
+  "run_id": "weather-revision-mechanism-276",
+  "schema_version": 2,
+  "verification": {
+    "checks": [
+      {
+        "id": "protected_outcomes_unopened",
+        "passed": true
+      },
+      {
+        "id": "single_cycle_and_horizon_frozen",
+        "passed": true
+      },
+      {
+        "id": "issued_revision_not_reanalysis",
+        "passed": true
+      },
+      {
+        "id": "archive_path_exists",
+        "passed": true
+      },
+      {
+        "id": "cross_era_content_continuity_proven",
+        "passed": false
+      },
+      {
+        "id": "pit_demand_weights_proven",
+        "passed": false
+      },
+      {
+        "id": "final_confirmation_power_proven",
+        "passed": false
+      }
+    ],
+    "status": "verified"
+  },
+  "zoom_in": {
+    "evidence_refs": [
+      "docs/development/weather-revision-readiness/decision-record.md",
+      "research/literature/weather-revision-276-feasibility-v1.json",
+      "research/exploratory/front-curve-history-admissibility-275.json"
+    ],
+    "reason": "Direct 2026 research reports natural-gas price discovery from weather-forecast revisions, peer-reviewed work supports economically weighted temperature information, and NOAA exposes a long official issued GFS archive; this is stronger ex-ante mechanism evidence than another generic model search."
+  }
+}

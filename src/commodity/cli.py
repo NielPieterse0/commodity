@@ -573,7 +573,7 @@ def _summarize_research_metrics(args: argparse.Namespace) -> None:
     if args.output:
         output = Path(args.output)
         output.parent.mkdir(parents=True, exist_ok=True)
-        output.write_text(summary, encoding="utf-8")
+        output.write_text(summary, encoding="utf-8", newline="\n")
         print(f"summary={output}")
     else:
         print(summary)
@@ -754,7 +754,7 @@ def _experiment_summary(args: argparse.Namespace) -> None:
     summary = render_executive_summary_from_interpretation(interpretation, prereg, results)
     output = Path(args.output)
     output.parent.mkdir(parents=True, exist_ok=True)
-    output.write_text(summary, encoding="utf-8")
+    output.write_text(summary, encoding="utf-8", newline="\n")
     print(f"summary={output}")
 
 

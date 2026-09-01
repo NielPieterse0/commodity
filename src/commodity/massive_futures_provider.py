@@ -359,7 +359,7 @@ def _save_checkpoint(
         "artifacts": sorted(writer.artifacts, key=lambda item: item["path"]),
     }
     temp = writer.snapshot_dir / ".checkpoint.json.tmp"
-    temp.write_text(json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    temp.write_text(json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8", newline="\n")
     os.replace(temp, writer.snapshot_dir / ".checkpoint.json")
 
 
