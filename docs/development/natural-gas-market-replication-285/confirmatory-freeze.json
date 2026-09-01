@@ -1,0 +1,10 @@
+{
+  "freeze_id": "natural-gas-samuelson-confirmation-285-v1-freeze",
+  "spec_path": "docs/development/natural-gas-market-replication-285/confirmatory-spec.json",
+  "spec_sha256": "576809bd717f421df85cb404eda57bb5f3b06723675038a5bd2836568930842e",
+  "frozen_after_exploratory_replication": true,
+  "protected_confirmation_opened": false,
+  "confirmation_source_status": "future-only allocation not yet owned",
+  "development_cutoff_inclusive": "2026-08-12",
+  "rule": "Any change to target, ranks, MEPI, dependence, allocation, or decision rule supersedes this freeze and requires a new successor preregistration before opening confirmation outcomes."
+}

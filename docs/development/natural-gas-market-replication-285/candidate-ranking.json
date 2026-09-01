@@ -1,0 +1,24 @@
+{
+  "issue": 285,
+  "authority": "exploratory_development_only",
+  "candidates": [
+    {
+      "rank": 1,
+      "candidate": "samuelson_maturity_volatility",
+      "status": "replicated",
+      "evidence": "M1 0.4837 > M6 0.2937 > M12 0.2105 annualized volatility; full M1-M12 curve declines and M1>M12 survives both source eras.",
+      "selection_reason": "Closest faithful literature construct, strong monotone ordering, low semantic ambiguity, cross-source-era robustness.",
+      "successor": "docs/development/natural-gas-market-replication-285/confirmatory-spec.json"
+    },
+    {
+      "rank": 2,
+      "candidate": "seasonal_term_structure",
+      "status": "replicated_development_secondary",
+      "evidence": "Winter minus injection-season same-date curve-relative log price = +0.1341.",
+      "selection_reason": "Direction matches literature and CME market description, but the curve-level normalization introduces more defensible construction choices than the maturity-volatility test.",
+      "successor": null
+    }
+  ],
+  "analytical_failures": [],
+  "implementation_failures": ["initial one-digit-only year-code parser; corrected before accepting results and rerun unchanged"]
+}

@@ -1,0 +1,54 @@
+{
+  "spec_id": "natural-gas-samuelson-confirmation-285-v1",
+  "status": "frozen_for_successor_only",
+  "authority": "confirmatory_specification_not_executed",
+  "parent_issue": 285,
+  "selected_candidate": "samuelson_maturity_volatility",
+  "mechanism": "As expiration approaches, the same Henry Hub futures contract is more sensitive to new information and its return variability rises relative to more distant contracts.",
+  "target": {
+    "source": "GLBX.MDP3 NG.FUT ohlcv-1d",
+    "price_semantics": "UTC electronic-trade bar close; never settlement",
+    "return": "same-contract consecutive-observation log close return computed before expiry ranking",
+    "curve": "outright Henry Hub monthly contracts ranked by delivery/expiry order; retain M1 through M12",
+    "primary_estimand": "log(annualized_volatility_M1 / annualized_volatility_M12)",
+    "secondary_diagnostic": "annualized_volatility_M1 > annualized_volatility_M6 > annualized_volatility_M12"
+  },
+  "hypothesis": {
+    "h0": "volatility_M1 / volatility_M12 <= 1.20",
+    "h1": "volatility_M1 / volatility_M12 > 1.20"
+  },
+  "mepi": {
+    "metric": "M1_to_M12_volatility_ratio",
+    "threshold": 1.20,
+    "rationale": "A 20% nearby-over-distant volatility premium is a deliberately material stylized-fact threshold; the successor is a data/market-semantics confirmation, not a trading-PnL claim."
+  },
+  "benchmark": "No material Samuelson effect: M1/M12 volatility ratio <= 1.20",
+  "dependence": {
+    "method": "moving-block bootstrap over ordered eligible trade dates",
+    "block_length_trade_dates": 20,
+    "bootstrap_repetitions": 10000,
+    "alpha_one_sided": 0.05,
+    "decision_rule": "advance only if the one-sided 95% lower confidence bound for log(M1/M12 volatility ratio) exceeds log(1.20)"
+  },
+  "multiplicity": {
+    "primary_family": ["samuelson_m1_vs_m12_material_ratio"],
+    "procedure": "none; exactly one confirmatory primary claim",
+    "secondary_ordering_is_confirmatory": false
+  },
+  "untouched_confirmation_allocation": {
+    "development_cutoff_inclusive": "2026-08-12",
+    "eligibility": "first 252 distinct eligible NG.FUT ohlcv-1d trade dates strictly after 2026-08-12 with both M1 and M12 same-contract returns available",
+    "minimum_primary_return_pairs": 200,
+    "source_identity": "future Databento acquisition must be independently manifested and SHA-256 verified before opening outcomes",
+    "no_retrospective_substitution": true,
+    "current_status": "untouched_future_data_not_yet_owned"
+  },
+  "parameters_frozen": {
+    "maturity_ranks": [1, 6, 12],
+    "source_boundary_is_not_a_selection_rule": true,
+    "near_expiry_exclusion": "none",
+    "return_frequency": "one ohlcv-1d observation to next observation for the same contract",
+    "annualization_factor": 252
+  },
+  "outcome_use": "The 2010-06-06 through 2026-08-12 archive is consumed exploratory development evidence and is forbidden as confirmation for this specification."
+}
