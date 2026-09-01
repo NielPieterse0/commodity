@@ -14,26 +14,37 @@ The goal is not paperwork. It is to make every important result answerable later
 
 **Confirmatory research** is for testing a specific claim under a frozen plan. Before protected results are exposed, the hypothesis, data identity, evaluation design, success criteria, statistical treatment, and other required commitments are preregistered and frozen.
 
-## Confirmatory lifecycle
+## Governed research lifecycle
 
-```text
-IDEA -> PREREGISTER -> FREEZE -> EXECUTE -> VERIFY -> INTERPRET -> DECIDE
-```
+Every new governed research run follows the same 15-stage path, whether it stops during exploration or reaches confirmation:
 
-1. An idea enters from earlier evidence, theory, market structure, exploratory work, or an explicit research question.
-2. The confirmatory experiment is preregistered under the machine contract.
-3. The commitment is frozen before protected results are exposed.
-4. Execution produces evidence and results separately from the frozen commitment.
-5. Repository checks verify identity, eligibility, accounting, and required methodology gates.
-6. A human interprets the verified result in context.
-7. The completed experiment writes one compact durable `record.json` linking the big-picture origin, exact frozen setup, outcome, interpretation, learning, programme consequence, decisions, recommendations, and open questions.
-8. Decisions and unresolved follow-ups are projected into the programme decision register and research backlog, while the experiment record remains their source authority.
+1. **Helicopter view** — restate the programme's current bigger picture before choosing a local question.
+2. **Gap** — identify the specific uncertainty that matters to a programme decision.
+3. **Evidence-led zoom-in** — explain why this slice is selected from prior evidence rather than novelty.
+4. **Quality literature** — capture reputable primary or high-quality sources and map each material claim to them.
+5. **Mechanism** — state the economic or market mechanism being tested.
+6. **Hypothesis** — state the falsifiable null and alternative.
+7. **Expected and disconfirming observations** — derive both from the literature before looking at the relevant result.
+8. **Feasibility** — test data fitness, dependence, effective information, MEPI, power, and other prerequisites.
+9. **Preregister and freeze if applicable** — only a GO design may advance to protected confirmation.
+10. **Execute** — run exactly the governed exploratory or frozen confirmatory design.
+11. **Verify** — check identities, leakage controls, eligibility, accounting, and reproduction requirements.
+12. **Compare observed versus expected** — explicitly record where the result agrees or conflicts with the prior expectations and disconfirmers.
+13. **External post-result triangulation** — perform an independent literature check after the result rather than reusing the preregistration snapshot.
+14. **Programme conclusion** — state what changes, or does not change, in the bigger picture.
+15. **Active revisit triggers** — any HOLD/DEFER must have machine-testable conditions and evaluation history.
+
+A completed confirmatory experiment still writes one compact durable `record.json` linking the big-picture origin, frozen setup, result, interpretation, programme consequence, decisions, recommendations, and open questions. Decisions and unresolved follow-ups are projections from that record, not competing authorities.
 
 ## What is immutable
 
 The preregistration is the commitment. Once frozen, it is not edited to fit the result. Machine-generated evidence, results, and later human interpretation are separate records. If a design must change after the freeze, that becomes a new or explicitly governed successor experiment rather than a silent rewrite.
 
-Completed V1/V2 work remains historical evidence under the rules that governed it at the time. We do not pretend old experiments were preregistered under a methodology that did not yet exist.
+Completed V1/V2 work remains historical evidence under the rules that governed it at the time. We do not pretend old experiments were preregistered under a methodology that did not yet exist. The original #271 exploratory record is likewise retained unchanged as legacy evidence; its #273 conformance run is a separate successor record.
+
+## HOLD and DEFER are active states
+
+A scientific HOLD or DEFER is not a prose reminder. `config/research_revisit_triggers.json` owns executable trigger conditions, evidence inputs, thresholds, and evaluation history. Governed research preflight re-evaluates active triggers. If a condition becomes satisfied, the historical experiment remains immutable and the trigger must release or create a traceable successor before research proceeds.
 
 ## Human and machine responsibilities
 
