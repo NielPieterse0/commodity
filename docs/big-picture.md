@@ -1,34 +1,35 @@
+<!-- GENERATED FILE. DO NOT EDIT. Source: research/programme/programme_evidence_map.json, config/trading-policy.json -->
+
 # Commodity: The Big Picture
 
-Commodity is a research platform for answering one practical question: can we find repeatable commodity-market information that survives honest testing strongly enough to support useful trading decisions after costs and risk?
-
-Henry Hub natural gas is the first complete proving ground. It gives us a demanding market in which to build the full data, research, model, decision, risk, and forward-testing process. The platform itself is intended to generalize only after the reference process works.
+Determine whether Commodity can develop a defensible natural-gas forecasting or trading edge.
 
 ## Where the work came from
 
-The project began with forecasting and trading ideas, then became progressively stricter as the evidence exposed weaknesses in both models and research plumbing. Early work established data provenance, point-in-time controls, simple baselines, model challengers, fundamental and market-aware signals, and reproducible evaluation. Later audits found places where contract continuity, evidence ownership, freeze discipline, and research interpretation needed stronger controls.
-
-Those lessons changed the project. The repository now treats models as signal producers rather than authorities, separates research evidence from trading permission, and encodes the research methodology so that important claims are checked rather than trusted to memory.
+The programme evidence map preserves the research lines, their historical facts, and why each line was selected.
 
 ## What we have learned so far
 
-A plausible-looking forecast is not enough. Direction accuracy, model sophistication, or an isolated backtest result matters only when it beats relevant baselines, survives leakage and contract checks, has enough evidence to support the claim, and remains useful after realistic friction and risk.
+- No robust reproducible trading edge has been established.
+- Generic next-session return forecasting has repeatedly failed strong simple baselines under corrected contracts.
+- Research controls now prevent invalid data, underpowered confirmation and post-result rescue from being mistaken for evidence.
+- The 2010+ Databento implementation reproduces literature-supported Henry Hub Samuelson maturity-volatility and seasonal curve structure across all 5,025 owned dates under OHLCV-close semantics.
 
-The first rounds have therefore been valuable even where they did not establish a trading edge: they exposed weak assumptions, improved the data and evaluation system, broadened the signal portfolio, and made the next experiments more trustworthy.
+## Still alive
 
-## Where we are going
+- future independent confirmation of the replicated Samuelson market structure
+- volatility persistence as an unconfirmed diagnostic observation
+- mechanism-led event returns
+- curve/spread change beyond the replicated stylized facts
+- other complementary signal roles only after programme-value screening
 
-The durable progression is described in `docs/roadmap.md`: data truth, evidence baselines, complementary signal families, a decision system, forward validation, and only then controlled execution. We are still doing research; live trading remains disabled unless `config/policy.json` explicitly changes that authority.
+## Missing, not negative
+
+- 504 future eligible Databento dates for the frozen Samuelson confirmation
+- adequately powered protected volatility confirmation
+- future mechanism-specific event experiment
+- first real post-hardening confirmatory lifecycle commissioning
+
 ## How we zoom in
 
-The big picture should stay stable while individual experiments become very specific. Each research question starts by stating how it connects to the programme: what gap it addresses, what earlier observation motivated it, and what decision its result could change.
-
-Exploratory work can investigate that question and generate a sharper hypothesis. When the claim matters enough to confirm, `docs/research-methodology.md` governs the human process and the repository's machine contracts enforce the frozen experiment. The final executive summary then returns the result to this larger view: origin, test, observation, meaning, and programme consequence.
-
-That creates a repeatable loop:
-
-```text
-BIG PICTURE -> RESEARCH GAP -> EXPLORATION -> FROZEN EXPERIMENT -> RESULT -> BIG-PICTURE DECISION
-```
-
-The purpose of an experiment is therefore not to produce another metric. It is to reduce uncertainty about what the project should believe or do next.
+#285 has completed the literature-first calibration objective and consumed the historical archive as development evidence. The selected Samuelson candidate now waits for a future-only 504-date untouched allocation; meanwhile new research should remain mechanism-led rather than recycling the 5,025 development dates as confirmation.

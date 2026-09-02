@@ -1,0 +1,67 @@
+{
+  "schema_version": 2,
+  "generator": "scripts/docs/generate_docs.py",
+  "pages": [
+    {
+      "path": "docs/README.md",
+      "kind": "repository_index",
+      "sources": [
+        "config/documentation_authority.json",
+        "AGENTS.md"
+      ]
+    },
+    {
+      "path": "docs/big-picture.md",
+      "kind": "programme_big_picture",
+      "sources": [
+        "research/programme/programme_evidence_map.json",
+        "config/trading-policy.json"
+      ]
+    },
+    {
+      "path": "docs/data-manifest.md",
+      "kind": "data_architecture",
+      "sources": [
+        "config/data_sources.json",
+        "config/research_dataset.json",
+        "data/acquisition-recipes/*.json"
+      ]
+    },
+    {
+      "path": "docs/research-methodology.md",
+      "kind": "research_methodology",
+      "sources": [
+        "config/research_methodology.json",
+        "contracts/*.schema.json",
+        "research/methodology/literature-canon-v1.json"
+      ]
+    },
+    {
+      "path": "docs/roadmap.md",
+      "kind": "research_roadmap",
+      "sources": [
+        "config/research_stages.json",
+        "config/signal_policy.json",
+        "config/models.json",
+        "config/trading-policy.json"
+      ]
+    },
+    {
+      "path": "docs/THIRD_PARTY.md",
+      "kind": "third_party_policy",
+      "sources": [
+        "config/third_party.json",
+        "config/models.json",
+        "config/data_sources.json",
+        ".gitmodules"
+      ]
+    },
+    {
+      "path": "docs/rule-verification.md",
+      "kind": "rule_verification",
+      "sources": [
+        "config/rule_verification.json"
+      ]
+    }
+  ]
+}

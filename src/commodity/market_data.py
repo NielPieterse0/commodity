@@ -74,11 +74,26 @@ def validate_contract_history(
     return out.sort_values(["trade_date", "expiration", "contract_id"]).reset_index(drop=True)
 
 
+def resolve_market_source(
+    data_cfg: dict[str, Any],
+    source_id: str | None = None,
+) -> tuple[str, dict[str, Any]]:
+    configured = str(data_cfg.get("canonical_market_source_id", ""))
+    selected = source_id or configured
+    if not configured or configured not in data_cfg.get("sources", {}):
+        raise DataContractViolation("configured canonical market source is missing or invalid")
+    if selected not in data_cfg["sources"]:
+        raise DataContractViolation(f"unknown market source: {selected!r}")
+    return selected, data_cfg["sources"][selected]
+
+
 def canonical_market_readiness(
     data_cfg: dict[str, Any],
     assumptions_cfg: dict[str, Any],
+    source_id: str | None = None,
 ) -> dict[str, Any]:
-    source = data_cfg["sources"]["market_canonical"]
+    selected_id, source = resolve_market_source(data_cfg, source_id)
+    configured_id = str(data_cfg["canonical_market_source_id"])
     continuous = data_cfg["canonical_contract_schema"]["continuous_contract"]
     assumption = assumptions_cfg["assumptions"]["continuous_series_policy"]
 
@@ -119,13 +134,27 @@ def canonical_market_readiness(
     source_history_ready = not history_reasons
     roll_method_ready = not roll_reasons
     evaluation_allowed = source_history_ready and roll_method_ready
-    canonical_allowed = evaluation_allowed and licensing_ready and promotion_ready
+    is_configured_canonical = selected_id == configured_id
+    canonical_allowed = (
+        evaluation_allowed
+        and licensing_ready
+        and promotion_ready
+        and is_configured_canonical
+        and source.get("canonical_market_source") is True
+    )
     reasons = history_reasons + roll_reasons
+    if not is_configured_canonical:
+        reasons.append("selected market source is not the configured canonical source")
+    elif source.get("canonical_market_source") is not True:
+        reasons.append("configured canonical source is not marked canonical_market_source")
     if not licensing_ready:
         reasons.append("canonical provider non-display/backtesting rights are not verified")
     elif not promotion_ready:
         reasons.append("canonical market source is not approved for backtest evidence")
     return {
+        "source_id": selected_id,
+        "configured_canonical_source_id": configured_id,
+        "is_configured_canonical": is_configured_canonical,
         "source_history_ready": source_history_ready,
         "roll_method_ready": roll_method_ready,
         "licensing_ready": licensing_ready,
@@ -140,8 +169,9 @@ def canonical_market_readiness(
 def assert_market_evaluation_ready(
     data_cfg: dict[str, Any],
     assumptions_cfg: dict[str, Any],
+    source_id: str | None = None,
 ) -> None:
-    report = canonical_market_readiness(data_cfg, assumptions_cfg)
+    report = canonical_market_readiness(data_cfg, assumptions_cfg, source_id)
     if not report["evaluation_evidence_allowed"]:
         raise DataContractViolation(report["evaluation_reasons"][0])
 
@@ -149,8 +179,9 @@ def assert_market_evaluation_ready(
 def assert_canonical_market_ready(
     data_cfg: dict[str, Any],
     assumptions_cfg: dict[str, Any],
+    source_id: str | None = None,
 ) -> None:
-    report = canonical_market_readiness(data_cfg, assumptions_cfg)
+    report = canonical_market_readiness(data_cfg, assumptions_cfg, source_id)
     if not report["canonical_evidence_allowed"]:
         raise DataContractViolation(report["reasons"][0])
 

@@ -1,41 +1,28 @@
+<!-- GENERATED FILE. DO NOT EDIT. Source: config/data_sources.json, config/research_dataset.json, data/acquisition-recipes/*.json -->
+
 # Data Architecture
 
-This document owns the desired dataset families and acquisition architecture. It does not own current provider status, availability flags, or evidence gates; those live in `config/data_sources.json`. Approval and licensing boundaries live in `docs/THIRD_PARTY.md`.
+Source: `config/data_sources.json`
 
-## Data contract
+## Canonical contract
 
-Time-varying inputs should preserve the time the observation describes, when it was issued or published, when it became available to the strategy, when it was retrieved, source/version identity, units, and revision state where applicable. Backtests may use information only after it was knowable. Revised historical values must not silently replace the value available at the prediction time.
+Grain: `one row per trade_date and contract_id`
 
-Raw source values should remain reproducible and versioned. Derived features are transformations, not new sources. A present-day historical snapshot is not point-in-time evidence unless historical publication and revision availability are also known.
+Required columns: `trade_date`, `contract_id`, `expiration`, `settle`
 
-## Core data families
+## Current sources
 
-| Family | Examples | Purpose |
-| --- | --- | --- |
-| Market structure | Per-contract prices, settlement, volume/OI, expiry, curve and roll state | Tradable market truth and futures structure |
-| Weather | Issued forecasts and revisions by demand region | Demand and event expectations |
-| Fundamentals | Storage, production, consumption, LNG, pipeline flows, power burn | Physical balance and surprises |
-| Positioning | CFTC and equivalent participant positioning | Crowding and market structure |
-| Volatility/options | Realized volatility, implied volatility, skew and term structure where licensed | Risk and uncertainty |
-| Cross-market | Power, oil, coal, FX, regional gas benchmarks and transport links | Substitution and transmission |
-| Events | Outages, storms, maintenance, releases and known event timing | Discrete shocks and regime context |
-| Macro/structural | Industrial activity, drilling, investment and capacity | Slow-moving regime context |
-
-## Geographic progression
-
-**U.S. / Henry Hub** is the first full reference market and establishes the complete data, point-in-time, research and execution interfaces.
-
-**Global / interconnect** data adds transmission between regional gas markets: LNG, European flows/storage, weather, power, FX and benchmark spreads. These inputs are admitted only when a governed hypothesis justifies them.
-
-**Norway / Europe** is a later supply-side and regional-market layer built on the same interfaces, using Norwegian production/transport/outage data together with European gas and power data.
-Other instruments should reuse the core data contract and provider interfaces, adding only instrument-specific metadata, fundamentals, calendars and source mappings.
-
-## Acquisition principles
-
-1. Prefer authoritative, reproducible sources and retain raw provenance.
-2. Prove point-in-time admissibility before promoting a source into serious backtests.
-3. Keep providers replaceable behind stable interfaces.
-4. Acquire expensive or difficult data only when a preregistered hypothesis or measured gap justifies it.
-5. Treat each new instrument as an independent empirical programme rather than assuming Henry Hub findings transfer.
-
-Current source choices and readiness belong in `config/data_sources.json`; source approval and licensing belong in `docs/THIRD_PARTY.md`.
+| Source | Provider | Status | Purpose |
+| --- | --- | --- | --- |
+| `market_bootstrap` | yfinance | research_bootstrap | daily OHLCV proxy |
+| `saxo_henry_hub_probe` | saxo_openapi_sim | sim_verification_pending | verify Henry Hub futures-space identity and historical chart depth |
+| `eia_nymex_prompt_history` | eia_api_v2 | historical_term_structure_candidate | daily NYMEX prompt-contract closes for contract ranks 1-4 |
+| `eia_storage` | eia_wngsr | v1_research_evaluation_ready | null |
+| `eia_fundamentals` | eia_api_v2 | capture_ready_current_snapshot_only | production, balance, gas demand, LNG/pipeline trade and Henry Hub spot/reference price |
+| `eia_power` | eia_api_v2 | targeted_snapshot_ready | Lower-48 hourly demand/day-ahead demand forecast and natural-gas generation |
+| `nyiso_load_forecast` | nyiso_mis | v1_research_evaluation_ready | PIT-admissible issued NYISO load forecasts for the V1 power feature family |
+| `cftc_cot` | cftc_public_reporting | v1_release_reconstruction_ready | weekly PIT Henry Hub positioning; Managed Money is the preferred research slice |
+| `weather` | open_meteo_historical_forecast | v1_research_evaluation_ready_with_declared_gaps | forecast-vintage temperatures and HDD/CDD surprises by gas-demand region |
+| `noaa_gfs_weather_revision` | noaa_gfs_archive | feasibility_hold_source_audit_required | PIT issued 00 UTC GFS 2-m-temperature forecast revisions for a mechanism-led Henry Hub response experiment |
+| `massive_henry_hub_evaluation` | massive_futures | history_and_roll_validated_evaluation_only | retained V1 expiry-aware NYMEX NG per-contract evaluation history; not canonical promotion evidence |
+| `databento_henry_hub` | databento_futures | acquired_integrity_complete_research_approved | canonical private-project CME NG official settlement/statistics and deep contract history for research and backtesting |

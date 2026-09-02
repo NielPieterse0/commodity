@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "commodity-research"
 version = "0.1.0"
-description = "Reproducible ML research for natural-gas futures forecasting"
+description = "Reproducible commodity-market research, modelling, and decision-system development"
 requires-python = ">=3.11"
 dependencies = [
   "numpy>=1.26,<3",

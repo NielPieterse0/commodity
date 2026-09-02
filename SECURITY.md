@@ -2,7 +2,7 @@
 
 ## Scope
 
-This repository contains experimental research code and configuration. It does not authorize live trading; execution authority is owned by `config/policy.json`.
+This repository contains experimental research code and configuration. It does not authorize live trading; binding execution authority is owned by `config/trading-policy.json`.
 
 ## Reporting a vulnerability
 

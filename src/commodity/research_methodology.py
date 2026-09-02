@@ -98,9 +98,35 @@ def compute_effective_information(dependence: dict[str, Any]) -> dict[str, Any]:
         clusters = int(parameters.get("clusters", 0))
         _require(1 < clusters <= raw_n, "event clusters must be between two and raw_n")
         effective = float(clusters)
+    elif method in {"newey_west", "hac"}:
+        autocorrelations = parameters.get("autocorrelations")
+        _require(
+            isinstance(autocorrelations, list) and bool(autocorrelations),
+            "Newey-West/HAC requires declared autocorrelations",
+        )
+        lag = int(parameters.get("lag", len(autocorrelations)))
+        _require(1 <= lag <= len(autocorrelations) and lag < raw_n, "Newey-West/HAC lag is invalid")
+        rhos = [float(value) for value in autocorrelations[:lag]]
+        _require(
+            all(math.isfinite(value) and -1 < value < 1 for value in rhos),
+            "Newey-West/HAC autocorrelations must be finite inside (-1, 1)",
+        )
+        variance_inflation = 1.0 + 2.0 * sum(
+            (1.0 - index / (lag + 1.0)) * rho
+            for index, rho in enumerate(rhos, start=1)
+        )
+        _require(
+            math.isfinite(variance_inflation) and variance_inflation > 0,
+            "Newey-West/HAC variance inflation must be positive",
+        )
+        effective = raw_n / variance_inflation
+    elif method == "block_bootstrap":
+        block_length = int(parameters.get("block_length", 0))
+        _require(1 <= block_length < raw_n, "block-bootstrap block_length must be inside [1, raw_n)")
+        effective = raw_n / block_length
     else:
         raise MethodologyError(f"unsupported dependence method: {method!r}")
-    _require(effective > 1, "effective information is insufficient")
+    _require(math.isfinite(effective) and effective > 1, "effective information is insufficient")
     return {"raw_n": raw_n, "method": method, "parameters": parameters, "effective_information": effective}
 
 

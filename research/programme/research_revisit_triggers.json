@@ -1,0 +1,152 @@
+{
+  "evaluation_history": [
+    {
+      "evaluated_at": "2026-09-01T09:35:00+02:00",
+      "evaluation_id": "front-curve-development-rows:2026-09-01T09:35:00+02:00",
+      "evidence_ref": "git-history:research/exploratory/front-curve-feasibility-273-conformance.json",
+      "observed": 1462,
+      "satisfied": false,
+      "successor_ref": null,
+      "trigger_id": "front-curve-development-rows"
+    },
+    {
+      "evaluated_at": "2026-09-01T09:35:00+02:00",
+      "evaluation_id": "front-curve-year-concentration:2026-09-01T09:35:00+02:00",
+      "evidence_ref": "git-history:research/exploratory/front-curve-feasibility-273-conformance.json",
+      "observed": 0.16415868673050615,
+      "satisfied": false,
+      "successor_ref": null,
+      "trigger_id": "front-curve-year-concentration"
+    },
+    {
+      "evaluated_at": "2026-09-01T13:40:00+02:00",
+      "evaluation_id": "front-curve-development-rows:2026-09-01T13:40:00+02:00",
+      "evidence_ref": "git-history:research/exploratory/front-curve-history-admissibility-275.json",
+      "observed": 1462,
+      "satisfied": false,
+      "successor_ref": "https://github.com/NielPieterse0/commodity/issues/279",
+      "trigger_id": "front-curve-development-rows"
+    },
+    {
+      "evaluated_at": "2026-09-01T13:40:00+02:00",
+      "evaluation_id": "front-curve-year-concentration:2026-09-01T13:40:00+02:00",
+      "evidence_ref": "git-history:research/exploratory/front-curve-history-admissibility-275.json",
+      "observed": 0.16415868673050615,
+      "satisfied": false,
+      "successor_ref": "https://github.com/NielPieterse0/commodity/issues/279",
+      "trigger_id": "front-curve-year-concentration"
+    },
+    {
+      "evaluated_at": "2026-09-01T14:20:00+02:00",
+      "evaluation_id": "weather-revision-grid4-cross-era-continuity:2026-09-01T14:20:00+02:00",
+      "evidence_ref": "git-history:research/exploratory/weather-revision-mechanism-276.json",
+      "observed": false,
+      "satisfied": false,
+      "successor_ref": null,
+      "trigger_id": "weather-revision-grid4-cross-era-continuity"
+    },
+    {
+      "evaluated_at": "2026-09-01T14:20:00+02:00",
+      "evaluation_id": "weather-revision-pit-demand-weights:2026-09-01T14:20:00+02:00",
+      "evidence_ref": "git-history:research/exploratory/weather-revision-mechanism-276.json",
+      "observed": false,
+      "satisfied": false,
+      "successor_ref": null,
+      "trigger_id": "weather-revision-pit-demand-weights"
+    },
+    {
+      "evaluated_at": "2026-09-01T14:20:00+02:00",
+      "evaluation_id": "weather-revision-confirmation-power:2026-09-01T14:20:00+02:00",
+      "evidence_ref": "git-history:research/exploratory/weather-revision-mechanism-276.json",
+      "observed": false,
+      "satisfied": false,
+      "successor_ref": null,
+      "trigger_id": "weather-revision-confirmation-power"
+    },
+    {
+      "evaluated_at": "2026-09-01T16:40:00+02:00",
+      "evaluation_id": "volatility-material-power-reopening:2026-09-01T16:40:00+02:00",
+      "evidence_ref": "git-history:config/programme_evidence_map.json",
+      "observed": 3.5665444567287167,
+      "satisfied": false,
+      "successor_ref": null,
+      "trigger_id": "volatility-material-power-reopening"
+    }
+  ],
+  "registry_id": "commodity-research-revisit-v1",
+  "schema_version": 1,
+  "triggers": [
+    {
+      "disposition": "hold",
+      "evidence_input": "research/programme/revisit-evidence/front-curve-history-admissibility-275.json",
+      "metric": "feasibility.evidence.existing_scoreable_targets",
+      "operator": "gte",
+      "source_record": "research/programme/revisit-evidence/front-curve-history-admissibility-275.json",
+      "status": "active",
+      "successor_action": {
+        "kind": "create_successor",
+        "trace_ref": "research-line:line-next-defensible-edge/front-curve-successor"
+      },
+      "threshold": 1500,
+      "trigger_id": "front-curve-development-rows"
+    },
+    {
+      "disposition": "hold",
+      "evidence_input": "research/programme/revisit-evidence/front-curve-history-admissibility-275.json",
+      "metric": "feasibility.evidence.existing_max_year_share",
+      "operator": "lte",
+      "source_record": "research/programme/revisit-evidence/front-curve-history-admissibility-275.json",
+      "status": "active",
+      "successor_action": {
+        "kind": "create_successor",
+        "trace_ref": "research-line:line-next-defensible-edge/front-curve-successor"
+      },
+      "threshold": 0.15,
+      "trigger_id": "front-curve-year-concentration"
+    },
+    {
+      "disposition": "hold",
+      "evidence_input": "research/programme/revisit-evidence/weather-revision-mechanism-276.json",
+      "metric": "feasibility.evidence.release_gates.cross_era_content_continuity_proven",
+      "operator": "eq",
+      "source_record": "research/programme/revisit-evidence/weather-revision-mechanism-276.json",
+      "status": "active",
+      "successor_action": {"kind": "release_successor", "trace_ref": "research-line:line-next-defensible-edge/weather-revision-confirmatory-successor"},
+      "threshold": true,
+      "trigger_id": "weather-revision-grid4-cross-era-continuity"
+    },
+    {
+      "disposition": "hold",
+      "evidence_input": "research/programme/revisit-evidence/weather-revision-mechanism-276.json",
+      "metric": "feasibility.evidence.release_gates.pit_demand_weights_proven",
+      "operator": "eq",
+      "source_record": "research/programme/revisit-evidence/weather-revision-mechanism-276.json",
+      "status": "active",
+      "successor_action": {"kind": "release_successor", "trace_ref": "research-line:line-next-defensible-edge/weather-revision-confirmatory-successor"},
+      "threshold": true,
+      "trigger_id": "weather-revision-pit-demand-weights"
+    },
+    {
+      "disposition": "hold",
+      "evidence_input": "research/programme/revisit-evidence/weather-revision-mechanism-276.json",
+      "metric": "feasibility.evidence.release_gates.confirmation_power_at_mepi_proven",
+      "operator": "eq",
+      "source_record": "research/programme/revisit-evidence/weather-revision-mechanism-276.json",
+      "status": "active",
+      "successor_action": {"kind": "release_successor", "trace_ref": "research-line:line-next-defensible-edge/weather-revision-confirmatory-successor"},
+      "threshold": true,
+      "trigger_id": "weather-revision-confirmation-power"
+    },
+    {
+      "disposition": "hold",
+      "evidence_input": "research/programme/programme_evidence_map.json",
+      "metric": "reopening_gates.volatility.current_best_ratio",
+      "operator": "lte",
+      "source_record": "git-history:research/exploratory/volatility-reopening-gate-277.json",
+      "status": "active",
+      "successor_action": {"kind": "create_successor", "trace_ref": "research-line:line-target-redesign-volatility-events/material-reopening-successor"},
+      "threshold": 1.0,
+      "trigger_id": "volatility-material-power-reopening"
+    }
+  ]
+}

@@ -1,0 +1,28 @@
+{
+  "schema_version": 1,
+  "dataset": {
+    "dataset_id": "us-ng-v1-pit",
+    "evidence_mode": "research_pit",
+    "leakage_enforcement": "pit_dataset_contract",
+    "required_feature_families": [
+      "market",
+      "market_structure",
+      "storage",
+      "weather",
+      "power",
+      "positioning",
+      "calendar_seasonality"
+    ],
+    "minimum_exogenous_join_coverage": 1.0,
+    "promotion_completeness": "full_v1"
+  },
+  "walk_forward": {
+    "initial_train_rows": 252,
+    "retrain_every_rows": 5
+  },
+  "research_period": {
+    "start": "2010-01-01",
+    "end": "2100-01-01",
+    "end_semantics": "open_ended_far_future_sentinel"
+  }
+}

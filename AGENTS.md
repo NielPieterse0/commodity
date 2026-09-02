@@ -1,149 +1,127 @@
-# Commodity — AGENTS.md
+# Commodity
 
-## Repository Mandate
+`Commodity` is an experimental commodity-market research platform. The current reference market is CME Henry Hub Natural Gas futures, but reusable platform logic must remain instrument-independent unless a bounded adapter or configuration owns the market-specific difference.
 
-`Commodity` is an experimental trading research platform for discovering, forecasting, and validating tradable commodity-market opportunities and determining whether combined signals can produce useful trading decisions.
+## Repository
 
-Initial implementation scope: **natural gas only**. The platform is designed to generalize across tradable instruments and, when later justified by evidence, additional commodity markets.
+Local main `C:/Projects/commodity`
 
-The first complete reference market is **CME Henry Hub Natural Gas futures**, with **Micro Henry Hub Natural Gas (`MNG`)** as the preferred eventual retail execution instrument, subject to broker/API verification. Henry Hub is the proving ground for the full research lifecycle, not a permanent hard-coded identity for reusable platform components.
-
-## Primary Objective
+## Primary objective
 
 Build a reproducible system that can:
 
 1. screen tradable instruments and market states for economically plausible opportunities before committing deep research effort;
-2. ingest and version market, fundamental, cross-market and explanatory data with point-in-time controls;
-3. produce complementary signal families from forecasting models, regime/trend analysis, technical structure, fundamentals/events, volatility and cross-market relationships;
-4. validate, calibrate and combine those signals without leakage, including simple baselines and governed tuning/ensembling;
-5. translate validated evidence into bounded trade candidates, position/risk decisions and realistic execution assumptions;
-6. forward-test the complete decision process through a simulated brokerage environment; and
-7. measure whether the integrated system survives realistic costs, regime changes, uncertainty and risk controls.
+2. ingest and version market, fundamental, cross-market, and explanatory data with point-in-time controls;
+3. produce complementary signal families from forecasting, regime/trend, technical, fundamental/event, volatility, and cross-market methods;
+4. validate, calibrate, and combine signals without leakage, using appropriate baselines and governed model or ensemble selection;
+5. translate validated evidence into bounded trade candidates, position/risk decisions, and realistic execution assumptions;
+6. forward-test the complete decision process in simulation or paper execution; and
+7. determine whether the integrated system remains robust after realistic costs, regime changes, uncertainty, and risk controls.
 
-## Mandatory startup skill
+## Authority and ownership
 
-After reading this file, every repository work session that may read, change, test, execute, or evaluate repository code/data MUST load the live KIS `data-engineering` skill before substantive work. If the skill cannot be loaded, stop rather than silently proceeding without it. This requirement applies to every execution instance, not only data-specific tasks.
+Until the repository ownership model is deliberately simplified and migrated, retain this explicit ordered canonical-owner map. One governed fact has one canonical owner. When authorities conflict, the first applicable owner in this table wins; historical changes, conversations, issue comments, old experiment notes, remembered commands, and non-owning documentation are evidence or context only.
 
-## Repository Authority
+| # | Information | Canonical owner |
+| ---: | --- | --- |
+| 1 | Durable repository mandate, authority routing, and agent invariants | `AGENTS.md` |
+| 2 | Exact executable facts, interfaces, and machine-enforced requirements | implementing source code; `config/*.json` configuration and policy files; `data/acquisition-recipes/*.json` reusable acquisition definitions; `contracts/*.schema.json` contracts and schemas; governed `research/**` records; generated or durable `artifacts/**` evidence where designated below; verification and boundary tests under `tests/**`; repository enforcement scripts under `scripts/**`; `.gitattributes`, `.gitignore`, `SECURITY.md`, and `CONTRIBUTING.md` where specifically designated below |
+| 3 | Change-specific scope, reasoning, plan, tasks, decisions, evidence, findings, interpretation, and closeout history | `.work/changes/<change-id>/` |
+| 4 | Current executable lifecycle, state, legal next actions, evidence freshness, review/verification requirements, and governed Git/GitHub effects | live `kis-mcp` workflow/capability discovery and execution; live KIS Work Management for configured operational state; live KIS Git/GitHub operations for claims, verification, publication, PR, merge, recovery, and closeout effects |
+| 5 | Binding trading and execution permissions/prohibitions | `config/trading-policy.json` |
+| 6 | Revisable research assumptions and decision-needed defaults | `config/assumptions.json` |
+| 7 | Data-provider implementation, research-dataset construction settings, governance/status, reusable deterministic acquisition recipes, and acquired durable datasets | `src/commodity/providers/` owns provider clients, adapters, and canonical provider loading; `config/data_sources.json` owns source status, availability, and evidence gates; `config/research_dataset.json` owns reusable PIT dataset construction and walk-forward defaults; `data/acquisition-recipes/` owns reusable fetch definitions; acquired durable datasets live under the applicable `data/raw/`, `data/interim/`, or `data/processed/` layer |
+| 8 | Commodity-owned model implementations plus model enablement, pins, and runtime settings | `src/commodity/models/` owns Commodity-developed model implementations; `config/models.json` owns enablement, parameters, pins, and runtime settings |
+| 9 | New-research methodology activation and gates | `config/research_methodology.json` |
+| 10 | Confirmatory preregistration and results contracts | `contracts/prereg.schema.json`, `contracts/results.schema.json` |
+| 11 | Confirmatory experiment evidence and durable knowledge | `research/experiments/<experiment-id>/` |
+| 12 | Durable programme decisions | `research/programme/programme-decisions.json` |
+| 13 | Open research recommendations and questions | `research/programme/research-backlog.json` |
+| 14 | Documentation generation registry, generated-page sources, and projection boundaries | `config/documentation_authority.json`, `config/documentation.json`; `scripts/docs/generate_docs.py` deterministically projects all `docs/**/*.md` and verification rejects drift |
+| 15 | Programme evidence and feasibility state | `research/programme/programme_evidence_map.json` |
+| 16 | Programme inference ledger | `research/programme/programme_inference_ledger.json` |
+| 17 | Sealed confirmation windows | `research/programme/sealed_windows.json` |
+| 18 | Exploratory/diagnostic run contract | `contracts/exploratory_run.schema.json`; individual change-specific records belong to the governed change record |
+| 19 | Literature snapshot contract and cross-change methodology canon | `contracts/literature_snapshot.schema.json`, `research/methodology/`; change-specific literature belongs to the governed change record |
+| 20 | HOLD/DEFER scientific revisit triggers and evaluation history | `contracts/revisit_triggers.schema.json`, `research/programme/research_revisit_triggers.json` |
+| 21 | Research metrics contract and longitudinal evidence | `contracts/research_metrics.schema.json`, `artifacts/research-metrics/longitudinal-ledger.json` |
+| 22 | Research maturity stages and signal policy | `config/research_stages.json`, `config/signal_policy.json` |
+| 23 | Simulation assumptions | `config/simulation.json` |
+| 24 | External development tools and LLM roles | `config/tools.json` |
+| 25 | Pinned third-party source checkouts and third-party runtime assets | `vendor/<project>/` owns third-party source checkouts declared in `.gitmodules`, with the exact source revision pinned by the Git submodule gitlink; consuming configuration/contracts pin applicable model/runtime revisions and assets; model weights, downloaded checkpoints, package caches, and generated third-party outputs remain outside `vendor/` in approved ignored repository-local cache/state locations |
+| 26 | Live reusable verification tests | `tests/<domain>/` grouped by current repository domain; `tests/fixtures/` owns reusable test fixtures; tests that only preserve a completed historical change belong with historical change evidence rather than the live suite |
+| 27 | Live reusable repository tooling | `scripts/checks/`, `scripts/environment/`, `scripts/data/`, `scripts/models/`, `scripts/docs/`, plus `scripts/verify.ps1` as the canonical verification entry point; one-change experiment/replay scripts belong to that change record or historical change evidence |
+| 28 | Third-party approval, licensing, redistribution, and trust boundaries | `config/third_party.json`; projected for humans as generated `docs/THIRD_PARTY.md` |
+| 29 | Security reporting and secret/local-state boundary | `SECURITY.md` |
+| 30 | Contribution and pull-request hygiene | `CONTRIBUTING.md` |
+| 31 | Dataset/source architecture and current source contract | `config/data_sources.json`, `config/research_dataset.json`, `data/acquisition-recipes/`; projected for humans as generated `docs/data-manifest.md` and `docs/reference/data/**` |
+| 32 | Research maturity sequence | `config/research_stages.json`, `config/signal_policy.json`; projected for humans as generated `docs/roadmap.md` |
+| 33 | Human-readable research methodology projection | `config/research_methodology.json`, applicable `contracts/*.schema.json`, `research/methodology/`; projected as generated `docs/research-methodology.md` |
+| 34 | Programme big-picture state and narrative projection | `research/programme/programme_evidence_map.json`; projected as generated `docs/big-picture.md` |
+| 35 | Legacy completed experiment definitions/evidence pointers | `.work/historical/config/`, `.work/historical/contracts/` |
+| 36 | Historical slice-specific development evidence | `.work/historical/docs/development/` |
+| 37 | Isolated implementation worktrees | `.work/worktrees/` |
+| 38 | Preserved non-authoritative legacy/scratch/audit working material | `.work/historical/` |
+| 39 | Human onboarding/orientation | `README.md` |
+| 40 | Binding repository rule-to-verifier registry and generated verification projection | `config/rule_verification.json`; projected through the documentation generator as `docs/rule-verification.md` |
 
-`AGENTS.md` is the repository authority map: it assigns ownership but does not duplicate the values owned elsewhere. Use the following owner for each class of information.
+When information changes, update its canonical owner first. Do not create another competing ownership registry elsewhere.
 
-| Authority | Owner |
-|---|---|
-| Repository mandate, initial research boundary, authority map, development governance | `AGENTS.md` |
-| Binding trading/execution permissions and prohibitions | `config/policy.json` |
-| Revisable research assumptions and decision-needed defaults | `config/assumptions.json` |
-| Data providers, operational source status, availability rules, canonical-evidence gates | `config/data_sources.json` |
-| Model enablement, model pins, hardware/runtime model settings | `config/models.json` |
-| Completed V1/V2 legacy experiment definitions and evidence pointers | `config/experiment.json`, `config/experiment_candidates.json`, `contracts/experiment.schema.json` |
-| New-research methodology activation/gates | `config/research_methodology.json` |
-| Future confirmatory preregistration contract | `contracts/prereg.schema.json` |
-| Future confirmatory results contract | `contracts/results.schema.json` |
-| Future confirmatory experiment evidence and durable knowledge record (`prereg.json`, freeze evidence, `results.json`, `interpretation.md`, `record.json`, generated `executive-summary.md`) | `research/experiments/<experiment-id>/` |
-| Durable programme decisions derived from experiment records | `research/programme-decisions.json` (validated projection; source authority remains each experiment `record.json`) |
-| Open research recommendations/questions derived from experiment records | `research/research-backlog.json` (validated projection; source authority remains each experiment `record.json`) |
-| Maintained-document ownership and deterministic documentation boundaries | `config/documentation_authority.json` |
-| Programme evidence/feasibility map | `config/programme_evidence_map.json` |
-| Programme inference ledger | `config/programme_inference_ledger.json` |
-| Sealed confirmation registry | `config/sealed_windows.json` |
-| Exploratory/diagnostic run contract and records | `contracts/exploratory_run.schema.json`, `research/exploratory/*.json` |
-| Literature quality, claim mapping, expectations, and triangulation snapshots | `contracts/literature_snapshot.schema.json`, `research/literature/*.json` |
-| Active HOLD/DEFER scientific revisit triggers and evaluation history | `contracts/revisit_triggers.schema.json`, `config/research_revisit_triggers.json` |
-| Longitudinal research metrics contract | `contracts/research_metrics.schema.json` |
-| Longitudinal stage metrics, comparison policy, and regression dispositions | `artifacts/research-metrics/longitudinal-ledger.json` |
-| Research maturity stages | `config/research_stages.json` |
-| Signal policy | `config/signal_policy.json` |
-| Simulation assumptions | `config/simulation.json` |
-| External development tools and LLM roles | `config/tools.json` |
-| Third-party approval, licensing boundaries, GitHub API/MCP technical-source registry | `docs/THIRD_PARTY.md` |
-| Security reporting and secret/local-state boundary | `SECURITY.md` |
-| Public contribution and pull-request hygiene | `CONTRIBUTING.md` |
-| Desired dataset and geographic/source acquisition architecture | `docs/data-manifest.md` |
-| Research milestone sequence | `docs/roadmap.md` |
-| Human research methodology | `docs/research-methodology.md` |
-| Programme big-picture narrative | `docs/big-picture.md` |
-| Legacy slice-specific plans/reviews/provenance evidence | `docs/development/<slice>/` (historical only; no new change docs) |
-| Temporary change/slice working documentation | `.work/changes/<issue>-<slug>/` |
-| Onboarding projection only | `README.md` |
+Every repository-local binding rule that can be decided deterministically from repository state MUST be declared in `config/rule_verification.json` with its authoritative source and executable verifier. The registry is the machine-readable rule-to-verification map. Repository-local deterministic rules MUST execute through `scripts/verify.ps1` before CI and be repeated in CI. A binding rule that genuinely depends on external lifecycle state MUST be explicitly classified in the registry as non-local with its reason and live enforcement authority; documentation or operator discipline alone is not sufficient for a repository-local deterministic rule.
 
-### Single-owner rule
+## Repo change and development workflow
 
-- Every mutable fact, decision, constraint, status, parameter, source approval, or policy has exactly one authoritative owner.
-- Other files MUST reference the owner path or stable section instead of copying its values. A summary MAY state consequences at a high level, but MUST NOT become a second source of truth for details likely to drift.
-- When information changes, update the owner first, then update only dependent references, tests, provenance, and summaries that are materially affected.
-- If two documents conflict, the owner assigned above wins. Resolve the non-owner by replacing duplicated authority with a reference where practical.
-- `docs/development/<slice>/` is a frozen legacy compatibility exception: completed historical experiments bind exact paths/bytes there, so moving it would rewrite evidence identity. Do not add new records there. New change notes belong under ignored `.work/changes/`; new scientific records belong under `research/`.
-- `.work/` is temporary and non-authoritative. Scientific evidence, machine authority, tests, runtime behavior, and maintained documentation MUST NOT depend on it.
-- Raw/ignored snapshots are evidence inputs, not repository authority. Commit only safe provenance summaries needed to support authoritative decisions.
+Every bounded unit of work in this repository is a governed **change**, including research and experiments as well as engineering, documentation, data, audit, maintenance, configuration, and policy work. A change keeps one identity and one history even when it concludes that no repository mutation is required.
 
-Completed V1/V2 experiment records remain legacy evidence under the contracts that governed them; do not retrospectively preregister or rewrite them. Any new or still-design-stage confirmatory experiment must use the future-methodology authorities above and pass the immutable preregistration gate before empirical execution.
+For each governed change, keep its scope, plan, tasks, hypotheses where applicable, decisions, implementation notes, review findings, verification evidence, interpretation, and closeout in one change-local record under `.work/changes/<issue>-<slug>/`. Active, closed, held, and deferred are lifecycle states, not directory classes: closing a governed change does not relocate its record. When an associated implementation worktree is retained, it belongs under `.work/worktrees/<issue>-<slug>/`; safe worktree cleanup may remove the physical checkout later without removing the change record.
 
-Research remains separated from trading authority; `config/policy.json` alone decides whether execution is permitted.
+### KIS operation rules
 
-## Experimental Progression
+- Operate repository changes through the live `kis-mcp` workflow and use its current lifecycle state, legal next actions, evidence, review, verification, Git/GitHub, recovery, and closeout rules.
+- Do not reproduce or substitute the evolving KIS lifecycle with remembered steps, manual lifecycle actions, or historical commands.
+- Work Management owns configured operational tracking such as priority, readiness, hold/defer state, scheduling, and claims; it does not own repository, scientific, policy, or KIS workflow truth.
 
-```text
-Historical research
-→ leakage-safe backtest
-→ broker simulation / paper execution
-→ forward evaluation
-→ explicit human approval before any live trading
-```
+## Skills
 
-Research backtesting may use clearly labeled bootstrap or noncanonical inputs. Those runs are valid for pipeline development and hypothesis screening, but they MUST NOT be promoted as canonical market evidence until the canonical data gate passes.
+Reusable skills must be discovered and loaded through the live KIS Skills module. Do not vendor or maintain a repository-local reusable skill catalogue.
 
-Live trading is out of scope until simulation evidence, execution controls and an explicit approval decision exist.
+| Skill / skill family | MUST load when |
+| --- | --- |
+| `data-engineering` | Any change that reads, acquires, imports, transforms, validates, reconstructs, normalizes, audits, interprets, or otherwise relies on repository data or data lineage. |
+| `kis-mcp` | Operating, planning, claiming, verifying, publishing, merging, recovering, or closing a governed repository change. |
+| `develop-code` | Changing code, tests, schemas, generators, executable configuration, or other implementation logic. |
+| `develop-docs` | Changing maintained documentation or documentation governance. |
+| All applicable live KIS data-engineering skills | Acquiring, importing, transforming, validating, reconstructing, normalizing, or auditing data. |
+| All applicable live KIS model/research/statistics skills | Designing or executing experiments, modelling, forecasting, statistical analysis, calibration, evaluation, or literature-driven research. |
+| `code-review` and `code-verification` | Reviewing or verifying implementation changes where those skills apply. |
+| `modularity-assessment` / architecture skills | Assessing or changing architecture, module boundaries, interfaces, or dependency direction. |
+| `security-guide` and other applicable specialist skills | Work touches security, secrets, permissions, external effects, or another specialist domain. |
+| Any other skill selected by live KIS for the bounded change | When the live workflow or discovered task scope declares it applicable. |
 
-## Architecture Rules
+For mixed changes, load every applicable skill against the same governed change record. Skills provide procedure, not authority and cannot expand repository or external-effect permissions.
 
-- Keep market/instrument discovery, data, signal generation, model research, decision logic, risk, policy, execution and evaluation as separate modules with explicit interfaces.
-- Treat forecasting models as signal producers and challengers, not as trading authority or the complete trading system.
-- Keep reusable framework logic instrument-independent. Put contract metadata, calendars, roll rules, currencies, source mappings, instrument-specific fundamentals and broker mappings in configuration or bounded adapters.
-- Do not introduce new Henry-Hub-specific assumptions into generic modules when an instrument contract or adapter can express the difference.
-- Keep model/tool/broker requirements in configuration or policy files; do not hard-code them into implementation logic.
-- Treat authoritative ownership as the change boundary: update the owner first, then all dependants, tests, provenance and documentation.
-- Prefer simple baselines before increasing model complexity, and prefer cheap instrument/target screening before expensive model or data acquisition work after the Henry Hub reference implementation is complete.
-- Record datasets, features, model parameters, predictions and evaluation results so experiments are reproducible and comparable across instruments.
-- Every new confirmatory experiment runner MUST call the #249 execution gate and prove an exact remote-bound preregistration, programme-inference registration, and any required sealed-window eligibility before it can access protected outcomes or produce confirmatory results.
+## Repository standards
 
-## Working Area
+- Write only within `C:/Projects/commodity`.
+- Never permanently delete repository artifacts; use recoverable quarantine for delete-like intent.
+- Keep temporary/generated state in KIS-managed state or approved ignored repository-local temporary locations.
+- Do not commit secrets, tokens, machine-specific credentials, caches, provider installations, generated runtime state, or quarantine contents; follow `SECURITY.md` for the authoritative security boundary.
+- Treat `.gitattributes` as tracked line-ending authority and preserve its explicit CRLF/binary exceptions.
+- Use `scripts/verify.ps1` as the canonical repository verification entry point when repository verification is required by live KIS.
+- Do not describe target behavior as implemented without fresh applicable evidence.
+- Execute repository Python and project tooling from the active checkout/worktree's own `.venv`. A worktree must not borrow another checkout's `.venv`. Create the worktree-local `.venv` from an explicitly repository-approved Python runtime under `C:/Projects` when needed; do not invoke Python executables, packages, caches, or tool installations from user-profile or unrelated checkout locations. CI may use its repository-pinned runner interpreter only to bootstrap a checkout-local `.venv`; after that bootstrap, every repository Python/tool invocation must use that `.venv`.
 
-Use `.work/` for local implementation scratch, probes, temporary scripts, and non-authoritative change documentation. New slice/change notes belong under `.work/changes/<issue>-<slug>/`. The directory is ignored by Git and disposable after closeout; runtime code, configuration, tests, governed research records, artifacts, and maintained documentation MUST NOT depend on it.
+## Historical and legacy material
 
-## Mandatory Development Startup
+The repository was restructured so current durable owners remain at the repository top level while retired and non-authoritative material is preserved under `.work/historical/` rather than deleted.
 
-Every repository work run MUST use the live KIS MCP capability and workflow authority before repository change.
+- `.work/historical/config/` — retired configuration and policy material, preserving the old relative path where practical.
+- `.work/historical/contracts/` — retired contracts and schemas.
+- `.work/historical/docs/` — retired documentation, including the legacy `docs/development/` tree.
+- `.work/historical/research/` — research records that were removed from the durable research tree because they belong to historical, change-specific work.
+- `.work/historical/src/` — retired experiment- or change-specific executable code that is no longer part of the live reusable package.
+- `.work/historical/tests/` — verification retained only for retired historical behavior rather than the current repository contract.
+- `.work/historical/scripts/` and `.work/historical/workflows/` — retired one-change runners, hashes, and automation that must not participate in current execution or CI.
+- Other pre-governance or non-governed legacy scratch, audit, probe, cache, quarantine, orphaned experiment, and non-authoritative working material may remain elsewhere under `.work/historical/` when it does not correspond to one of the mirrored durable owners above. Governed change records do not move to `.work/historical/` merely because they are closed, and directories that are still identifiable as Git worktrees belong under `.work/worktrees/`.
 
-- Discover the relevant workflow, capability, and supporting skill through the operations exposed by the connected KIS runtime at the time of the run.
-- Treat the workflow/capability contract returned by KIS as authoritative for operation names, required steps, effects, approvals, verification, publication, landing, and cleanup.
-- Do not encode KIS catalogue filesystem locations, operation names, provider inventories, or current tool surfaces as repository truth; those are external runtime state and may evolve independently of this repository.
-- Do not open, copy, vendor, mirror, symlink, or execute KIS-managed skill/catalogue files directly from filesystem locations. Repository-local Agent Skill catalogues remain forbidden.
-- If KIS exposes or selects a development controller or supporting skill, resolve and use it through the live KIS interface rather than a repository-pinned invocation sequence.
-
-The selected live KIS workflow owns engineering-complexity classification, slice specification/planning, applicable supporting skills, review and verification. KIS owns repository-change effect classification and applies the current operation-specific mutation and consent controls within this repository mandate and `config/policy.json`. Use an ignored `.work/` linked worktree on a non-default branch for parallel or non-trivial development. Git publication, review, landing, cleanup, and any required consent follow the currently advertised KIS change workflow rather than a duplicated fixed sequence in this file. Any default-branch change remains subject to KIS exact-change verification and the applicable mutation controls. When KIS selects a PR-completion workflow, follow its exact-head controls as part of that live workflow.
-
-## Work Management
-
-KIS Work Management is the required operational projection for actionable project work. Register each new specification slice, task, research item, defect, review finding, decision, risk, hold, or approval that requires follow-up; roadmap prose or development notes do not substitute for a Work record.
-
-- Work identity is repository-scoped. Commodity change IDs, GitHub issues, pull requests, and Work record IDs belong to `NielPieterse0/commodity`; never reuse or import a `kis-mcp` or other repository's change number.
-- At intake, inspect the `commodity` Work inventory and use preview-first KIS reconciliation before apply. Use a Commodity GitHub issue as the source for work that exists before a pull request; use the Commodity pull request as implementation evidence or as the source when the slice already exists only as a PR.
-- Keep the Work projection synchronized at meaningful lifecycle transitions and close it only when the authoritative issue/PR, verification, and required documentation evidence support closure.
-- Work Management is tracking and portfolio projection, not product authority. Current research, policy, provider, data, model, and architecture facts remain owned by the authoritative artifacts assigned in `Repository Authority` above.
-- Do not create a second Work record for the same actionable item. A newly discovered defect or finding that needs independent follow-up gets its own Commodity issue/record unless it is explicitly accepted into an existing slice.
-
-## Repository Tools and Skills
-
-This repository uses KIS MCP through the runtime surfaces available to the active agent. External KIS operations, workflow IDs, provider inventories, skill IDs, and catalogue locations are runtime-owned and MUST NOT be duplicated here as a fixed repository interface.
-
-Resolve development controllers, supporting skills, provider actions, and change workflows from live KIS discovery for each run. KIS instructions refine workflow only; they do not override this repository mandate, `config/policy.json`, or execution boundaries.
-
-## Initial Research Boundary
-
-Forecast the underlying natural-gas futures market; do not optimize initially for CFDs, leveraged certificates or other wrapper products.
-
-Broker integration is an execution adapter, not part of the forecasting model. Saxo OpenAPI/SIM is the leading candidate and MUST be verified before becoming an approved interface.
-
-## Success Criterion
-
-The repository succeeds only if out-of-sample and forward-testing evidence shows a robust, reproducible forecasting/trading advantage after realistic costs and risk constraints. A high backtest score alone is not success.
+Historical material is evidence or context only. Do not treat `.work/historical/**` as current authority, and do not recreate retired top-level paths from it.

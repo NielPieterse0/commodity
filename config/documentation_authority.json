@@ -1,25 +1,30 @@
 {
-  "schema_version": 1,
+  "schema_version": 2,
   "maintained_documents": [
     {"path": "README.md", "owns": ["onboarding_projection"]},
     {"path": "AGENTS.md", "owns": ["repository_mandate", "authority_map", "development_governance", "architecture_rules"]},
     {"path": "CONTRIBUTING.md", "owns": ["contribution_hygiene"]},
-    {"path": "SECURITY.md", "owns": ["security_reporting", "secret_local_state_boundary"]},
-    {"path": "docs/README.md", "owns": ["documentation_map", "documentation_placement"]},
-    {"path": "docs/big-picture.md", "owns": ["programme_big_picture"]},
-    {"path": "docs/data-manifest.md", "owns": ["desired_data_architecture"]},
-    {"path": "docs/research-methodology.md", "owns": ["human_research_method"]},
-    {"path": "docs/roadmap.md", "owns": ["research_progression", "system_flow", "replication_progression"]},
-    {"path": "docs/THIRD_PARTY.md", "owns": ["third_party_approval", "licensing_boundaries", "technical_source_registry"]}
+    {"path": "SECURITY.md", "owns": ["security_reporting", "secret_local_state_boundary"]}
   ],
-  "forbidden_maintained_paths": ["docs/architecture"],
-  "legacy_prefix": "docs/development/",
+  "generated_documentation": {
+    "narrative_source": "config/documentation.json",
+    "generator": "scripts/docs/generate_docs.py",
+    "output_root": "docs",
+    "reference_sources": [
+      "config/*.json",
+      "contracts/*.schema.json",
+      "data/acquisition-recipes/*.json",
+      "research/**/*.json",
+      "artifacts/**/*.json"
+    ]
+  },
+  "forbidden_maintained_paths": ["docs/architecture", "docs/development"],
   "temporary_prefix": ".work/",
-  "generated_research_projections": ["research/programme-decisions.json", "research/research-backlog.json"],
-  "exclusive_owner_rules": [
-    {"authority": "trading_execution_permission", "owner": "config/policy.json"},
+  "generated_research_projections": ["research/programme/programme-decisions.json", "research/programme/research-backlog.json"],  "exclusive_owner_rules": [
+    {"authority": "trading_execution_permission", "owner": "config/trading-policy.json"},
     {"authority": "provider_operational_status", "owner": "config/data_sources.json"},
     {"authority": "model_runtime_settings", "owner": "config/models.json"},
-    {"authority": "research_methodology_activation", "owner": "config/research_methodology.json"}
+    {"authority": "research_methodology_activation", "owner": "config/research_methodology.json"},
+    {"authority": "generated_documentation_source", "owner": "config/documentation.json"}
   ]
 }

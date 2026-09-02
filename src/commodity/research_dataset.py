@@ -13,10 +13,10 @@ from commodity.config import (
     REPO_ROOT,
     assumptions_config,
     data_config,
-    experiment_config,
+    research_dataset_config,
 )
 from commodity.data_assurance import (
-    build_reconstruction_contract,
+    build_construction_contract,
     canonical_json_sha256,
     file_identity,
 )
@@ -31,6 +31,7 @@ from commodity.market_data import (
     assert_market_evaluation_ready,
     build_market_structure_features,
     ensure_canonical_market_availability,
+    resolve_market_source,
     validate_contract_history,
 )
 from commodity.roll_safe_market import same_contract_selected_returns
@@ -60,7 +61,7 @@ class PitFeatureSource:
 
 
 def _required_families() -> tuple[str, ...]:
-    dataset_cfg = experiment_config()["dataset"]
+    dataset_cfg = research_dataset_config()["dataset"]
     return tuple(str(value) for value in dataset_cfg["required_feature_families"])
 
 
@@ -110,15 +111,16 @@ def _canonical_supervised_dataset(
     contracts: pd.DataFrame,
     *,
     promotion_required: bool,
+    market_source_id: str | None,
 ) -> tuple[pd.DataFrame, dict[str, Any]]:
     cfg = data_config()
     assumptions = assumptions_config()
+    selected_source_id, source = resolve_market_source(cfg, market_source_id)
     if promotion_required:
-        assert_canonical_market_ready(cfg, assumptions)
+        assert_canonical_market_ready(cfg, assumptions, selected_source_id)
     else:
-        assert_market_evaluation_ready(cfg, assumptions)
+        assert_market_evaluation_ready(cfg, assumptions, selected_source_id)
     schema = cfg["canonical_contract_schema"]
-    source = cfg["sources"]["market_canonical"]
     policy = assumptions["assumptions"]["continuous_series_policy"]["policy"]
     available = ensure_canonical_market_availability(
         contracts, source.get("availability_policy", {})
@@ -210,6 +212,10 @@ def _canonical_supervised_dataset(
         "evidence_scope": evidence_scope,
     }
     lineage = {
+        "market_source_id": selected_source_id,
+        "market_provider": str(source["provider"]),
+        "market_source_status": str(source.get("status", "")),
+        "configured_canonical_source": bool(source.get("canonical_market_source")),
         "contract_input_sha256": _table_sha256(normalized),
         "selected_path_sha256": _table_sha256(path),
         "roll_ledger_sha256": _table_sha256(ledger),
@@ -304,6 +310,7 @@ def build_pit_dataset(
     required_families: tuple[str, ...] | None = None,
     require_full_v1: bool = False,
     canonical_contracts: pd.DataFrame | None = None,
+    market_source_id: str | None = None,
 ) -> tuple[pd.DataFrame, dict[str, Any]]:
     if evidence_mode not in _PIT_MODES:
         raise ValueError(f"Unsupported PIT dataset mode: {evidence_mode!r}")
@@ -315,9 +322,12 @@ def build_pit_dataset(
             raise ValueError(
                 f"{evidence_mode} dataset requires provider-neutral canonical contract rows"
             )
+        if not market_source_id:
+            raise ValueError(f"{evidence_mode} contract rows require explicit market_source_id")
         dataset, market_structure_lineage = _canonical_supervised_dataset(
             canonical_contracts,
             promotion_required=evidence_mode == "canonical",
+            market_source_id=market_source_id,
         )
         market_input = "canonical_contracts"
         market_source_sha256 = str(market_structure_lineage["contract_input_sha256"])
@@ -329,6 +339,8 @@ def build_pit_dataset(
             raise ValueError(
                 "Canonical contract rows require evidence_mode='canonical' or 'evaluation_pit'"
             )
+        if market_source_id is not None:
+            raise ValueError("market_source_id is only valid for contract-market datasets")
         market = _validate_market_frame(ohlcv)
         market_input = "market_frame"
         market_source_sha256 = dataframe_sha256(market)
@@ -389,7 +401,7 @@ def build_pit_dataset(
             raise ValueError(f"Full V1 exogenous evidence is not ready: {details}")
     if dataset.empty:
         raise ValueError("PIT dataset is empty after availability-safe joins")
-    dataset_cfg = experiment_config()["dataset"]
+    dataset_cfg = research_dataset_config()["dataset"]
     minimum_join_coverage = float(dataset_cfg.get("minimum_exogenous_join_coverage", 0.0))
     if require_full_v1:
         below_threshold = {
@@ -420,7 +432,7 @@ def build_pit_dataset(
         "included_feature_families": sorted(families),
         "missing_feature_families": missing,
         "rows": len(dataset),
-        "initial_train_rows": int(experiment_config()["walk_forward"]["initial_train_rows"]),
+        "initial_train_rows": int(research_dataset_config()["walk_forward"]["initial_train_rows"]),
         "minimum_exogenous_join_coverage": minimum_join_coverage,
         "columns": list(dataset.columns),
         "start": dataset.index[0].isoformat(),
@@ -436,8 +448,16 @@ def build_pit_dataset(
         },
     }
     if market_structure_lineage is not None:
+        manifest["market_source_id"] = market_structure_lineage["market_source_id"]
+        manifest["market_provider"] = market_structure_lineage["market_provider"]
+        manifest["market_source_status"] = market_structure_lineage["market_source_status"]
         manifest["market_structure"] = market_structure_lineage
-    source_inputs = [{"id": market_input, "sha256": market_source_sha256}]
+    source_input_id = (
+        f"market:{market_structure_lineage['market_source_id']}"
+        if market_structure_lineage is not None
+        else market_input
+    )
+    source_inputs = [{"id": source_input_id, "sha256": market_source_sha256}]
     source_inputs.extend(
         {
             "id": str(item["source_id"]),
@@ -455,12 +475,12 @@ def build_pit_dataset(
         )
     )
     layers = [
-        {"name": "retained_source_evidence", "status": "verified", "sha256": canonical_json_sha256(source_inputs)},
-        {"name": "canonical_normalization", "status": "verified", "sha256": market_source_sha256},
-        {"name": "pit_availability", "status": "verified", "sha256": canonical_json_sha256({"prediction_times": [value.isoformat() for value in dataset.index], "sources": exogenous_lineage})},
-        {"name": "feature_construction", "status": "verified", "sha256": digest},
+        {"name": "retained_source_evidence", "status": "constructed", "sha256": canonical_json_sha256(source_inputs)},
+        {"name": "canonical_normalization", "status": "constructed", "sha256": market_source_sha256},
+        {"name": "pit_availability", "status": "constructed", "sha256": canonical_json_sha256({"prediction_times": [value.isoformat() for value in dataset.index], "sources": exogenous_lineage})},
+        {"name": "feature_construction", "status": "constructed", "sha256": digest},
     ]
-    manifest["data_assurance"] = build_reconstruction_contract(
+    manifest["data_assurance"] = build_construction_contract(
         source_inputs=source_inputs,
         layers=layers,
         transformation_sha256=transformation_sha256,

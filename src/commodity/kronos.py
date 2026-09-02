@@ -144,6 +144,13 @@ def resolve_kronos_artifacts(cfg: dict[str, Any] | None = None) -> dict[str, dic
     }
 
 
+def _validate_forecast_indices(ohlcv: pd.DataFrame, future_index: pd.DatetimeIndex) -> None:
+    if not isinstance(ohlcv.index, pd.DatetimeIndex):
+        raise KronosArtifactError("Kronos OHLCV history must use a DatetimeIndex")
+    if not isinstance(future_index, pd.DatetimeIndex):
+        raise KronosArtifactError("Kronos forecast horizon must use a DatetimeIndex")
+
+
 class KronosMiniAdapter:
     def __init__(self) -> None:
         cfg = model_config()["models"]["kronos_mini"]
@@ -172,6 +179,7 @@ class KronosMiniAdapter:
         self.inference = dict(cfg["inference"])
 
     def forecast(self, ohlcv: pd.DataFrame, future_index: pd.DatetimeIndex) -> pd.DataFrame:
+        _validate_forecast_indices(ohlcv, future_index)
         x = ohlcv[["open", "high", "low", "close", "volume"]].copy()
         return self.predictor.predict(
             df=x,
@@ -220,6 +228,7 @@ class KronosCheckpointAdapter:
         self.artifact_manifest = artifacts
 
     def forecast(self, ohlcv: pd.DataFrame, future_index: pd.DatetimeIndex) -> pd.DataFrame:
+        _validate_forecast_indices(ohlcv, future_index)
         x = ohlcv[["open", "high", "low", "close", "volume"]].copy()
         return self.predictor.predict(
             df=x,

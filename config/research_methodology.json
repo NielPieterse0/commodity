@@ -7,14 +7,16 @@
   "lifecycle_stages": ["helicopter_view","gap","evidence_led_zoom_in","quality_literature","mechanism","hypothesis","expected_and_disconfirming_observations","feasibility","preregister_and_freeze_if_applicable","execute","verify","compare_observed_vs_expected","external_post_result_triangulation","programme_conclusion","active_revisit_triggers"],
   "new_exploratory_schema_version": 3,
   "literature_snapshot_contract": "contracts/literature_snapshot.schema.json",
-  "revisit_trigger_registry": "config/research_revisit_triggers.json",
+  "revisit_trigger_registry": "research/programme/research_revisit_triggers.json",
   "new_confirmatory_execution_requires": ["complete_research_lifecycle","quality_literature_snapshot","valid_preregistration","passed_mepi_power_gate","programme_inference_registration","revisit_trigger_preflight","sealed_window_eligibility_if_used","remote_bound_preregistration_freeze","verified_dataset_reconstruction","verified_dataset_semantics"],
   "new_exploratory_execution_requires": ["schema_version_3","verified_dataset_reconstruction","verified_dataset_semantics","immutable_data_assurance_manifest"],
+  "dataset_reconstruction_verification_method": "deterministic_rebuild_exact_comparison",
+  "dataset_semantic_verification_method": "explicit_dataset_semantics_v1",
   "legacy_exploratory_schema_versions": [1, 2],
-  "legacy_evidence": {"completed_v1_v2_rewritten": false, "authority": ["config/experiment.json","config/experiment_candidates.json","contracts/experiment.schema.json"], "phase_d_v1_status": "preserved_known_predictor_defect", "phase_d_v1_defect": "pre_roll_safe_market_predictors", "reuse_as_current_clean_evidence": false, "supersession_rule": "re-freeze and rerun under verified reconstruction and semantic-correctness controls only if the V1 conclusion becomes decision-relevant"},
+  "legacy_evidence": {"completed_v1_v2_rewritten": false, "historical_identity": ["git-history:config/experiment.json","git-history:config/experiment_candidates.json","git-history:contracts/experiment.schema.json"], "phase_d_v1_status": "preserved_known_predictor_defect", "phase_d_v1_defect": "pre_roll_safe_market_predictors", "reuse_as_current_clean_evidence": false, "supersession_rule": "re-freeze and rerun under verified reconstruction and semantic-correctness controls only if the V1 conclusion becomes decision-relevant"},
   "truth_classes": ["PROVEN","CHECKED","RECORDED"],
   "evidence_levels": ["E0","E1","E2","E3","E4","E5","E6"],
   "human_dispositions": ["advance","replicate","refine","branch","hold","stop"],
   "execution_authority": false,
-  "trading_policy_owner": "config/policy.json"
+  "trading_policy_owner": "config/trading-policy.json"
 }
