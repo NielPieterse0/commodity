@@ -1,0 +1,56 @@
+{
+  "schema_version": 1,
+  "zoom_level": "L3",
+  "programme_id": "001-commodity-natural-gas",
+  "research_line_id": "004-target-redesign-volatility-events",
+  "experiment_id": "004-volatility-reopening-277",
+  "governance_generation": "legacy_pre_15_step",
+  "historical_status": "held",
+  "summary": "Material-redesign reopening gate for volatility; protected confirmation remained unopened.",
+  "outcome": "hold_material_reopening_gate",
+  "issue_lineage": [
+    277
+  ],
+  "source_artifacts": [
+    {
+      "path": "research/exploratory/volatility-reopening-gate-277.json",
+      "commit": "3e267e9d7df53c3ce927b1007b6e694f3920bde5",
+      "sha256": "b20d71ae472b0af17feb65074a228ec8c79c166071f0869c0a18e47a9b33ba80",
+      "preserved_as": "exploratory-result.json",
+      "note": null
+    },
+    {
+      "path": "research/literature/volatility-reopening-277-feasibility-v1.json",
+      "commit": "3e267e9d7df53c3ce927b1007b6e694f3920bde5",
+      "sha256": "e006f9f34810c950d4d5e57af4684357e58d313bdcdb57140907aa340885a58f",
+      "preserved_as": "literature-feasibility.json",
+      "note": null
+    },
+    {
+      "path": "research/literature/volatility-reopening-277-post-feasibility-v1.json",
+      "commit": "3e267e9d7df53c3ce927b1007b6e694f3920bde5",
+      "sha256": "aa9028b8733e32f130f74afa4d7edd0fbceca480fda045523216b241731d461e",
+      "preserved_as": "literature-post-feasibility.json",
+      "note": null
+    }
+  ],
+  "decisions": [
+    {
+      "id": "legacy-volatility-277-hold",
+      "decision": "Hold volatility reopening until all predeclared relative-MDE/MEPI sensitivities are <= 1.0 and a fresh confirmation path exists.",
+      "status": "active",
+      "superseded_by": null
+    }
+  ],
+  "recommendations": [
+    {
+      "id": "legacy-volatility-277-reopen",
+      "item": "Re-evaluate the volatility reopening gate only after materially more effective information or a distinct design is available.",
+      "status": "open",
+      "work_ref": "issue-277",
+      "resolution_ref": null
+    }
+  ],
+  "open_questions": [],
+  "metrics_ledger_refs": []
+}

@@ -1,0 +1,65 @@
+{
+  "schema_version": 1,
+  "zoom_level": "L3",
+  "programme_id": "001-commodity-natural-gas",
+  "research_line_id": "001-v1-next-session-return-baseline",
+  "experiment_id": "001-ng-next-session-return-baseline-v1",
+  "governance_generation": "legacy_pre_15_step",
+  "historical_status": "completed",
+  "summary": "Frozen V1 next-session return tournament under the legacy PIT/evaluation contract.",
+  "outcome": "no_robust_edge",
+  "issue_lineage": [
+    13,
+    15,
+    16,
+    17,
+    18,
+    19,
+    20,
+    21
+  ],
+  "source_artifacts": [
+    {
+      "path": "config/experiment.json",
+      "commit": "3e267e9d7df53c3ce927b1007b6e694f3920bde5",
+      "sha256": "ea6cd135c59687d1bfa382cac9eb64162d8db2ab0bc41c5b98f4a5dbce07dafb",
+      "preserved_as": "experiment.json",
+      "note": null
+    },
+    {
+      "path": "config/phase_d_evaluation.json",
+      "commit": "3e267e9d7df53c3ce927b1007b6e694f3920bde5",
+      "sha256": "8628cee6d5a8ba593223917ad550d4eb3f601ae2361668fc3496a456c37738bf",
+      "preserved_as": "phase-d-evaluation.json",
+      "note": null
+    },
+    {
+      "path": "artifacts/research-metrics/longitudinal-ledger.json",
+      "commit": "3e267e9d7df53c3ce927b1007b6e694f3920bde5",
+      "sha256": "c127fa206f7760e2ebf5fee863493393d4b1b931b0a6438ce04c87104553a4ba",
+      "preserved_as": null,
+      "note": "Programme-wide metric ledger; referenced, not duplicated."
+    }
+  ],
+  "decisions": [
+    {
+      "id": "legacy-v1-reject",
+      "decision": "Reject promotion of the tested V1 next-session return hypothesis/model ladder; no robust edge was established.",
+      "status": "active",
+      "superseded_by": null
+    }
+  ],
+  "recommendations": [
+    {
+      "id": "legacy-v1-revisit",
+      "item": "Revisit one-session return forecasting only when a bounded new mechanism or information source changes expected information value.",
+      "status": "open",
+      "work_ref": null,
+      "resolution_ref": null
+    }
+  ],
+  "open_questions": [],
+  "metrics_ledger_refs": [
+    "artifacts/research-metrics/longitudinal-ledger.json#phase-d-full-v1-hist-gb"
+  ]
+}

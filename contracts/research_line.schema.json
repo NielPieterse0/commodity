@@ -1,0 +1,55 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://commodity.local/contracts/research-line/v1",
+  "title": "Commodity Research Line",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "zoom_level", "programme_id", "research_line_id",
+    "legacy_research_line_ids", "status", "big_picture", "why_zoomed_in",
+    "tested_role_target_horizon", "historical_facts", "useful_secondary_observations",
+    "remaining_untested_roles", "revisit_trigger", "programme_interpretation",
+    "evidence_refs", "experiment_history", "experiment_refs"
+  ],
+  "properties": {
+    "schema_version": {"const": 1},
+    "zoom_level": {"const": "L2"},
+    "programme_id": {"type": "string", "pattern": "^[0-9]{3}-[a-z0-9-]+$"},
+    "research_line_id": {"type": "string", "pattern": "^[0-9]{3}-[a-z0-9-]+$"},
+    "legacy_research_line_ids": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+    "status": {"type": "string", "minLength": 1},
+    "selection_basis": {"type": "string"},
+    "stopping_rules": {"type": "object"},
+    "big_picture": {"type": "string", "minLength": 1},
+    "why_zoomed_in": {"type": "string", "minLength": 1},
+    "tested_role_target_horizon": {"type": "string", "minLength": 1},
+    "historical_facts": {
+      "type": "object",
+      "required": ["observed", "rules_out", "does_not_rule_out"],
+      "properties": {
+        "observed": {"type": "string", "minLength": 1},
+        "rules_out": {"type": "string", "minLength": 1},
+        "does_not_rule_out": {"type": "string", "minLength": 1}
+      }
+    },
+    "useful_secondary_observations": {"type": "array", "items": {"type": "string"}},
+    "remaining_untested_roles": {"type": "array", "items": {"type": "string"}},
+    "revisit_trigger": {"type": "string", "minLength": 1},
+    "programme_interpretation": {"type": "string", "minLength": 1},
+    "evidence_refs": {"type": "array", "items": {"type": "string", "minLength": 1}},
+    "experiment_history": {"type": "array", "items": {"type": "object"}},
+    "experiment_refs": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["experiment_id", "path"],
+        "properties": {
+          "experiment_id": {"type": "string", "minLength": 1},
+          "path": {"type": "string", "minLength": 1}
+        }
+      }
+    }
+  }
+}

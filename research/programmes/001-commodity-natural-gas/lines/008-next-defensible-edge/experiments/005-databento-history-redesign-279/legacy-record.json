@@ -1,0 +1,34 @@
+{
+  "schema_version": 1,
+  "zoom_level": "L3",
+  "programme_id": "001-commodity-natural-gas",
+  "research_line_id": "008-next-defensible-edge",
+  "experiment_id": "005-databento-history-redesign-279",
+  "governance_generation": "legacy_pre_15_step",
+  "historical_status": "completed",
+  "summary": "Data-first full-history redesign and admissibility study.",
+  "outcome": "data_first_full_history_go_to_literature_replication_protected_unopened",
+  "issue_lineage": [
+    279
+  ],
+  "source_artifacts": [
+    {
+      "path": "research/exploratory/databento-history-redesign-279.json",
+      "commit": "3e267e9d7df53c3ce927b1007b6e694f3920bde5",
+      "sha256": "9e71319a0aff36b246dc5b7a7d56bb4f3f05e972343ce9c65f65302dfc3ddf58",
+      "preserved_as": "exploratory-result.json",
+      "note": null
+    }
+  ],
+  "decisions": [
+    {
+      "id": "legacy-005-databento-history-redesign-279-disposition",
+      "decision": "Preserve historical disposition: data_first_full_history_go_to_literature_replication_protected_unopened.",
+      "status": "active",
+      "superseded_by": null
+    }
+  ],
+  "recommendations": [],
+  "open_questions": [],
+  "metrics_ledger_refs": []
+}

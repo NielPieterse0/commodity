@@ -1,0 +1,57 @@
+{
+  "schema_version": 1,
+  "zoom_level": "L3",
+  "programme_id": "001-commodity-natural-gas",
+  "research_line_id": "005-timesfm-return-complementarity",
+  "experiment_id": "001-timesfm-198-zero-shot-v1",
+  "governance_generation": "legacy_pre_15_step",
+  "historical_status": "completed",
+  "summary": "TimesFM zero-shot next-session return challenger under the bounded legacy execution contract.",
+  "outcome": "standalone_not_promoted",
+  "issue_lineage": [
+    198,
+    223,
+    224
+  ],
+  "source_artifacts": [
+    {
+      "path": "artifacts/timesfm/timesfm-198-zero-shot-v1/result.json",
+      "commit": "3e267e9d7df53c3ce927b1007b6e694f3920bde5",
+      "sha256": "050b3023a08d9ffb57958a8ee361344dbce6df2216d0f760b6240d747de7da03",
+      "preserved_as": "result.json",
+      "note": null
+    },
+    {
+      "path": "artifacts/timesfm/timesfm-198-zero-shot-v1/run-manifest.json",
+      "commit": "3e267e9d7df53c3ce927b1007b6e694f3920bde5",
+      "sha256": "e36a16f098e400221c9d7a4239be565f2e5280400eb1742c68ea990e1eb7dae7",
+      "preserved_as": "run-manifest.json",
+      "note": null
+    },
+    {
+      "path": "docs/development/timesfm-zero-shot-preregistration/contract.json",
+      "commit": "3e267e9d7df53c3ce927b1007b6e694f3920bde5",
+      "sha256": "a5d3fbc10158776f035f2ee3010fdf28a45c654dda44d38632775cee8e9d3325",
+      "preserved_as": "contract.json",
+      "note": null
+    },
+    {
+      "path": "docs/development/timesfm-zero-shot-preregistration/freeze.json",
+      "commit": "3e267e9d7df53c3ce927b1007b6e694f3920bde5",
+      "sha256": "93e72b04593f6644ca0b5f1ad1718c847ea8eae26f70f2eec5b2b5b69cfa523a",
+      "preserved_as": "freeze.json",
+      "note": null
+    }
+  ],
+  "decisions": [
+    {
+      "id": "legacy-timesfm-198-reject",
+      "decision": "Do not promote standalone TimesFM next-session return forecasts; the zero-return hurdle was not beaten.",
+      "status": "active",
+      "superseded_by": null
+    }
+  ],
+  "recommendations": [],
+  "open_questions": [],
+  "metrics_ledger_refs": []
+}

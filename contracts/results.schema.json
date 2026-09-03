@@ -4,23 +4,237 @@
   "title": "Commodity Confirmatory Results",
   "type": "object",
   "additionalProperties": false,
-  "required": ["schema_version", "experiment_id", "run_id", "prereg_sha256", "code", "data", "features", "model", "environment", "raw_evidence", "verification", "method_compliance", "scientific_evidence", "coherence", "family_inference", "artifacts"],
+  "required": [
+    "schema_version",
+    "zoom_level",
+    "experiment_id",
+    "run_id",
+    "prereg_sha256",
+    "code",
+    "data",
+    "features",
+    "model",
+    "environment",
+    "raw_evidence",
+    "verification",
+    "method_compliance",
+    "scientific_evidence",
+    "coherence",
+    "family_inference",
+    "artifacts"
+  ],
   "properties": {
-    "schema_version": {"const": 1},
-    "experiment_id": {"type": "string", "minLength": 1},
-    "run_id": {"type": "string", "minLength": 1},
-    "prereg_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
-    "code": {"type": "object", "additionalProperties": false, "required": ["commit_sha", "working_tree_dirty"], "properties": {"commit_sha": {"type": "string", "minLength": 1}, "working_tree_dirty": {"const": false}, "source_manifest_sha256": {"type": ["string", "null"], "pattern": "^[0-9a-fA-F]{64}$"}}},
-    "data": {"type": "object", "additionalProperties": false, "required": ["dataset_id", "vintage_id", "split_id"], "properties": {"dataset_id": {"type": "string", "minLength": 1}, "vintage_id": {"type": "string", "minLength": 1}, "split_id": {"type": "string", "minLength": 1}, "dataset_sha256": {"type": ["string", "null"], "pattern": "^[0-9a-fA-F]{64}$"}}},
-    "features": {"type": "object", "additionalProperties": false, "required": ["definition_id", "preprocessing_id"], "properties": {"definition_id": {"type": "string", "minLength": 1}, "preprocessing_id": {"type": "string", "minLength": 1}}},
-    "model": {"type": "object", "additionalProperties": false, "required": ["family", "configuration_id", "checkpoint_id"], "properties": {"family": {"type": "string", "minLength": 1}, "configuration_id": {"type": "string", "minLength": 1}, "checkpoint_id": {"type": ["string", "null"]}, "checkpoint_sha256": {"type": ["string", "null"], "pattern": "^[0-9a-fA-F]{64}$"}}},
-    "environment": {"type": "object", "additionalProperties": false, "required": ["runtime", "runtime_version", "dependency_lock_sha256", "hardware", "tolerance_policy"], "properties": {"runtime": {"type": "string", "minLength": 1}, "runtime_version": {"type": "string", "minLength": 1}, "dependency_lock_sha256": {"type": "string", "pattern": "^[0-9a-fA-F]{64}$"}, "hardware": {"type": "object"}, "tolerance_policy": {"type": "object"}}},
-    "raw_evidence": {"type": "object"},
-    "verification": {"type": "array", "items": {"type": "object", "required": ["truth_class", "code", "message"], "properties": {"truth_class": {"enum": ["PROVEN", "CHECKED", "RECORDED"]}, "code": {"type": "string"}, "message": {"type": "string"}}}},
-    "method_compliance": {"enum": ["VERIFIED", "FAILED", "INCOMPLETE"]},
-    "scientific_evidence": {"enum": ["E0", "E1", "E2", "E3", "E4", "E5", "E6"]},
-    "coherence": {"type": "object"},
-    "family_inference": {"type": ["object", "null"]},
-    "artifacts": {"type": "array"}
+    "schema_version": {
+      "const": 1
+    },
+    "experiment_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "run_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "prereg_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "code": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "commit_sha",
+        "working_tree_dirty"
+      ],
+      "properties": {
+        "commit_sha": {
+          "type": "string",
+          "minLength": 1
+        },
+        "working_tree_dirty": {
+          "const": false
+        },
+        "source_manifest_sha256": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "pattern": "^[0-9a-fA-F]{64}$"
+        }
+      }
+    },
+    "data": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "dataset_id",
+        "vintage_id",
+        "split_id"
+      ],
+      "properties": {
+        "dataset_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "vintage_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "split_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "dataset_sha256": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "pattern": "^[0-9a-fA-F]{64}$"
+        }
+      }
+    },
+    "features": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "definition_id",
+        "preprocessing_id"
+      ],
+      "properties": {
+        "definition_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "preprocessing_id": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "model": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "family",
+        "configuration_id",
+        "checkpoint_id"
+      ],
+      "properties": {
+        "family": {
+          "type": "string",
+          "minLength": 1
+        },
+        "configuration_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "checkpoint_id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "checkpoint_sha256": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "pattern": "^[0-9a-fA-F]{64}$"
+        }
+      }
+    },
+    "environment": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "runtime",
+        "runtime_version",
+        "dependency_lock_sha256",
+        "hardware",
+        "tolerance_policy"
+      ],
+      "properties": {
+        "runtime": {
+          "type": "string",
+          "minLength": 1
+        },
+        "runtime_version": {
+          "type": "string",
+          "minLength": 1
+        },
+        "dependency_lock_sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-fA-F]{64}$"
+        },
+        "hardware": {
+          "type": "object"
+        },
+        "tolerance_policy": {
+          "type": "object"
+        }
+      }
+    },
+    "raw_evidence": {
+      "type": "object"
+    },
+    "verification": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "truth_class",
+          "code",
+          "message"
+        ],
+        "properties": {
+          "truth_class": {
+            "enum": [
+              "PROVEN",
+              "CHECKED",
+              "RECORDED"
+            ]
+          },
+          "code": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "method_compliance": {
+      "enum": [
+        "VERIFIED",
+        "FAILED",
+        "INCOMPLETE"
+      ]
+    },
+    "scientific_evidence": {
+      "enum": [
+        "E0",
+        "E1",
+        "E2",
+        "E3",
+        "E4",
+        "E5",
+        "E6"
+      ]
+    },
+    "coherence": {
+      "type": "object"
+    },
+    "family_inference": {
+      "type": [
+        "object",
+        "null"
+      ]
+    },
+    "artifacts": {
+      "type": "array"
+    },
+    "zoom_level": {
+      "const": "L4"
+    }
   }
 }

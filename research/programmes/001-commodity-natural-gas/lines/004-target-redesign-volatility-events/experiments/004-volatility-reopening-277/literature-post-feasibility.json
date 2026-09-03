@@ -1,0 +1,53 @@
+{
+  "schema_version": 1,
+  "snapshot_id": "volatility-reopening-277-post-feasibility-v1",
+  "research_question": "Does independent literature overturn the nuisance-only conclusion that Commodity should keep the current volatility line on HOLD?",
+  "search_scope": "Independent post-feasibility triangulation using peer-reviewed natural-gas volatility mechanism, structural-change, and event-jump research not used in the pre-feasibility snapshot. No protected Commodity confirmation outcomes were inspected.",
+  "sources": [
+    {
+      "source_id": "hailemariam-smyth-2019",
+      "title": "What drives volatility in natural gas prices?",
+      "source_type": "peer_reviewed",
+      "quality": "primary",
+      "locator": "https://doi.org/10.1016/j.eneco.2019.02.011",
+      "year": 2019
+    },
+    {
+      "source_id": "inventory-jumps-2015",
+      "title": "Inventory announcements, jump dynamics, volatility and trading volume in U.S. energy futures markets",
+      "source_type": "peer_reviewed",
+      "quality": "primary",
+      "locator": "https://doi.org/10.1016/j.eneco.2014.11.006",
+      "year": 2015
+    },
+    {
+      "source_id": "kristjanpoller-2024",
+      "title": "A hybrid econometrics and machine learning based modeling of realized volatility of natural gas",
+      "source_type": "peer_reviewed",
+      "quality": "high",
+      "locator": "https://doi.org/10.1186/s40854-023-00577-0",
+      "year": 2024
+    }
+  ],
+  "claim_map": [
+    {
+      "claim": "Natural-gas volatility is structurally time-varying and materially linked to supply- and demand-side shocks, supporting mechanism-aware rather than invariant all-history designs.",
+      "source_ids": ["hailemariam-smyth-2019"]
+    },
+    {
+      "claim": "Inventory announcements are associated with jump and volatility behavior in energy futures, supporting event-specific designs only when the event population is defined ex ante.",
+      "source_ids": ["inventory-jumps-2015"]
+    },
+    {
+      "claim": "HAR remains a useful natural-gas realized-volatility benchmark and nonlinear models can matter in some volatility regimes, but this does not justify adaptive model shopping without adequate information.",
+      "source_ids": ["kristjanpoller-2024"]
+    }
+  ],  "expected_observations": [
+    "Independent literature should support volatility persistence and mechanism/event heterogeneity without implying that a nearby horizon or more complex model automatically creates independent information.",
+    "A future material redesign may be credible if an ex-ante mechanism changes the event population or information structure enough to reduce nuisance variance or increase effective information."
+  ],
+  "disconfirming_observations": [
+    "Independent evidence shows that simply changing the forecast model or nearby horizon reliably overcomes the programme's measured information deficit.",
+    "A literature-supported mechanism can be converted into a fresh confirmation without a new nuisance-only power calculation or independent confirmation allocation."
+  ]
+}

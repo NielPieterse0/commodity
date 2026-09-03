@@ -144,6 +144,46 @@ def resolve_kronos_artifacts(cfg: dict[str, Any] | None = None) -> dict[str, dic
     }
 
 
+def _validate_forecast_indices(ohlcv: pd.DataFrame, future_index: pd.DatetimeIndex) -> None:
+    if not isinstance(ohlcv.index, pd.DatetimeIndex):
+        raise KronosArtifactError("Kronos OHLCV history must use a DatetimeIndex")
+    if not isinstance(future_index, pd.DatetimeIndex):
+        raise KronosArtifactError("Kronos forecast horizon must use a DatetimeIndex")
+    if ohlcv.empty or len(future_index) == 0:
+        raise KronosArtifactError("Kronos history and forecast horizon must be non-empty")
+    if ohlcv.index.hasnans or future_index.hasnans:
+        raise KronosArtifactError("Kronos timestamps may not contain NaT")
+    if not ohlcv.index.is_monotonic_increasing or not ohlcv.index.is_unique:
+        raise KronosArtifactError("Kronos history timestamps must be strictly ordered and unique")
+    if not future_index.is_monotonic_increasing or not future_index.is_unique:
+        raise KronosArtifactError("Kronos forecast timestamps must be strictly ordered and unique")
+    if ohlcv.index.tz is None or future_index.tz is None:
+        raise KronosArtifactError("Kronos timestamps must be timezone-aware")
+    if str(ohlcv.index.tz) != str(future_index.tz):
+        raise KronosArtifactError("Kronos history and forecast timestamps must use the same timezone")
+    if future_index[0] <= ohlcv.index[-1]:
+        raise KronosArtifactError("Kronos forecast horizon must begin strictly after history")
+
+
+def _validate_forecast_output(output: Any, future_index: pd.DatetimeIndex) -> pd.DataFrame:
+    if not isinstance(output, pd.DataFrame):
+        raise KronosArtifactError("Kronos predictor output must be a DataFrame")
+    if len(output) != len(future_index):
+        raise KronosArtifactError("Kronos predictor output length does not match forecast horizon")
+    if output.empty:
+        raise KronosArtifactError("Kronos predictor output may not be empty")
+    numeric = output.select_dtypes(include="number")
+    if numeric.shape[1] != output.shape[1]:
+        raise KronosArtifactError("Kronos predictor output must contain only numeric values")
+    if not numeric.apply(lambda column: column.map(pd.notna).all()).all():
+        raise KronosArtifactError("Kronos predictor output contains non-finite values")
+    import math
+
+    if not numeric.apply(lambda column: column.map(lambda value: math.isfinite(float(value))).all()).all():
+        raise KronosArtifactError("Kronos predictor output contains non-finite values")
+    return output
+
+
 class KronosMiniAdapter:
     def __init__(self) -> None:
         cfg = model_config()["models"]["kronos_mini"]
@@ -172,8 +212,9 @@ class KronosMiniAdapter:
         self.inference = dict(cfg["inference"])
 
     def forecast(self, ohlcv: pd.DataFrame, future_index: pd.DatetimeIndex) -> pd.DataFrame:
+        _validate_forecast_indices(ohlcv, future_index)
         x = ohlcv[["open", "high", "low", "close", "volume"]].copy()
-        return self.predictor.predict(
+        output = self.predictor.predict(
             df=x,
             x_timestamp=pd.Series(x.index),
             y_timestamp=pd.Series(future_index),
@@ -183,6 +224,7 @@ class KronosMiniAdapter:
             sample_count=int(self.inference["sample_count"]),
             verbose=bool(self.inference["verbose"]),
         )
+        return _validate_forecast_output(output, future_index)
 
 
 class KronosCheckpointAdapter:
@@ -220,8 +262,9 @@ class KronosCheckpointAdapter:
         self.artifact_manifest = artifacts
 
     def forecast(self, ohlcv: pd.DataFrame, future_index: pd.DatetimeIndex) -> pd.DataFrame:
+        _validate_forecast_indices(ohlcv, future_index)
         x = ohlcv[["open", "high", "low", "close", "volume"]].copy()
-        return self.predictor.predict(
+        output = self.predictor.predict(
             df=x,
             x_timestamp=pd.Series(x.index),
             y_timestamp=pd.Series(future_index),
@@ -231,3 +274,4 @@ class KronosCheckpointAdapter:
             sample_count=int(self.inference["sample_count"]),
             verbose=bool(self.inference["verbose"]),
         )
+        return _validate_forecast_output(output, future_index)

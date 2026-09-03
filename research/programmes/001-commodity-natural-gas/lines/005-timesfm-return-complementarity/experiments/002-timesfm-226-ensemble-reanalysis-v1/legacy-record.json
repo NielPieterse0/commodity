@@ -1,0 +1,56 @@
+{
+  "schema_version": 1,
+  "zoom_level": "L3",
+  "programme_id": "001-commodity-natural-gas",
+  "research_line_id": "005-timesfm-return-complementarity",
+  "experiment_id": "002-timesfm-226-ensemble-reanalysis-v1",
+  "governance_generation": "legacy_pre_15_step",
+  "historical_status": "completed",
+  "summary": "Bounded TimesFM/V1 ensemble reanalysis; all 12 preregistered blends failed the joint zero-return gate.",
+  "outcome": "all_12_blends_failed_joint_zero_return_gate",
+  "issue_lineage": [
+    226,
+    228
+  ],
+  "source_artifacts": [
+    {
+      "path": "artifacts/timesfm/timesfm-226-ensemble-reanalysis-v1/result.json",
+      "commit": "3e267e9d7df53c3ce927b1007b6e694f3920bde5",
+      "sha256": "6215a6b3c39c8905ef154f76037c37e2188142260105826399bbf5c9be0f045e",
+      "preserved_as": "result.json",
+      "note": null
+    },
+    {
+      "path": "artifacts/timesfm/timesfm-226-ensemble-reanalysis-v1/run-manifest.json",
+      "commit": "3e267e9d7df53c3ce927b1007b6e694f3920bde5",
+      "sha256": "198f6710b88fa59d1cf170bd97584fa41c953611c34af055bc81376f421693be",
+      "preserved_as": "run-manifest.json",
+      "note": null
+    },
+    {
+      "path": "docs/development/timesfm-ensemble-successor-preregistration/contract.json",
+      "commit": "3e267e9d7df53c3ce927b1007b6e694f3920bde5",
+      "sha256": "c814dac9c7e8433909f820d7df636cc7a009fba8789970132a2a59ae220687f0",
+      "preserved_as": "contract.json",
+      "note": null
+    },
+    {
+      "path": "docs/development/timesfm-ensemble-reanalysis/execution-authority.json",
+      "commit": "3e267e9d7df53c3ce927b1007b6e694f3920bde5",
+      "sha256": "078248c0443cd2531a5a0e07e45080c32f427fa2dd28371633e38e6a611f7f96",
+      "preserved_as": "execution-authority.json",
+      "note": null
+    }
+  ],
+  "decisions": [
+    {
+      "id": "legacy-timesfm-226-reject",
+      "decision": "Reject the tested TimesFM/V1 blend family; do not continue generic blend search on consumed evidence.",
+      "status": "active",
+      "superseded_by": null
+    }
+  ],
+  "recommendations": [],
+  "open_questions": [],
+  "metrics_ledger_refs": []
+}

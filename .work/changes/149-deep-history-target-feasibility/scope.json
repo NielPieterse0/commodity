@@ -1,0 +1,44 @@
+{
+  "schema_version": 4,
+  "change_id": "149-deep-history-target-feasibility",
+  "status": "active",
+  "branch": "change/149-deep-history-target-feasibility",
+  "worktree": ".work/worktrees/149-deep-history-target-feasibility",
+  "base": "main",
+  "outcome": "Decide whether deeper market history or alternate target/horizon designs justify fresh evidence budget, using the existing quarantined history and #155 power budget without fitting models or consuming new OOS predictions.",
+  "owned_paths": [
+    "docs/development/deep-history-target-feasibility/**",
+    ".work/changes/149-deep-history-target-feasibility/**"
+  ],
+  "shared_paths": [],
+  "excluded_paths": [
+    "artifacts/**",
+    "config/**",
+    "src/**",
+    "data/**"
+  ],
+  "dependencies": [
+    "155-effective-n-detectable-effect"
+  ],
+  "integration_owner": null,
+  "complexity": "medium",
+  "risk_triggers": [],
+  "base_evidence": {
+    "local_sha": "9301b5ebcc953016fa9d91252e385b5e08dc261d",
+    "local_tree": "200e60fadbad76e67adfd16848f1435bae70b25b",
+    "upstream_sha": "9301b5ebcc953016fa9d91252e385b5e08dc261d",
+    "upstream_tree": "200e60fadbad76e67adfd16848f1435bae70b25b",
+    "upstream_ref": "refs/remotes/origin/main",
+    "evidence_source": "verified_github_default_branch",
+    "relation": "same_sha"
+  },
+  "work_management": {
+    "project_id": "commodity",
+    "record_id": "RES-149",
+    "source_repository": "NielPieterse0/commodity",
+    "source_number": 149,
+    "source_kind": "issue",
+    "documentation_impact": "pre_merge_complete",
+    "execution_owner": "codex"
+  }
+}

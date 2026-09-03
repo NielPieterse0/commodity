@@ -1,3 +1,6 @@
 [submodule "vendor/Kronos"]
 	path = vendor/Kronos
 	url = https://github.com/shiyu-coder/Kronos.git
+[submodule "vendor/TimesFM"]
+	path = vendor/TimesFM
+	url = https://github.com/google-research/timesfm.git

@@ -1,0 +1,47 @@
+{
+  "schema_version": 4,
+  "change_id": "152-review-findings",
+  "status": "active",
+  "branch": "change/152-review-findings",
+  "worktree": ".work/worktrees/152-review-findings",
+  "base": "main",
+  "outcome": "Close bounded scientific-correctness review findings without mutating frozen V2 numerical semantics.",
+  "owned_paths": [
+    ".github/workflows/ci.yml",
+    "src/commodity/config.py",
+    "src/commodity/dataset_freeze.py",
+    "src/commodity/phase_d_evaluation.py",
+    "tests/test_config.py",
+    "tests/test_dataset_freeze.py",
+    "tests/test_phase_d_evaluation.py",
+    ".work/changes/152-review-findings/**"
+  ],
+  "shared_paths": [],
+  "excluded_paths": [
+    "src/commodity/evaluation.py",
+    "src/commodity/v2_indicator_contract.py",
+    "src/commodity/v2_indicator_weather_storage.py",
+    "src/commodity/availability.py"
+  ],
+  "dependencies": [],
+  "integration_owner": null,
+  "complexity": "large",
+  "risk_triggers": [],
+  "base_evidence": {
+    "local_sha": "3947480256f80f3e6e097877726eae4ef04735a7",
+    "local_tree": "c03d265798f1156a21013f4b0165428f238e6723",
+    "upstream_sha": "3947480256f80f3e6e097877726eae4ef04735a7",
+    "upstream_tree": "c03d265798f1156a21013f4b0165428f238e6723",
+    "upstream_ref": "refs/remotes/origin/main",
+    "evidence_source": "verified_github_default_branch",
+    "relation": "same_sha"
+  },
+  "work_management": {
+    "project_id": "commodity",
+    "source_repository": "NielPieterse0/commodity",
+    "source_number": 152,
+    "source_kind": "issue",
+    "documentation_impact": "none",
+    "execution_owner": "codex"
+  }
+}

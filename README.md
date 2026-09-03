@@ -2,7 +2,7 @@
 
 Commodity is an experimental trading-research platform for finding, testing, and eventually combining evidence into realistic trading decisions. Natural gas and CME Henry Hub are the first complete reference implementation; reusable platform components are intended to support later instruments without hard-coding Henry Hub into the core.
 
-This repository is research software, not trading advice. Live trading is disabled by policy; binding execution authority is owned only by `config/policy.json`. License: no project-wide open-source license has been granted yet; public visibility does not grant reuse, modification, or redistribution rights. Third-party rights remain governed by `docs/THIRD_PARTY.md`.
+This repository is research software, not trading advice. Live trading is disabled by policy; binding execution authority is owned only by `config/trading-policy.json`. License: no project-wide open-source license has been granted yet; public visibility does not grant reuse, modification, or redistribution rights. Third-party rights are machine-owned by `config/third_party.json` and projected for humans in generated `docs/THIRD_PARTY.md`.
 
 ## Start here
 
@@ -16,9 +16,9 @@ This repository is research software, not trading advice. Live trading is disabl
 
 ## Repository shape
 
-`config/` and `contracts/` hold machine authority and contracts. `src/` implements the system. `research/` holds governed scientific records under the #249 methodology. `artifacts/` holds durable machine evidence. `docs/` explains the durable system. Temporary change reasoning belongs in ignored `.work/changes/`.
+`config/` and `contracts/` hold current machine authority and reusable contracts. `src/` implements the system. `research/` holds durable governed scientific knowledge. `artifacts/` holds durable machine evidence intentionally reused across changes. `docs/` is a deterministic Markdown projection generated from machine-readable artifacts by `scripts/docs/generate_docs.py`. Governed change records remain in ignored `.work/changes/` for their full lifecycle; retained implementation worktrees belong under `.work/worktrees/`.
 
-`docs/development/` remains only as a frozen legacy compatibility exception because historical experiments bind exact paths and bytes there; new development notes must not be added. External reference working material belongs in ignored `.work/`, not maintained `docs/`.
+Retired pre-governance, non-governed, and non-authoritative material lives under ignored `.work/historical/`; governed change records do not move there merely because they close. Live code and generated documentation must not depend on historical paths. External reference working material and change-local notes belong under `.work/`, not generated `docs/`.
 
 ## Development
 
@@ -26,7 +26,7 @@ Create an isolated governed change through the live KIS workflow described in `A
 
 ```powershell
 $env:COMMODITY_PYTHON = '<canonical C:\Projects-local python.exe>'
-.\scripts\create_venv.ps1 -InstallLockedDependencies
+.\scripts\environment\create_venv.ps1 -InstallLockedDependencies
 .\scripts\verify.ps1
 ```
 

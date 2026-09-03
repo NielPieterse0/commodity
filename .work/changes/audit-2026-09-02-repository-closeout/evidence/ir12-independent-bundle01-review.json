@@ -1,0 +1,28 @@
+{
+  "schema_version": 1,
+  "status": "completed",
+  "source_commit": "427079c89353844d557a3d568f6e1bcde0873bd0",
+  "source_range": "d766fa6baa869a0fa7f100c1caba3f9138b4c28d..427079c89353844d557a3d568f6e1bcde0873bd0",
+  "source_fingerprint": "532a1d7d90d911daaa399cc3a023dffa418b4930fca215c16887d3a3a699e817",
+  "backend": "nvidia-nim",
+  "model": "nvidia/nemotron-3-super-120b-a12b",
+  "evidence_complete": true,
+  "micro_reviews": {
+    "environment": "completed; no findings",
+    "rule_registry": "completed; no findings",
+    "ci_whitespace": "completed; one P2 candidate disproved by direct event-range reproduction"
+  },
+  "ci_whitespace_candidate_disposition": {
+    "claim": "committed range may be absent for PR/push/zero-before CI events",
+    "disposition": "disproved",
+    "reproduction": {
+      "pull_request": "explicit PR_BASE_SHA..PR_HEAD_SHA selected",
+      "push": "BEFORE_SHA..GITHUB_SHA selected",
+      "zero_before_push": "origin/main merge-base..HEAD selected"
+    },
+    "workflow_scope": "CI push trigger is explicitly main; pull requests provide explicit base/head inputs"
+  },
+  "surviving_findings": [],
+  "invalid_attempts_not_counted_as_evidence": ["empty legacy Bundle 01 artifact", "linked-worktree Codex EvidenceError", "bounded Codex CLI process failure", "Ultra provider HTTP failure"],
+  "conclusion": "IR-12 replacement review gate is satisfied by three bounded independent review scopes with no surviving P0-P3 finding."
+}

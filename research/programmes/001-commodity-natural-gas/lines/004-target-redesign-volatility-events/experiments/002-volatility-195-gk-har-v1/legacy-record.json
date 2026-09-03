@@ -1,0 +1,57 @@
+{
+  "schema_version": 1,
+  "zoom_level": "L3",
+  "programme_id": "001-commodity-natural-gas",
+  "research_line_id": "004-target-redesign-volatility-events",
+  "experiment_id": "002-volatility-195-gk-har-v1",
+  "governance_generation": "legacy_pre_15_step",
+  "historical_status": "completed",
+  "summary": "Consumed-history GK/HAR volatility diagnostic that produced a positive diagnostic signal but no confirmatory edge claim.",
+  "outcome": "diagnostic_signal_only",
+  "issue_lineage": [
+    195
+  ],
+  "source_artifacts": [
+    {
+      "path": "artifacts/volatility-diagnostic/volatility-195-gk-har-v1/summary.json",
+      "commit": "3e267e9d7df53c3ce927b1007b6e694f3920bde5",
+      "sha256": "623a6b4dd48ddc3b93141868e85e487a23cb34b40da5a8d8aec0dd4fe0000d4b",
+      "preserved_as": "summary.json",
+      "note": null
+    },
+    {
+      "path": "artifacts/volatility-diagnostic/volatility-195-gk-har-v1/coverage.json",
+      "commit": "3e267e9d7df53c3ce927b1007b6e694f3920bde5",
+      "sha256": "bf44fd667d6735b00c11cfdc5fde9659b104448e21291acb24dbd56f674cf894",
+      "preserved_as": "coverage.json",
+      "note": null
+    },
+    {
+      "path": "artifacts/volatility-diagnostic/volatility-195-gk-har-v1/run-manifest.json",
+      "commit": "3e267e9d7df53c3ce927b1007b6e694f3920bde5",
+      "sha256": "bb43485ece5330f92c1fab270404daeaac5ed9a703b6dcab30d01149a9a409b2",
+      "preserved_as": "run-manifest.json",
+      "note": null
+    },
+    {
+      "path": "artifacts/volatility-diagnostic/volatility-195-gk-har-v1/predictions.csv",
+      "commit": "3e267e9d7df53c3ce927b1007b6e694f3920bde5",
+      "sha256": "8ab6121cc24ddd12ce251e1bd4fd9d01959a5b0ec5fffecb45e6e33cc59142a8",
+      "preserved_as": null,
+      "note": "Large prediction evidence remains hash-bound in Git history."
+    }
+  ],
+  "decisions": [
+    {
+      "id": "legacy-volatility-195-diagnostic",
+      "decision": "Preserve the HAR improvement as diagnostic only; it is not protected confirmation.",
+      "status": "active",
+      "superseded_by": null
+    }
+  ],
+  "recommendations": [],
+  "open_questions": [],
+  "metrics_ledger_refs": [
+    "artifacts/research-metrics/longitudinal-ledger.json#volatility-195-gk-har-diagnostic"
+  ]
+}

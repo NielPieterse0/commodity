@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "status": "ir_closure_complete",
+  "source_commit": "427079c89353844d557a3d568f6e1bcde0873bd0",
+  "replacement_bundle_01": {
+    "strategy": "three exact-head bounded independent micro-reviews",
+    "ci_whitespace": "completed; no surviving P0-P3 findings",
+    "environment": "completed; no surviving P0-P3 findings",
+    "rule_registry": "completed; no surviving P0-P3 findings"
+  },
+  "invalid_or_failed_attempts": [
+    "original Bundle 01 result file was invalid/empty and is not closure evidence",
+    "monolithic exact-commit Codex review failed EvidenceError",
+    "monolithic bounded NVIDIA review failed output-contract validation",
+    "bounded Codex CLI rerun failed process execution"
+  ],
+  "disposition": "IR-12 closed only from the three successful bounded independent verdicts; failed transports are diagnostics, not review evidence.",
+  "targeted_verification": "canonical verify.ps1 exit 0; 385 tests passed; Ruff passed; git-whitespace passed; compileall passed; pip check clean"
+}

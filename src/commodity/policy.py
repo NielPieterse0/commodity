@@ -27,7 +27,7 @@ def _assert_human_live_approval(policy: dict) -> None:
 def assert_execution_mode(mode: str) -> None:
     policy = policy_config()["execution"]
     if mode == "live" and not policy.get("live_trading_allowed", False):
-        raise PolicyViolation("LIVE trading is prohibited by config/policy.json")
+        raise PolicyViolation("LIVE trading is prohibited by config/trading-policy.json")
     if mode not in policy["allowed_modes"]:
         raise PolicyViolation(f"Execution mode not approved: {mode}")
     if mode == "live":

@@ -1,0 +1,47 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://commodity.local/contracts/programme/v1",
+  "title": "Commodity Research Programme",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "zoom_level",
+    "programme_id",
+    "legacy_programme_ids",
+    "name",
+    "mission",
+    "status",
+    "line_refs"
+  ],
+  "properties": {
+    "schema_version": {"const": 1},
+    "zoom_level": {"const": "L1"},
+    "programme_id": {"type": "string", "pattern": "^[0-9]{3}-[a-z0-9-]+$"},
+    "legacy_programme_ids": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {"type": "string", "minLength": 1}
+    },
+    "name": {"type": "string", "minLength": 1},
+    "mission": {"type": "string", "minLength": 1},
+    "status": {"enum": ["active", "hold", "closed"]},
+    "line_refs": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["research_line_id", "path"],
+        "properties": {
+          "research_line_id": {"type": "string", "pattern": "^[0-9]{3}-[a-z0-9-]+$"},
+          "path": {
+            "type": "string",
+            "pattern": "^research/programmes/[0-9]{3}-[a-z0-9-]+/lines/[0-9]{3}-[a-z0-9-]+/line\\.json$"
+          }
+        }
+      }
+    }
+  }
+}

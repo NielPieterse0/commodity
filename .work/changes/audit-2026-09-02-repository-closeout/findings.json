@@ -1,0 +1,199 @@
+{
+  "schema_version": 1,
+  "status": "closed",
+  "findings": [
+    {
+      "id": "AUDIT-LAYOUT-001",
+      "status": "closed",
+      "finding": "Governed change records and retained worktrees were split between active and historical containers, making closeout state depend on location.",
+      "resolution": "Normalized the invariant: governed records remain in .work/changes and retained worktrees in .work/worktrees regardless of active/closed state; work-layout is deterministically checked pre-CI and CI."
+    },
+    {
+      "id": "AUDIT-REF-001",
+      "status": "closed",
+      "finding": "The restructure removed tracked paths and left stale durable evidence references.",
+      "resolution": "Promoted required issue-195 evidence, converted genuine historical identities to git-history references, broadened durable-reference verification, and confirmed zero live non-historical references to the 346 deleted tracked paths."
+    },
+    {
+      "id": "AUDIT-ENV-001",
+      "status": "closed",
+      "finding": "Repository Python execution and first-party CI did not consistently enforce the active worktree-local .venv boundary.",
+      "resolution": "CI/bootstrap semantics were clarified and all repository Python/tool execution now uses the checkout-local .venv after bootstrap; deterministic boundary verifier and regression tests added."
+    },
+    {
+      "id": "AUDIT-CAP-001",
+      "status": "closed",
+      "finding": "The restructure risked losing executable capabilities while moving or retiring modules, tests, scripts, workflows, and research artifacts.",
+      "resolution": "Restored required current capabilities, retained non-authoritative history under .work, confirmed zero live deleted-path dependencies, and import-smoke-tested all 44 commodity modules successfully."
+    },
+    {
+      "id": "AUDIT-DATA-001",
+      "status": "closed",
+      "finding": "Frozen V1 CSV load lost the original index name while integrity hashing still passed.",
+      "resolution": "Freeze manifest records index_name and loader restores it; regression coverage added."
+    },
+    {
+      "id": "AUDIT-DATA-002",
+      "status": "closed",
+      "finding": "Frozen V1 CSV load could infer integer dtype for integer-valued float columns while integrity hashing still passed.",
+      "resolution": "Freeze manifest records column_dtypes and loader restores them; regression coverage added."
+    },
+    {
+      "id": "AUDIT-DATA-003",
+      "status": "closed",
+      "finding": "Dataset construction self-certified reconstruction and semantic correctness from a single build.",
+      "resolution": "A single build is provisional. Exact deterministic second reconstruction verifies reconstruction only; a separate explicit_dataset_semantics_v1 check is required before research-ready assurance."
+    },
+    {
+      "id": "AUDIT-DATA-004",
+      "status": "closed",
+      "finding": "Reusable dataset audit/freeze capability had been lost during restructure.",
+      "resolution": "Restored and adapted dataset audit/freeze modules and tests to current research_dataset authority, with immutable content/config/transformation identities and round-trip verification."
+    },
+    {
+      "id": "AUDIT-DATA-005",
+      "status": "closed",
+      "finding": "The old V1 freeze differs from the current roll-safe reconstruction and cannot be treated as current clean evidence.",
+      "resolution": "Preserved it as known defective legacy evidence (pre-roll-safe market predictors); it was not rewritten or blessed with current assurance."
+    },
+    {
+      "id": "AUDIT-SOURCE-001",
+      "status": "closed",
+      "finding": "Market-source authority was internally contradictory and contract frames could be implicitly attributed to the configured source rather than their actual source.",
+      "resolution": "databento_henry_hub is the configured canonical source; massive_henry_hub_evaluation is evaluation-only; contract datasets require explicit market_source_id and Massive cannot pass canonical promotion."
+    },
+    {
+      "id": "AUDIT-SOURCE-002",
+      "status": "closed",
+      "finding": "The retained Massive V1 canonical.csv was hash-verified but not reconstructed from retained raw contract/aggregate artifacts in the actual V1 build path.",
+      "resolution": "Added offline raw-archive replay. The retained 36-contract archive reconstructs all 11,200 canonical rows exactly; V1 now consumes the reconstructed table. New archives declare a replayable component-hash algorithm; legacy archives rely on artifact hashes, row counts, and exact raw-to-canonical equality because their obsolete pre-serialization hash cannot be reproduced from sorted JSON."
+    },
+    {
+      "id": "AUDIT-ASSURANCE-001",
+      "status": "closed",
+      "finding": "Deterministic replay was incorrectly sufficient to mark semantic correctness verified.",
+      "resolution": "Separated reconstruction and semantic gates; semantic checks are inspectable in the assurance contract and cryptographically bound by a semantic_validation layer."
+    },
+    {
+      "id": "AUDIT-PROVENANCE-001",
+      "status": "closed",
+      "finding": "V1 assurance did not bind the raw Massive archive manifest or provider normalization/replay implementation used before generic dataset construction.",
+      "resolution": "V1 assurance now includes the retained market-archive manifest SHA-256 and binds full_v1 plus massive_futures_provider transformation hashes before reconstruction comparison."
+    },
+    {
+      "id": "AUDIT-DOC-001",
+      "status": "closed",
+      "finding": "A live assumption referenced a retired Lenovo specification as though it still existed in current docs.",
+      "resolution": "Converted it to explicit git-history evidence and broadened live machine-reference resolution checks."
+    },
+    {
+      "id": "AUDIT-NYISO-001",
+      "status": "closed",
+      "finding": "Timezone-aware V1 bounds emitted timezone-drop warnings during NYISO month iteration.",
+      "resolution": "Month-bound conversion now removes timezone explicitly before period conversion; warning-as-error regression test added."
+    },
+    {
+      "id": "AUDIT-RULE-001",
+      "status": "closed",
+      "finding": "Several binding repository/data rules depended on convention rather than direct deterministic pre-CI verification.",
+      "resolution": "Added/wired deterministic checks for work layout, Python environment boundary, durable evidence references, market-source authority, and dataset assurance contract; generated rule-verification docs refreshed."
+    },
+    {
+      "id": "AUDIT-REVIEW-001",
+      "status": "closed",
+      "finding": "Rule wiring verification could accept a verifier name that appeared only in a non-executing comment or string-like line.",
+      "resolution": "Hardened rule wiring verification to require executable invocation evidence; regression coverage proves comment/string-only references fail."
+    },
+    {
+      "id": "AUDIT-REVIEW-002",
+      "status": "closed",
+      "finding": "The Python environment boundary did not detect raw version-qualified Python executables such as python3.11 or python3.12 as worktree-local .venv bypasses.",
+      "resolution": "Extended raw-Python detection to version-qualified executables and added failing-then-passing regression coverage."
+    },
+    {
+      "id": "AUDIT-REVIEW-003",
+      "status": "closed",
+      "finding": "Pre-CI whitespace verification checked only one Git diff surface and could miss whitespace defects in the other staged/unstaged surface.",
+      "resolution": "Canonical pre-CI verification now runs git diff --check for both unstaged and staged changes; regression coverage added."
+    },
+    {
+      "id": "AUDIT-REVIEW-004",
+      "status": "closed",
+      "finding": "Kronos forecast adapters accepted non-datetime history indices and passed them downstream as model timestamps instead of enforcing the adapter timestamp contract.",
+      "resolution": "Both Kronos adapters now fail closed unless history and forecast-horizon indices are DatetimeIndex values; a failing-then-passing regression covers both adapters."
+    },
+    {
+      "id": "IR-01",
+      "status": "closed",
+      "finding": "Dataset semantic verification could accept unbound self-certified semantic booleans.",
+      "resolution": "Semantic assurance now requires source-bound explicit_dataset_semantics_v1 evidence; adversarial regression rejects unbound self-certification."
+    },
+    {
+      "id": "IR-02",
+      "status": "closed",
+      "finding": "Canonical market metadata could disagree with the selected source authority.",
+      "resolution": "Canonical metadata is validated against configured source authority; adversarial regression rejects mismatched metadata."
+    },
+    {
+      "id": "IR-03",
+      "status": "closed",
+      "finding": "Kronos forecast adapters could accept overlapping or backward forecast horizons.",
+      "resolution": "Both adapters fail closed on non-forward/non-disjoint forecast horizons; parameterized regression covers both adapters."
+    },
+    {
+      "id": "IR-04",
+      "status": "closed",
+      "finding": "Forecast output could propagate non-finite predictor values.",
+      "resolution": "Forecast paths reject non-finite predictor output before downstream use; regression coverage added."
+    },
+    {
+      "id": "IR-05",
+      "status": "closed",
+      "finding": "Enabled Kronos could run under a Python version incompatible with its governed runtime lock.",
+      "resolution": "Repository environment verification now fails closed when enabled Kronos runtime Python differs from the pinned lock; regression coverage added."
+    },
+    {
+      "id": "IR-06",
+      "status": "closed",
+      "finding": "Rule-verification wiring could be satisfied by non-executing wrapper/comment/string references.",
+      "resolution": "Registry wiring requires executable invocation evidence; adversarial tests reject non-executing wrapper references."
+    },
+    {
+      "id": "IR-07",
+      "status": "closed",
+      "finding": "Model confidence-set logic used a non-studentized comparison where studentized pairwise statistics were required.",
+      "resolution": "Confidence-set computation now uses studentized pairwise statistics; regression coverage fixes the intended statistical contract."
+    },
+    {
+      "id": "IR-08",
+      "status": "closed",
+      "finding": "An opposite-sign replication could incorrectly promote programme evidence.",
+      "resolution": "Evidence derivation now blocks promotion when replication direction contradicts the registered effect; adversarial regression added."
+    },
+    {
+      "id": "IR-09",
+      "status": "closed",
+      "finding": "Governed research preflight could proceed without the canonical registry.",
+      "resolution": "Research preflight now fails closed when canonical registry state is unavailable; regression coverage added."
+    },
+    {
+      "id": "IR-10",
+      "status": "closed",
+      "finding": "Runtime programme ledger validation did not fully enforce the canonical JSON schema.",
+      "resolution": "Runtime ledger validation now enforces the canonical schema before use; adversarial regression added."
+    },
+    {
+      "id": "IR-11",
+      "status": "closed",
+      "finding": "Whitespace enforcement missed committed-range defects and six new blank lines at EOF remained in the closure set.",
+      "resolution": "Six EOF whitespace defects were removed; pre-CI and CI now share check_git_whitespace.py covering staged, unstaged, and committed ranges. Fresh committed-head verification passed."
+    },
+    {
+      "id": "IR-12",
+      "status": "closed",
+      "finding": "The prior Bundle 01 independent-review evidence was invalid and could not support closure.",
+      "resolution": "Replaced by three exact-head bounded independent reviews covering CI/whitespace, environment, and rule-registry scope; all completed with no surviving P0-P3 findings. Monolithic Codex/NVIDIA transport failures are recorded as diagnostics, not verdicts."
+    }
+  ],
+  "open_findings": []
+}

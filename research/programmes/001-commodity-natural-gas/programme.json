@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "zoom_level": "L1",
+  "programme_id": "001-commodity-natural-gas",
+  "legacy_programme_ids": [
+    "commodity-ng"
+  ],
+  "name": "Commodity natural gas",
+  "mission": "Can Commodity develop a defensible, reproducible commodity-market research and decision system that identifies economically plausible opportunities, validates complementary signals without leakage, and remains robust after realistic costs, uncertainty, regime change, execution and risk controls?",
+  "status": "active",
+  "line_refs": [
+    {
+      "research_line_id": "001-v1-next-session-return-baseline",
+      "path": "research/programmes/001-commodity-natural-gas/lines/001-v1-next-session-return-baseline/line.json"
+    },
+    {
+      "research_line_id": "002-v2-original-components",
+      "path": "research/programmes/001-commodity-natural-gas/lines/002-v2-original-components/line.json"
+    },
+    {
+      "research_line_id": "003-corrected-kronos-direct-return",
+      "path": "research/programmes/001-commodity-natural-gas/lines/003-corrected-kronos-direct-return/line.json"
+    },
+    {
+      "research_line_id": "004-target-redesign-volatility-events",
+      "path": "research/programmes/001-commodity-natural-gas/lines/004-target-redesign-volatility-events/line.json"
+    },
+    {
+      "research_line_id": "005-timesfm-return-complementarity",
+      "path": "research/programmes/001-commodity-natural-gas/lines/005-timesfm-return-complementarity/line.json"
+    },
+    {
+      "research_line_id": "008-next-defensible-edge",
+      "path": "research/programmes/001-commodity-natural-gas/lines/008-next-defensible-edge/line.json"
+    }
+  ]
+}

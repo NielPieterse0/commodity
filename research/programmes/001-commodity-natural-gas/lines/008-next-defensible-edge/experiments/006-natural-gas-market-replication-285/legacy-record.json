@@ -1,0 +1,63 @@
+{
+  "schema_version": 1,
+  "zoom_level": "L3",
+  "programme_id": "001-commodity-natural-gas",
+  "research_line_id": "008-next-defensible-edge",
+  "experiment_id": "006-natural-gas-market-replication-285",
+  "governance_generation": "legacy_pre_15_step",
+  "historical_status": "completed",
+  "summary": "Literature-first natural-gas market replication across the full owned Databento history; replicated Samuelson maturity-volatility and seasonal curve structure without claiming a trading edge.",
+  "outcome": "two_market_structures_replicated_exploratory_future_confirmation_frozen",
+  "issue_lineage": [
+    285
+  ],
+  "source_artifacts": [
+    {
+      "path": "research/exploratory/natural-gas-market-replication-285.json",
+      "commit": "3e267e9d7df53c3ce927b1007b6e694f3920bde5",
+      "sha256": "053bf6582fbead770f81ca99efba9cd9bd35d3a6f1a96755e2c83e627c2e541c",
+      "preserved_as": "exploratory-result.json",
+      "note": null
+    },
+    {
+      "path": "artifacts/natural-gas-market-replication-285/result.json",
+      "commit": "3e267e9d7df53c3ce927b1007b6e694f3920bde5",
+      "sha256": "c850cec1103f53bf9d89204efcc65157fdddd65da7b7795dd504ef1839555e54",
+      "preserved_as": "result.json",
+      "note": null
+    },
+    {
+      "path": "artifacts/natural-gas-market-replication-285/candidate-ranking.json",
+      "commit": "3e267e9d7df53c3ce927b1007b6e694f3920bde5",
+      "sha256": "3eb4e9a10f356afab48ed14f53fd70124067e2210cd36b25ea212b642b6a88b2",
+      "preserved_as": "candidate-ranking.json",
+      "note": null
+    },
+    {
+      "path": "artifacts/natural-gas-market-replication-285/source-verification.json",
+      "commit": "3e267e9d7df53c3ce927b1007b6e694f3920bde5",
+      "sha256": "591846b0d80ff277d8174795b58e8d97a04f09b78e9c906e9909efb37c3f3a4e",
+      "preserved_as": "source-verification.json",
+      "note": null
+    }
+  ],
+  "decisions": [
+    {
+      "id": "legacy-285-replication",
+      "decision": "Treat #285 as positive market/data calibration evidence, not as a trading-edge claim; historical dates are development-consumed.",
+      "status": "active",
+      "superseded_by": null
+    }
+  ],
+  "recommendations": [
+    {
+      "id": "legacy-285-forward-confirmation",
+      "item": "Confirm the Samuelson structure only on the frozen future-only 504-date allocation after eligibility and sealing requirements are met.",
+      "status": "open",
+      "work_ref": "issue-285",
+      "resolution_ref": null
+    }
+  ],
+  "open_questions": [],
+  "metrics_ledger_refs": []
+}

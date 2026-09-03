@@ -1,0 +1,15 @@
+{
+  "schema_version": 1,
+  "snapshot_id": "test-literature-snapshot-post-v1",
+  "research_question": "How should an observed benchmark-relative result be interpreted after execution?",
+  "search_scope": "Independent deterministic post-result test fixture.",
+  "sources": [
+    {"source_id": "source-c", "title": "Independent post-result source", "source_type": "academic_working_paper", "quality": "high", "locator": "fixture:source-c", "year": 2022},
+    {"source_id": "source-d", "title": "Independent standards source", "source_type": "standards_body", "quality": "primary", "locator": "fixture:source-d", "year": 2023}
+  ],
+  "claim_map": [
+    {"claim": "Post-result interpretation should remain separate from preregistered expectations.", "source_ids": ["source-c", "source-d"]}
+  ],
+  "expected_observations": ["Independent triangulation can contextualize but not rewrite the governed result."],
+  "disconfirming_observations": ["Post-result material changes the preregistered decision rule retroactively."]
+}

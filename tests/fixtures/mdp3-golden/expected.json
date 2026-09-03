@@ -2,13 +2,13 @@
   "canonical_metadata": {
     "calendar": "CME_NYMEX",
     "canonical_evidence": false,
-    "exchange": "XNYM",
+    "exchange": "NYMEX",
     "licensing_rights_verified": false,
     "offline_decode": true,
     "price_semantics": "cme_final_settlement_from_databento_statistics",
     "product_code": "NG",
     "retrieved_at": "2026-08-14T12:00:00Z",
-    "session_timezone": "America/Chicago",
+    "session_timezone": "America/New_York",
     "settlement_availability_semantics": "statistics_ts_recv_else_ts_event",
     "source_artifacts": [
       {

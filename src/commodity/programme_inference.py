@@ -203,32 +203,63 @@ def model_confidence_set(
     rng = random.Random(seed)
     while len(active) > 1:
         means = {name: _mean(numeric[name]) for name in active}
-        grand = _mean(list(means.values()))
-        observed = max(math.sqrt(n) * abs(means[name] - grand) for name in active)
-        centered = {
-            name: [value - means[name] for value in numeric[name]]
+        pairwise: dict[tuple[str, str], list[float]] = {}
+        scales: dict[tuple[str, str], float] = {}
+        statistics: dict[tuple[str, str], float] = {}
+        for left in active:
+            for right in active:
+                if left == right:
+                    continue
+                differential = [
+                    numeric[left][index] - numeric[right][index]
+                    for index in range(n)
+                ]
+                pairwise[(left, right)] = differential
+                scale = max(_sample_std(differential), 1e-12)
+                scales[(left, right)] = scale
+                statistics[(left, right)] = math.sqrt(n) * _mean(differential) / scale
+        observed_by_name = {
+            name: max(
+                statistics[(name, other)]
+                for other in active
+                if other != name
+            )
             for name in active
+        }
+        observed = max(observed_by_name.values())
+        centered = {
+            key: [value - _mean(values) for value in values]
+            for key, values in pairwise.items()
         }
         bootstrap: list[float] = []
         for _ in range(bootstrap_samples):
             indices = _moving_block_indices(n, block_length, rng)
-            boot_means = {
-                name: _mean([centered[name][index] for index in indices])
-                for name in active
-            }
-            boot_grand = _mean(list(boot_means.values()))
             bootstrap.append(
-                max(math.sqrt(n) * abs(boot_means[name] - boot_grand) for name in active)
+                max(
+                    math.sqrt(n)
+                    * _mean([centered[(left, right)][index] for index in indices])
+                    / scales[(left, right)]
+                    for left in active
+                    for right in active
+                    if left != right
+                )
             )
         p_value = _bootstrap_pvalue(observed, bootstrap)
         if p_value > alpha:
             break
-        removed = max(active, key=means.__getitem__)
-        eliminations.append({"model": removed, "p_value": p_value, "mean_loss": means[removed]})
+        removed = max(active, key=observed_by_name.__getitem__)
+        eliminations.append(
+            {
+                "model": removed,
+                "p_value": p_value,
+                "mean_loss": means[removed],
+                "studentized_worst_relative_loss": observed_by_name[removed],
+            }
+        )
         active.remove(removed)
     return {
         "procedure": "model_confidence_set",
-        "implementation": "iterative_moving_block_bootstrap_loss_set",
+        "implementation": "studentized_pairwise_moving_block_bootstrap_mcs",
         "alpha": alpha,
         "observations": n,
         "initial_family_size": len(names),

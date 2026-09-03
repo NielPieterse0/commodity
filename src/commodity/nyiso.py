@@ -195,6 +195,10 @@ def _month_starts(
     end_ts = pd.Timestamp(end)
     if end_ts < start_ts:
         raise ValueError("NYISO V1 end must not precede start")
+    if start_ts.tzinfo is not None:
+        start_ts = start_ts.tz_localize(None)
+    if end_ts.tzinfo is not None:
+        end_ts = end_ts.tz_localize(None)
     first = start_ts.to_period("M").to_timestamp()
     last = end_ts.to_period("M").to_timestamp()
     return pd.date_range(first, last, freq="MS")

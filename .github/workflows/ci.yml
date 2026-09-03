@@ -21,42 +21,51 @@ jobs:
         with:
           python-version: "3.12"
           cache: pip
+      - name: Create checkout-local virtual environment
+        run: python -m venv .venv
+      - name: Rule registry and generated verification docs
+        run: .venv/bin/python scripts/checks/check_rule_verification.py --check-generated
+      - name: Python environment boundary
+        run: .venv/bin/python scripts/checks/check_python_environment.py
+      - name: Durable evidence references
+        run: .venv/bin/python scripts/checks/check_durable_evidence_refs.py
+      - name: Work layout
+        run: .venv/bin/python scripts/checks/check_work_layout.py
       - name: Public repository hygiene
-        run: python scripts/check_public_hygiene.py
+        run: .venv/bin/python scripts/checks/check_public_hygiene.py
       - name: Documentation authority
         env:
           GITHUB_BASE_SHA: ${{ github.event.pull_request.base.sha }}
           GITHUB_EVENT_BEFORE: ${{ github.event.before }}
-        run: python scripts/check_documentation_authority.py
+        run: .venv/bin/python scripts/checks/check_documentation_authority.py
       - name: Install locked environment
         run: |
-          python -m pip install -r requirements.lock.txt
-          python -m pip install -e . --no-deps
+          .venv/bin/python -m pip install -r requirements.lock.txt
+          .venv/bin/python -m pip install -e . --no-deps
+      - name: Market source authority
+        run: .venv/bin/python scripts/checks/check_market_source_authority.py
+      - name: Dataset assurance contract
+        run: .venv/bin/python scripts/checks/check_data_assurance_contract.py
       - name: experiment-schema
-        run: python scripts/check_research_methodology.py --check experiment-schema
+        run: .venv/bin/python scripts/checks/check_research_methodology.py --check experiment-schema
       - name: experiment-freeze-integrity
-        run: python scripts/check_research_methodology.py --check experiment-freeze-integrity
+        run: .venv/bin/python scripts/checks/check_research_methodology.py --check experiment-freeze-integrity
       - name: experiment-verification
-        run: python scripts/check_research_methodology.py --check experiment-verification
+        run: .venv/bin/python scripts/checks/check_research_methodology.py --check experiment-verification
       - name: programme-inference-integrity
-        run: python scripts/check_research_methodology.py --check programme-inference-integrity
+        run: .venv/bin/python scripts/checks/check_research_methodology.py --check programme-inference-integrity
+      - name: research-metrics-contract
+        run: .venv/bin/python scripts/checks/check_research_metrics.py
       - name: research-memory
-        run: python scripts/check_research_memory.py
+        run: .venv/bin/python scripts/checks/check_research_memory.py
       - name: Test
-        run: python -m pytest -q
+        run: .venv/bin/python -m pytest -q
       - name: Lint
-        run: python -m ruff check .
+        run: .venv/bin/python -m ruff check .
       - name: Whitespace
         env:
           EVENT_NAME: ${{ github.event_name }}
           BEFORE_SHA: ${{ github.event.before }}
           PR_BASE_SHA: ${{ github.event.pull_request.base.sha }}
           PR_HEAD_SHA: ${{ github.event.pull_request.head.sha }}
-        run: |
-          if [ "$EVENT_NAME" = "pull_request" ]; then
-            git diff --check "$PR_BASE_SHA" "$PR_HEAD_SHA"
-          elif [ -n "$BEFORE_SHA" ] && [ "$BEFORE_SHA" != "0000000000000000000000000000000000000000" ] && git cat-file -e "$BEFORE_SHA^{commit}"; then
-            git diff --check "$BEFORE_SHA" "$GITHUB_SHA"
-          else
-            git diff --check "$GITHUB_SHA^" "$GITHUB_SHA"
-          fi
+        run: .venv/bin/python scripts/checks/check_git_whitespace.py

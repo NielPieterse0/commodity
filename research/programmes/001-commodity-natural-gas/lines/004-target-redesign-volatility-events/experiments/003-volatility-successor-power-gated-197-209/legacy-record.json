@@ -1,0 +1,67 @@
+{
+  "schema_version": 1,
+  "zoom_level": "L3",
+  "programme_id": "001-commodity-natural-gas",
+  "research_line_id": "004-target-redesign-volatility-events",
+  "experiment_id": "003-volatility-successor-power-gated-197-209",
+  "governance_generation": "legacy_pre_15_step",
+  "historical_status": "stopped",
+  "summary": "Legacy volatility successor and event-successor designs stopped by power/feasibility gates before protected confirmation.",
+  "outcome": "stopped_by_power_gate_before_protected_confirmation",
+  "issue_lineage": [
+    197,
+    201,
+    203,
+    205,
+    207,
+    209
+  ],
+  "source_artifacts": [
+    {
+      "path": "docs/development/volatility-successor-preregistration/contract.json",
+      "commit": "3e267e9d7df53c3ce927b1007b6e694f3920bde5",
+      "sha256": "5ff3311b263081ea2952ef3c14b484133282de5eab2c4572a59e1e6e5fc7eb45",
+      "preserved_as": "volatility-contract.json",
+      "note": null
+    },
+    {
+      "path": "docs/development/volatility-successor-preregistration/power-analysis.json",
+      "commit": "3e267e9d7df53c3ce927b1007b6e694f3920bde5",
+      "sha256": "0edb316c4d642bc50c7447000fc41208d31bca14ec31c9a740f32f4c25f6a916",
+      "preserved_as": "volatility-power-analysis.json",
+      "note": null
+    },
+    {
+      "path": "docs/development/volatility-event-successor-preregistration/contract.json",
+      "commit": "3e267e9d7df53c3ce927b1007b6e694f3920bde5",
+      "sha256": "c4cbdae78e29b9dc6bd77dff99c72f53236940096a68ccebeb8c4cf30b9f69f6",
+      "preserved_as": "event-contract.json",
+      "note": null
+    },
+    {
+      "path": "docs/development/volatility-event-successor-preregistration/power-analysis.json",
+      "commit": "3e267e9d7df53c3ce927b1007b6e694f3920bde5",
+      "sha256": "081aeba3283cd2cff4f8ebfb74d45753c910382883e72109c7bbb87c70e5de01",
+      "preserved_as": "event-power-analysis.json",
+      "note": null
+    },
+    {
+      "path": "docs/development/volatility-event-successor-release-audit/audit-release.json",
+      "commit": "3e267e9d7df53c3ce927b1007b6e694f3920bde5",
+      "sha256": "c0a0197d8d55a932c66104dd78a6a76105a893b1b6af7b5f5359eb15b0879a0a",
+      "preserved_as": "event-release-audit.json",
+      "note": null
+    }
+  ],
+  "decisions": [
+    {
+      "id": "legacy-volatility-successor-stop",
+      "decision": "Do not spend protected confirmation on the underpowered volatility/event successor designs.",
+      "status": "active",
+      "superseded_by": null
+    }
+  ],
+  "recommendations": [],
+  "open_questions": [],
+  "metrics_ledger_refs": []
+}

@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "change_id": "{{CHANGE_ID}}",
+  "status": "active",
+  "branch": "change/{{CHANGE_ID}}",
+  "worktree": ".work/worktrees/{{CHANGE_ID}}",
+  "base": "main",
+  "outcome": "{{OUTCOME}}",
+  "owned_paths": [
+    ".work/changes/{{CHANGE_ID}}/**"
+  ],
+  "shared_paths": [],
+  "excluded_paths": [],
+  "dependencies": [],
+  "integration_owner": null
+}

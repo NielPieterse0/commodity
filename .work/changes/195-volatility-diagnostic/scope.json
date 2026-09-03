@@ -1,0 +1,53 @@
+{
+  "schema_version": 4,
+  "change_id": "195-volatility-diagnostic",
+  "status": "active",
+  "branch": "change/195-volatility-diagnostic",
+  "worktree": ".work/worktrees/195-volatility-diagnostic",
+  "base": "main",
+  "outcome": "Implement and execute only the frozen #191/#193 204-row consumed-history volatility diagnostic, preserving the 504-row confirmation lock.",
+  "owned_paths": [
+    "src/commodity/volatility_diagnostic.py",
+    "tests/test_volatility_diagnostic.py",
+    "docs/development/volatility-diagnostic/**",
+    "artifacts/volatility-diagnostic/**",
+    ".work/changes/195-volatility-diagnostic/**"
+  ],
+  "shared_paths": [],
+  "excluded_paths": [
+    "config/data_sources.json",
+    "docs/THIRD_PARTY.md",
+    "data/**",
+    "artifacts/kronos-confirmation/**",
+    "artifacts/research-metrics/**"
+  ],
+  "dependencies": [
+    "191-volatility-preregistration",
+    "193-volatility-preregistration-release-audit",
+    "147-target-horizon-portfolio",
+    "149-deep-history-target-feasibility",
+    "155-effective-n-detectable-effect",
+    "137-untouched-confirmation"
+  ],
+  "integration_owner": null,
+  "complexity": "medium",
+  "risk_triggers": [],
+  "base_evidence": {
+    "local_sha": "b555decbe67a99641d5df7ac7bfe77c92cf4ba58",
+    "local_tree": "0de33246da26624006d9ce8b0d712cecaa50d89f",
+    "upstream_sha": "b555decbe67a99641d5df7ac7bfe77c92cf4ba58",
+    "upstream_tree": "0de33246da26624006d9ce8b0d712cecaa50d89f",
+    "upstream_ref": "refs/remotes/origin/main",
+    "evidence_source": "verified_github_default_branch",
+    "relation": "same_sha"
+  },
+  "work_management": {
+    "project_id": "commodity",
+    "record_id": "WORK-195",
+    "source_repository": "NielPieterse0/commodity",
+    "source_number": 195,
+    "source_kind": "issue",
+    "documentation_impact": "planned",
+    "execution_owner": "codex"
+  }
+}

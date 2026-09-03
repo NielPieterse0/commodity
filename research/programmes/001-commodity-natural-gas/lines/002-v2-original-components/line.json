@@ -1,0 +1,67 @@
+{
+  "schema_version": 1,
+  "zoom_level": "L2",
+  "programme_id": "001-commodity-natural-gas",
+  "research_line_id": "002-v2-original-components",
+  "legacy_research_line_ids": [
+    "line-v2-original-components"
+  ],
+  "big_picture": "Ask whether new model and PIT indicator families add information beyond V1 before attempting fusion.",
+  "evidence_refs": [
+    "git-history:config/experiment_candidates.json"
+  ],
+  "experiment_history": [
+    {
+      "issue": 82,
+      "result": "superseded_original_lineage"
+    },
+    {
+      "issue": 83,
+      "result": "fail_closed_before_fit"
+    },
+    {
+      "issue": 84,
+      "result": "not_executed"
+    },
+    {
+      "issue": 85,
+      "result": "not_executed"
+    }
+  ],
+  "historical_facts": {
+    "does_not_rule_out": "Corrected same-contract model tests or future bounded uses of the underlying information families.",
+    "observed": "The original Kronos result lineage was superseded after contract/target defects; the indicator path failed closed before fit on frozen weather staleness; fusion and sensitivity never produced empirical results.",
+    "rules_out": "Treating the original #82 result or unexecuted #84/#85 designs as evidence of an edge."
+  },
+  "programme_interpretation": "Preserve the negative/untested distinction and repair contract continuity before interpreting model quality.",
+  "remaining_untested_roles": [
+    "corrected model role",
+    "future PIT indicators under a new justified contract"
+  ],
+  "revisit_trigger": "A new bounded hypothesis must have valid PIT inputs, same-contract comparators and independent confirmation capacity before execution.",
+  "status": "mixed_closed_and_untested",
+  "tested_role_target_horizon": "Kronos-only and indicator-only next-session return components, with fusion/sensitivity contingent on valid predecessors.",
+  "useful_secondary_observations": [
+    "Fail-closed data gates prevented rescue search after a frozen input violation.",
+    "Fusion must not proceed when component evidence is invalid or absent."
+  ],
+  "why_zoomed_in": "V1 failed to establish an edge, so V2 decomposed the problem into Kronos and indicator/surprise components with fusion only after valid component evidence.",
+  "experiment_refs": [
+    {
+      "experiment_id": "001-v2-82-kronos-only",
+      "path": "research/programmes/001-commodity-natural-gas/lines/002-v2-original-components/experiments/001-v2-82-kronos-only"
+    },
+    {
+      "experiment_id": "002-v2-83-indicators-only",
+      "path": "research/programmes/001-commodity-natural-gas/lines/002-v2-original-components/experiments/002-v2-83-indicators-only"
+    },
+    {
+      "experiment_id": "003-v2-84-kronos-indicator-fusion",
+      "path": "research/programmes/001-commodity-natural-gas/lines/002-v2-original-components/experiments/003-v2-84-kronos-indicator-fusion"
+    },
+    {
+      "experiment_id": "004-v2-85-unexecuted",
+      "path": "research/programmes/001-commodity-natural-gas/lines/002-v2-original-components/experiments/004-v2-85-unexecuted"
+    }
+  ]
+}

@@ -1,0 +1,48 @@
+{
+  "schema_version": 4,
+  "change_id": "207-volatility-event-audit",
+  "status": "active",
+  "branch": "change/207-volatility-event-audit",
+  "worktree": ".work/worktrees/207-volatility-event-audit",
+  "base": "main",
+  "outcome": "Independently reconstruct and release the frozen #205 event identity for nuisance calibration only, without inspecting protected confirmation performance.",
+  "owned_paths": [
+    "docs/development/volatility-event-successor-release-audit/**",
+    ".work/changes/207-volatility-event-audit/**"
+  ],
+  "shared_paths": [],
+  "excluded_paths": [
+    "config/**",
+    "src/**",
+    "tests/**",
+    "artifacts/**",
+    "data/**"
+  ],
+  "dependencies": [
+    "205-volatility-successor-preregistration",
+    "201-volatility-successor-release-audit",
+    "203-volatility-nuisance-calibration",
+    "137-untouched-confirmation"
+  ],
+  "integration_owner": null,
+  "complexity": "medium",
+  "risk_triggers": [],
+  "base_evidence": {
+    "local_sha": "4dab55b89afb68ff8c92c8a09383f39133c8b5a6",
+    "local_tree": "ae7ed34d4aa7e6f91602849c4fab4a69dde1196a",
+    "upstream_sha": "4dab55b89afb68ff8c92c8a09383f39133c8b5a6",
+    "upstream_tree": "ae7ed34d4aa7e6f91602849c4fab4a69dde1196a",
+    "upstream_ref": "refs/remotes/origin/main",
+    "evidence_source": "verified_github_default_branch",
+    "relation": "same_sha"
+  },
+  "work_management": {
+    "project_id": "commodity",
+    "record_id": "WORK-207",
+    "source_repository": "NielPieterse0/commodity",
+    "source_number": 207,
+    "source_kind": "issue",
+    "documentation_impact": "planned",
+    "execution_owner": "codex"
+  }
+}

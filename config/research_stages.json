@@ -17,6 +17,6 @@
   "semantics": {
     "promotion_scope": "research_evidence_only",
     "live_trading_authority": false,
-    "execution_permission_owner": "config/policy.json"
+    "execution_permission_owner": "config/trading-policy.json"
   }
 }

@@ -1,0 +1,46 @@
+{
+  "schema_version": 4,
+  "change_id": "178-kronos-same-contract-path",
+  "status": "active",
+  "branch": "change/178-kronos-same-contract-path",
+  "worktree": ".work/worktrees/178-kronos-same-contract-path",
+  "base": "main",
+  "outcome": "Make same-contract PIT history authoritative for future executable Kronos use, fail closed on mixed-contract adapter context, and preserve historical #82 evidence without model inference.",
+  "owned_paths": [
+    "src/commodity/v2_kronos.py",
+    "src/commodity/roll_safe_market.py",
+    "tests/test_v2_kronos.py",
+    "tests/test_kronos_semantics.py",
+    "tests/test_roll_safe_market.py",
+    "docs/development/kronos-same-contract-correction/**",
+    ".work/changes/178-kronos-same-contract-path/**"
+  ],
+  "shared_paths": [],
+  "excluded_paths": [
+    "config/**",
+    "docs/development/v2-activation-preregistration/**",
+    "docs/development/v2-kronos-challenger/**",
+    "artifacts/**"
+  ],
+  "dependencies": [],
+  "integration_owner": null,
+  "complexity": "medium",
+  "risk_triggers": [],
+  "base_evidence": {
+    "local_sha": "163b664f57b98b82f1d98e64709afc9b84046b10",
+    "local_tree": "99fc62db61f61b157e9cdada0a4195e787b186d2",
+    "upstream_sha": "163b664f57b98b82f1d98e64709afc9b84046b10",
+    "upstream_tree": "99fc62db61f61b157e9cdada0a4195e787b186d2",
+    "upstream_ref": "refs/remotes/origin/main",
+    "evidence_source": "verified_github_default_branch",
+    "relation": "same_sha"
+  },
+  "work_management": {
+    "project_id": "commodity",
+    "source_repository": "NielPieterse0/commodity",
+    "source_number": 178,
+    "source_kind": "issue",
+    "documentation_impact": "planned",
+    "execution_owner": "codex"
+  }
+}

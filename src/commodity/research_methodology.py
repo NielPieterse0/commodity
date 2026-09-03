@@ -98,9 +98,35 @@ def compute_effective_information(dependence: dict[str, Any]) -> dict[str, Any]:
         clusters = int(parameters.get("clusters", 0))
         _require(1 < clusters <= raw_n, "event clusters must be between two and raw_n")
         effective = float(clusters)
+    elif method in {"newey_west", "hac"}:
+        autocorrelations = parameters.get("autocorrelations")
+        _require(
+            isinstance(autocorrelations, list) and bool(autocorrelations),
+            "Newey-West/HAC requires declared autocorrelations",
+        )
+        lag = int(parameters.get("lag", len(autocorrelations)))
+        _require(1 <= lag <= len(autocorrelations) and lag < raw_n, "Newey-West/HAC lag is invalid")
+        rhos = [float(value) for value in autocorrelations[:lag]]
+        _require(
+            all(math.isfinite(value) and -1 < value < 1 for value in rhos),
+            "Newey-West/HAC autocorrelations must be finite inside (-1, 1)",
+        )
+        variance_inflation = 1.0 + 2.0 * sum(
+            (1.0 - index / (lag + 1.0)) * rho
+            for index, rho in enumerate(rhos, start=1)
+        )
+        _require(
+            math.isfinite(variance_inflation) and variance_inflation > 0,
+            "Newey-West/HAC variance inflation must be positive",
+        )
+        effective = raw_n / variance_inflation
+    elif method == "block_bootstrap":
+        block_length = int(parameters.get("block_length", 0))
+        _require(1 <= block_length < raw_n, "block-bootstrap block_length must be inside [1, raw_n)")
+        effective = raw_n / block_length
     else:
         raise MethodologyError(f"unsupported dependence method: {method!r}")
-    _require(effective > 1, "effective information is insufficient")
+    _require(math.isfinite(effective) and effective > 1, "effective information is insufficient")
     return {"raw_n": raw_n, "method": method, "parameters": parameters, "effective_information": effective}
 
 
@@ -149,7 +175,7 @@ def verify_preregistration(prereg: dict[str, Any]) -> dict[str, Any]:
         validate_literature_ref,
     )
 
-    assert_governed_research_preflight()
+    assert_governed_research_preflight(prereg["programme_id"])
     literature = validate_literature_ref(prereg["literature_snapshot_ref"])
     expectations = prereg["expectations"]
     _require(set(expectations["expected"]).issubset(set(literature["expected_observations"])), "confirmatory expectations must be literature-derived")
@@ -250,10 +276,15 @@ def derive_evidence_level(raw_evidence: dict[str, Any]) -> str:
     level = "E4"
     replications = (raw_evidence.get("replication") or {}).get("independent_results") or []
     successful_replication = False
+    primary_direction = 1.0 if effect > 0 else -1.0
     for item in replications:
         try:
+            replication_effect = float(item["effect"])
             successful_replication = (
-                abs(float(item["effect"])) >= float(item["scientific_mepi"]) > 0
+                math.isfinite(replication_effect)
+                and replication_effect != 0
+                and (1.0 if replication_effect > 0 else -1.0) == primary_direction
+                and abs(replication_effect) >= float(item["scientific_mepi"]) > 0
                 and 0 <= float(item["p_value"]) <= float(item["alpha"]) < 1
             )
         except (KeyError, TypeError, ValueError):
@@ -492,7 +523,7 @@ def verify_results(prereg: dict[str, Any], results: dict[str, Any]) -> dict[str,
 
 def verify_interpretation_metadata(metadata: dict[str, Any], prereg: dict[str, Any], results: dict[str, Any]) -> None:
     _validate_schema(metadata, "interpretation_metadata.schema.json")
-    _require(metadata.get("schema_version") == 2, "interpretation metadata schema_version must be 2")
+    _require(metadata.get("schema_version") == 3, "interpretation metadata schema_version must be 3")
     _require(metadata.get("experiment_id") == prereg["experiment_id"], "interpretation experiment_id mismatch")
     expected_prereg = canonical_prereg_sha256(prereg)
     _require(metadata.get("prereg_sha256") == expected_prereg, "interpretation prereg identity mismatch")
@@ -504,8 +535,15 @@ def verify_interpretation_metadata(metadata: dict[str, Any], prereg: dict[str, A
     post_ref = metadata["post_result_literature_snapshot_ref"]
     validate_literature_ref(post_ref)
     _require(post_ref.get("sha256") != prereg["literature_snapshot_ref"].get("sha256"), "post-result triangulation must use an independent literature snapshot")
+    _require(metadata.get("zoom_level") == "L5", "scientific interpretation must declare zoom_level L5")
     _require(str(metadata.get("observed_vs_expected", "")).strip(), "interpretation requires expected-vs-observed comparison")
+    _require(str(metadata.get("literature_expectation_assessment", "")).strip(), "interpretation requires literature expectation reconciliation")
+    _require(str(metadata.get("coherence_interpretation", "")).strip(), "interpretation requires coherence/anomaly interpretation")
     _require(str(metadata.get("external_triangulation", "")).strip(), "interpretation requires external post-result triangulation")
+    retrace = metadata.get("hierarchy_retrace") or {}
+    _require(list(retrace) == ["L4", "L3", "L2", "L1", "L0"], "interpretation must retrace L4 through L0 in order")
+    for level in ("L4", "L3", "L2", "L1", "L0"):
+        _require(str(retrace.get(level, "")).strip(), f"interpretation hierarchy retrace requires {level}")
 
 
 def render_executive_summary(sections: dict[str, str]) -> str:
@@ -546,14 +584,31 @@ def validate_research_line(line: dict[str, Any]) -> None:
         _require(key in rules, f"research line stopping rules missing: {key}")
 
 
+def load_bound_research_line(evidence_map: dict[str, Any], research_line_id: str) -> tuple[dict[str, Any], str]:
+    refs = [
+        item for item in evidence_map.get("research_line_refs", [])
+        if item.get("research_line_id") == research_line_id
+    ]
+    _require(len(refs) == 1, "research line is missing or ambiguous in programme evidence map")
+    relative = refs[0].get("path")
+    _require(isinstance(relative, str) and relative, "research line reference requires path")
+    path = (_repo_root() / relative).resolve()
+    root = _repo_root().resolve()
+    _require(root in path.parents, "research line reference escapes repository root")
+    _require(path.is_file(), f"research line artifact is missing: {relative}")
+    line = load_json(path)
+    _validate_schema(line, "research_line.schema.json")
+    _require(line.get("research_line_id") == research_line_id, "research line artifact identity mismatch")
+    _require(line.get("programme_id") == evidence_map.get("programme_id"), "research line programme identity mismatch")
+    return line, relative
+
+
 def validate_programme_context(prereg: dict[str, Any], evidence_map: dict[str, Any]) -> dict[str, Any]:
-    _require(evidence_map.get("schema_version") == 1, "programme evidence schema_version must be 1")
+    _require(evidence_map.get("schema_version") == 2, "programme evidence schema_version must be 2")
     _require(evidence_map.get("programme_id") == prereg.get("programme_id"), "programme evidence does not match preregistration")
     scan_ref = prereg.get("evidence_scan_ref") or {}
     _require(scan_ref.get("scan_id") == evidence_map.get("current_scan_id"), "preregistration evidence scan is not the current programme scan")
-    lines = [item for item in evidence_map.get("research_lines", []) if item.get("research_line_id") == prereg.get("research_line_id")]
-    _require(len(lines) == 1, "research line is missing or ambiguous in programme evidence map")
-    line = lines[0]
+    line, line_ref = load_bound_research_line(evidence_map, prereg.get("research_line_id"))
     validate_research_line(line)
     _require(line.get("status") == "selected", "research line is not selected for confirmatory work")
     families = set(prereg.get("features", {}).get("information_families", []))
@@ -573,7 +628,13 @@ def validate_programme_context(prereg: dict[str, Any], evidence_map: dict[str, A
     if match.get("market_implied_benchmark_required") is True:
         benchmarks = prereg.get("evaluation", {}).get("benchmarks", [])
         _require(any(item.get("type") == "market_implied" for item in benchmarks), "market-implied comparator is required by governed target/horizon context")
-    return {"status": "selected_and_feasible", "research_line_id": line["research_line_id"], "scan_id": evidence_map.get("current_scan_id")}
+    return {
+        "status": "selected_and_feasible",
+        "programme_id": evidence_map["programme_id"],
+        "research_line_id": line["research_line_id"],
+        "research_line_ref": line_ref,
+        "scan_id": evidence_map.get("current_scan_id"),
+    }
 
 
 def build_results(
@@ -608,6 +669,7 @@ def build_results(
     }
     return {
         "schema_version": 1,
+        "zoom_level": "L4",
         "experiment_id": prereg["experiment_id"],
         "run_id": run_id,
         "prereg_sha256": prereg_check["prereg_sha256"],
@@ -785,6 +847,26 @@ def verify_lineage(
     repo_root: Path | None = None,
 ) -> None:
     lineage = prereg.get("lineage") or {}
+    if repo_root is not None:
+        root = Path(repo_root).resolve()
+        programme_ref = lineage.get("programme_ref")
+        line_ref = lineage.get("research_line_ref")
+        _require(isinstance(programme_ref, str) and programme_ref, "preregistration lineage requires programme_ref")
+        _require(isinstance(line_ref, str) and line_ref, "preregistration lineage requires research_line_ref")
+        programme_path = (root / programme_ref).resolve()
+        line_path = (root / line_ref).resolve()
+        _require(root in programme_path.parents and root in line_path.parents, "preregistration parent reference escapes repository root")
+        _require(programme_path.is_file(), "preregistration programme parent is missing")
+        _require(line_path.is_file(), "preregistration research-line parent is missing")
+        programme = load_json(programme_path)
+        line = load_json(line_path)
+        _validate_schema(programme, "programme.schema.json")
+        _validate_schema(line, "research_line.schema.json")
+        _require(programme.get("programme_id") == prereg.get("programme_id"), "preregistration programme parent identity mismatch")
+        _require(line.get("programme_id") == prereg.get("programme_id"), "preregistration research-line programme mismatch")
+        _require(line.get("research_line_id") == prereg.get("research_line_id"), "preregistration research-line parent identity mismatch")
+        refs = [item for item in programme.get("line_refs", []) if item.get("research_line_id") == prereg.get("research_line_id")]
+        _require(len(refs) == 1 and refs[0].get("path") == line_ref, "programme does not own preregistration research line")
     predecessor = lineage.get("supersedes_prereg_sha256")
     if predecessor is None:
         _require(not lineage.get("amendment_reason"), "initial preregistration cannot declare amendment reason")
@@ -836,23 +918,49 @@ def run_family_inference(prereg: dict[str, Any], raw_evidence: dict[str, Any]) -
     return {"family_id": prereg["evaluation"]["statistical_family"], "procedure": procedure, "inputs_sha256": result["inputs_sha256"], "implementation_ref": f"commodity.programme_inference.{procedure}", "result": result}
 
 
-def update_programme_evidence_map(
-    evidence_map: dict[str, Any], prereg: dict[str, Any], results: dict[str, Any], *, new_scan_id: str
+def register_experiment_ref(line: dict[str, Any], prereg: dict[str, Any], prereg_path: Path) -> dict[str, Any]:
+    _require(line.get("programme_id") == prereg.get("programme_id"), "research line programme does not match preregistration")
+    _require(line.get("research_line_id") == prereg.get("research_line_id"), "research line does not match preregistration")
+    root = _repo_root().resolve()
+    directory = Path(prereg_path).resolve().parent
+    expected_parent = (root / prereg["lineage"]["research_line_ref"]).resolve().parent / "experiments"
+    _require(directory.parent == expected_parent, "preregistration must live under its research-line experiments directory")
+    _require(directory.name == prereg["experiment_id"], "experiment directory must match experiment_id")
+    relative = directory.relative_to(root).as_posix()
+    updated = json.loads(json.dumps(line))
+    refs = updated.setdefault("experiment_refs", [])
+    existing = [item for item in refs if item.get("experiment_id") == prereg["experiment_id"]]
+    if existing:
+        _require(len(existing) == 1 and existing[0].get("path") == relative, "research-line experiment reference conflicts with preregistration")
+        return updated
+    refs.append({"experiment_id": prereg["experiment_id"], "path": relative})
+    return updated
+
+
+def update_research_line(
+    line: dict[str, Any], prereg: dict[str, Any], results: dict[str, Any]
 ) -> dict[str, Any]:
-    _require(evidence_map.get("programme_id") == prereg.get("programme_id"), "programme evidence does not match preregistration")
-    _require(isinstance(new_scan_id, str) and new_scan_id.strip(), "programme update requires new_scan_id")
-    updated = json.loads(json.dumps(evidence_map))
-    matches = [item for item in updated.get("research_lines", []) if item.get("research_line_id") == prereg.get("research_line_id")]
-    _require(len(matches) == 1, "programme update research line is missing or ambiguous")
-    line = matches[0]
-    history = line.setdefault("experiment_history", [])
-    _require(not any(item.get("experiment_id") == prereg["experiment_id"] for item in history), "programme evidence already records experiment")
+    _require(line.get("programme_id") == prereg.get("programme_id"), "research line programme does not match preregistration")
+    _require(line.get("research_line_id") == prereg.get("research_line_id"), "research line does not match preregistration")
+    updated = json.loads(json.dumps(line))
+    history = updated.setdefault("experiment_history", [])
+    _require(not any(item.get("experiment_id") == prereg["experiment_id"] for item in history), "research line already records experiment")
     history.append({
         "experiment_id": prereg["experiment_id"],
         "prereg_sha256": canonical_prereg_sha256(prereg),
         "scientific_evidence": results.get("scientific_evidence"),
         "method_compliance": results.get("method_compliance"),
     })
+    return updated
+
+
+def update_programme_evidence_map(
+    evidence_map: dict[str, Any], prereg: dict[str, Any], results: dict[str, Any], *, new_scan_id: str
+) -> dict[str, Any]:
+    _require(evidence_map.get("programme_id") == prereg.get("programme_id"), "programme evidence does not match preregistration")
+    _require(isinstance(new_scan_id, str) and new_scan_id.strip(), "programme update requires new_scan_id")
+    load_bound_research_line(evidence_map, prereg.get("research_line_id"))
+    updated = json.loads(json.dumps(evidence_map))
     updated["previous_scan_id"] = updated.get("current_scan_id")
     updated["current_scan_id"] = new_scan_id
     return updated

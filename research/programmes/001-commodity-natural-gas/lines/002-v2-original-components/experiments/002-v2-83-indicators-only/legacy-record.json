@@ -1,0 +1,34 @@
+{
+  "schema_version": 1,
+  "zoom_level": "L3",
+  "programme_id": "001-commodity-natural-gas",
+  "research_line_id": "002-v2-original-components",
+  "experiment_id": "002-v2-83-indicators-only",
+  "governance_generation": "legacy_pre_15_step",
+  "historical_status": "stopped",
+  "summary": "Original frozen indicators-only V2 component control; no valid empirical fit was admitted.",
+  "outcome": "fail_closed_before_fit",
+  "issue_lineage": [
+    83
+  ],
+  "source_artifacts": [
+    {
+      "path": "config/experiment_candidates.json",
+      "commit": "3e267e9d7df53c3ce927b1007b6e694f3920bde5",
+      "sha256": "d24cbbefdb46dd823b1c85d9fbd251bad3b81c4a4c7ba23358fd1cd859901af7",
+      "preserved_as": null,
+      "note": "Candidate-specific authority is a member of this frozen registry."
+    }
+  ],
+  "decisions": [
+    {
+      "id": "legacy-002-v2-83-indicators-only-disposition",
+      "decision": "Preserve fail_closed_before_fit as historical V2 evidence; do not manufacture retrospective execution evidence.",
+      "status": "active",
+      "superseded_by": null
+    }
+  ],
+  "recommendations": [],
+  "open_questions": [],
+  "metrics_ledger_refs": []
+}

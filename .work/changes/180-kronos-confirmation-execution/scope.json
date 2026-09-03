@@ -1,0 +1,49 @@
+{
+  "schema_version": 4,
+  "change_id": "180-kronos-confirmation-execution",
+  "status": "closed",
+  "branch": "change/180-kronos-confirmation-execution",
+  "worktree": ".work/worktrees/180-kronos-confirmation-execution",
+  "base": "main",
+  "outcome": "Execute the released corrected Mini/Small/Base Kronos confirmation exactly once, evaluate the frozen nine comparisons and robustness rules, and record the reproducible #180 keep/drop decision without post-result tuning.",
+  "owned_paths": [
+    "src/commodity/kronos_confirmation_run.py",
+    "scripts/run_kronos_confirmation.py",
+    "tests/test_kronos_confirmation_run.py",
+    "tests/test_research_metrics_ledger_integration.py",
+    "docs/development/kronos-three-checkpoint-confirmation/results/**",
+    "artifacts/kronos-confirmation/kronos-180-corrected-three-checkpoint-v1/**",
+    "artifacts/research-metrics/longitudinal-ledger.json",
+    ".work/changes/180-kronos-confirmation-execution/**"
+  ],
+  "shared_paths": [],
+  "excluded_paths": [
+    "config/kronos_confirmation.json",
+    "docs/development/kronos-three-checkpoint-confirmation/audit-release.json",
+    "artifacts/v2/v2-82-kronos-only/**"
+  ],
+  "dependencies": [    "182-kronos-successor-freeze",
+    "183-kronos-successor-audit"
+  ],
+  "integration_owner": null,
+  "complexity": "large",
+  "risk_triggers": [],
+  "base_evidence": {
+    "local_sha": "546fdb200110576c58829591d058b6fa5b211f53",
+    "local_tree": "296476794f5c42ffff7fa20c252bcde9f76aaa9b",
+    "upstream_sha": "546fdb200110576c58829591d058b6fa5b211f53",
+    "upstream_tree": "296476794f5c42ffff7fa20c252bcde9f76aaa9b",
+    "upstream_ref": "refs/remotes/origin/main",
+    "evidence_source": "verified_github_default_branch",
+    "relation": "same_sha"
+  },
+  "work_management": {
+    "project_id": "commodity",
+    "record_id": "SPEC-180",
+    "source_repository": "NielPieterse0/commodity",
+    "source_number": 180,
+    "source_kind": "issue",
+    "documentation_impact": "post_merge_complete",
+    "execution_owner": "codex"
+  }
+}

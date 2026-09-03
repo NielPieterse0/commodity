@@ -1,0 +1,47 @@
+{
+  "schema_version": 4,
+  "change_id": "224-timesfm-zero-shot-execution",
+  "status": "active",
+  "branch": "change/224-timesfm-zero-shot-execution",
+  "worktree": ".work/worktrees/224-timesfm-zero-shot-execution",
+  "base": "main",
+  "outcome": "Implement and execute only the frozen #198 TimesFM 2.5 zero-shot 204-row experiment after a fail-closed pre-inference audit, preserving all frozen hypotheses and historical authorities.",
+  "complexity": "medium",
+  "risk_triggers": [],
+  "owned_paths": [
+    "src/commodity/timesfm_zero_shot.py",
+    "tests/test_timesfm_zero_shot.py",
+    "docs/development/timesfm-zero-shot-execution/**",
+    "artifacts/timesfm/timesfm-198-zero-shot-v1/**"
+  ],
+  "shared_paths": [],
+  "excluded_paths": [
+    "config/models.json",
+    "config/experiment_candidates.json",
+    "docs/development/timesfm-zero-shot-preregistration/**",
+    "artifacts/kronos-confirmation/**",
+    "artifacts/research-metrics/**"
+  ],
+  "dependencies": [
+    "198-timesfm-zero-shot"
+  ],
+  "integration_owner": "codex",
+  "base_evidence": {
+    "local_sha": "56dcfeff0e65c6f61c8296f0f72928b616f6713f",
+    "local_tree": "1237444b43cf15f0be055af54896534e0cd52d7d",
+    "upstream_sha": "56dcfeff0e65c6f61c8296f0f72928b616f6713f",
+    "upstream_tree": "1237444b43cf15f0be055af54896534e0cd52d7d",
+    "upstream_ref": "refs/remotes/origin/main",
+    "evidence_source": "verified_github_default_branch",
+    "relation": "same_sha"
+  },
+  "work_management": {
+    "project_id": "commodity",
+    "record_id": "WORK-224",
+    "source_repository": "NielPieterse0/commodity",
+    "source_number": 224,
+    "source_kind": "issue",
+    "documentation_impact": "pre_merge_complete",
+    "execution_owner": "codex"
+  }
+}

@@ -1,0 +1,44 @@
+{
+  "schema_version": 1,
+  "zoom_level": "L2",
+  "programme_id": "001-commodity-natural-gas",
+  "research_line_id": "003-corrected-kronos-direct-return",
+  "legacy_research_line_ids": [
+    "line-corrected-kronos-direct-return"
+  ],
+  "big_picture": "Retest Kronos only after fixing target and contract continuity so the result is comparable and auditable.",
+  "evidence_refs": [
+    "git-history:artifacts/kronos-confirmation/kronos-180-corrected-three-checkpoint-v1/result.json"
+  ],
+  "experiment_history": [
+    {
+      "issue": 180,
+      "result": "drop_direct_one_step_kronos",
+      "rows": 204
+    }
+  ],
+  "historical_facts": {
+    "does_not_rule_out": "Kronos in a materially different bounded role, target, horizon or representation.",
+    "observed": "Mini RMSE 0.0616096, Small 0.0552931 and Base 0.0664801 were all worse than zero-return 0.0453231 and V1 HistGB 0.0465073; checkpoint size did not improve monotonically.",
+    "rules_out": "Direct one-step Kronos promotion for the frozen target/grain and post-result size rescue."
+  },
+  "programme_interpretation": "Retire direct one-step Kronos and change the research question before changing model size.",
+  "remaining_untested_roles": [
+    "non-return representation role",
+    "different mechanism-specific target where separately justified"
+  ],
+  "revisit_trigger": "Only a preregistered role with a distinct mechanism, adequate effective information and fresh confirmation can reopen Kronos research.",
+  "status": "rejected_by_evidence",
+  "tested_role_target_horizon": "Kronos Mini/Small/Base as direct one-step next-session return forecasters on 204 common OOS rows.",
+  "useful_secondary_observations": [
+    "Model scale was not a reliable path to improvement.",
+    "Corrected contract identity changed the scientific conclusion from ambiguous to negative."
+  ],
+  "why_zoomed_in": "The original Kronos lineage could not support a trustworthy model conclusion; a corrected frozen three-checkpoint comparison was required.",
+  "experiment_refs": [
+    {
+      "experiment_id": "001-kronos-180-corrected-three-checkpoint",
+      "path": "research/programmes/001-commodity-natural-gas/lines/003-corrected-kronos-direct-return/experiments/001-kronos-180-corrected-three-checkpoint"
+    }
+  ]
+}

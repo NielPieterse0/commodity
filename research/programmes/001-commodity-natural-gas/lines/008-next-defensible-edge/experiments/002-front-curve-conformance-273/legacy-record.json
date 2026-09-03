@@ -1,0 +1,34 @@
+{
+  "schema_version": 1,
+  "zoom_level": "L3",
+  "programme_id": "001-commodity-natural-gas",
+  "research_line_id": "008-next-defensible-edge",
+  "experiment_id": "002-front-curve-conformance-273",
+  "governance_generation": "legacy_pre_15_step",
+  "historical_status": "held",
+  "summary": "Conformance replay under hardened research lifecycle.",
+  "outcome": "conformance_replay_hold_protected_unopened",
+  "issue_lineage": [
+    273
+  ],
+  "source_artifacts": [
+    {
+      "path": "research/exploratory/front-curve-feasibility-273-conformance.json",
+      "commit": "3e267e9d7df53c3ce927b1007b6e694f3920bde5",
+      "sha256": "8628b74f78635970392e33a97d36119d206db4297d9542bee9825bfbd41a00cb",
+      "preserved_as": "exploratory-result.json",
+      "note": null
+    }
+  ],
+  "decisions": [
+    {
+      "id": "legacy-002-front-curve-conformance-273-disposition",
+      "decision": "Preserve historical disposition: conformance_replay_hold_protected_unopened.",
+      "status": "active",
+      "superseded_by": null
+    }
+  ],
+  "recommendations": [],
+  "open_questions": [],
+  "metrics_ledger_refs": []
+}

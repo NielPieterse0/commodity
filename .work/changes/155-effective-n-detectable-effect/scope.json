@@ -1,0 +1,43 @@
+{
+  "schema_version": 4,
+  "change_id": "155-effective-n-detectable-effect",
+  "status": "closed",
+  "branch": "change/155-effective-n-detectable-effect",
+  "worktree": ".work/worktrees/155-effective-n-detectable-effect",
+  "base": "main",
+  "outcome": "Produce a reusable uncertainty-aware effective-N and minimum-detectable-effect budget for future Commodity candidate preregistrations without fitting new models or inspecting new OOS predictions.",
+  "owned_paths": [
+    "docs/development/effective-n-detectable-effect/**",
+    ".work/changes/155-effective-n-detectable-effect/**"
+  ],
+  "shared_paths": [],
+  "excluded_paths": [
+    "artifacts/**",
+    "config/**",
+    "src/**",
+    "data/**"
+  ],
+  "dependencies": [
+    "089-v2-model-criticism-review"
+  ],
+  "integration_owner": null,
+  "complexity": "medium",
+  "risk_triggers": [],  "base_evidence": {
+    "local_sha": "217cb8ec411914a107317d2ef6b9e44dd1b49ecd",
+    "local_tree": "45ca7fc0d078ae91a9d4c58f444965c16f879faa",
+    "upstream_sha": "217cb8ec411914a107317d2ef6b9e44dd1b49ecd",
+    "upstream_tree": "45ca7fc0d078ae91a9d4c58f444965c16f879faa",
+    "upstream_ref": "refs/remotes/origin/main",
+    "evidence_source": "verified_github_default_branch",
+    "relation": "same_sha"
+  },
+  "work_management": {
+    "project_id": "commodity",
+    "record_id": "RES-155",
+    "source_repository": "NielPieterse0/commodity",
+    "source_number": 155,
+    "source_kind": "issue",
+    "documentation_impact": "post_merge_complete",
+    "execution_owner": "codex"
+  }
+}

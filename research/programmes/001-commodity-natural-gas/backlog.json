@@ -1,0 +1,56 @@
+{
+  "schema_version": 1,
+  "generated_projection": false,
+  "items": [
+    {
+      "id": "legacy-v1-revisit",
+      "item": "Revisit one-session return forecasting only when a bounded new mechanism or information source changes expected information value.",
+      "kind": "recommendation",
+      "status": "open",
+      "source_record": "research/programmes/001-commodity-natural-gas/lines/001-v1-next-session-return-baseline/experiments/001-ng-next-session-return-baseline-v1/legacy-record.json",
+      "work_ref": null
+    },
+    {
+      "id": "legacy-volatility-277-reopen",
+      "item": "Re-evaluate the volatility reopening gate only after materially more effective information or a distinct design is available.",
+      "kind": "recommendation",
+      "status": "open",
+      "source_record": "research/programmes/001-commodity-natural-gas/lines/004-target-redesign-volatility-events/experiments/004-volatility-reopening-277/legacy-record.json",
+      "work_ref": "issue-277"
+    },
+    {
+      "id": "legacy-portfolio-curve",
+      "item": "Keep curve/spread change as a future direction only when it clears programme-value and feasibility gates.",
+      "kind": "recommendation",
+      "status": "open",
+      "source_record": "git-history:docs/development/target-horizon-portfolio/portfolio.json",
+      "work_ref": null
+    },
+    {
+      "id": "legacy-portfolio-events",
+      "item": "Keep mechanism-led event returns as a future direction only when a concrete programme gap justifies it.",
+      "kind": "recommendation",
+      "status": "open",
+      "source_record": "git-history:docs/development/target-horizon-portfolio/portfolio.json",
+      "work_ref": null
+    },
+    {
+      "id": "legacy-285-forward-confirmation",
+      "item": "Confirm the Samuelson structure only on the frozen future-only 504-date allocation after eligibility and sealing requirements are met.",
+      "kind": "recommendation",
+      "status": "open",
+      "source_record": "research/programmes/001-commodity-natural-gas/lines/008-next-defensible-edge/experiments/006-natural-gas-market-replication-285/legacy-record.json",
+      "work_ref": "issue-285"
+    },
+    {
+      "id": "legacy-285-accrual",
+      "item": "Acquire and independently manifest 504 eligible Databento dates strictly after 2026-08-12 before confirmation execution.",
+      "kind": "recommendation",
+      "status": "open",
+      "source_record": "research/programmes/001-commodity-natural-gas/lines/008-next-defensible-edge/experiments/007-natural-gas-samuelson-confirmation-285-v1/legacy-record.json",
+      "work_ref": "issue-285"
+    }
+  ],
+  "zoom_level": "L1",
+  "programme_id": "001-commodity-natural-gas"
+}

@@ -1,0 +1,20 @@
+{
+  "schema_version": 4,
+  "change_id": "273-research-lifecycle-hardening",
+  "status": "active",
+  "branch": "change/273-research-lifecycle-hardening",
+  "worktree": ".work/worktrees/273-research-lifecycle-hardening",
+  "base": "main",
+  "outcome": "Enforce the complete literature-anchored 15-stage research lifecycle, executable HOLD/DEFER revisit triggers, and a corrective successor replay of #271 without touching protected outcomes unless feasibility independently reaches GO.",
+  "complexity": "large",
+  "risk_triggers": ["research-methodology", "protected-outcome-boundary", "scientific-evidence-authority"],
+  "integration_owner": "codex",
+  "work_management": {
+    "project_id": "commodity",
+    "record_id": "WORK-273",
+    "source_repository": "NielPieterse0/commodity",
+    "source_number": 273,
+    "source_kind": "issue",
+    "execution_owner": "codex"
+  }
+}

@@ -31,7 +31,8 @@
     },
     "kronos_mini": {
       "kind": "optional_foundation_model",
-      "enabled": true,
+      "enabled": false,
+      "checkpoint_preflight_enabled": true,
       "family": "foundation_model",
       "architecture": "kronos_mini",
       "repository": "shiyu-coder/Kronos",
@@ -61,7 +62,7 @@
           "sha256": "b97ec46b3b72160509e289183eaf7bdf5f0dac5bb9b49522f6d46638a99a8717"
         }
       },
-      "reason": "smallest open Kronos variant; laptop-safe evaluation candidate"
+      "reason": "historical/reference checkpoint only; empirical execution disabled until the active worktree runtime matches requirements.kronos-cpu.lock.txt"
     },
     "kronos_base": {
       "kind": "optional_foundation_model",

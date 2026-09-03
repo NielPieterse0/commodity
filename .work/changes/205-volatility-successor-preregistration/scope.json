@@ -1,0 +1,48 @@
+{
+  "schema_version": 4,
+  "change_id": "205-volatility-successor-preregistration",
+  "status": "active",
+  "branch": "change/205-volatility-successor-preregistration",
+  "worktree": ".work/worktrees/205-volatility-successor-preregistration",
+  "base": "main",
+  "outcome": "Freeze a statistically defensible non-overlapping 5-session volatility successor after #203 failed the daily power gate, without inspecting protected confirmation outcomes.",
+  "owned_paths": [
+    "docs/development/volatility-event-successor-preregistration/**",
+    ".work/changes/205-volatility-successor-preregistration/**"
+  ],
+  "shared_paths": [],
+  "excluded_paths": [
+    "config/**",
+    "src/**",
+    "tests/**",
+    "artifacts/**",
+    "data/**"
+  ],
+  "dependencies": [
+    "197-volatility-successor-prereg",
+    "201-volatility-successor-release-audit",
+    "203-volatility-nuisance-calibration",
+    "137-untouched-confirmation"
+  ],
+  "integration_owner": null,
+  "complexity": "small",
+  "risk_triggers": [],
+  "base_evidence": {
+    "local_sha": "cfad8db9d25382d63508a1caa999d2b05abf9c1e",
+    "local_tree": "e0ef3a0d7a6e82b4debeae9fa4a06b975630e929",
+    "upstream_sha": "cfad8db9d25382d63508a1caa999d2b05abf9c1e",
+    "upstream_tree": "e0ef3a0d7a6e82b4debeae9fa4a06b975630e929",
+    "upstream_ref": "refs/remotes/origin/main",
+    "evidence_source": "verified_github_default_branch",
+    "relation": "same_sha"
+  },
+  "work_management": {
+    "project_id": "commodity",
+    "record_id": "WORK-205",
+    "source_repository": "NielPieterse0/commodity",
+    "source_number": 205,
+    "source_kind": "issue",
+    "documentation_impact": "planned",
+    "execution_owner": "codex"
+  }
+}

@@ -1,0 +1,34 @@
+{
+  "schema_version": 1,
+  "zoom_level": "L3",
+  "programme_id": "001-commodity-natural-gas",
+  "research_line_id": "002-v2-original-components",
+  "experiment_id": "004-v2-85-unexecuted",
+  "governance_generation": "legacy_pre_15_step",
+  "historical_status": "not_executed",
+  "summary": "Frozen V2 #85 H5 sensitivity design; empirical execution was never authorized and no empirical results were generated or inspected.",
+  "outcome": "not_executed_obsolete_no_action",
+  "issue_lineage": [
+    85
+  ],
+  "source_artifacts": [
+    {
+      "path": "docs/development/v2-sensitivity/sensitivity-manifest.json",
+      "commit": "c97f2f16fccbb1570d2ddc08fb9907bfb93deebd",
+      "sha256": "8008ba6695d01af03abd741bcf2ba2ef1e1bc2f3457c9cf35783b56bb0511f2c",
+      "preserved_as": null,
+      "note": "PR #106 frozen H5 sensitivity authority: target, eligibility, uncertainty, multiplicity, execution_authorized=false, and non-rescue boundary. Final not_planned / obsolete-no-action disposition is preserved by issue lineage #85 and the later repository audit history; no empirical results existed."
+    }
+  ],
+  "decisions": [
+    {
+      "id": "legacy-004-v2-85-unexecuted-disposition",
+      "decision": "Preserve #85 as a genuine frozen sensitivity design with final disposition not_planned / obsolete-no-action; execution remained unauthorized, no empirical result exists, and no retrospective execution evidence may be manufactured.",
+      "status": "active",
+      "superseded_by": null
+    }
+  ],
+  "recommendations": [],
+  "open_questions": [],
+  "metrics_ledger_refs": []
+}

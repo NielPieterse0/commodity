@@ -4,17 +4,915 @@
   "issue": 300,
   "supersedes_issue": 273,
   "status": "active_for_new_research_after_merge",
-  "lifecycle_stages": ["helicopter_view","gap","evidence_led_zoom_in","quality_literature","mechanism","hypothesis","expected_and_disconfirming_observations","feasibility","preregister_and_freeze_if_applicable","execute","verify","compare_observed_vs_expected","external_post_result_triangulation","programme_conclusion","active_revisit_triggers"],
+  "lifecycle_stages": [
+    "helicopter_view",
+    "gap",
+    "evidence_led_zoom_in",
+    "quality_literature",
+    "mechanism",
+    "hypothesis",
+    "expected_and_disconfirming_observations",
+    "feasibility",
+    "preregister_and_freeze_if_applicable",
+    "execute",
+    "verify",
+    "compare_observed_vs_expected",
+    "external_post_result_triangulation",
+    "programme_conclusion",
+    "active_revisit_triggers"
+  ],
   "new_exploratory_schema_version": 3,
   "literature_snapshot_contract": "contracts/literature_snapshot.schema.json",
-  "revisit_trigger_registry": "config/research_revisit_triggers.json",
-  "new_confirmatory_execution_requires": ["complete_research_lifecycle","quality_literature_snapshot","valid_preregistration","passed_mepi_power_gate","programme_inference_registration","revisit_trigger_preflight","sealed_window_eligibility_if_used","remote_bound_preregistration_freeze","verified_dataset_reconstruction","verified_dataset_semantics"],
-  "new_exploratory_execution_requires": ["schema_version_3","verified_dataset_reconstruction","verified_dataset_semantics","immutable_data_assurance_manifest"],
-  "legacy_exploratory_schema_versions": [1, 2],
-  "legacy_evidence": {"completed_v1_v2_rewritten": false, "authority": ["config/experiment.json","config/experiment_candidates.json","contracts/experiment.schema.json"], "phase_d_v1_status": "preserved_known_predictor_defect", "phase_d_v1_defect": "pre_roll_safe_market_predictors", "reuse_as_current_clean_evidence": false, "supersession_rule": "re-freeze and rerun under verified reconstruction and semantic-correctness controls only if the V1 conclusion becomes decision-relevant"},
-  "truth_classes": ["PROVEN","CHECKED","RECORDED"],
-  "evidence_levels": ["E0","E1","E2","E3","E4","E5","E6"],
-  "human_dispositions": ["advance","replicate","refine","branch","hold","stop"],
+  "revisit_trigger_registry": "research/programmes/001-commodity-natural-gas/revisit-triggers.json",
+  "new_confirmatory_execution_requires": [
+    "complete_research_lifecycle",
+    "quality_literature_snapshot",
+    "valid_preregistration",
+    "passed_mepi_power_gate",
+    "programme_inference_registration",
+    "revisit_trigger_preflight",
+    "sealed_window_eligibility_if_used",
+    "remote_bound_preregistration_freeze",
+    "verified_dataset_reconstruction",
+    "verified_dataset_semantics"
+  ],
+  "new_exploratory_execution_requires": [
+    "schema_version_3",
+    "verified_dataset_reconstruction",
+    "verified_dataset_semantics",
+    "immutable_data_assurance_manifest"
+  ],
+  "dataset_reconstruction_verification_method": "deterministic_rebuild_exact_comparison",
+  "dataset_semantic_verification_method": "explicit_dataset_semantics_v1",
+  "legacy_exploratory_schema_versions": [
+    1,
+    2
+  ],
+  "legacy_evidence": {
+    "completed_v1_v2_rewritten": false,
+    "curated_programme_lineage": "research/programmes/*/lines/*/experiments/*/legacy-record.json",
+    "legacy_record_contract": "contracts/legacy_experiment_record.schema.json",
+    "historical_identity": [
+      "git-history:config/experiment.json",
+      "git-history:config/experiment_candidates.json",
+      "git-history:config/phase_d_evaluation.json",
+      "git-history:contracts/experiment.schema.json"
+    ],
+    "phase_d_v1_status": "preserved_known_predictor_defect",
+    "phase_d_v1_defect": "pre_roll_safe_market_predictors",
+    "reuse_as_current_clean_evidence": false,
+    "supersession_rule": "re-freeze and rerun under verified reconstruction and semantic-correctness controls only if the V1 conclusion becomes decision-relevant"
+  },
+  "truth_classes": [
+    "PROVEN",
+    "CHECKED",
+    "RECORDED"
+  ],
+  "evidence_levels": [
+    "E0",
+    "E1",
+    "E2",
+    "E3",
+    "E4",
+    "E5",
+    "E6"
+  ],
+  "human_dispositions": [
+    "advance",
+    "replicate",
+    "refine",
+    "branch",
+    "hold",
+    "stop"
+  ],
   "execution_authority": false,
-  "trading_policy_owner": "config/policy.json"
+  "trading_policy_owner": "config/trading-policy.json",
+  "research_hierarchy": {
+    "artifact_zoom_level_required": true,
+    "levels": [
+      {
+        "level": "L0",
+        "name": "Repository mandate",
+        "definition": "Repository North Star defined by AGENTS.md: the durable Commodity platform purpose and primary objectives that direct all L1-L5 work."
+      },
+      {
+        "level": "L1",
+        "name": "Research programme",
+        "definition": "Where might economically useful predictive information come from, and what does the accumulated evidence say?"
+      },
+      {
+        "level": "L2",
+        "name": "Research line",
+        "definition": "One mechanism/information family or economically distinct question."
+      },
+      {
+        "level": "L3",
+        "name": "Confirmatory experiment",
+        "definition": "One frozen hypothesis and design."
+      },
+      {
+        "level": "L4",
+        "name": "Run/analysis",
+        "definition": "One execution under an L3 contract."
+      },
+      {
+        "level": "L5",
+        "name": "Interpretation / diagnostic / exploration",
+        "definition": "Post-result scientific interpretation and bounded diagnostic/exploratory investigation that cannot silently become confirmatory evidence or rewrite L4 results."
+      }
+    ],
+    "promotion_rule": "Evidence from L4/L5 never silently becomes an L0/L1 claim. Promotion upward is explicit and evidence-linked.",
+    "north_star_rule": "L0 is the North Star and directional authority for L1-L5. Every lower-level research artifact must state how it serves L0, and no L1-L5 result, experiment, run or diagnostic may redefine L0 from below."
+  },
+  "zoom_level_contracts": {
+    "research/programmes/*/programme.json": "L1",
+    "research/programmes/*/evidence-map.json": "L1",
+    "research/programmes/*/inference-ledger.json": "L1",
+    "research/programmes/*/decisions.json": "L1",
+    "research/programmes/*/backlog.json": "L1",
+    "research/programmes/*/sealed-windows.json": "L1",
+    "research/programmes/*/revisit-triggers.json": "L1",
+    "research/programmes/*/evidence-scans/*.json": "L1",
+    "research/programmes/*/lines/*/line.json": "L2",
+    "research/programmes/*/lines/*/experiments/*/legacy-record.json": "L3",
+    "research/programmes/*/lines/*/experiments/*/prereg.json": "L3",
+    "research/programmes/*/lines/*/experiments/*/results.json": "L4",
+    "exploratory_run": "L5"
+  },
+  "governed_research_workflow": [
+    {
+      "step": 1,
+      "stage_id": "helicopter_view",
+      "zoom_level": "L0 → L1",
+      "stage": "Helicopter view",
+      "required_outcome": "Restate the fixed L0 North Star and the current L1 programme picture before choosing a local question."
+    },
+    {
+      "step": 2,
+      "stage_id": "gap",
+      "zoom_level": "L1",
+      "stage": "Gap",
+      "required_outcome": "Identify the specific unresolved uncertainty that matters to a programme decision and bound what is outside scope."
+    },
+    {
+      "step": 3,
+      "stage_id": "evidence_led_zoom_in",
+      "zoom_level": "L1 → L2 → L3",
+      "stage": "Evidence-led zoom-in",
+      "required_outcome": "Select the research line and candidate slice from accumulated evidence and expected information value rather than novelty."
+    },
+    {
+      "step": 4,
+      "stage_id": "quality_literature",
+      "zoom_level": "L2 → L3",
+      "stage": "Quality literature",
+      "required_outcome": "Build the slice-specific literature snapshot that determines mechanism, expected effects, pitfalls, benchmarks and appropriate tests."
+    },
+    {
+      "step": 5,
+      "stage_id": "mechanism",
+      "zoom_level": "L3",
+      "stage": "Mechanism",
+      "required_outcome": "State the economic or market mechanism and why it should produce a measurable effect."
+    },
+    {
+      "step": 6,
+      "stage_id": "hypothesis",
+      "zoom_level": "L3",
+      "stage": "Hypothesis",
+      "required_outcome": "State the falsifiable H0 and H1 for the bounded slice before protected outcomes are used."
+    },
+    {
+      "step": 7,
+      "stage_id": "expected_and_disconfirming_observations",
+      "zoom_level": "L3",
+      "stage": "Expected and disconfirming observations",
+      "required_outcome": "Freeze literature-derived expected and disconfirming observations and the practical-effect threshold before protected outcomes."
+    },
+    {
+      "step": 8,
+      "stage_id": "feasibility",
+      "zoom_level": "L3",
+      "stage": "Feasibility",
+      "required_outcome": "Test data fitness, dependence, effective information, MEPI, power and confirmation capacity; only an informative design may proceed."
+    },
+    {
+      "step": 9,
+      "stage_id": "preregister_and_freeze_if_applicable",
+      "zoom_level": "L3",
+      "stage": "Governed implementation + preregister and freeze if applicable",
+      "required_outcome": "Implement and verify the exact runnable design, then preregister/freeze and remotely bind any confirmatory commitment before protected execution."
+    },
+    {
+      "step": 10,
+      "stage_id": "execute",
+      "zoom_level": "L4",
+      "stage": "Execute",
+      "required_outcome": "Run exactly the governed exploratory or frozen confirmatory design and preserve raw machine result evidence before interpretation."
+    },
+    {
+      "step": 11,
+      "stage_id": "verify",
+      "zoom_level": "L4",
+      "stage": "Verify",
+      "required_outcome": "Verify identities, data assurance, leakage controls, confirmation eligibility/accounting, reproduction and objective evidence classification without narrative promotion."
+    },
+    {
+      "step": 12,
+      "stage_id": "compare_observed_vs_expected",
+      "zoom_level": "L5",
+      "stage": "Compare observed versus expected",
+      "required_outcome": "Compare the preserved result explicitly with preregistered expectations, disconfirmers, MEPI and symmetric anomaly triggers."
+    },
+    {
+      "step": 13,
+      "stage_id": "external_post_result_triangulation",
+      "zoom_level": "L5",
+      "stage": "External post-result triangulation",
+      "required_outcome": "Perform a genuinely independent post-result literature/evidence check rather than reusing the preregistration snapshot."
+    },
+    {
+      "step": 14,
+      "stage_id": "programme_conclusion",
+      "zoom_level": "L5 → L1/L2",
+      "stage": "Programme conclusion",
+      "required_outcome": "Retrace L4→L0, apply programme-level inference, update the evidence map and make the explicit advance/replicate/refine/branch/hold/stop disposition."
+    },
+    {
+      "step": 15,
+      "stage_id": "active_revisit_triggers",
+      "zoom_level": "L1/L2",
+      "stage": "Active revisit triggers",
+      "required_outcome": "For HOLD/DEFER, maintain machine-testable revisit conditions and evaluation history so any resumed work has a traceable successor identity."
+    }
+  ],
+  "governed_research_workflow_details": [
+    {
+      "step": 1,
+      "stage_id": "helicopter_view",
+      "zoom_level": "L0 → L1",
+      "title": "Helicopter view",
+      "purpose": "Restate the fixed L0 repository mandate and the current L1 programme bigger picture before choosing a local question. The programme must reason from the complete governed history rather than starting from the newest model, dataset or idea.",
+      "north_star_source": "AGENTS.md#Commodity-and-Primary-objective",
+      "stability_rules": [
+        "L0 changes only when the repository purpose or primary objectives themselves change.",
+        "L1-L5 work must remain directionally aligned to L0 but cannot redefine it from below.",
+        "Market-, instrument-, venue-, contract-, data-source- and execution-specific differences remain bounded below L0."
+      ],
+      "core_question": "Given the fixed L0 North Star and everything the programme has already tried and learned, what does the bigger picture currently say?",
+      "evidence_inputs": [
+        "best available external academic and web evidence",
+        "accumulated internal governed evidence",
+        "experiment history",
+        "programme inference ledger"
+      ],
+      "history_synthesis_sources": [
+        "research/programmes/<programme-id>/programme.json#line_refs",
+        "research/programmes/<programme-id>/evidence-map.json#retrospective_synthesis",
+        "research/programmes/<programme-id>/lines/<research-line-id>/line.json#experiment_history",
+        "research/programmes/<programme-id>/inference-ledger.json",
+        "research/programmes/<programme-id>/decisions.json",
+        "research/programmes/<programme-id>/revisit-triggers.json"
+      ],
+      "programme_synthesis_lenses": [
+        "Selection/data-snooping lens — repeated searches, model variants, predictor families and strategy variants count as accumulated search history rather than independent fresh ideas (White 2000; Sullivan, Timmermann & White 1999; Harvey, Liu & Zhu 2016; Bailey & López de Prado).",
+        "Candidate-family lens — judge a claimed winner against the family of alternatives actually tried or implicitly searched, not only against the final reported comparator (Hansen 2005 SPA).",
+        "Model-uncertainty lens — when evidence does not distinguish a unique winner, preserve uncertainty rather than manufacturing a champion (Hansen, Lunde & Nason 2011 MCS).",
+        "Effective-information lens — calendar rows are not independent evidence; dependence, overlap, clustering, regimes and conditional sampling reduce effective information and must affect programme confidence.",
+        "Forecast-comparison validity lens — do not generalize a test statistic or benchmark comparison beyond the design conditions under which it is interpretable (Diebold forecast-comparison clarification).",
+        "Economic/backtest-realism lens — statistical improvement is not a platform edge unless it can survive selection effects, costs, turnover, execution, uncertainty and risk constraints."
+      ],
+      "history_reasoning_rules": [
+        "Aggregate evidence across the complete governed experiment history; a new model name or nearby specification does not reset prior negative evidence or multiple-testing burden.",
+        "Keep narrow negative evidence narrow: a failed model/target/horizon rules out that tested claim, not an entire information family or the Commodity platform mission.",
+        "Keep diagnostics and replications distinct from trading evidence: interesting structure can justify a new branch without being promoted into an edge claim.",
+        "Track historical-window reuse and confirmation capacity explicitly; reused development windows cannot silently become fresh confirmation.",
+        "Prefer branches that test a materially different mechanism, target, horizon, instrument, information family or decision role when nearby variants have repeatedly failed.",
+        "Use the whole history to decide what not to research again; stopping is a positive L0 programme decision when expected information value is low.",
+        "Because Commodity is instrument-independent at L0, accumulated natural-gas evidence informs methodology and branch selection but cannot collapse the platform mission into one market."
+      ],
+      "governing_principles": [
+        "Optimize the research programme for information gained per genuinely independent confirmation evidence, not for the number of experiments completed.",
+        "Preserve and spend independent confirmation capacity deliberately; repeated reuse of the same historical outcomes does not create fresh independent evidence.",
+        "Store governed facts once in their canonical machine-readable owner, reference them elsewhere, and generate prose only for human use."
+      ],
+      "evidence_exposure_hierarchy": [
+        "Development — available for fitting, feature work, debugging, model selection and exploratory research.",
+        "Rolling research OOS — multiple chronological historical test periods used for development-time evaluation; repeated reuse makes them partly research-trained and they must not be described as pristine confirmation.",
+        "Reserved confirmation — a chronologically later block whose identity may be known but whose outcomes must not influence fitting, feature/model/hyperparameter/threshold selection, hypothesis formulation or redesign before freeze.",
+        "True forward evidence — newly arriving post-freeze observations; the strongest independence class."
+      ],
+      "legacy_evidence_rules": [
+        "Completed V1/V2 work remains historical evidence under the contracts that governed it and is not rewritten to manufacture retrospective preregistration.",
+        "Frozen but unexecuted legacy work may migrate only when protected outcome evidence has not been consumed, using a new preregistration identity with explicit lineage.",
+        "Known-defective historical evidence remains preserved with its defect disposition and cannot silently become current clean evidence."
+      ],
+      "methodological_canon_rule": "Emphasize financial-research failure modes first, while retaining general reproducibility and preregistration literature as supporting methodology. Slice reviews should store stable reference IDs rather than copy long literature summaries into every experiment.",
+      "programme_reasoning_output": "A concise L1 synthesis stating what the total governed history now supports, what it weakens, which search paths should not be repeated, what remains genuinely open, and which broad uncertainty has the highest expected information value before feasibility screening.",
+      "completion_condition": "The fixed L0 mandate and current L1 evidence state are explicit, including prior negative evidence, reused history, confirmation capacity and the broad uncertainties that remain genuinely open."
+    },
+    {
+      "step": 2,
+      "stage_id": "gap",
+      "zoom_level": "L1",
+      "title": "Gap",
+      "purpose": "Identify one specific uncertainty that matters to a programme decision before choosing an experiment.",
+      "required_inputs": [
+        "current L1 programme synthesis from Step 1",
+        "programme stopping state",
+        "remaining confirmation capacity",
+        "open recommendations/revisit triggers"
+      ],
+      "gap_rules": [
+        "The gap must be decision-relevant: resolving it could change a programme or research-line action.",
+        "State one primary uncertainty and what remains outside scope so the work cannot silently expand.",
+        "Do not define a gap merely because a technique, model or dataset is technically interesting.",
+        "A repeatedly tested near-neighbour is not a new gap unless mechanism, target, horizon, information source, instrument or decision role changes materially."
+      ],
+      "required_output": {
+        "artifact_ref": "future research-line/slice candidate",
+        "fields": [
+          "programme question",
+          "decision-relevant gap",
+          "why it matters",
+          "outside scope"
+        ]
+      },
+      "completion_condition": "One bounded, decision-relevant programme uncertainty is explicit and worth considering for evidence-led zoom-in."
+    },
+    {
+      "step": 3,
+      "stage_id": "evidence_led_zoom_in",
+      "zoom_level": "L1 → L2 → L3",
+      "title": "Evidence-led zoom-in",
+      "purpose": "Choose the research line and candidate experimental slice because the accumulated evidence says it has high expected information value, not because it is novel.",
+      "scope_when_relevant": [
+        "return/price predictability",
+        "volatility",
+        "storage/fundamentals",
+        "weather",
+        "term structure/carry",
+        "positioning/flows",
+        "macro and energy cross-market effects",
+        "seasonality/regimes",
+        "foundation/time-series models",
+        "alternative targets/horizons",
+        "transaction costs and economic viability"
+      ],
+      "selection_inputs": [
+        "current L1 evidence synthesis",
+        "L1 feasibility map",
+        "programme stopping state",
+        "remaining independent confirmation capacity"
+      ],
+      "selection_rules": [
+        "Prefer a line that can materially change a programme belief or decision.",
+        "Do not reopen a repeatedly rejected near-neighbour line without a materially new mechanism, target, horizon, information source, instrument or decision role.",
+        "Keep negative evidence scoped to the tested claim; do not reject a whole information family merely because one implementation failed.",
+        "A research line may be selected for scientific learning even when immediate trading usefulness is not yet established, provided the information value is explicit.",
+        "Trace the selected slice to strong external evidence, a clear unresolved contradiction or a high-value gap in the programme evidence map.",
+        "Do not select a slice merely because it is novel or technically interesting.",
+        "The selected slice must state the parent question, the one uncertainty reduced now and what remains outside scope.",
+        "Material changes to target, horizon, conditioning, frequency, sample construction, information source or mechanism create a new slice identity."
+      ],
+      "required_output": {
+        "artifact_ref": "research/programmes/<programme-id>/programme.json#line_refs + research/programmes/<programme-id>/lines/<research-line-id>/line.json plus future preregistration candidate",
+        "fields": [
+          "research_line_id",
+          "slice_id",
+          "why_zoomed_in",
+          "parent_question",
+          "uncertainty_reduced",
+          "outside_scope"
+        ]
+      },
+      "completion_condition": "One evidence-led L2 line and bounded L3 candidate slice are selected; feasibility and detailed design remain unapproved until later stages."
+    },
+    {
+      "step": 4,
+      "zoom_level": "L2 → L3",
+      "title": "Quality literature",
+      "purpose": "Research the selected slice deeply enough that the mechanism, expectations, benchmarks, failure modes and test design are derived from reputable primary or high-quality sources rather than post-hoc storytelling.",
+      "review_scope": [
+        "mechanism and causal/economic rationale",
+        "closest prior empirical results",
+        "known failure modes and confounders",
+        "expected effect magnitude and direction where literature supports it",
+        "appropriate targets, horizons, estimators, benchmarks and statistical tests",
+        "data requirements, timing semantics and known leakage risks",
+        "evidence that would contradict or materially weaken the proposed mechanism"
+      ],
+      "rules": [
+        "The review answers Exactly how should we test this? and is narrower/deeper than the L1 programme scan.",
+        "Use stable literature/reference IDs rather than duplicating long summaries into each experiment.",
+        "The experiment direction must be derived from the literature plus programme evidence, not reverse-engineered around available protected results.",
+        "If the literature undermines the selected line or suggests the proposed test is not interpretable, return to L2/L1 rather than forcing an experiment."
+      ],
+      "required_output": {
+        "artifact_ref": "slice literature snapshot",
+        "fields": [
+          "reference_ids",
+          "mechanism_summary",
+          "prior_results",
+          "pitfalls",
+          "expected_magnitude",
+          "recommended_tests"
+        ]
+      },
+      "completion_condition": "The literature review yields a defensible mechanism/test direction or sends the programme back for redesign/hold/stop.",
+      "stage_id": "quality_literature"
+    },
+    {
+      "step": 5,
+      "stage_id": "mechanism",
+      "zoom_level": "L3",
+      "title": "Mechanism",
+      "purpose": "State the causal/economic/market mechanism that connects the permitted information set to the target before protected outcomes are examined.",
+      "mechanism_rules": [
+        "Tie every material mechanism claim to the Step 4 literature snapshot or explicitly mark it as a programme hypothesis.",
+        "State the expected direction and relevant boundary/regime conditions when the literature supports them.",
+        "Identify plausible confounders, measurement failures and timing assumptions that could mimic the mechanism.",
+        "If the mechanism cannot produce a measurable effect under available data semantics, return to Step 2/3 rather than forcing a test."
+      ],
+      "completion_condition": "The slice has a source-linked, economically interpretable mechanism with explicit boundaries and confounders."
+    },
+    {
+      "step": 6,
+      "stage_id": "hypothesis",
+      "zoom_level": "L3",
+      "title": "Hypothesis",
+      "purpose": "Translate the mechanism into a falsifiable null and alternative before protected outcomes are used.",
+      "hypothesis_rules": [
+        "State formal H0 and H1 narrowly enough that success, failure and inconclusive outcomes are distinguishable.",
+        "Keep statistical hypotheses distinct from E0?E6 scientific evidence levels.",
+        "Do not broaden or rewrite H0/H1 after observing protected results; a material change creates a new experiment identity."
+      ],
+      "required_output": {
+        "artifact_ref": "future prereg.json#hypotheses",
+        "fields": [
+          "H0",
+          "H1",
+          "claim scope"
+        ]
+      },
+      "completion_condition": "A falsifiable H0/H1 pair exists for the exact bounded slice."
+    },
+    {
+      "step": 7,
+      "stage_id": "expected_and_disconfirming_observations",
+      "zoom_level": "L3",
+      "title": "Expected and disconfirming observations",
+      "purpose": "Derive both expected and disconfirming observations from Step 4 literature and the Step 5 mechanism before looking at the relevant protected result, and precommit the practical-effect threshold.",
+      "expectation_rules": [
+        "Expected and disconfirming observations must be symmetric enough that unexpectedly attractive results receive at least as much scrutiny as disappointing ones.",
+        "Where literature supports magnitude or direction, record it before protected results; otherwise record the uncertainty rather than inventing precision.",
+        "Define scientific MEPI and economic MEPI where a trading-usefulness claim is intended; MEPI must be derivable from declared inputs and cannot be invented after results.",
+        "Define success, failure and inconclusive logic before protected outcomes."
+      ],
+      "design_elements": [
+        "expected observations",
+        "disconfirming observations",
+        "scientific_mepi",
+        "economic_mepi where applicable",
+        "success/failure/inconclusive logic"
+      ],
+      "completion_condition": "The slice has source-derived expectations, disconfirmers and practical-effect thresholds that can be checked without post-result reinterpretation."
+    },
+    {
+      "step": 8,
+      "stage_id": "feasibility",
+      "zoom_level": "L3",
+      "title": "Feasibility",
+      "purpose": "Determine whether the exact proposed design is informative enough to justify implementation and any use of reserved confirmation evidence.",
+      "gate_sequence": [
+        "economic/scientific relevance",
+        "detectable effect",
+        "available information",
+        "go/no-go"
+      ],
+      "mepi_definition": "MEPI — Minimum Effect of Practical Importance — is an L1/L2 programme quantity and must not be invented after observing results.",
+      "mepi_types": {
+        "scientific_mepi": "Smallest forecasting/statistical effect worth learning about.",
+        "economic_mepi": "Smallest effect plausibly useful after spread, slippage, fees, turnover and risk constraints."
+      },
+      "mepi_rules": [
+        "MEPI must be derivable from declared inputs.",
+        "A trading-usefulness claim requires an economic MEPI.",
+        "A pure volatility or forecasting question may legitimately begin with a scientific MEPI."
+      ],
+      "detectability_rules": [
+        "Power and detectability must use the actual experiment design.",
+        "No universal hard-coded sample-size table is authoritative.",
+        "Serial dependence, overlapping horizons, event clustering, regimes and conditional sampling must be reflected in the chosen method."
+      ],
+      "required_dimensions": [
+        "target",
+        "horizon",
+        "information_family",
+        "scientific_mepi",
+        "economic_mepi where applicable",
+        "raw_information",
+        "effective_information",
+        "detectable_effect",
+        "expected_snr",
+        "costs",
+        "feasibility"
+      ],
+      "gate_inputs": [
+        "MEPI from Step 7",
+        "raw observation count",
+        "dependence-adjusted information",
+        "target/horizon/sample construction",
+        "planned estimator/statistic and uncertainty procedure",
+        "reasonable dependence sensitivity choices"
+      ],
+      "dependence_rules": [
+        "effective_n is never a hand-entered trusted number; record raw count, dependence structure, estimator/method, parameters, computed effective information and sensitivity.",
+        "Use HAC/Newey-West, block bootstrap, clustered/event treatment, overlapping-horizon treatment or another justified method as appropriate.",
+        "Not every statistic requires one universal scalar effective sample size; record the dependence-adjusted information quantity appropriate to the design."
+      ],
+      "confirmation_capacity_rules": [
+        "Use multiple chronological rolling research-OOS periods across the development history rather than relying on one arbitrary middle holdout.",
+        "Reserve the chronologically latest usable block for independent confirmation under the planning default declared by config/research_dataset.json; that default is not a universal rule, and the actual share must be justified by horizon, dependence, power, regime coverage, usable history and remaining confirmation capacity.",
+        "Where targets or forecast horizons overlap across a split boundary, use purging, embargo or an equivalent design-specific boundary control.",
+        "Do not spend reserved confirmation data on an experiment whose MEPI/power gate cannot make the opening informative."
+      ],
+      "failure_actions": [
+        "redesign",
+        "hold",
+        "stop"
+      ],
+      "redesign_rule": "A material redesign changes the scientific question and receives a new slice/experiment identity; do not execute first and explain underpower afterwards.",
+      "completion_condition": "Only a scientifically/economically relevant, data-fit and adequately detectable design with justified confirmation capacity may cross into governed implementation."
+    },
+    {
+      "step": 9,
+      "zoom_level": "L3",
+      "title": "Governed implementation + preregister and freeze if applicable",
+      "purpose": "Cross from research design into active repository work: create a governed .work change for the selected experiment, implement the exact runnable experiment code/data/config/test slice, verify it, and only then freeze and bind the executable scientific commitment before protected execution.",
+      "repo_transition": ".work begins here. The approved L3 experiment/preregistration is the implementation specification. Do not create a second implementation spec: translate the experiment contract directly into repository code, tests, configuration and evidence under the governed change.",
+      "governed_change_requirements": [
+        "create/claim the governed experiment change under .work/changes/<change-id>/ through the live KIS lifecycle",
+        "reference the approved L3 experiment/preregistration as the implementation specification; do not restate, duplicate or redefine it in a second .work spec",
+        "record only the implementation translation plan: affected repo owners, code/test tasks, TDD sequence, risks, review steps and verification evidence",
+        "use the authoritative schema-v4 change classification — complexity, risk_triggers and work_management.documentation_impact — to determine any separate documentation work; documentation impact never creates another experiment/specification artifact",
+        "load develop-code and every applicable TDD, data, research/statistics, code-review and code-verification skill before translating the experiment into repository behavior",
+        "implement required reusable code, bounded adapters, data construction, configuration, schemas and tests in their canonical repository owners",
+        "preserve experiment-specific scientific authority beneath its parent line at research/programmes/<programme-id>/lines/<research-line-id>/experiments/<experiment-id>/ rather than .work",
+        "run deterministic pre-CI verification using the active worktree-local .venv"
+      ],
+      "implementation_quality_gate": [
+        "derive tests from the intended scientific/software contract and acceptance criteria rather than from the implementation's own assumptions",
+        "use test-driven development for behavior changes unless the governed KIS change records a justified exception",
+        "add adversarial and regression coverage for boundary conditions, failure modes, leakage/PIT risks, identity mismatches and previously observed defect classes relevant to the slice",
+        "use an independent oracle, reconstruction path, reference calculation or verifier wherever feasible so correctness is not self-certified by the code under test",
+        "for data transformations or derived datasets, independently reconstruct and compare against authoritative inputs/semantics where feasible rather than only checking internal consistency",
+        "prove the literature-derived implementation by replicating the relevant published/reference result on the repository's correctly normalized, semantically verified data before treating the new experiment direction as faithful to that literature",
+        "record any material replication mismatch as a scientific finding that returns the slice to the appropriate earlier research step rather than hiding the mismatch inside implementation tuning",
+        "run the focused tests plus the full affected regression suite; do not suppress, weaken or relabel regressions to obtain a green result",
+        "perform code review against design intent, implementation correctness, test relevance, edge cases and failure handling",
+        "obtain independent review for high-risk experiment/data/methodology implementation before freeze when feasible",
+        "any implementation edit after review or verification invalidates the affected evidence and requires the applicable checks/review to be rerun"
+      ],
+      "environment_reproduction": {
+        "logical_reproduction": "Same dataset, prediction and result identities within the declared numerical tolerance contract.",
+        "byte_reproduction": "Exact bytes only where runtime, hardware and serialization semantics make bitwise identity meaningful.",
+        "required_identity": [
+          "lockfile/dependency identity",
+          "interpreter/runtime identity",
+          "model/checkpoint identity",
+          "hardware-sensitive facts where numerically relevant",
+          "declared numerical tolerance policy"
+        ],
+        "rule": "Bitwise equality is not universal scientific proof; the experiment must declare whether logical or byte reproduction is authoritative for each governed output."
+      },
+      "freeze_gate": [
+        "validate preregistration schema",
+        "resolve current programme evidence and inference-ledger context",
+        "recompute MEPI",
+        "recompute power/detectability and dependence-adjusted information",
+        "check benchmark declarations",
+        "check symmetric coherence/anomaly triggers",
+        "allocate/register programme inference entry",
+        "validate reserved-confirmation/sealed-window policy and eligibility",
+        "refuse an uninformative design",
+        "bind exact preregistration content to canonical SHA-256 and remote repository evidence",
+        "record immutable freeze identity and amendment lineage"
+      ],
+      "preregistration_freeze_requirements": [
+        "programme, research-line and slice identities plus evidence-scan and literature-snapshot references",
+        "mechanism, H0/H1, expected and disconfirming observations, and scientific/economic MEPI derivation",
+        "target, horizon, prediction-time, target-time and information-cutoff semantics",
+        "dataset and vintage identities, sample roles, historical windows and the development/rolling-OOS/reserved-confirmation allocation",
+        "dependence-adjustment method, parameters and generated effective-information calculation",
+        "feature/preprocessing identities and permitted information families",
+        "model/configuration/checkpoint identities and training rules",
+        "primary and secondary metrics, uncertainty/inference procedure, statistical family and candidate family",
+        "benchmarks including market-informed comparators where economically relevant",
+        "programme multiple-testing/inference-ledger identity",
+        "reserved-confirmation/sealed-window policy, eligibility and opening rules",
+        "symmetric anomaly/coherence triggers frozen before unblinding",
+        "success, failure and inconclusive logic plus the permitted human disposition enum",
+        "environment identity and logical/byte reproduction tolerance policy",
+        "lineage for any predecessor, amendment or exploratory ancestry"
+      ],
+      "benchmark_rules": [
+        "Where a liquid market-implied quantity is economically related to the target, normally include it as a benchmark or explanatory comparator.",
+        "A market-implied comparator is a tradable market comparator and must not be described automatically as an unbiased forecast or true expectation.",
+        "Depending on the target, valid comparators may include futures/curve, current settlement, carry-implied relationships, market-implied volatility, seasonal or naive forecasts, and simple econometric baselines."
+      ],
+      "confirmation_data_rules": [
+        "The reserved confirmation block is governed by config/research_dataset.json and may be known by identity; independence is about non-use in design, fitting and selection before freeze, not secrecy.",
+        "Exploratory/L5 work must not use reserved confirmation outcomes for fitting, feature/model/hyperparameter/threshold selection, hypothesis formulation or redesign.",
+        "After freeze, the frozen design may generate predictions and evaluate them on eligible reserved confirmation observations.",
+        "Once reserved confirmation outcomes influence redesign or selection, those observations are consumed as independent confirmation evidence for that design and cannot be reused as fresh confirmation.",
+        "Opening/accounting for governed confirmation windows must record identity, eligibility, opening number, permitted openings, exposed artifacts and whether later claim use remains admissible."
+      ],
+      "binding_semantics": [
+        "preregistration_remote_bound: verified means the exact canonical preregistration content existed remotely no later than the recorded repository event.",
+        "Remote binding proves the repository publication event only; it does not prove that nobody viewed relevant outcomes elsewhere before freeze.",
+        "Released preregistration content is immutable; amendment creates a new preregistration identity that explicitly supersedes the old one."
+      ],
+      "scientific_artifact_model": [
+        "The linked GitHub Project issue is the human-facing research-slice record; do not create a second slice narrative/specification in repository Markdown.",
+        "prereg.json — human-authored immutable L3 scientific commitment.",
+        "results.json — machine-authored L4 execution/result evidence bound to the preregistration identity.",
+        "interpretation.md — human L5 scientific interpretation written only after results exist and bound to both preregistration and results identities.",
+        "executive-summary.md — generated operator-facing view, not an additional source of scientific authority.",
+        "record.json — compact durable completed-experiment index linking origin, frozen setup, result, interpretation, programme consequence, decisions, recommendations and open questions; it references canonical authorities rather than duplicating or competing with them.",
+        "Reference direction is one-way: results bind to preregistration; interpretation binds to preregistration and results; generated views and record.json project/reference those authorities. Per-slice Markdown is not required merely to narrate the slice."
+      ],
+      "automation_and_enforcement": [
+        "The methodology is enforced incrementally through schemas, freeze, verification, power checks, dataset assurance, programme-inference integrity, reserved-confirmation accounting, leakage/coherence checks and reproduction controls.",
+        "Current experiment automation includes register, verify, verify-power, freeze, can-run, open-sealed, build-results, verify-results, audit-leakage, reproduce and executive-summary surfaces where implemented.",
+        "Repository CI/pre-CI enforcement must reject methodology/schema drift rather than relying on operator memory or documentation alone."
+      ],
+      "rules": [
+        "Protected results remain unopened throughout implementation and freeze.",
+        "Implementation may reveal engineering infeasibility; if it changes the scientific design, return to the appropriate earlier research step and issue a new design identity rather than silently mutating the preregistration.",
+        "Released preregistration is immutable; amendments create a new identity that explicitly supersedes the previous one.",
+        ".work is operational/change history, not scientific authority."
+      ],
+      "completion_condition": "The experiment has a verified runnable repository implementation and an immutable remotely bound preregistration/freeze identity; only then may protected execution begin.",
+      "stage_id": "preregister_and_freeze_if_applicable"
+    },
+    {
+      "step": 10,
+      "stage_id": "execute",
+      "zoom_level": "L4",
+      "title": "Execute",
+      "purpose": "Run exactly the governed exploratory or frozen confirmatory design and preserve machine-authored raw evidence before any human interpretation.",
+      "execution_rules": [
+        "Execute only the frozen implementation/configuration and declared data roles.",
+        "Write machine result evidence before human interpretation.",
+        "Results point to the frozen preregistration identity; they do not rewrite it.",
+        "Any deviation that changes the scientific question invalidates the run as confirmation and requires a new design identity.",
+        "For confirmatory work, use reserved confirmation only after the design is frozen and only under its declared eligibility/opening policy.",
+        "Exploratory runs remain explicitly exploratory and cannot be retroactively relabeled as confirmatory evidence.",
+        "Write results.json before interpretation.md; execution evidence must bind to the exact preregistration, code, data, features, model and environment identities."
+      ],
+      "required_output": {
+        "artifact_ref": "research/programmes/<programme-id>/lines/<research-line-id>/experiments/<experiment-id>/results.json",
+        "fields": [
+          "raw evidence",
+          "benchmark comparison",
+          "effect size and uncertainty",
+          "primary/secondary metrics",
+          "predeclared tests",
+          "identity bindings"
+        ]
+      },
+      "completion_condition": "The run is complete and immutable raw machine evidence exists, bound to the exact governed design, ready for independent verification."
+    },
+    {
+      "step": 11,
+      "stage_id": "verify",
+      "zoom_level": "L4",
+      "title": "Verify",
+      "purpose": "Verify the mechanical and bounded-risk promises of the run before narrative interpretation or programme promotion.",
+      "truth_classes": [
+        "PROVEN — deterministic/mechanical assertions",
+        "CHECKED — bounded known-risk checks with honest scope",
+        "RECORDED — human/scientific judgment"
+      ],
+      "truth_class_rules": [
+        "PROVEN is reserved for deterministic/mechanical assertions such as schema, hashes, identities, exact test execution, derived E-level rules and objective accounting.",
+        "CHECKED is bounded known-risk checking and must use honest scoped wording; passing a leakage checklist is not proof that leakage is impossible.",
+        "RECORDED is human/scientific judgment including mechanism plausibility, coherence interpretation, literature reconciliation, hierarchy retrace and recommended next action."
+      ],
+      "evidence_level_definitions": [
+        "E0 — no useful evidence: no consistent useful benchmark-relative effect.",
+        "E1 — interesting signal: direction or magnitude is potentially interesting but uncertainty is large.",
+        "E2 — statistical evidence: predeclared inferential support exists.",
+        "E3 — robust forecasting evidence: survives preregistered OOS, regime/reasonable-loss and robustness requirements.",
+        "E4 — economically meaningful evidence: magnitude plausibly matters after realistic costs and constraints.",
+        "E5 — replicated independent evidence: finding survives genuinely independent data, time, regime or later forward evidence.",
+        "E6 — programme-level evidence: strong enough after programme-level inference controls to materially change the overall programme thesis."
+      ],
+      "evidence_rules": [
+        "Scientific evidence remains E0–E6 and is machine-derived wherever objective rules exist.",
+        "The preserved L4 result is never overwritten by interpretation, correction or later diagnostic work.",
+        "L5 interpretation cannot upgrade the machine-derived E-level by prose.",
+        "Unexpectedly attractive results receive at least as much scrutiny as disappointing results."
+      ],
+      "verification_requirements": [
+        "verify schema, hashes, frozen-preregistration identity, code/data/feature/model/environment identities and declared cardinality/accounting",
+        "verify dataset reconstruction and semantic correctness, including source-bound data assurance where required",
+        "verify reserved-confirmation eligibility, opening number/permitted openings, exposed artifacts and whether those observations remain admissible for later claims",
+        "verify benchmark output presence, MEPI/power arithmetic, inference-ledger membership and objectively encoded E-level rules",
+        "verify reproduction under the declared logical or byte semantics and numerical tolerance contract"
+      ],
+      "leakage_controls": [
+        "check declared point-in-time information cutoffs and target/prediction timing",
+        "check vintage/release timing for fundamentals and exogenous data",
+        "check futures roll and contract identity",
+        "check release calendars, event windows and overlapping horizons",
+        "check joins/cardinality and feature-family availability rules",
+        "apply purging, embargo or an equivalent boundary treatment where target/horizon overlap can contaminate train/test boundaries",
+        "report bounded wording such as 'No known PIT violations detected by the declared checks'; never claim 'No leakage' from a finite checklist"
+      ],
+      "result_preservation_rules": [
+        "The original result is preserved even when verification fails or an anomaly is later explained.",
+        "A correction or material design change creates a new run/preregistration identity with explicit lineage; consumed evidence is never overwritten.",
+        "Method compliance, scientific evidence and human disposition remain orthogonal statuses."
+      ],
+      "orthogonal_status": [
+        "Method compliance: VERIFIED | FAILED | INCOMPLETE",
+        "Scientific evidence: E0 | E1 | E2 | E3 | E4 | E5 | E6",
+        "Human disposition: ADVANCE | REPLICATE | REFINE | BRANCH | HOLD | STOP"
+      ],
+      "completion_condition": "The run has an honest PROVEN/CHECKED verification record and objective E0–E6 classification where mechanically derivable; unresolved scientific judgment remains for L5."
+    },
+    {
+      "step": 12,
+      "stage_id": "compare_observed_vs_expected",
+      "zoom_level": "L5",
+      "title": "Compare observed versus expected",
+      "purpose": "Interpret the preserved L4 result against the exact preregistered expectations, disconfirmers, hypotheses, MEPI and symmetric coherence triggers without rewriting the result.",
+      "interpretation_inputs": [
+        "immutable L4 results.json and verification record",
+        "frozen L3 preregistration",
+        "Step 4 literature snapshot",
+        "Step 5 mechanism",
+        "Step 7 expected/disconfirming observations and MEPI"
+      ],
+      "required_questions": [
+        "Did the observed direction, magnitude and uncertainty match what Step 6 literature and Step 7 expectations predicted?",
+        "If not, is the mismatch evidence against the mechanism, a boundary/measurement issue, a data/implementation concern, or genuinely unresolved?",
+        "Were any unexpectedly good or unexpectedly bad coherence triggers activated, and what bounded checks were performed?",
+        "Did the observed result satisfy the frozen success/failure/inconclusive logic and MEPI threshold?"
+      ],
+      "coherence_trigger_classes": [
+        "implausibly large benchmark improvement",
+        "discontinuity at a data or provider boundary",
+        "sign contrary to a strong preregistered mechanism",
+        "effect concentrated in a few observations, events or regimes",
+        "suspicious feature/target relationship or timing",
+        "material result change after an apparently irrelevant implementation edit"
+      ],
+      "coherence_rules": [
+        "Coherence/anomaly triggers are frozen before unblinding and applied symmetrically to unexpectedly good and unexpectedly bad outcomes.",
+        "A triggered anomaly causes investigation, not selective deletion or silent result repair.",
+        "L5 prose cannot upgrade the machine-derived E-level or convert a failed/incomplete method-compliance state into verified evidence."
+      ],
+      "completion_condition": "The interpretation states exactly where observations agree or conflict with frozen expectations and disconfirmers, with symmetric anomalies explicitly accounted for."
+    },
+    {
+      "step": 13,
+      "stage_id": "external_post_result_triangulation",
+      "zoom_level": "L5",
+      "title": "External post-result triangulation",
+      "purpose": "Perform a fresh literature/evidence check after the result is known so interpretation is tested against independent external context rather than merely reusing the preregistration snapshot.",
+      "triangulation_rules": [
+        "Use an independently identified post-result literature snapshot; do not relabel the Step 4 preregistration literature as post-result triangulation.",
+        "Search for evidence that supports, contradicts or bounds the observed result, including regime/boundary explanations and failed replications where available.",
+        "Record literature reconciliation as RECORDED scientific judgment; external agreement does not mechanically upgrade E-level.",
+        "Preserve the original result and preregistered expectation even when later literature changes interpretation."
+      ],
+      "required_output": {
+        "artifact_ref": "post-result literature snapshot plus interpretation metadata",
+        "fields": [
+          "independent snapshot identity",
+          "supporting evidence",
+          "contradicting evidence",
+          "boundary/regime evidence",
+          "literature reconciliation"
+        ]
+      },
+      "completion_condition": "The result has been triangulated against a genuinely independent post-result evidence search with supporting and disconfirming external context recorded."
+    },
+    {
+      "step": 14,
+      "stage_id": "programme_conclusion",
+      "zoom_level": "L5 → L1/L2",
+      "title": "Programme conclusion",
+      "purpose": "Retrace the result from L4 through L0, interpret it inside the full programme search history, update programme evidence and make one explicit human disposition without rewriting prior evidence.",
+      "hierarchy_retrace": [
+        "L4 — state exactly what the run produced and what is mechanically PROVEN/CHECKED.",
+        "L3 — compare observed versus frozen H0/H1, MEPI, expected/disconfirming observations and success/failure/inconclusive logic.",
+        "L2 — state whether this strengthens, weakens, narrows, redirects or leaves unchanged the selected research line.",
+        "L1 — state the programme implication only after accumulated-history and multiple-testing context; identify what belief or uncertainty changes.",
+        "L0 — state how the updated L1 position serves the fixed repository mandate; never rewrite L0 from below."
+      ],
+      "required_inputs": [
+        "L5 interpretation",
+        "programme inference ledger",
+        "family inference result",
+        "complete experiment history",
+        "historical windows and sealed-window usage"
+      ],
+      "programme_inference_rules": [
+        "Internal cleanliness of one experiment does not erase programme-level data snooping.",
+        "Repeated testing of the same history increases the evidential hurdle.",
+        "Use the preregistered Reality Check, SPA, Model Confidence Set, false-discovery procedure or other justified family-level method; do not pretend experiments are independent.",
+        "A result may remain scientifically interesting while failing to justify a programme-level belief change."
+      ],
+      "update_rules": [
+        "append the experiment and immutable identities to the relevant research-line history",
+        "separate supported, weakened, rejected, diagnostic and still-untested claims",
+        "preserve narrow scope of negative findings",
+        "record consumed confirmation capacity and historical-window reuse",
+        "do not turn RECORDED interpretation into machine evidence"
+      ],
+      "disposition_rules": [
+        "advance only when evidence justifies moving the research line forward",
+        "replicate when independent confirmation has high information value",
+        "refine when the same underlying question remains valid but a bounded design improvement is justified",
+        "branch when a valid unexpected finding creates a distinct research line",
+        "hold when evidence or capacity is insufficient but revisit triggers remain credible",
+        "stop when accumulated negative evidence, poor feasible power, weak economics, exhausted confirmation capacity or low information value makes more work unattractive",
+        "the verifier validates the enum but does not choose the disposition"
+      ],
+      "programme_conclusion_questions": [
+        "What does the result mean for the exact L3 hypothesis and MEPI claim?",
+        "What does it change, if anything, for the parent L2 research line?",
+        "What does it change, if anything, in the L1 accumulated programme evidence after accounting for prior attempts and reused history?",
+        "Does anything here affect how L1 should pursue the fixed L0 North Star? L0 itself is not redefined by the result."
+      ],
+      "documentation_model": [
+        "The linked GitHub Project issue is the human-facing research-slice document; do not create additional per-slice Markdown merely to narrate the slice.",
+        "Confirmatory work keeps compact prereg.json, machine-authored results.json, concise interpretation.md and generated executive-summary.md; record.json links them without becoming a competing scientific authority.",
+        "Exploratory/diagnostic work keeps a small structured run record containing run identity, parent question, purpose, inputs, change, result, promotion decision and optional promoted_to identity.",
+        "Exploratory work may be discarded, continued or promoted, but promotion creates a new confirmatory preregistration; exploration is never retroactively relabeled as confirmation.",
+        "Repository-level generated Markdown remains allowed for durable cross-slice methodology/configuration projections."
+      ],
+      "record_rules": [
+        "A completed confirmatory experiment writes one compact durable record.json whose workflow array mirrors all 15 authoritative methodology stages in exact order.",
+        "Each record stage stores only its stage identity, completion/not-applicable status, a concise statement of what that stage established, and references to the canonical evidence; the record is the durable argument spine, not a duplicate evidence store.",
+        "The complete experiment must be reconstructable by following record.json from Step 1 through Step 15; no methodology stage may exist only in remembered reasoning, chat history or transient .work prose.",
+        "record.json references canonical facts rather than duplicating mutable copies; decisions and unresolved follow-ups are projections from that record/canonical owners, not competing authorities.",
+        "Programme evidence updates append immutable identities and preserve prior state/history rather than rewriting the past."
+      ],
+      "executive_summary_requirements": [
+        "Every completed confirmatory experiment and major research-line update produces a short plain-English operator summary, normally about 120–200 words.",
+        "Use exactly these six headings: Where this fits; Where the idea came from; What we tested; What we saw; What it means for the bigger picture; What next.",
+        "Separate method compliance, scientific evidence and human disposition; include numbers only when they materially affect the decision and avoid methodology dumps or unexplained statistical jargon."
+      ],
+      "required_output": {
+        "artifact_ref": "interpretation.md + programme evidence/inference updates + record.json + generated executive-summary.md",
+        "fields": [
+          "L4→L0 retrace",
+          "programme-level inference",
+          "evidence-map update",
+          "ADVANCE/REPLICATE/REFINE/BRANCH/HOLD/STOP",
+          "record links",
+          "six-part executive summary"
+        ]
+      },
+      "completion_condition": "The experiment closes its scientific loop with an evidence-bound L4→L0 conclusion, programme-level inference, updated L1 state, explicit disposition and durable linked operator record."
+    },
+    {
+      "step": 15,
+      "zoom_level": "L1/L2",
+      "title": "Active revisit triggers",
+      "purpose": "Keep HOLD/DEFER scientifically active rather than leaving a prose reminder: register deterministic revisit conditions, evidence inputs, thresholds and evaluation history, and require a traceable successor before research resumes when a trigger fires.",
+      "required_inputs": [
+        "human disposition from Step 14",
+        "current unresolved uncertainty and reason for HOLD/DEFER",
+        "machine-observable evidence inputs or events that could change the decision",
+        "canonical revisit-trigger registry"
+      ],
+      "rules": [
+        "HOLD/DEFER must have a machine-testable trigger when future evidence could make the question worth revisiting.",
+        "Each trigger declares its evidence source, condition/threshold, evaluation history and current state.",
+        "Governed research preflight re-evaluates active triggers rather than relying on remembered prose.",
+        "A satisfied trigger does not mutate the completed experiment; it releases or creates a traceable successor with a new governed identity.",
+        "STOP does not require a revisit trigger unless a specific future condition is explicitly declared to reopen the line."
+      ],
+      "required_output": {
+        "artifact_ref": "research/programmes/001-commodity-natural-gas/revisit-triggers.json",
+        "fields": [
+          "trigger identity",
+          "parent experiment/research-line identity",
+          "evidence inputs",
+          "machine-testable condition/threshold",
+          "evaluation history",
+          "current state",
+          "successor/release identity when triggered"
+        ]
+      },
+      "completion_condition": "Every HOLD/DEFER that can be revisited has an active machine-testable trigger and evaluation history, while completed evidence remains immutable and any resumed work starts under a traceable successor identity.",
+      "stage_id": "active_revisit_triggers"
+    }
+  ]
 }

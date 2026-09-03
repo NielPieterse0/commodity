@@ -1,0 +1,34 @@
+{
+  "schema_version": 1,
+  "zoom_level": "L3",
+  "programme_id": "001-commodity-natural-gas",
+  "research_line_id": "002-v2-original-components",
+  "experiment_id": "003-v2-84-kronos-indicator-fusion",
+  "governance_generation": "legacy_pre_15_step",
+  "historical_status": "not_executed",
+  "summary": "Frozen fusion primary claim that never became an admissible executed experiment.",
+  "outcome": "not_executed",
+  "issue_lineage": [
+    84
+  ],
+  "source_artifacts": [
+    {
+      "path": "config/experiment_candidates.json",
+      "commit": "3e267e9d7df53c3ce927b1007b6e694f3920bde5",
+      "sha256": "d24cbbefdb46dd823b1c85d9fbd251bad3b81c4a4c7ba23358fd1cd859901af7",
+      "preserved_as": null,
+      "note": "Candidate-specific authority is a member of this frozen registry."
+    }
+  ],
+  "decisions": [
+    {
+      "id": "legacy-003-v2-84-kronos-indicator-fusion-disposition",
+      "decision": "Preserve not_executed as historical V2 evidence; do not manufacture retrospective execution evidence.",
+      "status": "active",
+      "superseded_by": null
+    }
+  ],
+  "recommendations": [],
+  "open_questions": [],
+  "metrics_ledger_refs": []
+}

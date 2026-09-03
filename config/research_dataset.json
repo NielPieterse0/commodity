@@ -1,0 +1,63 @@
+{
+  "schema_version": 1,
+  "dataset": {
+    "dataset_id": "us-ng-v1-pit",
+    "evidence_mode": "research_pit",
+    "leakage_enforcement": "pit_dataset_contract",
+    "required_feature_families": [
+      "market",
+      "market_structure",
+      "storage",
+      "weather",
+      "power",
+      "positioning",
+      "calendar_seasonality"
+    ],
+    "minimum_exogenous_join_coverage": 1.0,
+    "promotion_completeness": "full_v1"
+  },
+  "walk_forward": {
+    "initial_train_rows": 252,
+    "retrain_every_rows": 5
+  },
+  "evaluation_evidence_policy": {
+    "sequence": [
+      "development",
+      "rolling_research_oos",
+      "reserved_confirmation",
+      "true_forward"
+    ],
+    "rolling_research_oos": {
+      "multiple_historical_periods_required": true,
+      "repeated_reuse_semantics": "partly_research_trained_not_pristine_confirmation",
+      "overlap_boundary_control": "purge_or_embargo_when_target_or_horizon_overlap_can_leak_across_boundaries"
+    },
+    "reserved_confirmation": {
+      "placement": "chronologically_latest_usable_block",
+      "planning_fraction": 0.2,
+      "fraction_semantics": "planning_default_not_universal_rule",
+      "selection_rule": "justify the actual share from horizon, dependence, power, regime coverage, usable history and remaining confirmation capacity",
+      "may_be_known_by_identity": true,
+      "prohibited_before_freeze": [
+        "model_fitting",
+        "feature_selection",
+        "model_selection",
+        "hyperparameter_tuning",
+        "threshold_selection",
+        "hypothesis_formulation",
+        "design_redesign"
+      ],
+      "prediction_and_evaluation_after_freeze": true,
+      "consumption_rule": "once outcomes influence redesign or selection, those observations are consumed as independent confirmation evidence for that design"
+    },
+    "true_forward": {
+      "semantics": "newly_arriving_post_freeze_evidence",
+      "independence_rank": "strongest"
+    }
+  },
+  "research_period": {
+    "start": "2010-01-01",
+    "end": "2100-01-01",
+    "end_semantics": "open_ended_far_future_sentinel"
+  }
+}
