@@ -150,9 +150,9 @@
         ],
         "reproducibility_status": "not_reproduced",
         "source_refs": [
-          "docs/development/market-provider-boundary/evidence.json",
-          "docs/development/v1-research-completion/retrospective-v0-v1-metrics.json",
-          "docs/development/longitudinal-research-metrics/backfill-identity-record.json"
+          "git-history:docs/development/market-provider-boundary/evidence.json",
+          "git-history:docs/development/v1-research-completion/retrospective-v0-v1-metrics.json",
+          "git-history:docs/development/longitudinal-research-metrics/backfill-identity-record.json"
         ]
       }
     },
@@ -244,10 +244,10 @@
         ],
         "reproducibility_status": "not_reproduced",
         "source_refs": [
-          "docs/development/v1-pit-model-tournament/evidence.json",
-          "docs/development/v1-research-completion/retrospective-v0-v1-metrics.json",
-          "docs/development/v1-research-completion/retrospective-baseline-divergence.md",
-          "docs/development/longitudinal-research-metrics/backfill-identity-record.json"
+          "git-history:docs/development/v1-pit-model-tournament/evidence.json",
+          "git-history:docs/development/v1-research-completion/retrospective-v0-v1-metrics.json",
+          "git-history:docs/development/v1-research-completion/retrospective-baseline-divergence.md",
+          "git-history:docs/development/longitudinal-research-metrics/backfill-identity-record.json"
         ]
       }
     },
@@ -402,14 +402,14 @@
         ],
         "reproducibility_status": "passed",
         "source_refs": [
-          "docs/development/v1-research-completion/phase-bc-empirical-closeout.json",
-          "docs/development/v1-research-completion/phase-d-evidence.json",
-          "docs/development/v1-research-completion/phase-d-closeout.json",
-          "docs/development/v1-research-completion/post-phase-e-hardening.json",
-          "docs/development/v1-research-completion/retrospective-v0-v1-metrics.json",
-          "docs/development/v1-research-completion/retrospective-baseline-divergence.md",
-          "docs/development/v1-research-completion/phase-d-regression-diagnostics.json",
-          "docs/development/longitudinal-research-metrics/backfill-identity-record.json"
+          "git-history:docs/development/v1-research-completion/phase-bc-empirical-closeout.json",
+          "git-history:docs/development/v1-research-completion/phase-d-evidence.json",
+          "git-history:docs/development/v1-research-completion/phase-d-closeout.json",
+          "git-history:docs/development/v1-research-completion/post-phase-e-hardening.json",
+          "git-history:docs/development/v1-research-completion/retrospective-v0-v1-metrics.json",
+          "git-history:docs/development/v1-research-completion/retrospective-baseline-divergence.md",
+          "git-history:docs/development/v1-research-completion/phase-d-regression-diagnostics.json",
+          "git-history:docs/development/longitudinal-research-metrics/backfill-identity-record.json"
         ]
       }
     },
@@ -561,11 +561,11 @@
         ],
         "reproducibility_status": "passed",
         "source_refs": [
-          "artifacts/kronos-confirmation/kronos-180-corrected-three-checkpoint-v1/result.json",
-          "artifacts/kronos-confirmation/kronos-180-corrected-three-checkpoint-v1/comparisons.json",
-          "artifacts/kronos-confirmation/kronos-180-corrected-three-checkpoint-v1/run-manifest.json",
-          "config/kronos_confirmation.json",
-          "docs/development/kronos-three-checkpoint-confirmation/audit-release.json"
+          "git-history:artifacts/kronos-confirmation/kronos-180-corrected-three-checkpoint-v1/result.json",
+          "git-history:artifacts/kronos-confirmation/kronos-180-corrected-three-checkpoint-v1/comparisons.json",
+          "git-history:artifacts/kronos-confirmation/kronos-180-corrected-three-checkpoint-v1/run-manifest.json",
+          "git-history:config/kronos_confirmation.json",
+          "git-history:docs/development/kronos-three-checkpoint-confirmation/audit-release.json"
         ]
       },
       "context_id": "ctx-99a5ee94f7306928d3c89cf4"
@@ -718,13 +718,13 @@
         ],
         "reproducibility_status": "passed",
         "source_refs": [
-          "artifacts/volatility-diagnostic/volatility-195-gk-har-v1/predictions.csv",
-          "artifacts/volatility-diagnostic/volatility-195-gk-har-v1/summary.json",
-          "artifacts/volatility-diagnostic/volatility-195-gk-har-v1/coverage.json",
-          "artifacts/volatility-diagnostic/volatility-195-gk-har-v1/run-manifest.json",
-          "artifacts/volatility-diagnostic/volatility-195-gk-har-v1/candidate-prediction-times.txt",
-          "docs/development/volatility-preregistration/contract.json",
-          "docs/development/volatility-preregistration-release-audit/audit-release.json"
+          "artifacts/research-metrics/evidence/volatility-195-gk-har-v1/predictions.csv",
+          "artifacts/research-metrics/evidence/volatility-195-gk-har-v1/summary.json",
+          "artifacts/research-metrics/evidence/volatility-195-gk-har-v1/coverage.json",
+          "artifacts/research-metrics/evidence/volatility-195-gk-har-v1/run-manifest.json",
+          "artifacts/research-metrics/evidence/volatility-195-gk-har-v1/candidate-prediction-times.txt",
+          "git-history:docs/development/volatility-preregistration/contract.json",
+          "git-history:docs/development/volatility-preregistration-release-audit/audit-release.json"
         ]
       },
       "context_id": "ctx-a8a66b8bc39410e7147f1691"

@@ -1,0 +1,77 @@
+{
+  "schema_version": 1,
+  "zoom_level": "L2",
+  "programme_id": "001-commodity-natural-gas",
+  "research_line_id": "004-target-redesign-volatility-events",
+  "legacy_research_line_ids": [
+    "line-target-redesign-volatility-events"
+  ],
+  "big_picture": "Test whether changing the economic/statistical target reveals stronger structure than generic next-session returns.",
+  "evidence_refs": [
+    "git-history:artifacts/volatility-diagnostic/volatility-195-gk-har-v1/summary.json",
+    "git-history:config/sealed_windows.json",
+    "git-history:research/exploratory/volatility-reopening-gate-277.json",
+    "git-history:research/literature/volatility-reopening-277-feasibility-v1.json",
+    "git-history:research/literature/volatility-reopening-277-post-feasibility-v1.json"
+  ],
+  "experiment_history": [
+    {
+      "issue": 195,
+      "result": "diagnostic_signal_only",
+      "rows": 204
+    },
+    {
+      "issues": [
+        197,
+        201,
+        203,
+        205,
+        207,
+        209
+      ],
+      "result": "stopped_by_power_gate_before_protected_confirmation"
+    },
+    {
+      "issue": 277,
+      "protected_confirmation_accessed": false,
+      "result": "hold_material_reopening_gate"
+    }
+  ],
+  "historical_facts": {
+    "does_not_rule_out": "Volatility or event mechanisms with materially more effective information, stronger effect size, or a different predeclared design.",
+    "observed": "The HAR-style volatility diagnostic improved QLIKE by about 15.55% on 204 diagnostic rows, but protected confirmation was not opened because power gates showed detectable effects materially larger than the declared 5% MEPI.",
+    "rules_out": "Claiming a confirmed volatility edge from the diagnostic or spending protected confirmation when the design is underpowered."
+  },
+  "programme_interpretation": "Volatility remains the strongest positive diagnostic observation, but both governed successor designs are information-limited. HOLD further experimentation; do not run another near-neighbour horizon/model variant.",
+  "remaining_untested_roles": [
+    "adequately powered volatility confirmation",
+    "mechanism-led event returns",
+    "curve/spread change"
+  ],
+  "revisit_trigger": "Reopen only after a materially distinct design produces nuisance-only max relative-MDE/MEPI <= 1.0 across every predeclared dependence sensitivity and a fresh confirmation path is proven.",
+  "status": "hold_material_reopening_gate",
+  "tested_role_target_horizon": "Realized-volatility/variance diagnostics followed by power-gated volatility and event-specific confirmation designs.",
+  "useful_secondary_observations": [
+    "Volatility persistence is the strongest positive diagnostic observation so far.",
+    "Calendar row count is not equivalent to effective independent information."
+  ],
+  "why_zoomed_in": "Repeated return-model failures made target and mechanism selection more valuable than broader model search.",
+  "experiment_refs": [
+    {
+      "experiment_id": "001-ng-volatility-direction-v1",
+      "path": "research/programmes/001-commodity-natural-gas/lines/004-target-redesign-volatility-events/experiments/001-ng-volatility-direction-v1"
+    },
+    {
+      "experiment_id": "002-volatility-195-gk-har-v1",
+      "path": "research/programmes/001-commodity-natural-gas/lines/004-target-redesign-volatility-events/experiments/002-volatility-195-gk-har-v1"
+    },
+    {
+      "experiment_id": "003-volatility-successor-power-gated-197-209",
+      "path": "research/programmes/001-commodity-natural-gas/lines/004-target-redesign-volatility-events/experiments/003-volatility-successor-power-gated-197-209"
+    },
+    {
+      "experiment_id": "004-volatility-reopening-277",
+      "path": "research/programmes/001-commodity-natural-gas/lines/004-target-redesign-volatility-events/experiments/004-volatility-reopening-277"
+    }
+  ]
+}

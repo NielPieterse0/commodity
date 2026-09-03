@@ -1,0 +1,24 @@
+{
+  "schema_version": 4,
+  "change_id": "213-cftc-schedule-fail-closed",
+  "status": "active",
+  "branch": "change/213-cftc-schedule-fail-closed",
+  "worktree": ".work/worktrees/213-cftc-schedule-fail-closed",
+  "base": "main",
+  "outcome": "Fail closed when CFTC report-date publication timing falls outside source-backed schedule coverage, preserving current verified special and scheduled dates.",
+  "complexity": "small",
+  "risk_triggers": ["point-in-time availability"],
+  "owned_paths": [
+    "src/commodity/cftc.py",
+    "config/data_sources.json",
+    "tests/test_cftc.py",
+    "docs/development/cftc-release-schedule/**"
+  ],
+  "shared_paths": [],
+  "excluded_paths": [
+    "artifacts/**",
+    "config/experiment.json",
+    "config/models.json"
+  ],
+  "dependencies": ["211-external-review-3"]
+}

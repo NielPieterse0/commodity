@@ -1,0 +1,46 @@
+{
+  "schema_version": 4,
+  "change_id": "182-kronos-successor-freeze",
+  "status": "active",
+  "branch": "change/182-kronos-successor-freeze",
+  "worktree": ".work/worktrees/182-kronos-successor-freeze",
+  "base": "main",
+  "outcome": "Freeze a fresh pre-result Mini/Small/Base Kronos confirmation contract on the corrected same-contract path and fail closed until independent issue #183 releases the exact landed freeze.",
+  "owned_paths": [
+    "config/kronos_confirmation.json",
+    "src/commodity/kronos.py",
+    "src/commodity/kronos_confirmation.py",
+    "tests/test_kronos_confirmation_freeze.py",
+    "docs/development/kronos-three-checkpoint-confirmation/**",
+    ".work/changes/182-kronos-successor-freeze/**"
+  ],
+  "shared_paths": [],
+  "excluded_paths": [
+    "artifacts/**",
+    "docs/development/v2-kronos-challenger/**",
+    "docs/development/v2-activation-preregistration/**"
+  ],
+  "dependencies": [
+    "178-kronos-same-contract-path"
+  ],
+  "integration_owner": null,
+  "complexity": "medium",
+  "risk_triggers": [],
+  "base_evidence": {
+    "local_sha": "f2c7a85550e6bd8aeac8e6d475ef190c2c27ab63",
+    "local_tree": "9e7667e40d079f9cdb5f3e6bf790d121475c3895",
+    "upstream_sha": "f2c7a85550e6bd8aeac8e6d475ef190c2c27ab63",
+    "upstream_tree": "9e7667e40d079f9cdb5f3e6bf790d121475c3895",
+    "upstream_ref": "refs/remotes/origin/main",
+    "evidence_source": "verified_github_default_branch",
+    "relation": "same_sha"
+  },
+  "work_management": {
+    "project_id": "commodity",
+    "source_repository": "NielPieterse0/commodity",
+    "source_number": 182,
+    "source_kind": "issue",
+    "documentation_impact": "pre_merge_complete",
+    "execution_owner": "codex"
+  }
+}

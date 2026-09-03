@@ -1,0 +1,187 @@
+{
+  "schema_version": 1,
+  "generated_document": "docs/rule-verification.md",
+  "pre_ci_entrypoint": "scripts/verify.ps1",
+  "ci_workflow": ".github/workflows/ci.yml",
+  "rules": [
+    {
+      "id": "public-repository-hygiene",
+      "authority": "repository/publication hygiene",
+      "source": "scripts/checks/check_public_hygiene.py",
+      "verifier": [
+        "scripts/checks/check_public_hygiene.py"
+      ],
+      "enforcement": "pre-ci+ci"
+    },
+    {
+      "id": "documentation-authority",
+      "authority": "maintained-document ownership and boundaries",
+      "source": "config/documentation_authority.json",
+      "verifier": [
+        "scripts/checks/check_documentation_authority.py"
+      ],
+      "enforcement": "pre-ci+ci"
+    },
+    {
+      "id": "python-environment-boundary",
+      "authority": "active checkout/worktree Python environment boundary",
+      "source": "AGENTS.md",
+      "verifier": [
+        "scripts/checks/check_python_environment.py"
+      ],
+      "enforcement": "pre-ci+ci"
+    },
+    {
+      "id": "durable-evidence-references",
+      "authority": "durable research evidence reference resolvability",
+      "source": "artifacts/research-metrics/longitudinal-ledger.json",
+      "verifier": [
+        "scripts/checks/check_durable_evidence_refs.py"
+      ],
+      "enforcement": "pre-ci+ci"
+    },
+    {
+      "id": "market-source-authority",
+      "authority": "canonical market source selection, retained integrity, and evaluation/promotion boundary",
+      "source": "config/data_sources.json",
+      "verifier": [
+        "scripts/checks/check_market_source_authority.py"
+      ],
+      "enforcement": "pre-ci+ci"
+    },
+    {
+      "id": "dataset-assurance-contract",
+      "authority": "deterministic dataset reconstruction and explicit semantic-verification boundary",
+      "source": "config/research_methodology.json",
+      "verifier": [
+        "scripts/checks/check_data_assurance_contract.py"
+      ],
+      "enforcement": "pre-ci+ci"
+    },
+    {
+      "id": "work-layout",
+      "authority": "governed change and retained worktree lifecycle layout",
+      "source": "AGENTS.md",
+      "verifier": [
+        "scripts/checks/check_work_layout.py"
+      ],
+      "enforcement": "pre-ci+ci"
+    },
+    {
+      "id": "experiment-schema",
+      "authority": "confirmatory experiment schema",
+      "source": "config/research_methodology.json",
+      "verifier": [
+        "scripts/checks/check_research_methodology.py",
+        "--check",
+        "experiment-schema"
+      ],
+      "enforcement": "pre-ci+ci"
+    },
+    {
+      "id": "experiment-freeze-integrity",
+      "authority": "immutable preregistration and freeze evidence",
+      "source": "config/research_methodology.json",
+      "verifier": [
+        "scripts/checks/check_research_methodology.py",
+        "--check",
+        "experiment-freeze-integrity"
+      ],
+      "enforcement": "pre-ci+ci"
+    },
+    {
+      "id": "experiment-verification",
+      "authority": "confirmatory execution/result verification",
+      "source": "config/research_methodology.json",
+      "verifier": [
+        "scripts/checks/check_research_methodology.py",
+        "--check",
+        "experiment-verification"
+      ],
+      "enforcement": "pre-ci+ci"
+    },
+    {
+      "id": "programme-inference-integrity",
+      "authority": "programme inference registration",
+      "source": "research/programmes/001-commodity-natural-gas/inference-ledger.json",
+      "verifier": [
+        "scripts/checks/check_research_methodology.py",
+        "--check",
+        "programme-inference-integrity"
+      ],
+      "enforcement": "pre-ci+ci"
+    },
+    {
+      "id": "research-metrics-contract",
+      "authority": "canonical longitudinal research-metrics schema and ledger",
+      "source": "contracts/research_metrics.schema.json",
+      "verifier": [
+        "scripts/checks/check_research_metrics.py"
+      ],
+      "enforcement": "pre-ci+ci"
+    },
+    {
+      "id": "research-memory",
+      "authority": "research decision/backlog projections",
+      "source": "research/programmes/001-commodity-natural-gas",
+      "verifier": [
+        "scripts/checks/check_research_memory.py"
+      ],
+      "enforcement": "pre-ci+ci"
+    },
+    {
+      "id": "tests",
+      "authority": "repository executable contracts",
+      "source": "tests",
+      "verifier": [
+        "-m",
+        "pytest",
+        "-q"
+      ],
+      "enforcement": "pre-ci+ci"
+    },
+    {
+      "id": "lint",
+      "authority": "Python static-quality rules",
+      "source": "pyproject.toml",
+      "verifier": [
+        "-m",
+        "ruff",
+        "check",
+        "."
+      ],
+      "enforcement": "pre-ci+ci"
+    },
+    {
+      "id": "whitespace",
+      "authority": "Git whitespace policy across working tree, index, and committed change range",
+      "source": ".gitattributes",
+      "verifier": [
+        "scripts/checks/check_git_whitespace.py"
+      ],
+      "enforcement": "pre-ci+ci"
+    }
+  ],
+  "non_local_rules": [
+    {
+      "id": "kis-runtime-governance",
+      "source": "AGENTS.md",
+      "reason": "requires live external KIS runtime state and workflow evidence; not decidable from repository bytes alone"
+    },
+    {
+      "id": "work-management-state",
+      "source": "AGENTS.md",
+      "reason": "requires external Work/GitHub lifecycle state; enforced by KIS rather than repository pre-CI"
+    },
+    {
+      "id": "exact-head-merge-policy",
+      "source": "CONTRIBUTING.md",
+      "reason": "requires provider-native pull-request and Actions state; enforced by KIS closeout workflow"
+    },
+    {
+      "id": "secret-history-review",
+      "source": "SECURITY.md",
+      "reason": "publication-wide history/ref review is provider/lifecycle scoped; current-tree hygiene remains pre-CI verified"
+    }
+  ]
+}

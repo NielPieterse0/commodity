@@ -1,0 +1,44 @@
+{
+  "schema_version": 4,
+  "change_id": "089-v2-model-criticism-review",
+  "status": "active",
+  "branch": "change/089-v2-model-criticism-review",
+  "worktree": ".work/worktrees/089-v2-model-criticism-review",
+  "base": "main",
+  "outcome": "Complete issue #89 post-experiment model criticism using frozen V1/V2/#180 evidence, record an assumption/design matrix and ranked adaptive next-experiment hypotheses, and create separately governed future issues without executing new empirical models.",
+  "owned_paths": [
+    "docs/development/v2-model-criticism/**",
+    ".work/changes/089-v2-model-criticism-review/**"
+  ],
+  "shared_paths": [],
+  "excluded_paths": [
+    "artifacts/**",
+    "config/**",
+    "src/**"
+  ],
+  "dependencies": [
+    "083-indicators-empirical-final",
+    "180-kronos-confirmation-execution"
+  ],
+  "integration_owner": null,
+  "complexity": "medium",
+  "risk_triggers": [],
+  "base_evidence": {
+    "local_sha": "12a823653b6ccfa355e653b9526898269c802ff9",
+    "local_tree": "47538c94bbdc0d1ae7896362ea80c4d52e2836a4",
+    "upstream_sha": "12a823653b6ccfa355e653b9526898269c802ff9",
+    "upstream_tree": "47538c94bbdc0d1ae7896362ea80c4d52e2836a4",
+    "upstream_ref": "refs/remotes/origin/main",
+    "evidence_source": "verified_github_default_branch",
+    "relation": "same_sha"
+  },
+  "work_management": {
+    "project_id": "commodity",
+    "record_id": "RES-89",
+    "source_repository": "NielPieterse0/commodity",
+    "source_number": 89,
+    "source_kind": "issue",
+    "documentation_impact": "planned",
+    "execution_owner": "codex"
+  }
+}

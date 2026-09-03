@@ -1,0 +1,57 @@
+{
+  "schema_version": 1,
+  "zoom_level": "L3",
+  "programme_id": "001-commodity-natural-gas",
+  "research_line_id": "003-corrected-kronos-direct-return",
+  "experiment_id": "001-kronos-180-corrected-three-checkpoint",
+  "governance_generation": "legacy_pre_15_step",
+  "historical_status": "completed",
+  "summary": "Corrected frozen Kronos Mini/Small/Base direct one-step return comparison on the common 204-row OOS contract.",
+  "outcome": "drop_direct_one_step_kronos",
+  "issue_lineage": [
+    180
+  ],
+  "source_artifacts": [
+    {
+      "path": "artifacts/kronos-confirmation/kronos-180-corrected-three-checkpoint-v1/result.json",
+      "commit": "3e267e9d7df53c3ce927b1007b6e694f3920bde5",
+      "sha256": "bb9b821517bf11fbb0feb949a924a908868fce4507de6c92d380dfb65447bbb4",
+      "preserved_as": "result.json",
+      "note": null
+    },
+    {
+      "path": "artifacts/kronos-confirmation/kronos-180-corrected-three-checkpoint-v1/comparisons.json",
+      "commit": "3e267e9d7df53c3ce927b1007b6e694f3920bde5",
+      "sha256": "9ccbb5fa4c830d534b66a89e41392114c29f44722bed1dbebb34d439c3539919",
+      "preserved_as": "comparisons.json",
+      "note": null
+    },
+    {
+      "path": "artifacts/kronos-confirmation/kronos-180-corrected-three-checkpoint-v1/run-manifest.json",
+      "commit": "3e267e9d7df53c3ce927b1007b6e694f3920bde5",
+      "sha256": "7c17f31319f0ed61558ff5ff6a6ac0b4ba45c5ac262882c0ea1f5b33fa0bd904",
+      "preserved_as": "run-manifest.json",
+      "note": null
+    },
+    {
+      "path": "config/kronos_confirmation.json",
+      "commit": "3e267e9d7df53c3ce927b1007b6e694f3920bde5",
+      "sha256": "58d2cac7ab20df034a1caae06a8bf2a8952ce9c6fa5a32558ac3622dc6436a5e",
+      "preserved_as": "confirmation-config.json",
+      "note": null
+    }
+  ],
+  "decisions": [
+    {
+      "id": "legacy-kronos-180-drop",
+      "decision": "Drop direct one-step Kronos for the frozen target/grain; checkpoint-size rescue is not justified.",
+      "status": "active",
+      "superseded_by": null
+    }
+  ],
+  "recommendations": [],
+  "open_questions": [],
+  "metrics_ledger_refs": [
+    "artifacts/research-metrics/longitudinal-ledger.json#kronos-180-corrected-three-checkpoint"
+  ]
+}

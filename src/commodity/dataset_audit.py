@@ -6,7 +6,8 @@ from typing import Any
 import numpy as np
 import pandas as pd
 
-from commodity.config import experiment_config
+from commodity.config import research_dataset_config
+from commodity.data_assurance import DataAssuranceError, assert_research_ready
 from commodity.evidence_authority import (
     PIT_EVIDENCE_MODES,
     evaluation_authority_is_valid,
@@ -76,7 +77,7 @@ def audit_full_v1_dataset(
 ) -> DatasetAudit:
     blockers: list[str] = []
     caveats: list[str] = []
-    required = set(experiment_config()["dataset"]["required_feature_families"])
+    required = set(research_dataset_config()["dataset"]["required_feature_families"])
     declared_required = set(manifest.get("required_feature_families", []))
     included = set(manifest.get("included_feature_families", []))
     if manifest.get("completeness") != "full_v1":
@@ -92,6 +93,10 @@ def audit_full_v1_dataset(
         caveats.append("evaluation_only_market_evidence")
         if not evaluation_authority_is_valid(manifest):
             blockers.append("evaluation_mode_claims_promotable_evidence")
+    try:
+        assert_research_ready(manifest.get("data_assurance"))
+    except DataAssuranceError:
+        blockers.append("data_assurance_unverified")
 
     lineage = manifest.get("source_lineage", {})
     family_audits = manifest.get("exogenous_family_audits", {})
@@ -155,7 +160,7 @@ def audit_full_v1_dataset(
         blockers.append("non_finite_numeric_values")
 
     configured_initial_train = int(
-        experiment_config()["walk_forward"]["initial_train_rows"]
+        research_dataset_config()["walk_forward"]["initial_train_rows"]
     )
     try:
         manifest_initial_train = int(manifest["initial_train_rows"])
@@ -203,7 +208,7 @@ def audit_full_v1_dataset(
 
     minimum_join_coverage = min(join_coverages) if join_coverages else None
     required_join_coverage = float(
-        experiment_config()["dataset"].get("minimum_exogenous_join_coverage", 0.0)
+        research_dataset_config()["dataset"].get("minimum_exogenous_join_coverage", 0.0)
     )
     if minimum_join_coverage is None or minimum_join_coverage < required_join_coverage:
         blockers.append("minimum_join_coverage_not_met")

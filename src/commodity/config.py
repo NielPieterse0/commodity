@@ -42,11 +42,11 @@ def data_config() -> dict[str, Any]:
 
 
 def policy_config() -> dict[str, Any]:
-    return load_json("policy.json")
+    return load_json("trading-policy.json")
 
 
-def experiment_config() -> dict[str, Any]:
-    return load_json("experiment.json")
+def research_dataset_config() -> dict[str, Any]:
+    return load_json("research_dataset.json")
 
 
 def assumptions_config() -> dict[str, Any]:

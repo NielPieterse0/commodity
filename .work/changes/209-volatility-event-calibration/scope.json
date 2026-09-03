@@ -1,0 +1,20 @@
+{
+  "schema_version": 4,
+  "change_id": "209-volatility-event-calibration",
+  "status": "active",
+  "branch": "change/209-volatility-event-calibration",
+  "worktree": ".work/worktrees/209-volatility-event-calibration",
+  "base": "main",
+  "outcome": "Record and enforce the frozen #209 80-event nuisance calibration result without inspecting confirmation performance.",
+  "complexity": "medium",
+  "risk_triggers": [],
+  "owned_paths": [
+    "src/commodity/volatility_event_nuisance_calibration.py",
+    "tests/test_volatility_event_nuisance_calibration.py",
+    "docs/development/volatility-event-nuisance-calibration/**"
+  ],
+  "shared_paths": [],
+  "excluded_paths": [],
+  "dependencies": ["207-volatility-event-audit"],
+  "integration_owner": "codex"
+}

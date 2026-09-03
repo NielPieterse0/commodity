@@ -7,10 +7,10 @@ from typing import Any
 
 import pandas as pd
 
-from commodity.config import REPO_ROOT, config_path, experiment_config
+from commodity.config import REPO_ROOT, config_path, research_dataset_config
 from commodity.data_assurance import (
     assert_research_ready,
-    build_reconstruction_contract,
+    extend_verified_assurance,
 )
 from commodity.dataset_audit import audit_full_v1_dataset
 from commodity.provenance import sha256_file
@@ -38,7 +38,7 @@ def _dataset_csv(frame: pd.DataFrame) -> str:
 
 
 def _validate_full_v1(frame: pd.DataFrame, manifest: dict[str, Any]) -> None:
-    required = tuple(experiment_config()["dataset"]["required_feature_families"])
+    required = tuple(research_dataset_config()["dataset"]["required_feature_families"])
     included = set(manifest.get("included_feature_families", []))
     missing = set(manifest.get("missing_feature_families", []))
     if manifest.get("completeness") != "full_v1":
@@ -70,9 +70,9 @@ def _freeze_manifest(
     dataset_audit: dict[str, Any],
 ) -> dict[str, Any]:
     dataset_hash = dataframe_sha256(frame)
-    experiment = experiment_config()
+    dataset_cfg = research_dataset_config()
     configuration_sha256 = {
-        "experiment": sha256_file(config_path("experiment.json")),
+        "research_dataset": sha256_file(config_path("research_dataset.json")),
         "data_sources": sha256_file(config_path("data_sources.json")),
         "assumptions": sha256_file(config_path("assumptions.json")),
         "research_methodology": sha256_file(config_path("research_methodology.json")),
@@ -82,20 +82,14 @@ def _freeze_manifest(
         for name in (
             "research_dataset.py", "availability.py", "features.py", "market_data.py",
             "rolls.py", "roll_policy.py", "roll_safe_market.py", "exogenous_audit.py",
-            "dataset_audit.py", "dataset_freeze.py", "data_assurance.py",
+            "dataset_audit.py", "dataset_freeze.py", "data_assurance.py", "full_v1.py",
         )
     }
     upstream_assurance = assert_research_ready(upstream.get("data_assurance"))
-    freeze_assurance = build_reconstruction_contract(
-        source_inputs=list(upstream_assurance["source_inputs"]),
-        layers=[
-            *list(upstream_assurance["layers"]),
-            {"name": "experiment_freeze", "status": "verified", "sha256": dataset_hash},
-        ],
-        transformation_sha256={
-            **dict(upstream_assurance["transformation_sha256"]),
-            **transformation_sha256,
-        },
+    freeze_assurance = extend_verified_assurance(
+        upstream_assurance,
+        layer={"name": "dataset_freeze", "status": "verified", "sha256": dataset_hash},
+        transformation_sha256=transformation_sha256,
     )
     payload: dict[str, Any] = {
         "schema_version": 1,
@@ -111,6 +105,8 @@ def _freeze_manifest(
         "research_promotion_eligible": upstream.get("research_promotion_eligible", False),
         "grain": "one row per prediction_time",
         "unique_key": ["prediction_time"],
+        "index_name": frame.index.name,
+        "column_dtypes": {str(column): str(dtype) for column, dtype in frame.dtypes.items()},
         "rows": len(frame),
         "columns": list(frame.columns),
         "start": pd.Timestamp(frame.index[0]).isoformat(),
@@ -120,7 +116,7 @@ def _freeze_manifest(
         "required_feature_families": upstream["required_feature_families"],
         "included_feature_families": upstream["included_feature_families"],
         "missing_feature_families": upstream["missing_feature_families"],
-        "initial_train_rows": int(experiment["walk_forward"]["initial_train_rows"]),
+        "initial_train_rows": int(dataset_cfg["walk_forward"]["initial_train_rows"]),
         "source_lineage": _stable_lineage(upstream),
         "dataset_audit": dataset_audit,
         "data_assurance": freeze_assurance,
@@ -193,7 +189,13 @@ def load_frozen_dataset(directory: Path) -> tuple[pd.DataFrame, dict[str, Any]]:
         float_precision="round_trip",
     )
     frame.index = pd.to_datetime(frame.index, utc=True)
-    frame.index.name = None
+    frame.index.name = manifest.get("index_name")
+    column_dtypes = manifest.get("column_dtypes")
+    if isinstance(column_dtypes, dict):
+        try:
+            frame = frame.astype(column_dtypes)
+        except (TypeError, ValueError) as exc:
+            raise FrozenDatasetIntegrityError("Frozen dataset dtype contract is invalid") from exc
     if dataframe_sha256(frame) != manifest.get("dataset_sha256"):
         raise FrozenDatasetIntegrityError("Frozen dataset content hash is invalid")
     try:

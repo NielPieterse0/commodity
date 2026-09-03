@@ -1,0 +1,50 @@
+{
+  "schema_version": 4,
+  "change_id": "197-volatility-successor-prereg",
+  "status": "active",
+  "branch": "change/197-volatility-successor-prereg",
+  "worktree": ".work/worktrees/197-volatility-successor-prereg",
+  "base": "main",
+  "outcome": "Freeze a power-gated historical confirmation design for the #191 volatility hypothesis without opening scored confirmation outcomes or changing execution authority.",
+  "owned_paths": [
+    "docs/development/volatility-successor-preregistration/**",
+    ".work/changes/197-volatility-successor-prereg/**"
+  ],
+  "shared_paths": [],
+  "excluded_paths": [
+    "config/**",
+    "src/**",
+    "tests/**",
+    "artifacts/**",
+    "data/**"
+  ],
+  "dependencies": [
+    "191-volatility-preregistration",
+    "193-volatility-preregistration-release-audit",
+    "195-volatility-diagnostic",
+    "149-deep-history-target-feasibility",
+    "155-effective-n-detectable-effect",
+    "137-untouched-confirmation"
+  ],
+  "integration_owner": null,
+  "complexity": "medium",
+  "risk_triggers": [],
+  "base_evidence": {
+    "local_sha": "568b3aa57e80bc602b0f93cf2b2d2d61bbfaee35",
+    "local_tree": "f87d049919e53fb167ab92a632105c5853cd3026",
+    "upstream_sha": "568b3aa57e80bc602b0f93cf2b2d2d61bbfaee35",
+    "upstream_tree": "f87d049919e53fb167ab92a632105c5853cd3026",
+    "upstream_ref": "refs/remotes/origin/main",
+    "evidence_source": "verified_github_default_branch",
+    "relation": "same_sha"
+  },
+  "work_management": {
+    "project_id": "commodity",
+    "record_id": "WORK-197",
+    "source_repository": "NielPieterse0/commodity",
+    "source_number": 197,
+    "source_kind": "issue",
+    "documentation_impact": "planned",
+    "execution_owner": "codex"
+  }
+}

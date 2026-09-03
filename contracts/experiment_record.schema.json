@@ -1,26 +1,525 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://commodity.local/contracts/experiment-record/v1",
-  "title": "Commodity Durable Experiment Record",
+  "$id": "https://commodity.local/contracts/experiment-record/v3",
+  "title": "Commodity Durable 15-Step Experiment Record v3",
   "type": "object",
   "additionalProperties": false,
-  "required": ["schema_version", "experiment_id", "orientation", "context", "frozen_setup", "outcome", "learning", "programme_consequence", "decisions", "recommendations", "open_questions"],
+  "required": [
+    "schema_version",
+    "programme_id",
+    "research_line_id",
+    "experiment_id",
+    "lineage",
+    "workflow",
+    "decisions",
+    "recommendations",
+    "open_questions"
+  ],
   "properties": {
-    "schema_version": {"const": 1},
-    "experiment_id": {"type": "string", "minLength": 1},
-    "orientation": {"type": "string", "minLength": 20, "maxLength": 800},
-    "context": {"type": "object", "additionalProperties": false, "required": ["big_picture_ref", "origin_refs", "programme_question"], "properties": {"big_picture_ref": {"const": "docs/big-picture.md"}, "origin_refs": {"type": "array", "items": {"type": "string", "minLength": 1}}, "programme_question": {"type": "string", "minLength": 1}}},
-    "frozen_setup": {"$ref": "#/$defs/artifact_ref"},
-    "outcome": {"type": "object", "additionalProperties": false, "required": ["results", "interpretation"], "properties": {"results": {"$ref": "#/$defs/artifact_ref"}, "interpretation": {"$ref": "#/$defs/artifact_ref"}}},
-    "learning": {"type": "string", "minLength": 1},
-    "programme_consequence": {"type": "string", "minLength": 1},
-    "decisions": {"type": "array", "items": {"$ref": "#/$defs/decision"}},
-    "recommendations": {"type": "array", "items": {"$ref": "#/$defs/followup"}},
-    "open_questions": {"type": "array", "items": {"$ref": "#/$defs/followup"}}
+    "schema_version": {
+      "const": 3
+    },
+    "experiment_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "workflow": {
+      "type": "array",
+      "minItems": 15,
+      "maxItems": 15,
+      "prefixItems": [
+        {
+          "$ref": "#/$defs/step1"
+        },
+        {
+          "$ref": "#/$defs/step2"
+        },
+        {
+          "$ref": "#/$defs/step3"
+        },
+        {
+          "$ref": "#/$defs/step4"
+        },
+        {
+          "$ref": "#/$defs/step5"
+        },
+        {
+          "$ref": "#/$defs/step6"
+        },
+        {
+          "$ref": "#/$defs/step7"
+        },
+        {
+          "$ref": "#/$defs/step8"
+        },
+        {
+          "$ref": "#/$defs/step9"
+        },
+        {
+          "$ref": "#/$defs/step10"
+        },
+        {
+          "$ref": "#/$defs/step11"
+        },
+        {
+          "$ref": "#/$defs/step12"
+        },
+        {
+          "$ref": "#/$defs/step13"
+        },
+        {
+          "$ref": "#/$defs/step14"
+        },
+        {
+          "$ref": "#/$defs/step15"
+        }
+      ],
+      "items": false
+    },
+    "decisions": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/decision"
+      }
+    },
+    "recommendations": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/followup"
+      }
+    },
+    "open_questions": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/followup"
+      }
+    },
+    "programme_id": {
+      "type": "string",
+      "pattern": "^[0-9]{3}-[a-z0-9-]+$"
+    },
+    "research_line_id": {
+      "type": "string",
+      "pattern": "^[0-9]{3}-[a-z0-9-]+$"
+    },
+    "lineage": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "programme_ref",
+        "research_line_ref",
+        "predecessor_experiment_id",
+        "successor_experiment_ids"
+      ],
+      "properties": {
+        "programme_ref": {
+          "type": "string",
+          "pattern": "^research/programmes/[0-9]{3}-[a-z0-9-]+/programme\\.json$"
+        },
+        "research_line_ref": {
+          "type": "string",
+          "pattern": "^research/programmes/[0-9]{3}-[a-z0-9-]+/lines/[0-9]{3}-[a-z0-9-]+/line\\.json$"
+        },
+        "predecessor_experiment_id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "successor_experiment_ids": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    }
   },
   "$defs": {
-    "artifact_ref": {"type": "object", "additionalProperties": false, "required": ["path", "sha256"], "properties": {"path": {"type": "string", "minLength": 1}, "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}}},
-    "decision": {"type": "object", "additionalProperties": false, "required": ["id", "decision", "status"], "properties": {"id": {"type": "string", "minLength": 1}, "decision": {"type": "string", "minLength": 1}, "status": {"enum": ["active", "superseded"]}, "superseded_by": {"type": ["string", "null"]}}},
-    "followup": {"type": "object", "additionalProperties": false, "required": ["id", "item", "status"], "properties": {"id": {"type": "string", "minLength": 1}, "item": {"type": "string", "minLength": 1}, "status": {"enum": ["open", "resolved", "rejected"]}, "work_ref": {"type": ["string", "null"]}, "resolution_ref": {"type": ["string", "null"]}}}
+    "evidence_ref": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "ref"
+      ],
+      "properties": {
+        "ref": {
+          "type": "string",
+          "minLength": 1
+        },
+        "sha256": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "pattern": "^[0-9a-f]{64}$"
+        }
+      }
+    },
+    "step_base": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "step",
+        "stage_id",
+        "status",
+        "summary",
+        "evidence_refs"
+      ],
+      "properties": {
+        "step": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 15
+        },
+        "stage_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "status": {
+          "enum": [
+            "complete",
+            "not_applicable"
+          ]
+        },
+        "summary": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1200
+        },
+        "evidence_refs": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/evidence_ref"
+          }
+        }
+      }
+    },
+    "step1": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/step_base"
+        },
+        {
+          "properties": {
+            "step": {
+              "const": 1
+            },
+            "stage_id": {
+              "const": "helicopter_view"
+            }
+          }
+        }
+      ]
+    },
+    "step2": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/step_base"
+        },
+        {
+          "properties": {
+            "step": {
+              "const": 2
+            },
+            "stage_id": {
+              "const": "gap"
+            }
+          }
+        }
+      ]
+    },
+    "step3": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/step_base"
+        },
+        {
+          "properties": {
+            "step": {
+              "const": 3
+            },
+            "stage_id": {
+              "const": "evidence_led_zoom_in"
+            }
+          }
+        }
+      ]
+    },
+    "step4": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/step_base"
+        },
+        {
+          "properties": {
+            "step": {
+              "const": 4
+            },
+            "stage_id": {
+              "const": "quality_literature"
+            }
+          }
+        }
+      ]
+    },
+    "step5": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/step_base"
+        },
+        {
+          "properties": {
+            "step": {
+              "const": 5
+            },
+            "stage_id": {
+              "const": "mechanism"
+            }
+          }
+        }
+      ]
+    },
+    "step6": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/step_base"
+        },
+        {
+          "properties": {
+            "step": {
+              "const": 6
+            },
+            "stage_id": {
+              "const": "hypothesis"
+            }
+          }
+        }
+      ]
+    },
+    "step7": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/step_base"
+        },
+        {
+          "properties": {
+            "step": {
+              "const": 7
+            },
+            "stage_id": {
+              "const": "expected_and_disconfirming_observations"
+            }
+          }
+        }
+      ]
+    },
+    "step8": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/step_base"
+        },
+        {
+          "properties": {
+            "step": {
+              "const": 8
+            },
+            "stage_id": {
+              "const": "feasibility"
+            }
+          }
+        }
+      ]
+    },
+    "step9": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/step_base"
+        },
+        {
+          "properties": {
+            "step": {
+              "const": 9
+            },
+            "stage_id": {
+              "const": "preregister_and_freeze_if_applicable"
+            }
+          }
+        }
+      ]
+    },
+    "step10": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/step_base"
+        },
+        {
+          "properties": {
+            "step": {
+              "const": 10
+            },
+            "stage_id": {
+              "const": "execute"
+            }
+          }
+        }
+      ]
+    },
+    "step11": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/step_base"
+        },
+        {
+          "properties": {
+            "step": {
+              "const": 11
+            },
+            "stage_id": {
+              "const": "verify"
+            }
+          }
+        }
+      ]
+    },
+    "step12": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/step_base"
+        },
+        {
+          "properties": {
+            "step": {
+              "const": 12
+            },
+            "stage_id": {
+              "const": "compare_observed_vs_expected"
+            }
+          }
+        }
+      ]
+    },
+    "step13": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/step_base"
+        },
+        {
+          "properties": {
+            "step": {
+              "const": 13
+            },
+            "stage_id": {
+              "const": "external_post_result_triangulation"
+            }
+          }
+        }
+      ]
+    },
+    "step14": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/step_base"
+        },
+        {
+          "properties": {
+            "step": {
+              "const": 14
+            },
+            "stage_id": {
+              "const": "programme_conclusion"
+            }
+          }
+        }
+      ]
+    },
+    "step15": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/step_base"
+        },
+        {
+          "properties": {
+            "step": {
+              "const": 15
+            },
+            "stage_id": {
+              "const": "active_revisit_triggers"
+            }
+          }
+        }
+      ]
+    },
+    "decision": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "decision",
+        "status"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "decision": {
+          "type": "string",
+          "minLength": 1
+        },
+        "status": {
+          "enum": [
+            "active",
+            "superseded"
+          ]
+        },
+        "superseded_by": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      }
+    },
+    "followup": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "item",
+        "status"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "item": {
+          "type": "string",
+          "minLength": 1
+        },
+        "status": {
+          "enum": [
+            "open",
+            "resolved",
+            "rejected"
+          ]
+        },
+        "work_ref": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "resolution_ref": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      }
+    }
   }
 }

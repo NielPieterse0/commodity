@@ -1,0 +1,30 @@
+{
+  "schema_version": 1,
+  "policy_id": "commodity-third-party-v1",
+  "trust_classes": {
+    "approved_data_source": "May be used for the stated research purpose subject to licensing and point-in-time rules.",
+    "approved_dependency": "May execute inside Commodity within an explicitly bounded role; exact versions belong to lock/config owners.",
+    "primary_technical_source": "Owner-published SDK, protocol, or API implementation usable as integration evidence.",
+    "discovery_reference": "Useful for patterns or source discovery but not authoritative for data semantics or rights."
+  },
+  "research_source_families": {
+    "us_official": ["EIA", "CFTC", "NOAA/NCEI", "CME"],
+    "europe_norway_official": ["ENTSOG", "GIE", "ENTSO-E", "Norwegian Offshore Directorate", "Gassco", "SSB", "Statnett/NVE", "MET Norway", "Norges Bank"],
+    "databento": "approved_private_research_backtesting_no_redistribution",
+    "massive_futures": "evaluation_only_non_display_backtesting_rights_unresolved",
+    "saxo_openapi_sim": "bounded_broker_instrument_verification_only"
+  },  "technical_sources": [
+    {"source": "shiyu-coder/Kronos", "class": "approved_dependency", "use": "bounded inference adapter"},
+    {"source": "google-research/timesfm", "class": "approved_dependency", "use": "bounded forecasting adapter"},
+    {"source": "databento/databento-python", "class": "approved_dependency", "use": "local Databento decoding"},
+    {"source": "databento/dbn", "class": "approved_dependency", "use": "local DBN decoding and fixtures"},
+    {"source": "open-meteo/open-meteo", "class": "primary_technical_source", "use": "official weather API/model-routing reference"},
+    {"source": "statisticsnorway/ssb-pxwebapidata", "class": "primary_technical_source", "use": "official SSB/PxWeb integration mechanics"},
+    {"source": "NVE/HydAPI", "class": "primary_technical_source", "use": "NVE hydrological API integration reference"},
+    {"source": "modelcontextprotocol/*", "class": "primary_technical_source", "use": "MCP protocol, SDK, and reference patterns"}
+  ],
+  "external_model_rule": "External model repositories may be used only through bounded adapters; enablement, model pins and runtime settings belong to config/models.json.",
+  "licensing_rule": "Licensed raw market values stay out of Git unless terms explicitly permit repository storage; private research rights do not imply redistribution rights.",
+  "source_status_owner": "config/data_sources.json",
+  "execution_permission_owner": "config/trading-policy.json"
+}

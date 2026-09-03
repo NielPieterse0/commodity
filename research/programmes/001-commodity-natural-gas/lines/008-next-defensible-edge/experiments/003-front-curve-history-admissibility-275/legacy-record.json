@@ -1,0 +1,34 @@
+{
+  "schema_version": 1,
+  "zoom_level": "L3",
+  "programme_id": "001-commodity-natural-gas",
+  "research_line_id": "008-next-defensible-edge",
+  "experiment_id": "003-front-curve-history-admissibility-275",
+  "governance_generation": "legacy_pre_15_step",
+  "historical_status": "stopped",
+  "summary": "Historical admissibility audit for the frozen front-curve design.",
+  "outcome": "pre2015_exact_semantics_stop_protected_unopened",
+  "issue_lineage": [
+    275
+  ],
+  "source_artifacts": [
+    {
+      "path": "research/exploratory/front-curve-history-admissibility-275.json",
+      "commit": "3e267e9d7df53c3ce927b1007b6e694f3920bde5",
+      "sha256": "dd8c2b130af51352dde288db656916362eaa7152d27da00343c92217d46391ad",
+      "preserved_as": "exploratory-result.json",
+      "note": null
+    }
+  ],
+  "decisions": [
+    {
+      "id": "legacy-003-front-curve-history-admissibility-275-disposition",
+      "decision": "Preserve historical disposition: pre2015_exact_semantics_stop_protected_unopened.",
+      "status": "active",
+      "superseded_by": null
+    }
+  ],
+  "recommendations": [],
+  "open_questions": [],
+  "metrics_ledger_refs": []
+}

@@ -1,0 +1,34 @@
+{
+  "schema_version": 1,
+  "zoom_level": "L3",
+  "programme_id": "001-commodity-natural-gas",
+  "research_line_id": "008-next-defensible-edge",
+  "experiment_id": "004-weather-revision-mechanism-276",
+  "governance_generation": "legacy_pre_15_step",
+  "historical_status": "held",
+  "summary": "Weather-revision mechanism feasibility slice.",
+  "outcome": "weather_revision_feasibility_hold_before_preregistration_protected_unopened",
+  "issue_lineage": [
+    276
+  ],
+  "source_artifacts": [
+    {
+      "path": "research/exploratory/weather-revision-mechanism-276.json",
+      "commit": "3e267e9d7df53c3ce927b1007b6e694f3920bde5",
+      "sha256": "e8dff2aacd115c5cc9a9b5b9f358aa456bab29d5332a6d6c265785f498a6ec00",
+      "preserved_as": "exploratory-result.json",
+      "note": null
+    }
+  ],
+  "decisions": [
+    {
+      "id": "legacy-004-weather-revision-mechanism-276-disposition",
+      "decision": "Preserve historical disposition: weather_revision_feasibility_hold_before_preregistration_protected_unopened.",
+      "status": "active",
+      "superseded_by": null
+    }
+  ],
+  "recommendations": [],
+  "open_questions": [],
+  "metrics_ledger_refs": []
+}

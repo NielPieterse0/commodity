@@ -1,0 +1,24 @@
+{
+  "schema_version": 4,
+  "change_id": "214-weather-gap-veto",
+  "status": "active",
+  "branch": "change/214-weather-gap-veto",
+  "worktree": ".work/worktrees/214-weather-gap-veto",
+  "base": "main",
+  "outcome": "Make governed weather gap declarations veto pre-existing snapshots for PIT research use while preserving immutable raw evidence.",
+  "complexity": "small",
+  "risk_triggers": ["point_in_time_availability"],
+  "owned_paths": [
+    "src/commodity/weather.py",
+    "tests/test_weather.py",
+    "docs/development/weather-gap-veto/**"
+  ],
+  "shared_paths": [],
+  "excluded_paths": [
+    "data/raw/**",
+    "artifacts/**",
+    "config/experiment.json",
+    "config/models.json"
+  ],
+  "dependencies": ["211-external-review-3"]
+}

@@ -1,0 +1,44 @@
+{
+  "schema_version": 4,
+  "change_id": "147-target-horizon-portfolio",
+  "status": "active",
+  "branch": "change/147-target-horizon-portfolio",
+  "worktree": ".work/worktrees/147-target-horizon-portfolio",
+  "base": "main",
+  "outcome": "Rank alternative Henry Hub forecasting targets and horizons for separate preregistration without fitting models or inspecting fresh OOS outcomes.",
+  "owned_paths": [
+    "docs/development/target-horizon-portfolio/**",
+    ".work/changes/147-target-horizon-portfolio/**"
+  ],
+  "shared_paths": [],
+  "excluded_paths": [
+    "artifacts/**",
+    "config/**",
+    "src/**",
+    "data/**"
+  ],  "dependencies": [
+    "089-v2-model-criticism-review",
+    "155-effective-n-detectable-effect",
+    "149-deep-history-target-feasibility"
+  ],
+  "integration_owner": null,
+  "complexity": "medium",
+  "risk_triggers": [],
+  "base_evidence": {
+    "local_sha": "9301b5ebcc953016fa9d91252e385b5e08dc261d",
+    "local_tree": "200e60fadbad76e67adfd16848f1435bae70b25b",
+    "upstream_sha": "9301b5ebcc953016fa9d91252e385b5e08dc261d",
+    "upstream_tree": "200e60fadbad76e67adfd16848f1435bae70b25b",
+    "upstream_ref": "refs/remotes/origin/main",
+    "evidence_source": "verified_github_default_branch",
+    "relation": "same_sha"
+  },  "work_management": {
+    "project_id": "commodity",
+    "record_id": "WORK-147",
+    "source_repository": "NielPieterse0/commodity",
+    "source_number": 147,
+    "source_kind": "issue",
+    "documentation_impact": "planned",
+    "execution_owner": "codex"
+  }
+}

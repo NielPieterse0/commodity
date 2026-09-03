@@ -3,10 +3,65 @@
   "$id": "https://commodity.local/contracts/programme-decisions/v1",
   "type": "object",
   "additionalProperties": false,
-  "required": ["schema_version", "generated_projection", "decisions"],
+  "required": [
+    "schema_version",
+    "zoom_level",
+    "programme_id",
+    "generated_projection",
+    "decisions"
+  ],
   "properties": {
-    "schema_version": {"const": 1},
-    "generated_projection": {"const": true},
-    "decisions": {"type": "array", "items": {"type": "object", "additionalProperties": false, "required": ["id", "decision", "status", "source_record"], "properties": {"id": {"type": "string", "minLength": 1}, "decision": {"type": "string", "minLength": 1}, "status": {"enum": ["active", "superseded"]}, "source_record": {"type": "string", "minLength": 1}, "superseded_by": {"type": ["string", "null"]}}}}
+    "schema_version": {
+      "const": 1
+    },
+    "generated_projection": {
+      "const": false
+    },
+    "decisions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "decision",
+          "status",
+          "source_record"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "decision": {
+            "type": "string",
+            "minLength": 1
+          },
+          "status": {
+            "enum": [
+              "active",
+              "superseded"
+            ]
+          },
+          "source_record": {
+            "type": "string",
+            "minLength": 1
+          },
+          "superseded_by": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        }
+      }
+    },
+    "zoom_level": {
+      "const": "L1"
+    },
+    "programme_id": {
+      "type": "string",
+      "pattern": "^[0-9]{3}-[a-z0-9-]+$"
+    }
   }
 }

@@ -1,0 +1,72 @@
+{
+    "schema_version":  1,
+    "repository":  ".work/worktrees/temp-agents-md-refresh",
+    "review_count":  12,
+    "reviewer":  "KIS-managed Codex CLI 0.147.0",
+    "invocation":  "kis-mcp/scripts/invoke-codex-agent.ps1",
+    "codex_executable":  "KIS-managed Codex CLI 0.147.0",
+    "codex_home":  "KIS-managed codex-reviewer home",
+    "mode":  "read-only independent bounded reviews",
+    "bundles":  [
+                    {
+                        "prompt":  "01-governance-ci-environment.prompt.txt",
+                        "bytes":  840,
+                        "result":  "01-governance-ci-environment.result.jsonl"
+                    },
+                    {
+                        "prompt":  "02-config-contracts-doc-authority.prompt.txt",
+                        "bytes":  839,
+                        "result":  "02-config-contracts-doc-authority.result.jsonl"
+                    },
+                    {
+                        "prompt":  "03-data-assurance-freeze-full-v1.prompt.txt",
+                        "bytes":  807,
+                        "result":  "03-data-assurance-freeze-full-v1.result.jsonl"
+                    },
+                    {
+                        "prompt":  "04-market-source-futures-providers.prompt.txt",
+                        "bytes":  887,
+                        "result":  "04-market-source-futures-providers.result.jsonl"
+                    },
+                    {
+                        "prompt":  "05-exogenous-data-providers.prompt.txt",
+                        "bytes":  758,
+                        "result":  "05-exogenous-data-providers.result.jsonl"
+                    },
+                    {
+                        "prompt":  "06-models-kronos-timesfm.prompt.txt",
+                        "bytes":  794,
+                        "result":  "06-models-kronos-timesfm.result.jsonl"
+                    },
+                    {
+                        "prompt":  "07-evaluation-volatility-tournament.prompt.txt",
+                        "bytes":  810,
+                        "result":  "07-evaluation-volatility-tournament.result.jsonl"
+                    },
+                    {
+                        "prompt":  "08-research-methodology-programme.prompt.txt",
+                        "bytes":  876,
+                        "result":  "08-research-methodology-programme.result.jsonl"
+                    },
+                    {
+                        "prompt":  "09-scripts-deterministic-checkers.prompt.txt",
+                        "bytes":  784,
+                        "result":  "09-scripts-deterministic-checkers.result.jsonl"
+                    },
+                    {
+                        "prompt":  "10-test-quality-data-providers.prompt.txt",
+                        "bytes":  737,
+                        "result":  "10-test-quality-data-providers.result.jsonl"
+                    },
+                    {
+                        "prompt":  "11-test-quality-research-models-repo.prompt.txt",
+                        "bytes":  761,
+                        "result":  "11-test-quality-research-models-repo.result.jsonl"
+                    },
+                    {
+                        "prompt":  "12-restructure-losslessness-integration.prompt.txt",
+                        "bytes":  833,
+                        "result":  "12-restructure-losslessness-integration.result.jsonl"
+                    }
+                ]
+}

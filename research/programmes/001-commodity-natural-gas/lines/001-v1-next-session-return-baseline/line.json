@@ -1,0 +1,56 @@
+{
+  "schema_version": 1,
+  "zoom_level": "L2",
+  "programme_id": "001-commodity-natural-gas",
+  "research_line_id": "001-v1-next-session-return-baseline",
+  "legacy_research_line_ids": [
+    "line-v1-next-session-return-baseline"
+  ],
+  "big_picture": "Establish an honest leakage-safe baseline before escalating model complexity.",
+  "evidence_refs": [
+    "git-history:config/experiment.json",
+    "git-history:docs/development/v1-research-completion/phase-d-closeout.json"
+  ],
+  "experiment_history": [
+    {
+      "experiment_id": "ng-next-session-return-baseline-v1",
+      "issue_lineage": [
+        13,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21
+      ],
+      "result": "no_robust_edge"
+    }
+  ],
+  "historical_facts": {
+    "does_not_rule_out": "Different targets, horizons, mechanisms, signal roles or later integrated decisions.",
+    "observed": "The frozen V1 tournament completed reproducibly and did not establish a robust predictive edge.",
+    "rules_out": "Promotion of the tested V1 hypothesis/model ladder for this target and contract."
+  },
+  "programme_interpretation": "Move from generic model search toward complementary, mechanism-led signal families and stronger controls.",
+  "remaining_untested_roles": [
+    "mechanism-specific returns",
+    "volatility",
+    "curve/spread change",
+    "non-forecast signal roles"
+  ],
+  "revisit_trigger": "Only revisit one-session return forecasting when a bounded mechanism or new information source changes the expected-information-value case.",
+  "status": "rejected_by_evidence",
+  "tested_role_target_horizon": "Naive/zero, Ridge and HistGB next-session log-return forecasting at a one-session horizon under expanding walk-forward evaluation.",
+  "useful_secondary_observations": [
+    "The zero-return baseline is a strong hurdle for later return experiments.",
+    "V1 became the common comparison baseline rather than a promoted model."
+  ],
+  "why_zoomed_in": "The programme needed to know whether daily market state, seasonality and PIT exogenous context could beat a simple zero-return control.",
+  "experiment_refs": [
+    {
+      "experiment_id": "001-ng-next-session-return-baseline-v1",
+      "path": "research/programmes/001-commodity-natural-gas/lines/001-v1-next-session-return-baseline/experiments/001-ng-next-session-return-baseline-v1"
+    }
+  ]
+}

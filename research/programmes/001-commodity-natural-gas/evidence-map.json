@@ -1,0 +1,222 @@
+{
+  "current_helicopter_view": {
+    "integrated_system_needs": [
+      "complementary signal families with incremental information",
+      "calibration and uncertainty",
+      "decision/risk integration",
+      "realistic execution and forward validation after research promotion"
+    ],
+    "known": [
+      "No robust reproducible trading edge has been established.",
+      "Generic next-session return forecasting has repeatedly failed strong simple baselines under corrected contracts.",
+      "Research controls now prevent invalid data, underpowered confirmation and post-result rescue from being mistaken for evidence.",
+      "The 2010+ Databento implementation reproduces literature-supported Henry Hub Samuelson maturity-volatility and seasonal curve structure across all 5,025 owned dates under OHLCV-close semantics."
+    ],
+    "mechanisms_still_alive": [
+      "future independent confirmation of the replicated Samuelson market structure",
+      "volatility persistence as an unconfirmed diagnostic observation",
+      "mechanism-led event returns",
+      "curve/spread change beyond the replicated stylized facts",
+      "other complementary signal roles only after programme-value screening"
+    ],
+    "missing_not_negative": [
+      "504 future eligible Databento dates for the frozen Samuelson confirmation",
+      "adequately powered protected volatility confirmation",
+      "future mechanism-specific event experiment",
+      "first real post-hardening confirmatory lifecycle commissioning"
+    ],
+    "next_branch_reason": "#285 has completed the literature-first calibration objective and consumed the historical archive as development evidence. The selected Samuelson candidate now waits for a future-only 504-date untouched allocation; meanwhile new research should remain mechanism-led rather than recycling the 5,025 development dates as confirmation.",
+    "repeatedly_failed": [
+      "generic one-session return model promotion",
+      "direct one-step Kronos",
+      "TimesFM return/blend promotion against the zero-return hurdle"
+    ]
+  },
+  "current_scan_id": "programme-evidence-map-2026-08-29",
+  "feasibility_map": [
+    {
+      "costs": {},
+      "detectable_effect": null,
+      "economic_mepi": null,
+      "effective_information_method": {
+        "method": "unassessed"
+      },
+      "expected_snr": null,
+      "feasibility": "hold",
+      "hold_reason": "No confirmatory slice is authorised until target-specific MEPI, dependence and effective information are quantified.",
+      "horizon": "1_session",
+      "information_family": "not_yet_selected",
+      "market_implied_benchmark_required": true,
+      "raw_information": 0,
+      "scientific_mepi": null,
+      "target": "next_session_return"
+    },
+    {
+      "costs": {
+        "incremental_data_usd": 0.0,
+        "source": "existing approved Databento full-history batch"
+      },
+      "detectable_effect": 0.10905155671397378,
+      "economic_mepi": 0.005,
+      "effective_information_method": {
+        "method": "ar1",
+        "rho": 0.25
+      },
+      "expected_snr": null,
+      "feasibility": "stop",
+      "hold_reason": "Owned pre-2015 history cannot extend this exact frozen design: qualifying final daily settlement plus cleared volume required by the roll rule is unavailable before 2015-11-19 under the approved mapping. Alternative data-first experiment design is #279.",
+      "horizon": "1_observed_session",
+      "information_family": "front_curve_state",
+      "market_implied_benchmark_required": true,
+      "raw_information": 1462,
+      "scientific_mepi": 0.15,
+      "target": "ng-front-curve-m1m2-change-1session-v1"
+    },
+    {
+      "costs": {
+        "archive": "electronic download generally free; custom archive orders may incur fees"
+      },
+      "detectable_effect": 0.05940302359827151,
+      "economic_mepi": 0.005,
+      "effective_information_method": {
+        "effective_n": 2224.285714285714,
+        "method": "ar1_planning_upper_bound",
+        "rho": 0.4
+      },
+      "expected_snr": null,
+      "feasibility": "hold",
+      "hold_reason": "Cross-era issued Grid-4 content continuity, PIT-safe lagged gas-demand weighting, final eligible-event loss and fresh confirmation allocation are not yet proven. Protected outcomes remain unopened.",
+      "horizon": "prior_settlement_to_same_trade_date_settlement_after_00utc_revision",
+      "information_family": "issued_weather_forecast_revision",
+      "market_implied_benchmark_required": true,
+      "raw_information": 5190,
+      "scientific_mepi": 0.1,
+      "target": "ng-weather-revision-same-session-v1"
+    },
+    {
+      "costs": {
+        "incremental_data_usd": 0.0,
+        "source": "existing approved Databento full-history batch"
+      },
+      "detectable_effect": 0.07904343404200947,
+      "economic_mepi": null,
+      "effective_information_method": {
+        "effective_n_at_binding_rho_0_6": 1256.25,
+        "method": "ar1_planning_sensitivity",
+        "rho_grid": [
+          0.2,
+          0.4,
+          0.6
+        ]
+      },
+      "expected_snr": null,
+      "feasibility": "redesign",
+      "hold_reason": "Proceed under #285 as exploratory development: inspect and tune literature-consistent market constructions transparently to reproduce published or expected phenomena. Freeze only the final selected specification before untouched confirmation.",
+      "horizon": "exploratory_replication_before_confirmatory_freeze",
+      "information_family": "literature_anchored_curve_and_market_structure_replication",
+      "market_implied_benchmark_required": true,
+      "raw_information": 5025,
+      "scientific_mepi": null,
+      "target": "ng-market-literature-replication-development-v1"
+    },
+    {
+      "costs": {},
+      "detectable_effect": 0.17832722283643584,
+      "economic_mepi": null,
+      "effective_information_method": {
+        "binding_scale": "4_events",
+        "method": "block_sensitivity"
+      },
+      "expected_snr": null,
+      "feasibility": "hold",
+      "hold_reason": "Best existing nuisance-only redesign has relative-MDE/MEPI ratio 3.5665; reopening requires <=1.0 across all sensitivities plus fresh confirmation.",
+      "horizon": "material_redesign_required",
+      "information_family": "realized_volatility",
+      "market_implied_benchmark_required": false,
+      "raw_information": 342,
+      "scientific_mepi": 0.05,
+      "target": "ng-realized-volatility-reopening-gate-v1"
+    },
+    {
+      "costs": {
+        "incremental_data_usd": "future acquisition cost not yet incurred"
+      },
+      "detectable_effect": 0.15283900390323857,
+      "effective_information_method": {
+        "effective_information": 336.0,
+        "method": "ar1",
+        "rho": 0.2
+      },
+      "expected_snr": null,
+      "feasibility": "go",
+      "horizon": "future_504_eligible_dates",
+      "information_family": "curve_structure",
+      "market_implied_benchmark_required": false,
+      "note": "Design-level power gate only. Execution remains blocked until future data are acquired, manifested, sealed and repository-preregistered.",
+      "raw_information": 504,
+      "scientific_mepi": 0.1823215567939546,
+      "target": "samuelson_m1_m12_log_volatility_ratio"
+    }
+  ],
+  "programme_id": "001-commodity-natural-gas",
+  "refresh_triggers": [
+    "major_research_line_exhausted",
+    "several_experiments_change_beliefs",
+    "important_external_evidence_changes",
+    "next_major_branch_selection"
+  ],
+  "reopening_gates": {
+    "volatility": {
+      "current_best_ratio": 3.5665444567287166,
+      "current_daily_binding_ratio": 4.327549097872863,
+      "current_event_binding_ratio": 3.5665444567287166,
+      "evidence_ref": "git-history:research/exploratory/volatility-reopening-gate-277.json",
+      "fresh_confirmation_path_proven": false,
+      "material_design_change_present": false,
+      "mepi_relative_qlike": 0.05,
+      "release_threshold_ratio": 1.0,
+      "status": "hold"
+    }
+  },
+  "retrospective_synthesis": {
+    "as_of": "2026-08-31",
+    "historical_fact_rule": "historical_facts are summaries of cited authoritative evidence; programme_interpretation is the current programme-level reading and may change as new evidence arrives.",
+    "purpose": "Preserve zoom-in/zoom-out programme memory without rewriting historical experiment authority.",
+    "state_rule": "Keep rejected_by_evidence, open_untested, and interesting_observation distinct; untested is not promising and a narrow rejection is not a global rejection of an information family."
+  },
+  "schema_version": 2,
+  "semantics": {
+    "empirical_execution_authority": false,
+    "experiment_gate_owner": "contracts/prereg.schema.json",
+    "follow_up_rule": "Create actionable follow-up only when it addresses a current programme gap and could materially change a programme decision.",
+    "legacy_evidence_rule": "Retrospective programme synthesis may summarize historical authority but must not modify or replace legacy experiment evidence identity.",
+    "selection_rule": "Choose confirmatory slices for expected information value, not technical novelty."
+  },
+  "zoom_level": "L1",
+  "research_line_refs": [
+    {
+      "research_line_id": "001-v1-next-session-return-baseline",
+      "path": "research/programmes/001-commodity-natural-gas/lines/001-v1-next-session-return-baseline/line.json"
+    },
+    {
+      "research_line_id": "002-v2-original-components",
+      "path": "research/programmes/001-commodity-natural-gas/lines/002-v2-original-components/line.json"
+    },
+    {
+      "research_line_id": "003-corrected-kronos-direct-return",
+      "path": "research/programmes/001-commodity-natural-gas/lines/003-corrected-kronos-direct-return/line.json"
+    },
+    {
+      "research_line_id": "004-target-redesign-volatility-events",
+      "path": "research/programmes/001-commodity-natural-gas/lines/004-target-redesign-volatility-events/line.json"
+    },
+    {
+      "research_line_id": "005-timesfm-return-complementarity",
+      "path": "research/programmes/001-commodity-natural-gas/lines/005-timesfm-return-complementarity/line.json"
+    },
+    {
+      "research_line_id": "008-next-defensible-edge",
+      "path": "research/programmes/001-commodity-natural-gas/lines/008-next-defensible-edge/line.json"
+    }
+  ]
+}

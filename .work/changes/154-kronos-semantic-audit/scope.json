@@ -1,0 +1,43 @@
+{
+  "schema_version": 4,
+  "change_id": "154-kronos-semantic-audit",
+  "status": "active",
+  "branch": "change/154-kronos-semantic-audit",
+  "worktree": ".work/worktrees/154-kronos-semantic-audit",
+  "base": "main",
+  "outcome": "Audit Kronos unit, horizon, normalization, decoding, and contract-boundary semantics with deterministic tests and written evidence without changing consumed #82 runtime semantics.",
+  "owned_paths": [
+    "tests/test_kronos_semantics.py",
+    "docs/development/kronos-semantic-audit/**",
+    ".work/changes/154-kronos-semantic-audit/**"
+  ],
+  "shared_paths": [],
+  "excluded_paths": [
+    "src/**",
+    "config/**",
+    "docs/development/v2-kronos-challenger/**",
+    "docs/development/v2-activation-preregistration/**",
+    "artifacts/**"
+  ],
+  "dependencies": [],
+  "integration_owner": null,
+  "complexity": "medium",
+  "risk_triggers": [],
+  "base_evidence": {
+    "local_sha": "344fd10721dec0ce8083b476defc67a17b22326d",
+    "local_tree": "e97efa442a328e2d642fbfe37da871cb8c835647",
+    "upstream_sha": "344fd10721dec0ce8083b476defc67a17b22326d",
+    "upstream_tree": "e97efa442a328e2d642fbfe37da871cb8c835647",
+    "upstream_ref": "refs/remotes/origin/main",
+    "evidence_source": "verified_github_default_branch",
+    "relation": "same_sha"
+  },
+  "work_management": {
+    "project_id": "commodity",
+    "source_repository": "NielPieterse0/commodity",
+    "source_number": 154,
+    "source_kind": "issue",
+    "documentation_impact": "planned",
+    "execution_owner": "codex"
+  }
+}

@@ -1,0 +1,67 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://commodity.local/contracts/legacy-experiment-record/v1",
+  "title": "Commodity Legacy Experiment Record",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "zoom_level", "programme_id", "research_line_id", "experiment_id",
+    "governance_generation", "historical_status", "summary", "outcome", "issue_lineage",
+    "source_artifacts", "decisions", "recommendations", "open_questions"
+  ],
+  "properties": {
+    "schema_version": {"const": 1},
+    "zoom_level": {"const": "L3"},
+    "programme_id": {"type": "string", "pattern": "^[0-9]{3}-[a-z0-9-]+$"},
+    "research_line_id": {"type": "string", "pattern": "^[0-9]{3}-[a-z0-9-]+$"},
+    "experiment_id": {"type": "string", "minLength": 1},
+    "governance_generation": {"const": "legacy_pre_15_step"},
+    "historical_status": {"enum": ["completed", "stopped", "held", "design_only", "not_executed", "superseded"]},
+    "summary": {"type": "string", "minLength": 1},
+    "outcome": {"type": ["string", "null"]},
+    "issue_lineage": {"type": "array", "uniqueItems": true, "items": {"type": "integer", "minimum": 1}},
+    "source_artifacts": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["path", "commit", "sha256"],
+        "properties": {
+          "path": {"type": "string", "minLength": 1},
+          "commit": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+          "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+          "preserved_as": {"type": ["string", "null"]},
+          "note": {"type": ["string", "null"]}
+        }
+      }
+    },
+    "decisions": {"type": "array", "items": {"$ref": "#/$defs/decision"}},
+    "recommendations": {"type": "array", "items": {"$ref": "#/$defs/followup"}},
+    "open_questions": {"type": "array", "items": {"$ref": "#/$defs/followup"}},
+    "metrics_ledger_refs": {"type": "array", "items": {"type": "string", "minLength": 1}}
+  },
+  "$defs": {
+    "decision": {
+      "type": "object", "additionalProperties": false,
+      "required": ["id", "decision", "status"],
+      "properties": {
+        "id": {"type": "string", "minLength": 1},
+        "decision": {"type": "string", "minLength": 1},
+        "status": {"enum": ["active", "superseded"]},
+        "superseded_by": {"type": ["string", "null"]}
+      }
+    },
+    "followup": {
+      "type": "object", "additionalProperties": false,
+      "required": ["id", "item", "status"],
+      "properties": {
+        "id": {"type": "string", "minLength": 1},
+        "item": {"type": "string", "minLength": 1},
+        "status": {"enum": ["open", "closed"]},
+        "work_ref": {"type": ["string", "null"]},
+        "resolution_ref": {"type": ["string", "null"]}
+      }
+    }
+  }
+}

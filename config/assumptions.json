@@ -4,7 +4,7 @@
   "semantics": {
     "authoritative_for": "revisable research assumptions and decision-needed defaults",
     "execution_authority": false,
-    "policy_owner": "config/policy.json",
+    "policy_owner": "config/trading-policy.json",
     "statuses": [
       "active_assumption",
       "decision_needed",
@@ -16,7 +16,7 @@
     "target_compute": {
       "status": "active_assumption",
       "statement": "The final research model should run on the documented Lenovo laptop.",
-      "evidence": "docs/environment/lenovo-laptop-specification-v0.1.md",
+      "evidence": "git-history:docs/environment/lenovo-laptop-specification-v0.1.md",
       "review_trigger": "A different deployment target or approved compute budget is chosen."
     },
     "service_cost": {
@@ -69,7 +69,7 @@
       "status": "active_assumption",
       "statement": "Actually-issued historical forecasts are required. For a post-V2 weather-revision challenger, NOAA GFS 0.5-degree issued forecasts are the preferred baseline because NCEI provides a long official archive with explicit run-cycle and horizon identity. GEFS is a secondary ensemble candidate with an archive-continuity caveat, while ECMWF historical MARS access is deferred pending explicit access/cost approval.",
       "review_trigger": "GFS archive continuity or metadata proves inadequate, GEFS continuity is resolved, ECMWF historical access is approved, or materially stronger peer-reviewed revision evidence changes the design.",
-      "evidence": "docs/development/weather-revision-readiness/evidence.json"
+      "evidence": "git-history:docs/development/weather-revision-readiness/evidence.json"
     },
     "broker_candidate": {
       "status": "active_assumption",

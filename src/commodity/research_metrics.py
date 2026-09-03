@@ -7,6 +7,8 @@ from collections.abc import Iterable
 from pathlib import Path
 from typing import Any
 
+from jsonschema import Draft202012Validator
+
 
 class MetricsContractError(ValueError):
     """Raised when longitudinal metrics evidence is incomplete or inconsistent."""
@@ -525,6 +527,15 @@ def evaluate_closeout(
 
 
 def validate_ledger(ledger: dict[str, Any]) -> None:
+    schema_path = Path(__file__).resolve().parents[2] / "contracts" / "research_metrics.schema.json"
+    schema = json.loads(schema_path.read_text(encoding="utf-8-sig"))
+    errors = sorted(
+        Draft202012Validator(schema).iter_errors(ledger),
+        key=lambda error: list(error.path),
+    )
+    if errors:
+        detail = "; ".join(error.message for error in errors[:5])
+        raise MetricsContractError(f"research_metrics.schema.json validation failed: {detail}")
     if ledger.get("schema_version") != 1:
         raise MetricsContractError("Longitudinal metrics ledger requires schema_version=1")
     policy = ledger.get("comparison_policy")

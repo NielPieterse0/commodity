@@ -72,11 +72,40 @@
   },
   "canonical_contract_schema": {
     "grain": "one row per trade_date and contract_id",
-    "required_columns": ["trade_date", "contract_id", "expiration", "settle"],
-    "optional_columns": ["open", "high", "low", "close", "volume", "open_interest", "available_at"],
-    "timestamp_columns": ["trade_date", "expiration", "available_at"],
-    "unique_key": ["trade_date", "contract_id"],
-    "required_metadata": ["source_id", "source_sha256", "retrieved_at", "exchange", "product_code", "session_timezone", "calendar", "price_semantics"],
+    "required_columns": [
+      "trade_date",
+      "contract_id",
+      "expiration",
+      "settle"
+    ],
+    "optional_columns": [
+      "open",
+      "high",
+      "low",
+      "close",
+      "volume",
+      "open_interest",
+      "available_at"
+    ],
+    "timestamp_columns": [
+      "trade_date",
+      "expiration",
+      "available_at"
+    ],
+    "unique_key": [
+      "trade_date",
+      "contract_id"
+    ],
+    "required_metadata": [
+      "source_id",
+      "source_sha256",
+      "retrieved_at",
+      "exchange",
+      "product_code",
+      "session_timezone",
+      "calendar",
+      "price_semantics"
+    ],
     "term_structure_price": "settle",
     "continuous_contract": {
       "status": "derived_only",
@@ -94,39 +123,6 @@
       "status": "research_bootstrap",
       "purpose": "daily OHLCV proxy",
       "authoritative_for_execution": false
-    },
-    "market_canonical": {
-      "provider": "massive_futures",
-      "product_code": "NG",
-      "exchange": "NYMEX",
-      "session_timezone": "America/New_York",
-      "calendar": "CME_NYMEX",
-      "status": "history_and_roll_validated_licensing_blocked",
-      "purpose": "expiry-aware NYMEX NG per-contract settlement/OHLCV history",
-      "preservation_status": "resumable_snapshot_capture_ready",
-      "v1_curve_preservation": "M1-M12",
-      "schedule_route": "futures/v1/schedules",
-      "backtest_evidence_allowed": false,
-      "approved_for_contract_price_history": true,
-      "provides_contract_id": true,
-      "provides_expiration": true,
-      "provides_settlement": true,
-      "historical_volume": true,
-      "historical_open_interest": false,
-      "history_depth_status": "verified_observed_boundary",
-      "account_history_validated": true,
-      "history_earliest_verified_trade_date": "2024-08-13",
-      "history_validated_at_utc": "2026-08-12T20:05:00Z",
-      "historical_availability_status": "reconstructed_conservative",
-      "availability_policy": {
-        "method": "trade_date_2359_utc",
-        "status": "reconstructed_conservative",
-        "timezone": "UTC",
-        "basis": "CME Henry Hub settlement closes at 14:30 America/New_York and the electronic trading day pauses at 17:00 America/New_York; 23:59 UTC on the trade date is later than both across U.S. DST and is used as a conservative historical availability bound"
-      },
-      "non_display_backtesting_rights_verified": false,
-      "redistribution_allowed": false,
-      "account_validation_manifest": "docs/development/canonical-roll-policy-and-history-validation/account-validation.json"
     },
     "saxo_henry_hub_probe": {
       "provider": "saxo_openapi_sim",
@@ -157,9 +153,11 @@
       "route": "natural-gas/stor/wkly",
       "bulk_dataset": "NG",
       "status": "v1_research_evaluation_ready",
-      "v1_empirical_evidence": "docs/development/v1-research-completion/phase-bc-empirical-closeout.json",
+      "v1_empirical_evidence": "git-history:docs/development/v1-research-completion/phase-bc-empirical-closeout.json",
       "source_variant": "original_plus_published_revisions",
-      "accepted_source_ids": ["eia_wngsr_vintage_reconstruction"],
+      "accepted_source_ids": [
+        "eia_wngsr_vintage_reconstruction"
+      ],
       "point_in_time_required": true,
       "max_staleness_days": 14,
       "regular_release_semantics": "Thursday 10:30 America/New_York; holiday exceptions override",
@@ -190,8 +188,14 @@
           "2024_sample_reselection": "2024-11-18T15:00:00-05:00"
         },
         "sample_reselection_weeks": [
-          "2024-09-20", "2024-09-27", "2024-10-04", "2024-10-11",
-          "2024-10-18", "2024-10-25", "2024-11-01", "2024-11-08"
+          "2024-09-20",
+          "2024-09-27",
+          "2024-10-04",
+          "2024-10-11",
+          "2024-10-18",
+          "2024-10-25",
+          "2024-11-01",
+          "2024-11-08"
         ],
         "ordinary_revision_availability_method": "revision_date_end_of_day_local_conservative",
         "ordinary_revision_local_hour": 23,
@@ -207,7 +211,12 @@
     "eia_fundamentals": {
       "provider": "eia_api_v2",
       "bulk_dataset": "NG",
-      "routes": ["natural-gas/prod", "natural-gas/cons", "natural-gas/move", "natural-gas/pri"],
+      "routes": [
+        "natural-gas/prod",
+        "natural-gas/cons",
+        "natural-gas/move",
+        "natural-gas/pri"
+      ],
       "status": "capture_ready_current_snapshot_only",
       "point_in_time_required": true,
       "purpose": "production, balance, gas demand, LNG/pipeline trade and Henry Hub spot/reference price",
@@ -216,9 +225,15 @@
     "eia_power": {
       "provider": "eia_api_v2",
       "status": "targeted_snapshot_ready",
-      "routes": ["electricity/rto/region-data", "electricity/rto/fuel-type-data"],
+      "routes": [
+        "electricity/rto/region-data",
+        "electricity/rto/fuel-type-data"
+      ],
       "respondent": "US48",
-      "demand_types": ["D", "DF"],
+      "demand_types": [
+        "D",
+        "DF"
+      ],
       "natural_gas_fueltype": "NG",
       "point_in_time_required": true,
       "purpose": "Lower-48 hourly demand/day-ahead demand forecast and natural-gas generation",
@@ -251,12 +266,14 @@
       "provider": "nyiso_mis",
       "product": "ISO Load Forecast (P-7)",
       "status": "v1_research_evaluation_ready",
-      "v1_empirical_evidence": "docs/development/v1-research-completion/phase-bc-empirical-closeout.json",
+      "v1_empirical_evidence": "git-history:docs/development/v1-research-completion/phase-bc-empirical-closeout.json",
       "purpose": "PIT-admissible issued NYISO load forecasts for the V1 power feature family",
       "point_in_time_required": true,
       "v1_required_window": "2024-08-13 through 2026-08-12",
       "v1_archive_validation": "730_of_730_prediction_dates_have_eligible_next_day_forecast",
-      "accepted_source_ids": ["nyiso_p7_iso_load_forecast"],
+      "accepted_source_ids": [
+        "nyiso_p7_iso_load_forecast"
+      ],
       "max_staleness_hours": 25,
       "availability_reconstruction_status": "conservative_bound_validated_for_v1_window",
       "availability_policy": {
@@ -276,9 +293,11 @@
       "contract_market_code": "023651",
       "status": "v1_release_reconstruction_ready",
       "acquisition_status": "annual_archives_acquired_for_v1_research_evaluation",
-      "v1_empirical_evidence": "docs/development/v1-research-completion/phase-bc-empirical-closeout.json",
+      "v1_empirical_evidence": "git-history:docs/development/v1-research-completion/phase-bc-empirical-closeout.json",
       "source_variant": "disaggregated_futures_only",
-      "accepted_source_ids": ["cftc_disaggregated_futures_only_023651"],
+      "accepted_source_ids": [
+        "cftc_disaggregated_futures_only_023651"
+      ],
       "purpose": "weekly PIT Henry Hub positioning; Managed Money is the preferred research slice",
       "point_in_time_required": true,
       "max_staleness_days": 14,
@@ -293,9 +312,24 @@
         "supported_report_date_end": "2026-12-22",
         "supported_report_date_basis": "Versioned conservative replay support for retained 2024 annual evidence plus verified special/2026 schedules; ordinary historical reports use the seven-day conservative publication bound",
         "policy_versions": [
-          {"id": "ordinary-conservative-v1", "report_date_start": "2024-01-01", "report_date_end": "2025-09-29", "rule": "ordinary_conservative_day_offset"},
-          {"id": "shutdown-special-v1", "report_date_start": "2025-09-30", "report_date_end": "2025-12-30", "rule": "special_or_ordinary_conservative"},
-          {"id": "published-schedule-v1", "report_date_start": "2025-12-31", "report_date_end": "2026-12-22", "rule": "scheduled_or_ordinary_conservative"}
+          {
+            "id": "ordinary-conservative-v1",
+            "report_date_start": "2024-01-01",
+            "report_date_end": "2025-09-29",
+            "rule": "ordinary_conservative_day_offset"
+          },
+          {
+            "id": "shutdown-special-v1",
+            "report_date_start": "2025-09-30",
+            "report_date_end": "2025-12-30",
+            "rule": "special_or_ordinary_conservative"
+          },
+          {
+            "id": "published-schedule-v1",
+            "report_date_start": "2025-12-31",
+            "report_date_end": "2026-12-22",
+            "rule": "scheduled_or_ordinary_conservative"
+          }
         ],
         "conservative_local_hour": 23,
         "conservative_local_minute": 59,
@@ -320,34 +354,80 @@
           "2025-12-30": "2026-01-05"
         },
         "scheduled_release_dates": [
-          "2026-01-05", "2026-01-09", "2026-01-16", "2026-01-23", "2026-01-30",
-          "2026-02-06", "2026-02-13", "2026-02-20", "2026-02-27",
-          "2026-03-06", "2026-03-13", "2026-03-20", "2026-03-27",
-          "2026-04-03", "2026-04-10", "2026-04-17", "2026-04-24",
-          "2026-05-01", "2026-05-08", "2026-05-15", "2026-05-22", "2026-05-29",
-          "2026-06-05", "2026-06-12", "2026-06-22", "2026-06-26",
-          "2026-07-06", "2026-07-10", "2026-07-17", "2026-07-24", "2026-07-31",
-          "2026-08-07", "2026-08-14", "2026-08-21", "2026-08-28",
-          "2026-09-04", "2026-09-11", "2026-09-18", "2026-09-25",
-          "2026-10-02", "2026-10-09", "2026-10-16", "2026-10-23", "2026-10-30",
-          "2026-11-06", "2026-11-16", "2026-11-20", "2026-11-30",
-          "2026-12-04", "2026-12-11", "2026-12-18", "2026-12-28"
+          "2026-01-05",
+          "2026-01-09",
+          "2026-01-16",
+          "2026-01-23",
+          "2026-01-30",
+          "2026-02-06",
+          "2026-02-13",
+          "2026-02-20",
+          "2026-02-27",
+          "2026-03-06",
+          "2026-03-13",
+          "2026-03-20",
+          "2026-03-27",
+          "2026-04-03",
+          "2026-04-10",
+          "2026-04-17",
+          "2026-04-24",
+          "2026-05-01",
+          "2026-05-08",
+          "2026-05-15",
+          "2026-05-22",
+          "2026-05-29",
+          "2026-06-05",
+          "2026-06-12",
+          "2026-06-22",
+          "2026-06-26",
+          "2026-07-06",
+          "2026-07-10",
+          "2026-07-17",
+          "2026-07-24",
+          "2026-07-31",
+          "2026-08-07",
+          "2026-08-14",
+          "2026-08-21",
+          "2026-08-28",
+          "2026-09-04",
+          "2026-09-11",
+          "2026-09-18",
+          "2026-09-25",
+          "2026-10-02",
+          "2026-10-09",
+          "2026-10-16",
+          "2026-10-23",
+          "2026-10-30",
+          "2026-11-06",
+          "2026-11-16",
+          "2026-11-20",
+          "2026-11-30",
+          "2026-12-04",
+          "2026-12-11",
+          "2026-12-18",
+          "2026-12-28"
         ]
       }
     },
     "weather": {
       "provider": "open_meteo_historical_forecast",
       "status": "v1_research_evaluation_ready_with_declared_gaps",
-      "v1_empirical_evidence": "docs/development/v1-research-completion/phase-bc-empirical-closeout.json",
+      "v1_empirical_evidence": "git-history:docs/development/v1-research-completion/phase-bc-empirical-closeout.json",
       "fallback_provider": "noaa_gfs_archive",
       "product": "actually-issued historical forecast",
       "model": "ecmwf_ifs",
       "archive_start": "2024-03-14",
       "point_in_time_required": true,
       "purpose": "forecast-vintage temperatures and HDD/CDD surprises by gas-demand region",
-      "required_vintage_fields": ["issued_at", "available_at", "forecast_valid_at"],
+      "required_vintage_fields": [
+        "issued_at",
+        "available_at",
+        "forecast_valid_at"
+      ],
       "forbidden_substitute": "reanalysis_as_forecast",
-      "accepted_source_ids": ["open_meteo_single_runs_v1"],
+      "accepted_source_ids": [
+        "open_meteo_single_runs_v1"
+      ],
       "max_staleness_hours": 24,
       "declared_issued_run_archive_gaps": [
         "2025-08-05T00:00:00Z",
@@ -363,15 +443,39 @@
       "declared_gap_handling": "carry_forward_latest_actually_issued_complete_forecast_pit_only",
       "v1_run_cycle_utc_hour": 0,
       "v1_forecast_days": 10,
-      "v1_feature_lead_hours": [24, 192],
+      "v1_feature_lead_hours": [
+        24,
+        192
+      ],
       "v1_degree_day_base_c": 18.3333333333,
       "v1_anchor_aggregation": "unweighted_anchor_mean",
-      "v1_hourly_variables": ["temperature_2m", "relative_humidity_2m", "precipitation", "wind_speed_10m"],
+      "v1_hourly_variables": [
+        "temperature_2m",
+        "relative_humidity_2m",
+        "precipitation",
+        "wind_speed_10m"
+      ],
       "v1_anchors": [
-        {"id": "midwest_chicago", "latitude": 41.8781, "longitude": -87.6298},
-        {"id": "northeast_new_york", "latitude": 40.7128, "longitude": -74.0060},
-        {"id": "southeast_atlanta", "latitude": 33.7490, "longitude": -84.3880},
-        {"id": "south_central_houston", "latitude": 29.7604, "longitude": -95.3698}
+        {
+          "id": "midwest_chicago",
+          "latitude": 41.8781,
+          "longitude": -87.6298
+        },
+        {
+          "id": "northeast_new_york",
+          "latitude": 40.7128,
+          "longitude": -74.006
+        },
+        {
+          "id": "southeast_atlanta",
+          "latitude": 33.749,
+          "longitude": -84.388
+        },
+        {
+          "id": "south_central_houston",
+          "latitude": 29.7604,
+          "longitude": -95.3698
+        }
       ],
       "availability_reconstruction_status": "conservative_research_timing_ready_exact_history_unverified",
       "availability_policy": {
@@ -392,7 +496,10 @@
       "product": "GFS model GRIB-2 Grid 4",
       "grid": "0.5_degree",
       "selected_cycle_utc_hour": 0,
-      "forecast_valid_lead_hours": [24, 168],
+      "forecast_valid_lead_hours": [
+        24,
+        168
+      ],
       "forecast_step_hours": 3,
       "revision_definition": "current eligible 00 UTC issued forecast minus immediately preceding eligible 00 UTC issued forecast for identical valid timestamps",
       "forbidden_substitute": "reanalysis_or_realized_weather",
@@ -403,20 +510,54 @@
       "population_weighting": "predeclared_control_only",
       "archive_identity": "NCEI DSI 6182 / gov.noaa.ncdc:C00634",
       "content_identity": "order/request manifest plus SHA-256 per GRIB2 file",
-      "feasibility_evidence": "research/exploratory/weather-revision-mechanism-276.json"
+      "feasibility_evidence": "git-history:research/exploratory/weather-revision-mechanism-276.json"
     },
-    "databento_henry_hub_probe": {
+    "massive_henry_hub_evaluation": {
+      "provider": "massive_futures",
+      "product_code": "NG",
+      "exchange": "NYMEX",
+      "session_timezone": "America/New_York",
+      "calendar": "CME_NYMEX",
+      "status": "history_and_roll_validated_evaluation_only",
+      "purpose": "retained V1 expiry-aware NYMEX NG per-contract evaluation history; not canonical promotion evidence",
+      "preservation_status": "resumable_snapshot_capture_ready",
+      "v1_curve_preservation": "M1-M12",
+      "schedule_route": "futures/v1/schedules",
+      "backtest_evidence_allowed": false,
+      "approved_for_contract_price_history": true,
+      "provides_contract_id": true,
+      "provides_expiration": true,
+      "provides_settlement": true,
+      "historical_volume": true,
+      "historical_open_interest": false,
+      "history_depth_status": "verified_observed_boundary",
+      "account_history_validated": true,
+      "history_earliest_verified_trade_date": "2024-08-13",
+      "history_validated_at_utc": "2026-08-12T20:05:00Z",
+      "historical_availability_status": "reconstructed_conservative",
+      "availability_policy": {
+        "method": "trade_date_2359_utc",
+        "status": "reconstructed_conservative",
+        "timezone": "UTC",
+        "basis": "CME Henry Hub settlement closes at 14:30 America/New_York and the electronic trading day pauses at 17:00 America/New_York; 23:59 UTC on the trade date is later than both across U.S. DST and is used as a conservative historical availability bound"
+      },
+      "non_display_backtesting_rights_verified": false,
+      "redistribution_allowed": false,
+      "account_validation_manifest": "git-history:docs/development/canonical-roll-policy-and-history-validation/account-validation.json",
+      "canonical_market_source": false
+    },
+    "databento_henry_hub": {
       "provider": "databento_futures",
       "status": "acquired_integrity_complete_research_approved",
-      "purpose": "approved private-project CME NG official settlement/statistics and deeper contract history for research and backtesting",
+      "purpose": "canonical private-project CME NG official settlement/statistics and deep contract history for research and backtesting",
       "acquisition_governance_status": "operator_approved_existing_purchase_private_research",
       "integrity_status": "complete",
       "integrity_verified_complete_through": "2026-08-12",
       "paid_reacquisition_approved": false,
-      "quarantine_evidence": "docs/development/databento-full-history-acquisition/evidence.json",
-      "repair_evidence": "docs/development/databento-full-history-acquisition/repair-evidence.json",
+      "quarantine_evidence": "git-history:docs/development/databento-full-history-acquisition/evidence.json",
+      "repair_evidence": "git-history:docs/development/databento-full-history-acquisition/repair-evidence.json",
       "offline_decode_status": "validated_preserved_2015_pair",
-      "offline_decode_evidence": "docs/development/databento-offline-dbn/evidence.json",
+      "offline_decode_evidence": "git-history:docs/development/databento-offline-dbn/evidence.json",
       "dataset": "GLBX.MDP3",
       "product_code": "NG",
       "canonical_market_source": true,
@@ -436,7 +577,21 @@
       },
       "licensing_rights_verified": true,
       "approved_use_scope": "private project research and backtesting of the already-purchased historical batch; no redistribution authority",
-      "evaluation_evidence": "docs/development/databento-vs-massive/evidence.json"
+      "evaluation_evidence": "git-history:docs/development/databento-vs-massive/evidence.json",
+      "exchange": "NYMEX",
+      "session_timezone": "America/New_York",
+      "calendar": "CME_NYMEX",
+      "price_semantics": "cme_final_settlement_from_databento_statistics",
+      "allowed_metadata_source_ids": [
+        "databento_glbx_mdp3_statistics_v0",
+        "databento_glbx_mdp3_offline_dbn_v1"
+      ],
+      "approved_for_contract_price_history": true,
+      "history_depth_status": "verified_acquired_full_history",
+      "history_earliest_verified_trade_date": "2010-06-06",
+      "non_display_backtesting_rights_verified": true,
+      "redistribution_allowed": false
     }
-  }
+  },
+  "canonical_market_source_id": "databento_henry_hub"
 }

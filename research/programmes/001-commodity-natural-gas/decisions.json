@@ -1,0 +1,148 @@
+{
+  "schema_version": 1,
+  "generated_projection": false,
+  "decisions": [
+    {
+      "id": "legacy-v1-reject",
+      "decision": "Reject promotion of the tested V1 next-session return hypothesis/model ladder; no robust edge was established.",
+      "status": "active",
+      "superseded_by": null,
+      "source_record": "research/programmes/001-commodity-natural-gas/lines/001-v1-next-session-return-baseline/experiments/001-ng-next-session-return-baseline-v1/legacy-record.json"
+    },
+    {
+      "id": "legacy-001-v2-82-kronos-only-disposition",
+      "decision": "Preserve superseded_original_lineage as historical V2 evidence; do not manufacture retrospective execution evidence.",
+      "status": "active",
+      "superseded_by": null,
+      "source_record": "research/programmes/001-commodity-natural-gas/lines/002-v2-original-components/experiments/001-v2-82-kronos-only/legacy-record.json"
+    },
+    {
+      "id": "legacy-002-v2-83-indicators-only-disposition",
+      "decision": "Preserve fail_closed_before_fit as historical V2 evidence; do not manufacture retrospective execution evidence.",
+      "status": "active",
+      "superseded_by": null,
+      "source_record": "research/programmes/001-commodity-natural-gas/lines/002-v2-original-components/experiments/002-v2-83-indicators-only/legacy-record.json"
+    },
+    {
+      "id": "legacy-003-v2-84-kronos-indicator-fusion-disposition",
+      "decision": "Preserve not_executed as historical V2 evidence; do not manufacture retrospective execution evidence.",
+      "status": "active",
+      "superseded_by": null,
+      "source_record": "research/programmes/001-commodity-natural-gas/lines/002-v2-original-components/experiments/003-v2-84-kronos-indicator-fusion/legacy-record.json"
+    },
+    {
+      "id": "legacy-004-v2-85-unexecuted-disposition",
+      "decision": "Preserve #85 as a genuine frozen sensitivity design with final disposition not_planned / obsolete-no-action; execution remained unauthorized, no empirical result exists, and no retrospective execution evidence may be manufactured.",
+      "status": "active",
+      "superseded_by": null,
+      "source_record": "research/programmes/001-commodity-natural-gas/lines/002-v2-original-components/experiments/004-v2-85-unexecuted/legacy-record.json"
+    },
+    {
+      "id": "legacy-kronos-180-drop",
+      "decision": "Drop direct one-step Kronos for the frozen target/grain; checkpoint-size rescue is not justified.",
+      "status": "active",
+      "superseded_by": null,
+      "source_record": "research/programmes/001-commodity-natural-gas/lines/003-corrected-kronos-direct-return/experiments/001-kronos-180-corrected-three-checkpoint/legacy-record.json"
+    },
+    {
+      "id": "legacy-volatility-design-only",
+      "decision": "Treat ng-volatility-direction-v1 as design history, not executed evidence.",
+      "status": "active",
+      "superseded_by": null,
+      "source_record": "research/programmes/001-commodity-natural-gas/lines/004-target-redesign-volatility-events/experiments/001-ng-volatility-direction-v1/legacy-record.json"
+    },
+    {
+      "id": "legacy-volatility-195-diagnostic",
+      "decision": "Preserve the HAR improvement as diagnostic only; it is not protected confirmation.",
+      "status": "active",
+      "superseded_by": null,
+      "source_record": "research/programmes/001-commodity-natural-gas/lines/004-target-redesign-volatility-events/experiments/002-volatility-195-gk-har-v1/legacy-record.json"
+    },
+    {
+      "id": "legacy-volatility-successor-stop",
+      "decision": "Do not spend protected confirmation on the underpowered volatility/event successor designs.",
+      "status": "active",
+      "superseded_by": null,
+      "source_record": "research/programmes/001-commodity-natural-gas/lines/004-target-redesign-volatility-events/experiments/003-volatility-successor-power-gated-197-209/legacy-record.json"
+    },
+    {
+      "id": "legacy-volatility-277-hold",
+      "decision": "Hold volatility reopening until all predeclared relative-MDE/MEPI sensitivities are <= 1.0 and a fresh confirmation path exists.",
+      "status": "active",
+      "superseded_by": null,
+      "source_record": "research/programmes/001-commodity-natural-gas/lines/004-target-redesign-volatility-events/experiments/004-volatility-reopening-277/legacy-record.json"
+    },
+    {
+      "id": "legacy-timesfm-198-reject",
+      "decision": "Do not promote standalone TimesFM next-session return forecasts; the zero-return hurdle was not beaten.",
+      "status": "active",
+      "superseded_by": null,
+      "source_record": "research/programmes/001-commodity-natural-gas/lines/005-timesfm-return-complementarity/experiments/001-timesfm-198-zero-shot-v1/legacy-record.json"
+    },
+    {
+      "id": "legacy-timesfm-226-reject",
+      "decision": "Reject the tested TimesFM/V1 blend family; do not continue generic blend search on consumed evidence.",
+      "status": "active",
+      "superseded_by": null,
+      "source_record": "research/programmes/001-commodity-natural-gas/lines/005-timesfm-return-complementarity/experiments/002-timesfm-226-ensemble-reanalysis-v1/legacy-record.json"
+    },
+    {
+      "id": "legacy-portfolio-244-compress",
+      "decision": "Keep only decision-relevant, mechanism-led future experiments; untested ideas are not execution obligations.",
+      "status": "active",
+      "superseded_by": null,
+      "source_record": "git-history:docs/development/target-horizon-portfolio/portfolio.json"
+    },
+    {
+      "id": "legacy-001-front-curve-feasibility-271-disposition",
+      "decision": "Preserve historical disposition: front_curve_feasibility_hold_before_preregistration.",
+      "status": "active",
+      "superseded_by": null,
+      "source_record": "research/programmes/001-commodity-natural-gas/lines/008-next-defensible-edge/experiments/001-front-curve-feasibility-271/legacy-record.json"
+    },
+    {
+      "id": "legacy-002-front-curve-conformance-273-disposition",
+      "decision": "Preserve historical disposition: conformance_replay_hold_protected_unopened.",
+      "status": "active",
+      "superseded_by": null,
+      "source_record": "research/programmes/001-commodity-natural-gas/lines/008-next-defensible-edge/experiments/002-front-curve-conformance-273/legacy-record.json"
+    },
+    {
+      "id": "legacy-003-front-curve-history-admissibility-275-disposition",
+      "decision": "Preserve historical disposition: pre2015_exact_semantics_stop_protected_unopened.",
+      "status": "active",
+      "superseded_by": null,
+      "source_record": "research/programmes/001-commodity-natural-gas/lines/008-next-defensible-edge/experiments/003-front-curve-history-admissibility-275/legacy-record.json"
+    },
+    {
+      "id": "legacy-004-weather-revision-mechanism-276-disposition",
+      "decision": "Preserve historical disposition: weather_revision_feasibility_hold_before_preregistration_protected_unopened.",
+      "status": "active",
+      "superseded_by": null,
+      "source_record": "research/programmes/001-commodity-natural-gas/lines/008-next-defensible-edge/experiments/004-weather-revision-mechanism-276/legacy-record.json"
+    },
+    {
+      "id": "legacy-005-databento-history-redesign-279-disposition",
+      "decision": "Preserve historical disposition: data_first_full_history_go_to_literature_replication_protected_unopened.",
+      "status": "active",
+      "superseded_by": null,
+      "source_record": "research/programmes/001-commodity-natural-gas/lines/008-next-defensible-edge/experiments/005-databento-history-redesign-279/legacy-record.json"
+    },
+    {
+      "id": "legacy-285-replication",
+      "decision": "Treat #285 as positive market/data calibration evidence, not as a trading-edge claim; historical dates are development-consumed.",
+      "status": "active",
+      "superseded_by": null,
+      "source_record": "research/programmes/001-commodity-natural-gas/lines/008-next-defensible-edge/experiments/006-natural-gas-market-replication-285/legacy-record.json"
+    },
+    {
+      "id": "legacy-285-samuelson-hold",
+      "decision": "Keep the Samuelson successor frozen and unexecuted until 504 new eligible post-2026-08-12 dates accrue and are independently manifested.",
+      "status": "active",
+      "superseded_by": null,
+      "source_record": "research/programmes/001-commodity-natural-gas/lines/008-next-defensible-edge/experiments/007-natural-gas-samuelson-confirmation-285-v1/legacy-record.json"
+    }
+  ],
+  "zoom_level": "L1",
+  "programme_id": "001-commodity-natural-gas"
+}

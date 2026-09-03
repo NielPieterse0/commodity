@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "change_id": "audit-2026-09-02-repository-closeout",
+  "status": "closed",
+  "branch": "temp/agents-md-refresh",
+  "worktree": ".work/worktrees/temp-agents-md-refresh",
+  "base": "main",
+  "outcome": "Repository-wide audit findings closed with fresh deterministic verification and retained evidence.",
+  "owned_paths": [
+    "**"
+  ],
+  "shared_paths": [],
+  "excluded_paths": [
+    ".git/**",
+    ".venv/**"
+  ],
+  "dependencies": [],
+  "integration_owner": null
+}

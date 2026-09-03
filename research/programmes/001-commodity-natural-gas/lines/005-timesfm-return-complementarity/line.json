@@ -1,0 +1,58 @@
+{
+  "schema_version": 1,
+  "zoom_level": "L2",
+  "programme_id": "001-commodity-natural-gas",
+  "research_line_id": "005-timesfm-return-complementarity",
+  "legacy_research_line_ids": [
+    "line-timesfm-return-complementarity"
+  ],
+  "big_picture": "Test whether a strong external foundation time-series model adds standalone or complementary return information without widening the search adaptively.",
+  "evidence_refs": [
+    "git-history:artifacts/timesfm/timesfm-198-zero-shot-v1/result.json",
+    "git-history:artifacts/timesfm/timesfm-226-ensemble-reanalysis-v1/result.json"
+  ],
+  "experiment_history": [
+    {
+      "issues": [
+        198,
+        223,
+        224
+      ],
+      "result": "standalone_not_promoted"
+    },
+    {
+      "issues": [
+        226,
+        228
+      ],
+      "result": "all_12_blends_failed_joint_zero_return_gate"
+    }
+  ],
+  "historical_facts": {
+    "does_not_rule_out": "A new, distinct TimesFM role with its own bounded hypothesis and untouched confirmation path.",
+    "observed": "Standalone point forecasts did not beat zero-return; some representations were complementary to HistGB, but all 12 bounded blends failed the stronger zero-return joint gate.",
+    "rules_out": "Promotion of the tested TimesFM return/blend programme and treating the consumed 204 rows as fresh confirmation."
+  },
+  "programme_interpretation": "Do not continue generic TimesFM return/blend search; preserve the complementarity observation without promoting it.",
+  "remaining_untested_roles": [
+    "distinct non-return or representation roles only if programme-value justified"
+  ],
+  "revisit_trigger": "Require a new mechanism, target or role that could materially change a programme decision plus fresh confirmation capacity.",
+  "status": "rejected_by_evidence",
+  "tested_role_target_horizon": "TimesFM 2.5 zero-shot next-session return representations and exactly 12 preregistered 50/50 blends with V1 HistGB.",
+  "useful_secondary_observations": [
+    "Complementarity against another model is insufficient if the combined system still fails the economic/statistical baseline.",
+    "A bounded successor avoided turning an observation into open-ended blend search."
+  ],
+  "why_zoomed_in": "A bounded zero-shot challenger could test model-family complementarity while preserving the same 204-row comparison contract.",
+  "experiment_refs": [
+    {
+      "experiment_id": "001-timesfm-198-zero-shot-v1",
+      "path": "research/programmes/001-commodity-natural-gas/lines/005-timesfm-return-complementarity/experiments/001-timesfm-198-zero-shot-v1"
+    },
+    {
+      "experiment_id": "002-timesfm-226-ensemble-reanalysis-v1",
+      "path": "research/programmes/001-commodity-natural-gas/lines/005-timesfm-return-complementarity/experiments/002-timesfm-226-ensemble-reanalysis-v1"
+    }
+  ]
+}

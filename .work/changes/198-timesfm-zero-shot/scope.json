@@ -1,0 +1,40 @@
+{
+  "schema_version": 4,
+  "change_id": "198-timesfm-zero-shot",
+  "status": "active",
+  "branch": "change/198-timesfm-zero-shot",
+  "worktree": ".work/worktrees/198-timesfm-zero-shot",
+  "base": "main",
+  "outcome": "Freeze Google TimesFM 2.5 zero-shot commodity evaluation before any result inspection.",
+  "complexity": "medium",
+  "risk_triggers": [],
+  "owned_paths": [
+    "docs/development/timesfm-zero-shot-preregistration/**",
+    "tests/test_timesfm_zero_shot_freeze.py"
+  ],
+  "shared_paths": [],
+  "excluded_paths": [
+    "config/models.json",
+    "config/experiment_candidates.json"
+  ],
+  "dependencies": [],
+  "integration_owner": "codex",
+  "base_evidence": {
+    "local_sha": "4f5c1a23fc5f9bdc40d80977c08a58821f1b9efa",
+    "local_tree": "5abfb38420813420487ebaf052362ecc23926e1d",
+    "upstream_sha": "4f5c1a23fc5f9bdc40d80977c08a58821f1b9efa",
+    "upstream_tree": "5abfb38420813420487ebaf052362ecc23926e1d",
+    "upstream_ref": "refs/remotes/origin/main",
+    "evidence_source": "verified_github_default_branch",
+    "relation": "same_sha"
+  },
+  "work_management": {
+    "project_id": "commodity",
+    "record_id": "RES-198",
+    "source_repository": "NielPieterse0/commodity",
+    "source_number": 198,
+    "source_kind": "issue",
+    "documentation_impact": "pre_merge_complete",
+    "execution_owner": "codex"
+  }
+}

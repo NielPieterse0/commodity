@@ -1,0 +1,48 @@
+{
+  "schema_version": 4,
+  "change_id": "271-front-curve-spread-feasibility",
+  "status": "active",
+  "branch": "change/271-front-curve-spread-feasibility",
+  "worktree": ".work/worktrees/271-front-curve-spread-feasibility",
+  "base": "main",
+  "outcome": "Evaluate one predeclared roll-safe Henry Hub M1-M2 spread-change target for design feasibility without model fitting or protected outcome inspection, and freeze the first confirmatory design only if the MEPI/power gate passes.",
+  "complexity": "large",
+  "risk_triggers": ["research-methodology", "protected-outcome-boundary", "point-in-time-market-data"],
+  "owned_paths": [
+    "src/commodity/front_curve_feasibility.py",
+    "scripts/run_front_curve_feasibility.py",
+    "tests/test_front_curve_feasibility.py",
+    "research/exploratory/front-curve-feasibility-271.json",
+    "research/experiments/ng-front-curve-m1m2-change-v1/**",
+    "config/programme_evidence_map.json",
+    "config/programme_inference_ledger.json",
+    ".work/changes/271-front-curve-spread-feasibility/**"
+  ],
+  "shared_paths": [],
+  "excluded_paths": [
+    "config/policy.json",
+    "config/sealed_windows.json",
+    "data/**",
+    "artifacts/**"
+  ],
+  "dependencies": [],
+  "integration_owner": "codex",
+  "base_evidence": {
+    "local_sha": "e6bdd95f6f81c7233db002081428f68e64c490d4",
+    "local_tree": "10ddac60ae0a71deb2311b7b3e769c22af51aa76",
+    "upstream_sha": "e6bdd95f6f81c7233db002081428f68e64c490d4",
+    "upstream_tree": "10ddac60ae0a71deb2311b7b3e769c22af51aa76",
+    "upstream_ref": "refs/remotes/origin/main",
+    "evidence_source": "verified_github_default_branch",
+    "relation": "same_sha"
+  },
+  "work_management": {
+    "project_id": "commodity",
+    "record_id": "WORK-271",
+    "source_repository": "NielPieterse0/commodity",
+    "source_number": 271,
+    "source_kind": "issue",
+    "documentation_impact": "planned",
+    "execution_owner": "codex"
+  }
+}

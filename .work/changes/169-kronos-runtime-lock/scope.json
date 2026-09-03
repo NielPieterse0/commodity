@@ -1,0 +1,47 @@
+{
+  "schema_version": 4,
+  "change_id": "169-kronos-runtime-lock",
+  "status": "active",
+  "branch": "change/169-kronos-runtime-lock",
+  "worktree": ".work/worktrees/169-kronos-runtime-lock",
+  "base": "main",
+  "outcome": "Pin and verify an exact CPU-only Kronos runtime lock, bind its observed digest into preflight and new checkpoint lineage, and preserve historical frozen confirmation authority.",
+  "owned_paths": [
+    "requirements.kronos-cpu.lock.txt",
+    "src/commodity/kronos_runtime.py",
+    "src/commodity/kronos_confirmation_run.py",
+    "scripts/preflight_kronos_checkpoint.py",
+    "scripts/verify_kronos_runtime.py",
+    "tests/test_kronos_runtime.py",
+    "tests/test_kronos_confirmation_run.py",
+    "docs/development/kronos-runtime-lock/**",
+    ".work/changes/169-kronos-runtime-lock/**"
+  ],
+  "shared_paths": [],
+  "excluded_paths": [
+    "config/models.json",
+    "config/kronos_confirmation.json",
+    "requirements.lock.txt",
+    "artifacts/**"
+  ],  "dependencies": [],
+  "integration_owner": null,
+  "complexity": "medium",
+  "risk_triggers": [],
+  "base_evidence": {
+    "local_sha": "fbd87825aefc62fc3e19e2f4814441402b4620da",
+    "local_tree": "048a96cfe89878faf7faeb8b01143caad62adbbd",
+    "upstream_sha": "fbd87825aefc62fc3e19e2f4814441402b4620da",
+    "upstream_tree": "048a96cfe89878faf7faeb8b01143caad62adbbd",
+    "upstream_ref": "refs/remotes/origin/main",
+    "evidence_source": "verified_github_default_branch",
+    "relation": "same_sha"
+  },
+  "work_management": {
+    "project_id": "commodity",
+    "source_repository": "NielPieterse0/commodity",
+    "source_number": 169,
+    "source_kind": "issue",
+    "documentation_impact": "pre_merge_complete",
+    "execution_owner": "codex"
+  }
+}

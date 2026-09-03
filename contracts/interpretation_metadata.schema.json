@@ -1,14 +1,105 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://commodity.local/contracts/interpretation-metadata/v2",
-  "title": "Commodity Interpretation Metadata", "type": "object", "additionalProperties": false,
-  "required": ["schema_version","experiment_id","prereg_sha256","results_sha256","human_disposition","observed_vs_expected","disconfirmers_observed","post_result_literature_snapshot_ref","external_triangulation"],
+  "$id": "https://commodity.local/contracts/interpretation-metadata/v3",
+  "title": "Commodity Interpretation Metadata",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "zoom_level",
+    "experiment_id",
+    "prereg_sha256",
+    "results_sha256",
+    "human_disposition",
+    "observed_vs_expected",
+    "disconfirmers_observed",
+    "post_result_literature_snapshot_ref",
+    "external_triangulation",
+    "literature_expectation_assessment",
+    "coherence_interpretation",
+    "hierarchy_retrace"
+  ],
   "properties": {
-    "schema_version": {"const":2}, "experiment_id": {"type":"string","minLength":1},
-    "prereg_sha256": {"type":"string","pattern":"^[0-9a-f]{64}$"}, "results_sha256": {"type":"string","pattern":"^[0-9a-f]{64}$"},
-    "human_disposition": {"enum":["advance","replicate","refine","branch","hold","stop"]},
-    "observed_vs_expected": {"type":"string","minLength":1}, "disconfirmers_observed": {"type":"array","items":{"type":"string","minLength":1}},
-    "post_result_literature_snapshot_ref": {"type":"object","additionalProperties":false,"required":["path","sha256"],"properties":{"path":{"type":"string","minLength":1},"sha256":{"type":"string","pattern":"^[0-9a-fA-F]{64}$"}}},
-    "external_triangulation": {"type":"string","minLength":1}
+    "schema_version": {
+      "const": 3
+    },
+    "experiment_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "prereg_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "results_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "human_disposition": {
+      "enum": [
+        "advance",
+        "replicate",
+        "refine",
+        "branch",
+        "hold",
+        "stop"
+      ]
+    },
+    "observed_vs_expected": {
+      "type": "string",
+      "minLength": 1
+    },
+    "disconfirmers_observed": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "post_result_literature_snapshot_ref": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "path",
+        "sha256"
+      ],
+      "properties": {
+        "path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-fA-F]{64}$"
+        }
+      }
+    },
+    "external_triangulation": {
+      "type": "string",
+      "minLength": 1
+    },
+    "literature_expectation_assessment": {
+      "type": "string",
+      "minLength": 1
+    },
+    "coherence_interpretation": {
+      "type": "string",
+      "minLength": 1
+    },
+    "hierarchy_retrace": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["L4", "L3", "L2", "L1", "L0"],
+      "properties": {
+        "L4": {"type": "string", "minLength": 1},
+        "L3": {"type": "string", "minLength": 1},
+        "L2": {"type": "string", "minLength": 1},
+        "L1": {"type": "string", "minLength": 1},
+        "L0": {"type": "string", "minLength": 1}
+      }
+    },
+    "zoom_level": {
+      "const": "L5"
+    }
   }
 }

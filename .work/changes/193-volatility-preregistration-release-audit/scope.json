@@ -1,0 +1,47 @@
+{
+  "schema_version": 4,
+  "change_id": "193-volatility-preregistration-release-audit",
+  "status": "active",
+  "branch": "change/193-volatility-preregistration-release-audit",
+  "worktree": ".work/worktrees/193-volatility-preregistration-release-audit",
+  "base": "main",
+  "outcome": "Independently verify the exact landed #191 volatility preregistration and release only its consumed-history diagnostic if every frozen guard passes.",
+  "owned_paths": [
+    "docs/development/volatility-preregistration-release-audit/**",
+    ".work/changes/193-volatility-preregistration-release-audit/**"
+  ],
+  "shared_paths": [],
+  "excluded_paths": [
+    "artifacts/**",
+    "config/**",
+    "src/**",
+    "data/**"
+  ],
+  "dependencies": [
+    "191-volatility-preregistration",
+    "147-target-horizon-portfolio",
+    "149-deep-history-target-feasibility",
+    "155-effective-n-detectable-effect",
+    "137-untouched-confirmation"
+  ],  "integration_owner": null,
+  "complexity": "small",
+  "risk_triggers": [],
+  "base_evidence": {
+    "local_sha": "759b45b62f53f5f7e21d32a39f52ce937eaf2bb5",
+    "local_tree": "606a0e4e2ec3344cd0b21903aa66616d69593927",
+    "upstream_sha": "759b45b62f53f5f7e21d32a39f52ce937eaf2bb5",
+    "upstream_tree": "606a0e4e2ec3344cd0b21903aa66616d69593927",
+    "upstream_ref": "refs/remotes/origin/main",
+    "evidence_source": "verified_github_default_branch",
+    "relation": "same_sha"
+  },
+  "work_management": {
+    "project_id": "commodity",
+    "record_id": "WORK-193",
+    "source_repository": "NielPieterse0/commodity",
+    "source_number": 193,
+    "source_kind": "issue",
+    "documentation_impact": "planned",
+    "execution_owner": "codex"
+  }
+}

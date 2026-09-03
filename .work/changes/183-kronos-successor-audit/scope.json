@@ -1,0 +1,42 @@
+{
+  "schema_version": 4,
+  "change_id": "183-kronos-successor-audit",
+  "status": "active",
+  "branch": "change/183-kronos-successor-audit",
+  "worktree": ".work/worktrees/183-kronos-successor-audit",
+  "base": "main",
+  "outcome": "Independently reconstruct the exact landed #182 Kronos freeze and authorize #180 only if all frozen source, model, data, evaluation, namespace, and no-inference checks pass.",
+  "owned_paths": [
+    "docs/development/kronos-three-checkpoint-confirmation/audit-release.json",
+    "docs/development/kronos-three-checkpoint-confirmation/audit.md",
+    "tests/test_kronos_confirmation_freeze.py",
+    ".work/changes/183-kronos-successor-audit/**"
+  ],
+  "shared_paths": [],
+  "excluded_paths": [
+    "src/**",
+    "config/**",
+    "artifacts/**"
+  ],
+  "dependencies": [],
+  "integration_owner": null,
+  "complexity": "small",
+  "risk_triggers": [],
+  "base_evidence": {
+    "local_sha": "a2b471c59286db96c8d787a1e25552f1a8eb2ae9",
+    "local_tree": "aa79c20248f1556f114b3b6cfe67f0ec1c48548e",
+    "upstream_sha": "a2b471c59286db96c8d787a1e25552f1a8eb2ae9",
+    "upstream_tree": "aa79c20248f1556f114b3b6cfe67f0ec1c48548e",
+    "upstream_ref": "refs/remotes/origin/main",
+    "evidence_source": "verified_github_default_branch",
+    "relation": "same_sha"
+  },
+  "work_management": {
+    "project_id": "commodity",
+    "source_repository": "NielPieterse0/commodity",
+    "source_number": 183,
+    "source_kind": "issue",
+    "documentation_impact": "planned",
+    "execution_owner": "codex"
+  }
+}

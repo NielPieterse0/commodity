@@ -1,0 +1,44 @@
+{
+  "schema_version": 4,
+  "change_id": "114-weather-revision-readiness",
+  "status": "active",
+  "branch": "change/114-weather-revision-readiness",
+  "worktree": ".work/worktrees/114-weather-revision-readiness",
+  "base": "main",
+  "outcome": "Document source-graded weather-forecast revision evidence and PIT/archive readiness, preregistering a NOAA GFS-first follow-on without activating or executing it.",
+  "owned_paths": [
+    "config/assumptions.json",
+    "docs/data-manifest.md",
+    "docs/development/weather-revision-readiness/**",
+    "tests/test_weather_revision_readiness.py",
+    ".work/changes/114-weather-revision-readiness/**"
+  ],
+  "shared_paths": [],
+  "excluded_paths": [
+    "config/data_sources.json",
+    "config/experiment_candidates.json",
+    "docs/development/v2-activation-preregistration/activation-contract.json",
+    "src/**"
+  ],
+  "dependencies": [],
+  "integration_owner": null,
+  "complexity": "medium",
+  "risk_triggers": [],
+  "base_evidence": {
+    "local_sha": "c0ae6a0ff1890559b46e0494ae31f7a17fbd1581",
+    "local_tree": "bf63e31a704ba82efa457dc2af3ebe49fbc47e6f",
+    "upstream_sha": "c0ae6a0ff1890559b46e0494ae31f7a17fbd1581",
+    "upstream_tree": "bf63e31a704ba82efa457dc2af3ebe49fbc47e6f",
+    "upstream_ref": "refs/remotes/origin/main",
+    "evidence_source": "local_remote_tracking_ref",
+    "relation": "same_sha"
+  },
+  "work_management": {
+    "project_id": "commodity",
+    "source_repository": "NielPieterse0/commodity",
+    "source_number": 114,
+    "source_kind": "issue",
+    "documentation_impact": "planned",
+    "execution_owner": "codex"
+  }
+}

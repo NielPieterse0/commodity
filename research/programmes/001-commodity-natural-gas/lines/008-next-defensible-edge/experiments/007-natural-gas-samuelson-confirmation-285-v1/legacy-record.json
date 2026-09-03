@@ -1,0 +1,49 @@
+{
+  "schema_version": 1,
+  "zoom_level": "L3",
+  "programme_id": "001-commodity-natural-gas",
+  "research_line_id": "008-next-defensible-edge",
+  "experiment_id": "007-natural-gas-samuelson-confirmation-285-v1",
+  "governance_generation": "legacy_pre_15_step",
+  "historical_status": "design_only",
+  "summary": "Frozen future-only Samuelson confirmation design created by #285; execution was not authorized and no future confirmation outcomes were opened.",
+  "outcome": "future_confirmation_frozen_unexecuted",
+  "issue_lineage": [
+    285
+  ],
+  "source_artifacts": [
+    {
+      "path": "research/confirmatory-specifications/natural-gas-samuelson-confirmation-285-v1/spec.json",
+      "commit": "3e267e9d7df53c3ce927b1007b6e694f3920bde5",
+      "sha256": "024a83e46729c13932fa8aa0e3afa1965a5f4bfd3e5c6a19e3b95663a2cad7b9",
+      "preserved_as": "spec.json",
+      "note": null
+    },
+    {
+      "path": "research/confirmatory-specifications/natural-gas-samuelson-confirmation-285-v1/freeze.json",
+      "commit": "3e267e9d7df53c3ce927b1007b6e694f3920bde5",
+      "sha256": "61f904a61470d26bbe4f8b7ac7e9013a44ae7faeb2e45121b54c74e2196e1ae9",
+      "preserved_as": "freeze.json",
+      "note": null
+    }
+  ],
+  "decisions": [
+    {
+      "id": "legacy-285-samuelson-hold",
+      "decision": "Keep the Samuelson successor frozen and unexecuted until 504 new eligible post-2026-08-12 dates accrue and are independently manifested.",
+      "status": "active",
+      "superseded_by": null
+    }
+  ],
+  "recommendations": [
+    {
+      "id": "legacy-285-accrual",
+      "item": "Acquire and independently manifest 504 eligible Databento dates strictly after 2026-08-12 before confirmation execution.",
+      "status": "open",
+      "work_ref": "issue-285",
+      "resolution_ref": null
+    }
+  ],
+  "open_questions": [],
+  "metrics_ledger_refs": []
+}

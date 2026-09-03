@@ -1,0 +1,77 @@
+{
+  "schema_version": 1,
+  "verified_at": "2026-09-02",
+  "worktree": ".work/worktrees/temp-agents-md-refresh",
+  "canonical_verifier": {
+    "command": "powershell -NoProfile -ExecutionPolicy Bypass -File ./scripts/verify.ps1",
+    "exit_code": 0,
+    "tests_passed": 385,
+    "tests_failed": 0,
+    "rule_registry": "passed",
+    "python_environment": "passed",
+    "durable_evidence_refs": "passed",
+    "market_source_authority": "passed",
+    "dataset_assurance_contract": "passed",
+    "work_layout": "passed",
+    "public_hygiene": "passed",
+    "documentation_authority": "passed",
+    "research_methodology": "passed",
+    "research_memory": "passed",
+    "ruff": "passed",
+    "whitespace": "passed",
+    "research_metrics": "passed"
+  },
+  "additional_verification": {
+    "data_provider_tests": "234 passed",
+    "targeted_provider_governance_tests": "62 passed",
+    "model_tests": "10 passed",
+    "compileall": "passed",
+    "pip_check": "No broken requirements found",
+    "first_party_todo_fixme_markers": 0,
+    "committed_range_whitespace": "passed: git diff --check origin/main HEAD",
+    "timesfm_gitlink": "3dae50b20d7a724981e8ea36cda75578f80dd2dc",
+    "parent_worktree_status": "clean",
+    "timesfm_submodule_status": "clean",
+    "timesfm_legacy_binary_identity": "four affected files raw-hash equal pinned HEAD blobs",
+    "timesfm_lfs_filter_resolution": "local path-specific .git/info/attributes override; no tracked content or gitlink change"
+  },
+  "v1_evaluation_reconstruction": {
+    "rows": 456,
+    "dataset_sha256": "a8888dd12a074bac8d58ef44c642688cc397a315e1e0ed9b5f5af868f2996ebe",
+    "audit_verdict": "fit-with-caveats",
+    "audit_caveats": [
+      "evaluation_only_market_evidence"
+    ],
+    "audit_blockers": [],
+    "massive_raw_contracts": 36,
+    "massive_raw_to_canonical_rows": 11200,
+    "massive_raw_to_canonical_exact": true,
+    "market_archive_manifest_sha256": "38e4585ec2b7dce2bc74c9ff44c14c3228f8dab41ce0a93b269dc9974869a3a6",
+    "reconstruction_method": "deterministic_rebuild_exact_comparison",
+    "semantic_method": "explicit_dataset_semantics_v1",
+    "final_freeze": "data/processed/full-v1-freezes/us-ng-pit-a8888dd12a07-80be5c5761ba296f",
+    "freeze_roundtrip": "passed",
+    "promotion_eligible": false
+  },
+  "work_layout": {
+    "governed_change_directories": 55,
+    "retained_worktree_directories": 51,
+    "historical_changes_directory_exists": false,
+    "historical_worktree_markers": 0
+  },
+  "independent_review": {
+    "bundle_01_replacement": "complete via three exact-head bounded independent reviews",
+    "ci_whitespace": "completed; no surviving P0-P3 findings",
+    "environment": "completed; no surviving P0-P3 findings",
+    "rule_registry": "completed; no surviving P0-P3 findings",
+    "monolithic_attempts": "Codex and NVIDIA monolithic attempts failed transport/output-contract validation and were not treated as verdicts",
+    "review_gate_complete_for_IR_12": true
+  },
+  "verified_commit": "427079c89353844d557a3d568f6e1bcde0873bd0",
+  "kis_lifecycle": {
+    "task_handoff": "materialized",
+    "handoff_fingerprint": "1ef882bfe5ddc516225bea89b162a09e6edc1da52c54266e75479017434dc9d6",
+    "terminal_state_asserted": false,
+    "reason": "pre-existing branch temp/agents-md-refresh does not equal required change/audit-2026-09-02-repository-closeout identity; branch was not renamed/rebound"
+  }
+}

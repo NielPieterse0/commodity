@@ -1,0 +1,15 @@
+{
+  "schema_version": 1,
+  "snapshot_id": "test-literature-snapshot-v1",
+  "research_question": "Can a governed research signal improve a declared benchmark?",
+  "search_scope": "Deterministic test fixture for methodology contract validation.",
+  "sources": [
+    {"source_id": "source-a", "title": "Primary test source", "source_type": "peer_reviewed", "quality": "primary", "locator": "fixture:source-a", "year": 2020},
+    {"source_id": "source-b", "title": "Independent test source", "source_type": "government", "quality": "high", "locator": "fixture:source-b", "year": 2021}
+  ],
+  "claim_map": [
+    {"claim": "The test hypothesis requires benchmark-relative evaluation.", "source_ids": ["source-a", "source-b"]}
+  ],
+  "expected_observations": ["A useful signal should improve the declared benchmark by the preregistered threshold."],
+  "disconfirming_observations": ["The signal fails to improve the declared benchmark by the preregistered threshold."]
+}

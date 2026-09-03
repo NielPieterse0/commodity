@@ -1,0 +1,43 @@
+{
+  "schema_version": 4,
+  "change_id": "115-norway-pit-readiness",
+  "status": "active",
+  "branch": "change/115-norway-pit-readiness",
+  "worktree": ".work/worktrees/115-norway-pit-readiness",
+  "base": "main",
+  "outcome": "Complete the Norway-specific source and PIT evidence gap without activating data acquisition, feature generation, or model execution.",
+  "owned_paths": [
+    "docs/data-manifest.md",
+    "docs/development/norway-source-pit-readiness/**",
+    "tests/test_norway_source_pit_readiness.py",
+    ".work/changes/115-norway-pit-readiness/**"
+  ],
+  "shared_paths": [],
+  "excluded_paths": [
+    "config/data_sources.json",
+    "config/experiment_candidates.json",
+    "config/experiment.json",
+    "src/**"
+  ],
+  "dependencies": ["86"],
+  "integration_owner": null,
+  "complexity": "medium",
+  "risk_triggers": [],
+  "base_evidence": {
+    "local_sha": "80685b42526d8976367f7bc21f5f64fc9a555f93",
+    "local_tree": "dc8a00f0ae9afb2e6800c4fd2ebef468ec0d0ba5",
+    "upstream_sha": "80685b42526d8976367f7bc21f5f64fc9a555f93",
+    "upstream_tree": "dc8a00f0ae9afb2e6800c4fd2ebef468ec0d0ba5",
+    "upstream_ref": "refs/remotes/origin/main",
+    "evidence_source": "verified_github_default_branch",
+    "relation": "same_sha"
+  },
+  "work_management": {
+    "project_id": "commodity",
+    "source_repository": "NielPieterse0/commodity",
+    "source_number": 115,
+    "source_kind": "issue",
+    "documentation_impact": "planned",
+    "execution_owner": "codex"
+  }
+}

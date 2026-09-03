@@ -1,0 +1,41 @@
+{
+  "schema_version": 4,
+  "change_id": "083-indicators-empirical-final",
+  "status": "active",
+  "branch": "change/083-indicators-empirical-final",
+  "worktree": ".work/worktrees/083-indicators-empirical-final",
+  "base": "main",
+  "outcome": "Record the preregistered #83 pre-fit coverage failure without changing the frozen experiment or generating model results.",
+  "owned_paths": [
+    "docs/development/v2-indicator-surprise-challenger/empirical-closeout.json",
+    ".work/changes/083-indicators-empirical-final/**"
+  ],
+  "shared_paths": [],
+  "excluded_paths": [
+    "config/**",
+    "src/**",
+    "tests/**",
+    "artifacts/**"
+  ],
+  "dependencies": [],
+  "integration_owner": null,
+  "complexity": "medium",
+  "risk_triggers": [],
+  "base_evidence": {
+    "local_sha": "9647fab82f426b9b561bd7c32096bc098902bddf",
+    "local_tree": "0e60ccdebca9ff7abe6b6c57745c1a27a82fda73",
+    "upstream_sha": "9647fab82f426b9b561bd7c32096bc098902bddf",
+    "upstream_tree": "0e60ccdebca9ff7abe6b6c57745c1a27a82fda73",
+    "upstream_ref": "refs/remotes/origin/main",
+    "evidence_source": "verified_github_default_branch",
+    "relation": "same_sha"
+  },
+  "work_management": {
+    "project_id": "commodity",
+    "source_repository": "NielPieterse0/commodity",
+    "source_number": 83,
+    "source_kind": "issue",
+    "documentation_impact": "pre_merge_complete",
+    "execution_owner": "codex"
+  }
+}

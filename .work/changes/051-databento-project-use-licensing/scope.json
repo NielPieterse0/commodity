@@ -1,0 +1,45 @@
+{
+  "schema_version": 4,
+  "change_id": "051-databento-project-use-licensing",
+  "status": "active",
+  "branch": "change/051-databento-project-use-licensing",
+  "worktree": ".work/worktrees/051-databento-project-use-licensing",
+  "base": "main",
+  "outcome": "Reassess Databento's incremental Henry Hub research value and current project-use/licensing boundary without repurchasing data, changing the canonical provider, or consuming fresh model evidence.",
+  "owned_paths": [
+    "docs/THIRD_PARTY.md",
+    "docs/development/databento-vs-massive/**",
+    ".work/changes/051-databento-project-use-licensing/**"
+  ],
+  "shared_paths": [],
+  "excluded_paths": [
+    "artifacts/**",
+    "config/**",
+    "data/**",
+    "src/**",
+    "tests/**"
+  ],
+  "dependencies": [
+    "149-deep-history-target-feasibility"
+  ],
+  "integration_owner": null,
+  "complexity": "medium",
+  "risk_triggers": [],  "base_evidence": {
+    "local_sha": "9301b5ebcc953016fa9d91252e385b5e08dc261d",
+    "local_tree": "200e60fadbad76e67adfd16848f1435bae70b25b",
+    "upstream_sha": "9301b5ebcc953016fa9d91252e385b5e08dc261d",
+    "upstream_tree": "200e60fadbad76e67adfd16848f1435bae70b25b",
+    "upstream_ref": "refs/remotes/origin/main",
+    "evidence_source": "verified_github_default_branch",
+    "relation": "same_sha"
+  },
+  "work_management": {
+    "project_id": "commodity",
+    "record_id": "RES-51",
+    "source_repository": "NielPieterse0/commodity",
+    "source_number": 51,
+    "source_kind": "issue",
+    "documentation_impact": "planned",
+    "execution_owner": "codex"
+  }
+}

@@ -198,10 +198,16 @@ def evaluate_revisit_registry(
     return updated
 
 
-def assert_governed_research_preflight() -> None:
-    registry_path = _root() / "config" / "research_revisit_triggers.json"
-    if registry_path.exists():
-        assert_revisit_preflight_current(_load_json(registry_path))
+def assert_governed_research_preflight(programme_id: str) -> None:
+    if not isinstance(programme_id, str) or not programme_id:
+        raise MethodologyError("governed research preflight requires programme_id")
+    registry_path = _root() / "research" / "programmes" / programme_id / "revisit-triggers.json"
+    if not registry_path.is_file():
+        raise MethodologyError("canonical research revisit-trigger registry is missing")
+    registry = _load_json(registry_path)
+    if registry.get("programme_id") != programme_id:
+        raise MethodologyError("revisit-trigger registry programme identity mismatch")
+    assert_revisit_preflight_current(registry)
 
 
 def assert_revisit_preflight_current(registry: dict[str, Any]) -> None:
