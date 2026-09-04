@@ -1,0 +1,171 @@
+{
+  "schema_version": 1,
+  "zoom_level": "L1",
+  "programme_id": "002-henry-hub-fresh",
+  "registry_id": "002-henry-hub-fresh-revisit-v1",
+  "triggers": [
+    {
+      "trigger_id": "rep003-source-ready",
+      "source_record": "research/programmes/002-henry-hub-fresh/evidence-map.json",
+      "disposition": "hold",
+      "status": "active",
+      "evidence_input": "research/programmes/002-henry-hub-fresh/feasibility-readiness.json",
+      "metric": "holds.rep003.ready",
+      "operator": "eq",
+      "threshold": true,
+      "successor_action": {
+        "kind": "release_successor",
+        "trace_ref": "research-line:002-storage-inventory/rep-003-successor"
+      }
+    },
+    {
+      "trigger_id": "rep011-source-ready",
+      "source_record": "research/programmes/002-henry-hub-fresh/evidence-map.json",
+      "disposition": "hold",
+      "status": "active",
+      "evidence_input": "research/programmes/002-henry-hub-fresh/feasibility-readiness.json",
+      "metric": "holds.rep011.ready",
+      "operator": "eq",
+      "threshold": true,
+      "successor_action": {
+        "kind": "release_successor",
+        "trace_ref": "research-line:004-volatility/rep-011-successor"
+      }
+    },
+    {
+      "trigger_id": "rep013-source-ready",
+      "source_record": "research/programmes/002-henry-hub-fresh/evidence-map.json",
+      "disposition": "hold",
+      "status": "active",
+      "evidence_input": "research/programmes/002-henry-hub-fresh/feasibility-readiness.json",
+      "metric": "holds.rep013.ready",
+      "operator": "eq",
+      "threshold": true,
+      "successor_action": {
+        "kind": "release_successor",
+        "trace_ref": "research-line:005-fundamental-balance/rep-013-successor"
+      }
+    },
+    {
+      "trigger_id": "ctx017-direct-hh-evidence",
+      "source_record": "research/programmes/002-henry-hub-fresh/evidence-map.json",
+      "disposition": "hold",
+      "status": "active",
+      "evidence_input": "research/programmes/002-henry-hub-fresh/feasibility-readiness.json",
+      "metric": "holds.ctx017.ready",
+      "operator": "eq",
+      "threshold": true,
+      "successor_action": {
+        "kind": "release_successor",
+        "trace_ref": "research-line:006-cross-market-globalization/ctx-017-successor"
+      }
+    },
+    {
+      "trigger_id": "rep018-surprise-controls-ready",
+      "source_record": "research/programmes/002-henry-hub-fresh/evidence-map.json",
+      "disposition": "hold",
+      "status": "active",
+      "evidence_input": "research/programmes/002-henry-hub-fresh/feasibility-readiness.json",
+      "metric": "holds.rep018.ready",
+      "operator": "eq",
+      "threshold": true,
+      "successor_action": {
+        "kind": "release_successor",
+        "trace_ref": "research-line:007-positioning-announcements/rep-018-successor"
+      }
+    },
+    {
+      "trigger_id": "rep019-source-and-power-ready",
+      "source_record": "research/programmes/002-henry-hub-fresh/evidence-map.json",
+      "disposition": "hold",
+      "status": "active",
+      "evidence_input": "research/programmes/002-henry-hub-fresh/feasibility-readiness.json",
+      "metric": "holds.rep019.ready",
+      "operator": "eq",
+      "threshold": true,
+      "successor_action": {
+        "kind": "release_successor",
+        "trace_ref": "research-line:007-positioning-announcements/rep-019-successor"
+      }
+    },
+    {
+      "trigger_id": "rep010-components-complete",
+      "source_record": "research/programmes/002-henry-hub-fresh/evidence-map.json",
+      "disposition": "hold",
+      "status": "active",
+      "evidence_input": "research/programmes/002-henry-hub-fresh/feasibility-readiness.json",
+      "metric": "holds.rep010.ready",
+      "operator": "eq",
+      "threshold": true,
+      "successor_action": {
+        "kind": "release_successor",
+        "trace_ref": "research-line:004-volatility/rep-010-synthesis"
+      }
+    }
+  ],
+  "evaluation_history": [
+    {
+      "evaluation_id": "rep003-source-ready:2026-09-03T16:30:00+02:00",
+      "evaluated_at": "2026-09-03T16:30:00+02:00",
+      "trigger_id": "rep003-source-ready",
+      "observed": false,
+      "satisfied": false,
+      "evidence_ref": "research/programmes/002-henry-hub-fresh/feasibility-readiness.json",
+      "successor_ref": null
+    },
+    {
+      "evaluation_id": "rep011-source-ready:2026-09-03T16:30:00+02:00",
+      "evaluated_at": "2026-09-03T16:30:00+02:00",
+      "trigger_id": "rep011-source-ready",
+      "observed": false,
+      "satisfied": false,
+      "evidence_ref": "research/programmes/002-henry-hub-fresh/feasibility-readiness.json",
+      "successor_ref": null
+    },
+    {
+      "evaluation_id": "rep013-source-ready:2026-09-03T16:30:00+02:00",
+      "evaluated_at": "2026-09-03T16:30:00+02:00",
+      "trigger_id": "rep013-source-ready",
+      "observed": false,
+      "satisfied": false,
+      "evidence_ref": "research/programmes/002-henry-hub-fresh/feasibility-readiness.json",
+      "successor_ref": null
+    },
+    {
+      "evaluation_id": "ctx017-direct-hh-evidence:2026-09-03T16:30:00+02:00",
+      "evaluated_at": "2026-09-03T16:30:00+02:00",
+      "trigger_id": "ctx017-direct-hh-evidence",
+      "observed": false,
+      "satisfied": false,
+      "evidence_ref": "research/programmes/002-henry-hub-fresh/feasibility-readiness.json",
+      "successor_ref": null
+    },
+    {
+      "evaluation_id": "rep018-surprise-controls-ready:2026-09-03T16:30:00+02:00",
+      "evaluated_at": "2026-09-03T16:30:00+02:00",
+      "trigger_id": "rep018-surprise-controls-ready",
+      "observed": false,
+      "satisfied": false,
+      "evidence_ref": "research/programmes/002-henry-hub-fresh/feasibility-readiness.json",
+      "successor_ref": null
+    },
+    {
+      "evaluation_id": "rep019-source-and-power-ready:2026-09-03T16:30:00+02:00",
+      "evaluated_at": "2026-09-03T16:30:00+02:00",
+      "trigger_id": "rep019-source-and-power-ready",
+      "observed": false,
+      "satisfied": false,
+      "evidence_ref": "research/programmes/002-henry-hub-fresh/feasibility-readiness.json",
+      "successor_ref": null
+    },
+    {
+      "evaluation_id": "rep010-components-complete:2026-09-03T16:45:00+02:00",
+      "evaluated_at": "2026-09-03T16:45:00+02:00",
+      "trigger_id": "rep010-components-complete",
+      "observed": false,
+      "satisfied": false,
+      "evidence_ref": "research/programmes/002-henry-hub-fresh/feasibility-readiness.json",
+      "successor_ref": null
+    }
+  ]
+}

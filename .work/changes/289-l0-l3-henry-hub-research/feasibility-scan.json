@@ -1,0 +1,168 @@
+{
+  "cftc": {
+    "availability_basis": {
+      "cftc_2026_release_schedule_end_of_day": 31,
+      "cftc_ordinary_next_tuesday_end_of_day": 91,
+      "cftc_special_announcement_end_of_day": 14
+    },
+    "availability_status": {
+      "reconstructed_conservative": 136
+    },
+    "coverage_end": "2026-08-04",
+    "coverage_start": "2024-01-02",
+    "managed_money_net_dependence": {
+      "change_ar1": 0.16644037614882037,
+      "change_ar1_effective_n": 96.47346878667378,
+      "change_rows": 135,
+      "level_ar1": 0.9070633052661868,
+      "level_ar1_effective_n": 6.627672216698852,
+      "level_rows": 136
+    },
+    "missing_cells": 0,
+    "revision_status": {
+      "point_in_time": 136
+    },
+    "rows": 136,
+    "unique_observed_for": 136,
+    "year_counts": {
+      "2024": 53,
+      "2025": 52,
+      "2026": 31
+    }
+  },
+  "databento_definitions": {
+    "matched_ng_outright_definition_records": 698175,
+    "unique_ng_outright_instrument_ids": 342
+  },
+  "fundamentals": {
+    "category_coverage": {
+      "consumption": {
+        "earliest_start": "1930",
+        "latest_end": "202605",
+        "series_count": 575
+      },
+      "electric power": {
+        "earliest_start": "1997",
+        "latest_end": "202605",
+        "series_count": 209
+      },
+      "exports": {
+        "earliest_start": "1973",
+        "latest_end": "202605",
+        "series_count": 2205
+      },
+      "henry hub": {
+        "earliest_start": "1997",
+        "latest_end": "20260803",
+        "series_count": 4
+      },
+      "imports": {
+        "earliest_start": "1973",
+        "latest_end": "202605",
+        "series_count": 753
+      },
+      "lng": {
+        "earliest_start": "1969",
+        "latest_end": "202605",
+        "series_count": 248
+      },
+      "production": {
+        "earliest_start": "1900",
+        "latest_end": "202605",
+        "series_count": 1031
+      }
+    },
+    "snapshot_semantics": "current_revised_history",
+    "total_series": 16058
+  },
+  "joinability": {
+    "cftc_availability_dates": 136,
+    "cftc_availability_exact_market_date": 103,
+    "storage_release_dates": 106,
+    "storage_release_exact_market_date": 106,
+    "weather_exact_market_date": 618,
+    "weather_source_dates": 723
+  },
+  "market_identity": {
+    "all_ohlcv_rows": 840785,
+    "coverage_end": "2026-08-12",
+    "coverage_start": "2010-06-06",
+    "days_ge_12_maturities": 4575,
+    "days_ge_13_maturities": 4487,
+    "days_ge_6_maturities": 4987,
+    "mapped_outright_rows": 135384,
+    "max_simultaneous_maturities": 62,
+    "months_with_any_ge_13_day": 195,
+    "trade_dates": 5025,
+    "unique_instruments_observed": 269,
+    "unique_raw_symbols_observed": 209
+  },
+  "notes": [
+    "Market scan uses instrument identity, timestamps and expiration only; OHLC price fields are not used.",
+    "Weather scan uses source timestamps, status fields and missingness only; weather values are not tested against market outcomes.",
+    "CFTC dependence uses positioning values only to characterize effective information for power/design feasibility; positioning is not tested against market outcomes.",
+    "Storage-history dependence uses storage values only to characterize effective information and scarcity-cell capacity; storage is not tested against market outcomes.",
+    "EIA bulk scan reads series metadata only and does not test fundamental values against market outcomes."
+  ],
+  "outcome_effect_testing_performed": false,
+  "programme_id": "002-henry-hub-fresh",
+  "protected_evidence_opened": false,
+  "scan_class": "non_outcome_source_identity_coverage_missingness_only",
+  "schema_version": 1,
+  "storage_events": {
+    "event_type_counts": {
+      "release": 106,
+      "revision": 1
+    },
+    "missing_cells": 107,
+    "release_coverage_end": "2026-08-06",
+    "release_coverage_start": "2024-08-01",
+    "release_rows": 106,
+    "release_weekdays": {
+      "Friday": 3,
+      "Monday": 1,
+      "Thursday": 97,
+      "Wednesday": 5
+    },
+    "revision_rows": 1,
+    "rows": 107,
+    "weekly_change_nonmissing": 106
+  },
+  "storage_history": {
+    "calendar_years": 17,
+    "coverage_end": "2026-08-07",
+    "coverage_start": "2010-06-11",
+    "months": 195,
+    "rows": 844,
+    "snapshot_semantics": "current_revised_history",
+    "storage_anomaly_ar1": 0.9906076264430633,
+    "storage_anomaly_ar1_effective_n": 3.9822831866766637,
+    "winter_below_full_sample_mean_rows": 95,
+    "winter_below_week_of_year_norm_rows": 96,
+    "winter_rows": 206
+  },
+  "weather": {
+    "availability_status": {
+      "reconstructed_conservative": 723
+    },
+    "coverage_end": "2026-08-12",
+    "coverage_start": "2024-08-13",
+    "feature_missing_cells": 0,
+    "missing_dates": [
+      "2025-08-05",
+      "2025-08-06",
+      "2025-08-07",
+      "2025-08-08",
+      "2025-08-09",
+      "2026-06-11",
+      "2026-06-23"
+    ],
+    "revision_status": {
+      "issued_run_immutable": 723
+    },
+    "rows": 723,
+    "rows_with_feature_missingness": 0,
+    "unique_available_at": 723,
+    "unique_issued_at": 723
+  }
+}

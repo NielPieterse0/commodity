@@ -1,0 +1,34 @@
+{
+  "schema_version": 1,
+  "programme_id": "002-henry-hub-fresh",
+  "holds": {
+    "rep003": {
+      "ready": false,
+      "reason": "Historically fixed pre-release consensus source not yet qualified."
+    },
+    "rep011": {
+      "ready": false,
+      "reason": "Source-study historical weather provider/formulas/loss metric not yet reconstructed."
+    },
+    "rep013": {
+      "ready": false,
+      "reason": "Terminal mapping, EBB history and posting semantics not yet source-contracted."
+    },
+    "ctx017": {
+      "ready": false,
+      "reason": "No direct Henry Hub reproduction claim exists from the contextual European source alone."
+    },
+    "rep018": {
+      "ready": false,
+      "reason": "Full near replication still lacks fixed pre-release surprise controls."
+    },
+    "rep019": {
+      "ready": false,
+      "reason": "Exact subscription data unresolved and the retained Friday cell is only three events."
+    },
+    "rep010": {
+      "ready": false,
+      "reason": "Programme synthesis cannot release until component reproductions have been separately executed and verified."
+    }
+  }
+}

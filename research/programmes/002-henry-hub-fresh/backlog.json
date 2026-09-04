@@ -1,0 +1,32 @@
+{
+  "schema_version": 1,
+  "zoom_level": "L1",
+  "programme_id": "002-henry-hub-fresh",
+  "generated_projection": false,
+  "items": [
+    {
+      "id": "implement-go-machinery",
+      "item": "Implement and verify source/estimand/power construction for the fourteen GO routes without opening literature outcomes.",
+      "kind": "recommendation",
+      "status": "open",
+      "source_record": "research/programmes/002-henry-hub-fresh/evidence-map.json",
+      "work_ref": "issue-289"
+    },
+    {
+      "id": "resolve-held-source-contracts",
+      "item": "Resolve the six source/context/power HOLD gates and re-evaluate their machine-readable revisit triggers.",
+      "kind": "recommendation",
+      "status": "open",
+      "source_record": "research/programmes/002-henry-hub-fresh/revisit-triggers.json",
+      "work_ref": "issue-289"
+    },
+    {
+      "id": "release-volatility-synthesis-after-components",
+      "item": "Release rep-010 only after its component reproductions have separately completed and been verified.",
+      "kind": "recommendation",
+      "status": "open",
+      "source_record": "research/programmes/002-henry-hub-fresh/revisit-triggers.json",
+      "work_ref": "issue-289"
+    }
+  ]
+}

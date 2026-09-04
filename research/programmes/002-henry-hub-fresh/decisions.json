@@ -1,0 +1,50 @@
+{
+  "schema_version": 1,
+  "zoom_level": "L1",
+  "programme_id": "002-henry-hub-fresh",
+  "generated_projection": false,
+  "decisions": [
+    {
+      "id": "fresh-science-no-legacy-carry",
+      "decision": "Programme 002 starts scientific state from external literature and fresh reproductions only; legacy repository outcomes are not inherited as programme evidence.",
+      "status": "active",
+      "source_record": "research/programmes/002-henry-hub-fresh/evidence-map.json",
+      "superseded_by": null
+    },
+    {
+      "id": "weather-information-sets-separated",
+      "decision": "Observed-weather literature reproductions and issued-forecast/revision studies are separate information sets; the retained issued archive cannot substitute for observed-weather reproduction.",
+      "status": "active",
+      "source_record": "research/programmes/002-henry-hub-fresh/evidence-map.json",
+      "superseded_by": null
+    },
+    {
+      "id": "go-is-implementation-only",
+      "decision": "A GO feasibility disposition authorizes implementation and verification only; empirical literature-result execution and any freeze/protected-evidence transition remain operator-gated.",
+      "status": "active",
+      "source_record": "research/programmes/002-henry-hub-fresh/evidence-map.json",
+      "superseded_by": null
+    },
+    {
+      "id": "observed-weather-route-selected",
+      "decision": "Use NOAA GHCN-Daily plus U.S. Daily Climate Normals for programme-002 observed-weather reproductions; keep issued weather isolated to forecast/revision research.",
+      "status": "active",
+      "source_record": "research/programmes/002-henry-hub-fresh/evidence-map.json",
+      "superseded_by": null
+    },
+    {
+      "id": "volatility-state-synthesis-prerequisite-gated",
+      "decision": "rep-010 is a non-empirical synthesis held until component reproductions exist; it will not pool incompatible raw state observations into one omnibus test.",
+      "status": "active",
+      "source_record": "research/programmes/002-henry-hub-fresh/evidence-map.json",
+      "superseded_by": null
+    },
+    {
+      "id": "positioning-change-primary",
+      "decision": "Use Managed Money net weekly change as rep-020 primary because pre-outcome dependence diagnostics retain materially more effective information than levels; levels remain secondary.",
+      "status": "active",
+      "source_record": "research/programmes/002-henry-hub-fresh/feasibility-ledger.json",
+      "superseded_by": null
+    }
+  ]
+}

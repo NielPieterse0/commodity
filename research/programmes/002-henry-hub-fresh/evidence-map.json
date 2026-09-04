@@ -1,0 +1,405 @@
+{
+  "schema_version": 2,
+  "zoom_level": "L1",
+  "programme_id": "002-henry-hub-fresh",
+  "current_scan_id": "non-outcome-feasibility-2026-09-03",
+  "refresh_triggers": [
+    "source_fidelity_or_entitlement_changes",
+    "redesign_contract_completed",
+    "implementation_verification_completed",
+    "operator_authorizes_next_research_transition"
+  ],
+  "research_line_refs": [
+    {
+      "research_line_id": "001-market-structure",
+      "path": "research/programmes/002-henry-hub-fresh/lines/001-market-structure/line.json"
+    },
+    {
+      "research_line_id": "002-storage-inventory",
+      "path": "research/programmes/002-henry-hub-fresh/lines/002-storage-inventory/line.json"
+    },
+    {
+      "research_line_id": "003-weather",
+      "path": "research/programmes/002-henry-hub-fresh/lines/003-weather/line.json"
+    },
+    {
+      "research_line_id": "004-volatility",
+      "path": "research/programmes/002-henry-hub-fresh/lines/004-volatility/line.json"
+    },
+    {
+      "research_line_id": "005-fundamental-balance",
+      "path": "research/programmes/002-henry-hub-fresh/lines/005-fundamental-balance/line.json"
+    },
+    {
+      "research_line_id": "006-cross-market-globalization",
+      "path": "research/programmes/002-henry-hub-fresh/lines/006-cross-market-globalization/line.json"
+    },
+    {
+      "research_line_id": "007-positioning-announcements",
+      "path": "research/programmes/002-henry-hub-fresh/lines/007-positioning-announcements/line.json"
+    }
+  ],
+  "feasibility_map": [
+    {
+      "design_id": "rep-001-samuelson-maturity-volatility",
+      "target": "same-contract daily volatility by time-to-maturity",
+      "horizon": "daily listed-contract state",
+      "information_family": "maturity structure",
+      "scientific_mepi": null,
+      "raw_information": 5025,
+      "effective_information_method": {
+        "method": "contract/calendar clustering screen",
+        "contract_identities": 209
+      },
+      "detectable_effect": 0.194,
+      "expected_snr": null,
+      "costs": {},
+      "feasibility": "go",
+      "hold_reason": "Source/sample capacity is strong. Final power must use the implemented ordered-contrast covariance, not raw rows."
+    },
+    {
+      "design_id": "rep-002-seasonal-forward-curve",
+      "target": "seasonal forward-curve slope/shape",
+      "horizon": "monthly/year-block curve state",
+      "information_family": "curve seasonality",
+      "scientific_mepi": null,
+      "raw_information": 195,
+      "effective_information_method": {
+        "method": "year-block lower-bound",
+        "year_blocks": 17
+      },
+      "detectable_effect": 0.68,
+      "expected_snr": null,
+      "costs": {},
+      "feasibility": "go",
+      "hold_reason": "Can implement now; small seasonal effects may remain unresolved after block dependence."
+    },
+    {
+      "design_id": "rep-003-storage-surprise-response",
+      "target": "event return response to signed storage surprise",
+      "horizon": "EIA storage release event",
+      "information_family": "storage surprise",
+      "scientific_mepi": null,
+      "raw_information": 0,
+      "effective_information_method": {
+        "method": "unavailable until fixed pre-release consensus is qualified"
+      },
+      "detectable_effect": null,
+      "expected_snr": null,
+      "costs": {},
+      "feasibility": "hold",
+      "hold_reason": "Market/release layer is ready; expectation layer is the binding blocker."
+    },
+    {
+      "design_id": "rep-004-storage-state-nonlinearity",
+      "target": "storage-regime difference in market dynamics",
+      "horizon": "weekly historical storage state",
+      "information_family": "storage scarcity regime",
+      "scientific_mepi": null,
+      "raw_information": 844,
+      "effective_information_method": {
+        "method": "AR1 and year-block sensitivity",
+        "ar1_effective_n": 3.9823,
+        "year_blocks": 17
+      },
+      "detectable_effect": 1.401,
+      "expected_snr": null,
+      "costs": {},
+      "feasibility": "go",
+      "hold_reason": "Implementation may proceed, but small regime effects cannot be assumed resolvable. Power is a mandatory pre-freeze gate."
+    },
+    {
+      "design_id": "rep-005-scarcity-volatility",
+      "target": "winter scarcity interaction in volatility",
+      "horizon": "weekly historical storage state",
+      "information_family": "scarcity volatility",
+      "scientific_mepi": null,
+      "raw_information": 844,
+      "effective_information_method": {
+        "method": "AR1 and year-block sensitivity",
+        "ar1_effective_n": 3.9823,
+        "year_blocks": 17
+      },
+      "detectable_effect": 1.401,
+      "expected_snr": null,
+      "costs": {},
+      "feasibility": "go",
+      "hold_reason": "Source and cell counts support implementation, not a claim of high power. Final interaction power must be simulated."
+    },
+    {
+      "design_id": "rep-006-inventory-forward-curve-scarcity",
+      "target": "inventory association with front-versus-13th-month scarcity spread",
+      "horizon": "monthly exact-contract curve state",
+      "information_family": "inventory curve scarcity",
+      "scientific_mepi": null,
+      "raw_information": 195,
+      "effective_information_method": {
+        "method": "year-block lower-bound",
+        "year_blocks": 17
+      },
+      "detectable_effect": 0.68,
+      "expected_snr": null,
+      "costs": {},
+      "feasibility": "go",
+      "hold_reason": "Exact front/13th curve construction is feasible throughout the overlap."
+    },
+    {
+      "design_id": "rep-007-weather-return-volatility-response",
+      "target": "observed-weather departure response in returns/volatility",
+      "horizon": "trade-day weather state",
+      "information_family": "observed weather",
+      "scientific_mepi": null,
+      "raw_information": 0,
+      "effective_information_method": {
+        "method": "pending NOAA observed-weather acquisition and fixed station/weighting audit"
+      },
+      "detectable_effect": null,
+      "expected_snr": null,
+      "costs": {},
+      "feasibility": "go",
+      "hold_reason": "Official NOAA observed-weather and daily-normal source route is verified; implementation must pin stations/weights and count cells before outcome access."
+    },
+    {
+      "design_id": "rep-008-weather-season-sign-asymmetry",
+      "target": "season-by-sign observed-weather volatility asymmetry",
+      "horizon": "trade-day weather state",
+      "information_family": "weather asymmetry",
+      "scientific_mepi": null,
+      "raw_information": 0,
+      "effective_information_method": {
+        "method": "pending NOAA observed-weather season/sign cell construction"
+      },
+      "detectable_effect": null,
+      "expected_snr": null,
+      "costs": {},
+      "feasibility": "go",
+      "hold_reason": "Observed-weather source mismatch is resolved in design; implementation must construct fixed source-faithful cells and power before outcomes."
+    },
+    {
+      "design_id": "rep-009-announcement-volatility",
+      "target": "announcement-day volatility elevation",
+      "horizon": "EIA release-day event",
+      "information_family": "announcement volatility",
+      "scientific_mepi": null,
+      "raw_information": 106,
+      "effective_information_method": {
+        "method": "event-count screen with later HAC/year-block inference"
+      },
+      "detectable_effect": 0.276,
+      "expected_snr": null,
+      "costs": {},
+      "feasibility": "go",
+      "hold_reason": "The release-calendar/sample gate passes. Holiday-shifted releases are explicitly represented."
+    },
+    {
+      "design_id": "rep-010-volatility-state-dependence",
+      "target": "synthesis of source-faithful state-specific volatility effects",
+      "horizon": "family-specific state observations",
+      "information_family": "volatility state dependence",
+      "scientific_mepi": null,
+      "raw_information": 0,
+      "effective_information_method": {
+        "method": "no valid joint effective N before family-specific redesign"
+      },
+      "detectable_effect": null,
+      "expected_snr": null,
+      "costs": {},
+      "feasibility": "hold",
+      "hold_reason": "Redesign is complete: this is now a non-empirical synthesis gated on successful source-faithful component reproductions."
+    },
+    {
+      "design_id": "rep-011-weather-enhanced-volatility-oos",
+      "target": "weather GARCH-MIDAS OOS forecast-loss improvement",
+      "horizon": "source-study daily forecast origins",
+      "information_family": "weather volatility forecasting",
+      "scientific_mepi": null,
+      "raw_information": 0,
+      "effective_information_method": {
+        "method": "pending source-study weather/model reconstruction"
+      },
+      "detectable_effect": null,
+      "expected_snr": null,
+      "costs": {},
+      "feasibility": "hold",
+      "hold_reason": "The exact market-period route is known, but the current 2024+ issued-weather archive is not a valid substitute."
+    },
+    {
+      "design_id": "rep-012-physical-balance-drivers",
+      "target": "family-specific physical-balance explanatory contribution",
+      "horizon": "source-specific weekly/monthly state",
+      "information_family": "physical balance",
+      "scientific_mepi": null,
+      "raw_information": 0,
+      "effective_information_method": {
+        "method": "monthly source-coherent core; exact series IDs and dependence audit pending implementation"
+      },
+      "detectable_effect": null,
+      "expected_snr": null,
+      "costs": {},
+      "feasibility": "go",
+      "hold_reason": "Omnibus mixed-frequency defect is resolved by a monthly EIA physical-balance core; implementation must pin exact series before outcomes."
+    },
+    {
+      "design_id": "rep-013-lng-export-demand-channel",
+      "target": "LNG feedgas/capacity tightening channel",
+      "horizon": "terminal/month or terminal/day state",
+      "information_family": "LNG demand",
+      "scientific_mepi": null,
+      "raw_information": 0,
+      "effective_information_method": {
+        "method": "pending terminal mapping and source contract"
+      },
+      "detectable_effect": null,
+      "expected_snr": null,
+      "costs": {},
+      "feasibility": "hold",
+      "hold_reason": "A public route exists in principle, but source fidelity is not ready for implementation."
+    },
+    {
+      "design_id": "rep-014-monthly-real-time-forecastability",
+      "target": "real-time monthly forecast MSPE versus no-change",
+      "horizon": "monthly origin x 1-24 month horizon",
+      "information_family": "real-time fundamentals",
+      "scientific_mepi": null,
+      "raw_information": 0,
+      "effective_information_method": {
+        "method": "pending exact author-package import and overlapping-horizon audit"
+      },
+      "detectable_effect": null,
+      "expected_snr": null,
+      "costs": {},
+      "feasibility": "go",
+      "hold_reason": "The exact public replication route removes the data-vintage feasibility blocker. GO authorizes implementation/reconstruction only, not outcome execution or freeze."
+    },
+    {
+      "design_id": "rep-015-oil-gas-linkage-regimes",
+      "target": "oil-Henry Hub linkage change across structural regimes",
+      "horizon": "monthly market state",
+      "information_family": "oil-gas linkage",
+      "scientific_mepi": null,
+      "raw_information": 195,
+      "effective_information_method": {
+        "method": "raw monthly overlap screen; block/regime inference pending"
+      },
+      "detectable_effect": 0.201,
+      "expected_snr": null,
+      "costs": {},
+      "feasibility": "go",
+      "hold_reason": "No access blocker is evident. Exact benchmark/frequency/regime semantics must be fixed before market outcomes are read."
+    },
+    {
+      "design_id": "rep-016-europe-us-transmission-limited",
+      "target": "Henry Hub response to identified European gas shock",
+      "horizon": "source-study monthly structural system",
+      "information_family": "cross-basin transmission",
+      "scientific_mepi": null,
+      "raw_information": 0,
+      "effective_information_method": {
+        "method": "pending exact RepOD package import and structural-system audit"
+      },
+      "detectable_effect": null,
+      "expected_snr": null,
+      "costs": {},
+      "feasibility": "go",
+      "hold_reason": "Exact replication data/code availability makes the reproduction route feasible; independent ICE/ENTSOG/GIE reconstruction remains a later separate fidelity route."
+    },
+    {
+      "design_id": "ctx-017-connectedness-congestion",
+      "target": "contextual congestion/connectedness design constraint",
+      "horizon": "context only",
+      "information_family": "cross-market contextual evidence",
+      "scientific_mepi": null,
+      "raw_information": 0,
+      "effective_information_method": {
+        "method": "not a Henry Hub reproduction target"
+      },
+      "detectable_effect": null,
+      "expected_snr": null,
+      "costs": {},
+      "feasibility": "hold",
+      "hold_reason": "Hold empirical execution. Retain only as a design constraint: separate contemporaneous from lagged transmission and represent congestion/capacity in any later direct Henry Hub design."
+    },
+    {
+      "design_id": "rep-018-announcement-day-return-puzzle",
+      "target": "announcement-day return contrast with declared surprise controls",
+      "horizon": "EIA release-day event",
+      "information_family": "announcement return puzzle",
+      "scientific_mepi": null,
+      "raw_information": 0,
+      "effective_information_method": {
+        "method": "full near-replication N unavailable until fixed pre-release consensus is qualified"
+      },
+      "detectable_effect": null,
+      "expected_snr": null,
+      "costs": {},
+      "feasibility": "hold",
+      "hold_reason": "The basic announcement-day contrast is technically constructible, but it cannot satisfy the declared full near-replication design without PIT surprise controls."
+    },
+    {
+      "design_id": "rep-019-friday-attention-effect",
+      "target": "Friday attenuation of storage-surprise response",
+      "horizon": "EIA storage release event",
+      "information_family": "release-day attention",
+      "scientific_mepi": null,
+      "raw_information": 3,
+      "effective_information_method": {
+        "method": "Friday-event binding cell",
+        "friday_events": 3,
+        "thursday_events": 97
+      },
+      "detectable_effect": 1.64,
+      "expected_snr": null,
+      "costs": {},
+      "feasibility": "hold",
+      "hold_reason": "Do not execute on the retained PIT window as though it could resolve the published effect. Exact data entitlement or materially deeper near-replication history is required."
+    },
+    {
+      "design_id": "rep-020-positioning-incremental-information",
+      "target": "incremental positioning information after physical controls",
+      "horizon": "weekly CFTC publication state",
+      "information_family": "managed-money positioning",
+      "scientific_mepi": null,
+      "raw_information": 136,
+      "effective_information_method": {
+        "method": "weekly-change AR1 screen",
+        "ar1": 0.1664403761,
+        "effective_n": 96.4735
+      },
+      "detectable_effect": 0.285,
+      "expected_snr": null,
+      "costs": {},
+      "feasibility": "go",
+      "hold_reason": "Primary representation is fixed to Managed Money net weekly change using pre-outcome effective-information evidence; persistent levels remain secondary."
+    },
+    {
+      "design_id": "exp-021-issued-weather-revisions",
+      "target": "same-valid-time issued forecast revision mechanism",
+      "horizon": "issued forecast vintage",
+      "information_family": "issued weather revisions",
+      "scientific_mepi": null,
+      "raw_information": 723,
+      "effective_information_method": {
+        "method": "immutable-vintage coverage screen"
+      },
+      "detectable_effect": null,
+      "expected_snr": null,
+      "costs": {},
+      "feasibility": "go",
+      "hold_reason": "The raw issued-vintage corpus can support faithful revision construction, so exploratory implementation is feasible. GO is explicitly exploratory-only and confers no reproduction, confirmation or freeze authority."
+    }
+  ],
+  "semantics": {
+    "empirical_execution_authority": false,
+    "preregistration_freeze_authority": false,
+    "protected_evidence_opening_authority": false,
+    "scientific_history_inherited": false,
+    "supporting_detail_ref": "research/programmes/002-henry-hub-fresh/feasibility-ledger.json",
+    "source_scan_ref": "research/programmes/002-henry-hub-fresh/feasibility-source-scan.json",
+    "decision_counts": {
+      "go": 14,
+      "hold": 7,
+      "redesign": 0
+    },
+    "rule": "GO authorizes implementation and verification of design machinery only; it does not authorize literature-result execution, preregistration, sealing, confirmation, or promotion."
+  }
+}

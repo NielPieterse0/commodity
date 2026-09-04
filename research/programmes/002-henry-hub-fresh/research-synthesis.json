@@ -1,0 +1,99 @@
+{
+  "schema_version": 1,
+  "programme_id": "002-henry-hub-fresh",
+  "scientific_start_state": "clean_slate",
+  "internal_reproductions_completed": 0,
+  "literature_findings": {
+    "market_structure": [
+      "Samuelson maturity-volatility effect",
+      "seasonal forward-curve structure"
+    ],
+    "storage_inventory": [
+      "storage-change surprise price response",
+      "storage-state nonlinearity",
+      "scarcity-volatility interaction",
+      "inventory-forward-curve scarcity relation"
+    ],
+    "announcements": [
+      "storage announcement price discovery",
+      "announcement-day return puzzle",
+      "Thursday-versus-Friday attention effect"
+    ],
+    "weather": [
+      "weather effects on returns and volatility",
+      "season/sign asymmetry",
+      "issued forecast-revision return edge unresolved in primary literature inventory"
+    ],
+    "volatility": [
+      "event-day volatility elevation",
+      "state-dependent volatility",
+      "weather-enhanced OOS volatility forecasting"
+    ],
+    "fundamental_balance": [
+      "joint physical-balance drivers",
+      "LNG export-demand channel",
+      "monthly real-time forecastability at multiple horizons"
+    ],
+    "cross_market": [
+      "oil-gas linkage is regime-dependent",
+      "European crisis transmission to US can be marginal",
+      "gas connectedness is congestion-sensitive and predominantly contemporaneous in contextual European evidence"
+    ],
+    "positioning": [
+      "possible incremental information but not established as dominant after physical fundamentals"
+    ]
+  },
+  "design_authority": "experiment-designs.json",
+  "setup_authority": "experiment-setup.json",
+  "design_coverage": {
+    "direct_or_mechanism_reproduction_findings": 20,
+    "contextual_only_findings": 1,
+    "literature_gap_explorations": 1,
+    "unmapped_findings": 0
+  },
+  "scientific_design_state": "all_redesign_defects_resolved_non_outcome_implementation_stage_unfrozen",
+  "feasibility_authority_ref": "evidence-map.json",
+  "supporting_feasibility_detail_ref": "feasibility-ledger.json",
+  "feasibility_summary": {
+    "decision_counts": {
+      "GO": 14,
+      "HOLD": 7,
+      "REDESIGN": 0
+    },
+    "go": [
+      "rep-001-samuelson-maturity-volatility",
+      "rep-002-seasonal-forward-curve",
+      "rep-004-storage-state-nonlinearity",
+      "rep-005-scarcity-volatility",
+      "rep-006-inventory-forward-curve-scarcity",
+      "rep-007-weather-return-volatility-response",
+      "rep-008-weather-season-sign-asymmetry",
+      "rep-009-announcement-volatility",
+      "rep-012-physical-balance-drivers",
+      "rep-014-monthly-real-time-forecastability",
+      "rep-015-oil-gas-linkage-regimes",
+      "rep-016-europe-us-transmission-limited",
+      "rep-020-positioning-incremental-information",
+      "exp-021-issued-weather-revisions"
+    ],
+    "hold": [
+      "rep-003-storage-surprise-response",
+      "rep-010-volatility-state-dependence",
+      "rep-011-weather-enhanced-volatility-oos",
+      "rep-013-lng-export-demand-channel",
+      "ctx-017-connectedness-congestion",
+      "rep-018-announcement-day-return-puzzle",
+      "rep-019-friday-attention-effect"
+    ],
+    "redesign": []
+  },
+  "interpretation_rule": "External literature support is not internal proof. A finding becomes programme-reproduced only after a fresh programme experiment reproduces it under the declared design, source fidelity, MEPI/power and semantic rules. Contextual sources and exploratory gap discovery cannot be counted as strict reproduction.",
+  "next_stage": "Implement and verify the fourteen GO design constructions without empirical literature-result execution. Seven HOLD designs remain governed by revisit-triggers.json; all empirical/freeze/protected-evidence transitions remain operator-gated.",
+  "implementation_contracts_ref": "implementation-contracts.json",
+  "implementation_status": {
+    "go_designs_mapped": 14,
+    "machinery_implemented": 8,
+    "machinery_implemented_source_artifact_pending": 6,
+    "empirical_execution_authority": false
+  }
+}

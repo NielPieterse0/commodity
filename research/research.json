@@ -1,0 +1,12 @@
+{
+  "schema_version": 1,
+  "level": "L0",
+  "research_id": "commodity-research",
+  "title": "Commodity research",
+  "current_reference_market": "CME Henry Hub Natural Gas futures",
+  "objective": "Build externally anchored understanding of Henry Hub before testing predictive exploitation.",
+  "active_programmes": [
+    "programmes/002-henry-hub-fresh/programme.json"
+  ],
+  "scope_note": "This slice records research hierarchy and literature findings only; it creates no experiment, model, data-pipeline, preregistration, freeze, or trading authority."
+}

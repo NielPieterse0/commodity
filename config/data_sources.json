@@ -1,5 +1,5 @@
 {
-  "schema_version": 3,
+  "schema_version": 4,
   "target": "CME Henry Hub Natural Gas futures",
   "providers": {
     "eia_api_v2": {
@@ -68,6 +68,12 @@
       "max_auto_cost_usd": 1.0,
       "max_auto_records": 50000,
       "account_probe_status": "full_history_acquired_integrity_verified_research_approved"
+    },
+    "noaa_ncei_observed_climate": {
+      "access": "public_http",
+      "role": "historical_observed_weather_and_climate_normals",
+      "ghcn_daily_root": "https://www.ncei.noaa.gov/pub/data/ghcn/daily/",
+      "daily_normals_metadata": "https://www.ncei.noaa.gov/access/metadata/landing-page/bin/iso?id=gov.noaa.ncdc:C01621"
     }
   },
   "canonical_contract_schema": {
@@ -591,7 +597,811 @@
       "history_earliest_verified_trade_date": "2010-06-06",
       "non_display_backtesting_rights_verified": true,
       "redistribution_allowed": false
+    },
+    "noaa_observed_weather": {
+      "provider": "noaa_ncei_observed_climate",
+      "status": "public_source_route_verified_not_acquired",
+      "purpose": "source-faithful observed weather and climatological-normal construction for descriptive Henry Hub literature reproductions",
+      "product": "GHCN-Daily observations plus U.S. Daily Climate Normals 1991-2020",
+      "point_in_time_required": false,
+      "predictive_use_allowed": false,
+      "historical_truth_only": true,
+      "required_variables": [
+        "TMAX",
+        "TMIN",
+        "TAVG_or_derived_mean",
+        "heating_degree_day_normal",
+        "cooling_degree_day_normal"
+      ],
+      "snapshot_rule": "Pin station inventory, observation files, normals version and content hashes before empirical execution; later NOAA revisions must not silently mutate a reproduction.",
+      "weighting_rule": "Use literature-derived locations/weights where recoverable; otherwise predeclare a gas-demand-region station/weighting rule before outcome access.",
+      "availability_semantics": "Observed-weather explanatory reproduction only. Do not reuse as issued-forecast or trading-at-origin evidence."
     }
+  },
+  "source_library": {
+    "schema_version": 1,
+    "authority": "discovery_only_not_operational_source_status",
+    "purpose": "Preserve the broader candidate-source and desired-dataset knowledge used to plan Commodity research. This library is the first stop for source discovery; current provider implementation, operational status, PIT admissibility, licensing approval, acquisition authority and backtest eligibility remain owned by providers/sources and their explicit evidence gates.",
+    "recovered_from": {
+      "path": "docs/data-manifest.md",
+      "commit": "0abcf67cbc4ba2e600114b3ee387e250d0809305",
+      "commit_date": "2026-08-27",
+      "history_start_commit": "85dd1b6f455128d99dafb06a5e3d83e6a9915904",
+      "history_start_date": "2026-08-12",
+      "recovery_basis": "last rich maintained Natural Gas Data Manifest before generated-document simplification"
+    },
+    "authority_boundary": {
+      "operational_status_owner": "sources",
+      "provider_implementation_owner": "providers",
+      "candidate_library_does_not_imply": [
+        "provider_implemented",
+        "source_acquired",
+        "point_in_time_safe",
+        "licensing_approved",
+        "backtest_evidence_allowed",
+        "canonical_market_source",
+        "paid_acquisition_approved"
+      ],
+      "promotion_rule": "A library candidate becomes an operational source only through an explicit provider/source entry with verified semantics, PIT/revision handling, provenance, access/licensing and applicable research evidence gates."
+    },
+    "data_contract_rules": [
+      "Preserve observed_for, published_at or issued_at, available_at, retrieved_at, source identity/version, units and revision state whenever the source supports them.",
+      "Backtests may use a value only after available_at; revised or final history must not replace the value knowable at prediction time.",
+      "Derived features are reproducible transformations rather than new sources; retain and version raw source values.",
+      "A current-state historical snapshot is not PIT backtest evidence unless historical publication/revision availability is reconstructed."
+    ],
+    "families": {
+      "us_henry_hub": {
+        "primary_contract_history": {
+          "priority": "V1",
+          "ideal_datapoints": "contract_id, expiry, settle, OHLC, volume, M1-M12 rank, spreads, slope, curvature, roll state",
+          "grain": "contract/day",
+          "preferred_sources": "provider-adapted source plus CME definitions",
+          "pit_access_note": "Use exact listed-contract identity and never compute returns across contract rolls; current approved market-source state remains in sources."
+        },
+        "issued_weather_forecasts": {
+          "priority": "V1",
+          "ideal_datapoints": "issue/available/valid time, lead, 2m temperature, HDD/CDD, wind, humidity, precipitation/snow, forecast revisions, demand-region anchors",
+          "grain": "forecast run/hour to daily features",
+          "preferred_sources": "Open-Meteo issued-run archives; NOAA GFS/GEFS; ECMWF archive where approved",
+          "pit_access_note": "Use actually-issued vintages only; never substitute reanalysis. Preserve run identity and source availability."
+        },
+        "underground_storage": {
+          "priority": "V1",
+          "ideal_datapoints": "Lower-48 working gas, weekly change, release/revision event identity and PIT state",
+          "grain": "week/event",
+          "preferred_sources": "EIA WNGSR ngshistory.xls plus revisions.xls; API v2/bulk for screening",
+          "pit_access_note": "Reconstruct first-public values, later revisions, holiday releases and special revision events rather than backfilling corrected history."
+        },
+        "gas_production_and_balance": {
+          "priority": "V1",
+          "ideal_datapoints": "dry, marketed and gross production; state/region; supply/disposition; offshore production",
+          "grain": "month/region",
+          "preferred_sources": "EIA Natural Gas / API v2",
+          "pit_access_note": "Apply actual publication lag and reconstruct historical revisions before backtest use."
+        },
+        "gas_demand_and_power_burn": {
+          "priority": "V1",
+          "ideal_datapoints": "residential, commercial, industrial and electric-sector gas use; issued electricity-load forecast; generation by fuel/interchange",
+          "grain": "hour plus month/region",
+          "preferred_sources": "EIA Natural Gas; archived issued ISO load forecasts; EIA-930 screening",
+          "pit_access_note": "Prefer archived issued forecasts for strict PIT evidence; revised/final power history is screening-only unless vintages are reconstructed."
+        },
+        "lng_and_pipeline_trade": {
+          "priority": "V1",
+          "ideal_datapoints": "LNG exports, pipeline imports/exports, country, point of entry/exit, volume and price where published",
+          "grain": "month/point/country",
+          "preferred_sources": "EIA Natural Gas / API v2",
+          "pit_access_note": "Public monthly data are the floor; publication/revision vintages must be reconstructed for strict PIT use. High-frequency feedgas is a separate candidate family."
+        },
+        "spot_reference_price": {
+          "priority": "V1",
+          "ideal_datapoints": "Henry Hub spot price and publication timestamp",
+          "grain": "day",
+          "preferred_sources": "EIA Natural Gas / API v2",
+          "pit_access_note": "Align to publication availability rather than trade date alone."
+        },
+        "calendar_seasonality": {
+          "priority": "V1",
+          "ideal_datapoints": "session calendar, month/week/day-of-year, injection/withdrawal season, days-to-expiry",
+          "grain": "session",
+          "preferred_sources": "CME definitions, exchange/provider schedules and deterministic derived calendar",
+          "pit_access_note": "Derived calendar identity must be reproducible and contract semantics must remain exact."
+        },
+        "cftc_positioning": {
+          "priority": "V1",
+          "ideal_datapoints": "producer/merchant, swap dealer, Managed Money and other reportable positions; net and percent OI",
+          "grain": "week",
+          "preferred_sources": "CFTC Disaggregated Futures Only; NYMEX code 023651",
+          "pit_access_note": "Keep report-as-of date separate from publication availability; preserve special/catch-up release calendars."
+        },
+        "drilling_and_supply_response": {
+          "priority": "Later",
+          "ideal_datapoints": "rig count, wells drilled/completed, DUCs, new-well productivity, basin activity, producer capex where reproducible",
+          "grain": "week/month",
+          "preferred_sources": "EIA STEO/DPR plus Baker Hughes",
+          "pit_access_note": "Slow-moving supply response; preserve report vintage because productivity and DUC estimates can be revised."
+        },
+        "gulf_tropical_disruption": {
+          "priority": "Later",
+          "ideal_datapoints": "issued storm track/intensity/advisories, landfall risk, platform/rig evacuation, offshore gas shut-in MMCF/d and percent",
+          "grain": "advisory/day/event",
+          "preferred_sources": "NOAA NHC plus BSEE",
+          "pit_access_note": "Use issued advisories for forecasts; retain BSEE event publication time."
+        },
+        "storage_expectations_and_forecast_revisions": {
+          "priority": "Later",
+          "display_name": "Storage expectations and forecast revisions",
+          "ideal_datapoints": "EIA STEO production/demand/LNG/storage forecasts, revision deltas; pre-release storage consensus when licensed historical survey is approved",
+          "grain": "forecast vintage/period or announcement event",
+          "preferred_sources": "EIA STEO plus licensed historical consensus candidate",
+          "pit_access_note": "Preserve every forecast vintage. Market-consensus history requires explicit licensing, historical-fixity and data-quality verification."
+        },
+        "macro_industrial_demand": {
+          "priority": "Later",
+          "ideal_datapoints": "industrial production, manufacturing activity, GDP, employment and sector output",
+          "grain": "month/quarter",
+          "preferred_sources": "Federal Reserve/FRED, BEA, BLS",
+          "pit_access_note": "Use actual release timestamps and vintages where revisions occur."
+        },
+        "pipelines_outages_lng_feedgas": {
+          "priority": "Later",
+          "ideal_datapoints": "physical flow, nominations, capacity, maintenance, force majeure, terminal feedgas/utilisation",
+          "grain": "hour/day/asset",
+          "preferred_sources": "pipeline EBBs; captured public notices; approved commercial aggregator",
+          "pit_access_note": "No single verified free historical vintage feed was established; preserve notice/update history and require explicit commercial-source approval where used."
+        },
+        "options_volatility_surface": {
+          "priority": "Later",
+          "ideal_datapoints": "IV, skew, term structure, volume/OI by strike/expiry, event-implied volatility",
+          "grain": "contract/strike/day",
+          "preferred_sources": "CME or licensed market-data vendor",
+          "pit_access_note": "Historical licensing/access decision required."
+        },
+        "substitution_cross_asset": {
+          "priority": "Later",
+          "ideal_datapoints": "WTI, coal, power prices, spark/dark spreads, nuclear outages, renewables",
+          "grain": "hour/day",
+          "preferred_sources": "EIA, CME and power-market sources",
+          "pit_access_note": "Acquire only for predeclared economic hypotheses; distinguish contemporaneous linkage from forecastable information."
+        }
+      },
+      "global_interconnect": {
+        "ttf_market_and_curve": {
+          "priority": "V1",
+          "ideal_datapoints": "per-expiry price/settlement, volume/OI if licensed, expiry; M1-M12 spreads, seasonal strips, slope/curvature",
+          "grain": "contract/day",
+          "preferred_sources": "ICE Dutch TTF futures",
+          "pit_access_note": "Official contract source; verify historical market-data entitlement/licensing before ingestion."
+        },
+        "cross_market_fx": {
+          "priority": "V1",
+          "ideal_datapoints": "EUR/USD; GBP/EUR if NBP is added; FX-normalised HH-TTF spreads",
+          "grain": "day",
+          "preferred_sources": "ECB Data Portal",
+          "pit_access_note": "Reference rates are published on a schedule; use market FX instead when intraday timing requires it."
+        },
+        "european_gas_transmission": {
+          "priority": "V1",
+          "ideal_datapoints": "physical flow, direction, nominations where published, technical/available capacity, interconnection point, corridor",
+          "grain": "hour/day/point",
+          "preferred_sources": "ENTSOG Transparency Platform",
+          "pit_access_note": "Preserve publication timestamps, corrections, point identities and capacity semantics."
+        },
+        "european_storage": {
+          "priority": "V1",
+          "ideal_datapoints": "stock, injection, withdrawal, working capacity, fill percent, available/contracted capacity, outages",
+          "grain": "day/facility/country",
+          "preferred_sources": "GIE AGSI",
+          "pit_access_note": "Snapshot revisions and changing facility/EIC metadata."
+        },
+        "european_lng_terminals": {
+          "priority": "V1",
+          "ideal_datapoints": "LNG inventory, send-out, receipts where available, regas capacity/utilisation, available capacity, maintenance/outages",
+          "grain": "day/facility",
+          "preferred_sources": "GIE ALSI",
+          "pit_access_note": "Preserve facility identity, publication timing and revisions."
+        },
+        "european_issued_weather_forecasts": {
+          "priority": "V1",
+          "ideal_datapoints": "issue/valid/available time, temperature, HDD/CDD, wind, solar-related weather, forecast revisions by demand region",
+          "grain": "forecast run/hour",
+          "preferred_sources": "Open-Meteo issued-run archives; NOAA global models",
+          "pit_access_note": "Use issued forecasts only; retain vintage and predeclare population/gas-demand weighting."
+        },
+        "european_electricity_system": {
+          "priority": "V1",
+          "ideal_datapoints": "actual/forecast load, generation by fuel, wind/solar forecast, hydro storage, outages, cross-border flow, day-ahead power price",
+          "grain": "15-min/hour/day/bidding zone",
+          "preferred_sources": "ENTSO-E Transparency Platform",
+          "pit_access_note": "Keep source publication/revision state and bidding-zone identity."
+        },
+        "gas_lng_inside_information": {
+          "priority": "V1",
+          "ideal_datapoints": "planned/unplanned outage, unavailable capacity, start/end, asset, affected quantity and update history",
+          "grain": "event/asset",
+          "preferred_sources": "GIE IIP, ENTSOG/TSO notices, ACER REMIT sources",
+          "pit_access_note": "Event timestamps and every update are features; do not retain only final outage state."
+        },
+        "global_gas_balance": {
+          "priority": "Later",
+          "ideal_datapoints": "production, LNG/pipeline imports/exports, stock change, inland demand, power/heat gas use by country",
+          "grain": "month/country",
+          "preferred_sources": "JODI-Gas",
+          "pit_access_note": "Public global structural/regime layer; country revisions must be preserved or bounded."
+        },
+        "jkm_asian_lng_benchmark": {
+          "priority": "Later",
+          "ideal_datapoints": "JKM futures/assessment proxy, curve, spreads to TTF and Henry Hub",
+          "grain": "contract/day",
+          "preferred_sources": "CME JKM; Platts/licensed source if adopted",
+          "pit_access_note": "Benchmark methodology and historical price access are licensed; entitlement decision required."
+        },
+        "lng_cargo_and_vessel_flows": {
+          "priority": "Later",
+          "ideal_datapoints": "vessel, cargo size, load/discharge terminal, origin/destination, ETA, diversion, floating storage",
+          "grain": "cargo/event",
+          "preferred_sources": "Kpler or equivalent commercial provider",
+          "pit_access_note": "High-value but commercial; acquire only after cost/licensing review and historical timestamp semantics are verified."
+        },
+        "lng_freight_and_shipping_constraints": {
+          "priority": "Later",
+          "ideal_datapoints": "route freight rate, vessel availability, boil-off assumptions, canal/transit disruption",
+          "grain": "day/route",
+          "preferred_sources": "Baltic, Clarksons, S&P or Argus candidates",
+          "pit_access_note": "Commercial/mixed access; source decision and timestamp semantics required."
+        },
+        "detailed_eu_gas_trade": {
+          "priority": "Later",
+          "ideal_datapoints": "import/export quantity and value by product, partner country and mode",
+          "grain": "month/country",
+          "preferred_sources": "Eurostat Comext",
+          "pit_access_note": "Latest database is revised rather than vintage-versioned; preserve snapshot extracts."
+        },
+        "eu_gas_trading_structure": {
+          "priority": "Later",
+          "ideal_datapoints": "spot/long-term/bilateral/LNG transaction counts, volumes and participant activity",
+          "grain": "quarter/market",
+          "preferred_sources": "ACER REMIT Data Reference Centre",
+          "pit_access_note": "Useful for regime/liquidity research rather than direct daily prediction."
+        },
+        "carbon_and_coal_switching": {
+          "priority": "Later",
+          "ideal_datapoints": "EUA price, coal price, clean dark/spark economics",
+          "grain": "day",
+          "preferred_sources": "ICE/EEX/licensed market sources",
+          "pit_access_note": "Add only when fuel-switch hypotheses justify licensing effort."
+        }
+      },
+      "norway_europe": {
+        "ncs_gas_production": {
+          "priority": "V1",
+          "ideal_datapoints": "field, NPDID information carrier, net saleable gas, gross gas, NCS total; revision/update timestamp",
+          "grain": "month/field",
+          "preferred_sources": "Norwegian Offshore Directorate FactPages",
+          "pit_access_note": "Deep current-state history exists but field-level historical vintages were not established; strict PIT use requires vintage reconstruction."
+        },
+        "norwegian_gas_transport": {
+          "priority": "V1",
+          "ideal_datapoints": "nominations/flow where public, receiving terminal, destination corridor, capacity and utilisation",
+          "grain": "hour/day/point",
+          "preferred_sources": "Gassco plus ENTSOG",
+          "pit_access_note": "Gassco current/next-day nominations are high-frequency but retained final history is limited; ENTSOG is corroboration/control rather than automatically independent signal evidence."
+        },
+        "norwegian_maintenance_outages": {
+          "priority": "V1",
+          "ideal_datapoints": "planned/unplanned event, asset/field, unavailable capacity, start/end, update/cancellation history",
+          "grain": "event/asset",
+          "preferred_sources": "Gassco FLOW/UMM",
+          "pit_access_note": "Timestamped event revisions are valuable; historical event-vintage depth and automated acquisition must be verified before activation."
+        },
+        "gas_exports": {
+          "priority": "V1",
+          "ideal_datapoints": "gaseous natural-gas export volume Sm3, NOK value, partner country; derived unit value and destination mix",
+          "grain": "month/country",
+          "preferred_sources": "SSB tables 08864 and 08799 via PxWebApi v2",
+          "pit_access_note": "Public and CC BY 4.0, but Statbank history is revision-bearing; reconstruct release vintages for strict PIT use."
+        },
+        "nok_fx": {
+          "priority": "V1",
+          "ideal_datapoints": "EUR/NOK, USD/NOK and publication timestamp",
+          "grain": "day",
+          "preferred_sources": "Norges Bank open data API",
+          "pit_access_note": "Respect scheduled daily reference-rate availability."
+        },
+        "norwegian_power_and_hydro": {
+          "priority": "Later",
+          "ideal_datapoints": "production/consumption, import/export, bidding-zone price, reservoir fill, inflow, snow/hydrological balance",
+          "grain": "15-min/hour/week/zone",
+          "preferred_sources": "ENTSO-E, Statnett, NVE",
+          "pit_access_note": "Preserve source publication/revision state and avoid double-counting series originating from ENTSO-E."
+        },
+        "norwegian_weather": {
+          "priority": "Later",
+          "ideal_datapoints": "observations for verification; issued temperature/wind/precipitation forecasts captured forward",
+          "grain": "hour/station/grid",
+          "preferred_sources": "MET Norway; Open-Meteo/NOAA for archived issued forecasts",
+          "pit_access_note": "Observations are truth data, not substitutes for historical issued forecast vintages."
+        },
+        "upstream_capacity_and_resources": {
+          "priority": "Later",
+          "ideal_datapoints": "reserves/resources, field status, facilities, wellbores, discoveries, production profiles",
+          "grain": "field/well/event",
+          "preferred_sources": "Norwegian Offshore Directorate",
+          "pit_access_note": "Structural/regime features rather than short-horizon signals; preserve update identity."
+        },
+        "investment_and_drilling": {
+          "priority": "Later",
+          "ideal_datapoints": "petroleum investment, exploration/development spending, wells/activity",
+          "grain": "quarter/month",
+          "preferred_sources": "SSB plus Norwegian Offshore Directorate",
+          "pit_access_note": "Publication/revision timestamps required."
+        },
+        "norwegian_macro_export_transmission": {
+          "priority": "Later",
+          "ideal_datapoints": "petroleum revenue, trade balance, industrial activity, Norges Bank petroleum FX transactions",
+          "grain": "month/quarter",
+          "preferred_sources": "SSB plus Norges Bank",
+          "pit_access_note": "Primarily explanatory/regime variables; avoid features that merely restate gas-price outcomes."
+        },
+        "operator_forward_export_estimates": {
+          "priority": "Later",
+          "ideal_datapoints": "field-level future gas export expectations",
+          "grain": "forecast vintage/field",
+          "preferred_sources": "Gassco GMDC candidate",
+          "pit_access_note": "Operational data may exist, but public historical machine access was not established; eligibility remains unresolved."
+        }
+      }
+    },
+    "registry": {
+      "US-MKT": {
+        "sources": [
+          {
+            "name": "Massive Futures",
+            "url": "https://massive.com/docs/rest/futures"
+          },
+          {
+            "name": "Databento GLBX.MDP3",
+            "url": "https://databento.com/datasets/GLBX.MDP3"
+          },
+          {
+            "name": "CME Henry Hub",
+            "url": "https://www.cmegroup.com/markets/energy/natural-gas/natural-gas.html"
+          }
+        ],
+        "access": "Massive API key; Databento API key; CME public specifications",
+        "primary_use": "Henry Hub contracts, settlement/statistics, expiry and market definition"
+      },
+      "US-EIA": {
+        "sources": [
+          {
+            "name": "EIA Open Data API",
+            "url": "https://www.eia.gov/opendata/"
+          }
+        ],
+        "access": "Free API key plus public Natural Gas bulk ZIP",
+        "primary_use": "Storage, production, demand, imports/exports, spot and EIA-930 power"
+      },
+      "US-CFTC": {
+        "sources": [
+          {
+            "name": "CFTC Commitments of Traders",
+            "url": "https://www.cftc.gov/MarketReports/CommitmentsofTraders/index.htm"
+          }
+        ],
+        "access": "Public",
+        "primary_use": "Henry Hub positioning; code 023651"
+      },
+      "US-SUPPLY": {
+        "sources": [
+          {
+            "name": "EIA STEO/DPR",
+            "url": "https://www.eia.gov/petroleum/drilling/"
+          },
+          {
+            "name": "Baker Hughes Rig Count",
+            "url": "https://rigcount.bakerhughes.com/na-rig-count"
+          }
+        ],
+        "access": "Public",
+        "primary_use": "Rigs, drilling, DUCs and production-productivity estimates"
+      },
+      "US-STORM": {
+        "sources": [
+          {
+            "name": "NOAA NHC Data Archive",
+            "url": "https://www.nhc.noaa.gov/data/"
+          },
+          {
+            "name": "BSEE",
+            "url": "https://www.bsee.gov/"
+          }
+        ],
+        "access": "Public",
+        "primary_use": "Issued tropical advisories and offshore shut-in/evacuation reports"
+      },
+      "US-MACRO": {
+        "sources": [
+          {
+            "name": "FRED",
+            "url": "https://fred.stlouisfed.org/"
+          },
+          {
+            "name": "BEA",
+            "url": "https://www.bea.gov/data"
+          },
+          {
+            "name": "BLS",
+            "url": "https://www.bls.gov/data/"
+          }
+        ],
+        "access": "Public",
+        "primary_use": "Industrial and macro demand/regime data"
+      },
+      "WX-ARCHIVE": {
+        "sources": [
+          {
+            "name": "Open-Meteo",
+            "url": "https://open-meteo.com/en/docs"
+          },
+          {
+            "name": "NOAA GFS",
+            "url": "https://www.ncei.noaa.gov/products/weather-climate-models/global-forecast"
+          },
+          {
+            "name": "NOAA GEFS",
+            "url": "https://www.ncei.noaa.gov/products/weather-climate-models/global-ensemble-forecast"
+          }
+        ],
+        "access": "Public; ECMWF historical archive remains a separate access/cost decision",
+        "primary_use": "Actually-issued forecast vintages and forecast-revision research"
+      },
+      "EU-TTF": {
+        "sources": [
+          {
+            "name": "ICE Dutch TTF Natural Gas Futures",
+            "url": "https://www.ice.com/products/82843860/ICE-Futures-Europe-Dutch-TTF-Natural-Gas-Futures"
+          }
+        ],
+        "access": "Contract specs public; historical market data subject to entitlement",
+        "primary_use": "TTF market and curve"
+      },
+      "EU-FX": {
+        "sources": [
+          {
+            "name": "ECB Data Portal",
+            "url": "https://data.ecb.europa.eu/key-figures/ecb-interest-rates-and-exchange-rates/exchange-rates"
+          }
+        ],
+        "access": "Public API",
+        "primary_use": "EUR/USD and other cross-market reference FX"
+      },
+      "EU-FLOW": {
+        "sources": [
+          {
+            "name": "ENTSOG Transparency",
+            "url": "https://www.entsog.eu/transparency-activities"
+          }
+        ],
+        "access": "Public",
+        "primary_use": "European gas flows and capacities"
+      },
+      "EU-GIE": {
+        "sources": [
+          {
+            "name": "GIE AGSI/ALSI",
+            "url": "https://www.gie.eu/agsi-and-alsi-transparency-platforms/"
+          }
+        ],
+        "access": "Free registration/API key",
+        "primary_use": "European storage and LNG terminals"
+      },
+      "EU-IIP": {
+        "sources": [
+          {
+            "name": "GIE Inside Information Platform",
+            "url": "https://iip.gie.eu/"
+          }
+        ],
+        "access": "Public",
+        "primary_use": "Planned/unplanned gas storage and LNG inside information"
+      },
+      "EU-PWR": {
+        "sources": [
+          {
+            "name": "ENTSO-E Transparency Platform",
+            "url": "https://transparency.entsoe.eu/"
+          }
+        ],
+        "access": "Public registration/API token",
+        "primary_use": "Load, generation, renewables, hydro, outages and power prices"
+      },
+      "EU-REMIT": {
+        "sources": [
+          {
+            "name": "ACER REMIT Data Reference Centre",
+            "url": "https://www.acer.europa.eu/market-transparency/remit-data-reference-centre"
+          }
+        ],
+        "access": "Public aggregated downloads",
+        "primary_use": "Gas/LNG trading structure and REMIT research data"
+      },
+      "GLOBAL-JODI": {
+        "sources": [
+          {
+            "name": "JODI-Gas World Database",
+            "url": "https://www.jodidata.org/gas/database/overview.aspx"
+          }
+        ],
+        "access": "Public",
+        "primary_use": "Monthly global production, trade, stocks and demand"
+      },
+      "GLOBAL-JKM": {
+        "sources": [
+          {
+            "name": "CME LNG Japan/Korea Marker",
+            "url": "https://www.cmegroup.com/markets/energy/natural-gas/lng-japan-korea-marker-platts-swap.calendar.html"
+          }
+        ],
+        "access": "Contract metadata public; benchmark/history licensing to verify",
+        "primary_use": "JKM curve and TTF/HH spreads"
+      },
+      "EU-TRADE": {
+        "sources": [
+          {
+            "name": "Eurostat Comext",
+            "url": "https://ec.europa.eu/eurostat/web/international-trade-in-goods/database"
+          }
+        ],
+        "access": "Free API/bulk",
+        "primary_use": "Detailed monthly gas trade by partner/product"
+      },
+      "GLOBAL-LNG": {
+        "sources": [
+          {
+            "name": "Kpler LNG",
+            "url": "https://www.kpler.com/"
+          }
+        ],
+        "access": "Commercial candidate",
+        "primary_use": "Cargo, vessel, freight and pipeline intelligence"
+      },
+      "NO-PROD": {
+        "sources": [
+          {
+            "name": "Norwegian Offshore Directorate FactPages",
+            "url": "https://factpages.sodir.no/en/field/tableview/production/saleable/monthly"
+          }
+        ],
+        "access": "Public CSV/XML/Excel",
+        "primary_use": "Field-level and total NCS production"
+      },
+      "NO-FLOW": {
+        "sources": [
+          {
+            "name": "Gassco",
+            "url": "https://www.gassco.no/en/"
+          },
+          {
+            "name": "Gassco FLOW/UMM",
+            "url": "https://umm.gassco.no/"
+          }
+        ],
+        "access": "Public web; machine access/history depth to verify",
+        "primary_use": "Norwegian transport, maintenance and outages"
+      },
+      "NO-SSB": {
+        "sources": [
+          {
+            "name": "SSB PxWebApi v2",
+            "url": "https://www.ssb.no/en/api/pxwebapi"
+          }
+        ],
+        "access": "Public, no registration, CC BY 4.0",
+        "primary_use": "Exports/economy; tables 08864 and 08799"
+      },
+      "NO-PWR": {
+        "sources": [
+          {
+            "name": "Statnett power-system data",
+            "url": "https://www.statnett.no/en/for-stakeholders-in-the-power-industry/data-from-the-power-system/"
+          },
+          {
+            "name": "NVE reservoir statistics",
+            "url": "https://api.nve.no/doc/magasinstatistikk/"
+          }
+        ],
+        "access": "Public",
+        "primary_use": "Norwegian power, exchange and hydro state"
+      },
+      "NO-WX": {
+        "sources": [
+          {
+            "name": "MET Norway Weather API",
+            "url": "https://api.met.no/"
+          }
+        ],
+        "access": "Public with service terms",
+        "primary_use": "Norwegian observation/current forecast support"
+      },
+      "NO-FX": {
+        "sources": [
+          {
+            "name": "Norges Bank exchange rates",
+            "url": "https://www.norges-bank.no/en/topics/Statistics/exchange_rates/?tab=api"
+          }
+        ],
+        "access": "Public API",
+        "primary_use": "EUR/NOK, USD/NOK and other reference FX"
+      },
+      "LIT-BHLR-RTDB": {
+        "sources": [
+          {
+            "name": "Baumeister-Huber-Lee-Ravazzolo JAE Data Archive",
+            "url": "https://doi.org/10.15456/jae.2025266.1900967125"
+          },
+          {
+            "name": "Baumeister research page real-time database and replication code",
+            "url": "https://sites.google.com/site/cjsbaumeister/research"
+          }
+        ],
+        "access": "Open research data and replication materials; article is CC BY-NC",
+        "primary_use": "Exact first-pass reproduction of Forecasting Natural Gas Prices in Real Time using authors' historical real-time vintages and code"
+      },
+      "LIT-RS-EUUS": {
+        "sources": [
+          {
+            "name": "Rubaszek-Szafranek Europe-US replication files",
+            "url": "https://doi.org/10.18150/KCPFNE"
+          },
+          {
+            "name": "Author publication page",
+            "url": "https://e-web.sgh.waw.pl/mrubas/Publications/publications.html"
+          }
+        ],
+        "access": "Replication files linked by authors; paper CC BY 4.0",
+        "primary_use": "Exact first-pass reproduction of the European energy crisis / U.S. natural-gas structural VAR result"
+      },
+      "US-STORAGE-CONSENSUS": {
+        "sources": [
+          {
+            "name": "Bloomberg weekly natural-gas storage analyst consensus",
+            "url": "https://www.bloomberg.com/"
+          },
+          {
+            "name": "S&P Global / Platts weekly U.S. gas storage survey",
+            "url": "https://www.spglobal.com/energy/en/news-research/latest-news/natural-gas/060226-us-gas-analysts-expect-99-bcf-weekly-storage-injection-eroding-surplus-to-2025"
+          },
+          {
+            "name": "Estimize Weekly Natural Gas Storage",
+            "url": "https://api.estimize.com/economic_indicators/united-states-weekly-natural-gas-storage"
+          }
+        ],
+        "access": "Bloomberg subscription is the source-faithful route used by key storage-surprise papers; Platts historical survey archive/licensing to verify; Estimize public pages/API surface with coverage and population fidelity to audit",
+        "primary_use": "Pre-release storage expectations for storage-surprise and announcement studies; Bloomberg is preferred for exact/near reproduction where the paper uses Bloomberg consensus, Platts is an independent analyst-survey route, and Estimize is a secondary distinct-population comparator"
+      },
+      "LIT-GKS-ATTENTION-DATA": {
+        "sources": [
+          {
+            "name": "Genesis Financial Technologies",
+            "url": "https://www.gentrade.com/"
+          },
+          {
+            "name": "Bloomberg",
+            "url": "https://www.bloomberg.com/"
+          }
+        ],
+        "access": "Subscription data; authors state both sources are available for a fee",
+        "primary_use": "Source-faithful data family for Gu-Kurov-Stan 2026 Friday trader-attention / natural-gas futures reaction study"
+      },
+      "US-OIL": {
+        "sources": [
+          {
+            "name": "EIA Cushing WTI spot history",
+            "url": "https://www.eia.gov/dnav/pet/hist/RWTCD.htm"
+          },
+          {
+            "name": "EIA Cushing crude-oil futures contract histories",
+            "url": "https://www.eia.gov/dnav/pet/hist/rclc1m.htm"
+          }
+        ],
+        "access": "Public XLS/history",
+        "primary_use": "Deep-history WTI spot and prompt/fixed-rank futures candidates for oil-gas linkage replication and robustness"
+      },
+      "US-LNG-EBB": {
+        "sources": [
+          {
+            "name": "Energy Transfer pipeline informational postings",
+            "url": "https://pipelines.energytransfer.com/"
+          },
+          {
+            "name": "Golden Pass supply and transportation map",
+            "url": "https://www.goldenpasslng.com/operations/supply-transportation"
+          }
+        ],
+        "access": "Public operator postings; archive/query depth and automated acquisition behavior must be audited per pipeline",
+        "primary_use": "Terminal-linked scheduled quantities, capacity and nominations as a public-path candidate for LNG feedgas/utilisation; terminal-to-pipeline mapping required"
+      },
+      "US-WX-OBSERVED": {
+        "sources": [
+          {
+            "name": "NOAA GHCN-Daily",
+            "url": "https://www.ncei.noaa.gov/pub/data/ghcn/daily/"
+          },
+          {
+            "name": "NOAA U.S. Daily Climate Normals 1991-2020",
+            "url": "https://www.ncei.noaa.gov/products/land-based-station/us-climate-normals"
+          }
+        ],
+        "access": "Public bulk/search access",
+        "primary_use": "Observed temperature/HDD/CDD departures from fixed climatological normals for source-faithful descriptive weather reproductions"
+      }
+    },
+    "discovered_after_recovery": {
+      "observed_at": "2026-09-03",
+      "rule": "These are source-hunt findings added after recovery of the historical manifest. They remain discovery evidence and do not promote a source into operational or empirical authority.",
+      "assessments": {
+        "historical_storage_consensus": {
+          "status": "source_faithful_route_identified_subscription_history_audit_required",
+          "preferred_route": "Bloomberg weekly natural-gas storage analyst consensus",
+          "independent_routes": [
+            "S&P Global / Platts weekly analyst storage survey",
+            "Estimize structured crowd consensus"
+          ],
+          "reason": "Chiou-Wei, Linn and Zhu explicitly use the weekly Bloomberg consensus analyst forecast as their expectation proxy, and Gay, Simkins and Turac construct their analyst database from Bloomberg surveys. Bloomberg therefore outranks Platts for source-faithful reproduction. Platts is an independent analyst-survey route; Estimize is a distinct forecaster population and cannot silently substitute for the published construct."
+        },
+        "friday_attention_exact_data": {
+          "status": "source_family_identified_subscription_required",
+          "preferred_route": "Genesis Financial Technologies plus Bloomberg",
+          "reason": "Gu, Kurov and Stan state that their study data are available from Genesis Financial Technologies and Bloomberg and require subscription fees. Repository Databento plus independently sourced storage consensus can support only a separately labeled near replication unless the paper's exact data are licensed."
+        },
+        "liang_weather_volatility_inputs": {
+          "status": "paper_semantics_identified_weather_provider_unverified",
+          "preferred_route": "source-study historical weather variables for New York and Louisiana",
+          "reason": "Liang et al. use EIA Henry Hub 1-month futures from January 1995 to July 2021 and historical wind speed, temperature and precipitation variables, with New York and Louisiana reported in robustness tables. This is not an issued-weather-forecast-vintage design. The exact weather provider/source identity still needs verification before source-faithful replication."
+        },
+        "real_time_monthly_fundamental_vintages": {
+          "status": "exact_replication_archive_found",
+          "preferred_route": "Baumeister-Huber-Lee-Ravazzolo JAE open data archive plus replication code",
+          "reason": "The authors publish the real-time database used by the paper, with vintages from 1991 and data back to 1973 where available. EIA STEO archives remain an independent reconstruction route and include release dates plus monthly Excel files from later years; correction notices require explicit revision handling."
+        },
+        "crude_oil_benchmark": {
+          "status": "public_deep_history_routes_found",
+          "preferred_route": "EIA WTI spot and EIA crude-oil futures rank histories",
+          "reason": "EIA publishes deep WTI spot history and fixed-rank futures histories; exact literature benchmark semantics still need to be matched before execution."
+        },
+        "european_gas_benchmark_and_structural_controls": {
+          "status": "exact_replication_archive_found_independent_market_route_partly_licensed",
+          "preferred_route": "Rubaszek-Szafranek author-linked RepOD replication package for first reproduction",
+          "independent_route": "ICE TTF plus ENTSOG/GIE physical controls",
+          "reason": "The target paper has author-linked replication files. For later independent reconstruction, ENTSOG and GIE expose public APIs, while official ICE TTF historical market data is an entitlement/licensing decision."
+        },
+        "lng_capacity_and_feedgas": {
+          "status": "public_pipeline_ebb_route_found_mapping_and_history_audit_required",
+          "preferred_route": "terminal-linked pipeline informational postings / scheduled quantities",
+          "reason": "Operator postings expose scheduled quantities/capacity at named LNG delivery points (for example Gulf Run to Golden Pass). A complete Henry Hub study requires terminal-pipeline mapping, historical depth, posting-time semantics and coverage across export terminals before promotion."
+        },
+        "macro_real_time_vintages": {
+          "status": "public_vintage_api_found",
+          "preferred_route": "FRED/ALFRED real-time API",
+          "reason": "The St. Louis Fed API supports vintage_dates and real-time periods for historical values; source release dates are distinct from FRED availability and must be treated accordingly."
+        },
+        "observed_weather_reproduction": {
+          "status": "public_official_route_verified_not_acquired",
+          "preferred_route": "NOAA GHCN-Daily observations plus U.S. Daily Climate Normals 1991-2020",
+          "reason": "The retained Open-Meteo archive is issued-forecast data. NOAA GHCN-Daily supplies quality-controlled historical daily observations and the official daily normals supply fixed temperature/HDD/CDD climatology for descriptive mechanism replication."
+        }
+      }
+    },
+    "acquisition_order": [
+      "Use already-preserved authoritative market corpora through validated adapters before buying replacement history; verify licensing and source semantics before promotion.",
+      "Treat existing leakage-safe evidence datasets as baselines; justify new infrastructure by a measured data/model gap or a preregistered hypothesis.",
+      "Close PIT gaps only when they materially constrain a selected experiment, especially historical revisions, publication vintages and issued-weather coverage.",
+      "Add Global/Interconnect and Norway/Europe inputs through the same reusable evidence interfaces only when a Henry Hub hypothesis requires their incremental information.",
+      "For additional instruments, perform feasibility screening and use instrument/data adapters before purchasing expensive instrument-specific sources.",
+      "Treat TTF, JKM and other targets as independent empirical programmes; Henry Hub findings do not transfer automatically.",
+      "Add Later sources only when literature, ablation evidence or a preregistered mechanism justifies acquisition/licensing cost."
+    ]
   },
   "canonical_market_source_id": "databento_henry_hub"
 }

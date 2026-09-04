@@ -20,7 +20,7 @@ GENERATED_HEADER = "<!-- GENERATED FILE. DO NOT EDIT. Source: {source} -->\n\n"
 
 
 def load_json(path: Path) -> Any:
-    return json.loads(path.read_text(encoding="utf-8"))
+    return json.loads(path.read_text(encoding="utf-8-sig"))
 
 
 def scalar(value: Any) -> str:
@@ -79,19 +79,66 @@ def render_models(source: str, payload: dict[str, Any]) -> str:
     return "\n".join(lines)
 
 
+def render_source_library(payload: dict[str, Any]) -> str:
+    library = payload.get("source_library", {})
+    if not isinstance(library, dict):
+        return ""
+    lines = [
+        "## Candidate source library",
+        "",
+        str(library.get("purpose", "")),
+        "",
+        "Candidate entries are discovery/planning knowledge only. They do not imply implementation, PIT safety, licensing approval, acquisition authority, backtest eligibility, or canonical-source status.",
+        "",
+        "### Source register",
+        "",
+        "| ID | Sources | Access | Primary use |",
+        "| --- | --- | --- | --- |",
+    ]
+    registry = library.get("registry", {})
+    if isinstance(registry, dict):
+        for source_id, spec in registry.items():
+            if not isinstance(spec, dict):
+                continue
+            names = ", ".join(item.get("name", "") for item in spec.get("sources", []) if isinstance(item, dict))
+            lines.append(f"| `{source_id}` | {names} | {scalar(spec.get('access'))} | {scalar(spec.get('primary_use'))} |")
+    group_titles = {
+        "us_henry_hub": "U.S. / Henry Hub candidate families",
+        "global_interconnect": "Global / Interconnect candidate families",
+        "norway_europe": "Norway / Europe candidate families",
+    }
+    families = library.get("families", {})
+    if isinstance(families, dict):
+        for group_id, title in group_titles.items():
+            group = families.get(group_id, {})
+            if not isinstance(group, dict):
+                continue
+            lines += ["", f"### {title}", "", "| Family | Priority | Grain | Preferred sources | PIT / access note |", "| --- | --- | --- | --- | --- |"]
+            for family_id, spec in group.items():
+                if not isinstance(spec, dict):
+                    continue
+                display = spec.get("display_name") or family_id.replace("_", " ").title()
+                lines.append(
+                    f"| {display} | {scalar(spec.get('priority'))} | {scalar(spec.get('grain'))} | "
+                    f"{scalar(spec.get('preferred_sources'))} | {scalar(spec.get('pit_access_note'))} |"
+                )
+    lines.append("")
+    return "\n".join(lines)
+
+
 def render_sources(source: str, payload: dict[str, Any]) -> str:
     text = render_summary(source, payload)
     sources = payload.get("sources", {})
     if not isinstance(sources, dict):
         return text
-    lines = [text.rstrip(), "", "## Sources", "", "| Source | Provider | Status | Purpose |", "| --- | --- | --- | --- | --- |"]
+    lines = [text.rstrip(), "", "## Sources", "", "| Source | Provider | Status | Purpose |", "| --- | --- | --- | --- |"]
     for name, spec in sources.items():
         if not isinstance(spec, dict):
             continue
         lines.append(
             f"| `{name}` | {scalar(spec.get('provider'))} | {scalar(spec.get('status'))} | {scalar(spec.get('purpose'))} |"
         )
-    lines.append("")
+    lines += ["", render_source_library(payload).rstrip(), ""]
     return "\n".join(lines)
 
 def render_schema(source: str, payload: dict[str, Any]) -> str:
@@ -341,7 +388,18 @@ def render_page(page: dict[str, Any]) -> str:
         )
     elif kind == "data_architecture":
         d = load_json(ROOT / "config/data_sources.json")
-        body = "# Data Architecture\n\nSource: `config/data_sources.json`\n\n## Canonical contract\n\n" + f"Grain: `{d['canonical_contract_schema']['grain']}`\n\nRequired columns: " + ", ".join(f"`{x}`" for x in d["canonical_contract_schema"]["required_columns"]) + "\n\n## Current sources\n\n| Source | Provider | Status | Purpose |\n| --- | --- | --- | --- |\n" + "\n".join(f"| `{k}` | {scalar(v.get('provider'))} | {scalar(v.get('status'))} | {scalar(v.get('purpose'))} |" for k,v in d["sources"].items()) + "\n"
+        body = (
+            "# Data Architecture\n\nSource: `config/data_sources.json`\n\n## Canonical contract\n\n"
+            + f"Grain: `{d['canonical_contract_schema']['grain']}`\n\nRequired columns: "
+            + ", ".join(f"`{x}`" for x in d["canonical_contract_schema"]["required_columns"])
+            + "\n\n## Current sources\n\n| Source | Provider | Status | Purpose |\n| --- | --- | --- | --- |\n"
+            + "\n".join(
+                f"| `{k}` | {scalar(v.get('provider'))} | {scalar(v.get('status'))} | {scalar(v.get('purpose'))} |"
+                for k, v in d["sources"].items()
+            )
+            + "\n\n"
+            + render_source_library(d)
+        )
     elif kind == "research_methodology":
         m = load_json(ROOT / "config/research_methodology.json")
         hierarchy = m["research_hierarchy"]

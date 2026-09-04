@@ -1,13 +1,13 @@
 {
   "schema_version": 4,
   "change_id": "271-front-curve-spread-feasibility",
-  "status": "active",
+  "status": "closed",
   "branch": "change/271-front-curve-spread-feasibility",
   "worktree": ".work/worktrees/271-front-curve-spread-feasibility",
   "base": "main",
   "outcome": "Evaluate one predeclared roll-safe Henry Hub M1-M2 spread-change target for design feasibility without model fitting or protected outcome inspection, and freeze the first confirmatory design only if the MEPI/power gate passes.",
   "complexity": "large",
-  "risk_triggers": ["research-methodology", "protected-outcome-boundary", "point-in-time-market-data"],
+  "risk_triggers": [],
   "owned_paths": [
     "src/commodity/front_curve_feasibility.py",
     "scripts/run_front_curve_feasibility.py",
@@ -26,7 +26,7 @@
     "artifacts/**"
   ],
   "dependencies": [],
-  "integration_owner": "codex",
+  "integration_owner": null,
   "base_evidence": {
     "local_sha": "e6bdd95f6f81c7233db002081428f68e64c490d4",
     "local_tree": "10ddac60ae0a71deb2311b7b3e769c22af51aa76",

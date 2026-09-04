@@ -1,7 +1,7 @@
 {
   "schema_version": 4,
   "change_id": "178-kronos-same-contract-path",
-  "status": "active",
+  "status": "closed",
   "branch": "change/178-kronos-same-contract-path",
   "worktree": ".work/worktrees/178-kronos-same-contract-path",
   "base": "main",
@@ -37,6 +37,7 @@
   },
   "work_management": {
     "project_id": "commodity",
+    "record_id": "WORK-178",
     "source_repository": "NielPieterse0/commodity",
     "source_number": 178,
     "source_kind": "issue",

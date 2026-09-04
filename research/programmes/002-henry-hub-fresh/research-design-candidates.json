@@ -1,0 +1,164 @@
+{
+  "schema_version": 1,
+  "level": "L3",
+  "programme_id": "002-henry-hub-fresh",
+  "status": "candidate_reproduction_predictive_and_exploratory_designs_only",
+  "empirical_execution_authority": false,
+  "global_design_rule": "Use the maximum admissible point-in-time-safe data available to each fresh design. No inherited scientific data allocation applies. Preserve an independent evaluation allocation only when that fresh design explicitly declares one.",
+  "l4_pit_contract_gate": {
+    "required_before_execution": true,
+    "required_fields": ["forecast_origin_or_event_time","target_timestamp","source_release_timestamp","revision_policy","vintage_rule","timezone","contract_identity_and_roll_rule","availability_lag","evaluation_sample"],
+    "rule": "Maximum admissible PIT-safe data is not self-executing. Every L4 design must instantiate all required fields before data construction or empirical execution; contemporaneous explanatory designs must declare event-time information availability separately from predictive designs."
+  },
+  "designs": [
+    {
+      "design_id": "reproduce-storage-surprise-response",
+      "priority": 1,
+      "line_id": "002-storage-inventory",
+      "question": "Can the inverse weekly storage-surprise response of Henry Hub futures be reproduced?",
+      "external_basis": ["chiou-wei-linn-zhu-2014","gay-simkins-turac-2009"],
+      "minimum_design": ["maximum admissible PIT-safe sample","pre-release consensus or justified PIT expectation benchmark","EIA actual with exact availability timestamp","exact-contract event-window returns","separate injection and withdrawal seasons"],
+      "primary_outcome": "futures return response to signed storage surprise",
+      "status": "not_yet_reproduced"
+    },
+    {
+      "design_id": "reproduce-storage-state-nonlinearity",
+      "priority": 2,
+      "line_id": "002-storage-inventory",
+      "question": "Does the response to physical shocks strengthen in low-inventory states and vary by season?",
+      "external_basis": ["rubaszek-uddin-2020","geman-ohana-2009","ergen-rizvanoghlu-2016"],
+      "minimum_design": ["maximum admissible PIT-safe sample","inventory deviation from seasonal norm","predeclared inventory regimes or threshold method","season interaction","price volatility and curve outcomes"],
+      "primary_outcome": "state-dependent price and volatility response",
+      "status": "not_yet_reproduced"
+    },
+    {
+      "design_id": "reproduce-announcement-day-puzzle-and-attention",
+      "priority": 3,
+      "line_id": "007-positioning-announcements",
+      "question": "Can the announcement-day return anomaly and weaker Friday response be reproduced in Henry Hub futures?",
+      "external_basis": ["prokopczuk-simen-wichmann-2021","gu-kurov-stan-2026"],
+      "minimum_design": ["maximum admissible PIT-safe sample","EIA release calendar with holiday shifts","announcement and non-announcement return windows","Thursday-versus-Friday interaction","storage-surprise controls","transaction-cost sensitivity only after phenomenon reproduction"],
+      "primary_outcome": "announcement-day excess return and release-day interaction",
+      "status": "not_yet_reproduced"
+    },
+    {
+      "design_id": "reproduce-monthly-real-time-price-forecastability",
+      "priority": 4,
+      "line_id": "005-fundamental-balance",
+      "question": "Can real-time monthly Henry Hub forecastability be reproduced at 1-24 month horizons?",
+      "external_basis": ["baumeister-et-al-2026"],
+      "minimum_design": ["Stage A exact reproduction from the authors' open JAE real-time database and replication materials","source-study monthly real-price target semantics","source-study vintage-correct fundamentals","no-change benchmark","futures-implied comparator","parsimonious fundamental model","forecast-combination comparator","horizon-by-horizon evaluation","Stage B independent reconstruction only after Stage A is verified"],
+      "primary_outcome": "MSPE relative to no-change benchmark by horizon",
+      "status": "not_yet_reproduced"
+    },
+    {
+      "design_id": "reproduce-samuelson-maturity-volatility",
+      "priority": 5,
+      "line_id": "001-market-structure",
+      "question": "Can the Samuelson maturity-volatility effect be reproduced from scratch under exact contract semantics?",
+      "external_basis": ["mu-2007","ergen-rizvanoghlu-2016"],
+      "minimum_design": ["maximum admissible PIT-safe contract history","exact listed-contract identities","same-contract return construction","multiple fixed maturities","predeclared maturity buckets"],
+      "primary_outcome": "realized volatility by fixed time-to-maturity bucket",
+      "status": "not_yet_reproduced"
+    },
+    {
+      "design_id": "reproduce-seasonal-forward-curve-structure",
+      "priority": 6,
+      "line_id": "001-market-structure",
+      "question": "Can the documented seasonal Henry Hub forward-curve structure be reproduced under exact contract semantics?",
+      "external_basis": ["mirantes-et-al-2013"],
+      "contextual_only_sources": ["hevia-petrella-2016"],
+      "minimum_design": ["maximum admissible PIT-safe contract history","exact listed-contract identities","calendar-consistent curve snapshots","winter versus injection-season comparison","storage-state conditioning only as secondary analysis"],
+      "primary_outcome": "seasonal differences in forward-curve level slope and shape",
+      "status": "not_yet_reproduced"
+    },
+    {
+      "design_id": "reproduce-weather-shock-return-volatility-asymmetry",
+      "priority": 7,
+      "line_id": "003-weather",
+      "question": "Can the literature-backed Henry Hub response to weather shocks, including season/sign asymmetry in returns and volatility, be reproduced from actually available weather information?",
+      "external_basis": ["mu-2007","liang-et-al-2022"],
+      "minimum_design": ["maximum admissible PIT-safe sample","declared HDD/CDD or temperature-deviation construction","season and sign asymmetry fixed before execution","Henry Hub return and realized-volatility outcomes","actual information-availability semantics","80% development sample only with final 20% chronologically sealed from all development reads","verification on the sealed 20% only after the development specification is frozen"],
+      "primary_outcome": "reproduction of literature-backed weather-conditioned Henry Hub return and volatility effects on development data, followed by untouched verification",
+      "status": "not_yet_reproduced"
+    },
+    {
+      "design_id": "reproduce-volatility-state-dependence",
+      "priority": 7,
+      "line_id": "004-volatility",
+      "question": "Can documented volatility persistence and weather storage season and announcement-state dependence be reproduced descriptively?",
+      "external_basis": ["mu-2007","ergen-rizvanoghlu-2016","liang-et-al-2022"],
+      "minimum_design": ["maximum admissible PIT-safe sample","realized-volatility target with declared estimator","predeclared state variables","season storage weather and announcement-state decomposition","no predictive claim from contemporaneous conditioning"],
+      "primary_outcome": "descriptive persistence and conditional volatility differences by predeclared state",
+      "status": "not_yet_reproduced"
+    },
+    {
+      "design_id": "reproduce-physical-balance-structural-decomposition",
+      "priority": 8,
+      "line_id": "005-fundamental-balance",
+      "question": "Which production demand storage power-sector and LNG variables contemporaneously explain Henry Hub price formation under explicitly bounded event-time information?",
+      "external_basis": ["brown-yucel-2008","ji-zhang-geng-2018","stock-zaragoza-watkins-2024"],
+      "minimum_design": ["maximum admissible sample under declared contemporaneous information semantics","explicit event-time information boundary","storage weather production consumption power and LNG/feedgas families","season and regime interactions","nested explanatory comparisons","no forecasting claim"],
+      "primary_outcome": "incremental contemporaneous explanatory contribution by information family",
+      "status": "not_yet_reproduced"
+    },
+    {
+      "design_id": "reproduce-us-cross-market-transmission",
+      "priority": 9,
+      "line_id": "006-cross-market-globalization",
+      "question": "When do literature-supported U.S. oil and gas-market variables transmit information to Henry Hub under regime and LNG-capacity conditioning?",
+      "external_basis": ["brown-yucel-2008","geng-ji-fan-2016","ji-zhang-geng-2018","rubaszek-szafranek-2025"],
+      "contextual_only_sources": ["farag-ruhnau-2026"],
+      "minimum_design": ["maximum admissible PIT-safe sample","US-only baseline","oil and directly relevant gas-market inputs","structural-break or regime conditioning","LNG capacity and congestion state","separate contemporaneous from lagged information","no broad international connectedness claim without additional primary Henry Hub literature"],
+      "primary_outcome": "incremental Henry Hub information from literature-supported cross-market variables by regime and horizon",
+      "status": "not_yet_reproduced"
+    },
+    {
+      "design_id": "reproduce-positioning-structural-information",
+      "priority": 10,
+      "line_id": "007-positioning-announcements",
+      "question": "Does trader positioning add contemporaneous explanatory information after physical fundamentals and publication timing are controlled?",
+      "external_basis": ["buchanan-hodges-theis-2001","ji-zhang-geng-2018"],
+      "minimum_design": ["maximum admissible sample under declared information semantics","publication-lag-correct CFTC positioning","physical-fundamental baseline","level and change specifications","season and regime interactions","no predictive claim without separate PIT design"],
+      "primary_outcome": "incremental contemporaneous explanatory contribution after physical controls",
+      "status": "not_yet_reproduced"
+    }
+  ],
+  "predictive_tests": [
+    {
+      "design_id": "test-volatility-state-predictive-value",
+      "priority": 1,
+      "line_id": "004-volatility",
+      "question": "After the descriptive state dependence is reproduced, do PIT-available weather storage season and announcement-state variables improve out-of-sample volatility forecasts?",
+      "external_basis": ["liang-et-al-2022"],
+      "prerequisite_designs": ["reproduce-volatility-state-dependence"],
+      "minimum_design": ["fully instantiated L4 PIT contract","realized-volatility target with declared estimator","simple persistence comparator","forecast origin and horizon fixed before feature construction","QLIKE primary loss and robust secondary losses","strict OOS evaluation"],
+      "primary_outcome": "incremental OOS volatility forecast-loss improvement over persistence comparator",
+      "status": "not_yet_tested"
+    },
+    {
+      "design_id": "test-physical-balance-predictive-value",
+      "priority": 2,
+      "line_id": "005-fundamental-balance",
+      "question": "Which PIT-available physical-balance variables improve Henry Hub forecasts at explicitly declared horizons?",
+      "external_basis": ["brown-yucel-2008","ji-zhang-geng-2018","baumeister-et-al-2026"],
+      "prerequisite_designs": ["reproduce-physical-balance-structural-decomposition"],
+      "minimum_design": ["fully instantiated L4 PIT contract","explicit forecast origin and horizon","source-specific release timestamps and revision policies","vintage-correct inputs where revised series are used","nested predictive comparisons","strict OOS evaluation"],
+      "primary_outcome": "incremental OOS forecast value by information family and horizon",
+      "status": "not_yet_tested"
+    }
+  ],
+  "exploratory_designs": [
+    {
+      "design_id": "explore-issued-weather-revision-mechanism",
+      "line_id": "003-weather",
+      "question": "Do vintage-over-vintage issued weather revisions contain a distinct Henry Hub response or leading signal beyond forecast levels and realized weather?",
+      "external_basis": ["mu-2007","chen-hartley-lan-2023","liang-et-al-2022"],
+      "evidence_strength": "Weather relevance is literature-supported; direct issued-revision predictability is not established by the current primary literature inventory and is therefore mechanism discovery, not reproduction.",
+      "minimum_design": ["fully instantiated L4 PIT contract","PIT-safe issued-forecast history","actual issuance and availability timestamps","same-valid-time revision construction","demand-weighted HDD/CDD defined without look-ahead","separate contemporaneous response from genuinely leading information"],
+      "primary_outcome": "incremental response or predictive value of issued forecast revisions after forecast-level controls",
+      "status": "exploratory_not_yet_tested"
+    }
+  ],
+  "scope_note": "Fresh literature-derived strict reproduction designs, separately sequenced predictive tests, and explicitly separated exploratory mechanism-discovery candidates. No record here authorizes execution."
+}

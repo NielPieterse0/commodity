@@ -1,0 +1,39 @@
+{
+  "schema_version": 1,
+  "zoom_level": "L1",
+  "programme_id": "002-henry-hub-fresh",
+  "legacy_programme_ids": [],
+  "name": "Henry Hub literature-replication research programme",
+  "mission": "Independently establish which externally documented Henry Hub behaviours reproduce under source-faithful data and semantics, understand the variables and mechanisms that create them, and only then consider bounded predictive tests under a separate operator-authorized transition.",
+  "status": "active",
+  "line_refs": [
+    {
+      "research_line_id": "001-market-structure",
+      "path": "research/programmes/002-henry-hub-fresh/lines/001-market-structure/line.json"
+    },
+    {
+      "research_line_id": "002-storage-inventory",
+      "path": "research/programmes/002-henry-hub-fresh/lines/002-storage-inventory/line.json"
+    },
+    {
+      "research_line_id": "003-weather",
+      "path": "research/programmes/002-henry-hub-fresh/lines/003-weather/line.json"
+    },
+    {
+      "research_line_id": "004-volatility",
+      "path": "research/programmes/002-henry-hub-fresh/lines/004-volatility/line.json"
+    },
+    {
+      "research_line_id": "005-fundamental-balance",
+      "path": "research/programmes/002-henry-hub-fresh/lines/005-fundamental-balance/line.json"
+    },
+    {
+      "research_line_id": "006-cross-market-globalization",
+      "path": "research/programmes/002-henry-hub-fresh/lines/006-cross-market-globalization/line.json"
+    },
+    {
+      "research_line_id": "007-positioning-announcements",
+      "path": "research/programmes/002-henry-hub-fresh/lines/007-positioning-announcements/line.json"
+    }
+  ]
+}
