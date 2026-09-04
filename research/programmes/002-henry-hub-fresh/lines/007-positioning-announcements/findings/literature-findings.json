@@ -1,0 +1,35 @@
+{
+  "schema_version": 1,
+  "level": "L3",
+  "line_id": "007-positioning-announcements",
+  "findings": [
+    {
+      "finding_id": "storage-announcement-price-discovery",
+      "claim": "EIA storage releases are information events for natural-gas futures: volatility rises around the release and prices respond to unexpected storage changes.",
+      "expected_direction": "positive inventory surprise -> lower futures price, all else equal",
+      "sources": [{"source_id":"linn-zhu-2004"},{"source_id":"chiou-wei-linn-zhu-2014"}],
+      "programme_status": "external_literature_finding_not_yet_reproduced"
+    },
+    {
+      "finding_id": "announcement-day-return-puzzle",
+      "claim": "Natural-gas futures exhibit a distinct announcement-day return pattern: more than half of annual return was earned on EIA storage-announcement days in the published sample, and the announcement-versus-non-announcement difference was not explained by storage surprise or standard controls.",
+      "expected_direction": "announcement-day return distribution differs from non-announcement days",
+      "sources": [{"source_id":"prokopczuk-simen-wichmann-2021"}],
+      "programme_status": "external_literature_finding_not_yet_reproduced"
+    },
+    {
+      "finding_id": "announcement-attention-release-day",
+      "claim": "Natural-gas futures react materially less to EIA inventory announcements released on Fridays than on Thursdays; 2026 evidence estimates a 74% weaker daily response on Friday.",
+      "expected_direction": "Friday-shifted release -> weaker response than normal Thursday release",
+      "sources": [{"source_id":"gu-kurov-stan-2026"}],
+      "programme_status": "external_literature_finding_not_yet_reproduced"
+    },
+    {
+      "finding_id": "positioning-is-secondary-hypothesis",
+      "claim": "Trader positioning may contain incremental information, but the literature base does not justify assuming it is a dominant Henry Hub driver relative to physical fundamentals.",
+      "expected_direction": "incremental effect must be demonstrated after physical controls",
+      "sources": [{"source_id":"buchanan-hodges-theis-2001"},{"source_id":"ji-zhang-geng-2018"}],
+      "programme_status": "external_literature_finding_not_yet_reproduced"
+    }
+  ]
+}

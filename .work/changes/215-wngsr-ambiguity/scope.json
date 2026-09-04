@@ -1,23 +1,32 @@
 {
   "schema_version": 4,
   "change_id": "215-wngsr-ambiguity",
-  "status": "active",
+  "status": "closed",
   "branch": "change/215-wngsr-ambiguity",
   "worktree": ".work/worktrees/215-wngsr-ambiguity",
   "base": "main",
   "outcome": "Make WNGSR workbook table selection fail closed when more than one candidate table is structurally admissible, preserving current source values, lineage, and revision timing.",
   "complexity": "small",
-  "risk_triggers": ["point-in-time availability"],
-  "owned_paths": ["src/commodity/wngsr.py", "tests/test_wngsr.py", "tests/test_wngsr_current_ledger.py"],
+  "risk_triggers": ["public_contract"],
+  "owned_paths": ["src/commodity/wngsr.py", "tests/test_wngsr.py", "tests/test_wngsr_current_ledger.py", ".work/changes/215-wngsr-ambiguity/**"],
   "shared_paths": [],
   "excluded_paths": ["artifacts/**", "config/experiment.json", "config/models.json"],
   "dependencies": ["211-external-review-3"],
+  "integration_owner": null,
+  "base_evidence": {
+    "local_sha": "8d0bd38da2e48884133287c3af25918d532d58fe",
+    "local_tree": "0fc142c456ea361de316a2cb3f860610e0866dae",
+    "upstream_sha": "8d0bd38da2e48884133287c3af25918d532d58fe",
+    "upstream_tree": "0fc142c456ea361de316a2cb3f860610e0866dae",
+    "upstream_ref": "refs/remotes/origin/main",
+    "evidence_source": "metadata_normalization_current_base",
+    "relation": "same_sha"
+  },
   "work_management": {
     "project_id": "commodity",
     "record_id": "WORK-215",
     "source_repository": "NielPieterse0/commodity",
-    "source_number": 215,
-    "source_kind": "issue",
+    "source_number": 215,    "source_kind": "issue",
     "documentation_impact": "none",
     "execution_owner": "codex"
   }

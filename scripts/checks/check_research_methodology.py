@@ -257,14 +257,25 @@ def check_schema() -> None:
     if step9.get("zoom_level") != "L3" or not required_step9 <= set(step9):
         raise ValueError("Step 9 must own governed implementation, complete preregistration, confirmation policy and freeze binding")
     repo_transition = step9.get("repo_transition", "")
-    if ".work begins here" not in repo_transition:
-        raise ValueError("Step 9 must explicitly mark the .work governed-change boundary")
-    if "implementation specification" not in repo_transition.lower() or "do not create a second implementation spec" not in repo_transition.lower():
-        raise ValueError("Step 9 must make the L3 experiment/preregistration the sole implementation specification")
+    transition_lower = repo_transition.lower()
+    for concept in ("implementation_ready", "live kis governed-change workflow", "scientific requirements authority", "thin science-to-repository mapping", "must not restate, duplicate, reinterpret or extend"):
+        if concept not in transition_lower:
+            raise ValueError(f"Step 9 research-to-KIS boundary is missing: {concept}")
     change_requirements = " ".join(step9.get("governed_change_requirements", [])).lower()
-    for concept in ("implementation specification", "do not restate, duplicate or redefine", "implementation translation plan", "tdd sequence", "develop-code", "code-review", "code-verification"):
+    for concept in ("live kis workflow", "exact approved l3 research authority", "spec.md", "science-to-repository mapping", "engineering iteration", "exit back to l3", "preserve still-valid kis evidence", "lifecycle decision", "promotionready", "exact-head github actions", "landed identities"):
         if concept not in change_requirements:
-            raise ValueError(f"Step 9 experiment-to-code translation contract is missing: {concept}")
+            raise ValueError(f"Step 9 research-to-KIS translation contract is missing: {concept}")
+
+    nested = methodology.get("nested_research_kis_workflow") or {}
+    for field in ("scientific_owner", "implementation_owner", "implementation_ready_boundary", "pre_kis_iteration", "kis_iteration", "scientific_escape_rule", "evidence_reuse_rule", "post_kis_return", "spec_rule"):
+        if not nested.get(field):
+            raise ValueError(f"nested research/KIS workflow is missing: {field}")
+    if nested.get("scientific_owner") != "Commodity research authority" or nested.get("implementation_owner") != "live KIS governed-change lifecycle":
+        raise ValueError("nested workflow ownership drifted")
+    nested_text = " ".join(str(nested[field]) for field in ("scientific_escape_rule", "evidence_reuse_rule", "post_kis_return", "spec_rule")).lower()
+    for concept in ("return to the owning l3", "validity inputs", "exact kis implementation/landing identity", "thin science-to-repository mapping", "must not be duplicated"):
+        if concept not in nested_text:
+            raise ValueError(f"nested research/KIS workflow semantics are missing: {concept}")
     quality_gate = " ".join(step9.get("implementation_quality_gate", [])).lower()
     for concept in ("scientific/software contract", "test-driven development", "adversarial", "independent oracle", "correctly normalized, semantically verified data", "replicating the relevant published/reference result", "full affected regression suite", "code review", "independent review", "invalidates the affected evidence"):
         if concept not in quality_gate:

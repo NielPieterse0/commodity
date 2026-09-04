@@ -1,0 +1,88 @@
+{
+  "schema_version": 1,
+  "programme_id": "002-henry-hub-fresh",
+  "closed_scope": "historical L0-L3 literature research and initial reproduction-design mapping",
+  "status": "reopened_design_feasibility_and_redesign_resolution_complete_unfrozen",
+  "scientific_history_inherited": false,
+  "internal_reproductions_completed": 0,
+  "empirical_execution_authority": false,
+  "prior_counts": {
+    "l2_research_lines": 7,
+    "literature_sources": 21,
+    "initial_reproduction_designs": 10,
+    "initial_predictive_tests": 2,
+    "initial_exploratory_designs": 1
+  },
+  "reopen_reason": "The initial candidate designs were not execution-quality: they did not fully specify estimands, H0/H1, disconfirmers, PIT semantics, multiplicity, MEPI/power gates, or source-readiness failure conditions for every literature finding.",
+  "current_design_refs": [
+    "experiment-designs.json",
+    "experiment-setup.json",
+    "evidence-map.json",
+    "feasibility-ledger.json"
+  ],
+  "source_library_recovery": {
+    "authority_ref": "config/data_sources.json#source_library",
+    "recovered_candidate_families": 42,
+    "recovered_registry_entries": 24,
+    "newly_discovered_registry_entries": 6,
+    "current_registry_entries": 30,
+    "new_source_assessments": 8,
+    "authority_boundary": "discovery_only_not_operational_source_status"
+  },
+  "source_hunt_progress": {
+    "exact_replication_routes_found": [
+      "rep-014-monthly-real-time-forecastability",
+      "rep-016-europe-us-transmission-limited"
+    ],
+    "public_deep_history_route_found": [
+      "rep-015-oil-gas-linkage-regimes"
+    ],
+    "public_route_requires_contract_audit": [
+      "rep-013-lng-export-demand-channel"
+    ],
+    "source_faithful_subscription_routes_identified": {
+      "storage_consensus": "Bloomberg",
+      "friday_attention": "Genesis Financial Technologies plus Bloomberg"
+    },
+    "source_fidelity_hold": [
+      "rep-011-weather-enhanced-volatility-oos"
+    ],
+    "consensus_route_requires_history_license_fidelity": [
+      "rep-003-storage-surprise-response",
+      "rep-018-announcement-day-return-puzzle",
+      "rep-019-friday-attention-effect"
+    ],
+    "literature_mapping_corrected": "rep-006-inventory-forward-curve-scarcity"
+  },
+  "feasibility": {
+    "authority_ref": "evidence-map.json",
+    "supporting_detail_ref": "feasibility-ledger.json",
+    "decision_counts": {
+      "GO": 14,
+      "HOLD": 7,
+      "REDESIGN": 0
+    },
+    "redesign": [],
+    "protected_evidence_opened": false,
+    "outcome_effect_testing_performed": false
+  },
+  "current_integrity": {
+    "literature_findings_total": 22,
+    "findings_covered": 22,
+    "unmapped_findings": 0,
+    "unknown_literature_source_refs": 0,
+    "json_parse": "pass",
+    "authority_boundary": "pass",
+    "feasibility_verification": "pass",
+    "feasibility_verification_ref": ".work/changes/289-l0-l3-henry-hub-research/feasibility-verification.json"
+  },
+  "scientific_boundary": "All mapped findings remain external literature findings until newly reproduced inside this programme. Contextual evidence and exploratory literature gaps cannot be promoted as strict reproductions.",
+  "next_stage": "Implement/verify GO machinery and resolve HOLD triggers only. No empirical literature-result execution, protected-evidence opening, preregistration, sealing or confirmation is authorized.",
+  "implementation_contracts_ref": "implementation-contracts.json",
+  "implementation_status": {
+    "go_designs_mapped": 14,
+    "machinery_implemented": 8,
+    "machinery_implemented_source_artifact_pending": 6,
+    "empirical_execution_authority": false
+  }
+}

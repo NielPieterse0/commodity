@@ -12,7 +12,7 @@
 | `durable-evidence-references` | durable research evidence reference resolvability (`artifacts/research-metrics/longitudinal-ledger.json`) | `scripts/checks/check_durable_evidence_refs.py` | pre-ci+ci |
 | `market-source-authority` | canonical market source selection, retained integrity, and evaluation/promotion boundary (`config/data_sources.json`) | `scripts/checks/check_market_source_authority.py` | pre-ci+ci |
 | `dataset-assurance-contract` | deterministic dataset reconstruction and explicit semantic-verification boundary (`config/research_methodology.json`) | `scripts/checks/check_data_assurance_contract.py` | pre-ci+ci |
-| `work-layout` | governed change and retained worktree lifecycle layout (`AGENTS.md`) | `scripts/checks/check_work_layout.py` | pre-ci+ci |
+| `work-layout` | governed change/worktree lifecycle layout and repository KIS workflow entrypoint (`AGENTS.md`) | `scripts/checks/check_work_layout.py` | pre-ci+ci |
 | `experiment-schema` | confirmatory experiment schema (`config/research_methodology.json`) | `scripts/checks/check_research_methodology.py --check experiment-schema` | pre-ci+ci |
 | `experiment-freeze-integrity` | immutable preregistration and freeze evidence (`config/research_methodology.json`) | `scripts/checks/check_research_methodology.py --check experiment-freeze-integrity` | pre-ci+ci |
 | `experiment-verification` | confirmatory execution/result verification (`config/research_methodology.json`) | `scripts/checks/check_research_methodology.py --check experiment-verification` | pre-ci+ci |

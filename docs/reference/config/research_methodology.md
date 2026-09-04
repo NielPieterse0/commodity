@@ -49,3 +49,4 @@ Source: `config/research_methodology.json`
 | `zoom_level_contracts` | object (13 keys) |
 | `governed_research_workflow` | array (15 items) |
 | `governed_research_workflow_details` | array (15 items) |
+| `nested_research_kis_workflow` | object (9 keys) |

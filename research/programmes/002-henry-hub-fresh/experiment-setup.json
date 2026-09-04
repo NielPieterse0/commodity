@@ -1,0 +1,311 @@
+{
+  "schema_version": 1,
+  "programme_id": "002-henry-hub-fresh",
+  "status": "non_outcome_feasibility_complete_unfrozen",
+  "authority": {
+    "empirical_execution": false,
+    "preregistration_freeze": false,
+    "protected_evidence_opening": false
+  },
+  "feasibility_authority_ref": "evidence-map.json",
+  "supporting_feasibility_detail_ref": "feasibility-ledger.json",
+  "source_feasibility_scan_ref": ".work/changes/289-l0-l3-henry-hub-research/feasibility-scan.json",
+  "canonical_inputs": {
+    "henry_hub_contract_market": {
+      "source_id": "databento_henry_hub",
+      "status": "ready",
+      "coverage_start": "2010-06-06",
+      "semantics": "CME NYMEX NG exact listed contracts and final settlements; canonical private-project research/backtesting source"
+    },
+    "weekly_storage": {
+      "source_id": "eia_storage",
+      "status": "dual_mode_ready",
+      "semantics": "For predictive/event-time work use only the PIT/reconstructed conservative WNGSR stream (106 release events in retained 2024-08-01 through 2026-08-06 window). For source-faithful contemporaneous/descriptive reproduction, the preserved current WNGSR historical snapshot provides 844 weekly observations overlapping Databento from 2010-06-06; it must be labeled revised historical truth and cannot substitute for PIT history in predictive claims."
+    },
+    "issued_weather": {
+      "source_id": "weather",
+      "status": "ready_with_declared_gaps",
+      "provider_archive_start": "2024-03-14",
+      "retained_feasibility_snapshot_start": "2024-08-13",
+      "retained_feasibility_snapshot_end": "2026-08-12",
+      "semantics": "actually-issued historical forecast candidate with immutable-run requirement and declared archive/feature gaps; retained feasibility evidence contains 723 snapshots from 2024-08-13 through 2026-08-12"
+    },
+    "weather_revision_fallback": {
+      "source_id": "noaa_gfs_weather_revision",
+      "status": "hold_source_audit_required",
+      "coverage_start": "2006-10-10",
+      "semantics": "PIT issued GFS candidate; weighting and availability audit incomplete"
+    },
+    "physical_fundamentals": {
+      "source_id": "eia_fundamentals",
+      "status": "current_snapshot_only_historical_vintages_incomplete",
+      "semantics": "usable for bounded historical-truth explanatory work only unless vintage reconstruction is completed"
+    },
+    "power": {
+      "source_id": "eia_power",
+      "status": "publication_timing_ready_historical_revisions_incomplete",
+      "semantics": "current revised history cannot support a PIT predictive claim"
+    },
+    "positioning": {
+      "source_id": "cftc_cot",
+      "status": "ready_with_conservative_release_reconstruction",
+      "semantics": "publication-lag-correct disaggregated futures-only Henry Hub positioning"
+    },
+    "observed_weather": {
+      "source_id": "noaa_observed_weather",
+      "status": "public_source_route_verified_not_acquired",
+      "semantics": "GHCN-Daily observations plus fixed NOAA daily climate normals for historical-truth weather reproduction only; not a substitute for issued forecasts or PIT prediction."
+    }
+  },
+  "missing_or_unproven_inputs": [
+    {
+      "input_id": "historical_storage_consensus",
+      "required_by": [
+        "rep-003-storage-surprise-response",
+        "rep-018-announcement-day-return-puzzle",
+        "rep-019-friday-attention-effect"
+      ],
+      "status": "source_faithful_bloomberg_route_identified_subscription_history_audit_required",
+      "candidate_source_ids": [
+        "US-STORAGE-CONSENSUS",
+        "LIT-GKS-ATTENTION-DATA"
+      ],
+      "rule": "Must be historically fixed and demonstrably published before each EIA release. Bloomberg is the source-faithful expectation route for Chiou-Wei/Linn/Zhu and the underlying Bloomberg survey family is also used by Gay/Simkins/Turac; Gu/Kurov/Stan state their study uses Genesis plus Bloomberg. Platts is a separately labeled independent analyst-survey route and Estimize a distinct forecaster-population comparator. Actual storage change, later analyst histories, or fitted expectations are not substitutes."
+    },
+    {
+      "input_id": "lng_capacity_and_feedgas",
+      "required_by": [
+        "rep-013-lng-export-demand-channel"
+      ],
+      "status": "public_ebb_route_found_source_contract_incomplete",
+      "candidate_source_ids": [
+        "US-LNG-EBB"
+      ],
+      "rule": "Capacity availability must be distinct from utilization/feedgas and from global LNG prices. Terminal-pipeline mapping, scheduled-quantity semantics, posting timestamps, historical depth and cross-terminal coverage must be audited before promotion."
+    },
+    {
+      "input_id": "real_time_monthly_fundamental_vintages",
+      "required_by": [
+        "rep-014-monthly-real-time-forecastability"
+      ],
+      "status": "exact_replication_archive_found",
+      "candidate_source_ids": [
+        "LIT-BHLR-RTDB"
+      ],
+      "rule": "Use the authors' open JAE real-time database and replication materials as the exact first-pass reproduction route. EIA STEO/MER and FRED/ALFRED remain independent reconstruction routes; revised current EIA history alone is not a substitute for real-time vintages."
+    },
+    {
+      "input_id": "crude_oil_benchmark",
+      "required_by": [
+        "rep-015-oil-gas-linkage-regimes"
+      ],
+      "status": "public_deep_history_route_found_semantic_match_pending",
+      "candidate_source_ids": [
+        "US-OIL"
+      ],
+      "rule": "EIA WTI spot and fixed-rank futures histories provide deep public candidates. Match the exact oil benchmark and timing semantics used by the selected literature specification before execution."
+    },
+    {
+      "input_id": "european_gas_benchmark_and_structural_controls",
+      "required_by": [
+        "rep-016-europe-us-transmission-limited"
+      ],
+      "status": "exact_replication_archive_found_independent_route_partly_licensed",
+      "candidate_source_ids": [
+        "LIT-RS-EUUS",
+        "EU-TTF",
+        "EU-FLOW",
+        "EU-GIE"
+      ],
+      "rule": "Use the authors' RepOD replication package for exact first-pass reproduction. A later independent reconstruction may use official ICE TTF plus ENTSOG/GIE controls, but ICE historical market-data entitlement must be verified."
+    }
+  ],
+  "design_readiness": [
+    {
+      "design_id": "rep-001-samuelson-maturity-volatility",
+      "source_readiness": "READY_FOR_FEASIBILITY",
+      "reason": "Canonical deep listed-contract history is available; next step is DTE/liquidity sample audit and power/effective-information calculation."
+    },
+    {
+      "design_id": "rep-002-seasonal-forward-curve",
+      "source_readiness": "READY_FOR_FEASIBILITY",
+      "reason": "Canonical multi-contract curve history is available; next step is simultaneous-maturity coverage audit and curve-snapshot eligibility."
+    },
+    {
+      "design_id": "rep-003-storage-surprise-response",
+      "source_readiness": "HOLD_BLOOMBERG_HISTORY_LICENSE_FIDELITY_AUDIT",
+      "reason": "The source-faithful expectation series is now identified: Chiou-Wei/Linn/Zhu use Bloomberg weekly consensus analyst forecasts, and Gay/Simkins/Turac build their analyst database from Bloomberg surveys. Feasibility remains HOLD until historical subscription access, extractability, timestamp fixity and coverage are proven. Platts/Estimize are independent alternatives, not silent exact substitutes."
+    },
+    {
+      "design_id": "rep-004-storage-state-nonlinearity",
+      "source_readiness": "READY_FOR_HISTORICAL_TRUTH_FEASIBILITY",
+      "reason": "The threshold-SVAR finding is contemporaneous/descriptive, not a trading-at-origin claim. The preserved WNGSR historical snapshot supplies 844 weekly storage observations overlapping canonical Databento from 2010-06-06; use that long revised-historical-truth layer for mechanism reproduction and keep the 106-event PIT stream separate for any later predictive/event-time extension."
+    },
+    {
+      "design_id": "rep-005-scarcity-volatility",
+      "source_readiness": "READY_FOR_HISTORICAL_TRUTH_FEASIBILITY",
+      "reason": "Geman-Ohana is a long-sample inventory/volatility relationship. The 844-week WNGSR historical overlap is the appropriate first-stage descriptive reproduction layer; PIT vintages are required only if this relationship is later promoted into a predictive feature claim."
+    },
+    {
+      "design_id": "rep-006-inventory-forward-curve-scarcity",
+      "source_readiness": "READY_FOR_HISTORICAL_TRUTH_FEASIBILITY",
+      "reason": "Direct natural-gas evidence supports inventory/forward-curve scarcity reproduction using exact listed-contract curve measures plus the 844-week WNGSR historical overlap. The prior convenience-yield/carry blocker was removed because it was based on a mis-scoped heating-oil source and an unnecessarily strong measurement assumption. Predictive use remains separately PIT-gated."
+    },
+    {
+      "design_id": "rep-007-weather-return-volatility-response",
+      "source_readiness": "READY_FOR_IMPLEMENTATION_SOURCE_ROUTE",
+      "reason": "Official NOAA GHCN-Daily plus daily-normal route resolves the issued-versus-observed source mismatch; acquire/pin stations and weighting before outcome access."
+    },
+    {
+      "design_id": "rep-008-weather-season-sign-asymmetry",
+      "source_readiness": "READY_FOR_IMPLEMENTATION_SOURCE_ROUTE",
+      "reason": "Uses the same observed-weather route as rep-007; fixed season/sign cells and cell power remain implementation gates."
+    },
+    {
+      "design_id": "rep-009-announcement-volatility",
+      "source_readiness": "READY_FOR_FEASIBILITY",
+      "reason": "Canonical market and EIA release semantics are available; historical holiday-calendar fidelity must be audited across the chosen sample."
+    },
+    {
+      "design_id": "rep-010-volatility-state-dependence",
+      "source_readiness": "HOLD_COMPONENT_REPRODUCTIONS",
+      "reason": "The design is now a non-empirical synthesis and remains held until its source-faithful component reproductions exist."
+    },
+    {
+      "design_id": "rep-011-weather-enhanced-volatility-oos",
+      "source_readiness": "HOLD_SOURCE_FIDELITY_REDESIGN",
+      "reason": "The current issued-weather formulation is not source-faithful to Liang et al. The paper uses EIA Henry Hub 1-month futures from January 1995 to July 2021 plus historical wind-speed, temperature and precipitation variables for New York/Louisiana, with in-sample through August 2017 and the remainder OOS. Exact weather-provider identity and source-study variable timing must be verified before feasibility; the 2024+ issued-forecast archive is not a valid substitute for this reproduction."
+    },
+    {
+      "design_id": "rep-012-physical-balance-drivers",
+      "source_readiness": "READY_FOR_MONTHLY_HISTORICAL_TRUTH_IMPLEMENTATION",
+      "reason": "The prior mixed-frequency omnibus is replaced by a source-coherent monthly EIA physical-balance core; exact series IDs and target semantics remain pre-outcome implementation gates."
+    },
+    {
+      "design_id": "rep-013-lng-export-demand-channel",
+      "source_readiness": "HOLD_SOURCE_CONTRACT_PUBLIC_ROUTE_FOUND",
+      "reason": "Public pipeline informational postings expose terminal-linked scheduled quantities and capacity, so a no-cost route exists in principle. Before feasibility, prove terminal-pipeline mapping, historical depth, posting-time semantics and coverage across the LNG export fleet; do not equate one pipeline's scheduled quantity with national feedgas."
+    },
+    {
+      "design_id": "rep-014-monthly-real-time-forecastability",
+      "source_readiness": "READY_FOR_FEASIBILITY_EXACT_REPLICATION_ROUTE",
+      "reason": "The authors publish the open JAE real-time database and replication code used for the paper, with historical vintages from 1991. First reproduce the published result on that exact package; use EIA STEO/MER and ALFRED only for later independent reconstruction/extension."
+    },
+    {
+      "design_id": "rep-015-oil-gas-linkage-regimes",
+      "source_readiness": "READY_FOR_FEASIBILITY_WITH_BENCHMARK_FIDELITY_AUDIT",
+      "reason": "EIA publishes deep WTI spot and fixed-rank futures histories. The remaining gate is matching the selected paper's exact oil benchmark, frequency and timing semantics before constructing the sample."
+    },
+    {
+      "design_id": "rep-016-europe-us-transmission-limited",
+      "source_readiness": "READY_FOR_FEASIBILITY_EXACT_REPLICATION_ROUTE",
+      "reason": "The authors explicitly publish RepOD replication files for the target structural VAR result. First reproduce that package exactly; an independent reconstruction using ICE TTF plus public ENTSOG/GIE physical controls remains a later route with ICE historical-data entitlement to verify."
+    },
+    {
+      "design_id": "ctx-017-connectedness-congestion",
+      "source_readiness": "NO_EXECUTION_REQUIRED",
+      "reason": "Contextual European evidence is a design constraint, not a Henry Hub reproduction target."
+    },
+    {
+      "design_id": "rep-018-announcement-day-return-puzzle",
+      "source_readiness": "PARTIAL_READY_BLOOMBERG_CONSENSUS_AUDIT",
+      "reason": "The announcement-day return contrast is supportable now. Full near replication still needs a verified pre-release surprise series; Bloomberg is now the preferred source-faithful consensus family for the surrounding storage-surprise literature, with Platts/Estimize retained only as explicitly independent alternatives. Historical fixity, coverage and licensing still require audit."
+    },
+    {
+      "design_id": "rep-019-friday-attention-effect",
+      "source_readiness": "HOLD_EXACT_DATA_SUBSCRIPTION_AND_POWER_AUDIT",
+      "reason": "Gu/Kurov/Stan identify Genesis Financial Technologies plus Bloomberg as their study data, both subscription sources. Exact replication therefore requires those data or a verified equivalent entitlement. Databento plus an independently sourced consensus can support a separately labeled near replication, but power remains a hard gate because Friday-shifted releases are sparse."
+    },
+    {
+      "design_id": "rep-020-positioning-incremental-information",
+      "source_readiness": "READY_FOR_WEEKLY_CHANGE_IMPLEMENTATION",
+      "reason": "Managed Money net weekly change is fixed as the primary representation from pre-outcome effective-information evidence; levels remain secondary."
+    },
+    {
+      "design_id": "exp-021-issued-weather-revisions",
+      "source_readiness": "EXPLORATORY_FEASIBILITY_ONLY",
+      "reason": "Open-Meteo issued vintages are available with gaps; NOAA fallback remains on source-audit hold. This cannot enter the strict reproduction ledger."
+    }
+  ],
+  "feasibility_protocol": {
+    "allowed_actions": [
+      "read source/data metadata",
+      "verify source identities and availability semantics",
+      "count eligible observations/events without outcome-conditioned filtering",
+      "compute missingness and join coverage",
+      "estimate dependence/effective information from design variables needed for power",
+      "derive literature/programme MEPI",
+      "compute detectable effect/power",
+      "classify GO/HOLD/REDESIGN"
+    ],
+    "prohibited_actions": [
+      "inspect protected confirmation outcomes",
+      "optimize thresholds against literature outcome success",
+      "select event windows by favorable return response",
+      "tune features/models on evaluation outcomes",
+      "freeze preregistration",
+      "execute a confirmatory test",
+      "promote an exploratory result"
+    ],
+    "required_output_per_design": [
+      "source identities",
+      "semantic fidelity class",
+      "eligible raw N",
+      "dependence structure",
+      "effective information method/result",
+      "MEPI derivation",
+      "detectable effect",
+      "power/sensitivity",
+      "GO/HOLD/REDESIGN",
+      "remaining blockers"
+    ]
+  },
+  "feasibility_summary": {
+    "decision_counts": {
+      "GO": 14,
+      "HOLD": 7,
+      "REDESIGN": 0
+    },
+    "go": [
+      "rep-001-samuelson-maturity-volatility",
+      "rep-002-seasonal-forward-curve",
+      "rep-004-storage-state-nonlinearity",
+      "rep-005-scarcity-volatility",
+      "rep-006-inventory-forward-curve-scarcity",
+      "rep-007-weather-return-volatility-response",
+      "rep-008-weather-season-sign-asymmetry",
+      "rep-009-announcement-volatility",
+      "rep-012-physical-balance-drivers",
+      "rep-014-monthly-real-time-forecastability",
+      "rep-015-oil-gas-linkage-regimes",
+      "rep-016-europe-us-transmission-limited",
+      "rep-020-positioning-incremental-information",
+      "exp-021-issued-weather-revisions"
+    ],
+    "hold": [
+      "rep-003-storage-surprise-response",
+      "rep-010-volatility-state-dependence",
+      "rep-011-weather-enhanced-volatility-oos",
+      "rep-013-lng-export-demand-channel",
+      "ctx-017-connectedness-congestion",
+      "rep-018-announcement-day-return-puzzle",
+      "rep-019-friday-attention-effect"
+    ],
+    "redesign": [],
+    "authority_ref": "evidence-map.json"
+  },
+  "post_feasibility_work_order": [
+    "Implement and verify the fourteen GO source/estimand/power constructions without executing literature outcomes.",
+    "Keep rep-010 synthesis held until component reproductions are separately executed and verified.",
+    "Resolve the six source/context/power HOLD gates through revisit-triggers.json.",
+    "Return to the operator before any empirical literature-result execution, preregistration freeze, sealing, protected-evidence opening or confirmation transition."
+  ],
+  "next_action": "All prior REDESIGN defects are resolved in design. Implement/verify the fourteen GO routes; seven HOLD routes remain blocked. No empirical literature-result execution or freeze transition is authorized.",
+  "implementation_contracts_ref": "implementation-contracts.json",
+  "implementation_status": {
+    "go_designs_mapped": 14,
+    "machinery_implemented": 8,
+    "machinery_implemented_source_artifact_pending": 6,
+    "empirical_execution_authority": false
+  }
+}

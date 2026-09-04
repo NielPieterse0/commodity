@@ -1,0 +1,32 @@
+{
+  "schema_version": 1,
+  "level": "L3",
+  "line_id": "003-weather",
+  "findings": [
+    {
+      "finding_id": "weather-shock-returns-volatility",
+      "claim": "Weather shocks materially affect both the conditional mean and conditional volatility of U.S. natural-gas futures returns.",
+      "expected_direction": "larger departures from normal weather -> larger price response and volatility",
+      "sources": [
+        {"source_id":"mu-2007"},
+        {"source_id":"chen-hartley-lan-2023"}
+      ],
+      "programme_status": "external_literature_finding_not_yet_reproduced"
+    },
+    {
+      "finding_id": "weather-asymmetry",
+      "claim": "Temperature effects on natural-gas volatility are asymmetric by season and by sign of the shock; symmetric HDD/CDD treatment can hide relevant structure.",
+      "expected_direction": "effect depends on season and shock sign",
+      "sources": [{"source_id":"ergen-rizvanoghlu-2016"}],
+      "programme_status": "external_literature_finding_not_yet_reproduced"
+    },
+    {
+      "finding_id": "issued-forecast-revision-literature-gap",
+      "claim": "The primary-source inventory supports weather information for natural-gas price and volatility dynamics, but does not yet establish a robust Henry Hub return edge from vintage-over-vintage issued forecast revisions specifically.",
+      "adjacent_sources": [{"source_id":"liang-et-al-2022","scope":"weather information for volatility, not direct issued-revision return prediction"}],
+      "evidence_class": "literature_gap",
+      "design_implication": "Treat issued forecast revisions as an exploratory mechanism-discovery question, using actually-issued PIT vintages and never realized or reanalysis weather as a forecast substitute.",
+      "programme_status": "unresolved_in_primary_literature_inventory"
+    }
+  ]
+}

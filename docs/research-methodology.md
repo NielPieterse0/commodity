@@ -392,7 +392,7 @@ MEPI — Minimum Effect of Practical Importance — is an L1/L2 programme quanti
 
 **Purpose:** Cross from research design into active repository work: create a governed .work change for the selected experiment, implement the exact runnable experiment code/data/config/test slice, verify it, and only then freeze and bind the executable scientific commitment before protected execution.
 
-**Repository transition:** .work begins here. The approved L3 experiment/preregistration is the implementation specification. Do not create a second implementation spec: translate the experiment contract directly into repository code, tests, configuration and evidence under the governed change.
+**Repository transition:** Cross the implementation_ready boundary into the live KIS governed-change workflow. The repository implementation boundary is explicit: .work begins here as operational change history, while the approved L3 research artifact/preregistration remains the scientific requirements authority. Any KIS-required spec.md is only a thin science-to-repository mapping and must not restate, duplicate, reinterpret or extend the scientific design.
 
 ### Rules
 
@@ -403,14 +403,14 @@ MEPI — Minimum Effect of Practical Importance — is an L1/L2 programme quanti
 
 ### Governed repository-change requirements
 
-- create/claim the governed experiment change under .work/changes/<change-id>/ through the live KIS lifecycle
-- reference the approved L3 experiment/preregistration as the implementation specification; do not restate, duplicate or redefine it in a second .work spec
-- record only the implementation translation plan: affected repo owners, code/test tasks, TDD sequence, risks, review steps and verification evidence
-- use the authoritative schema-v4 change classification — complexity, risk_triggers and work_management.documentation_impact — to determine any separate documentation work; documentation impact never creates another experiment/specification artifact
-- load develop-code and every applicable TDD, data, research/statistics, code-review and code-verification skill before translating the experiment into repository behavior
-- implement required reusable code, bounded adapters, data construction, configuration, schemas and tests in their canonical repository owners
-- preserve experiment-specific scientific authority beneath its parent line at research/programmes/<programme-id>/lines/<research-line-id>/experiments/<experiment-id>/ rather than .work
-- run deterministic pre-CI verification using the active worktree-local .venv
+- claim/create the bounded change through the live KIS workflow and use its current schema-v4 classification, artifact set, review and verification requirements
+- bind the KIS change to the exact approved L3 research authority and identity/fingerprint; scientific requirements remain owned upstream
+- when live KIS requires spec.md, use it only for science-to-repository mapping: affected canonical owners, existing primitives/interfaces, acceptance mapping, engineering risks and recovery; do not restate, duplicate or redefine the science
+- keep engineering iteration inside the same KIS change while the scientific contract remains unchanged
+- if implementation reveals a material scientific ambiguity or design/feasibility/power/data-semantics change, exit back to L3, preserve still-valid KIS evidence, and resume only from the updated/new scientific identity required by methodology
+- use the live KIS lifecycle decision to reuse valid verification/review evidence and rerun only missing or invalid evidence
+- let PromotionReady close implementation evidence once for the exact source; provider-native exact-head GitHub Actions owns canonical full-repository verification
+- after merge/cleanup, return exact implementation and landed identities to the research lineage for L4/L5 execution and programme consolidation
 
 ### Implementation quality gate
 

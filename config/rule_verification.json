@@ -60,7 +60,7 @@
     },
     {
       "id": "work-layout",
-      "authority": "governed change and retained worktree lifecycle layout",
+      "authority": "governed change/worktree lifecycle layout and repository KIS workflow entrypoint",
       "source": "AGENTS.md",
       "verifier": [
         "scripts/checks/check_work_layout.py"

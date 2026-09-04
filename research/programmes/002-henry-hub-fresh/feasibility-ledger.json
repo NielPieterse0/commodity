@@ -1,0 +1,481 @@
+{
+  "canonical_feasibility_owner": "research/programmes/002-henry-hub-fresh/evidence-map.json",
+  "decision_counts": {
+    "GO": 14,
+    "HOLD": 7,
+    "REDESIGN": 0
+  },
+  "empirical_execution_authority": false,
+  "entries": [
+    {
+      "decision": "GO",
+      "dependence_structure": "Repeated daily observations within contracts and common market shocks; contract and calendar dependence require clustered/block inference.",
+      "design_id": "rep-001-samuelson-maturity-volatility",
+      "detectable_effect_screen": "Standardized cluster-count screen: 2.802/sqrt(209) = 0.194 SD; actual detectable effect must be recomputed with contract/calendar dependence.",
+      "effective_information": "209 contract identities is an optimistic cluster-count screen, not independent daily N.",
+      "eligible_raw_n": "5,025 trade dates; 209 raw contract symbols; 135,384 mapped outright contract-days",
+      "empirical_execution_authority": false,
+      "freeze_ready": false,
+      "mepi_derivation": "Literature requires a monotone maturity-volatility pattern; no defensible paper-magnitude MEPI was recovered, so numeric MEPI remains a freeze blocker.",
+      "power_sensitivity": "Source/sample capacity is strong. Final power must use the implemented ordered-contrast covariance, not raw rows.",
+      "remaining_blockers": [
+        "derive numeric scientific MEPI before freeze",
+        "implementation-specific clustered power simulation"
+      ],
+      "semantic_fidelity_class": "near_replication_source_ready",
+      "source_identities": [
+        "databento_henry_hub"
+      ]
+    },
+    {
+      "decision": "GO",
+      "dependence_structure": "Curve snapshots are serially dependent and seasonal comparisons repeat within calendar years.",
+      "design_id": "rep-002-seasonal-forward-curve",
+      "detectable_effect_screen": "Screen spans about 0.201 SD at raw monthly N=195 to 0.680 SD at 17 independent year blocks.",
+      "effective_information": "17 calendar years is the conservative year-block information count; 195 months is the unadjusted upper-bound row count.",
+      "eligible_raw_n": "4,987 dates with >=6 maturities; 4,575 with >=12; 4,487 with >=13; all 195 overlapping months have a >=13-maturity date",
+      "empirical_execution_authority": false,
+      "freeze_ready": false,
+      "mepi_derivation": "MEPI should be a literature/decision-relevant standardized seasonal slope shift; numeric value not yet justified from the source literature.",
+      "power_sensitivity": "Can implement now; small seasonal effects may remain unresolved after block dependence.",
+      "remaining_blockers": [
+        "derive numeric MEPI",
+        "year-block/bootstrap power simulation"
+      ],
+      "semantic_fidelity_class": "mechanism_replication_source_ready",
+      "source_identities": [
+        "databento_henry_hub"
+      ]
+    },
+    {
+      "decision": "HOLD",
+      "dependence_structure": "Release-event dependence is modest, but surprise construction is impossible without a fixed pre-release expectation series.",
+      "design_id": "rep-003-storage-surprise-response",
+      "detectable_effect_screen": "Not computable until consensus-qualified event N is known.",
+      "effective_information": "No valid effective N can be assigned before consensus-qualified events are counted.",
+      "eligible_raw_n": "106 PIT EIA releases join market dates; consensus-qualified N unknown until Bloomberg history is audited",
+      "empirical_execution_authority": false,
+      "freeze_ready": false,
+      "mepi_derivation": "Literature sign is anchored, but magnitude MEPI must be recovered or decision-anchored before freeze.",
+      "power_sensitivity": "Market/release layer is ready; expectation layer is the binding blocker.",
+      "remaining_blockers": [
+        "prove Bloomberg historical entitlement/extractability",
+        "prove consensus timestamp fixity before each release",
+        "count consensus-qualified events"
+      ],
+      "semantic_fidelity_class": "source_faithful_consensus_not_proven_accessible",
+      "source_identities": [
+        "eia_storage",
+        "databento_henry_hub",
+        "Bloomberg weekly natural-gas storage consensus"
+      ]
+    },
+    {
+      "decision": "GO",
+      "dependence_structure": "Storage state is extremely persistent; simple week-of-year storage-anomaly AR(1) rho is about 0.991.",
+      "design_id": "rep-004-storage-state-nonlinearity",
+      "detectable_effect_screen": "Standardized screening bound is about 0.680 SD using 17 year blocks and 1.401 SD using the severe AR(1) N_eff=4 screen.",
+      "effective_information": "A deliberately severe scalar AR(1) screen gives N_eff about 4; year-block information is 17. Threshold/SVAR implementation may contain more information and needs model-specific simulation.",
+      "eligible_raw_n": "844 weekly storage observations across 195 months / 17 years from 2010-06-11 through 2026-08-07",
+      "empirical_execution_authority": false,
+      "freeze_ready": false,
+      "mepi_derivation": "Source literature establishes regime differences qualitatively; a numeric MEPI has not yet been recovered.",
+      "power_sensitivity": "Implementation may proceed, but small regime effects cannot be assumed resolvable. Power is a mandatory pre-freeze gate.",
+      "remaining_blockers": [
+        "fix threshold/state rule before market-outcome analysis",
+        "model-specific threshold/SVAR power simulation",
+        "derive numeric MEPI"
+      ],
+      "semantic_fidelity_class": "mechanism_replication_historical_truth_only",
+      "source_identities": [
+        "eia_storage revised historical truth",
+        "databento_henry_hub"
+      ]
+    },
+    {
+      "decision": "GO",
+      "dependence_structure": "Storage state is highly persistent and winter/scarcity cells repeat within years.",
+      "design_id": "rep-005-scarcity-volatility",
+      "detectable_effect_screen": "Dependence-sensitive screen is roughly 0.680 to 1.401 SD; cell-specific implemented contrast may differ.",
+      "effective_information": "17 year blocks are the conservative seasonal-cycle count; scalar storage-anomaly AR(1) N_eff about 4 is a pessimistic lower screen.",
+      "eligible_raw_n": "844 weekly storage rows; 206 winter rows; 95 winter rows below full-sample mean and 96 winter rows below week-of-year seasonal norm",
+      "empirical_execution_authority": false,
+      "freeze_ready": false,
+      "mepi_derivation": "Literature requires stronger negative inventory-volatility relation in scarcity/winter; numeric magnitude MEPI is unresolved.",
+      "power_sensitivity": "Source and cell counts support implementation, not a claim of high power. Final interaction power must be simulated.",
+      "remaining_blockers": [
+        "derive numeric MEPI",
+        "predeclare scarcity definition",
+        "interaction/block-bootstrap power simulation"
+      ],
+      "semantic_fidelity_class": "near_replication_historical_truth_only",
+      "source_identities": [
+        "eia_storage revised historical truth",
+        "databento_henry_hub"
+      ]
+    },
+    {
+      "decision": "GO",
+      "dependence_structure": "Monthly storage and curve state are serially dependent; annual seasonality creates clustered information.",
+      "design_id": "rep-006-inventory-forward-curve-scarcity",
+      "detectable_effect_screen": "Standardized screen ranges from 0.201 SD at raw N=195 to 0.680 SD at 17 year blocks.",
+      "effective_information": "195 months is raw upper bound; 17 year blocks is conservative lower information count.",
+      "eligible_raw_n": "195 monthly storage months; every month has at least one date with >=13 simultaneously listed NG maturities",
+      "empirical_execution_authority": false,
+      "freeze_ready": false,
+      "mepi_derivation": "Literature anchors direction/seasonality-filtered scarcity relation; numeric magnitude MEPI still needs source recovery or decision justification.",
+      "power_sensitivity": "Exact front/13th curve construction is feasible throughout the overlap.",
+      "remaining_blockers": [
+        "acquire and pin one-year rate source",
+        "recover/fix exact monthly sampling and deseasonalization formula",
+        "derive numeric MEPI and block power"
+      ],
+      "semantic_fidelity_class": "near_replication_measurement_route_ready",
+      "source_identities": [
+        "databento_henry_hub",
+        "eia_storage revised historical truth",
+        "public one-year U.S. Treasury/FRED candidate"
+      ]
+    },
+    {
+      "decision": "GO",
+      "dependence_structure": "Only about two annual cycles are present and the stored information set is issued forecast data, not the long-run realized-weather/climatology shock construction used by the reproduction literature.",
+      "design_id": "rep-007-weather-return-volatility-response",
+      "detectable_effect_screen": "The apparent raw-date screen (0.113 SD at N=618) is invalid for reproduction power because source fidelity and seasonal dependence are unresolved.",
+      "effective_information": "Raw date count would materially overstate independent seasonal information; no valid reproduction N_eff is assigned until a source-faithful observed-weather/climatology series is constructed.",
+      "eligible_raw_n": "Repository has 723 immutable issued-weather snapshots from 2024-08-13 through 2026-08-12 with 7 declared missing dates and 618 exact source-date/market-date intersections",
+      "empirical_execution_authority": false,
+      "freeze_ready": false,
+      "mepi_derivation": "Literature defines directional weather-shock effects, but a source-faithful variable and numeric MEPI must be fixed before power is meaningful.",
+      "power_sensitivity": "Do not execute this reproduction on the 2024+ issued archive. Build the literature-compatible observed-weather/climatology layer first.",
+      "remaining_blockers": [
+        "acquire and pin NOAA observed-weather snapshot",
+        "fix station/weighting rule",
+        "count season cells and run block power"
+      ],
+      "semantic_fidelity_class": "mechanism_replication_observed_weather_source_route_ready",
+      "source_identities": [
+        "noaa_observed_weather",
+        "databento_henry_hub"
+      ]
+    },
+    {
+      "decision": "GO",
+      "dependence_structure": "Strong season/sign stratification plus serial weather dependence; two-year issued archive cannot establish literature-equivalent cells.",
+      "design_id": "rep-008-weather-season-sign-asymmetry",
+      "detectable_effect_screen": "Not computable for the reproduction design from the current issued-weather archive.",
+      "effective_information": "No valid N_eff until the observed-weather departure series and fixed asymmetry cells are constructed.",
+      "eligible_raw_n": "723 issued-weather source dates only; source-faithful season x sign shock cells not constructible yet",
+      "empirical_execution_authority": false,
+      "freeze_ready": false,
+      "mepi_derivation": "Literature anchors asymmetry by season/sign, but numeric cell-level MEPI is unresolved.",
+      "power_sensitivity": "Requires source redesign before implementation; otherwise it would answer a different question.",
+      "remaining_blockers": [
+        "acquire/pin NOAA observed weather",
+        "fix season/sign cells",
+        "multiplicity-aware cell power"
+      ],
+      "semantic_fidelity_class": "near_replication_observed_weather_source_route_ready",
+      "source_identities": [
+        "noaa_observed_weather",
+        "databento_henry_hub"
+      ]
+    },
+    {
+      "decision": "GO",
+      "dependence_structure": "Event days are sparse relative to controls; volatility observations remain serially dependent.",
+      "design_id": "rep-009-announcement-volatility",
+      "detectable_effect_screen": "Approximate standardized event-versus-large-control screen is about 0.272-0.276 SD before serial-dependence inflation.",
+      "effective_information": "106 release events is the event-count screen; implemented HAC/year-block inference must account for market dependence.",
+      "eligible_raw_n": "106 verified storage releases from 2024-08-01 through 2026-08-06; all 106 join a canonical market date; 97 Thu, 5 Wed, 3 Fri, 1 Mon",
+      "empirical_execution_authority": false,
+      "freeze_ready": false,
+      "mepi_derivation": "Literature requires elevated announcement-day volatility; numeric magnitude MEPI is unresolved.",
+      "power_sensitivity": "The release-calendar/sample gate passes. Holiday-shifted releases are explicitly represented.",
+      "remaining_blockers": [
+        "derive numeric MEPI",
+        "fix matched-control/calendar rule",
+        "HAC/year-block power simulation"
+      ],
+      "semantic_fidelity_class": "near_replication_event_calendar_ready",
+      "source_identities": [
+        "eia_storage PIT release calendar",
+        "databento_henry_hub"
+      ]
+    },
+    {
+      "decision": "HOLD",
+      "dependence_structure": "The state families have different grains and dependence. Storage is extremely persistent, event days are sparse, and the current weather source is not faithful to the observed-weather reproduction literature.",
+      "design_id": "rep-010-volatility-state-dependence",
+      "detectable_effect_screen": "Not computable for the current joint primary because component information scales are heterogeneous and one required family has a fidelity failure.",
+      "effective_information": "No defensible single N_eff exists for the current joint test. Each state family needs its own effective-information calculation before a joint synthesis is defined.",
+      "eligible_raw_n": "Market: 5,025 trade dates; storage history: 844 weeks / 17 years; announcements: 106 releases; current issued weather: 723 snapshots / 618 exact market-date intersections",
+      "empirical_execution_authority": false,
+      "freeze_ready": false,
+      "mepi_derivation": "A joint MEPI is not scientifically interpretable until the primary state families are source-faithful and their estimands are normalized.",
+      "power_sensitivity": "Split the current joint primary into source-faithful family-specific reproductions; synthesize state dependence only after those component designs are valid.",
+      "remaining_blockers": [
+        "complete prerequisite component reproductions under separate operator-authorized executions"
+      ],
+      "semantic_fidelity_class": "programme_synthesis_prerequisite_gated",
+      "source_identities": [
+        "databento_henry_hub",
+        "eia_storage revised historical truth",
+        "eia_storage PIT release calendar",
+        "source-faithful observed weather pending"
+      ]
+    },
+    {
+      "decision": "HOLD",
+      "dependence_structure": "Daily volatility and low-frequency weather components are serially dependent; OOS loss differences are also dependent over forecast origins.",
+      "design_id": "rep-011-weather-enhanced-volatility-oos",
+      "detectable_effect_screen": "Not computable until source weather, model formulas, target and OOS loss metric are recovered.",
+      "effective_information": "Unknown until the source-study dataset/model is reconstructed. Raw calendar length must not be treated as independent forecast-comparison N.",
+      "eligible_raw_n": "Source study states 1995-01 through 2021-07 with in-sample through 2017-08; exact usable daily N cannot be assigned until the weather source/model construction is recovered",
+      "empirical_execution_authority": false,
+      "freeze_ready": false,
+      "mepi_derivation": "Recover the paper's reported forecast-loss magnitude or define a programme-decision MEPI only after the exact primary loss metric is verified.",
+      "power_sensitivity": "The exact market-period route is known, but the current 2024+ issued-weather archive is not a valid substitute.",
+      "remaining_blockers": [
+        "verify exact weather provider/series/frequency",
+        "recover exact GARCH-MIDAS formulas and primary OOS loss metric",
+        "reconstruct source-study sample and dependence-aware power"
+      ],
+      "semantic_fidelity_class": "source_study_route_identified_weather_provider_and_formula_unverified",
+      "source_identities": [
+        "Liang et al. 2022",
+        "source-study EIA Henry Hub 1-month futures",
+        "historical New York/Louisiana weather source pending verification"
+      ]
+    },
+    {
+      "decision": "GO",
+      "dependence_structure": "Monthly/weekly physical series are persistent and publication/revision semantics differ by family; forcing one complete-case block would discard information and blur the literature mechanisms.",
+      "design_id": "rep-012-physical-balance-drivers",
+      "detectable_effect_screen": "Not computable for the current omnibus design.",
+      "effective_information": "No valid joint N_eff before the physical families, grain, transformations and observed-weather route are fixed.",
+      "eligible_raw_n": "EIA bulk contains 16,058 series with deep production, consumption, trade/LNG, power and Henry Hub histories; comparable joint N is undefined until exact series/frequency are fixed",
+      "empirical_execution_authority": false,
+      "freeze_ready": false,
+      "mepi_derivation": "A single block-level MEPI is not justified across heterogeneous balance mechanisms; family-specific scientific MEPIs are required.",
+      "power_sensitivity": "Redesign into literature/source-specific balance sub-designs at the slowest defensible frequency, then synthesize only after each mechanism is source-faithful.",
+      "remaining_blockers": [
+        "pin exact EIA monthly series IDs/units",
+        "fix source-study-compatible Henry Hub reference target",
+        "derive family MEPI and time-series power"
+      ],
+      "semantic_fidelity_class": "mechanism_replication_monthly_historical_truth_core_ready",
+      "source_identities": [
+        "eia_fundamentals revised historical truth",
+        "eia_storage revised historical truth",
+        "EIA Henry Hub spot/reference"
+      ]
+    },
+    {
+      "decision": "HOLD",
+      "dependence_structure": "Terminal/pipeline series will be persistent and cross-correlated; national aggregation cannot be assigned until terminal-to-pipeline coverage is established.",
+      "design_id": "rep-013-lng-export-demand-channel",
+      "detectable_effect_screen": "Not computable before the source contract and eligible N are established.",
+      "effective_information": "Unknown until terminal mapping, historical depth, posting-time semantics and fleet coverage produce an eligible panel.",
+      "eligible_raw_n": "EIA bulk has deep LNG/export metadata, but national terminal-linked capacity/feedgas observations with verified posting-time history have not been counted",
+      "empirical_execution_authority": false,
+      "freeze_ready": false,
+      "mepi_derivation": "Literature supplies the demand-channel direction, but a numeric capacity/feedgas MEPI still needs literature recovery or programme justification.",
+      "power_sensitivity": "A public route exists in principle, but source fidelity is not ready for implementation.",
+      "remaining_blockers": [
+        "prove terminal-pipeline mapping and national coverage",
+        "audit historical depth and posting-time semantics",
+        "separate capacity availability from scheduled/feedgas utilization",
+        "count eligible observations and derive power"
+      ],
+      "semantic_fidelity_class": "public_candidate_route_found_source_contract_incomplete",
+      "source_identities": [
+        "eia_fundamentals current revised history",
+        "US-LNG-EBB public pipeline informational-posting route"
+      ]
+    },
+    {
+      "decision": "GO",
+      "dependence_structure": "Forecast errors and overlapping 1-24 month horizons are serially/cross-horizon dependent; horizon-family multiplicity must be retained.",
+      "design_id": "rep-014-monthly-real-time-forecastability",
+      "detectable_effect_screen": "Deferred until exact package import establishes origin counts, overlapping-horizon structure and benchmark loss scale.",
+      "effective_information": "Exact effective information must be computed from the imported source-study origin/horizon panel; calendar months are only an upper bound.",
+      "eligible_raw_n": "Authors' frozen real-time database spans vintages from 1991 with source-study monthly forecast origins and 1-24 month horizons; exact origin-by-horizon counts await package import",
+      "empirical_execution_authority": false,
+      "freeze_ready": false,
+      "mepi_derivation": "Use source-study reported MSPE improvements where recoverable as literature anchors, with a programme-decision floor fixed before execution where the paper does not supply a sufficient magnitude threshold.",
+      "power_sensitivity": "The exact public replication route removes the data-vintage feasibility blocker. GO authorizes implementation/reconstruction only, not outcome execution or freeze.",
+      "remaining_blockers": [
+        "import and hash exact JAE archive/code",
+        "verify source-study target/benchmark/formulas and origin-by-horizon counts",
+        "derive horizon-family MEPI and dependence-aware detectable effects"
+      ],
+      "semantic_fidelity_class": "exact_replication_route_identified",
+      "source_identities": [
+        "LIT-BHLR-RTDB author JAE real-time database and replication code"
+      ]
+    },
+    {
+      "decision": "GO",
+      "dependence_structure": "Monthly oil/gas observations are serially dependent and structural-regime comparisons reduce independent regime information.",
+      "design_id": "rep-015-oil-gas-linkage-regimes",
+      "detectable_effect_screen": "Raw monthly standardized screen is about 0.201 SD at N=195 before serial dependence and regime split; final detectable regime difference will be larger.",
+      "effective_information": "195 months is an upper-bound overlap screen for the current canonical Henry Hub era; final N_eff requires the exact benchmark, monthly construction and regime specification.",
+      "eligible_raw_n": "Henry Hub has 2010-06-06 through 2026-08-12 canonical coverage; EIA WTI routes provide deeper history, so Henry Hub overlap is at least bounded by about 195 monthly observations once exact benchmark semantics are fixed",
+      "empirical_execution_authority": false,
+      "freeze_ready": false,
+      "mepi_derivation": "Literature anchors regime weakening qualitatively; numeric coefficient-change MEPI remains to be recovered or decision-anchored.",
+      "power_sensitivity": "No access blocker is evident. Exact benchmark/frequency/regime semantics must be fixed before market outcomes are read.",
+      "remaining_blockers": [
+        "pin exact paper-compatible WTI benchmark and monthly timing",
+        "fix literature-derived regime/break rule",
+        "derive numeric MEPI and block/break-test power"
+      ],
+      "semantic_fidelity_class": "deep_public_market_route_ready_benchmark_match_pending",
+      "source_identities": [
+        "databento_henry_hub",
+        "US-OIL EIA WTI spot/fixed-rank futures candidates"
+      ]
+    },
+    {
+      "decision": "GO",
+      "dependence_structure": "Monthly structural-VAR observations and impulse responses are serially dependent; identification and bootstrap uncertainty determine effective information.",
+      "design_id": "rep-016-europe-us-transmission-limited",
+      "detectable_effect_screen": "Not computable before exact package/sample/VAR recovery.",
+      "effective_information": "No defensible N_eff until the exact package sample and VAR lag/identification structure are loaded.",
+      "eligible_raw_n": "Exact source-study sample is available through the author-linked replication package; usable structural-system N awaits package import/integrity verification",
+      "empirical_execution_authority": false,
+      "freeze_ready": false,
+      "mepi_derivation": "Use the source-study economic-smallness result to derive a predeclared transmission MEPI after the exact reported scale is recovered.",
+      "power_sensitivity": "Exact replication data/code availability makes the reproduction route feasible; independent ICE/ENTSOG/GIE reconstruction remains a later separate fidelity route.",
+      "remaining_blockers": [
+        "import/hash RepOD package",
+        "verify runnable environment and exact structural estimand",
+        "recover numeric economic-smallness anchor",
+        "bootstrap identification/power sensitivity"
+      ],
+      "semantic_fidelity_class": "exact_replication_route_identified",
+      "source_identities": [
+        "LIT-RS-EUUS author-linked RepOD replication package"
+      ]
+    },
+    {
+      "decision": "HOLD",
+      "dependence_structure": "Not applicable until a distinct Henry Hub-specific cross-market design is justified by direct evidence.",
+      "design_id": "ctx-017-connectedness-congestion",
+      "detectable_effect_screen": "Not applicable.",
+      "effective_information": "Not applicable for this contextual-only record.",
+      "eligible_raw_n": "No Henry Hub reproduction sample is defined because this source is explicitly contextual European evidence",
+      "empirical_execution_authority": false,
+      "freeze_ready": false,
+      "mepi_derivation": "No Henry Hub scientific MEPI is derivable from this contextual source alone.",
+      "power_sensitivity": "Hold empirical execution. Retain only as a design constraint: separate contemporaneous from lagged transmission and represent congestion/capacity in any later direct Henry Hub design.",
+      "remaining_blockers": [
+        "direct Henry Hub literature or separately justified target design required before empirical execution"
+      ],
+      "semantic_fidelity_class": "contextual_only_not_henry_hub_reproduction",
+      "source_identities": [
+        "Farag-Ruhnau 2026 contextual European evidence"
+      ]
+    },
+    {
+      "decision": "HOLD",
+      "dependence_structure": "Release-event samples are sparse and calendar dependent; source-period and extended-period effects must be separated rather than pooled to rescue a result.",
+      "design_id": "rep-018-announcement-day-return-puzzle",
+      "detectable_effect_screen": "Not computable for the declared full near replication until consensus-qualified N is established.",
+      "effective_information": "106 events is only the unadjusted announcement-count screen. Full-design N_eff is undefined until consensus-qualified events and source-period coverage are known.",
+      "eligible_raw_n": "106 verified release events join canonical market dates; surprise-controlled eligible N is unknown until a fixed pre-release consensus history is proven",
+      "empirical_execution_authority": false,
+      "freeze_ready": false,
+      "mepi_derivation": "The published anomaly supplies qualitative and magnitude context, but the design's required surprise-controlled MEPI must be fixed from source-period evidence before execution.",
+      "power_sensitivity": "The basic announcement-day contrast is technically constructible, but it cannot satisfy the declared full near-replication design without PIT surprise controls.",
+      "remaining_blockers": [
+        "prove historically fixed pre-release consensus history",
+        "count consensus-qualified source-period and extended-period events",
+        "derive MEPI and calendar-preserving power"
+      ],
+      "semantic_fidelity_class": "announcement_calendar_ready_full_near_replication_controls_not_ready",
+      "source_identities": [
+        "databento_henry_hub",
+        "eia_storage PIT release calendar",
+        "historically fixed storage consensus pending"
+      ]
+    },
+    {
+      "decision": "HOLD",
+      "dependence_structure": "Friday events are extremely sparse and event responses require surprise controls; holiday/event composition creates additional clustering/heterogeneity.",
+      "design_id": "rep-019-friday-attention-effect",
+      "detectable_effect_screen": "Rough standardized two-group screen with 3 Friday versus 97 Thursday events is about 1.64 SD before covariates/dependence, far too coarse for a serious near replication.",
+      "effective_information": "Current retained PIT window has only 3 Friday events, so its effective information is bounded by that tiny cell even before dependence adjustment.",
+      "eligible_raw_n": "Current retained EIA release window has 97 Thursday and only 3 Friday releases; exact source-study sample requires subscription data and has not been imported",
+      "empirical_execution_authority": false,
+      "freeze_ready": false,
+      "mepi_derivation": "External magnitude anchor is approximately 74% weaker Friday response; exact effect-scale translation requires the source-study response normalization and surprise series.",
+      "power_sensitivity": "Do not execute on the retained PIT window as though it could resolve the published effect. Exact data entitlement or materially deeper near-replication history is required.",
+      "remaining_blockers": [
+        "verify/import Genesis plus Bloomberg source-study data or prove an adequate near-replication history",
+        "obtain PIT storage consensus",
+        "recount Friday/Thursday qualified events",
+        "run event-composition and power simulation"
+      ],
+      "semantic_fidelity_class": "exact_subscription_route_identified_near_replication_underpowered_on_retained_pit_window",
+      "source_identities": [
+        "LIT-GKS-ATTENTION-DATA Genesis Financial Technologies plus Bloomberg",
+        "databento_henry_hub near-replication candidate",
+        "historically fixed storage consensus pending"
+      ]
+    },
+    {
+      "decision": "GO",
+      "dependence_structure": "Managed Money net levels are highly persistent (AR1 about 0.907), whereas first differences are much less persistent (AR1 about 0.166). Physical controls add further mixed-frequency dependence.",
+      "design_id": "rep-020-positioning-incremental-information",
+      "detectable_effect_screen": "Standardized weekly-change screen: 2.802/sqrt(96.47) about 0.285 SD before covariate/HAC inflation.",
+      "effective_information": "Managed Money net weekly changes: AR1 0.16644 and effective N about 96.47; persistent net levels are secondary with effective N about 6.63.",
+      "eligible_raw_n": "136 release-correct weekly CFTC observations from 2024-01-02 through 2026-08-04; 135 weekly changes",
+      "empirical_execution_authority": false,
+      "freeze_ready": false,
+      "mepi_derivation": "The incremental-information MEPI must be defined on a fixed primary positioning representation after physical-control semantics are fixed.",
+      "power_sensitivity": "Redesign the primary around a predeclared change-based positioning measure; retain persistent levels as secondary/contextual unless a specific literature estimand requires them.",
+      "remaining_blockers": [
+        "fix physical-control block semantics",
+        "derive numeric MEPI",
+        "weekly HAC power simulation"
+      ],
+      "semantic_fidelity_class": "pit_positioning_ready_primary_measure_selection_needs_redesign",
+      "source_identities": [
+        "cftc_cot",
+        "physical-control sources require frequency/semantic alignment"
+      ]
+    },
+    {
+      "decision": "GO",
+      "dependence_structure": "Forecast revisions overlap heavily across valid times and the retained archive spans only about two annual cycles; raw run-pair count strongly overstates independent seasonal/regime information.",
+      "design_id": "exp-021-issued-weather-revisions",
+      "detectable_effect_screen": "Not yet computable; raw 722-pair upper bound is not a valid power N.",
+      "effective_information": "No single N_eff is assigned before the same-valid-time revision vector, lead aggregation and market cutoff are fixed. Annual-cycle information remains intrinsically limited.",
+      "eligible_raw_n": "723 immutable issued snapshots from 2024-08-13 through 2026-08-12; at most 722 ordered prior/current run pairs before same-valid-time completeness, cutoff and gap filters",
+      "empirical_execution_authority": false,
+      "freeze_ready": false,
+      "mepi_derivation": "No literature-reproduction MEPI exists. Any exploratory MEPI must be programme-decision-anchored and cannot be retroactively promoted as confirmation evidence.",
+      "power_sensitivity": "The raw issued-vintage corpus can support faithful revision construction, so exploratory implementation is feasible. GO is explicitly exploratory-only and confers no reproduction, confirmation or freeze authority.",
+      "remaining_blockers": [
+        "fix same-valid-time revision construction and completeness rule",
+        "fix lead/geographic aggregation without outcome tuning",
+        "prove market-cutoff availability for each run",
+        "derive exploratory decision MEPI and dependence-aware sensitivity"
+      ],
+      "semantic_fidelity_class": "exploratory_issued_vintage_route_ready_not_a_literature_reproduction",
+      "source_identities": [
+        "open_meteo_v1 immutable issued forecast runs"
+      ]
+    }
+  ],
+  "outcome_effect_testing_performed": false,
+  "preregistration_freeze_authority": false,
+  "programme_id": "002-henry-hub-fresh",
+  "protected_evidence_opened": false,
+  "role": "supporting_design_level_feasibility_detail",
+  "schema_version": 1,
+  "source_scan_ref": "research/programmes/002-henry-hub-fresh/feasibility-source-scan.json",
+  "status": "non_outcome_feasibility_complete_unfrozen"
+}

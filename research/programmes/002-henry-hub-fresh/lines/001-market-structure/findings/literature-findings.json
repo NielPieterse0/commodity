@@ -1,0 +1,32 @@
+{
+    "schema_version":  1,
+    "level":  "L3",
+    "line_id":  "001-market-structure",
+    "findings":  [
+                     {
+                         "finding_id":  "samuelson-maturity-volatility",
+                         "claim":  "Natural-gas futures volatility declines with contract horizon; near-dated contracts are more volatile than farther maturities.",
+                         "mechanism":  "Information and physical scarcity shocks become increasingly relevant as delivery approaches.",
+                         "expected_direction":  "volatility_near \u003e volatility_far",
+                         "sources":  [
+                                         {"source_id": "mu-2007"},
+                                         {"source_id": "ergen-rizvanoghlu-2016"}
+                                     ],
+                         "programme_status":  "external_literature_finding_not_yet_reproduced",
+                         "caveat":  "Ergen and Rizvanoghlu report the time-to-maturity effect as season-dependent, present in winter in their specification."
+                     },
+                     {
+                         "finding_id":  "seasonal-forward-curve",
+                         "claim":  "Natural-gas futures exhibit material seasonal structure in prices, convenience yield and curve shape.",
+                         "mechanism":  "Strong seasonal demand and inventory cycles alter scarcity and the value of physical availability.",
+                         "expected_direction":  "winter and injection-season curve states differ systematically",
+                         "sources":  [
+                                         {"source_id": "mirantes-et-al-2013", "scope": "direct energy-commodity evidence including Henry Hub natural gas"}
+                                     ],
+                         "contextual_sources": [
+                                         {"source_id": "hevia-petrella-2016", "scope": "commodity-futures seasonality methodology; empirical application is heating oil, not direct Henry Hub evidence"}
+                                     ],
+                         "programme_status":  "external_literature_finding_not_yet_reproduced"
+                     }
+                 ]
+}

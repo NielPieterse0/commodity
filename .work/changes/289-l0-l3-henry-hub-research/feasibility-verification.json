@@ -1,0 +1,32 @@
+{
+  "checks": {
+    "canonical_owner": true,
+    "cftc_dependence": true,
+    "decision_counts": true,
+    "design_count_21": true,
+    "design_identity_match": true,
+    "designs_no_execution": true,
+    "json_parse": true,
+    "ledger_no_execution": true,
+    "ledger_no_outcomes": true,
+    "map_no_execution": true,
+    "map_setup_sets": true,
+    "programme_no_execution": true,
+    "scan_no_outcomes": true,
+    "setup_no_execution": true,
+    "storage_dependence": true,
+    "weather_retained_window": true
+  },
+  "files": {
+    "closeout": "research\\programmes\\002-henry-hub-fresh\\l0-l3-closeout.json",
+    "designs": "research\\programmes\\002-henry-hub-fresh\\experiment-designs.json",
+    "ledger": "research\\programmes\\002-henry-hub-fresh\\feasibility-ledger.json",
+    "map": "research\\programmes\\002-henry-hub-fresh\\evidence-map.json",
+    "programme": "research\\programmes\\002-henry-hub-fresh\\programme.json",
+    "scan": ".work\\changes\\289-l0-l3-henry-hub-research\\feasibility-scan.json",
+    "setup": "research\\programmes\\002-henry-hub-fresh\\experiment-setup.json",
+    "synthesis": "research\\programmes\\002-henry-hub-fresh\\research-synthesis.json"
+  },
+  "schema_version": 1,
+  "status": "pass"
+}

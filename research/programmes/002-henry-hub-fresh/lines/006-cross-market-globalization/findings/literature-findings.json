@@ -1,0 +1,28 @@
+{
+  "schema_version": 1,
+  "level": "L3",
+  "line_id": "006-cross-market-globalization",
+  "findings": [
+    {
+      "finding_id": "oil-gas-linkage-regime-dependent",
+      "claim": "Crude oil and U.S. natural gas have exhibited meaningful linkage, but its strength is time-varying and weakened materially after structural changes including shale-era developments.",
+      "expected_direction": "positive oil-to-gas linkage is regime-dependent, not a fixed coefficient",
+      "sources": [{"source_id":"brown-yucel-2008"},{"source_id":"ji-zhang-geng-2018"},{"source_id":"geng-ji-fan-2016"}],
+      "programme_status": "external_literature_finding_not_yet_reproduced"
+    },
+    {
+      "finding_id": "europe-us-transmission-limited",
+      "claim": "The European energy crisis had only a marginal effect on U.S. natural-gas market dynamics in a structural VAR analysis, so Henry Hub should not be assumed to mechanically inherit European gas shocks.",
+      "expected_direction": "cross-basin transmission is conditional and may be economically small",
+      "sources": [{"source_id":"rubaszek-szafranek-2025"}],
+      "programme_status": "external_literature_finding_not_yet_reproduced"
+    },
+    {
+      "finding_id": "gas-connectedness-contemporaneous-and-congestion-sensitive",
+      "claim": "Evidence from integrated European gas markets shows contemporaneous spillovers dominate lagged spillovers and pipeline congestion weakens connectedness, supporting explicit separation of contemporaneous from forecastable cross-market information.",
+      "expected_direction": "congestion -> lower connectedness; contemporaneous transmission > lagged transmission",
+      "sources": [{"source_id":"farag-ruhnau-2026","scope":"contextual European evidence, not direct Henry Hub proof"}],
+      "programme_status": "external_contextual_finding_not_yet_reproduced"
+    }
+  ]
+}

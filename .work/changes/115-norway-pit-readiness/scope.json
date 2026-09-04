@@ -1,7 +1,7 @@
 {
   "schema_version": 4,
   "change_id": "115-norway-pit-readiness",
-  "status": "active",
+  "status": "closed",
   "branch": "change/115-norway-pit-readiness",
   "worktree": ".work/worktrees/115-norway-pit-readiness",
   "base": "main",
@@ -19,7 +19,7 @@
     "config/experiment.json",
     "src/**"
   ],
-  "dependencies": ["86"],
+  "dependencies": [],
   "integration_owner": null,
   "complexity": "medium",
   "risk_triggers": [],
@@ -34,6 +34,7 @@
   },
   "work_management": {
     "project_id": "commodity",
+    "record_id": "WORK-115",
     "source_repository": "NielPieterse0/commodity",
     "source_number": 115,
     "source_kind": "issue",

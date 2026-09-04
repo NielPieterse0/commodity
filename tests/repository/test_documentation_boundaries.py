@@ -1,3 +1,4 @@
+import json
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -126,3 +127,23 @@ def test_maintained_docs_do_not_link_retired_specific_docs() -> None:
 
     assert not (ROOT / "docs" / "architecture" / retired[0]).exists()
     assert not (ROOT / "docs" / "environment" / retired[1]).exists()
+
+
+def test_data_source_library_preserves_candidate_knowledge_without_promotion() -> None:
+    cfg = json.loads((ROOT / "config" / "data_sources.json").read_text(encoding="utf-8"))
+    library = cfg["source_library"]
+
+    assert library["authority"] == "discovery_only_not_operational_source_status"
+    assert library["recovered_from"]["commit"] == "0abcf67cbc4ba2e600114b3ee387e250d0809305"
+    assert len(library["registry"]) >= 24
+    assert "GLOBAL-LNG" in library["registry"]
+    assert "EU-FLOW" in library["registry"]
+    assert "NO-FLOW" in library["registry"]
+    assert "storage_expectations_and_forecast_revisions" in library["families"]["us_henry_hub"]
+    assert cfg["canonical_market_source_id"] == "databento_henry_hub"
+    assert cfg["sources"]["databento_henry_hub"]["canonical_market_source"] is True
+
+    manifest = (ROOT / "docs" / "data-manifest.md").read_text(encoding="utf-8")
+    assert "## Candidate source library" in manifest
+    assert "`GLOBAL-LNG`" in manifest
+    assert "Storage expectations and forecast revisions" in manifest

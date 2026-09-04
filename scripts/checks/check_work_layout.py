@@ -47,6 +47,19 @@ def main() -> int:
                     f"{marker.parent.relative_to(ROOT)}"
                 )
 
+    workflow = ROOT / "scripts" / "change-workflow.ps1"
+    if not workflow.is_file():
+        failures.append("missing scripts/change-workflow.ps1 KIS workflow entrypoint")
+    else:
+        text = workflow.read_text(encoding="utf-8")
+        required = ("C:\\Projects\\kis-mcp", "change-governance.py", "git-workflow.py", "--repository $RepositoryRoot")
+        missing = [item for item in required if item not in text]
+        if missing:
+            failures.append("change-workflow.ps1 does not delegate to the shared KIS engine: " + ", ".join(missing))
+    for duplicate in (ROOT / "scripts" / "change-governance.py", ROOT / "scripts" / "git-workflow.py"):
+        if duplicate.exists():
+            failures.append(f"repository duplicates shared KIS governance engine: {duplicate.relative_to(ROOT)}")
+
     if failures:
         print("work-layout: FAILED")
         for failure in failures:

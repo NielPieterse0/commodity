@@ -1,0 +1,1069 @@
+{
+  "schema_version": 1,
+  "level": "L3-development-design",
+  "programme_id": "002-henry-hub-fresh",
+  "status": "unfrozen_development_designs_feasibility_classified",
+  "empirical_execution_authority": false,
+  "preregistration_authority": false,
+  "confirmation_authority": false,
+  "operator_gate": "These are executable-quality scientific designs, not preregistrations. No design may be frozen, sealed, executed on protected evidence, or promoted to confirmation without a separate explicit operator authorization after feasibility and implementation verification.",
+  "scientific_boundary": "Only external literature claims are being translated into tests. No legacy internal result is used as scientific evidence, calibration target, or expected outcome.",
+  "global_rules": {
+    "data_allocation": "Use the maximum admissible source-valid data available for the exact design after its declared information-time, contract, release/vintage, and semantic filters. Predictive/event-time designs are strictly PIT; explicitly historical-truth contemporaneous reproductions remain non-PIT and cannot be reused as predictive evidence. Do not impose inherited legacy windows.",
+    "market_source": "Use databento_henry_hub as canonical futures source where CME Henry Hub contract-level prices, settlements, volume, open interest, maturity, or curve structure are required.",
+    "contract_returns": "Returns must be same-listed-contract unless the estimand is explicitly a curve/spread quantity. No cross-contract roll return may enter a same-contract return estimand.",
+    "time_semantics": "Every source must expose observation/event time, publication or availability time, decision cutoff where predictive, revision/vintage treatment, timezone, and join key before data construction.",
+    "missingness": "Missingness cause must be preserved. No unrecorded zero-fill, backfill, realized-value substitution, or revised-history substitution is permitted.",
+    "inference": "Use effect sizes with uncertainty. Dependence must be handled with design-appropriate HAC, event clustering, block bootstrap, overlapping-horizon treatment, or equivalent. Calendar row count is never treated as independent N by default.",
+    "multiplicity": "Each design declares one primary estimand. Secondary estimands are supporting only. Within-design multiplicity is controlled by Holm correction unless the design specifies a stronger family method. Programme-level claims remain subject to the programme inference ledger and cannot be promoted from a single favorable test.",
+    "mepi_power": "Before implementation/freeze, each design must compute a literature-anchored or programme-decision-anchored scientific MEPI, dependence-adjusted detectable effect, effective information, and power/sensitivity. A design that cannot resolve its MEPI is HOLD/REDESIGN, not executed anyway.",
+    "replication_classes": [
+      "exact_replication",
+      "near_replication",
+      "mechanism_replication"
+    ],
+    "success_rule": "A literature finding is reproduced only when the primary estimand has the literature-consistent sign or qualitative pattern, its uncertainty excludes the design's disconfirming region, the effect reaches the predeclared scientific MEPI when magnitude matters, and required robustness checks do not reveal a semantic or regime contradiction that invalidates the claim.",
+    "inconclusive_rule": "Correct direction with uncertainty too wide to separate the MEPI/disconfirming region is inconclusive, not success.",
+    "failure_rule": "Opposite direction, null within informative power, failure of a required regime pattern, or inability to construct the literature's information set is a failed reproduction or fidelity failure and is preserved as such.",
+    "protected_evidence": "No reserved-confirmation outcomes are to be read or used while these designs remain unfrozen development designs."
+  },
+  "designs": [
+    {
+      "design_id": "rep-001-samuelson-maturity-volatility",
+      "line_id": "001-market-structure",
+      "finding_ids": [
+        "samuelson-maturity-volatility"
+      ],
+      "replication_class_target": "near_replication",
+      "literature": [
+        "mu-2007",
+        "ergen-rizvanoghlu-2016"
+      ],
+      "mechanism": "Physical scarcity and delivery-relevant information become more important as contract maturity approaches, raising near-contract volatility.",
+      "hypotheses": {
+        "H0": "After conditioning on declared season controls, realized volatility does not decrease as time-to-maturity shortens in the literature-specified direction.",
+        "H1": "Nearer listed Henry Hub contracts have higher realized volatility than farther maturities, with the winter interaction tested explicitly because the literature reports season dependence."
+      },
+      "unit": "listed_contract_trade_day",
+      "sample": "Maximum admissible Databento NG contract history from verified history start through latest complete eligible trade date, excluding mechanically invalid/illiquid observations by rules fixed before outcome analysis.",
+      "inputs": [
+        "contract_id",
+        "expiration",
+        "settlement",
+        "trade_date",
+        "volume",
+        "open_interest",
+        "season"
+      ],
+      "primary_estimand": "Monotone slope of log realized-volatility measure versus fixed days-to-maturity bucket, estimated on same-contract returns.",
+      "primary_test": "Joint ordered-contrast test that near-maturity volatility exceeds far-maturity volatility; report bucket effect sizes and confidence intervals.",
+      "required_strata": [
+        "winter",
+        "non_winter"
+      ],
+      "robustness": [
+        "alternative DTE bucket boundaries fixed before execution",
+        "volume/open-interest liquidity screen sensitivity",
+        "daily absolute-return and squared-return volatility proxies"
+      ],
+      "disconfirmers": [
+        "flat or increasing volatility with maturity under informative power",
+        "effect exists only through roll contamination",
+        "winter interaction opposite literature without plausible fidelity explanation"
+      ],
+      "pit_contract": {
+        "forecast_origin_or_event_time": "trade_date session close",
+        "target_timestamp": "same contract trade_date return/volatility observation",
+        "source_release_timestamp": "Databento record availability under configured conservative daily bound",
+        "revision_policy": "market records immutable for research identity",
+        "vintage_rule": "exact acquired source snapshot",
+        "timezone": "America/New_York with configured availability bound",
+        "contract_identity_and_roll_rule": "exact listed contract; same-contract returns only",
+        "availability_lag": "not predictive; contemporaneous descriptive reproduction",
+        "evaluation_sample": "full admissible descriptive sample after feasibility; no reserved confirmation needed unless operator later requests independent confirmation"
+      }
+    },
+    {
+      "design_id": "rep-002-seasonal-forward-curve",
+      "line_id": "001-market-structure",
+      "finding_ids": [
+        "seasonal-forward-curve"
+      ],
+      "replication_class_target": "mechanism_replication",
+      "literature": [
+        "mirantes-et-al-2013"
+      ],
+      "contextual_literature": [
+        "hevia-petrella-2016"
+      ],
+      "mechanism": "Seasonal demand and inventory cycles alter scarcity and convenience yield, producing systematic seasonal differences in curve level, slope, and shape. Mirantes et al. supplies the direct natural-gas basis; Hevia-Petrella is retained only as cross-commodity seasonality methodology because its empirical application is heating oil.",
+      "hypotheses": {
+        "H0": "Calendar season does not systematically alter Henry Hub forward-curve level/slope/shape after contract-calendar alignment.",
+        "H1": "Winter and injection-season curve states differ systematically in at least the predeclared slope/curvature dimensions, with direction interpreted against source-specific literature expectations."
+      },
+      "unit": "trade_date_curve_snapshot",
+      "sample": "Maximum admissible Databento contract history with sufficient simultaneously listed maturities for a calendar-consistent curve snapshot.",
+      "inputs": [
+        "contract_id",
+        "expiration",
+        "settlement",
+        "trade_date",
+        "delivery_month",
+        "season"
+      ],
+      "primary_estimand": "Seasonal difference in standardized M1-M6 curve slope using exact listed contracts matched by time-to-delivery.",
+      "secondary_estimands": [
+        "curve curvature",
+        "winter premium",
+        "near/far spread distribution"
+      ],
+      "primary_test": "Seasonal contrast with block-bootstrap confidence interval by year to preserve serial dependence.",
+      "robustness": [
+        "M1-M4 and M1-M12 eligible subsets",
+        "calendar-month fixed effects",
+        "exclude expiration-near observations"
+      ],
+      "disconfirmers": [
+        "no systematic seasonal curve difference under informative power",
+        "pattern disappears after calendar-consistent maturity alignment"
+      ],
+      "pit_contract": {
+        "forecast_origin_or_event_time": "trade_date session close",
+        "target_timestamp": "same-day curve snapshot",
+        "source_release_timestamp": "configured Databento daily availability bound",
+        "revision_policy": "immutable market snapshot identity",
+        "vintage_rule": "exact acquired source snapshot",
+        "timezone": "America/New_York",
+        "contract_identity_and_roll_rule": "exact listed contracts; no synthetic continuous prices",
+        "availability_lag": "not predictive",
+        "evaluation_sample": "full admissible descriptive sample"
+      }
+    },
+    {
+      "design_id": "rep-003-storage-surprise-response",
+      "line_id": "002-storage-inventory",
+      "finding_ids": [
+        "storage-change-surprise-price-response",
+        "storage-announcement-price-discovery"
+      ],
+      "replication_class_target": "near_replication",
+      "literature": [
+        "gay-simkins-turac-2009",
+        "chiou-wei-linn-zhu-2014",
+        "linn-zhu-2004"
+      ],
+      "mechanism": "The EIA release resolves uncertainty about the supply-demand balance; prices respond to the unexpected component rather than the raw storage change alone.",
+      "hypotheses": {
+        "H0": "Pre-release storage surprise has no inverse relation with event-window Henry Hub futures returns after raw storage change and season controls.",
+        "H1": "A larger-than-expected build lowers futures prices and a larger-than-expected withdrawal raises prices; surprise adds information beyond the absolute announced change."
+      },
+      "unit": "EIA_storage_release_event_contract",
+      "sample": "Maximum period for which an independently sourced historically fixed pre-release consensus/expectation series can be proven PIT-correct and joined to exact EIA release timestamps and listed Henry Hub contracts.",
+      "source_route": {
+        "source_faithful": "Bloomberg weekly natural-gas storage consensus analyst forecast",
+        "independent_alternatives": [
+          "S&P Global / Platts weekly analyst survey",
+          "Estimize crowd consensus"
+        ]
+      },
+      "hard_feasibility_dependency": "Historically fixed pre-release consensus or separately justified ex-ante expectation benchmark. Bloomberg is the source-faithful expectation series for Chiou-Wei/Linn/Zhu and the Bloomberg survey family underlies Gay/Simkins/Turac. If historical access/timestamp fixity cannot be proven, exact/near source-faithful reproduction is HOLD; actual storage change alone is not a valid substitute.",
+      "inputs": [
+        "EIA actual storage change",
+        "PIT expectation",
+        "surprise=actual-expectation",
+        "release timestamp",
+        "exact contract prices",
+        "season"
+      ],
+      "primary_estimand": "Event-window return beta on signed storage surprise for the predeclared prompt listed contract.",
+      "primary_test": "Event-study regression with release-event clustered/HAC uncertainty; test beta < 0 under build-positive surprise convention.",
+      "secondary_estimands": [
+        "incremental R2 or likelihood contribution beyond actual change",
+        "injection/withdrawal interaction",
+        "volatility response"
+      ],
+      "event_windows": "Must be chosen from data resolution available before implementation; intraday window preferred if canonical source supports exact release-time prices, otherwise daily close-to-close reproduction is classified lower-fidelity.",
+      "disconfirmers": [
+        "surprise coefficient non-negative under informative power",
+        "raw actual explains result while surprise adds no information",
+        "consensus timestamp cannot be proven pre-release"
+      ],
+      "pit_contract": {
+        "forecast_origin_or_event_time": "official EIA release timestamp including holiday exceptions",
+        "target_timestamp": "predeclared post-release return window",
+        "source_release_timestamp": "exact EIA release time plus consensus publication timestamp",
+        "revision_policy": "use release-time EIA actual; later revisions excluded from event surprise",
+        "vintage_rule": "consensus version fixed before release; EIA release vintage",
+        "timezone": "America/New_York",
+        "contract_identity_and_roll_rule": "exact listed contract held fixed across event window",
+        "availability_lag": "zero after official release for explanatory event response; consensus must precede release",
+        "evaluation_sample": "all events satisfying verified consensus and market-data fidelity"
+      }
+    },
+    {
+      "design_id": "rep-004-storage-state-nonlinearity",
+      "line_id": "002-storage-inventory",
+      "finding_ids": [
+        "storage-state-threshold-dynamics"
+      ],
+      "replication_class_target": "mechanism_replication",
+      "literature": [
+        "rubaszek-uddin-2020"
+      ],
+      "mechanism": "The marginal value of supply shocks rises when inventories are scarce, so price dynamics and spot-futures relationships are nonlinear across storage regimes.",
+      "hypotheses": {
+        "H0": "Shock responses and price dynamics do not differ materially between low- and normal/high-inventory states.",
+        "H1": "Low-inventory states exhibit larger price responses to physical shocks and materially different market dynamics."
+      },
+      "unit": "weekly_storage_state_market_observation",
+      "sample": "Stage A mechanism reproduction uses the maximum overlapping long historical-truth sample: canonical Databento from 2010-06-06 plus the preserved WNGSR current historical snapshot (844 weekly observations through 2026-08). This is explicitly non-PIT revised historical truth. Any later predictive/event-time extension must switch to separately reconstructed PIT vintages.",
+      "inputs": [
+        "historical WNGSR storage level",
+        "predeclared low/high inventory regime",
+        "Henry Hub spot/reference price where source-study compatible",
+        "exact/roll-safe futures price or curve measure",
+        "source-study structural controls if the shock-response branch is implemented"
+      ],
+      "primary_estimand": "Difference in the spot-futures relationship between predeclared low-inventory and normal/high-inventory regimes, matching the paper's second threshold-model contribution without requiring a predictive interpretation.",
+      "secondary_estimands": [
+        "source-study structural-shock response difference by inventory regime, only if the complete structural system and identification can be matched",
+        "continuous storage-state nonlinearity"
+      ],
+      "threshold_rule": "Recover the source-study threshold/state definition before implementation where possible; otherwise use a fixed inventory-only rule declared from literature or unconditional storage information before any market outcome analysis. Outcome-optimized thresholds are prohibited.",
+      "primary_test": "Threshold/state interaction on the spot-futures relationship with block/HAC uncertainty; structural-VAR impulse-response replication is a separately fidelity-gated secondary branch and cannot rescue a failed primary.",
+      "robustness": [
+        "continuous nonlinear spline specification",
+        "season-specific storage-state sensitivity",
+        "alternative source-study-compatible futures horizon"
+      ],
+      "disconfirmers": [
+        "spot-futures regime difference near zero with informative power",
+        "effect reverses systematically",
+        "threshold result is unstable to reasonable predeclared alternatives",
+        "structural branch cannot reproduce source-study identification"
+      ],
+      "pit_contract": {
+        "forecast_origin_or_event_time": "weekly historical storage observation for Stage A descriptive reproduction",
+        "target_timestamp": "contemporaneous weekly/monthly market state matched to the source-study specification",
+        "source_release_timestamp": "recorded for lineage but not used to claim trading-at-origin knowledge in Stage A",
+        "revision_policy": "Stage A may use the preserved WNGSR current historical snapshot only as explicitly revised historical truth; predictive use must switch to release-time/reconstructed PIT storage",
+        "vintage_rule": "fixed 2026-08-13 WNGSR historical snapshot for Stage A; separate PIT identity for any predictive extension",
+        "timezone": "America/New_York",
+        "contract_identity_and_roll_rule": "exact or explicitly roll-safe source-study-compatible futures measure; no accidental cross-contract returns",
+        "availability_lag": "not predictive in Stage A",
+        "evaluation_sample": "maximum 2010-06-06 onward historical-truth overlap after exact source-study variable fidelity is established"
+      }
+    },
+    {
+      "design_id": "rep-005-scarcity-volatility",
+      "line_id": "002-storage-inventory",
+      "finding_ids": [
+        "scarcity-volatility"
+      ],
+      "replication_class_target": "near_replication",
+      "literature": [
+        "geman-ohana-2009",
+        "ergen-rizvanoghlu-2016"
+      ],
+      "mechanism": "Low inventories amplify scarcity risk, particularly in winter, raising near-term volatility.",
+      "hypotheses": {
+        "H0": "Below-normal inventory does not increase Henry Hub volatility more strongly in winter.",
+        "H1": "Below-normal inventory is associated with higher volatility, with a positive scarcity-by-winter interaction."
+      },
+      "unit": "weekly_historical_storage_state_with_market_volatility_measure",
+      "sample": "Stage A near replication uses the maximum 2010-06-06 onward overlap of canonical Databento and the fixed 2026-08-13 WNGSR historical snapshot: 844 weekly storage observations across 17 calendar years. This matches the literature's descriptive inventory-volatility question and is explicitly not a PIT predictive sample.",
+      "primary_estimand": "Interaction effect of below-historical-average inventory \u00d7 winter on the predeclared natural-gas volatility measure, with scarcity defined from inventory only before outcome analysis.",
+      "primary_test": "Historical-state regression/correlation contrast with year/block bootstrap or HAC uncertainty, matching the paper's claim that the negative inventory-volatility relationship is concentrated in scarcity and intensifies in winter.",
+      "secondary_estimands": [
+        "continuous inventory-deviation slope",
+        "near-vs-far maturity interaction",
+        "PIT-only extension over the 106 reconstructed release states reported separately"
+      ],
+      "disconfirmers": [
+        "winter scarcity interaction <= 0 with informative power",
+        "inventory-volatility relation is equally strong outside scarcity contrary to the source finding",
+        "effect depends on maturity/roll contamination"
+      ],
+      "pit_contract": {
+        "forecast_origin_or_event_time": "weekly storage observation for Stage A contemporaneous reproduction",
+        "target_timestamp": "same-week market volatility state",
+        "source_release_timestamp": "recorded for lineage; Stage A makes no trading-at-origin claim",
+        "revision_policy": "fixed current WNGSR historical snapshot allowed only as revised historical truth for Stage A; predictive extension requires PIT reconstructed releases",
+        "vintage_rule": "2026-08-13 historical snapshot for Stage A; separate release-vintage identity for PIT extension",
+        "timezone": "America/New_York",
+        "contract_identity_and_roll_rule": "same listed contract for return/volatility construction; exact maturity rule fixed before execution",
+        "availability_lag": "not predictive in Stage A",
+        "evaluation_sample": "844-week maximum historical-truth overlap; PIT extension separately limited to reconstructed release coverage"
+      }
+    },
+    {
+      "design_id": "rep-006-inventory-forward-curve-scarcity",
+      "line_id": "002-storage-inventory",
+      "finding_ids": [
+        "inventory-forward-curve-scarcity"
+      ],
+      "replication_class_target": "near_replication",
+      "literature": [
+        "geman-ohana-2009"
+      ],
+      "related_literature": [
+        "mirantes-et-al-2013"
+      ],
+      "mechanism": "When physical gas is scarce, nearby delivery carries greater relative value; after seasonal curve structure is accounted for, lower inventory should therefore be associated with a stronger nearby-relative-price or backwardation scarcity signal.",
+      "hypotheses": {
+        "H0": "After controlling for calendar season, inventory state has no material association with the predeclared Henry Hub forward-curve scarcity measure.",
+        "H1": "Lower inventory is associated with a stronger nearby scarcity signal in exact listed-contract curve measures, with the strongest relation at short maturities."
+      },
+      "unit": "monthly_historical_inventory_with_exact_curve_snapshot",
+      "sample": "Stage A near replication uses the maximum monthly overlap from 2010-06 onward: 195 calendar months are available from the fixed 2026-08-13 WNGSR historical snapshot, subject to a same-month exact front/13th-contract curve-coverage audit. This is a contemporaneous theory-of-storage reproduction, not a trading-at-origin claim; predictive reuse requires a new PIT design.",
+      "source_study_measurement": {
+        "frequency": "monthly",
+        "short_contract": "front month",
+        "long_contract": "13th month / approximately 12-month interval",
+        "spread": "interest-adjusted forward spread relative to spot or first nearby",
+        "interest_rate": "one-year U.S. rate",
+        "inventory": "monthly U.S. natural-gas stocks from EIA/DOE",
+        "seasonality_handling": "12-month contract interval filters forward-curve seasonality; source working paper additionally deseasonalizes inventory with fixed trigonometric time terms"
+      },
+      "source_route": {
+        "market": "databento_henry_hub exact listed contracts",
+        "inventory": "eia_storage historical snapshot for Stage A descriptive reproduction",
+        "interest_rate": "US-MACRO public Treasury/FRED one-year rate candidate"
+      },
+      "measurement_rule": "Primary scarcity measure is the Geman-Ohana interest-adjusted front-versus-13th-month spread at monthly frequency, using a public one-year U.S. rate and exact listed Henry Hub contracts. Recover and freeze the exact monthly sampling/deseasonalization formula before outcome execution. It must not be mislabeled as directly observed convenience yield. A simpler nearby/far slope may be used only as an explicitly lower-fidelity robustness measure.",
+      "primary_estimand": "Association between inventory state and the predeclared seasonality-filtered forward-curve scarcity measure, with lower inventories expected to correspond to stronger nearby relative value/backwardation.",
+      "primary_test": "Predeclared inventory-curve association/nonlinearity with year/block bootstrap or HAC uncertainty and source-study seasonality filtering.",
+      "robustness": [
+        "alternative fixed near/far maturity pairs",
+        "continuous inventory deviation",
+        "winter/injection-season strata",
+        "Mirantes-style curve-derived convenience-yield seasonality under a separately declared formula"
+      ],
+      "disconfirmers": [
+        "lower inventory does not strengthen the nearby scarcity signal under informative power",
+        "relationship is created by maturity misalignment or roll contamination",
+        "result depends on labeling an unobserved convenience yield as directly measured"
+      ],
+      "pit_contract": {
+        "forecast_origin_or_event_time": "monthly historical inventory observation for Stage A descriptive reproduction",
+        "target_timestamp": "same-month exact-contract curve statistic selected by the source-study monthly averaging rule",
+        "source_release_timestamp": "recorded for lineage but not used to claim predictive availability in Stage A",
+        "revision_policy": "fixed current WNGSR historical snapshot allowed only as revised historical truth; predictive reuse requires release-time/reconstructed PIT storage",
+        "vintage_rule": "2026-08-13 WNGSR historical snapshot plus exact Databento acquisition for Stage A",
+        "timezone": "America/New_York",
+        "contract_identity_and_roll_rule": "exact front and 13th listed contracts sampled/averaged by a fixed monthly rule; no cross-contract return construction",
+        "availability_lag": "not predictive in Stage A",
+        "evaluation_sample": "maximum 195-month historical-truth overlap after exact spread formula, one-year rate source and monthly timing fidelity are fixed"
+      }
+    },
+    {
+      "design_id": "rep-007-weather-return-volatility-response",
+      "line_id": "003-weather",
+      "finding_ids": [
+        "weather-shock-returns-volatility"
+      ],
+      "replication_class_target": "mechanism_replication",
+      "literature": [
+        "mu-2007",
+        "chen-hartley-lan-2023"
+      ],
+      "mechanism": "Unexpected heating/cooling demand shocks alter expected gas demand, prices, and uncertainty.",
+      "hypotheses": {
+        "H0": "Weather departures from normal do not materially alter Henry Hub returns or volatility after season controls.",
+        "H1": "Larger economically relevant weather departures produce larger price responses and higher volatility in the literature-consistent seasonal direction."
+      },
+      "unit": "trade_day_weather_information_state",
+      "sample": "Maximum 2010-06-06 onward overlap of canonical Databento and a pinned NOAA observed-weather snapshot after station/weighting rules are fixed before outcome access.",
+      "information_fidelity": "Primary reproduction is historical observed-weather explanatory evidence. Issued forecast vintages are prohibited substitutes and belong only to separate forecast/revision designs.",
+      "inputs": [
+        "observed daily temperature",
+        "HDD/CDD departure from fixed NOAA normal",
+        "season",
+        "same-contract return",
+        "volatility"
+      ],
+      "primary_estimand": "Season-conditioned effect of standardized weather departure magnitude on same-contract return magnitude/volatility, with signed return effect specified by season.",
+      "primary_test": "State-interaction regression with HAC/block uncertainty.",
+      "disconfirmers": [
+        "no conditional mean/volatility response under informative power",
+        "effect requires look-ahead realized data while claimed as forecast information"
+      ],
+      "pit_contract": {
+        "forecast_origin_or_event_time": "observed calendar day for descriptive reproduction",
+        "target_timestamp": "same-day/predeclared contemporaneous market response",
+        "source_release_timestamp": "record NOAA observation/source retrieval lineage; no trading-at-origin claim",
+        "revision_policy": "fixed acquired GHCN-Daily snapshot plus fixed normals version; later revisions excluded from the bound reproduction",
+        "vintage_rule": "snapshot identity and hashes fixed before market-outcome execution",
+        "timezone": "station-local observation mapped to America/New_York market calendar",
+        "contract_identity_and_roll_rule": "same listed contract",
+        "availability_lag": "not predictive",
+        "evaluation_sample": "maximum source-valid historical-truth overlap after fixed station/weighting rules"
+      },
+      "source_route": {
+        "observed_weather": "noaa_observed_weather",
+        "market": "databento_henry_hub",
+        "climatology": "NOAA U.S. Daily Climate Normals 1991-2020"
+      },
+      "implementation_gate": "Acquire/pin GHCN-Daily observations and daily normals, recover literature locations/weights where possible, otherwise predeclare gas-demand-region weights, then recompute season-cell counts and power without reading market outcomes."
+    },
+    {
+      "design_id": "rep-008-weather-season-sign-asymmetry",
+      "line_id": "003-weather",
+      "finding_ids": [
+        "weather-asymmetry"
+      ],
+      "replication_class_target": "near_replication",
+      "literature": [
+        "ergen-rizvanoghlu-2016"
+      ],
+      "mechanism": "Temperature shocks have different demand implications by season and sign, so symmetric treatment masks nonlinear volatility response.",
+      "hypotheses": {
+        "H0": "Weather-shock effects are symmetric across season and sign.",
+        "H1": "Weather effects differ materially by season and shock sign, including the literature-specified winter sensitivity."
+      },
+      "unit": "trade_day_weather_state",
+      "sample": "Same pinned NOAA observed-weather/Databento overlap as rep-007, with season and signed departure cells fixed from weather information alone before market-outcome access.",
+      "primary_estimand": "Joint interaction contrast across season \u00d7 positive/negative weather-deviation states for volatility.",
+      "primary_test": "Joint Wald/randomization-equivalent contrast with multiplicity-controlled planned pairwise contrasts.",
+      "robustness": [
+        "continuous signed spline",
+        "HDD/CDD formulation"
+      ],
+      "disconfirmers": [
+        "symmetric model is sufficient within MEPI",
+        "sign interaction flips inconsistently across reasonable fixed definitions"
+      ],
+      "pit_contract": {
+        "forecast_origin_or_event_time": "observed calendar day for descriptive reproduction",
+        "target_timestamp": "same-day/predeclared contemporaneous market response",
+        "source_release_timestamp": "record NOAA observation/source retrieval lineage; no trading-at-origin claim",
+        "revision_policy": "fixed acquired GHCN-Daily snapshot plus fixed normals version; later revisions excluded from the bound reproduction",
+        "vintage_rule": "snapshot identity and hashes fixed before market-outcome execution",
+        "timezone": "station-local observation mapped to America/New_York market calendar",
+        "contract_identity_and_roll_rule": "same listed contract",
+        "availability_lag": "not predictive",
+        "evaluation_sample": "maximum source-valid historical-truth overlap after fixed station/weighting rules"
+      },
+      "source_route": {
+        "observed_weather": "noaa_observed_weather",
+        "market": "databento_henry_hub",
+        "climatology": "NOAA U.S. Daily Climate Normals 1991-2020"
+      },
+      "inputs": [
+        "observed daily temperature",
+        "signed HDD/CDD or temperature departure from fixed NOAA normal",
+        "season",
+        "same-contract volatility"
+      ],
+      "implementation_gate": "Construct fixed season x sign cells from source-faithful observed weather, count cell capacity, and run multiplicity-aware power simulation before outcome execution."
+    },
+    {
+      "design_id": "rep-009-announcement-volatility",
+      "line_id": "004-volatility",
+      "finding_ids": [
+        "fundamental-event-volatility",
+        "storage-announcement-price-discovery"
+      ],
+      "replication_class_target": "near_replication",
+      "literature": [
+        "linn-zhu-2004",
+        "mu-2007",
+        "ergen-rizvanoghlu-2016"
+      ],
+      "mechanism": "Scheduled storage information arrival concentrates price discovery and raises variance; winter scarcity further elevates volatility.",
+      "hypotheses": {
+        "H0": "Storage announcement days and winter do not exhibit higher Henry Hub volatility than matched non-announcement states.",
+        "H1": "Announcement-day volatility is higher, and winter volatility is higher, with interaction reported separately."
+      },
+      "unit": "trade_day",
+      "sample": "Maximum admissible canonical market history with verified EIA release calendar coverage; holiday-shifted release dates must be identified, not assumed Thursday.",
+      "primary_estimand": "Difference in realized-volatility proxy between EIA storage-release days and matched non-release days.",
+      "primary_test": "Calendar/event-state regression with HAC uncertainty and year-block bootstrap sensitivity.",
+      "secondary_estimands": [
+        "winter main effect",
+        "announcement\u00d7winter interaction"
+      ],
+      "disconfirmers": [
+        "announcement-day volatility not elevated under informative power",
+        "result disappears when holiday-shifted releases are correctly classified"
+      ],
+      "pit_contract": {
+        "forecast_origin_or_event_time": "official EIA release calendar date/time",
+        "target_timestamp": "same-day volatility measure",
+        "source_release_timestamp": "official EIA release timestamp",
+        "revision_policy": "calendar/event identity immutable",
+        "vintage_rule": "not applicable beyond release calendar",
+        "timezone": "America/New_York",
+        "contract_identity_and_roll_rule": "same-contract daily returns",
+        "availability_lag": "not predictive",
+        "evaluation_sample": "all verified release and control days"
+      }
+    },
+    {
+      "design_id": "rep-010-volatility-state-dependence",
+      "line_id": "004-volatility",
+      "finding_ids": [
+        "volatility-is-state-dependent"
+      ],
+      "replication_class_target": "programme_synthesis_after_component_reproductions",
+      "literature": [
+        "mu-2007",
+        "ergen-rizvanoghlu-2016"
+      ],
+      "mechanism": "Natural-gas variance changes with maturity, season, storage, weather, and information-event state rather than following one unconditional stationary process.",
+      "hypotheses": {
+        "H0": "Predeclared state variables provide no material conditional differentiation in volatility beyond unconditional persistence.",
+        "H1": "At least the literature-backed maturity, season, storage-scarcity, weather, and announcement states show material conditional volatility differences in their expected directions."
+      },
+      "unit": "trade_day_contract_state",
+      "sample": "Intersection/union design using maximum admissible data by state family; each state family reports its own valid N rather than forcing complete-case intersection.",
+      "primary_estimand": "No direct omnibus empirical estimand. After component reproductions are completed, synthesize their standardized effect directions, magnitudes, uncertainty and regime dependence without pooling incompatible raw observations.",
+      "primary_test": "No direct empirical test at this stage; synthesis is prerequisite-gated and cannot rescue a failed component reproduction.",
+      "multiplicity_family": [
+        "maturity",
+        "season",
+        "storage",
+        "weather",
+        "announcement"
+      ],
+      "disconfirmers": [
+        "one or more claimed state families fail source-faithful reproduction",
+        "a synthesis claim would require pooling incompatible grains or information sets"
+      ],
+      "pit_contract": {
+        "forecast_origin_or_event_time": "state-specific observation/availability time",
+        "target_timestamp": "contemporaneous volatility",
+        "source_release_timestamp": "source-specific availability recorded per family",
+        "revision_policy": "PIT where state source revises",
+        "vintage_rule": "latest available at observation for PIT-conditioned variants",
+        "timezone": "normalized to America/New_York",
+        "contract_identity_and_roll_rule": "same listed contract",
+        "availability_lag": "state-specific",
+        "evaluation_sample": "maximum valid observations per state family"
+      },
+      "empirical_execution_planned": false,
+      "prerequisite_designs": [
+        "rep-001-samuelson-maturity-volatility",
+        "rep-002-seasonal-forward-curve",
+        "rep-004-storage-state-nonlinearity",
+        "rep-005-scarcity-volatility",
+        "rep-007-weather-return-volatility-response",
+        "rep-008-weather-season-sign-asymmetry",
+        "rep-009-announcement-volatility"
+      ]
+    },
+    {
+      "design_id": "rep-011-weather-enhanced-volatility-oos",
+      "line_id": "004-volatility",
+      "finding_ids": [
+        "weather-enhanced-volatility-oos"
+      ],
+      "replication_class_target": "near_replication_source_fidelity_pending",
+      "literature": [
+        "liang-et-al-2022"
+      ],
+      "mechanism": "Historical weather conditions, especially extreme temperature/precipitation states, may improve the slow-moving volatility component in a GARCH-MIDAS setting beyond a no-weather specification.",
+      "source_study_facts": {
+        "market": "EIA Henry Hub 1-month futures",
+        "sample": "1995-01 through 2021-07",
+        "in_sample_end": "2017-08",
+        "oos_period": "remainder through 2021-07",
+        "weather_variables": [
+          "wind speed",
+          "temperature",
+          "precipitation"
+        ],
+        "reported_locations": [
+          "New York",
+          "Louisiana"
+        ],
+        "extreme_definition_primary": "most negative/positive 10% weather tails",
+        "weather_provider": "not yet verified"
+      },
+      "hypotheses": {
+        "H0": "A source-matched weather GARCH-MIDAS specification does not improve out-of-sample volatility forecast accuracy over the corresponding no-weather GARCH-MIDAS model by the scientific MEPI.",
+        "H1": "Source-matched weather/extreme-weather specifications improve out-of-sample volatility forecast accuracy, with temperature or precipitation variants expected to be strongest according to the cited paper."
+      },
+      "unit": "daily_return_with_low_frequency_weather_state",
+      "sample": "First reproduce the source-study 1995-01 to 2021-07 market/weather sample and its 2017-08 in-sample cutoff. Do not substitute the repository's 2024+ issued-forecast archive for the historical weather series used by the paper.",
+      "target": "Source-study natural-gas futures volatility target and GARCH-MIDAS construction, matched before any independent redesign.",
+      "baseline": "Source-study traditional GARCH-MIDAS model without weather variables.",
+      "candidate": "Source-study GARCH-MIDAS-W and GARCH-MIDAS-W-ES variants using the matched weather variables/extreme-state definitions.",
+      "primary_estimand": "Source-study out-of-sample forecast-loss improvement of the weather model versus the matched no-weather model; exact primary loss metric must be recovered from the paper before implementation.",
+      "primary_test": "Reproduce the paper's declared out-of-sample comparison first; only afterward may an independent QLIKE-based robustness design be added.",
+      "hard_feasibility_dependency": "Verify the exact weather provider, series definitions/frequency, publication/observation timing, model formulas and source-study OOS loss metrics. Until then this design is HOLD_SOURCE_FIDELITY_REDESIGN.",
+      "disconfirmers": [
+        "source-study data or model semantics cannot be reconstructed",
+        "weather improvement disappears under faithful implementation with informative power",
+        "apparent reproduction requires issued-forecast data that the paper did not use"
+      ],
+      "pit_contract": {
+        "forecast_origin_or_event_time": "source-study daily forecast origin to be recovered exactly",
+        "target_timestamp": "source-study next volatility target to be recovered exactly",
+        "source_release_timestamp": "historical weather observation availability; exact provider timing unverified",
+        "revision_policy": "source-study treatment to be recovered; no issued-weather substitution",
+        "vintage_rule": "not an issued-forecast-vintage design",
+        "timezone": "source-study weather locations and NYMEX/EIA market calendar",
+        "contract_identity_and_roll_rule": "source-study EIA 1-month Henry Hub futures series for Stage A; independent exact-contract redesign only later",
+        "availability_lag": "must follow source-study lag construction",
+        "evaluation_sample": "1995-01 to 2017-08 in-sample; remaining period through 2021-07 OOS, subject to exact paper verification"
+      }
+    },
+    {
+      "design_id": "rep-012-physical-balance-drivers",
+      "line_id": "005-fundamental-balance",
+      "finding_ids": [
+        "balance-drivers-matter"
+      ],
+      "replication_class_target": "mechanism_replication",
+      "literature": [
+        "brown-yucel-2008",
+        "ji-zhang-geng-2018"
+      ],
+      "mechanism": "Henry Hub price formation reflects joint physical supply-demand balance, including storage, weather, production, consumption, and related demand channels.",
+      "hypotheses": {
+        "H0": "A fixed set of physical-balance information families adds no material explanatory contribution beyond calendar/market controls.",
+        "H1": "Physical-balance families jointly and incrementally explain Henry Hub price/return variation in literature-consistent directions."
+      },
+      "unit": "monthly_or_weekly_balance_observation",
+      "sample": "Maximum monthly overlap of a fixed EIA historical snapshot for the four primary physical-balance families and the selected Henry Hub reference series. This is revised historical-truth mechanism replication only.",
+      "inputs": [
+        "dry_or_marketed_production",
+        "consumption",
+        "pipeline_and_lng_import_exports",
+        "storage_change"
+      ],
+      "primary_estimand": "Incremental explanatory contribution of the fixed monthly physical-balance core over calendar and lagged-price controls, with every component kept at native monthly availability rather than forward-filled to daily frequency.",
+      "primary_test": "Nested-model joint test with time-series robust uncertainty and out-of-sample explanatory stability as robustness, not predictive promotion.",
+      "disconfirmers": [
+        "joint physical block below MEPI under informative power",
+        "effect depends on revised historical fundamentals unavailable under stated semantics"
+      ],
+      "pit_contract": {
+        "forecast_origin_or_event_time": "contemporaneous explanatory observation date",
+        "target_timestamp": "same-frequency Henry Hub price/return outcome",
+        "source_release_timestamp": "explicit per-source publication time required before construction",
+        "revision_policy": "current-snapshot-only EIA fundamentals cannot support a PIT predictive claim; explanatory historical-truth mode must be labeled separately",
+        "vintage_rule": "source-specific; predictive use prohibited without vintage reconstruction",
+        "timezone": "source-native normalized",
+        "contract_identity_and_roll_rule": "market target must use exact or roll-safe declared semantics",
+        "availability_lag": "not predictive in this reproduction; event-time availability still recorded",
+        "evaluation_sample": "maximum source-valid overlap"
+      },
+      "primary_frequency": "monthly",
+      "primary_input_families": [
+        "dry_or_marketed_production",
+        "consumption",
+        "pipeline_and_lng_import_exports",
+        "storage_change"
+      ],
+      "source_route": {
+        "physical_history": "eia_fundamentals current revised historical truth",
+        "storage_history": "eia_storage revised historical truth",
+        "market_reference": "EIA Henry Hub spot/reference price matched to selected source-study specification",
+        "monthly_series": {
+          "production": "NG.N9070US2.M",
+          "consumption": "NG.N9140US2.M",
+          "imports": "NG.N9100US2.M",
+          "exports": "NG.N9130US2.M",
+          "storage_working_gas": "NG.NGM_EPG0_SAO_R48_MMCF.M",
+          "henry_hub_reference": "NG.RNGWHHD.M"
+        },
+        "physical_unit": "Million Cubic Feet",
+        "metadata_basis": "retained EIA NG bulk snapshot metadata only; market outcome values not opened during selection"
+      },
+      "secondary_estimands": [
+        "power-sector gas demand under a separately verified source contract",
+        "observed-weather departures under rep-007 source semantics",
+        "LNG capacity/feedgas under rep-013 once released"
+      ],
+      "implementation_gate": "Pin exact EIA series IDs/units and the Henry Hub reference-price specification before outcome access; preserve current-snapshot revised-history labeling and prohibit predictive interpretation."
+    },
+    {
+      "design_id": "rep-013-lng-export-demand-channel",
+      "line_id": "005-fundamental-balance",
+      "finding_ids": [
+        "lng-export-demand-channel"
+      ],
+      "replication_class_target": "mechanism_replication",
+      "literature": [
+        "stock-zaragoza-watkins-2024"
+      ],
+      "mechanism": "Operational LNG export capacity and feedgas demand add domestic gas demand, tightening balances when not offset by supply or infrastructure constraints.",
+      "hypotheses": {
+        "H0": "LNG capacity/feedgas demand adds no material tightening signal after domestic supply-demand controls.",
+        "H1": "Higher available LNG export/feedgas demand is associated with tighter domestic balance and higher scarcity/price pressure, conditional on supply and infrastructure availability."
+      },
+      "unit": "monthly_balance_state",
+      "sample": "Post-LNG-export era maximum admissible overlap with separately identified capacity and utilization/feedgas measures.",
+      "primary_estimand": "Incremental effect of LNG feedgas/export demand on storage-balance residual or Henry Hub price pressure after fixed physical controls.",
+      "primary_test": "Nested structural/explanatory regression with regime interaction and HAC uncertainty.",
+      "hard_feasibility_dependency": "Capacity availability and actual feedgas/export demand must be separable. Global LNG price proxies cannot substitute for domestic feedgas demand.",
+      "disconfirmers": [
+        "no incremental tightening effect under informative power",
+        "effect attributed to LNG disappears after capacity/operation controls and is actually a global-price proxy"
+      ],
+      "pit_contract": {
+        "forecast_origin_or_event_time": "monthly explanatory observation",
+        "target_timestamp": "same/subsequent declared balance outcome",
+        "source_release_timestamp": "source-specific publication timestamps required",
+        "revision_policy": "historical truth may support mechanism replication only; predictive use requires vintages",
+        "vintage_rule": "explicit by source",
+        "timezone": "source-native normalized",
+        "contract_identity_and_roll_rule": "declared market target semantics",
+        "availability_lag": "not predictive for mechanism replication",
+        "evaluation_sample": "maximum post-export source-valid overlap"
+      }
+    },
+    {
+      "design_id": "rep-014-monthly-real-time-forecastability",
+      "line_id": "005-fundamental-balance",
+      "finding_ids": [
+        "monthly-real-time-forecastability"
+      ],
+      "replication_class_target": "exact_replication_then_independent_near_replication",
+      "literature": [
+        "baumeister-et-al-2026"
+      ],
+      "source_route": {
+        "exact_replication": "LIT-BHLR-RTDB authors' open JAE real-time database and replication code",
+        "independent_reconstruction": "EIA STEO/MER vintage archives plus ALFRED where semantically appropriate"
+      },
+      "mechanism": "At monthly horizons, real-time fundamentals, futures information, and combinations can contain forecast information beyond a no-change benchmark, but relative performance varies by horizon.",
+      "hypotheses": {
+        "H0": "At each predeclared 1-24 month horizon, source-matched real-time models do not improve MSPE over no-change by the scientific MEPI.",
+        "H1": "At several horizons, at least one literature-matched parsimonious fundamental/futures/combination model improves MSPE over no-change; nearest horizons may remain difficult and no single model need dominate all horizons."
+      },
+      "unit": "monthly_forecast_origin_horizon",
+      "sample": "Stage A exact replication uses the authors' frozen JAE archive and source-study sample/vintages without substitution. Stage B, only after exact reproduction is verified, may reconstruct/extend the real-time database from independent EIA MER/STEO and ALFRED sources under a separately declared fidelity contract.",
+      "target": "Monthly real Henry Hub price with inflation/deflation semantics matched as closely as feasible to the source study.",
+      "benchmarks": [
+        "no-change",
+        "futures-implied",
+        "parsimonious fundamentals",
+        "forecast combination"
+      ],
+      "primary_estimand": "MSPE ratio versus no-change by horizon, with the literature-defined horizon family treated jointly.",
+      "primary_test": "Horizon-by-horizon dependence-appropriate forecast comparison plus family-level multiplicity control; report MSPE ratios and confidence intervals.",
+      "disconfirmers": [
+        "no horizon reaches MEPI under informative power",
+        "result requires revised fundamentals unavailable at forecast origin",
+        "only one cherry-picked horizon succeeds after family correction"
+      ],
+      "pit_contract": {
+        "forecast_origin_or_event_time": "monthly forecast date matching source-study timing",
+        "target_timestamp": "1 through 24 months ahead",
+        "source_release_timestamp": "exact real-time publication/vintage timestamp for every predictor",
+        "revision_policy": "real-time vintages mandatory",
+        "vintage_rule": "latest vintage available at each origin",
+        "timezone": "monthly calendar with source publication dates",
+        "contract_identity_and_roll_rule": "Henry Hub price target/futures comparator semantics fixed before implementation",
+        "availability_lag": "strictly before forecast origin",
+        "evaluation_sample": "chronological real-time OOS design; confirmation allocation only after separate authorization"
+      }
+    },
+    {
+      "design_id": "rep-015-oil-gas-linkage-regimes",
+      "line_id": "006-cross-market-globalization",
+      "finding_ids": [
+        "oil-gas-linkage-regime-dependent"
+      ],
+      "replication_class_target": "mechanism_replication",
+      "literature": [
+        "brown-yucel-2008",
+        "geng-ji-fan-2016",
+        "ji-zhang-geng-2018"
+      ],
+      "mechanism": "Oil and gas share macro/energy channels, but shale-era supply changes altered substitution, production economics, and regional integration, weakening a fixed oil-gas relation.",
+      "hypotheses": {
+        "H0": "Oil-Henry Hub linkage is stable across predeclared structural regimes.",
+        "H1": "The linkage is materially time-varying, with weaker oil-to-gas dependence after shale-era structural change than in earlier regimes."
+      },
+      "unit": "monthly_market_observation",
+      "sample": "Maximum overlap of canonical Henry Hub history and a source-valid crude-oil benchmark, with regime boundaries literature-derived or structural-break methods fixed before outcome reading.",
+      "primary_estimand": "Difference in oil-gas dependence coefficient/correlation or VAR transmission between pre- and post-structural regimes.",
+      "primary_test": "Predeclared regime-interaction or break test with time-series robust uncertainty.",
+      "secondary_estimands": [
+        "rolling dependence descriptive path",
+        "lagged versus contemporaneous separation"
+      ],
+      "disconfirmers": [
+        "stable coefficient within MEPI across regimes",
+        "post-shale linkage stronger in contradiction to literature without source/fidelity explanation"
+      ],
+      "pit_contract": {
+        "forecast_origin_or_event_time": "monthly observation",
+        "target_timestamp": "same/lagged Henry Hub outcome depending estimand",
+        "source_release_timestamp": "market data daily/monthly availability",
+        "revision_policy": "market prices immutable",
+        "vintage_rule": "exact snapshots",
+        "timezone": "normalized",
+        "contract_identity_and_roll_rule": "roll-safe or exact contract monthly target declared",
+        "availability_lag": "lagged predictive interpretations require prior availability; contemporaneous effects labeled explanatory",
+        "evaluation_sample": "maximum valid overlap"
+      }
+    },
+    {
+      "design_id": "rep-016-europe-us-transmission-limited",
+      "line_id": "006-cross-market-globalization",
+      "finding_ids": [
+        "europe-us-transmission-limited"
+      ],
+      "replication_class_target": "exact_replication_then_independent_near_replication",
+      "literature": [
+        "rubaszek-szafranek-2025"
+      ],
+      "source_route": {
+        "exact_replication": "LIT-RS-EUUS author-linked RepOD replication package",
+        "independent_reconstruction": "ICE TTF plus ENTSOG/GIE and source-study-compatible U.S. controls after entitlement/fidelity review"
+      },
+      "mechanism": "Despite LNG-linked integration, domestic U.S. production/storage/infrastructure can buffer Henry Hub from European gas shocks, so cross-basin transmission may remain economically small.",
+      "hypotheses": {
+        "H0": "European gas shocks have economically material transmission to Henry Hub in the crisis-period structural system.",
+        "H1": "After domestic U.S. controls, the European-shock contribution to Henry Hub dynamics is small/marginal relative to the scientific MEPI and domestic drivers."
+      },
+      "unit": "monthly_structural_system_observation",
+      "sample": "Stage A uses the authors' source-study sample and RepOD data/code package without data substitution. Stage B, only after exact reproduction is verified, may rebuild the system independently using official European/U.S. sources under a new fidelity identity.",
+      "primary_estimand": "Henry Hub impulse-response / forecast-error-variance contribution attributable to identified European gas shock over the source-study horizons.",
+      "primary_test": "Source-study structural VAR and identification scheme reproduced first with the authors' package; independent reconstruction later uses bootstrap uncertainty and predeclared identification sensitivities.",
+      "hard_feasibility_dependency": "Exact package integrity, runnable methodology/environment requirements, and source-study estimand reconstruction must be verified. Independent reconstruction additionally requires source-compatible European benchmark/control semantics and historical-data entitlement where applicable.",
+      "disconfirmers": [
+        "large robust European shock contribution exceeding MEPI",
+        "conclusion changes sign/magnitude across reasonable predeclared identification variants"
+      ],
+      "pit_contract": {
+        "forecast_origin_or_event_time": "monthly structural observation",
+        "target_timestamp": "contemporaneous and impulse-response horizons",
+        "source_release_timestamp": "not a trading prediction; publication timing recorded for reproducibility",
+        "revision_policy": "source-study-matched historical data treatment",
+        "vintage_rule": "not claimed PIT unless vintage reconstruction added",
+        "timezone": "monthly normalized",
+        "contract_identity_and_roll_rule": "declared Henry Hub monthly price semantics",
+        "availability_lag": "not predictive",
+        "evaluation_sample": "source-comparable structural sample"
+      }
+    },
+    {
+      "design_id": "ctx-017-connectedness-congestion",
+      "line_id": "006-cross-market-globalization",
+      "finding_ids": [
+        "gas-connectedness-contemporaneous-and-congestion-sensitive"
+      ],
+      "replication_class_target": "contextual_validation_only",
+      "literature": [
+        "farag-ruhnau-2026"
+      ],
+      "mechanism": "Congestion can reduce cross-market connectedness and much transmission may be contemporaneous rather than forecastable.",
+      "hypotheses": {
+        "H0": "Not applicable as a Henry Hub reproduction claim because the cited evidence is European-contextual.",
+        "H1": "If a later Henry Hub-specific cross-market design is authorized, contemporaneous and lagged connectedness must be separated and congestion/capacity states represented explicitly."
+      },
+      "status_note": "This source cannot by itself be 'proved' in Henry Hub. It is a design constraint/contextual prior, not a strict reproduction target.",
+      "execution_status": "no_empirical_execution_planned_from_this_source_alone"
+    },
+    {
+      "design_id": "rep-018-announcement-day-return-puzzle",
+      "line_id": "007-positioning-announcements",
+      "finding_ids": [
+        "announcement-day-return-puzzle"
+      ],
+      "replication_class_target": "near_replication",
+      "literature": [
+        "prokopczuk-simen-wichmann-2021"
+      ],
+      "mechanism": "Scheduled storage-report days exhibit a return distribution distinct from other days, not explained by storage surprise or standard controls in the published sample.",
+      "hypotheses": {
+        "H0": "Announcement-day Henry Hub futures returns do not differ materially from matched non-announcement-day returns after storage-surprise and calendar controls.",
+        "H1": "Announcement-day returns exhibit the published positive/distinct pattern and remain different after surprise and standard controls."
+      },
+      "unit": "trade_day",
+      "sample": "Maximum canonical market history with fully verified EIA release dates; the source-study sample must also be separately reproduced where available to distinguish sample-specific from extended-sample behavior.",
+      "primary_estimand": "Announcement-day mean/excess-return contrast versus non-announcement days.",
+      "primary_test": "Day-type regression with HAC uncertainty and randomization/permutation sensitivity preserving calendar structure.",
+      "secondary_estimands": [
+        "share of annual cumulative return occurring on announcement days",
+        "surprise-controlled coefficient",
+        "subperiod stability"
+      ],
+      "disconfirmers": [
+        "no announcement-day difference under informative power",
+        "effect vanishes under correct holiday calendar",
+        "extended sample reverses published effect, which must be reported as non-replication/regime change rather than averaged away"
+      ],
+      "pit_contract": {
+        "forecast_origin_or_event_time": "EIA release day identity",
+        "target_timestamp": "predeclared daily return window",
+        "source_release_timestamp": "official EIA calendar/release timestamp",
+        "revision_policy": "event calendar immutable",
+        "vintage_rule": "storage surprise controls require PIT consensus and release-time actual if included",
+        "timezone": "America/New_York",
+        "contract_identity_and_roll_rule": "same listed contract for daily return",
+        "availability_lag": "not predictive for anomaly reproduction",
+        "evaluation_sample": "source-period replication plus extended maximum admissible sample reported separately"
+      }
+    },
+    {
+      "design_id": "rep-019-friday-attention-effect",
+      "line_id": "007-positioning-announcements",
+      "finding_ids": [
+        "announcement-attention-release-day"
+      ],
+      "replication_class_target": "near_replication",
+      "literature": [
+        "gu-kurov-stan-2026"
+      ],
+      "mechanism": "Trader attention is lower on Friday-shifted releases, attenuating market response to the same class of fundamental news.",
+      "hypotheses": {
+        "H0": "Market response to EIA storage news is not weaker on Friday-shifted releases than on normal Thursday releases.",
+        "H1": "Friday-shifted releases have materially weaker return response to storage surprise than Thursday releases."
+      },
+      "unit": "EIA_storage_release_event",
+      "source_route": {
+        "source_faithful": "Genesis Financial Technologies plus Bloomberg subscription data",
+        "near_replication": "Databento exact listed-contract market data plus separately verified PIT storage consensus"
+      },
+      "sample": "Exact Stage A replication requires the source-study Genesis/Bloomberg data family and published sample semantics. If those subscription data are unavailable, a Databento plus verified-consensus construction is a separately labeled near replication using all fidelity-qualified Thursday and Friday EIA release events.",
+      "primary_estimand": "Friday \u00d7 storage-surprise interaction relative to Thursday response.",
+      "primary_test": "Event regression with release-event robust uncertainty; report percentage attenuation and confidence interval.",
+      "magnitude_anchor": "The literature reports approximately 74% weaker daily response on Friday; this is an external magnitude anchor for feasibility/MEPI planning, not an internally assumed result.",
+      "disconfirmers": [
+        "Friday interaction not weaker under informative power",
+        "effect explained entirely by holiday/event composition after fixed controls",
+        "too few Friday events to resolve MEPI"
+      ],
+      "pit_contract": {
+        "forecast_origin_or_event_time": "official EIA release timestamp",
+        "target_timestamp": "predeclared post-release/daily response",
+        "source_release_timestamp": "EIA release and pre-release consensus timestamps",
+        "revision_policy": "release-time actual and fixed pre-release expectation",
+        "vintage_rule": "PIT surprise only",
+        "timezone": "America/New_York",
+        "contract_identity_and_roll_rule": "same listed contract across event window",
+        "availability_lag": "event response only after release",
+        "evaluation_sample": "all fidelity-qualified Thursday/Friday events; power gate mandatory because Friday events are sparse"
+      }
+    },
+    {
+      "design_id": "rep-020-positioning-incremental-information",
+      "line_id": "007-positioning-announcements",
+      "finding_ids": [
+        "positioning-is-secondary-hypothesis"
+      ],
+      "replication_class_target": "mechanism_replication",
+      "literature": [
+        "buchanan-hodges-theis-2001",
+        "ji-zhang-geng-2018"
+      ],
+      "mechanism": "Trader positioning may reflect information or risk transfer, but any useful effect must be incremental to physical fundamentals and publication timing.",
+      "hypotheses": {
+        "H0": "Publication-lag-correct CFTC positioning adds no material explanatory information after physical-fundamental controls.",
+        "H1": "At least one predeclared positioning level/change measure adds incremental information, but the design does not presume it dominates physical fundamentals."
+      },
+      "unit": "weekly_positioning_observation",
+      "sample": "Maximum overlap of release-correct CFTC Henry Hub disaggregated futures-only reports, canonical market data, and available physical controls.",
+      "inputs": [
+        "managed_money_net_change",
+        "physical-control block",
+        "season",
+        "regime"
+      ],
+      "primary_estimand": "Incremental explanatory contribution of weekly Managed Money net-position change after predeclared physical controls.",
+      "primary_test": "Nested weekly model block test with HAC uncertainty and publication-lag-correct joins; persistent position levels are secondary only.",
+      "secondary_estimands": [
+        "level versus change",
+        "season interaction",
+        "regime interaction"
+      ],
+      "disconfirmers": [
+        "weekly positioning change block below MEPI under informative power",
+        "effect exists only when report date is incorrectly treated as publication date",
+        "physical controls absorb the effect",
+        "only persistent level specifications appear favorable while the predeclared change primary fails"
+      ],
+      "pit_contract": {
+        "forecast_origin_or_event_time": "CFTC reconstructed publication availability",
+        "target_timestamp": "same/subsequent declared market observation",
+        "source_release_timestamp": "configured CFTC availability policy including special schedules",
+        "revision_policy": "annual archive evidence with reconstructed release schedule",
+        "vintage_rule": "latest report actually available",
+        "timezone": "America/New_York",
+        "contract_identity_and_roll_rule": "declared same-contract or roll-safe market target",
+        "availability_lag": "strictly after reconstructed CFTC publication availability",
+        "evaluation_sample": "maximum supported release-correct overlap"
+      },
+      "primary_positioning_measure": "managed_money_net_change",
+      "secondary_positioning_measures": [
+        "managed_money_net_level",
+        "managed_money_long_change",
+        "managed_money_short_change"
+      ],
+      "representation_rationale": "The retained PIT series has AR1 about 0.907 for net levels (effective N about 6.63) versus AR1 about 0.166 for weekly net changes (effective N about 96.47). Choosing weekly change is a pre-outcome effective-information decision, not outcome tuning."
+    },
+    {
+      "design_id": "exp-021-issued-weather-revisions",
+      "line_id": "003-weather",
+      "finding_ids": [
+        "issued-forecast-revision-literature-gap"
+      ],
+      "replication_class_target": "exploratory_mechanism_discovery",
+      "literature": [
+        "mu-2007",
+        "chen-hartley-lan-2023",
+        "liang-et-al-2022"
+      ],
+      "status_note": "The current primary literature inventory does not establish a Henry Hub return edge from vintage-over-vintage issued weather revisions. This is not a reproduction and cannot be counted as proof of a literature finding.",
+      "question": "Do same-valid-time changes between actually issued weather forecast vintages contain incremental Henry Hub response or leading information beyond forecast level and realized weather?",
+      "design_constraints": [
+        "actually issued immutable forecast vintages only",
+        "same-valid-time revision construction",
+        "availability timestamp proven before market cutoff",
+        "separate contemporaneous response from leading prediction",
+        "no reanalysis/realized-weather substitution",
+        "no outcome-driven geographic weighting"
+      ],
+      "pit_contract": {
+        "forecast_origin_or_event_time": "actual forecast issuance/availability timestamp",
+        "target_timestamp": "predeclared contemporaneous or future market window",
+        "source_release_timestamp": "actual issued-run availability",
+        "revision_policy": "immutable issued vintages; difference current versus immediately prior eligible vintage for same valid times",
+        "vintage_rule": "two eligible complete issued runs required",
+        "timezone": "UTC weather mapped to America/New_York market cutoff",
+        "contract_identity_and_roll_rule": "same listed contract or declared roll-safe target",
+        "availability_lag": "must precede predictive cutoff",
+        "evaluation_sample": "development-only exploration unless a later distinct literature-backed confirmatory hypothesis is authorized"
+      }
+    }
+  ],
+  "coverage": {
+    "strict_or_mechanism_reproduction_findings": [
+      "samuelson-maturity-volatility",
+      "seasonal-forward-curve",
+      "scarcity-volatility",
+      "inventory-forward-curve-scarcity",
+      "storage-change-surprise-price-response",
+      "storage-state-threshold-dynamics",
+      "weather-shock-returns-volatility",
+      "weather-asymmetry",
+      "fundamental-event-volatility",
+      "volatility-is-state-dependent",
+      "weather-enhanced-volatility-oos",
+      "balance-drivers-matter",
+      "lng-export-demand-channel",
+      "monthly-real-time-forecastability",
+      "oil-gas-linkage-regime-dependent",
+      "europe-us-transmission-limited",
+      "storage-announcement-price-discovery",
+      "announcement-day-return-puzzle",
+      "announcement-attention-release-day",
+      "positioning-is-secondary-hypothesis"
+    ],
+    "contextual_only_findings": [
+      "gas-connectedness-contemporaneous-and-congestion-sensitive"
+    ],
+    "literature_gap_explorations": [
+      "issued-forecast-revision-literature-gap"
+    ],
+    "unmapped_findings": []
+  },
+  "next_gate": "All five prior REDESIGN defects have been converted into source-coherent GO designs or a prerequisite HOLD. Current feasibility is 14 GO / 7 HOLD / 0 REDESIGN. Implement and verify GO machinery without empirical literature-result execution; HOLD releases remain governed by revisit-triggers.json and any empirical/freeze transition remains operator-gated."
+}

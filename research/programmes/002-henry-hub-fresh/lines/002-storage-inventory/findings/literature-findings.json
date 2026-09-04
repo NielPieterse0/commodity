@@ -1,0 +1,51 @@
+{
+    "schema_version":  1,
+    "level":  "L3",
+    "line_id":  "002-storage-inventory",
+    "findings":  [
+                     {
+                         "finding_id":  "scarcity-volatility",
+                         "claim":  "For natural gas, low inventory is associated with higher volatility especially in scarcity and winter states, rather than as a universal linear relation.",
+                         "expected_direction":  "below-normal inventory in winter -\u003e higher volatility",
+                         "sources":  [
+                                         {"source_id": "geman-ohana-2009"},
+                                         {"source_id": "ergen-rizvanoghlu-2016"}
+                                     ],
+                         "programme_status":  "external_literature_finding_not_yet_reproduced"
+                     },
+                     {
+                         "finding_id":  "inventory-forward-curve-scarcity",
+                         "claim":  "Natural-gas forward-curve shape contains information about physical scarcity and inventory state; after seasonal structure is accounted for, tighter inventories are associated with a stronger nearby scarcity signal in the curve rather than a universal linear convenience-yield coefficient.",
+                         "expected_direction":  "lower inventory -> stronger nearby-relative-price / backwardation scarcity signal",
+                         "sources":  [
+                                         {"source_id": "geman-ohana-2009", "scope": "direct oil-and-natural-gas evidence linking forward-curve shape, scarcity, inventory and volatility"}
+                                     ],
+                         "related_sources": [
+                                         {"source_id": "mirantes-et-al-2013", "scope": "direct energy-commodity evidence including Henry Hub on seasonal convenience-yield dynamics inferred from futures prices"}
+                                     ],
+                         "design_implication": "Reproduce the inventory/curve scarcity relationship directly from exact Henry Hub contract curves and storage state. Do not require an unobserved storage-cost series or label a futures-curve proxy as an exactly observed convenience yield.",
+                         "programme_status":  "external_literature_finding_not_yet_reproduced"
+                     },
+                     {
+                         "finding_id":  "storage-change-surprise-price-response",
+                         "claim":  "U.S. natural-gas futures prices respond inversely to weekly storage-change surprises (actual minus pre-release expected change); the surprise contains information beyond the absolute announcement magnitude.",
+                         "expected_direction":  "larger-than-expected build -\u003e lower futures price; larger-than-expected withdrawal -\u003e higher futures price",
+                         "sources":  [
+                                         {"source_id": "chiou-wei-linn-zhu-2014"},
+                                         {"source_id": "gay-simkins-turac-2009"}
+                                     ],
+                         "reproduction_requirement":  "Requires a historically fixed pre-release consensus or separately justified PIT expectation benchmark; storage actuals alone do not reproduce the published surprise construct.",
+                         "programme_status":  "external_literature_finding_not_yet_reproduced"
+                     },
+                     {
+                         "finding_id":  "storage-state-threshold-dynamics",
+                         "claim":  "U.S. natural-gas market dynamics are nonlinear in underground-storage state; structural shock responses are stronger in low-inventory environments and spot-futures relationships differ by inventory regime.",
+                         "expected_direction":  "low inventory -\u003e larger price response to shocks",
+                         "sources":  [
+                                         {"source_id": "rubaszek-uddin-2020"}
+                                     ],
+                         "design_implication":  "Treat storage state as a conditioning variable rather than assuming one linear storage coefficient. Announcement timing and trader-attention effects are owned by line 007 and may be cross-referenced by storage designs without duplicating the finding here.",
+                         "programme_status":  "external_literature_finding_not_yet_reproduced"
+                     }
+                 ]
+}

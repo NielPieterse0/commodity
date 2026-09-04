@@ -1,0 +1,41 @@
+{
+  "schema_version": 1,
+  "zoom_level": "L2",
+  "programme_id": "002-henry-hub-fresh",
+  "research_line_id": "004-volatility",
+  "legacy_research_line_ids": [],
+  "status": "active",
+  "selection_basis": "Fresh external-literature mapping under programme 002; no legacy internal result is used as scientific calibration or expected outcome.",
+  "stopping_rules": {
+    "empirical_execution_requires_operator_transition": true,
+    "protected_outcome_access": false
+  },
+  "big_picture": "This line tests announcement and state-dependent volatility as part of the wider goal of understanding Henry Hub before prediction or model selection.",
+  "why_zoomed_in": "Volatility is a downstream market response that should be decomposed by source-faithful state families before any predictive model is selected.",
+  "tested_role_target_horizon": "No literature outcome has been tested in programme 002. Current evidence covers literature mapping, source semantics, source capacity, dependence and feasibility only.",
+  "historical_facts": {
+    "observed": "External literature findings and source/design feasibility have been mapped; programme 002 has completed zero internal empirical reproductions.",
+    "rules_out": "Feasibility failures rule out the invalid source/design substitutions explicitly classified REDESIGN or HOLD; they do not establish a market null.",
+    "does_not_rule_out": "Source-faithful versions of the mapped mechanisms remain open until implementation is verified and empirical execution is separately authorized."
+  },
+  "useful_secondary_observations": [
+    "rep-009-announcement-volatility:go",
+    "rep-010-volatility-state-dependence:redesign",
+    "rep-011-weather-enhanced-volatility-oos:hold"
+  ],
+  "remaining_untested_roles": [
+    "rep-009-announcement-volatility",
+    "rep-010-volatility-state-dependence",
+    "rep-011-weather-enhanced-volatility-oos"
+  ],
+  "revisit_trigger": "Revisit empirical execution only after applicable HOLD/REDESIGN blockers are resolved, implementation/power contracts are verified, and the operator explicitly authorizes the transition.",
+  "programme_interpretation": "This line remains pre-empirical. Literature support is external evidence, not an internal programme result.",
+  "evidence_refs": [
+    "research/programmes/002-henry-hub-fresh/lines/004-volatility/findings/literature-findings.json",
+    "research/programmes/002-henry-hub-fresh/evidence-map.json",
+    "research/programmes/002-henry-hub-fresh/feasibility-ledger.json",
+    "research/programmes/002-henry-hub-fresh/feasibility-source-scan.json"
+  ],
+  "experiment_history": [],
+  "experiment_refs": []
+}

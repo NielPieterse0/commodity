@@ -1,7 +1,7 @@
 {
   "schema_version": 4,
   "change_id": "249-hypothesis-experiment-methodology",
-  "status": "active",
+  "status": "closed",
   "branch": "change/249-hypothesis-experiment-methodology",
   "worktree": ".work/worktrees/249-hypothesis-experiment-methodology",
   "base": "main",
@@ -43,7 +43,7 @@
     "data/**"
   ],
   "dependencies": ["244-post-v2-research-portfolio-closure"],
-  "integration_owner": "codex",
+  "integration_owner": null,
   "base_evidence": {
     "local_sha": "b6fdaa07b91166b66be47f6c6afb2ed6a44793a4",
     "local_tree": "dcea5d4bf59caff37b7eaa9d0d68d3847a46e174",
