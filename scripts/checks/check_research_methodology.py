@@ -158,13 +158,25 @@ def check_schema() -> None:
                 if legacy.is_file():
                     validate_document(ROOT / "contracts/legacy_experiment_record.schema.json", legacy)
     methodology = load_json(ROOT / "config/research_methodology.json")
-    if methodology.get("issue") != 300 or methodology.get("execution_authority") is not False:
-        raise ValueError("research_methodology.json must retain #300 identity and no trading authority")
+    if methodology.get("issue") != 320 or methodology.get("execution_authority") is not False:
+        raise ValueError("research_methodology.json must retain #320 identity and no trading authority")
     if methodology.get("new_exploratory_schema_version") != 3:
         raise ValueError("new exploratory research must use assurance-bound schema_version 3")
     confirmatory_requires = set(methodology.get("new_confirmatory_execution_requires", []))
-    if not {"verified_dataset_reconstruction", "verified_dataset_semantics"} <= confirmatory_requires:
-        raise ValueError("confirmatory methodology must require reconstruction and semantic verification")
+    if "preoutcome_dataset_assurance" not in confirmatory_requires:
+        raise ValueError("confirmatory methodology must require pre-outcome dataset assurance before outcome access")
+    if {"verified_dataset_reconstruction", "verified_dataset_semantics"} & confirmatory_requires:
+        raise ValueError("confirmatory outcome access must not require value-level assurance before unblinding")
+    result_requires = set(methodology.get("confirmatory_result_acceptance_requires", []))
+    expected_result_assurance = {
+        "post_unblinding_verified_dataset_reconstruction",
+        "post_unblinding_verified_dataset_semantics",
+        "post_unblinding_assurance_bound_to_frozen_preoutcome_identity",
+    }
+    if not expected_result_assurance <= result_requires:
+        raise ValueError("confirmatory results must require post-unblinding value and semantic assurance")
+    if methodology.get("confirmatory_preoutcome_assurance_method") != "structural_identity_contract_v1":
+        raise ValueError("confirmatory pre-outcome assurance method drifted")
     if tuple(methodology.get("lifecycle_stages", [])) != LIFECYCLE_STAGES:
         raise ValueError("research_methodology.json must declare the complete 15-stage lifecycle")
     record_schema = load_json(ROOT / "contracts/experiment_record.schema.json")

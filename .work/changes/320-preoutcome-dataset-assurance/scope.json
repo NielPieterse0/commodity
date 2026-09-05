@@ -1,0 +1,55 @@
+{
+  "schema_version": 4,
+  "change_id": "320-preoutcome-dataset-assurance",
+  "status": "active",
+  "branch": "change/320-preoutcome-dataset-assurance",
+  "worktree": ".work/worktrees/320-preoutcome-dataset-assurance",
+  "base": "main",
+  "outcome": "Split confirmatory dataset assurance into a pre-outcome freeze-safe structural identity stage and a post-unblinding value-level empirical stage, preserving the scientific outcome blind while retaining exact reconstruction and semantic verification before results are accepted.",
+  "owned_paths": [
+    ".work/changes/320-preoutcome-dataset-assurance/**",
+    "src/commodity/data_assurance.py",
+    "src/commodity/cli.py",
+    "src/commodity/research_methodology.py",
+    "config/research_methodology.json",
+    "config/rule_verification.json",
+    "contracts/results.schema.json",
+    "scripts/checks/check_data_assurance_contract.py",
+    "scripts/checks/check_research_methodology.py",
+    "tests/data/test_preoutcome_data_assurance.py",
+    "tests/repository/test_cli.py",
+    "docs/research-methodology.md",
+    "docs/reference/config/research_methodology.md",
+    "docs/rule-verification.md"
+  ],
+  "shared_paths": [],
+  "excluded_paths": [
+    "research/programmes/002-henry-hub-fresh/**",
+    "src/commodity/providers/databento_futures.py",
+    "tests/providers/test_databento_futures_provider.py",
+    "tests/research/**",
+    "data/**",
+    "artifacts/**"
+  ],  "dependencies": [],
+  "integration_owner": null,
+  "complexity": "medium",
+  "risk_triggers": ["public_contract"],
+  "base_evidence": {
+    "local_sha": "b8d869ea7e597b9958d6deb6f0ffe2d35b94b102",
+    "local_tree": "e08ea0a0220941f611cdc82ef8c06f76162ec3c1",
+    "upstream_sha": "b8d869ea7e597b9958d6deb6f0ffe2d35b94b102",
+    "upstream_tree": "e08ea0a0220941f611cdc82ef8c06f76162ec3c1",
+    "upstream_ref": "refs/remotes/origin/main",
+    "evidence_source": "verified_github_default_branch",
+    "relation": "same_sha"
+  },
+  "work_management": {
+    "project_id": "commodity",
+    "record_id": "BUG-320",
+    "source_repository": "NielPieterse0/commodity",
+    "source_number": 320,
+    "source_kind": "issue",
+    "documentation_impact": "planned",
+    "execution_owner": "agent-A"
+  }
+}

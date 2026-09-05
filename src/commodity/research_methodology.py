@@ -10,6 +10,11 @@ from typing import Any
 
 from jsonschema import Draft202012Validator
 
+from commodity.data_assurance import (
+    DataAssuranceError,
+    assert_post_unblinding_research_ready,
+    assert_research_ready,
+)
 from commodity.provenance import canonical_json_bytes
 
 
@@ -506,6 +511,19 @@ def verify_results(prereg: dict[str, Any], results: dict[str, Any]) -> dict[str,
     )
     for observed, expected, label in identities:
         _require(observed == expected, f"results execution identity mismatch: {label}")
+    result_data = results.get("data", {})
+    assurance_sha = result_data.get("dataset_assurance_sha256")
+    if assurance_sha is not None:
+        _require(
+            isinstance(assurance_sha, str) and len(assurance_sha) == 64,
+            "results dataset assurance identity is invalid",
+        )
+    preoutcome_sha = result_data.get("preoutcome_assurance_sha256")
+    if preoutcome_sha is not None:
+        _require(
+            isinstance(preoutcome_sha, str) and len(preoutcome_sha) == 64,
+            "results pre-outcome assurance identity is invalid",
+        )
     method = results.get("method_compliance")
     _require(method in {"VERIFIED", "FAILED", "INCOMPLETE"}, "invalid method compliance")
     raw = results.get("raw_evidence")
@@ -763,6 +781,59 @@ def render_executive_summary_from_interpretation(text: str, prereg: dict[str, An
     return render_executive_summary(sections)
 
 
+def _expected_confirmatory_dataset_identity(prereg: dict[str, Any]) -> dict[str, str]:
+    dataset = prereg["datasets"][0]
+    return {
+        "dataset_id": str(dataset.get("id", "")),
+        "vintage_id": str(dataset.get("vintage", "")),
+        "split_id": str(dataset.get("split_id", "")),
+    }
+
+
+def validate_post_unblinding_dataset_assurance(
+    prereg: dict[str, Any],
+    freeze_record: dict[str, Any],
+    dataset_manifest: dict[str, Any],
+) -> dict[str, Any]:
+    expected = _expected_confirmatory_dataset_identity(prereg)
+    observed = {
+        "dataset_id": str(dataset_manifest.get("dataset_id", "")),
+        "vintage_id": str(dataset_manifest.get("vintage_id", "")),
+        "split_id": str(dataset_manifest.get("split_id", "")),
+    }
+    _require(observed == expected, "post-unblinding dataset manifest identity does not match preregistration")
+    assurance = dataset_manifest.get("data_assurance")
+    freeze_schema = int(freeze_record.get("schema_version", 1))
+    try:
+        if freeze_schema >= 3:
+            frozen = freeze_record.get("dataset_assurance") or {}
+            frozen_identity = {
+                "dataset_id": str(frozen.get("dataset_id", "")),
+                "vintage_id": str(frozen.get("vintage_id", "")),
+                "split_id": str(frozen.get("split_id", "")),
+            }
+            _require(frozen_identity == expected, "frozen pre-outcome dataset identity does not match preregistration")
+            frozen_assurance_sha = str(frozen.get("assurance_sha256", ""))
+            ready = assert_post_unblinding_research_ready(
+                assurance,
+                preoutcome_assurance_sha256=frozen_assurance_sha,
+            )
+        else:
+            ready = assert_research_ready(assurance)
+    except DataAssuranceError as exc:
+        raise MethodologyError(f"post-unblinding dataset assurance is invalid: {exc}") from exc
+    return {
+        "status": "verified",
+        "dataset_id": expected["dataset_id"],
+        "vintage_id": expected["vintage_id"],
+        "split_id": expected["split_id"],
+        "assurance_sha256": ready["assurance_sha256"],
+        "preoutcome_assurance_sha256": ready.get("preoutcome_assurance_sha256"),
+        "reconstruction_status": ready["reconstruction_status"],
+        "semantic_status": ready["semantic_status"],
+    }
+
+
 def assert_confirmatory_execution_allowed(
     prereg: dict[str, Any],
     freeze_record: dict[str, Any],
@@ -773,7 +844,29 @@ def assert_confirmatory_execution_allowed(
     prereg_sha = verification["prereg_sha256"]
     _require(freeze_record.get("frozen") is True, "confirmatory experiment is not frozen")
     _require(freeze_record.get("experiment_id") == prereg["experiment_id"], "freeze experiment_id mismatch")
-    if int(freeze_record.get("schema_version", 1)) >= 2:
+    freeze_schema = int(freeze_record.get("schema_version", 1))
+    if freeze_schema >= 3:
+        assurance = freeze_record.get("dataset_assurance") or {}
+        expected_identity = _expected_confirmatory_dataset_identity(prereg)
+        frozen_identity = {
+            "dataset_id": str(assurance.get("dataset_id", "")),
+            "vintage_id": str(assurance.get("vintage_id", "")),
+            "split_id": str(assurance.get("split_id", "")),
+        }
+        _require(frozen_identity == expected_identity, "confirmatory pre-outcome dataset identity mismatch")
+        _require(assurance.get("assurance_stage") == "pre_outcome", "confirmatory freeze lacks pre-outcome dataset assurance")
+        _require(assurance.get("outcome_access_state") == "not_accessed", "confirmatory freeze does not preserve the pre-outcome boundary")
+        _require(
+            isinstance(assurance.get("assurance_sha256"), str)
+            and len(assurance["assurance_sha256"]) == 64,
+            "confirmatory pre-outcome assurance identity is missing",
+        )
+        manifest_sha = assurance.get("manifest_sha256")
+        _require(
+            isinstance(manifest_sha, str) and len(manifest_sha) == 64,
+            "confirmatory pre-outcome manifest identity is missing",
+        )
+    elif freeze_schema >= 2:
         assurance = freeze_record.get("dataset_assurance") or {}
         _require(
             assurance.get("reconstruction_status") == "verified",
