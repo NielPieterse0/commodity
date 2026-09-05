@@ -53,8 +53,8 @@
     },
     "observed_weather": {
       "source_id": "noaa_observed_weather",
-      "status": "public_source_route_verified_not_acquired",
-      "semantics": "GHCN-Daily observations plus fixed NOAA daily climate normals for historical-truth weather reproduction only; not a substitute for issued forecasts or PIT prediction."
+      "status": "reconstruction_contract_defined_acquisition_pending",
+      "semantics": "Tier C NOAA GHCN-Daily near reconstruction is now governed by a predeclared Richman-Lamb-style station/substitution contract and rolling prior-30-year climatology. Fixed NOAA 1991-2020 normals are Tier D robustness only. Observed weather is descriptive historical truth, never an issued-forecast substitute."
     }
   },
   "missing_or_unproven_inputs": [
@@ -65,12 +65,22 @@
         "rep-018-announcement-day-return-puzzle",
         "rep-019-friday-attention-effect"
       ],
-      "status": "source_faithful_bloomberg_route_identified_subscription_history_audit_required",
+      "status": "bloomberg_pit_public_contract_resolved_entitled_key_resolution_pending",
       "candidate_source_ids": [
         "US-STORAGE-CONSENSUS",
         "LIT-GKS-ATTENTION-DATA"
       ],
-      "rule": "Must be historically fixed and demonstrably published before each EIA release. Bloomberg is the source-faithful expectation route for Chiou-Wei/Linn/Zhu and the underlying Bloomberg survey family is also used by Gay/Simkins/Turac; Gu/Kurov/Stan state their study uses Genesis plus Bloomberg. Platts is a separately labeled independent analyst-survey route and Estimize a distinct forecaster-population comparator. Actual storage change, later analyst histories, or fitted expectations are not substitutes."
+      "rule": "Public source discovery is complete: use Bloomberg Economic Releases and Surveys Point-in-Time (PiT) for aggregate release-time consensus, with Individual Economist Estimates/ECOS where contributor-level Gay-Simkins-Turac reconstruction is required. Remaining work is entitled legacy-key resolution and extraction validation; actual storage change, revised/future-known consensus, fitted expectations, Platts, or Estimize cannot silently substitute for the required Bloomberg population.",
+      "entitled_extraction_acceptance": [
+        "resolve DOENUSCH, pre-2003 EIA, and pre-May-2002 AGA survey identities to PiT event keys",
+        "bind event and target-period identity",
+        "bind scheduled and actual release timestamps",
+        "select last survey state strictly before release using survey/change timestamps",
+        "extract required mean/median/high/low/count/dispersion fields where available",
+        "prove continuous source-window coverage",
+        "bind contributor identity and estimate/update timestamps where microdata are required",
+        "record immutable extract identity and licensing constraints"
+      ]
     },
     {
       "input_id": "lng_capacity_and_feedgas",
@@ -133,8 +143,8 @@
     },
     {
       "design_id": "rep-003-storage-surprise-response",
-      "source_readiness": "HOLD_BLOOMBERG_HISTORY_LICENSE_FIDELITY_AUDIT",
-      "reason": "The source-faithful expectation series is now identified: Chiou-Wei/Linn/Zhu use Bloomberg weekly consensus analyst forecasts, and Gay/Simkins/Turac build their analyst database from Bloomberg surveys. Feasibility remains HOLD until historical subscription access, extractability, timestamp fixity and coverage are proven. Platts/Estimize are independent alternatives, not silent exact substitutes."
+      "source_readiness": "HOLD_ENTITLED_BLOOMBERG_PIT_EXTRACTION",
+      "reason": "Bloomberg public source/product ambiguity is resolved. The remaining fail-closed gate is entitled PiT/ECOS key resolution and extraction proving the last valid survey state before each release, field semantics, coverage, and immutable extract identity."
     },
     {
       "design_id": "rep-004-storage-state-nonlinearity",
@@ -153,13 +163,13 @@
     },
     {
       "design_id": "rep-007-weather-return-volatility-response",
-      "source_readiness": "READY_FOR_IMPLEMENTATION_SOURCE_ROUTE",
-      "reason": "Official NOAA GHCN-Daily plus daily-normal route resolves the issued-versus-observed source mismatch; acquire/pin stations and weighting before outcome access."
+      "source_readiness": "READY_FOR_TIER_C_NOAA_RECONSTRUCTION_ACQUISITION",
+      "reason": "The reconstruction method is now fixed: NOAA observations feed a predeclared Richman-Lamb-style station screen/selection/substitution lineage and rolling prior-30-year climatology. Missing original seeds downgrade fidelity rather than block reconstruction. Acquisition/hash binding and pre-outcome cell/power counts remain."
     },
     {
       "design_id": "rep-008-weather-season-sign-asymmetry",
-      "source_readiness": "READY_FOR_IMPLEMENTATION_SOURCE_ROUTE",
-      "reason": "Uses the same observed-weather route as rep-007; fixed season/sign cells and cell power remain implementation gates."
+      "source_readiness": "READY_FOR_ERGEN_PRECURSOR_RECONSTRUCTION_ACQUISITION",
+      "reason": "The Rice dissertation supplies an executable precursor construction: Chicago/New York/Atlanta/Dallas weights 0.42/0.28/0.17/0.13, seven-day shocks, prior-30-year seasonal normals, and ARIMA(1,2,1) on 500 calendar days for OOS weather forecasts. Reconstruct with NOAA and label final-2016 continuity unverified rather than blocking execution."
     },
     {
       "design_id": "rep-009-announcement-volatility",
@@ -208,13 +218,13 @@
     },
     {
       "design_id": "rep-018-announcement-day-return-puzzle",
-      "source_readiness": "PARTIAL_READY_BLOOMBERG_CONSENSUS_AUDIT",
-      "reason": "The announcement-day return contrast is supportable now. Full near replication still needs a verified pre-release surprise series; Bloomberg is now the preferred source-faithful consensus family for the surrounding storage-surprise literature, with Platts/Estimize retained only as explicitly independent alternatives. Historical fixity, coverage and licensing still require audit."
+      "source_readiness": "PARTIAL_READY_ENTITLED_BLOOMBERG_PIT_EXTRACTION",
+      "reason": "The announcement-day contrast remains supportable; the full surprise-based near replication now has a resolved Bloomberg PiT source family and waits only on entitled legacy-key/extract validation under the rep-003 contract."
     },
     {
       "design_id": "rep-019-friday-attention-effect",
-      "source_readiness": "HOLD_EXACT_DATA_SUBSCRIPTION_AND_POWER_AUDIT",
-      "reason": "Gu/Kurov/Stan identify Genesis Financial Technologies plus Bloomberg as their study data, both subscription sources. Exact replication therefore requires those data or a verified equivalent entitlement. Databento plus an independently sourced consensus can support a separately labeled near replication, but power remains a hard gate because Friday-shifted releases are sparse."
+      "source_readiness": "HOLD_ENTITLED_SOURCE_EXTRACTION_AND_POWER",
+      "reason": "Exact-study Genesis/Bloomberg data remain subscription-gated, but an independently reconstructed Databento + entitled Bloomberg PiT near-replication route is now specified. Remaining gates are entitled extraction/key validation and a pre-outcome power check for sparse Friday-shifted releases."
     },
     {
       "design_id": "rep-020-positioning-incremental-information",
@@ -300,7 +310,7 @@
     "Resolve the six source/context/power HOLD gates through revisit-triggers.json.",
     "Return to the operator before any empirical literature-result execution, preregistration freeze, sealing, protected-evidence opening or confirmation transition."
   ],
-  "next_action": "All prior REDESIGN defects are resolved in design. Implement/verify the fourteen GO routes; seven HOLD routes remain blocked. No empirical literature-result execution or freeze transition is authorized.",
+  "next_action": "Acquire and hash the governed NOAA Tier C reconstruction inputs for rep-007/008; resolve entitled Bloomberg PiT/ECOS legacy keys and last-pre-release survey states for rep-003/018/019; preserve all empirical execution and protected-evidence gates.",
   "implementation_contracts_ref": "implementation-contracts.json",
   "implementation_status": {
     "go_designs_mapped": 14,

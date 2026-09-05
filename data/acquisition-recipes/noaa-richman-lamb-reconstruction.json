@@ -1,0 +1,83 @@
+{
+  "schema_version": 1,
+  "recipe_id": "noaa-richman-lamb-reconstruction",
+  "content_class": "data-evidence",
+  "source_identity": "NOAA NCEI GHCN-Daily observed-weather reconstruction inputs",
+  "request": {
+    "method": "GET",
+    "url": "https://www.ncei.noaa.gov/pub/data/ghcn/daily/ghcnd-stations.txt",
+    "query": {},
+    "headers": {},
+    "role": "station_catalog_bootstrap"
+  },
+  "parameters": {},
+  "companion_requests": [
+    {
+      "role": "element_coverage_inventory",
+      "url": "https://www.ncei.noaa.gov/pub/data/ghcn/daily/ghcnd-inventory.txt"
+    },
+    {
+      "role": "dataset_version",
+      "url": "https://www.ncei.noaa.gov/pub/data/ghcn/daily/ghcnd-version.txt"
+    },
+    {
+      "role": "dataset_documentation",
+      "url": "https://www.ncei.noaa.gov/pub/data/ghcn/daily/readme.txt"
+    },
+    {
+      "role": "station_merge_lineage",
+      "url": "https://www.ncei.noaa.gov/pub/data/ghcn/daily/mingle-list.txt"
+    }
+  ],
+  "station_observation_request": {
+    "method": "GET",
+    "url_template": "https://www.ncei.noaa.gov/pub/data/ghcn/daily/by_station/{station_id}.csv.gz",
+    "station_id_rule": "Only station IDs selected by the frozen reconstruction manifest may be requested."
+  },
+  "reconstruction_contract": {
+    "target_grid": "1 degree latitude x 1 degree longitude for Richman-Lamb-style Tier C reconstruction where that literature geography is required",
+    "minimum_temperature_history_years": 25,
+    "candidate_ranking": [
+      "temperature record completeness",
+      "available NOAA station stability/move metadata",
+      "distance to the predeclared target location"
+    ],
+    "substitution": "Freeze primary, secondary and tertiary station lineage before market-outcome access; use secondary/tertiary observations only for eligible primary gaps.",
+    "quality_control": "Honor NOAA measurement and quality flags. Exclusions and substitutions must be deterministic and outcome-blind.",
+    "temperature_units": "Normalize GHCN-Daily TMAX/TMIN from tenths of degrees C to degrees C before derived calculations.",
+    "daily_mean": "Use (TMAX + TMIN) / 2 when a source-study-compatible daily mean must be derived and both values are valid.",
+    "source_study_climatology": "For each calendar day and target year, use the prior 30 years of bound observed temperature under the same frozen station/substitution rule; do not substitute fixed 1991-2020 normals.",
+    "modern_robustness_climatology": "NOAA U.S. Daily Climate Normals 1991-2020 may be used only as Tier D robustness and must carry that label.",
+    "missing_original_metadata_rule": "Missing original Richman-Lamb seed/export or move-history detail downgrades fidelity to Tier C; it does not block deterministic NOAA reconstruction and must not be repaired using outcome information."
+  },
+  "snapshot_contract": {
+    "required_hashes": [
+      "ghcnd-stations.txt",
+      "ghcnd-inventory.txt",
+      "ghcnd-version.txt",
+      "readme.txt",
+      "mingle-list.txt",
+      "each selected by-station observation file",
+      "frozen station-selection/substitution manifest",
+      "derived climatology artifact"
+    ],
+    "required_lineage_fields": [
+      "retrieved_at",
+      "source_url",
+      "content_sha256",
+      "station_id",
+      "station_role",
+      "target_location_or_grid_cell",
+      "selection_rank_inputs",
+      "substitution_reason",
+      "quality_flags",
+      "fidelity_tier"
+    ]
+  },
+  "fidelity_policy": {
+    "default_reconstruction_tier": "tier_c_noaa_near_reconstruction",
+    "upgrade_rule": "Upgrade only when higher-fidelity original artifact or seed/station lineage is actually recovered and hash-bound.",
+    "no_outcome_tuning": true,
+    "issued_forecast_substitution_allowed": false
+  }
+}

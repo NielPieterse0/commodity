@@ -1,0 +1,38 @@
+{
+  "schema_version": 4,
+  "change_id": "318-henry-hub-source-enablement",
+  "status": "active",
+  "branch": "change/318-henry-hub-source-enablement",
+  "worktree": ".work/worktrees/318-henry-hub-source-enablement",
+  "base": "main",
+  "outcome": "Implement and close WORK-318 by replacing the false observed-weather source-fidelity assumption with a governed Richman-Lamb reconstruction route, recording the executable Ergen precursor construction and Bloomberg PiT entitlement boundary, and updating Programme 002 source-readiness evidence without opening empirical outcomes.",
+  "owned_paths": [
+    ".work/changes/318-henry-hub-source-enablement/**",
+    "research/programmes/002-henry-hub-fresh/**",
+    "config/data_sources.json",
+    "data/acquisition-recipes/noaa-richman-lamb-reconstruction.json",
+    "tests/research/test_henry_hub_fresh_designs.py",
+    "docs/data-manifest.md",
+    "docs/reference/config/data_sources.md",
+    "docs/reference/data/acquisition-recipes/noaa-richman-lamb-reconstruction.md",
+    "docs/reference/research/programmes/002-henry-hub-fresh/experiment-setup.md",
+    "docs/reference/README.md"
+  ],
+  "shared_paths": [],
+  "excluded_paths": [],
+  "dependencies": [],
+  "integration_owner": null,
+  "complexity": "large",
+  "risk_triggers": [
+    "public_contract"
+  ],
+  "base_evidence": {
+    "local_sha": "b8d869ea7e597b9958d6deb6f0ffe2d35b94b102",
+    "local_tree": "e08ea0a0220941f611cdc82ef8c06f76162ec3c1",
+    "upstream_sha": "b8d869ea7e597b9958d6deb6f0ffe2d35b94b102",
+    "upstream_tree": "e08ea0a0220941f611cdc82ef8c06f76162ec3c1",
+    "upstream_ref": "refs/remotes/origin/main",
+    "evidence_source": "local_remote_tracking_ref",
+    "relation": "same_sha"
+  }
+}

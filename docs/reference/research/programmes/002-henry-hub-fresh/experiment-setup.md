@@ -14,7 +14,7 @@ Source: `research/programmes/002-henry-hub-fresh/experiment-setup.json`
 | `feasibility_authority_ref` | evidence-map.json |
 | `supporting_feasibility_detail_ref` | feasibility-ledger.json |
 | `source_feasibility_scan_ref` | .work/changes/289-l0-l3-henry-hub-research/feasibility-scan.json |
-| `next_action` | All prior REDESIGN defects are resolved in design. Implement/verify the fourteen GO routes; seven HOLD routes remain blocked. No empirical literature-result execution or freeze transition is authorized. |
+| `next_action` | Acquire and hash the governed NOAA Tier C reconstruction inputs for rep-007/008; resolve entitled Bloomberg PiT/ECOS legacy keys and last-pre-release survey states for rep-003/018/019; preserve all empirical execution and protected-evidence gates. |
 | `implementation_contracts_ref` | implementation-contracts.json |
 
 ## Structure
