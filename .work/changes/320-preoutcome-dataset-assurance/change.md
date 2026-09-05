@@ -2,7 +2,7 @@
 
 ## Status
 
-Implementation verified for GitHub issue #320; publication and merge pending.
+Implementation merged through PR #322; post-merge closeout reconciliation pending.
 
 ## Decision
 
