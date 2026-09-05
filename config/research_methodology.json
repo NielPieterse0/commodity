@@ -1,8 +1,8 @@
 {
-  "schema_version": 3,
-  "methodology_id": "literature-anchored-research-lifecycle-v3",
-  "issue": 300,
-  "supersedes_issue": 273,
+  "schema_version": 4,
+  "methodology_id": "literature-anchored-research-lifecycle-v4",
+  "issue": 320,
+  "supersedes_issue": 300,
   "status": "active_for_new_research_after_merge",
   "lifecycle_stages": [
     "helicopter_view",
@@ -32,9 +32,13 @@
     "programme_inference_registration",
     "revisit_trigger_preflight",
     "sealed_window_eligibility_if_used",
-    "remote_bound_preregistration_freeze",
-    "verified_dataset_reconstruction",
-    "verified_dataset_semantics"
+    "preoutcome_dataset_assurance",
+    "remote_bound_preregistration_freeze"
+  ],
+  "confirmatory_result_acceptance_requires": [
+    "post_unblinding_verified_dataset_reconstruction",
+    "post_unblinding_verified_dataset_semantics",
+    "post_unblinding_assurance_bound_to_frozen_preoutcome_identity"
   ],
   "new_exploratory_execution_requires": [
     "schema_version_3",
@@ -42,6 +46,7 @@
     "verified_dataset_semantics",
     "immutable_data_assurance_manifest"
   ],
+  "confirmatory_preoutcome_assurance_method": "structural_identity_contract_v1",
   "dataset_reconstruction_verification_method": "deterministic_rebuild_exact_comparison",
   "dataset_semantic_verification_method": "explicit_dataset_semantics_v1",
   "legacy_exploratory_schema_versions": [
@@ -201,21 +206,21 @@
       "stage_id": "preregister_and_freeze_if_applicable",
       "zoom_level": "L3",
       "stage": "Governed implementation + preregister and freeze if applicable",
-      "required_outcome": "Implement and verify the exact runnable design, then preregister/freeze and remotely bind any confirmatory commitment before protected execution."
+      "required_outcome": "Implement and verify the exact runnable design, bind outcome-blind dataset identity/schema/time/PIT/reconstruction machinery and structural invariants, then preregister/freeze and remotely bind the confirmatory commitment before protected outcome access."
     },
     {
       "step": 10,
       "stage_id": "execute",
       "zoom_level": "L4",
       "stage": "Execute",
-      "required_outcome": "Run exactly the governed exploratory or frozen confirmatory design and preserve raw machine result evidence before interpretation."
+      "required_outcome": "Only after the remote freeze and pre-outcome assurance authorize access, run exactly the governed exploratory or frozen confirmatory design and preserve raw machine result evidence before interpretation."
     },
     {
       "step": 11,
       "stage_id": "verify",
       "zoom_level": "L4",
       "stage": "Verify",
-      "required_outcome": "Verify identities, data assurance, leakage controls, confirmation eligibility/accounting, reproduction and objective evidence classification without narrative promotion."
+      "required_outcome": "After authorized unblinding, verify exact reconstructed rows/values and explicit dataset semantics bound to the frozen pre-outcome assurance identity, then verify leakage controls, confirmation eligibility/accounting, reproduction and objective evidence classification without narrative promotion."
     },
     {
       "step": 12,
@@ -596,8 +601,9 @@
         "allocate/register programme inference entry",
         "validate reserved-confirmation/sealed-window policy and eligibility",
         "refuse an uninformative design",
+        "bind outcome-blind dataset identity, source/version, schema, timestamp semantics, contract mapping, PIT rules, deterministic reconstruction machinery, expected coverage and structural invariants without reading protected outcome values",
         "bind exact preregistration content to canonical SHA-256 and remote repository evidence",
-        "record immutable freeze identity and amendment lineage"
+        "record immutable freeze identity, pre-outcome assurance identity and amendment lineage"
       ],
       "preregistration_freeze_requirements": [
         "programme, research-line and slice identities plus evidence-scan and literature-snapshot references",
@@ -653,7 +659,7 @@
         "Released preregistration is immutable; amendments create a new identity that explicitly supersedes the previous one.",
         ".work is operational/change history, not scientific authority."
       ],
-      "completion_condition": "The experiment has a verified runnable repository implementation and an immutable remotely bound preregistration/freeze identity; only then may protected execution begin.",
+      "completion_condition": "The experiment has a verified runnable repository implementation, outcome-blind pre-outcome dataset assurance, and an immutable remotely bound preregistration/freeze identity; only then may protected outcome access and execution begin.",
       "stage_id": "preregister_and_freeze_if_applicable"
     },
     {
@@ -667,9 +673,10 @@
         "Write machine result evidence before human interpretation.",
         "Results point to the frozen preregistration identity; they do not rewrite it.",
         "Any deviation that changes the scientific question invalidates the run as confirmation and requires a new design identity.",
-        "For confirmatory work, use reserved confirmation only after the design is frozen and only under its declared eligibility/opening policy.",
+        "For confirmatory work, open protected outcomes only after the remotely bound freeze and pre-outcome dataset assurance authorize access under the declared eligibility/opening policy.",
+        "After unblinding, exact reconstructed rows/values and explicit dataset semantics must be verified and bound back to the frozen pre-outcome assurance before results are accepted.",
         "Exploratory runs remain explicitly exploratory and cannot be retroactively relabeled as confirmatory evidence.",
-        "Write results.json before interpretation.md; execution evidence must bind to the exact preregistration, code, data, features, model and environment identities."
+        "Write results.json before interpretation.md; execution evidence must bind to the exact preregistration, code, data, pre-outcome/post-unblinding assurance, features, model and environment identities."
       ],
       "required_output": {
         "artifact_ref": "research/programmes/<programme-id>/lines/<research-line-id>/experiments/<experiment-id>/results.json",
@@ -717,7 +724,7 @@
       ],
       "verification_requirements": [
         "verify schema, hashes, frozen-preregistration identity, code/data/feature/model/environment identities and declared cardinality/accounting",
-        "verify dataset reconstruction and semantic correctness, including source-bound data assurance where required",
+        "after authorized unblinding, verify exact dataset reconstruction and semantic correctness, including source-bound post-unblinding assurance cryptographically bound to the frozen pre-outcome assurance identity",
         "verify reserved-confirmation eligibility, opening number/permitted openings, exposed artifacts and whether those observations remain admissible for later claims",
         "verify benchmark output presence, MEPI/power arithmetic, inference-ledger membership and objectively encoded E-level rules",
         "verify reproduction under the declared logical or byte semantics and numerical tolerance contract"

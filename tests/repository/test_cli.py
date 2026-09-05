@@ -95,3 +95,39 @@ def test_experiment_audit_leakage_and_reproduce_parsers() -> None:
         "--tolerance", "tolerance.json",
     ])
     assert reproduce_args.byte is False
+
+
+def test_experiment_build_results_requires_post_unblinding_dataset_manifest() -> None:
+    args = build_parser().parse_args([
+        "experiment", "build-results",
+        "--prereg", "p.json",
+        "--freeze", "f.json",
+        "--dataset-manifest", "post-unblinding-manifest.json",
+        "--run-evidence", "run.json",
+        "--checks", "checks.json",
+        "--output", "results.json",
+    ])
+    assert args.dataset_manifest == Path("post-unblinding-manifest.json")
+
+
+def test_schema3_build_results_fails_closed_without_post_unblinding_manifest(monkeypatch) -> None:
+    payloads = iter([
+        {"experiment_id": "exp"},
+        {"schema_version": 3},
+        {"schema_version": 1},
+        {"schema_version": 1, "windows": []},
+    ])
+    monkeypatch.setattr(cli, "load_methodology_json", lambda _path: next(payloads))
+    monkeypatch.setattr(cli, "assert_confirmatory_execution_allowed", lambda *_args: {"allowed": True})
+    args = build_parser().parse_args([
+        "experiment", "build-results",
+        "--prereg", "p.json",
+        "--freeze", "f.json",
+        "--ledger", "ledger.json",
+        "--sealed-registry", "sealed.json",
+        "--run-evidence", "run.json",
+        "--checks", "checks.json",
+        "--output", "results.json",
+    ])
+    with pytest.raises(cli.MethodologyError, match="schema-v3 confirmatory results require"):
+        args.func(args)

@@ -95,6 +95,127 @@ def _assert_assurance_identity(assurance: dict[str, Any]) -> None:
         raise DataAssuranceError("research dataset assurance identity is invalid")
 
 
+def _require_sha256(value: Any, label: str) -> str:
+    digest = str(value)
+    if len(digest) != 64 or any(character not in "0123456789abcdefABCDEF" for character in digest):
+        raise DataAssuranceError(f"{label} lacks canonical SHA-256 identity")
+    return digest.lower()
+
+
+def build_preoutcome_assurance(
+    *,
+    dataset_identity: dict[str, Any],
+    source_inputs: list[dict[str, Any]],
+    schema_sha256: str,
+    timestamp_contract_sha256: str,
+    contract_mapping_sha256: str,
+    pit_rules_sha256: str,
+    transformation_sha256: dict[str, str],
+    expected_coverage: dict[str, Any],
+    structural_invariants: list[dict[str, Any]],
+) -> dict[str, Any]:
+    """Bind confirmatory dataset construction without inspecting protected values."""
+    _validate_contract_components(source_inputs, transformation_sha256)
+    required_identity = ("dataset_id", "vintage_id", "split_id")
+    if any(not str(dataset_identity.get(key, "")).strip() for key in required_identity):
+        raise DataAssuranceError("pre-outcome assurance requires dataset, vintage, and split identities")
+    if any(not str(source.get("id", "")).strip() for source in source_inputs):
+        raise DataAssuranceError("pre-outcome source input lacks stable identity")
+    if not isinstance(expected_coverage, dict) or not expected_coverage:
+        raise DataAssuranceError("pre-outcome assurance requires expected coverage")
+    if not isinstance(structural_invariants, list) or not structural_invariants:
+        raise DataAssuranceError("pre-outcome assurance requires structural invariants")
+    for invariant in structural_invariants:
+        if not isinstance(invariant, dict) or not str(invariant.get("name", "")).strip() or "expected" not in invariant:
+            raise DataAssuranceError("pre-outcome structural invariants require name and expected value")
+    contract = {
+        "schema_version": 1,
+        "assurance_stage": "pre_outcome",
+        "outcome_access_state": "not_accessed",
+        "dataset_identity": json.loads(json.dumps(dataset_identity, sort_keys=True, default=str)),
+        "source_inputs": json.loads(json.dumps(source_inputs, sort_keys=True, default=str)),
+        "schema_sha256": _require_sha256(schema_sha256, "dataset schema"),
+        "timestamp_contract_sha256": _require_sha256(timestamp_contract_sha256, "timestamp contract"),
+        "contract_mapping_sha256": _require_sha256(contract_mapping_sha256, "contract mapping"),
+        "pit_rules_sha256": _require_sha256(pit_rules_sha256, "PIT rules"),
+        "transformation_sha256": dict(sorted(transformation_sha256.items())),
+        "expected_coverage": json.loads(json.dumps(expected_coverage, sort_keys=True, default=str)),
+        "structural_invariants": json.loads(json.dumps(structural_invariants, sort_keys=True, default=str)),
+        "post_unblinding_requirement": "deterministic_rebuild_exact_comparison+explicit_dataset_semantics_v1",
+    }
+    contract["assurance_sha256"] = canonical_json_sha256(contract)
+    return assert_preoutcome_freeze_ready(contract)
+
+
+def assert_preoutcome_freeze_ready(assurance: dict[str, Any] | None) -> dict[str, Any]:
+    if not isinstance(assurance, dict):
+        raise DataAssuranceError("confirmatory dataset lacks pre-outcome data assurance")
+    allowed_fields = {
+        "schema_version",
+        "assurance_stage",
+        "outcome_access_state",
+        "dataset_identity",
+        "source_inputs",
+        "schema_sha256",
+        "timestamp_contract_sha256",
+        "contract_mapping_sha256",
+        "pit_rules_sha256",
+        "transformation_sha256",
+        "expected_coverage",
+        "structural_invariants",
+        "post_unblinding_requirement",
+        "assurance_sha256",
+    }
+    unknown_fields = sorted(set(assurance) - allowed_fields)
+    if unknown_fields:
+        raise DataAssuranceError(
+            "pre-outcome assurance contains fields outside the outcome-blind contract: "
+            + ", ".join(unknown_fields)
+        )
+    if assurance.get("schema_version") != 1 or assurance.get("assurance_stage") != "pre_outcome":
+        raise DataAssuranceError("confirmatory dataset pre-outcome assurance contract is invalid")
+    if assurance.get("outcome_access_state") != "not_accessed":
+        raise DataAssuranceError("pre-outcome assurance requires protected outcomes to remain unaccessed")
+    identity = assurance.get("dataset_identity")
+    if not isinstance(identity, dict) or any(
+        not str(identity.get(key, "")).strip() for key in ("dataset_id", "vintage_id", "split_id")
+    ):
+        raise DataAssuranceError("pre-outcome assurance requires dataset, vintage, and split identities")
+    source_inputs = assurance.get("source_inputs")
+    transformations = assurance.get("transformation_sha256")
+    if not isinstance(source_inputs, list) or not isinstance(transformations, dict):
+        raise DataAssuranceError("pre-outcome assurance construction identity is incomplete")
+    _validate_contract_components(source_inputs, transformations)
+    if any(not str(source.get("id", "")).strip() for source in source_inputs):
+        raise DataAssuranceError("pre-outcome source input lacks stable identity")
+    for source in source_inputs:
+        _require_sha256(source.get("sha256"), "pre-outcome source input")
+    for name, digest in transformations.items():
+        _require_sha256(digest, f"pre-outcome transformation {name}")
+    for key, label in (
+        ("schema_sha256", "dataset schema"),
+        ("timestamp_contract_sha256", "timestamp contract"),
+        ("contract_mapping_sha256", "contract mapping"),
+        ("pit_rules_sha256", "PIT rules"),
+    ):
+        _require_sha256(assurance.get(key), label)
+    coverage = assurance.get("expected_coverage")
+    if not isinstance(coverage, dict) or not coverage:
+        raise DataAssuranceError("pre-outcome assurance requires expected coverage")
+    invariants = assurance.get("structural_invariants")
+    if not isinstance(invariants, list) or not invariants:
+        raise DataAssuranceError("pre-outcome assurance requires structural invariants")
+    for invariant in invariants:
+        if not isinstance(invariant, dict) or not str(invariant.get("name", "")).strip() or "expected" not in invariant:
+            raise DataAssuranceError("pre-outcome structural invariants require name and expected value")
+    if assurance.get("post_unblinding_requirement") != (
+        "deterministic_rebuild_exact_comparison+explicit_dataset_semantics_v1"
+    ):
+        raise DataAssuranceError("pre-outcome assurance lacks post-unblinding empirical assurance requirement")
+    _assert_assurance_identity(assurance)
+    return assurance
+
+
 def build_construction_contract(
     *,
     source_inputs: list[dict[str, Any]],
@@ -298,6 +419,44 @@ def assert_research_ready(assurance: dict[str, Any] | None) -> dict[str, Any]:
         raise DataAssuranceError("research dataset semantic evidence identity is invalid")
     _assert_assurance_identity(assurance)
     return assurance
+
+
+def bind_post_unblinding_assurance(
+    assurance: dict[str, Any],
+    *,
+    preoutcome_assurance_sha256: str,
+) -> dict[str, Any]:
+    ready = assert_research_ready(assurance)
+    frozen_identity = _require_sha256(
+        preoutcome_assurance_sha256,
+        "pre-outcome assurance",
+    )
+    bound = json.loads(json.dumps(ready))
+    bound["assurance_stage"] = "post_unblinding_empirical"
+    bound["preoutcome_assurance_sha256"] = frozen_identity
+    bound.pop("assurance_sha256", None)
+    bound["assurance_sha256"] = canonical_json_sha256(bound)
+    return assert_post_unblinding_research_ready(
+        bound,
+        preoutcome_assurance_sha256=frozen_identity,
+    )
+
+
+def assert_post_unblinding_research_ready(
+    assurance: dict[str, Any] | None,
+    *,
+    preoutcome_assurance_sha256: str,
+) -> dict[str, Any]:
+    ready = assert_research_ready(assurance)
+    expected = _require_sha256(preoutcome_assurance_sha256, "pre-outcome assurance")
+    observed = ready.get("preoutcome_assurance_sha256")
+    if not isinstance(observed, str) or len(observed) != 64:
+        raise DataAssuranceError("post-unblinding assurance lacks pre-outcome assurance binding")
+    if observed.lower() != expected:
+        raise DataAssuranceError("post-unblinding assurance does not match frozen pre-outcome assurance")
+    if ready.get("assurance_stage") != "post_unblinding_empirical":
+        raise DataAssuranceError("post-unblinding assurance stage is invalid")
+    return ready
 
 
 def extend_verified_assurance(

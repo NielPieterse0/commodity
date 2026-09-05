@@ -90,6 +90,17 @@
             "null"
           ],
           "pattern": "^[0-9a-fA-F]{64}$"
+        },
+        "dataset_assurance_sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-fA-F]{64}$"
+        },
+        "preoutcome_assurance_sha256": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "pattern": "^[0-9a-fA-F]{64}$"
         }
       }
     },

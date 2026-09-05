@@ -33,9 +33,9 @@ This is the one authoritative end-to-end research workflow. Every governed exper
 | 6 | **L3** | Hypothesis | State the falsifiable H0 and H1 for the bounded slice before protected outcomes are used. |
 | 7 | **L3** | Expected and disconfirming observations | Freeze literature-derived expected and disconfirming observations and the practical-effect threshold before protected outcomes. |
 | 8 | **L3** | Feasibility | Test data fitness, dependence, effective information, MEPI, power and confirmation capacity; only an informative design may proceed. |
-| 9 | **L3** | Governed implementation + preregister and freeze if applicable | Implement and verify the exact runnable design, then preregister/freeze and remotely bind any confirmatory commitment before protected execution. |
-| 10 | **L4** | Execute | Run exactly the governed exploratory or frozen confirmatory design and preserve raw machine result evidence before interpretation. |
-| 11 | **L4** | Verify | Verify identities, data assurance, leakage controls, confirmation eligibility/accounting, reproduction and objective evidence classification without narrative promotion. |
+| 9 | **L3** | Governed implementation + preregister and freeze if applicable | Implement and verify the exact runnable design, bind outcome-blind dataset identity/schema/time/PIT/reconstruction machinery and structural invariants, then preregister/freeze and remotely bind the confirmatory commitment before protected outcome access. |
+| 10 | **L4** | Execute | Only after the remote freeze and pre-outcome assurance authorize access, run exactly the governed exploratory or frozen confirmatory design and preserve raw machine result evidence before interpretation. |
+| 11 | **L4** | Verify | After authorized unblinding, verify exact reconstructed rows/values and explicit dataset semantics bound to the frozen pre-outcome assurance identity, then verify leakage controls, confirmation eligibility/accounting, reproduction and objective evidence classification without narrative promotion. |
 | 12 | **L5** | Compare observed versus expected | Compare the preserved result explicitly with preregistered expectations, disconfirmers, MEPI and symmetric anomaly triggers. |
 | 13 | **L5** | External post-result triangulation | Perform a genuinely independent post-result literature/evidence check rather than reusing the preregistration snapshot. |
 | 14 | **L5 → L1/L2** | Programme conclusion | Retrace L4→L0, apply programme-level inference, update the evidence map and make the explicit advance/replicate/refine/branch/hold/stop disposition. |
@@ -437,8 +437,9 @@ MEPI — Minimum Effect of Practical Importance — is an L1/L2 programme quanti
 - allocate/register programme inference entry
 - validate reserved-confirmation/sealed-window policy and eligibility
 - refuse an uninformative design
+- bind outcome-blind dataset identity, source/version, schema, timestamp semantics, contract mapping, PIT rules, deterministic reconstruction machinery, expected coverage and structural invariants without reading protected outcome values
 - bind exact preregistration content to canonical SHA-256 and remote repository evidence
-- record immutable freeze identity and amendment lineage
+- record immutable freeze identity, pre-outcome assurance identity and amendment lineage
 
 ### What preregistration must freeze
 
@@ -509,7 +510,7 @@ Required identity:
 
 Bitwise equality is not universal scientific proof; the experiment must declare whether logical or byte reproduction is authoritative for each governed output.
 
-**Completion condition:** The experiment has a verified runnable repository implementation and an immutable remotely bound preregistration/freeze identity; only then may protected execution begin.
+**Completion condition:** The experiment has a verified runnable repository implementation, outcome-blind pre-outcome dataset assurance, and an immutable remotely bound preregistration/freeze identity; only then may protected outcome access and execution begin.
 
 ## Step 10: Execute
 
@@ -523,9 +524,10 @@ Bitwise equality is not universal scientific proof; the experiment must declare 
 - Write machine result evidence before human interpretation.
 - Results point to the frozen preregistration identity; they do not rewrite it.
 - Any deviation that changes the scientific question invalidates the run as confirmation and requires a new design identity.
-- For confirmatory work, use reserved confirmation only after the design is frozen and only under its declared eligibility/opening policy.
+- For confirmatory work, open protected outcomes only after the remotely bound freeze and pre-outcome dataset assurance authorize access under the declared eligibility/opening policy.
+- After unblinding, exact reconstructed rows/values and explicit dataset semantics must be verified and bound back to the frozen pre-outcome assurance before results are accepted.
 - Exploratory runs remain explicitly exploratory and cannot be retroactively relabeled as confirmatory evidence.
-- Write results.json before interpretation.md; execution evidence must bind to the exact preregistration, code, data, features, model and environment identities.
+- Write results.json before interpretation.md; execution evidence must bind to the exact preregistration, code, data, pre-outcome/post-unblinding assurance, features, model and environment identities.
 
 ### Required output
 
@@ -555,7 +557,7 @@ Artifact: `research/programmes/<programme-id>/lines/<research-line-id>/experimen
 ### Verification requirements
 
 - verify schema, hashes, frozen-preregistration identity, code/data/feature/model/environment identities and declared cardinality/accounting
-- verify dataset reconstruction and semantic correctness, including source-bound data assurance where required
+- after authorized unblinding, verify exact dataset reconstruction and semantic correctness, including source-bound post-unblinding assurance cryptographically bound to the frozen pre-outcome assurance identity
 - verify reserved-confirmation eligibility, opening number/permitted openings, exposed artifacts and whether those observations remain admissible for later claims
 - verify benchmark output presence, MEPI/power arithmetic, inference-ledger membership and objectively encoded E-level rules
 - verify reproduction under the declared logical or byte semantics and numerical tolerance contract
@@ -815,9 +817,8 @@ Frozen preregistration and bound evidence identities are not rewritten after obs
 - `programme_inference_registration`
 - `revisit_trigger_preflight`
 - `sealed_window_eligibility_if_used`
+- `preoutcome_dataset_assurance`
 - `remote_bound_preregistration_freeze`
-- `verified_dataset_reconstruction`
-- `verified_dataset_semantics`
 
 ## Human and machine responsibilities
 

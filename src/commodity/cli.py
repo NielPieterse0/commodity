@@ -17,7 +17,7 @@ from commodity.config import (
     simulation_config,
 )
 from commodity.data import YFinanceMarketDataSource, save_raw
-from commodity.data_assurance import assert_research_ready
+from commodity.data_assurance import assert_preoutcome_freeze_ready
 from commodity.market_data import canonical_market_readiness, resolve_market_source
 from commodity.policy import assert_model_cannot_submit_orders
 from commodity.provenance import sha256_file, utc_now, write_json
@@ -38,6 +38,7 @@ from commodity.research_methodology import (
     update_programme_evidence_map,
     update_research_line,
     validate_inference_ledger,
+    validate_post_unblinding_dataset_assurance,
     validate_programme_context,
     validate_sealed_policy,
     verify_lineage,
@@ -267,9 +268,23 @@ def _experiment_freeze(args: argparse.Namespace) -> None:
     binding = verify_remote_prereg_binding(REPO_ROOT, Path(args.prereg), args.tag, args.remote)
     dataset_manifest_path = Path(args.dataset_manifest)
     dataset_manifest = load_methodology_json(dataset_manifest_path)
-    assurance = assert_research_ready(dataset_manifest.get("data_assurance"))
+    assurance = assert_preoutcome_freeze_ready(dataset_manifest.get("preoutcome_data_assurance"))
+    expected_dataset = prereg["datasets"][0]
+    identity = assurance["dataset_identity"]
+    expected_identity = {
+        "dataset_id": str(expected_dataset.get("id", "")),
+        "vintage_id": str(expected_dataset.get("vintage", "")),
+        "split_id": str(expected_dataset.get("split_id", "")),
+    }
+    observed_identity = {
+        "dataset_id": str(identity.get("dataset_id", "")),
+        "vintage_id": str(identity.get("vintage_id", "")),
+        "split_id": str(identity.get("split_id", "")),
+    }
+    if observed_identity != expected_identity:
+        raise MethodologyError("pre-outcome dataset assurance identity does not match preregistration")
     record = {
-        "schema_version": 2,
+        "schema_version": 3,
         "experiment_id": args.experiment_id,
         "frozen": True,
         "prereg_sha256": verification["prereg_sha256"],
@@ -282,13 +297,14 @@ def _experiment_freeze(args: argparse.Namespace) -> None:
         "evidence_scan": evidence_scan,
         "literature_snapshot": literature_snapshot,
         "dataset_assurance": {
-            "dataset_id": dataset_manifest.get("dataset_id"),
-            "dataset_sha256": dataset_manifest.get("dataset_sha256"),
+            "assurance_stage": "pre_outcome",
+            "outcome_access_state": assurance["outcome_access_state"],
+            "dataset_id": observed_identity["dataset_id"],
+            "vintage_id": observed_identity["vintage_id"],
+            "split_id": observed_identity["split_id"],
             "manifest_path": dataset_manifest_path.resolve().relative_to(REPO_ROOT.resolve()).as_posix(),
             "manifest_sha256": sha256_file(dataset_manifest_path),
             "assurance_sha256": assurance["assurance_sha256"],
-            "reconstruction_status": assurance["reconstruction_status"],
-            "semantic_status": assurance["semantic_status"],
         },
         "binding": binding,
         "inference_registration": {
@@ -334,14 +350,24 @@ def _experiment_build_results(args: argparse.Namespace) -> None:
     ledger = load_methodology_json(ledger_path)
     sealed = load_methodology_json(_programme_artifact_path(prereg, args.sealed_registry, "sealed-windows.json"))
     assert_confirmatory_execution_allowed(prereg, freeze, ledger, sealed)
+    assurance = None
+    if args.dataset_manifest is not None:
+        dataset_manifest = load_methodology_json(Path(args.dataset_manifest))
+        assurance = validate_post_unblinding_dataset_assurance(prereg, freeze, dataset_manifest)
+    elif int(freeze.get("schema_version", 1)) >= 3:
+        raise MethodologyError("schema-v3 confirmatory results require --dataset-manifest with post-unblinding assurance")
     run = load_methodology_json(Path(args.run_evidence))
     checks = load_methodology_json(Path(args.checks))
     verification = audit_leakage(checks)
+    run_data = dict(run["data"])
+    if assurance is not None:
+        run_data["dataset_assurance_sha256"] = assurance["assurance_sha256"]
+        run_data["preoutcome_assurance_sha256"] = assurance.get("preoutcome_assurance_sha256")
     results = build_results(
         prereg,
         run_id=str(run["run_id"]),
         code=run["code"],
-        data=run["data"],
+        data=run_data,
         features=run.get("features"),
         model=run["model"],
         environment=run["environment"],
@@ -548,6 +574,7 @@ def build_parser() -> argparse.ArgumentParser:
     build_results_cmd.add_argument("--sealed-registry", type=Path)
     build_results_cmd.add_argument("--programme-evidence", type=Path)
     build_results_cmd.add_argument("--new-scan-id")
+    build_results_cmd.add_argument("--dataset-manifest", type=Path)
     build_results_cmd.add_argument("--run-evidence", type=Path, required=True)
     build_results_cmd.add_argument("--checks", type=Path, required=True)
     build_results_cmd.add_argument("--output", type=Path, required=True)
