@@ -1,6 +1,6 @@
 # Closeout: Henry Hub Source Enablement
 
-Status: implementation complete locally; provider publication/landing evidence pending.
+Status: implementation merged; this file is the post-merge closeout reconciliation for WORK-318.
 
 ## Implemented scope
 
@@ -11,20 +11,25 @@ Status: implementation complete locally; provider publication/landing evidence p
 - Resolved Bloomberg public product ambiguity to PiT/ECOS and narrowed rep-003/018/019 to entitled legacy-key/last-pre-release-state extraction and power gates.
 - Reconciled Programme 002 setup, feasibility, readiness, implementation contracts, generated docs, and deterministic tests without expanding empirical authority.
 
-## Local evidence
+## Verification and review
 
-- TDD regression: old weather contract failed the new fidelity test before implementation.
-- Focused tests: `12 passed` across `tests/research/test_henry_hub_fresh_designs.py` and `tests/data/test_acquisition_recipes.py`.
-- JSON parse: eight changed authoritative/config JSON artifacts load successfully.
-- Ruff: changed research test passes.
-- Documentation generator `--check`: passed after canonical regeneration.
-- `scripts/change-workflow.ps1 check`: passed.
-- `scripts/verify.ps1`: all documentation, rule, environment, evidence, source-authority, assurance, work-layout, hygiene, schema, freeze-integrity, inference, metrics and memory gates passed; full pytest collection is locally blocked by Windows Application Control on SciPy `_nd_image` in unrelated model tests.
+- TDD regression failed on the stale weather contract before implementation; focused research/acquisition suite then passed: `12 passed`.
+- JSON parse, Ruff, documentation generation/check, and `scripts/change-workflow.ps1 check` passed.
+- Local `scripts/verify.ps1` passed all policy/schema/documentation/research gates before unrelated Windows Application Control blocked SciPy `_nd_image` during model-test collection.
+- Immutable KIS code-quality review on `ae3cccc5811f1e061a378a37bff46e4a765af80d` completed with no findings.
+- GitHub Actions CI run `33981753998` passed on exact PR head `ae3cccc5811f1e061a378a37bff46e4a765af80d`.
 
 ## Provider / landing evidence
 
-Pending governed KIS commit, reviewable PR, exact-head GitHub Actions, merge, default-branch refresh, Work Management reconciliation, and worktree cleanup.
+- Implementation commit: `ae3cccc5811f1e061a378a37bff46e4a765af80d`.
+- Pull request: #324.
+- Primary implementation merge: `7886ebbcfc75a43c86dfba9224abd14b16c0049f`.
+- Registered `origin/main` was refreshed to the exact GitHub merge revision.
+- Work Management merge-readiness was `ready` with exact-head CI and pre-merge documentation complete.
+- Post-merge documentation reconciliation reached `post_merge_complete`; Work terminal-state reconciliation was applied successfully.
 
 ## Research return
 
-No Henry Hub literature outcome execution, protected confirmation evidence, preregistration freeze, or outcome-conditioned source/model choice occurred. Remaining Bloomberg and source-artifact work is explicitly fail-closed and narrower than the completed public research problem.
+No Henry Hub literature outcome execution, protected confirmation evidence, preregistration freeze, or outcome-conditioned source/model choice occurred. Remaining entitled Bloomberg extraction and NOAA source-artifact acquisition are explicit downstream source-execution tasks, not unresolved public-research blockers.
+
+This reconciliation records the final durable evidence for change 318. Source-issue closure and merged-worktree cleanup are operational closeout actions and require no further research/configuration mutation.
