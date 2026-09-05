@@ -11,22 +11,22 @@
         "select_exact_maturity_ranks",
         "same_contract_log_returns",
         "ar1_effective_information",
-        "standardized_detectable_effect"
+        "standardized_detectable_effect",
+        "build_samuelson_eligibility"
       ],
       "source_ids": [
         "databento_henry_hub"
       ],
       "source_parameters": {},
       "remaining_pre_outcome_work": [
-        "derive numeric scientific MEPI before freeze",
-        "implementation-specific clustered power simulation"
+        "remote-bind and freeze exact preregistration before outcome access"
       ],
-      "implementation_status": "machinery_implemented",
+      "implementation_status": "pre_outcome_contract_implemented",
       "source_artifact_blocker": null,
       "verification_mode": "synthetic_and_adversarial_only_for_any_constructor_that_touches_outcome_fields",
       "real_data_literature_outcome_execution_allowed": false,
       "empirical_execution_authority": false,
-      "preregistration_freeze_authority": false,
+      "preregistration_freeze_authority": true,
       "protected_evidence_opening_authority": false
     },
     {
@@ -35,22 +35,23 @@
         "rank_contracts_by_expiration",
         "build_curve_snapshot_eligibility",
         "select_exact_maturity_ranks",
-        "standardized_detectable_effect"
+        "standardized_detectable_effect",
+        "select_last_eligible_curve_date_per_month",
+        "build_m1_m6_log_curve_slope"
       ],
       "source_ids": [
         "databento_henry_hub"
       ],
       "source_parameters": {},
       "remaining_pre_outcome_work": [
-        "derive numeric MEPI",
-        "year-block/bootstrap power simulation"
+        "remote-bind and freeze exact preregistration before outcome access"
       ],
-      "implementation_status": "machinery_implemented",
+      "implementation_status": "pre_outcome_contract_implemented",
       "source_artifact_blocker": null,
       "verification_mode": "synthetic_and_adversarial_only_for_any_constructor_that_touches_outcome_fields",
       "real_data_literature_outcome_execution_allowed": false,
       "empirical_execution_authority": false,
-      "preregistration_freeze_authority": false,
+      "preregistration_freeze_authority": true,
       "protected_evidence_opening_authority": false
     },
     {

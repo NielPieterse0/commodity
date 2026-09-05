@@ -1,0 +1,42 @@
+{
+  "schema_version": 4,
+  "change_id": "316-henry-hub-empirical-tranche-a",
+  "status": "active",
+  "branch": "change/316-henry-hub-empirical-tranche-a",
+  "worktree": ".work/worktrees/316-henry-hub-empirical-tranche-a",
+  "base": "main",
+  "outcome": "Execute Programme 002 empirical tranche A for rep-001 Samuelson maturity-volatility and rep-002 seasonal forward-curve, preserving the clean pre-outcome boundary, completing preregistration/freeze before protected outcome access, and restoring exact-head GitHub PR/CI progression after once-through exit.",
+  "complexity": "large",
+  "risk_triggers": ["persistent_state", "public_contract"],
+  "owned_paths": [
+    ".work/changes/316-henry-hub-empirical-tranche-a/**",
+    "research/programmes/002-henry-hub-fresh/**",
+    "docs/reference/research/programmes/002-henry-hub-fresh/**",
+    "docs/reference/README.md",
+    "contracts/prereg.schema.json",
+    "src/commodity/providers/databento_futures.py",
+    "src/commodity/research_construction.py",
+    "tests/fixtures/mdp3-golden/**",
+    "tests/providers/test_databento_futures_provider.py",
+    "tests/research/**"
+  ],
+  "shared_paths": [],
+  "excluded_paths": ["data/**", "artifacts/**", "config/trading-policy.json"],
+  "dependencies": ["289-l0-l3-henry-hub-research"],
+  "integration_owner": null,
+  "base_evidence": {
+    "upstream_sha": "b8d869ea7e597b9958d6deb6f0ffe2d35b94b102",
+    "upstream_ref": "refs/heads/main",
+    "evidence_source": "github_mcp",
+    "relation": "exact_branch_parent"
+  },
+  "work_management": {
+    "project_id": "commodity",
+    "record_id": "WORK-316",
+    "source_repository": "NielPieterse0/commodity",
+    "source_number": 316,
+    "source_kind": "issue",
+    "documentation_impact": "none",
+    "execution_owner": "agent-A"
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "schema_version": 1,
+  "work_id": "WORK-316",
+  "recovery_mode": "github_native_after_once_through_exit",
+  "source_issue": "NielPieterse0/commodity#316",
+  "base_sha": "b8d869ea7e597b9958d6deb6f0ffe2d35b94b102",
+  "scientific_authority": "research/programmes/002-henry-hub-fresh/**",
+  "prior_once_through_evidence_reused": false,
+  "protected_outcomes_opened_during_recovery": false,
+  "current_gate": "pre_outcome_publication_and_remote_freeze",
+  "known_blockers": [
+    "publish the exact verified preregistration head to PR #319",
+    "create and publish signed remote preregistration tags for rep-001 and rep-002",
+    "materialize immutable remote-bound freeze records and obtain exact-head CI"
+  ],
+  "completed_recovery_repairs": [
+    "time-valid Databento contract identity with ID-reuse regressions",
+    "rep-001 fixed DTE and positive-volume eligibility rules",
+    "rep-001 numeric MEPI and contract-cluster effective-information power",
+    "rep-002 exact M1-M6 monthly seasonal statistic",
+    "rep-002 numeric MEPI and 12-month block effective-information power",
+    "full outcome-blind definition/identity/coverage dry run"
+  ],
+  "next_action": "publish_verified_preregistration_head_then_remote_freeze"
+}

@@ -45,6 +45,43 @@ def rank_contracts_by_expiration(frame: pd.DataFrame) -> pd.DataFrame:
     return out.reset_index(drop=True)
 
 
+def build_samuelson_eligibility(
+    frame: pd.DataFrame,
+    *,
+    volume_column: str = "volume",
+) -> pd.DataFrame:
+    """Fix DTE buckets and the primary positive-volume screen without reading prices."""
+    required = ("trade_date", "contract_id", "expiration", volume_column)
+    _require_columns(frame, required, "Samuelson eligibility")
+    out = frame.loc[:, list(required)].copy()
+    out["trade_date"] = _utc_series(out["trade_date"], "Samuelson trade_date")
+    out["expiration"] = _utc_series(out["expiration"], "Samuelson expiration")
+    if (out["contract_id"].astype(str).str.strip() == "").any():
+        raise ResearchConstructionError("Samuelson eligibility contains empty contract_id")
+    if out.duplicated(["trade_date", "contract_id"]).any():
+        raise ResearchConstructionError("Samuelson eligibility contains duplicate trade_date/contract_id")
+    out[volume_column] = pd.to_numeric(out[volume_column], errors="coerce")
+    volume = out[volume_column].to_numpy(dtype=float)
+    if not np.isfinite(volume).all() or (volume < 0.0).any():
+        raise ResearchConstructionError("Samuelson liquidity volume must be finite and non-negative")
+    out["days_to_maturity"] = (
+        (out["expiration"] - out["trade_date"]).dt.total_seconds() / 86400.0
+    )
+    if (out["days_to_maturity"] <= 0.0).any():
+        raise ResearchConstructionError("Samuelson eligibility requires positive days to maturity")
+    out["dte_bucket"] = pd.cut(
+        out["days_to_maturity"],
+        bins=[0.0, 30.0, 60.0, 90.0, 180.0, 365.0, float("inf")],
+        labels=["0-30", "31-60", "61-90", "91-180", "181-365", "366+"],
+        right=True,
+        include_lowest=False,
+    )
+    if out["dte_bucket"].isna().any():
+        raise ResearchConstructionError("Samuelson eligibility could not assign a DTE bucket")
+    out["eligible_primary"] = out[volume_column] > 0.0
+    return out.sort_values(["trade_date", "expiration", "contract_id"], kind="stable").reset_index(drop=True)
+
+
 def build_storage_seasonal_state(
     frame: pd.DataFrame,
     *,
@@ -368,6 +405,31 @@ def build_curve_snapshot_eligibility(
     return counts
 
 
+def select_last_eligible_curve_date_per_month(
+    frame: pd.DataFrame,
+    *,
+    required_maturities: int = 6,
+) -> pd.DataFrame:
+    """Select the last identity-eligible curve date in each month without reading prices."""
+    counts = build_curve_snapshot_eligibility(
+        frame,
+        required_maturities=required_maturities,
+    )
+    eligible = counts.loc[counts["eligible"]].copy()
+    if eligible.empty:
+        raise ResearchConstructionError("curve history contains no eligible monthly snapshot")
+    eligible["_month"] = eligible["trade_date"].dt.tz_localize(None).dt.to_period("M")
+    selected = (
+        eligible.sort_values("trade_date", kind="stable")
+        .groupby("_month", sort=True, as_index=False)
+        .tail(1)
+        .drop(columns=["_month"])
+        .sort_values("trade_date", kind="stable")
+        .reset_index(drop=True)
+    )
+    return selected
+
+
 def build_exact_monthly_panel(
     series: Mapping[str, pd.DataFrame],
     *,
@@ -482,6 +544,31 @@ def standardized_detectable_effect(
     return float((critical + power_quantile) / math.sqrt(n))
 
 
+def standardized_power(
+    effect_size: float,
+    effective_n: float,
+    *,
+    alpha: float = 0.05,
+    two_sided: bool = True,
+) -> float:
+    """Approximate normal-test power for a standardized effect and effective N."""
+    effect = float(effect_size)
+    n = float(effective_n)
+    if not math.isfinite(effect) or effect < 0.0:
+        raise ResearchConstructionError("effect_size must be finite and non-negative")
+    if not math.isfinite(n) or n <= 0.0:
+        raise ResearchConstructionError("effective_n must be finite and positive")
+    if not 0.0 < alpha < 1.0:
+        raise ResearchConstructionError("alpha must lie strictly between zero and one")
+    normal = NormalDist()
+    shift = effect * math.sqrt(n)
+    if two_sided:
+        critical = normal.inv_cdf(1.0 - alpha / 2.0)
+        return float(normal.cdf(-critical - shift) + 1.0 - normal.cdf(critical - shift))
+    critical = normal.inv_cdf(1.0 - alpha)
+    return float(1.0 - normal.cdf(critical - shift))
+
+
 def same_contract_log_returns(
     frame: pd.DataFrame,
     *,
@@ -584,3 +671,36 @@ def select_exact_maturity_ranks(
     if selected.groupby("trade_date").size().ne(required_count).any():
         raise ResearchConstructionError("maturity-rank selection produced ambiguous curve rows")
     return selected.reset_index(drop=True)
+
+
+def build_m1_m6_log_curve_slope(
+    frame: pd.DataFrame,
+    *,
+    price_column: str = "settle",
+) -> pd.DataFrame:
+    """Compute the exact M1-M6 OLS log-price slope on normalized maturity rank."""
+    selected = select_exact_maturity_ranks(
+        frame,
+        ranks=[1, 2, 3, 4, 5, 6],
+        preserve_columns=[price_column],
+    )
+    selected[price_column] = pd.to_numeric(selected[price_column], errors="coerce")
+    prices = selected[price_column].to_numpy(dtype=float)
+    if not np.isfinite(prices).all() or (prices <= 0.0).any():
+        raise ResearchConstructionError("M1-M6 curve prices must be finite and positive")
+    selected["_rank_normalized"] = (selected["maturity_rank"].astype(float) - 1.0) / 5.0
+    selected["_log_price"] = np.log(selected[price_column].astype(float))
+    selected["_slope_term"] = (selected["_rank_normalized"] - 0.5) * selected["_log_price"]
+    slopes = (
+        selected.groupby("trade_date", as_index=False)["_slope_term"]
+        .sum()
+        .rename(columns={"_slope_term": "m1_m6_log_slope"})
+    )
+    slopes["m1_m6_log_slope"] = slopes["m1_m6_log_slope"] / 0.7
+    month = slopes["trade_date"].dt.month
+    slopes["season"] = np.where(
+        month.isin([11, 12, 1, 2, 3]),
+        "winter_withdrawal",
+        "injection",
+    )
+    return slopes.sort_values("trade_date", kind="stable").reset_index(drop=True)

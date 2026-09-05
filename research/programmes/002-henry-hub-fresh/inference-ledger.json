@@ -2,6 +2,47 @@
   "schema_version": 1,
   "zoom_level": "L1",
   "programme_id": "002-henry-hub-fresh",
-  "entries": [],
+  "entries": [
+    {
+      "entry_id": "inf-002-market-structure-rep-001",
+      "programme_test_id": "002-henry-hub-fresh:001-samuelson-maturity-volatility",
+      "family_id": "programme-002-market-structure-tranche-a",
+      "research_line_id": "001-market-structure",
+      "experiment_id": "001-samuelson-maturity-volatility",
+      "mode": "confirmatory",
+      "target": "absolute_same_contract_daily_log_return_by_dte",
+      "horizon": "same_trade_date_contract_state",
+      "information_family": "maturity_structure,winter_withdrawal",
+      "model_family": "ordered_descriptive_contrast",
+      "primary_metric": "standardized_ordered_dte_contrast",
+      "windows_touched": [
+        "databento_henry_hub_contract_history"
+      ],
+      "sealed_window_history": [],
+      "exploratory_ancestry": [],
+      "outcome": null,
+      "influenced_later_design": false
+    },
+    {
+      "entry_id": "inf-002-market-structure-rep-002",
+      "programme_test_id": "002-henry-hub-fresh:002-seasonal-forward-curve",
+      "family_id": "programme-002-market-structure-tranche-a",
+      "research_line_id": "001-market-structure",
+      "experiment_id": "002-seasonal-forward-curve",
+      "mode": "confirmatory",
+      "target": "monthly_m1_m6_log_curve_slope_seasonal_contrast",
+      "horizon": "monthly_curve_state",
+      "information_family": "curve_seasonality,exact_maturity_structure",
+      "model_family": "descriptive_seasonal_contrast",
+      "primary_metric": "standardized_winter_injection_m1_m6_slope_difference",
+      "windows_touched": [
+        "databento_henry_hub_contract_history"
+      ],
+      "sealed_window_history": [],
+      "exploratory_ancestry": [],
+      "outcome": null,
+      "influenced_later_design": false
+    }
+  ],
   "family_inference": []
 }

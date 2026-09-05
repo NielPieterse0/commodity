@@ -2,7 +2,7 @@
   "schema_version": 2,
   "zoom_level": "L1",
   "programme_id": "002-henry-hub-fresh",
-  "current_scan_id": "non-outcome-feasibility-2026-09-03",
+  "current_scan_id": "tranche-a-pre-outcome-freeze-2026-09-05",
   "refresh_triggers": [
     "source_fidelity_or_entitlement_changes",
     "redesign_contract_completed",
@@ -42,37 +42,43 @@
   "feasibility_map": [
     {
       "design_id": "rep-001-samuelson-maturity-volatility",
-      "target": "same-contract daily volatility by time-to-maturity",
-      "horizon": "daily listed-contract state",
-      "information_family": "maturity structure",
-      "scientific_mepi": null,
-      "raw_information": 5025,
+      "target": "absolute_same_contract_daily_log_return_by_dte",
+      "horizon": "same_trade_date_contract_state",
+      "information_family": "maturity_structure",
+      "scientific_mepi": 0.25,
+      "raw_information": 99714,
       "effective_information_method": {
-        "method": "contract/calendar clustering screen",
-        "contract_identities": 209
+        "method": "contract clusters",
+        "raw_contract_days": 99714,
+        "contract_identities": 210,
+        "effective_information": 210
       },
-      "detectable_effect": 0.194,
-      "expected_snr": null,
+      "detectable_effect": 0.19332774705823966,
+      "expected_snr": 1.2931408129671522,
       "costs": {},
       "feasibility": "go",
-      "hold_reason": "Source/sample capacity is strong. Final power must use the implemented ordered-contrast covariance, not raw rows."
+      "hold_reason": "Pre-outcome DTE, positive-volume liquidity, primary absolute-return proxy, numeric MEPI and contract-cluster power are fixed. Empirical execution remains blocked until preregistration is remote-bound and frozen.",
+      "pre_outcome_evidence_ref": "research/programmes/002-henry-hub-fresh/lines/001-market-structure/experiments/001-samuelson-maturity-volatility/pre-outcome-evidence.json"
     },
     {
       "design_id": "rep-002-seasonal-forward-curve",
-      "target": "seasonal forward-curve slope/shape",
-      "horizon": "monthly/year-block curve state",
-      "information_family": "curve seasonality",
-      "scientific_mepi": null,
+      "target": "monthly_m1_m6_log_curve_slope_seasonal_contrast",
+      "horizon": "monthly_curve_state",
+      "information_family": "curve_seasonality",
+      "scientific_mepi": 0.75,
       "raw_information": 195,
       "effective_information_method": {
-        "method": "year-block lower-bound",
-        "year_blocks": 17
+        "method": "12-month calendar block planning bound",
+        "raw_months": 195,
+        "block_length_months": 12,
+        "effective_information": 16.25
       },
-      "detectable_effect": 0.68,
-      "expected_snr": null,
+      "detectable_effect": 0.6949877579153834,
+      "expected_snr": 1.0791556994466003,
       "costs": {},
       "feasibility": "go",
-      "hold_reason": "Can implement now; small seasonal effects may remain unresolved after block dependence."
+      "hold_reason": "Pre-outcome monthly snapshot rule, exact M1-M6 log-slope, numeric MEPI and 12-month block power are fixed. Empirical execution remains blocked until preregistration is remote-bound and frozen.",
+      "pre_outcome_evidence_ref": "research/programmes/002-henry-hub-fresh/lines/001-market-structure/experiments/002-seasonal-forward-curve/pre-outcome-evidence.json"
     },
     {
       "design_id": "rep-003-storage-surprise-response",
