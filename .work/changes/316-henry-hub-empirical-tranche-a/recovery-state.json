@@ -7,11 +7,9 @@
   "scientific_authority": "research/programmes/002-henry-hub-fresh/**",
   "prior_once_through_evidence_reused": false,
   "protected_outcomes_opened_during_recovery": false,
-  "current_gate": "pre_outcome_publication_and_remote_freeze",
+  "current_gate": "signed_remote_preregistration_tag",
   "known_blockers": [
-    "publish the exact verified preregistration head to PR #319",
-    "create and publish signed remote preregistration tags for rep-001 and rep-002",
-    "materialize immutable remote-bound freeze records and obtain exact-head CI"
+    "create and publish cryptographically signed remote preregistration tags for rep-001 and rep-002; KIS/GitHub exposes no tag-creation operation and local git tag -s has no usable operator signing identity/key service"
   ],
   "completed_recovery_repairs": [
     "time-valid Databento contract identity with ID-reuse regressions",
@@ -19,7 +17,10 @@
     "rep-001 numeric MEPI and contract-cluster effective-information power",
     "rep-002 exact M1-M6 monthly seasonal statistic",
     "rep-002 numeric MEPI and 12-month block effective-information power",
-    "full outcome-blind definition/identity/coverage dry run"
+    "full outcome-blind definition/identity/coverage dry run",
+    "rep-001 and rep-002 structural pre-outcome dataset-assurance manifests bound to immutable archive/code identities",
+    "design-scoped preregistration freeze authority enabled only for rep-001 and rep-002 while empirical/protected-outcome authority remains false",
+    "PR #319 reconciled to exact remote-default-rooted pre-outcome tree with GitHub Actions success at 5f1749a6411d94dbbc8e23742aabeef223e6d136"
   ],
-  "next_action": "publish_verified_preregistration_head_then_remote_freeze"
+  "next_action": "provision an existing operator signing identity or registered signed-tag capability, create and publish experiment/001-samuelson-maturity-volatility/v1 and experiment/002-seasonal-forward-curve/v1 at the exact verified HEAD, then materialize immutable freeze records before any outcome access"
 }
