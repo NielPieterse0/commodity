@@ -8,8 +8,8 @@
 - [x] Regenerate owned generated documentation with `scripts/docs/generate_docs.py`.
 - [x] Run `scripts/change-workflow.ps1 check` successfully.
 - [x] Run canonical `scripts/verify.ps1`; all policy/schema/docs checks pass, while full pytest is locally blocked by Windows Application Control on SciPy `_nd_image`.
-- [ ] Complete independent whole-change review and resolve material findings.
-- [ ] Commit the exact verified bounded change through KIS and prepare the reviewable PR.
-- [ ] Require provider-native GitHub Actions on the exact PR head to own the full-suite verification gate.
-- [ ] Merge through the governed KIS path only if Work Management and exact-head gates permit it.
-- [ ] Reconcile documentation/WORK-318 state and clean the worktree after verified landing.
+- [x] Complete independent whole-change review; immutable KIS review returned no findings.
+- [x] Commit the exact verified bounded change through KIS and open PR #324.
+- [x] Require provider-native GitHub Actions on the exact PR head; CI run `33981753998` passed.
+- [x] Merge through the governed KIS path after Work Management merge-readiness returned ready.
+- [x] Reconcile post-merge documentation and WORK-318 terminal state; source closure/worktree cleanup are operational finalization.
