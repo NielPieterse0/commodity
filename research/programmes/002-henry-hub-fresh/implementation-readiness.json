@@ -114,49 +114,20 @@
     },
     {
       "design_id": "rep-007-weather-return-volatility-response",
-      "status": "source_or_package_pending",
-      "source_ids": [
-        "noaa_observed_weather",
-        "databento_henry_hub"
-      ],
-      "source_parameters": {
-        "normals": "NOAA Daily Climate Normals 1991-2020"
-      },
-      "local_functions": [
-        "build_observed_weather_departures",
-        "build_weather_state_cells",
-        "same_contract_log_returns",
-        "ar1_effective_information",
-        "standardized_detectable_effect"
-      ],
-      "remaining_pre_outcome_work": [
-        "acquire and hash NOAA observations/normals",
-        "fix station/weighting rule",
-        "count season cells and run block power"
-      ],
+      "status": "reconstruction_contract_ready_source_artifact_pending",
+      "source_ids": ["noaa_observed_weather", "databento_henry_hub"],
+      "source_parameters": {"fidelity_tier": "tier_c_noaa_near_reconstruction", "acquisition_recipe": "data/acquisition-recipes/noaa-richman-lamb-reconstruction.json", "station_rule": "Richman-Lamb-style >=25-year completeness/stability/distance ranking with frozen primary-secondary-tertiary lineage", "climatology": "rolling prior-30-year day-of-year climatology from bound observed temperatures", "modern_robustness_normals": "NOAA Daily Climate Normals 1991-2020"},
+      "local_functions": ["build_observed_weather_departures", "build_weather_state_cells", "same_contract_log_returns", "ar1_effective_information", "standardized_detectable_effect"],
+      "remaining_pre_outcome_work": ["acquire and hash governed NOAA reconstruction inputs", "realize and freeze deterministic station/substitution manifest", "count eligible weather/season cells and run dependence-aware block power"],
       "empirical_execution_authority": false
     },
     {
       "design_id": "rep-008-weather-season-sign-asymmetry",
-      "status": "source_or_package_pending",
-      "source_ids": [
-        "noaa_observed_weather",
-        "databento_henry_hub"
-      ],
-      "source_parameters": {
-        "normals": "NOAA Daily Climate Normals 1991-2020"
-      },
-      "local_functions": [
-        "build_observed_weather_departures",
-        "build_weather_state_cells",
-        "same_contract_log_returns",
-        "standardized_detectable_effect"
-      ],
-      "remaining_pre_outcome_work": [
-        "acquire and hash NOAA observations/normals",
-        "fix season/sign cells",
-        "multiplicity-aware cell power"
-      ],
+      "status": "reconstruction_contract_ready_source_artifact_pending",
+      "source_ids": ["noaa_observed_weather", "databento_henry_hub"],
+      "source_parameters": {"fidelity_tier": "tier_c_noaa_near_reconstruction", "acquisition_recipe": "data/acquisition-recipes/noaa-richman-lamb-reconstruction.json", "specification_basis": "ergen_dissertation_precursor", "final_2016_continuity": "not_assumed_without_final-paper evidence", "locations": ["Chicago", "New York", "Atlanta", "Dallas"], "weights": {"Chicago": 0.42, "New York": 0.28, "Atlanta": 0.17, "Dallas": 0.13}, "weather_shock_horizon_days": 7, "climatology": "prior 30-year historical daily average", "oos_weather_forecast": {"model": "ARIMA(1,2,1)", "training_window_calendar_days": 500, "selection": "SIC"}},
+      "local_functions": ["build_observed_weather_departures", "build_weather_state_cells", "same_contract_log_returns", "standardized_detectable_effect"],
+      "remaining_pre_outcome_work": ["acquire and hash NOAA observations for the four-city reconstruction", "freeze station mapping and derived rolling climatology without outcome access", "count fixed season/sign cells and run multiplicity-aware power"],
       "empirical_execution_authority": false
     },
     {

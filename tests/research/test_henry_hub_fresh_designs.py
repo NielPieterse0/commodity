@@ -15,14 +15,79 @@ def designs_by_id() -> dict[str, dict]:
     return {item["design_id"]: item for item in payload["designs"]}
 
 
-def test_observed_weather_reproductions_do_not_use_issued_forecasts():
+def test_observed_weather_reproductions_bind_reconstruction_fidelity_without_issued_forecasts():
     sources = load(ROOT / "config" / "data_sources.json")["sources"]
     designs = designs_by_id()
-    assert sources["noaa_observed_weather"]["purpose"].startswith("source-faithful observed weather")
-    for design_id in ("rep-007-weather-return-volatility-response", "rep-008-weather-season-sign-asymmetry"):
-        design = designs[design_id]
+    source = sources["noaa_observed_weather"]
+    recipe = load(ROOT / "data" / "acquisition-recipes" / "noaa-richman-lamb-reconstruction.json")
+
+    assert not source["purpose"].startswith("source-faithful observed weather")
+    assert recipe["recipe_id"] == "noaa-richman-lamb-reconstruction"
+    assert recipe["fidelity_policy"]["default_reconstruction_tier"] == "tier_c_noaa_near_reconstruction"
+    assert recipe["fidelity_policy"]["no_outcome_tuning"] is True
+    assert recipe["fidelity_policy"]["issued_forecast_substitution_allowed"] is False
+    assert recipe["reconstruction_contract"]["source_study_climatology"].startswith(
+        "For each calendar day and target year, use the prior 30 years"
+    )
+    assert source["acquisition_recipe"] == "data/acquisition-recipes/noaa-richman-lamb-reconstruction.json"
+    assert set(source["fidelity_tiers"]) == {
+        "tier_a_exact_original",
+        "tier_b_algorithmic_richman_lamb",
+        "tier_c_noaa_near_reconstruction",
+        "tier_d_modern_normals_robustness",
+    }
+    assert source["fidelity_tiers"]["tier_c_noaa_near_reconstruction"]["climatology"] == (
+        "rolling prior-30-year day-of-year climatology from the bound observed-temperature history"
+    )
+    assert source["fidelity_tiers"]["tier_d_modern_normals_robustness"]["climatology"] == (
+        "NOAA U.S. Daily Climate Normals 1991-2020"
+    )
+
+    rep007 = designs["rep-007-weather-return-volatility-response"]
+    assert rep007["source_route"]["fidelity_tier"] == "tier_c_noaa_near_reconstruction"
+    assert rep007["source_route"]["climatology"] == (
+        "rolling prior-30-year day-of-year climatology from bound observed temperatures"
+    )
+
+    rep008 = designs["rep-008-weather-season-sign-asymmetry"]
+    construction = rep008["literature_construction"]
+    assert construction["basis"] == "ergen_dissertation_precursor"
+    assert construction["final_2016_continuity"] == "not_assumed_without_final-paper evidence"
+    assert construction["locations"] == ["Chicago", "New York", "Atlanta", "Dallas"]
+    assert construction["weights"] == {
+        "Chicago": 0.42,
+        "New York": 0.28,
+        "Atlanta": 0.17,
+        "Dallas": 0.13,
+    }
+    assert construction["weather_shock_horizon_days"] == 7
+    assert construction["seasonal_normal"] == "prior 30-year historical daily average"
+    assert construction["oos_weather_forecast"] == {
+        "model": "ARIMA(1,2,1)",
+        "training_window_calendar_days": 500,
+        "selection": "SIC",
+    }
+
+    for design in (rep007, rep008):
         assert design["source_route"]["observed_weather"] == "noaa_observed_weather"
         assert "issued" not in " ".join(design["inputs"]).lower()
+
+
+def test_storage_consensus_public_contract_is_resolved_but_entitled_extraction_remains_fail_closed():
+    setup = load(PROGRAMME / "experiment-setup.json")
+    missing = {item["input_id"]: item for item in setup["missing_or_unproven_inputs"]}
+    consensus = missing["historical_storage_consensus"]
+    assert consensus["status"] == "bloomberg_pit_public_contract_resolved_entitled_key_resolution_pending"
+    assert any("last survey state strictly before release" in item for item in consensus["entitled_extraction_acceptance"])
+    assert any("DOENUSCH" in item for item in consensus["entitled_extraction_acceptance"])
+
+    rep003 = designs_by_id()["rep-003-storage-surprise-response"]
+    contract = rep003["source_route"]["bloomberg_public_contract"]
+    assert contract["aggregate_product"] == "Economic Releases and Surveys Point-in-Time (PiT)"
+    assert contract["advertised_history_start"] == 1997
+    assert contract["required_components"] == ["Actuals and Surveys", "Actuals and Surveys (Changes)"]
+    assert "Individual Economist Estimates" in contract["microdata_product"]
+    assert "strictly before release" in rep003["pit_contract"]["source_release_timestamp"]
 
 
 def test_all_redesigns_are_resolved_without_expanding_execution_authority():

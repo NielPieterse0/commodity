@@ -213,9 +213,23 @@
         "independent_alternatives": [
           "S&P Global / Platts weekly analyst survey",
           "Estimize crowd consensus"
-        ]
+        ],
+        "bloomberg_public_contract": {
+          "aggregate_product": "Economic Releases and Surveys Point-in-Time (PiT)",
+          "advertised_history_start": 1997,
+          "required_components": [
+            "Actuals and Surveys",
+            "Actuals and Surveys (Changes)"
+          ],
+          "microdata_product": "Individual Economist Estimates / ECOS for contributor-level Gay-Simkins-Turac reconstruction",
+          "legacy_key_resolution": [
+            "DOENUSCH survey identity",
+            "pre-2003 EIA storage survey identity",
+            "pre-May-2002 AGA storage survey identity"
+          ]
+        }
       },
-      "hard_feasibility_dependency": "Historically fixed pre-release consensus or separately justified ex-ante expectation benchmark. Bloomberg is the source-faithful expectation series for Chiou-Wei/Linn/Zhu and the Bloomberg survey family underlies Gay/Simkins/Turac. If historical access/timestamp fixity cannot be proven, exact/near source-faithful reproduction is HOLD; actual storage change alone is not a valid substitute.",
+      "hard_feasibility_dependency": "The public source family is resolved to Bloomberg PiT for aggregate release-time consensus and Bloomberg Individual Economist Estimates/ECOS where contributor-level survey data are required. Remaining work is entitled key resolution and extraction: prove event/target identity, scheduled/actual release time, last survey state strictly before release, required statistics, source-window coverage, and immutable extract identity. Actual storage change or fitted expectations remain invalid substitutes.",
       "inputs": [
         "EIA actual storage change",
         "PIT expectation",
@@ -240,9 +254,9 @@
       "pit_contract": {
         "forecast_origin_or_event_time": "official EIA release timestamp including holiday exceptions",
         "target_timestamp": "predeclared post-release return window",
-        "source_release_timestamp": "exact EIA release time plus consensus publication timestamp",
+        "source_release_timestamp": "Exact EIA/AGA release time plus Bloomberg PiT survey-state/change timestamp; select the last valid survey state strictly before release.",
         "revision_policy": "use release-time EIA actual; later revisions excluded from event surprise",
-        "vintage_rule": "consensus version fixed before release; EIA release vintage",
+        "vintage_rule": "Entitled Bloomberg PiT extract fixed by immutable identity/hash; consensus state must precede release. Contributor-level reconstructions additionally bind ECOS economist identity and estimate/update timestamps.",
         "timezone": "America/New_York",
         "contract_identity_and_roll_rule": "exact listed contract held fixed across event window",
         "availability_lag": "zero after official release for explanatory event response; consensus must precede release",
@@ -422,11 +436,11 @@
         "H1": "Larger economically relevant weather departures produce larger price responses and higher volatility in the literature-consistent seasonal direction."
       },
       "unit": "trade_day_weather_information_state",
-      "sample": "Maximum 2010-06-06 onward overlap of canonical Databento and a pinned NOAA observed-weather snapshot after station/weighting rules are fixed before outcome access.",
-      "information_fidelity": "Primary reproduction is historical observed-weather explanatory evidence. Issued forecast vintages are prohibited substitutes and belong only to separate forecast/revision designs.",
+      "sample": "Maximum 2010-06-06 onward overlap of canonical Databento and a bound NOAA observed-weather reconstruction after the predeclared station-selection, substitution, weighting and climatology rules are realized without market-outcome access.",
+      "information_fidelity": "Primary reproduction is historical observed-weather explanatory evidence. Tier C is a NOAA near reconstruction of the literature weather construction; Tier A/B remain higher-fidelity if original Richman-Lamb artifacts or seed metadata are later recovered. Issued forecast vintages are prohibited substitutes.",
       "inputs": [
         "observed daily temperature",
-        "HDD/CDD departure from fixed NOAA normal",
+        "HDD/CDD departure from rolling prior-30-year daily climatology",
         "season",
         "same-contract return",
         "volatility"
@@ -441,7 +455,7 @@
         "forecast_origin_or_event_time": "observed calendar day for descriptive reproduction",
         "target_timestamp": "same-day/predeclared contemporaneous market response",
         "source_release_timestamp": "record NOAA observation/source retrieval lineage; no trading-at-origin claim",
-        "revision_policy": "fixed acquired GHCN-Daily snapshot plus fixed normals version; later revisions excluded from the bound reproduction",
+        "revision_policy": "Pin NOAA station inventory/history, observation files, QC policy and derived rolling climatology hashes; later source revisions must not silently mutate the bound reconstruction.",
         "vintage_rule": "snapshot identity and hashes fixed before market-outcome execution",
         "timezone": "station-local observation mapped to America/New_York market calendar",
         "contract_identity_and_roll_rule": "same listed contract",
@@ -451,9 +465,12 @@
       "source_route": {
         "observed_weather": "noaa_observed_weather",
         "market": "databento_henry_hub",
-        "climatology": "NOAA U.S. Daily Climate Normals 1991-2020"
+        "reconstruction_target": "Richman-Lamb-style station reconstruction from NOAA observations",
+        "fidelity_tier": "tier_c_noaa_near_reconstruction",
+        "climatology": "rolling prior-30-year day-of-year climatology from bound observed temperatures",
+        "modern_robustness_climatology": "NOAA U.S. Daily Climate Normals 1991-2020"
       },
-      "implementation_gate": "Acquire/pin GHCN-Daily observations and daily normals, recover literature locations/weights where possible, otherwise predeclare gas-demand-region weights, then recompute season-cell counts and power without reading market outcomes."
+      "implementation_gate": "Acquire/pin the NOAA reconstruction inputs, realize the predeclared Richman-Lamb-style station map and substitution lineage, then recompute eligible weather/season cells and dependence-aware power without reading market outcomes."
     },
     {
       "design_id": "rep-008-weather-season-sign-asymmetry",
@@ -471,8 +488,8 @@
         "H1": "Weather effects differ materially by season and shock sign, including the literature-specified winter sensitivity."
       },
       "unit": "trade_day_weather_state",
-      "sample": "Same pinned NOAA observed-weather/Databento overlap as rep-007, with season and signed departure cells fixed from weather information alone before market-outcome access.",
-      "primary_estimand": "Joint interaction contrast across season \u00c3\u2014 positive/negative weather-deviation states for volatility.",
+      "sample": "Canonical Databento overlap with a pinned NOAA reconstruction of the Ergen dissertation precursor weather construction; season/sign definitions, four-city weights and climatology are fixed from documentary/weather evidence before market-outcome access.",
+      "primary_estimand": "Joint interaction contrast across season \u00d7 positive/negative weather-deviation states for volatility.",
       "primary_test": "Joint Wald/randomization-equivalent contrast with multiplicity-controlled planned pairwise contrasts.",
       "robustness": [
         "continuous signed spline",
@@ -486,7 +503,7 @@
         "forecast_origin_or_event_time": "observed calendar day for descriptive reproduction",
         "target_timestamp": "same-day/predeclared contemporaneous market response",
         "source_release_timestamp": "record NOAA observation/source retrieval lineage; no trading-at-origin claim",
-        "revision_policy": "fixed acquired GHCN-Daily snapshot plus fixed normals version; later revisions excluded from the bound reproduction",
+        "revision_policy": "Pin NOAA station mapping, observations, QC policy and derived rolling climatology; later source revisions must not silently mutate the bound reconstruction.",
         "vintage_rule": "snapshot identity and hashes fixed before market-outcome execution",
         "timezone": "station-local observation mapped to America/New_York market calendar",
         "contract_identity_and_roll_rule": "same listed contract",
@@ -496,15 +513,42 @@
       "source_route": {
         "observed_weather": "noaa_observed_weather",
         "market": "databento_henry_hub",
-        "climatology": "NOAA U.S. Daily Climate Normals 1991-2020"
+        "reconstruction_target": "Ergen dissertation precursor weather construction reconstructed from NOAA observations",
+        "fidelity_tier": "tier_c_noaa_near_reconstruction",
+        "climatology": "rolling prior-30-year day-of-year climatology from bound observed temperatures",
+        "modern_robustness_climatology": "NOAA U.S. Daily Climate Normals 1991-2020"
       },
       "inputs": [
         "observed daily temperature",
-        "signed HDD/CDD or temperature departure from fixed NOAA normal",
+        "signed HDD/CDD or temperature departure from rolling prior-30-year daily climatology",
         "season",
         "same-contract volatility"
       ],
-      "implementation_gate": "Construct fixed season x sign cells from source-faithful observed weather, count cell capacity, and run multiplicity-aware power simulation before outcome execution."
+      "implementation_gate": "Acquire/pin NOAA observations for the predeclared four-city precursor construction, realize the fixed weights and prior-30-year climatology, count season x sign cells, and run multiplicity-aware power before outcome execution. Final-2016 continuity remains a fidelity label, not an execution blocker.",
+      "information_fidelity": "Executable near reconstruction uses the Rice dissertation precursor specification. It is not represented as exact continuity with the final 2016 article unless final-paper evidence later establishes that continuity.",
+      "literature_construction": {
+        "basis": "ergen_dissertation_precursor",
+        "final_2016_continuity": "not_assumed_without_final-paper evidence",
+        "locations": [
+          "Chicago",
+          "New York",
+          "Atlanta",
+          "Dallas"
+        ],
+        "weights": {
+          "Chicago": 0.42,
+          "New York": 0.28,
+          "Atlanta": 0.17,
+          "Dallas": 0.13
+        },
+        "weather_shock_horizon_days": 7,
+        "seasonal_normal": "prior 30-year historical daily average",
+        "oos_weather_forecast": {
+          "model": "ARIMA(1,2,1)",
+          "training_window_calendar_days": 500,
+          "selection": "SIC"
+        }
+      }
     },
     {
       "design_id": "rep-009-announcement-volatility",
@@ -969,7 +1013,8 @@
       "unit": "EIA_storage_release_event",
       "source_route": {
         "source_faithful": "Genesis Financial Technologies plus Bloomberg subscription data",
-        "near_replication": "Databento exact listed-contract market data plus separately verified PIT storage consensus"
+        "near_replication": "Databento exact listed-contract market data plus separately verified PIT storage consensus",
+        "bloomberg_reconstruction": "Use the same entitled Bloomberg PiT event-key/last-pre-release-state extraction contract as rep-003 for independently reconstructed surprise; preserve Genesis/Bloomberg as the exact-study data family and label Databento+PiT as near replication."
       },
       "sample": "Exact Stage A replication requires the source-study Genesis/Bloomberg data family and published sample semantics. If those subscription data are unavailable, a Databento plus verified-consensus construction is a separately labeled near replication using all fidelity-qualified Thursday and Friday EIA release events.",
       "primary_estimand": "Friday \u00c3\u2014 storage-surprise interaction relative to Thursday response.",

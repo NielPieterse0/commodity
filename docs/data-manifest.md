@@ -26,7 +26,7 @@ Required columns: `trade_date`, `contract_id`, `expiration`, `settle`
 | `noaa_gfs_weather_revision` | noaa_gfs_archive | feasibility_hold_source_audit_required | PIT issued 00 UTC GFS 2-m-temperature forecast revisions for a mechanism-led Henry Hub response experiment |
 | `massive_henry_hub_evaluation` | massive_futures | history_and_roll_validated_evaluation_only | retained V1 expiry-aware NYMEX NG per-contract evaluation history; not canonical promotion evidence |
 | `databento_henry_hub` | databento_futures | acquired_integrity_complete_research_approved | canonical private-project CME NG official settlement/statistics and deep contract history for research and backtesting |
-| `noaa_observed_weather` | noaa_ncei_observed_climate | public_source_route_verified_not_acquired | source-faithful observed weather and climatological-normal construction for descriptive Henry Hub literature reproductions |
+| `noaa_observed_weather` | noaa_ncei_observed_climate | public_reconstruction_contract_defined_not_acquired | observed-weather reconstruction and climatology source for descriptive Henry Hub literature reproductions and separately labeled modern robustness checks |
 
 ## Candidate source library
 

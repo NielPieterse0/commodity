@@ -52,18 +52,18 @@
       "dependence_structure": "Release-event dependence is modest, but surprise construction is impossible without a fixed pre-release expectation series.",
       "design_id": "rep-003-storage-surprise-response",
       "detectable_effect_screen": "Not computable until consensus-qualified event N is known.",
-      "effective_information": "No valid effective N can be assigned before consensus-qualified events are counted.",
-      "eligible_raw_n": "106 PIT EIA releases join market dates; consensus-qualified N unknown until Bloomberg history is audited",
+      "effective_information": "No final N_eff until the entitled Bloomberg PiT extract is keyed and consensus-qualified events are counted; the >=405 source-period surprise-event evidence rules out treating the literature sample as intrinsically tiny.",
+      "eligible_raw_n": "106 retained PIT EIA releases join canonical market dates. Literature/source-period evidence establishes at least 405 events with |storage surprise| > 1 Bcf, showing deep-sample capacity; exact Bloomberg-consensus-qualified N remains an entitled-extract count, not a public-source research blocker.",
       "empirical_execution_authority": false,
       "freeze_ready": false,
       "mepi_derivation": "Literature sign is anchored, but magnitude MEPI must be recovered or decision-anchored before freeze.",
-      "power_sensitivity": "Market/release layer is ready; expectation layer is the binding blocker.",
+      "power_sensitivity": "Market/release layer and public Bloomberg product contract are resolved. Remaining uncertainty is operational entitlement/key extraction and the resulting qualified-event count.",
       "remaining_blockers": [
-        "prove Bloomberg historical entitlement/extractability",
-        "prove consensus timestamp fixity before each release",
-        "count consensus-qualified events"
+        "resolve DOENUSCH / legacy AGA-EIA survey identities to entitled Bloomberg PiT event keys",
+        "validate last survey state strictly before each release and required field semantics",
+        "count continuous consensus-qualified events and derive dependence-aware power"
       ],
-      "semantic_fidelity_class": "source_faithful_consensus_not_proven_accessible",
+      "semantic_fidelity_class": "source_faithful_bloomberg_pit_route_resolved_entitled_extract_pending",
       "source_identities": [
         "eia_storage",
         "databento_henry_hub",
@@ -147,13 +147,13 @@
       "empirical_execution_authority": false,
       "freeze_ready": false,
       "mepi_derivation": "Literature defines directional weather-shock effects, but a source-faithful variable and numeric MEPI must be fixed before power is meaningful.",
-      "power_sensitivity": "Do not execute this reproduction on the 2024+ issued archive. Build the literature-compatible observed-weather/climatology layer first.",
+      "power_sensitivity": "Method ambiguity is no longer the blocker. Count/power follows deterministic NOAA acquisition and station-manifest realization; Tier A/B recovery can later upgrade fidelity without changing the pre-outcome Tier C rule.",
       "remaining_blockers": [
-        "acquire and pin NOAA observed-weather snapshot",
-        "fix station/weighting rule",
-        "count season cells and run block power"
+        "acquire/hash governed NOAA reconstruction inputs",
+        "realize/freeze deterministic Richman-Lamb-style station/substitution manifest",
+        "count eligible weather/season cells and run block power"
       ],
-      "semantic_fidelity_class": "mechanism_replication_observed_weather_source_route_ready",
+      "semantic_fidelity_class": "tier_c_noaa_near_reconstruction_method_fixed_source_artifact_pending",
       "source_identities": [
         "noaa_observed_weather",
         "databento_henry_hub"
@@ -169,13 +169,13 @@
       "empirical_execution_authority": false,
       "freeze_ready": false,
       "mepi_derivation": "Literature anchors asymmetry by season/sign, but numeric cell-level MEPI is unresolved.",
-      "power_sensitivity": "Requires source redesign before implementation; otherwise it would answer a different question.",
+      "power_sensitivity": "The precursor construction is executable without final-paper access. Final-2016 continuity is reported as a fidelity limitation; source acquisition, fixed-cell counts and multiplicity-aware power are the remaining pre-outcome steps.",
       "remaining_blockers": [
-        "acquire/pin NOAA observed weather",
-        "fix season/sign cells",
-        "multiplicity-aware cell power"
+        "acquire/hash NOAA four-city reconstruction inputs",
+        "freeze station mapping and prior-30-year derived climatology",
+        "count fixed season/sign cells and run multiplicity-aware power"
       ],
-      "semantic_fidelity_class": "near_replication_observed_weather_source_route_ready",
+      "semantic_fidelity_class": "ergen_dissertation_precursor_tier_c_reconstruction_method_fixed_source_artifact_pending",
       "source_identities": [
         "noaa_observed_weather",
         "databento_henry_hub"
@@ -222,7 +222,7 @@
         "databento_henry_hub",
         "eia_storage revised historical truth",
         "eia_storage PIT release calendar",
-        "source-faithful observed weather pending"
+        "observed-weather component pending verified fidelity-tier reconstruction"
       ]
     },
     {
@@ -390,11 +390,11 @@
       "mepi_derivation": "The published anomaly supplies qualitative and magnitude context, but the design's required surprise-controlled MEPI must be fixed from source-period evidence before execution.",
       "power_sensitivity": "The basic announcement-day contrast is technically constructible, but it cannot satisfy the declared full near-replication design without PIT surprise controls.",
       "remaining_blockers": [
-        "prove historically fixed pre-release consensus history",
+        "run entitled Bloomberg PiT legacy-key/last-pre-release-state extraction under rep-003 contract",
         "count consensus-qualified source-period and extended-period events",
         "derive MEPI and calendar-preserving power"
       ],
-      "semantic_fidelity_class": "announcement_calendar_ready_full_near_replication_controls_not_ready",
+      "semantic_fidelity_class": "announcement_calendar_ready_bloomberg_pit_contract_resolved_entitled_extract_pending",
       "source_identities": [
         "databento_henry_hub",
         "eia_storage PIT release calendar",
@@ -413,12 +413,11 @@
       "mepi_derivation": "External magnitude anchor is approximately 74% weaker Friday response; exact effect-scale translation requires the source-study response normalization and surprise series.",
       "power_sensitivity": "Do not execute on the retained PIT window as though it could resolve the published effect. Exact data entitlement or materially deeper near-replication history is required.",
       "remaining_blockers": [
-        "verify/import Genesis plus Bloomberg source-study data or prove an adequate near-replication history",
-        "obtain PIT storage consensus",
-        "recount Friday/Thursday qualified events",
-        "run event-composition and power simulation"
+        "obtain exact-study Genesis/Bloomberg subscription data or execute the labeled Databento+Bloomberg-PiT near-replication route",
+        "run entitled Bloomberg PiT key/consensus extraction",
+        "recount Friday/Thursday qualified events over the deeper history and run event-composition/power simulation"
       ],
-      "semantic_fidelity_class": "exact_subscription_route_identified_near_replication_underpowered_on_retained_pit_window",
+      "semantic_fidelity_class": "exact_subscription_route_known_near_replication_bloomberg_pit_contract_resolved_power_pending",
       "source_identities": [
         "LIT-GKS-ATTENTION-DATA Genesis Financial Technologies plus Bloomberg",
         "databento_henry_hub near-replication candidate",

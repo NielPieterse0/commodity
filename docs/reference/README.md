@@ -65,6 +65,7 @@ This directory is generated from current machine-readable repository artifacts.
 - [`data/acquisition-recipes/commodity-open-meteo-ecmwf-v1-bundle.json`](data/acquisition-recipes/commodity-open-meteo-ecmwf-v1-bundle.md)
 - [`data/acquisition-recipes/commodity-open-meteo-ecmwf-v1.json`](data/acquisition-recipes/commodity-open-meteo-ecmwf-v1.md)
 - [`data/acquisition-recipes/commodity-web-search.json`](data/acquisition-recipes/commodity-web-search.md)
+- [`data/acquisition-recipes/noaa-richman-lamb-reconstruction.json`](data/acquisition-recipes/noaa-richman-lamb-reconstruction.md)
 - [`research/programmes/001-commodity-natural-gas/backlog.json`](research/programmes/001-commodity-natural-gas/backlog.md)
 - [`research/programmes/001-commodity-natural-gas/decisions.json`](research/programmes/001-commodity-natural-gas/decisions.md)
 - [`research/programmes/001-commodity-natural-gas/evidence-map.json`](research/programmes/001-commodity-natural-gas/evidence-map.md)

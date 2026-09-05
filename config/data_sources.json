@@ -600,22 +600,41 @@
     },
     "noaa_observed_weather": {
       "provider": "noaa_ncei_observed_climate",
-      "status": "public_source_route_verified_not_acquired",
-      "purpose": "source-faithful observed weather and climatological-normal construction for descriptive Henry Hub literature reproductions",
-      "product": "GHCN-Daily observations plus U.S. Daily Climate Normals 1991-2020",
+      "status": "public_reconstruction_contract_defined_not_acquired",
+      "purpose": "observed-weather reconstruction and climatology source for descriptive Henry Hub literature reproductions and separately labeled modern robustness checks",
+      "product": "GHCN-Daily observations plus NOAA station inventory/history/QC metadata with derived source-study climatologies; fixed 1991-2020 normals are robustness-only",
       "point_in_time_required": false,
       "predictive_use_allowed": false,
       "historical_truth_only": true,
+      "acquisition_recipe": "data/acquisition-recipes/noaa-richman-lamb-reconstruction.json",
       "required_variables": [
         "TMAX",
         "TMIN",
-        "TAVG_or_derived_mean",
-        "heating_degree_day_normal",
-        "cooling_degree_day_normal"
+        "TAVG_or_derived_mean"
       ],
-      "snapshot_rule": "Pin station inventory, observation files, normals version and content hashes before empirical execution; later NOAA revisions must not silently mutate a reproduction.",
-      "weighting_rule": "Use literature-derived locations/weights where recoverable; otherwise predeclare a gas-demand-region station/weighting rule before outcome access.",
-      "availability_semantics": "Observed-weather explanatory reproduction only. Do not reuse as issued-forecast or trading-at-origin evidence."
+      "snapshot_rule": "Pin source version/date, station inventory/history metadata, selected station files, QC decisions, substitution lineage, derived climatology and content hashes before empirical execution; later NOAA revisions must not silently mutate a reproduction.",
+      "station_selection_rule": "For Richman-Lamb-style Tier C reconstruction, form the literature target geography independently of outcomes; require at least 25 years of temperature history; rank candidate stations by completeness and available stability/move metadata; choose the nearest best-ranked primary and predeclare nearest reliable secondary/tertiary substitutions. Any unavailable original seed or move-history detail is recorded as a fidelity difference, not outcome-tuned.",
+      "missingness_policy": "Honor NOAA quality flags; do not outcome-condition exclusions. Fill an eligible primary-station temperature gap only through the predeclared secondary/tertiary lineage; otherwise retain missing and report coverage.",
+      "climatology_rule": "For source-study reconstruction, derive each calendar-day normal from the prior 30 years of bound observed temperature available under the fixed reconstruction rule. NOAA 1991-2020 Daily Climate Normals are a separate modern robustness layer only.",
+      "fidelity_tiers": {
+        "tier_a_exact_original": {
+          "description": "Recovered original Richman-Lamb or source-study weather artifact, hash-pinned and used without silent substitution.",
+          "climatology": "original artifact/source-study construction as documented"
+        },
+        "tier_b_algorithmic_richman_lamb": {
+          "description": "Algorithmic Richman-Lamb regeneration using recovered original seed/station metadata and documented substitution/QC lineage.",
+          "climatology": "source-study rolling historical climatology"
+        },
+        "tier_c_noaa_near_reconstruction": {
+          "description": "NOAA GHCN-Daily near reconstruction using the documented station-screen/selection/substitution logic and explicit fidelity differences where original seed or move metadata is unavailable.",
+          "climatology": "rolling prior-30-year day-of-year climatology from the bound observed-temperature history"
+        },
+        "tier_d_modern_normals_robustness": {
+          "description": "Modern robustness only; fixed current GHCN-Daily station construction plus NOAA 1991-2020 normals. Never label this tier source-faithful to Mu or Ergen/Rizvanoghlu.",
+          "climatology": "NOAA U.S. Daily Climate Normals 1991-2020"
+        }
+      },
+      "availability_semantics": "Observed-weather explanatory reproduction only. Do not reuse as issued-forecast or trading-at-origin evidence. Fidelity tier must be carried into every derived artifact."
     }
   },
   "source_library": {
