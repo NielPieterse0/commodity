@@ -7,47 +7,109 @@
   "designs": [
     {
       "design_id": "rep-001-samuelson-maturity-volatility",
-      "status": "local_machinery_ready",
-      "source_ids": ["databento_henry_hub"],
+      "status": "pre_outcome_contract_ready",
+      "source_ids": [
+        "databento_henry_hub"
+      ],
       "source_parameters": {},
-      "local_functions": ["rank_contracts_by_expiration", "same_contract_log_returns", "ar1_effective_information", "standardized_detectable_effect"],
-      "remaining_pre_outcome_work": ["fix DTE buckets and liquidity rules", "derive numeric MEPI", "clustered power simulation"],
+      "local_functions": [
+        "rank_contracts_by_expiration",
+        "same_contract_log_returns",
+        "ar1_effective_information",
+        "standardized_detectable_effect",
+        "build_samuelson_eligibility"
+      ],
+      "remaining_pre_outcome_work": [
+        "remote-bind and freeze exact preregistration before outcome access"
+      ],
       "empirical_execution_authority": false
     },
     {
       "design_id": "rep-002-seasonal-forward-curve",
-      "status": "local_machinery_ready",
-      "source_ids": ["databento_henry_hub"],
+      "status": "pre_outcome_contract_ready",
+      "source_ids": [
+        "databento_henry_hub"
+      ],
       "source_parameters": {},
-      "local_functions": ["build_curve_snapshot_eligibility", "select_exact_maturity_ranks", "standardized_detectable_effect"],
-      "remaining_pre_outcome_work": ["fix exact seasonal curve statistic", "derive numeric MEPI", "year-block power simulation"],
+      "local_functions": [
+        "build_curve_snapshot_eligibility",
+        "select_exact_maturity_ranks",
+        "standardized_detectable_effect",
+        "select_last_eligible_curve_date_per_month",
+        "build_m1_m6_log_curve_slope"
+      ],
+      "remaining_pre_outcome_work": [
+        "remote-bind and freeze exact preregistration before outcome access"
+      ],
       "empirical_execution_authority": false
     },
     {
       "design_id": "rep-004-storage-state-nonlinearity",
       "status": "local_machinery_ready",
-      "source_ids": ["eia_storage", "databento_henry_hub"],
-      "source_parameters": {"storage_mode": "fixed_revised_historical_truth"},
-      "local_functions": ["build_storage_seasonal_state", "ar1_effective_information", "standardized_detectable_effect"],
-      "remaining_pre_outcome_work": ["fix threshold/state rule", "derive numeric MEPI", "model-specific block power simulation"],
+      "source_ids": [
+        "eia_storage",
+        "databento_henry_hub"
+      ],
+      "source_parameters": {
+        "storage_mode": "fixed_revised_historical_truth"
+      },
+      "local_functions": [
+        "build_storage_seasonal_state",
+        "ar1_effective_information",
+        "standardized_detectable_effect"
+      ],
+      "remaining_pre_outcome_work": [
+        "fix threshold/state rule",
+        "derive numeric MEPI",
+        "model-specific block power simulation"
+      ],
       "empirical_execution_authority": false
     },
     {
       "design_id": "rep-005-scarcity-volatility",
       "status": "local_machinery_ready",
-      "source_ids": ["eia_storage", "databento_henry_hub"],
-      "source_parameters": {"storage_mode": "fixed_revised_historical_truth"},
-      "local_functions": ["build_storage_seasonal_state", "same_contract_log_returns", "ar1_effective_information", "standardized_detectable_effect"],
-      "remaining_pre_outcome_work": ["fix scarcity definition", "derive numeric MEPI", "interaction block-bootstrap power"],
+      "source_ids": [
+        "eia_storage",
+        "databento_henry_hub"
+      ],
+      "source_parameters": {
+        "storage_mode": "fixed_revised_historical_truth"
+      },
+      "local_functions": [
+        "build_storage_seasonal_state",
+        "same_contract_log_returns",
+        "ar1_effective_information",
+        "standardized_detectable_effect"
+      ],
+      "remaining_pre_outcome_work": [
+        "fix scarcity definition",
+        "derive numeric MEPI",
+        "interaction block-bootstrap power"
+      ],
       "empirical_execution_authority": false
     },
     {
       "design_id": "rep-006-inventory-forward-curve-scarcity",
       "status": "source_or_package_pending",
-      "source_ids": ["databento_henry_hub", "eia_storage", "US-MACRO"],
-      "source_parameters": {"one_year_rate": "FRED:GS1"},
-      "local_functions": ["build_curve_snapshot_eligibility", "select_exact_maturity_ranks", "build_exact_monthly_panel", "standardized_detectable_effect"],
-      "remaining_pre_outcome_work": ["pin GS1 acquisition snapshot", "recover exact source-study spread and deseasonalization formula", "derive numeric MEPI and block power"],
+      "source_ids": [
+        "databento_henry_hub",
+        "eia_storage",
+        "US-MACRO"
+      ],
+      "source_parameters": {
+        "one_year_rate": "FRED:GS1"
+      },
+      "local_functions": [
+        "build_curve_snapshot_eligibility",
+        "select_exact_maturity_ranks",
+        "build_exact_monthly_panel",
+        "standardized_detectable_effect"
+      ],
+      "remaining_pre_outcome_work": [
+        "pin GS1 acquisition snapshot",
+        "recover exact source-study spread and deseasonalization formula",
+        "derive numeric MEPI and block power"
+      ],
       "empirical_execution_authority": false
     },
     {
@@ -71,64 +133,153 @@
     {
       "design_id": "rep-009-announcement-volatility",
       "status": "local_machinery_ready",
-      "source_ids": ["eia_storage", "databento_henry_hub"],
-      "source_parameters": {"release_calendar": "PIT release events including holiday shifts"},
-      "local_functions": ["build_release_calendar", "build_release_day_labels", "same_contract_log_returns", "ar1_effective_information", "standardized_detectable_effect"],
-      "remaining_pre_outcome_work": ["fix matched-control calendar rule", "derive numeric MEPI", "HAC/year-block power simulation"],
+      "source_ids": [
+        "eia_storage",
+        "databento_henry_hub"
+      ],
+      "source_parameters": {
+        "release_calendar": "PIT release events including holiday shifts"
+      },
+      "local_functions": [
+        "build_release_calendar",
+        "build_release_day_labels",
+        "same_contract_log_returns",
+        "ar1_effective_information",
+        "standardized_detectable_effect"
+      ],
+      "remaining_pre_outcome_work": [
+        "fix matched-control calendar rule",
+        "derive numeric MEPI",
+        "HAC/year-block power simulation"
+      ],
       "empirical_execution_authority": false
     },
     {
       "design_id": "rep-012-physical-balance-drivers",
       "status": "local_machinery_ready",
-      "source_ids": ["eia_fundamentals", "eia_storage"],
-      "source_parameters": {"series_contract": "experiment-designs.json#rep-012.source_route.monthly_series"},
-      "local_functions": ["build_monthly_physical_balance_core", "build_exact_monthly_panel", "ar1_effective_information", "standardized_detectable_effect"],
-      "remaining_pre_outcome_work": ["derive family MEPI", "time-series power simulation", "bind target series only at separately authorized empirical execution"],
+      "source_ids": [
+        "eia_fundamentals",
+        "eia_storage"
+      ],
+      "source_parameters": {
+        "series_contract": "experiment-designs.json#rep-012.source_route.monthly_series"
+      },
+      "local_functions": [
+        "build_monthly_physical_balance_core",
+        "build_exact_monthly_panel",
+        "ar1_effective_information",
+        "standardized_detectable_effect"
+      ],
+      "remaining_pre_outcome_work": [
+        "derive family MEPI",
+        "time-series power simulation",
+        "bind target series only at separately authorized empirical execution"
+      ],
       "empirical_execution_authority": false
     },
     {
       "design_id": "rep-014-monthly-real-time-forecastability",
       "status": "source_or_package_pending",
-      "source_ids": ["LIT-BHLR-RTDB"],
-      "source_parameters": {"archive_doi": "10.15456/jae.2025266.1900967125"},
-      "local_functions": ["validate_replication_package_manifest", "build_exact_monthly_panel", "standardized_detectable_effect"],
-      "remaining_pre_outcome_work": ["import and hash author archive/code under a separately scoped data change", "verify target/benchmark/formulas and origin-by-horizon counts", "derive horizon-family MEPI and dependence-aware power"],
+      "source_ids": [
+        "LIT-BHLR-RTDB"
+      ],
+      "source_parameters": {
+        "archive_doi": "10.15456/jae.2025266.1900967125"
+      },
+      "local_functions": [
+        "validate_replication_package_manifest",
+        "build_exact_monthly_panel",
+        "standardized_detectable_effect"
+      ],
+      "remaining_pre_outcome_work": [
+        "import and hash author archive/code under a separately scoped data change",
+        "verify target/benchmark/formulas and origin-by-horizon counts",
+        "derive horizon-family MEPI and dependence-aware power"
+      ],
       "empirical_execution_authority": false
     },
     {
       "design_id": "rep-015-oil-gas-linkage-regimes",
       "status": "source_or_package_pending",
-      "source_ids": ["US-OIL"],
-      "source_parameters": {"implementation_benchmark": "EIA Cushing WTI spot monthly (rwtc)", "fidelity": "mechanism_replication_candidate_not_exact_paper_substitution"},
-      "local_functions": ["build_exact_monthly_panel", "ar1_effective_information", "standardized_detectable_effect"],
-      "remaining_pre_outcome_work": ["pin public WTI monthly snapshot", "fix literature-derived regime/break rule", "derive numeric MEPI and block/break-test power"],
+      "source_ids": [
+        "US-OIL"
+      ],
+      "source_parameters": {
+        "implementation_benchmark": "EIA Cushing WTI spot monthly (rwtc)",
+        "fidelity": "mechanism_replication_candidate_not_exact_paper_substitution"
+      },
+      "local_functions": [
+        "build_exact_monthly_panel",
+        "ar1_effective_information",
+        "standardized_detectable_effect"
+      ],
+      "remaining_pre_outcome_work": [
+        "pin public WTI monthly snapshot",
+        "fix literature-derived regime/break rule",
+        "derive numeric MEPI and block/break-test power"
+      ],
       "empirical_execution_authority": false
     },
     {
       "design_id": "rep-016-europe-us-transmission-limited",
       "status": "source_or_package_pending",
-      "source_ids": ["LIT-RS-EUUS"],
-      "source_parameters": {"archive_doi": "10.18150/KCPFNE"},
-      "local_functions": ["validate_replication_package_manifest", "standardized_detectable_effect"],
-      "remaining_pre_outcome_work": ["import and hash RepOD package under separately scoped data change", "verify structural system and identification", "derive source-study effective-information/power contract"],
+      "source_ids": [
+        "LIT-RS-EUUS"
+      ],
+      "source_parameters": {
+        "archive_doi": "10.18150/KCPFNE"
+      },
+      "local_functions": [
+        "validate_replication_package_manifest",
+        "standardized_detectable_effect"
+      ],
+      "remaining_pre_outcome_work": [
+        "import and hash RepOD package under separately scoped data change",
+        "verify structural system and identification",
+        "derive source-study effective-information/power contract"
+      ],
       "empirical_execution_authority": false
     },
     {
       "design_id": "rep-020-positioning-incremental-information",
       "status": "local_machinery_ready",
-      "source_ids": ["cftc_cot"],
-      "source_parameters": {"primary_positioning_measure": "managed_money_net_change"},
-      "local_functions": ["managed_money_weekly_changes", "ar1_effective_information", "standardized_detectable_effect"],
-      "remaining_pre_outcome_work": ["fix physical-control block semantics", "derive numeric MEPI", "weekly HAC power simulation"],
+      "source_ids": [
+        "cftc_cot"
+      ],
+      "source_parameters": {
+        "primary_positioning_measure": "managed_money_net_change"
+      },
+      "local_functions": [
+        "managed_money_weekly_changes",
+        "ar1_effective_information",
+        "standardized_detectable_effect"
+      ],
+      "remaining_pre_outcome_work": [
+        "fix physical-control block semantics",
+        "derive numeric MEPI",
+        "weekly HAC power simulation"
+      ],
       "empirical_execution_authority": false
     },
     {
       "design_id": "exp-021-issued-weather-revisions",
       "status": "local_machinery_ready",
-      "source_ids": ["weather"],
-      "source_parameters": {"revision_key": "same location_id + forecast_valid_at across consecutive immutable issued runs"},
-      "local_functions": ["build_same_valid_time_revisions", "ar1_effective_information", "standardized_detectable_effect"],
-      "remaining_pre_outcome_work": ["bind raw issued-run loader to same-valid-time constructor", "define fixed aggregation/lead windows", "derive exploratory power/sensitivity"],
+      "source_ids": [
+        "weather"
+      ],
+      "source_parameters": {
+        "revision_key": "same location_id + forecast_valid_at across consecutive immutable issued runs"
+      },
+      "local_functions": [
+        "build_same_valid_time_revisions",
+        "ar1_effective_information",
+        "standardized_detectable_effect"
+      ],
+      "remaining_pre_outcome_work": [
+        "bind raw issued-run loader to same-valid-time constructor",
+        "define fixed aggregation/lead windows",
+        "derive exploratory power/sensitivity"
+      ],
       "empirical_execution_authority": false
     }
   ]

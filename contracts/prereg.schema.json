@@ -317,6 +317,7 @@
           "enum": [
             "forecasting",
             "volatility",
+            "descriptive_mechanism",
             "trading_usefulness"
           ]
         },

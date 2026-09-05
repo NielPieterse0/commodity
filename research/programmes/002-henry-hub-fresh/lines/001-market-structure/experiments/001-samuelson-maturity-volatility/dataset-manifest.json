@@ -1,0 +1,157 @@
+{
+  "assurance_method": "structural_identity_contract_v1",
+  "component_contracts": {
+    "contract_mapping_contract": {
+      "identity_payload": [
+        "raw_symbol",
+        "expiration",
+        "activation",
+        "exchange",
+        "asset",
+        "instrument_class"
+      ],
+      "identity_semantics": "instrument_id and definition payload are resolved point-in-time; provider-undefined timestamps are excluded; no global symbol-to-expiration mapping",
+      "join_key": "instrument_id",
+      "missing_time_valid_definition": "reject",
+      "same_timestamp_conflicting_identity": "reject",
+      "stable_contract_identity": "raw_symbol_plus_definition_expiration"
+    },
+    "pit_rules": {
+      "dte_buckets": [
+        "0-30",
+        "31-60",
+        "61-90",
+        "91-180",
+        "181-365",
+        "366+"
+      ],
+      "liquidity_rule": "finite cleared volume > 0",
+      "outcome_rule_changes_after_freeze": "prohibited",
+      "primary_proxy": "absolute same-contract daily log return",
+      "season_rule": "winter_withdrawal Nov-Mar; non_winter Apr-Oct"
+    },
+    "schema_contract": {
+      "definition_identity_fields": [
+        "instrument_id",
+        "raw_symbol",
+        "ts_recv",
+        "ts_event",
+        "instrument_class",
+        "asset",
+        "exchange",
+        "activation",
+        "expiration"
+      ],
+      "protected_settlement_price_access": "prohibited_preoutcome",
+      "statistics_all_record_fields_preoutcome": [
+        "stat_type"
+      ],
+      "statistics_cleared_volume_fields_preoutcome": [
+        "instrument_id",
+        "ts_ref",
+        "ts_event",
+        "ts_recv",
+        "quantity"
+      ]
+    },
+    "timestamp_contract": {
+      "allow_exact_timestamp_match": true,
+      "definition_time": "ts_recv_else_ts_event",
+      "observation_time": "ts_recv_else_ts_event",
+      "temporal_join": "latest_definition_time_lte_observation_time",
+      "timezone": "UTC"
+    }
+  },
+  "dataset_id": "databento_henry_hub_contract_history",
+  "preoutcome_data_assurance": {
+    "assurance_sha256": "b48f64079081adab401e764137d7d6eff6daeb86d2d2c75a12fa9645badbf7d8",
+    "assurance_stage": "pre_outcome",
+    "contract_mapping_sha256": "d4bf2fb15a11ac404d425e87e665b5fd6c0e3336717ae7536f87b32c32e861a0",
+    "dataset_identity": {
+      "dataset_id": "databento_henry_hub_contract_history",
+      "split_id": "full-admissible-descriptive-reproduction",
+      "vintage_id": "existing-approved-full-history-complete-through-2026-08-12"
+    },
+    "expected_coverage": {
+      "archive_complete_through": "2026-08-12",
+      "contract_clusters": 210,
+      "dte_bucket_counts": {
+        "0-30": 2696,
+        "181-365": 16435,
+        "31-60": 2614,
+        "366+": 67384,
+        "61-90": 2623,
+        "91-180": 7962
+      },
+      "positive_volume_contract_days": 99714
+    },
+    "outcome_access_state": "not_accessed",
+    "pit_rules_sha256": "92332fc3cd73ac7d6e064f33f09ea1197ed8de2311c7a818e53c5b5b813fa4b6",
+    "post_unblinding_requirement": "deterministic_rebuild_exact_comparison+explicit_dataset_semantics_v1",
+    "schema_sha256": "ceab8bbd54d4536a29e7a6ab184c817e93b21628280c6275865473fb4c26792f",
+    "schema_version": 1,
+    "source_inputs": [
+      {
+        "id": "databento_definition_archive_manifest",
+        "sha256": "28384d503e8edb3bb06f28c5e0c7c527af1a6af7967665028c2590ab8d8fb0f4"
+      },
+      {
+        "id": "databento_statistics_archive_manifest",
+        "sha256": "506142d2e8668be0d2cbd9ec2f99565c87de6066dc605fb868df9b927f291a30"
+      }
+    ],
+    "structural_invariants": [
+      {
+        "expected": "never_preoutcome",
+        "name": "protected_settlement_price_access"
+      },
+      {
+        "expected": "point_in_time_fail_closed",
+        "name": "temporal_contract_identity"
+      },
+      {
+        "expected": "finite cleared volume > 0",
+        "name": "primary_liquidity"
+      },
+      {
+        "expected": [
+          "0-30",
+          "31-60",
+          "61-90",
+          "91-180",
+          "181-365",
+          "366+"
+        ],
+        "name": "dte_bucket_order"
+      }
+    ],
+    "timestamp_contract_sha256": "3adc69150896a765ab7ee9d7bf18ee5870e055e453331753e9371819fe352a9d",
+    "transformation_sha256": {
+      "databento_futures_provider": "c3d11eafa115ef6bfb9103f82b0ca15473aa33c922ce626bcfb18b30aa48d33d",
+      "preoutcome_dry_run_runner": "01e99c9ee59a7f73bd3435048ba81a946be506cf4943e8e0f81793e02329874d",
+      "research_construction": "5f14cf39d6f144a9fe6b4b7353c7999b5757df93bd0316c204fabb6332ccfa09"
+    }
+  },
+  "protected_outcomes_accessed": false,
+  "schema_version": 1,
+  "split_id": "full-admissible-descriptive-reproduction",
+  "supporting_refs": [
+    {
+      "path": "research/programmes/002-henry-hub-fresh/lines/001-market-structure/experiments/001-samuelson-maturity-volatility/pre-outcome-design.json",
+      "sha256": "c939f0951eae0c17548d1b06f2f883e7e8a0c2b0fc90b2d348182efc1d2ad97c"
+    },
+    {
+      "path": "research/programmes/002-henry-hub-fresh/lines/001-market-structure/experiments/001-samuelson-maturity-volatility/pre-outcome-evidence.json",
+      "sha256": "d618415ab5c1c085e95a44efe9eda1c03ac9f05da4b152bf8be686034c4e624b"
+    },
+    {
+      "path": "src/commodity/providers/databento_futures.py",
+      "sha256": "c3d11eafa115ef6bfb9103f82b0ca15473aa33c922ce626bcfb18b30aa48d33d"
+    },
+    {
+      "path": "src/commodity/research_construction.py",
+      "sha256": "5f14cf39d6f144a9fe6b4b7353c7999b5757df93bd0316c204fabb6332ccfa09"
+    }
+  ],
+  "vintage_id": "existing-approved-full-history-complete-through-2026-08-12"
+}

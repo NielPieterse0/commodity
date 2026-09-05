@@ -275,6 +275,69 @@ def test_standardized_detectable_effect_matches_planning_constant():
     assert effect == pytest.approx(0.28016, rel=2e-4)
 
 
+def test_samuelson_eligibility_fixes_dte_buckets_and_primary_liquidity_without_prices():
+    from commodity.research_construction import build_samuelson_eligibility
+
+    frame = pd.DataFrame(
+        {
+            "trade_date": ["2026-01-01"] * 6,
+            "contract_id": [f"M{i}" for i in range(1, 7)],
+            "expiration": ["2026-01-20", "2026-02-15", "2026-03-20", "2026-06-01", "2026-11-01", "2027-06-01"],
+            "volume": [1, 2, 0, 4, 5, 6],
+        }
+    )
+    result = build_samuelson_eligibility(frame)
+    assert result["dte_bucket"].astype(str).tolist() == ["0-30", "31-60", "61-90", "91-180", "181-365", "366+"]
+    assert result["eligible_primary"].tolist() == [True, True, False, True, True, True]
+    assert "settle" not in result.columns
+
+
+def test_monthly_curve_date_selection_uses_last_identity_eligible_session():
+    from commodity.research_construction import (
+        select_last_eligible_curve_date_per_month,
+    )
+
+    rows = []
+    for trade_date, depth in [("2026-01-29", 6), ("2026-01-30", 5), ("2026-02-26", 6), ("2026-02-27", 6)]:
+        for rank in range(1, depth + 1):
+            rows.append(
+                {
+                    "trade_date": trade_date,
+                    "contract_id": f"{trade_date}-M{rank}",
+                    "expiration": pd.Timestamp(trade_date) + pd.Timedelta(days=30 * rank),
+                }
+            )
+    selected = select_last_eligible_curve_date_per_month(pd.DataFrame(rows), required_maturities=6)
+    assert selected["trade_date"].dt.strftime("%Y-%m-%d").tolist() == ["2026-01-29", "2026-02-27"]
+
+
+def test_m1_m6_log_curve_slope_uses_all_six_exact_ranks_and_storage_seasons():
+    from commodity.research_construction import build_m1_m6_log_curve_slope
+
+    rows = []
+    for trade_date, beta in [("2026-01-15", 0.20), ("2026-05-15", -0.10)]:
+        for rank in range(1, 7):
+            x = (rank - 1) / 5.0
+            rows.append(
+                {
+                    "trade_date": trade_date,
+                    "contract_id": f"{trade_date}-M{rank}",
+                    "expiration": pd.Timestamp(trade_date) + pd.Timedelta(days=30 * rank),
+                    "settle": math.exp(beta * x),
+                }
+            )
+    slopes = build_m1_m6_log_curve_slope(pd.DataFrame(rows))
+    assert slopes["m1_m6_log_slope"].tolist() == pytest.approx([0.20, -0.10])
+    assert slopes["season"].tolist() == ["winter_withdrawal", "injection"]
+
+
+def test_standardized_power_uses_effective_information_not_raw_rows():
+    from commodity.research_construction import standardized_power
+
+    assert standardized_power(0.25, 209.0, alpha=0.05) > 0.94
+    assert standardized_power(0.75, 17.0, alpha=0.05) > 0.86
+
+
 def test_replication_package_manifest_is_hash_bound_and_nonexecuting():
     from commodity.research_construction import validate_replication_package_manifest
 

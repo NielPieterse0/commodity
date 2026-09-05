@@ -1,0 +1,28 @@
+{
+  "schema_version": 1,
+  "work_id": "WORK-316",
+  "recovery_mode": "github_native_after_once_through_exit",
+  "source_issue": "NielPieterse0/commodity#316",
+  "base_sha": "b8d869ea7e597b9958d6deb6f0ffe2d35b94b102",
+  "scientific_authority": "research/programmes/002-henry-hub-fresh/**",
+  "prior_once_through_evidence_reused": false,
+  "protected_outcomes_opened_during_recovery": false,
+  "current_gate": "signed_remote_preregistration_tag",
+  "known_blockers": [
+    "create and publish cryptographically signed remote preregistration tags for rep-001 and rep-002; KIS/GitHub exposes no tag-creation operation and local git tag -s has no usable operator signing identity/key service"
+  ],
+  "completed_recovery_repairs": [
+    "time-valid Databento contract identity with ID-reuse regressions",
+    "rep-001 fixed DTE and positive-volume eligibility rules",
+    "rep-001 numeric MEPI and contract-cluster effective-information power",
+    "rep-002 exact M1-M6 monthly seasonal statistic",
+    "rep-002 numeric MEPI and 12-month block effective-information power",
+    "full outcome-blind definition/identity/coverage dry run",
+    "rep-001 and rep-002 structural pre-outcome dataset-assurance manifests bound to immutable archive/code identities",
+    "design-scoped preregistration freeze authority enabled only for rep-001 and rep-002 while empirical/protected-outcome authority remains false",
+    "current GitHub main reconciled without weakening change-318 source-enablement authority or the WORK-316 outcome boundary",
+    "canonical verification passed on the reconciled pre-outcome tree with 453 tests plus repository/data/methodology/documentation, Ruff, and whitespace gates",
+    "PR #319 requires provider-native GitHub Actions success at each exact published head before any further lifecycle transition"
+  ],
+  "next_action": "provision an existing operator signing identity or registered signed-tag capability, create and publish experiment/001-samuelson-maturity-volatility/v1 and experiment/002-seasonal-forward-curve/v1 at the exact verified HEAD, then materialize immutable freeze records before any outcome access"
+}

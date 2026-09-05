@@ -12,11 +12,11 @@ Source: `research/programmes/002-henry-hub-fresh/lines/001-market-structure/line
 | `zoom_level` | L2 |
 | `programme_id` | 002-henry-hub-fresh |
 | `research_line_id` | 001-market-structure |
-| `status` | active |
-| `selection_basis` | Fresh external-literature mapping under programme 002; no legacy internal result is used as scientific calibration or expected outcome. |
+| `status` | selected |
+| `selection_basis` | external_evidence |
 | `big_picture` | This line tests maturity and seasonal curve structure as part of the wider goal of understanding Henry Hub before prediction or model selection. |
 | `why_zoomed_in` | Exact-contract market structure is the cleanest calibration layer for testing whether canonical Henry Hub market data preserve published stylized facts. |
-| `tested_role_target_horizon` | No literature outcome has been tested in programme 002. Current evidence covers literature mapping, source semantics, source capacity, dependence and feasibility only. |
+| `tested_role_target_horizon` | rep-001 and rep-002 are selected for exact preregistration/freeze; no Programme 002 market outcome has been opened yet. |
 | `revisit_trigger` | Revisit empirical execution only after applicable HOLD/REDESIGN blockers are resolved, implementation/power contracts are verified, and the operator explicitly authorizes the transition. |
 | `programme_interpretation` | This line remains pre-empirical. Literature support is external evidence, not an internal programme result. |
 
@@ -31,7 +31,7 @@ Source: `research/programmes/002-henry-hub-fresh/lines/001-market-structure/line
 | `legacy_research_line_ids` | array (0 items) |
 | `status` | str |
 | `selection_basis` | str |
-| `stopping_rules` | object (2 keys) |
+| `stopping_rules` | object (7 keys) |
 | `big_picture` | str |
 | `why_zoomed_in` | str |
 | `tested_role_target_horizon` | str |
