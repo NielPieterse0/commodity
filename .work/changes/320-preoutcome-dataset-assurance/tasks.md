@@ -9,5 +9,6 @@
 - [x] Update methodology authority, rule verification, and generated documentation.
 - [x] Run focused tests and `pwsh -File scripts/change-workflow.ps1 check`.
 - [x] Run live KIS lifecycle verification and review; resolve findings.
-- [ ] Publish reviewable PR, obtain exact-head GitHub Actions evidence, merge, reconcile, and clean up.
-- [ ] Return to WORK-316 without opening protected outcomes until the signed-freeze gate is satisfied.
+- [x] Publish reviewable PR, obtain exact-head GitHub Actions evidence, and merge the implementation.
+- [x] Return to WORK-316 without opening protected outcomes until the signed-freeze gate is satisfied.
+- [ ] Land this post-merge closeout reconciliation and clean the change-320 worktree.
