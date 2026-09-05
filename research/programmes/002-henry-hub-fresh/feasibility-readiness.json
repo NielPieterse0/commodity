@@ -4,7 +4,7 @@
   "holds": {
     "rep003": {
       "ready": false,
-      "reason": "Historically fixed pre-release consensus source not yet qualified."
+      "reason": "Bloomberg PiT/ECOS public product contract is resolved; entitled legacy-key mapping, last-pre-release survey-state validation and consensus-qualified event counts remain."
     },
     "rep011": {
       "ready": false,
@@ -20,11 +20,11 @@
     },
     "rep018": {
       "ready": false,
-      "reason": "Full near replication still lacks fixed pre-release surprise controls."
+      "reason": "Full near replication waits on entitled Bloomberg PiT legacy-key mapping, last-pre-release survey-state validation and consensus-qualified event counts under the rep-003 extraction contract."
     },
     "rep019": {
       "ready": false,
-      "reason": "Exact subscription data unresolved and the retained Friday cell is only three events."
+      "reason": "Exact-study Genesis/Bloomberg access or the labeled Databento+Bloomberg-PiT near-replication extract remains unresolved; the deeper-history Friday/Thursday event composition and power check must then pass."
     },
     "rep010": {
       "ready": false,
