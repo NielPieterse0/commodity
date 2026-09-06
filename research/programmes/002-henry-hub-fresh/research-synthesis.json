@@ -88,12 +88,251 @@
     "redesign": []
   },
   "interpretation_rule": "External literature support is not internal proof. A finding becomes programme-reproduced only after a fresh programme experiment reproduces it under the declared design, source fidelity, MEPI/power and semantic rules. Contextual sources and exploratory gap discovery cannot be counted as strict reproduction.",
-  "next_stage": "Implement and verify the fourteen GO design constructions without empirical literature-result execution. Seven HOLD designs remain governed by revisit-triggers.json; all empirical/freeze/protected-evidence transitions remain operator-gated.",
+  "next_stage": "Phase 1 forecast-signal proof under the Phase 0 transition baseline. Use governed schema-v3 exploratory runs on development and rolling research-OOS data; reserve preregistration/freeze for confirmatory use of reserved or sealed confirmation evidence.",
   "implementation_contracts_ref": "implementation-contracts.json",
   "implementation_status": {
     "go_designs_mapped": 14,
     "machinery_implemented": 8,
     "machinery_implemented_source_artifact_pending": 6,
     "empirical_execution_authority": false
+  },
+  "phase_0_transition": {
+    "issue": 332,
+    "role": "authoritative_phase_1_handoff_baseline",
+    "status": "phase_1_ready_after_merge",
+    "previous_programme_baseline": {
+      "objective": "literature replication, source-faithful design, feasibility and pre-outcome implementation readiness",
+      "internal_reproductions_completed": 0,
+      "outcome_effect_testing_performed": false,
+      "protected_confirmation_opened": false,
+      "feasibility_counts": {
+        "GO": 14,
+        "HOLD": 7,
+        "REDESIGN": 0
+      },
+      "go_machinery_mapped": 14,
+      "local_machinery_ready": 8,
+      "source_or_package_pending": 6
+    },
+    "carried_forward": {
+      "canonical_refs": [
+        "literature-sources.json",
+        "experiment-designs.json",
+        "feasibility-ledger.json",
+        "implementation-contracts.json",
+        "implementation-readiness.json",
+        "evidence-map.json",
+        "inference-ledger.json"
+      ],
+      "controls": [
+        "point_in_time_semantics",
+        "source_and_vintage_identity",
+        "provenance",
+        "deterministic_reconstruction",
+        "dataset_semantics",
+        "immutable_data_assurance",
+        "chronological_evaluation",
+        "leakage_controls",
+        "complete_search_history"
+      ],
+      "agent_a_work_316": {
+        "issue": 316,
+        "pull_request": 319,
+        "verified_pr_head": "0dc6f8a5d75ff30308cfbdd6e461b963a9890323",
+        "verified_ci_run": 33982466187,
+        "preserved_branch": "change/316-henry-hub-empirical-tranche-a",
+        "preserved_branch_head": "fc0f4049b5b1aa47f5d694dd6862b8298d1d9b22",
+        "preservation_note": "The preservation head differs from the verified PR head only by the Phase-0 governance-scope closeout commit.",
+        "empirical_outcomes_opened": false,
+        "transfer": "Reuse the verified rep-001/rep-002 implementation in Phase 1; do not rebuild it and do not inherit the obsolete signed-tag/preregistration blocker for exploratory proof."
+      },
+      "agent_b_work_318": {
+        "issue": 318,
+        "merged": true,
+        "implementation_pr": 324,
+        "implementation_head": "ae3cccc5811f1e061a378a37bff46e4a765af80d",
+        "implementation_merge": "7886ebbcfc75a43c86dfba9224abd14b16c0049f",
+        "closeout_pr": 325,
+        "closeout_head": "252533ef3c2e9258e3301c97ac20f2a9dbf6d16c",
+        "closeout_merge": "6357d8c7520129b6f984e0059403c507e231e186",
+        "transfer": "Retain the NOAA/Richman-Lamb reconstruction contract, Ergen precursor boundary, and Bloomberg PiT entitlement boundary as current source-readiness authority."
+      },
+      "framework_work_320": {
+        "issue": 320,
+        "implementation_pr": 322,
+        "implementation_head": "b6413fc4ea0457abadf16c0f417ee8e364823c14",
+        "merge_commit": "84ead68a0b34770bad0e781639de148453574e75",
+        "transfer": "Retain the split between outcome-blind pre-outcome assurance and post-unblinding value/semantic assurance; Phase 0 does not remove this protection."
+      }
+    },
+    "forecast_objective_classification": {
+      "counts": {
+        "forecast_candidate": 14,
+        "contextual_evidence": 3,
+        "unavailable_exact_replication": 4,
+        "no_longer_worth_pursuing": 0
+      },
+      "designs": [
+        {
+          "design_id": "rep-001-samuelson-maturity-volatility",
+          "prior_feasibility": "GO",
+          "forecast_role": "forecast_candidate",
+          "rationale": "Source-ready market-structure mechanism and Phase-1 first-priority candidate; preserve and reuse the verified WORK-316 implementation."
+        },
+        {
+          "design_id": "rep-002-seasonal-forward-curve",
+          "prior_feasibility": "GO",
+          "forecast_role": "forecast_candidate",
+          "rationale": "Source-ready term-structure mechanism and Phase-1 first-priority candidate; preserve and reuse the verified WORK-316 implementation."
+        },
+        {
+          "design_id": "rep-003-storage-surprise-response",
+          "prior_feasibility": "HOLD",
+          "forecast_role": "unavailable_exact_replication",
+          "rationale": "Exact source-faithful replication requires entitled Bloomberg pre-release consensus; that acquisition is non-critical to Phase 1. A public/free mechanism test must use a separate labeled design."
+        },
+        {
+          "design_id": "rep-004-storage-state-nonlinearity",
+          "prior_feasibility": "GO",
+          "forecast_role": "forecast_candidate",
+          "rationale": "Zero-new-cost storage-state mechanism with local construction machinery ready; Phase-1 priority after rep-001/002."
+        },
+        {
+          "design_id": "rep-005-scarcity-volatility",
+          "prior_feasibility": "GO",
+          "forecast_role": "forecast_candidate",
+          "rationale": "Zero-new-cost storage-scarcity mechanism with local machinery ready; Phase-1 priority after rep-004."
+        },
+        {
+          "design_id": "rep-006-inventory-forward-curve-scarcity",
+          "prior_feasibility": "GO",
+          "forecast_role": "forecast_candidate",
+          "rationale": "Public/available storage, futures and GS1 route can support a forecast feature candidate once the exact measurement rule is fixed."
+        },
+        {
+          "design_id": "rep-007-weather-return-volatility-response",
+          "prior_feasibility": "GO",
+          "forecast_role": "forecast_candidate",
+          "rationale": "Public NOAA reconstruction contract is defined; candidate becomes executable after the governed source artifact is materialized."
+        },
+        {
+          "design_id": "rep-008-weather-season-sign-asymmetry",
+          "prior_feasibility": "GO",
+          "forecast_role": "forecast_candidate",
+          "rationale": "Public NOAA four-city reconstruction contract is defined; candidate becomes executable after the governed source artifact is materialized."
+        },
+        {
+          "design_id": "rep-009-announcement-volatility",
+          "prior_feasibility": "GO",
+          "forecast_role": "forecast_candidate",
+          "rationale": "Zero-new-cost EIA release-calendar and market-data mechanism with local machinery ready; Phase-1 priority after scarcity candidates."
+        },
+        {
+          "design_id": "rep-010-volatility-state-dependence",
+          "prior_feasibility": "HOLD",
+          "forecast_role": "contextual_evidence",
+          "rationale": "This is a synthesis of component states rather than an independent first-pass signal; use it to interpret combinations after component mechanisms are tested."
+        },
+        {
+          "design_id": "rep-011-weather-enhanced-volatility-oos",
+          "prior_feasibility": "HOLD",
+          "forecast_role": "unavailable_exact_replication",
+          "rationale": "The exact source-study weather provider, formulas and primary OOS loss metric remain unresolved; public weather forecast candidates are already represented by rep-007/008/exp-021."
+        },
+        {
+          "design_id": "rep-012-physical-balance-drivers",
+          "prior_feasibility": "GO",
+          "forecast_role": "forecast_candidate",
+          "rationale": "Public EIA physical-balance data and local monthly construction machinery provide a zero-new-cost candidate once target semantics are fixed."
+        },
+        {
+          "design_id": "rep-013-lng-export-demand-channel",
+          "prior_feasibility": "HOLD",
+          "forecast_role": "forecast_candidate",
+          "rationale": "A public candidate route exists and the LNG demand mechanism is forecast-relevant; execution waits for a defensible terminal/pipeline and posting-time contract."
+        },
+        {
+          "design_id": "rep-014-monthly-real-time-forecastability",
+          "prior_feasibility": "GO",
+          "forecast_role": "forecast_candidate",
+          "rationale": "Direct forecastability design with an identified replication archive; useful after the public package is imported and verified."
+        },
+        {
+          "design_id": "rep-015-oil-gas-linkage-regimes",
+          "prior_feasibility": "GO",
+          "forecast_role": "forecast_candidate",
+          "rationale": "Deep public WTI route is available and the regime-dependent cross-market mechanism can be tested as an incremental forecast feature."
+        },
+        {
+          "design_id": "rep-016-europe-us-transmission-limited",
+          "prior_feasibility": "GO",
+          "forecast_role": "contextual_evidence",
+          "rationale": "Exact public replication package is useful mainly to bound expectations for European incremental information; it is not on the Phase-1 first-pass signal path."
+        },
+        {
+          "design_id": "ctx-017-connectedness-congestion",
+          "prior_feasibility": "HOLD",
+          "forecast_role": "contextual_evidence",
+          "rationale": "The source is explicitly contextual European evidence rather than a Henry Hub reproduction or standalone predictive design."
+        },
+        {
+          "design_id": "rep-018-announcement-day-return-puzzle",
+          "prior_feasibility": "HOLD",
+          "forecast_role": "unavailable_exact_replication",
+          "rationale": "Source-faithful replication depends on the same entitled Bloomberg PiT consensus route as rep-003 and is non-critical to Phase 1."
+        },
+        {
+          "design_id": "rep-019-friday-attention-effect",
+          "prior_feasibility": "HOLD",
+          "forecast_role": "unavailable_exact_replication",
+          "rationale": "Exact study replication requires Genesis/Bloomberg and the near-replication still requires Bloomberg PiT consensus; no new paid acquisition is permitted in Phase 1."
+        },
+        {
+          "design_id": "rep-020-positioning-incremental-information",
+          "prior_feasibility": "GO",
+          "forecast_role": "forecast_candidate",
+          "rationale": "Public PIT CFTC positioning data and local weekly-change machinery provide a zero-new-cost candidate once physical-control semantics are fixed."
+        },
+        {
+          "design_id": "exp-021-issued-weather-revisions",
+          "prior_feasibility": "GO",
+          "forecast_role": "forecast_candidate",
+          "rationale": "Already-lawfully-available issued weather vintages provide an explicitly exploratory forecast candidate once revision/lead aggregation rules are fixed."
+        }
+      ]
+    },
+    "critical_path": {
+      "preproof_execution_mode": "governed_exploratory_schema_v3",
+      "preregistration_required_for_preproof": false,
+      "new_paid_data_acquisition": false,
+      "paid_exact_replications_on_critical_path": false,
+      "reserved_or_sealed_confirmation_requires_confirmatory_freeze": true,
+      "controls_retained": [
+        "point_in_time_semantics",
+        "provenance",
+        "dataset_reconstruction",
+        "dataset_semantics",
+        "immutable_data_assurance",
+        "chronological_evaluation",
+        "leakage_controls",
+        "complete_search_history"
+      ]
+    },
+    "phase_1_start": {
+      "issue": 327,
+      "first_sequence": [
+        "rep-001-samuelson-maturity-volatility",
+        "rep-002-seasonal-forward-curve",
+        "rep-004-storage-state-nonlinearity",
+        "rep-005-scarcity-volatility",
+        "rep-009-announcement-volatility",
+        "rep-007-weather-return-volatility-response",
+        "rep-008-weather-season-sign-asymmetry",
+        "rep-012-physical-balance-drivers",
+        "rep-020-positioning-incremental-information"
+      ],
+      "selection_rule_after_sequence": "Continue forecast_candidate designs by expected information value and zero-new-cost readiness; preserve negative and inconclusive results.",
+      "phase_2_gate": "At least one mechanism must demonstrate repeatable chronological OOS predictive content with economically plausible magnitude."
+    }
   }
 }

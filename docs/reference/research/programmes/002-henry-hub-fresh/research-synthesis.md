@@ -18,7 +18,7 @@ Source: `research/programmes/002-henry-hub-fresh/research-synthesis.json`
 | `feasibility_authority_ref` | evidence-map.json |
 | `supporting_feasibility_detail_ref` | feasibility-ledger.json |
 | `interpretation_rule` | External literature support is not internal proof. A finding becomes programme-reproduced only after a fresh programme experiment reproduces it under the declared design, source fidelity, MEPI/power and semantic rules. Contextual sources and exploratory gap discovery cannot be counted as strict reproduction. |
-| `next_stage` | Implement and verify the fourteen GO design constructions without empirical literature-result execution. Seven HOLD designs remain governed by revisit-triggers.json; all empirical/freeze/protected-evidence transitions remain operator-gated. |
+| `next_stage` | Phase 1 forecast-signal proof under the Phase 0 transition baseline. Use governed schema-v3 exploratory runs on development and rolling research-OOS data; reserve preregistration/freeze for confirmatory use of reserved or sealed confirmation evidence. |
 | `implementation_contracts_ref` | implementation-contracts.json |
 
 ## Structure
@@ -41,3 +41,4 @@ Source: `research/programmes/002-henry-hub-fresh/research-synthesis.json`
 | `next_stage` | str |
 | `implementation_contracts_ref` | str |
 | `implementation_status` | object (4 keys) |
+| `phase_0_transition` | object (8 keys) |

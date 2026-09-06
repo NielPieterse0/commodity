@@ -53,3 +53,4 @@ Source: `config/research_methodology.json`
 | `governed_research_workflow` | array (15 items) |
 | `governed_research_workflow_details` | array (15 items) |
 | `nested_research_kis_workflow` | object (9 keys) |
+| `preproof_exploratory_execution` | object (8 keys) |
