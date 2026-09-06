@@ -19,3 +19,13 @@
 - Exact-diff Codex review found two actionable issues: an exploratory/frozen-execution wording contradiction and a missing recomputation assertion for classification counts. Both were fixed; regression coverage now enforces the corrected boundary and actual 14/3/4/0 distribution.
 - The re-review backend then hit its output limit with no new finding; final bounded manual verification confirms the two recorded findings are resolved.
 - Canonical full-repository acceptance therefore remains provider-native exact-head GitHub Actions.
+
+## Landed evidence
+
+- Primary implementation commit: `018af4078887ae9533289c274b9d23dea1440b4e`.
+- Pull request: #333 (`change/332-phase-0-programme-transition`).
+- Exact-head GitHub Actions: run `34041189379`, `verify` passed at the exact implementation head.
+- Work merge-readiness gate: READY with zero blocking reasons.
+- Primary merge commit: `af0d31ec8829dadf5d73e88660b88c0cb488b8a7`.
+- Registered `origin/main` was refreshed to the exact GitHub merge commit after landing.
+- This follow-up is documentation reconciliation only; it changes no research, methodology, source, model, data, or empirical outcome behavior.

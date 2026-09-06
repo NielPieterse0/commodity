@@ -9,6 +9,6 @@
 - [x] Run focused tests, research-methodology checks, documentation checks, and governed scope check.
 - [x] Run full local verification; record Windows Application Control / PyArrow environment blocker separately from Phase-0 correctness.
 - [x] Complete specialist review and resolve blocking findings.
-- [ ] Commit and prepare the reviewable PR.
-- [ ] Require provider-native exact-head GitHub Actions as canonical full-repository verification.
-- [ ] Merge, reconcile Work/documentation state, release Phase 1, and clean the worktree through KIS.
+- [x] Commit and prepare the reviewable PR.
+- [x] Require provider-native exact-head GitHub Actions as canonical full-repository verification.
+- [ ] Land this post-merge documentation reconciliation, mark Phase 0 Done, release Phase 1, and clean the worktree through KIS.
