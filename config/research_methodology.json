@@ -206,14 +206,14 @@
       "stage_id": "preregister_and_freeze_if_applicable",
       "zoom_level": "L3",
       "stage": "Governed implementation + preregister and freeze if applicable",
-      "required_outcome": "Implement and verify the exact runnable design, bind outcome-blind dataset identity/schema/time/PIT/reconstruction machinery and structural invariants, then preregister/freeze and remotely bind the confirmatory commitment before protected outcome access."
+      "required_outcome": "Implement and verify the runnable design. Pre-proof exploratory work may proceed on development and rolling research-OOS data under schema-v3 data assurance without preregistration; preregister/freeze before any reserved/sealed confirmation use or confirmatory claim."
     },
     {
       "step": 10,
       "stage_id": "execute",
       "zoom_level": "L4",
       "stage": "Execute",
-      "required_outcome": "Only after the remote freeze and pre-outcome assurance authorize access, run exactly the governed exploratory or frozen confirmatory design and preserve raw machine result evidence before interpretation."
+      "required_outcome": "Run a governed schema-v3 exploratory design on development/research-OOS data, or a frozen confirmatory design on eligible reserved/sealed confirmation. Preserve raw machine result evidence before interpretation."
     },
     {
       "step": 11,
@@ -554,7 +554,7 @@
       "step": 9,
       "zoom_level": "L3",
       "title": "Governed implementation + preregister and freeze if applicable",
-      "purpose": "Cross from research design into active repository work: create a governed .work change for the selected experiment, implement the exact runnable experiment code/data/config/test slice, verify it, and only then freeze and bind the executable scientific commitment before protected execution.",
+      "purpose": "Cross from research design into governed repository work, implement and verify the runnable slice, and apply preregistration/freeze only when the next execution uses reserved/sealed confirmation or makes a confirmatory claim.",
       "repo_transition": "Cross the implementation_ready boundary into the live KIS governed-change workflow. The repository implementation boundary is explicit: .work begins here as operational change history, while the approved L3 research artifact/preregistration remains the scientific requirements authority. Any KIS-required spec.md is only a thin science-to-repository mapping and must not restate, duplicate, reinterpret or extend the scientific design.",
       "governed_change_requirements": [
         "claim/create the bounded change through the live KIS workflow and use its current schema-v4 classification, artifact set, review and verification requirements",
@@ -659,7 +659,7 @@
         "Released preregistration is immutable; amendments create a new identity that explicitly supersedes the previous one.",
         ".work is operational/change history, not scientific authority."
       ],
-      "completion_condition": "The experiment has a verified runnable repository implementation, outcome-blind pre-outcome dataset assurance, and an immutable remotely bound preregistration/freeze identity; only then may protected outcome access and execution begin.",
+      "completion_condition": "For pre-proof exploration, the experiment has a verified runnable implementation plus schema-v3 research-ready data assurance and may use only development/rolling research-OOS outcomes. For confirmation, outcome-blind pre-outcome assurance and a remotely bound preregistration/freeze are additionally required before protected confirmation access.",
       "stage_id": "preregister_and_freeze_if_applicable"
     },
     {
@@ -669,17 +669,19 @@
       "title": "Execute",
       "purpose": "Run exactly the governed exploratory or frozen confirmatory design and preserve machine-authored raw evidence before any human interpretation.",
       "execution_rules": [
-        "Execute only the frozen implementation/configuration and declared data roles.",
+        "Pre-proof exploratory runs may use development and rolling research-OOS outcomes with protected_outcomes_accessed=false; they must not open reserved or sealed confirmation evidence.",
+        "Schema-v3 exploratory execution uses the governed verified implementation/configuration and declared data roles; it does not require a preregistration freeze.",
+        "Confirmatory execution uses only the remotely frozen implementation/configuration and declared data roles.",
         "Write machine result evidence before human interpretation.",
-        "Results point to the frozen preregistration identity; they do not rewrite it.",
+        "Confirmatory results point to the frozen preregistration identity; exploratory run evidence binds to its governed schema-v3 run identity and data-assurance reference instead of a confirmatory freeze.",
         "Any deviation that changes the scientific question invalidates the run as confirmation and requires a new design identity.",
         "For confirmatory work, open protected outcomes only after the remotely bound freeze and pre-outcome dataset assurance authorize access under the declared eligibility/opening policy.",
         "After unblinding, exact reconstructed rows/values and explicit dataset semantics must be verified and bound back to the frozen pre-outcome assurance before results are accepted.",
         "Exploratory runs remain explicitly exploratory and cannot be retroactively relabeled as confirmatory evidence.",
-        "Write results.json before interpretation.md; execution evidence must bind to the exact preregistration, code, data, pre-outcome/post-unblinding assurance, features, model and environment identities."
+        "Confirmatory runs write results.json before interpretation.md and bind the exact preregistration, code, data, pre-outcome/post-unblinding assurance, features, model and environment identities; exploratory runs preserve the governed schema-v3 run record and its data-assurance identity before interpretation."
       ],
       "required_output": {
-        "artifact_ref": "research/programmes/<programme-id>/lines/<research-line-id>/experiments/<experiment-id>/results.json",
+        "artifact_ref": "confirmatory: research/programmes/<programme-id>/lines/<research-line-id>/experiments/<experiment-id>/results.json; exploratory: governed schema-v3 exploratory run record",
         "fields": [
           "raw evidence",
           "benchmark comparison",
@@ -950,5 +952,30 @@
     "evidence_reuse_rule": "Leaving and later resuming KIS preserves evidence whose declared validity inputs still match; rerun only missing or invalid evidence under the live KIS lifecycle decision.",
     "post_kis_return": "After governed landing, bind the exact KIS implementation/landing identity into the research lineage and continue L4/L5 execution, verification, interpretation, triangulation, and L5-to-L1/L2 consolidation.",
     "spec_rule": "For research-originated medium/large KIS changes, KIS-required spec.md is a thin science-to-repository mapping only; the L3 research artifact/preregistration remains the requirements authority and must not be duplicated."
+  },
+  "preproof_exploratory_execution": {
+    "mode": "governed_exploratory_schema_v3",
+    "purpose": "Development-time empirical proof and chronological research-OOS evaluation before any confirmatory claim.",
+    "preregistration_required": false,
+    "permitted_outcome_roles": [
+      "development",
+      "rolling_research_oos"
+    ],
+    "protected_confirmation_roles": [
+      "reserved_confirmation",
+      "sealed_confirmation"
+    ],
+    "protected_outcomes_accessed": false,
+    "required_controls": [
+      "point_in_time_semantics",
+      "provenance",
+      "dataset_reconstruction",
+      "dataset_semantics",
+      "immutable_data_assurance",
+      "chronological_evaluation",
+      "leakage_controls",
+      "complete_search_history"
+    ],
+    "confirmation_boundary": "Any use of reserved/sealed confirmation or any confirmatory claim must use the confirmatory preregistration/freeze and post-unblinding assurance path; exploratory evidence is never retroactively relabeled confirmatory."
   }
 }

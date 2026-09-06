@@ -1,0 +1,43 @@
+{
+  "schema_version": 4,
+  "change_id": "332-phase-0-programme-transition",
+  "status": "active",
+  "branch": "change/332-phase-0-programme-transition",
+  "worktree": ".work/worktrees/332-phase-0-programme-transition",
+  "base": "main",
+  "outcome": "Close and transfer Programme 002 into one authoritative Phase 0 handoff baseline for the forecast programme without executing any new empirical experiment.",
+  "owned_paths": [
+    "research/programmes/002-henry-hub-fresh/**",
+    "config/research_methodology.json",
+    "docs/research-methodology.md",
+    "docs/reference/config/research_methodology.md",
+    "docs/reference/research/programmes/002-henry-hub-fresh/**",
+    "docs/reference/README.md",
+    "tests/research/**",
+    ".work/changes/332-phase-0-programme-transition/**"
+  ],
+  "shared_paths": [],
+  "excluded_paths": [],
+  "dependencies": [],
+  "integration_owner": null,
+  "complexity": "medium",
+  "risk_triggers": ["public_contract"],
+  "base_evidence": {
+    "local_sha": "6357d8c7520129b6f984e0059403c507e231e186",
+    "local_tree": "3947d0360448bd1d73e955e3cdf29208d4cc588c",
+    "upstream_sha": "6357d8c7520129b6f984e0059403c507e231e186",
+    "upstream_tree": "3947d0360448bd1d73e955e3cdf29208d4cc588c",
+    "upstream_ref": "refs/remotes/origin/main",
+    "evidence_source": "local_remote_tracking_ref",
+    "relation": "same_sha"
+  },
+  "work_management": {
+    "project_id": "commodity",
+    "record_id": "WORK-332",
+    "source_repository": "NielPieterse0/commodity",
+    "source_number": 332,
+    "source_kind": "issue",
+    "documentation_impact": "planned",
+    "execution_owner": "codex"
+  }
+}

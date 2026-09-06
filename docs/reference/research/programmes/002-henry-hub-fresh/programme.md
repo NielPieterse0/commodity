@@ -11,8 +11,8 @@ Source: `research/programmes/002-henry-hub-fresh/programme.json`
 | `schema_version` | 1 |
 | `zoom_level` | L1 |
 | `programme_id` | 002-henry-hub-fresh |
-| `name` | Henry Hub literature-replication research programme |
-| `mission` | Independently establish which externally documented Henry Hub behaviours reproduce under source-faithful data and semantics, understand the variables and mechanisms that create them, and only then consider bounded predictive tests under a separate operator-authorized transition. |
+| `name` | Henry Hub forecast-signal research programme |
+| `mission` | Use the transferred literature, source/PIT contracts, feasibility work and verified implementation machinery to determine which Henry Hub mechanisms contain repeatable chronological out-of-sample predictive information, while preserving strict confirmation independence for any later confirmatory claim. |
 | `status` | active |
 
 ## Structure

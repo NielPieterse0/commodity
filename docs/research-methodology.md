@@ -33,8 +33,8 @@ This is the one authoritative end-to-end research workflow. Every governed exper
 | 6 | **L3** | Hypothesis | State the falsifiable H0 and H1 for the bounded slice before protected outcomes are used. |
 | 7 | **L3** | Expected and disconfirming observations | Freeze literature-derived expected and disconfirming observations and the practical-effect threshold before protected outcomes. |
 | 8 | **L3** | Feasibility | Test data fitness, dependence, effective information, MEPI, power and confirmation capacity; only an informative design may proceed. |
-| 9 | **L3** | Governed implementation + preregister and freeze if applicable | Implement and verify the exact runnable design, bind outcome-blind dataset identity/schema/time/PIT/reconstruction machinery and structural invariants, then preregister/freeze and remotely bind the confirmatory commitment before protected outcome access. |
-| 10 | **L4** | Execute | Only after the remote freeze and pre-outcome assurance authorize access, run exactly the governed exploratory or frozen confirmatory design and preserve raw machine result evidence before interpretation. |
+| 9 | **L3** | Governed implementation + preregister and freeze if applicable | Implement and verify the runnable design. Pre-proof exploratory work may proceed on development and rolling research-OOS data under schema-v3 data assurance without preregistration; preregister/freeze before any reserved/sealed confirmation use or confirmatory claim. |
+| 10 | **L4** | Execute | Run a governed schema-v3 exploratory design on development/research-OOS data, or a frozen confirmatory design on eligible reserved/sealed confirmation. Preserve raw machine result evidence before interpretation. |
 | 11 | **L4** | Verify | After authorized unblinding, verify exact reconstructed rows/values and explicit dataset semantics bound to the frozen pre-outcome assurance identity, then verify leakage controls, confirmation eligibility/accounting, reproduction and objective evidence classification without narrative promotion. |
 | 12 | **L5** | Compare observed versus expected | Compare the preserved result explicitly with preregistered expectations, disconfirmers, MEPI and symmetric anomaly triggers. |
 | 13 | **L5** | External post-result triangulation | Perform a genuinely independent post-result literature/evidence check rather than reusing the preregistration snapshot. |
@@ -390,7 +390,7 @@ MEPI — Minimum Effect of Practical Importance — is an L1/L2 programme quanti
 
 **Zoom level:** `L3`
 
-**Purpose:** Cross from research design into active repository work: create a governed .work change for the selected experiment, implement the exact runnable experiment code/data/config/test slice, verify it, and only then freeze and bind the executable scientific commitment before protected execution.
+**Purpose:** Cross from research design into governed repository work, implement and verify the runnable slice, and apply preregistration/freeze only when the next execution uses reserved/sealed confirmation or makes a confirmatory claim.
 
 **Repository transition:** Cross the implementation_ready boundary into the live KIS governed-change workflow. The repository implementation boundary is explicit: .work begins here as operational change history, while the approved L3 research artifact/preregistration remains the scientific requirements authority. Any KIS-required spec.md is only a thin science-to-repository mapping and must not restate, duplicate, reinterpret or extend the scientific design.
 
@@ -510,7 +510,7 @@ Required identity:
 
 Bitwise equality is not universal scientific proof; the experiment must declare whether logical or byte reproduction is authoritative for each governed output.
 
-**Completion condition:** The experiment has a verified runnable repository implementation, outcome-blind pre-outcome dataset assurance, and an immutable remotely bound preregistration/freeze identity; only then may protected outcome access and execution begin.
+**Completion condition:** For pre-proof exploration, the experiment has a verified runnable implementation plus schema-v3 research-ready data assurance and may use only development/rolling research-OOS outcomes. For confirmation, outcome-blind pre-outcome assurance and a remotely bound preregistration/freeze are additionally required before protected confirmation access.
 
 ## Step 10: Execute
 
@@ -520,18 +520,20 @@ Bitwise equality is not universal scientific proof; the experiment must declare 
 
 ### Execution rules
 
-- Execute only the frozen implementation/configuration and declared data roles.
+- Pre-proof exploratory runs may use development and rolling research-OOS outcomes with protected_outcomes_accessed=false; they must not open reserved or sealed confirmation evidence.
+- Schema-v3 exploratory execution uses the governed verified implementation/configuration and declared data roles; it does not require a preregistration freeze.
+- Confirmatory execution uses only the remotely frozen implementation/configuration and declared data roles.
 - Write machine result evidence before human interpretation.
-- Results point to the frozen preregistration identity; they do not rewrite it.
+- Confirmatory results point to the frozen preregistration identity; exploratory run evidence binds to its governed schema-v3 run identity and data-assurance reference instead of a confirmatory freeze.
 - Any deviation that changes the scientific question invalidates the run as confirmation and requires a new design identity.
 - For confirmatory work, open protected outcomes only after the remotely bound freeze and pre-outcome dataset assurance authorize access under the declared eligibility/opening policy.
 - After unblinding, exact reconstructed rows/values and explicit dataset semantics must be verified and bound back to the frozen pre-outcome assurance before results are accepted.
 - Exploratory runs remain explicitly exploratory and cannot be retroactively relabeled as confirmatory evidence.
-- Write results.json before interpretation.md; execution evidence must bind to the exact preregistration, code, data, pre-outcome/post-unblinding assurance, features, model and environment identities.
+- Confirmatory runs write results.json before interpretation.md and bind the exact preregistration, code, data, pre-outcome/post-unblinding assurance, features, model and environment identities; exploratory runs preserve the governed schema-v3 run record and its data-assurance identity before interpretation.
 
 ### Required output
 
-Artifact: `research/programmes/<programme-id>/lines/<research-line-id>/experiments/<experiment-id>/results.json`
+Artifact: `confirmatory: research/programmes/<programme-id>/lines/<research-line-id>/experiments/<experiment-id>/results.json; exploratory: governed schema-v3 exploratory run record`
 
 - `raw evidence`
 - `benchmark comparison`

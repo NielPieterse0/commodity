@@ -1,9 +1,9 @@
 {
   "schema_version": 1,
   "programme_id": "002-henry-hub-fresh",
-  "status": "go_design_machinery_bounded_unfrozen",
+  "status": "transferred_to_phase1_exploratory",
   "empirical_execution_authority": false,
-  "rule": "This record binds GO feasibility to implementation machinery only. It does not authorize reading literature outcomes, empirical execution, preregistration, sealing, protected evidence, confirmation, or promotion.",
+  "rule": "This record carries forward implementation machinery and source readiness. It does not itself authorize confirmatory evidence use. Phase-1 pre-proof execution follows config/research_methodology.json#preproof_exploratory_execution; reserved/sealed confirmation remains governed by confirmatory preregistration/freeze.",
   "designs": [
     {
       "design_id": "rep-001-samuelson-maturity-volatility",
@@ -131,5 +131,11 @@
       "remaining_pre_outcome_work": ["bind raw issued-run loader to same-valid-time constructor", "define fixed aggregation/lead windows", "derive exploratory power/sensitivity"],
       "empirical_execution_authority": false
     }
-  ]
+  ],
+  "phase_1_execution_route": {
+    "mode": "governed_exploratory_schema_v3",
+    "handoff_ref": "research-synthesis.json#phase_0_transition",
+    "reuse_agent_a_rep_001_rep_002": true,
+    "paid_exact_replications_blocking": false
+  }
 }

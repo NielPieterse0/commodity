@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
   "programme_id": "002-henry-hub-fresh",
-  "closed_scope": "historical L0-L3 literature research and initial reproduction-design mapping",
-  "status": "reopened_design_feasibility_and_redesign_resolution_complete_unfrozen",
+  "closed_scope": "original Henry Hub literature-replication research cycle through L0-L3 design, source feasibility and pre-outcome implementation readiness",
+  "status": "closed_transferred_to_forecast_proof",
   "scientific_history_inherited": false,
   "internal_reproductions_completed": 0,
   "empirical_execution_authority": false,
@@ -77,12 +77,13 @@
     "feasibility_verification_ref": ".work/changes/289-l0-l3-henry-hub-research/feasibility-verification.json"
   },
   "scientific_boundary": "All mapped findings remain external literature findings until newly reproduced inside this programme. Contextual evidence and exploratory literature gaps cannot be promoted as strict reproductions.",
-  "next_stage": "Implement/verify GO machinery and resolve HOLD triggers only. No empirical literature-result execution, protected-evidence opening, preregistration, sealing or confirmation is authorized.",
+  "next_stage": "Start Phase 1 from research-synthesis.json#phase_0_transition. Pre-proof empirical work uses governed schema-v3 exploratory runs on development and rolling research-OOS data. Exact paid-data replications are non-critical; reserved/sealed confirmation remains preregistration/freeze-gated.",
   "implementation_contracts_ref": "implementation-contracts.json",
   "implementation_status": {
     "go_designs_mapped": 14,
     "machinery_implemented": 8,
     "machinery_implemented_source_artifact_pending": 6,
     "empirical_execution_authority": false
-  }
+  },
+  "phase_0_handoff_ref": "research-synthesis.json#phase_0_transition"
 }
