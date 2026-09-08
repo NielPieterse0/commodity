@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
   "change_id": "343-preserve-roberts-replication-package",
-  "verified_commit": "976ca1ba38df9e7ab4f0d7518b01e27764b1a0bf",
-  "verified_change_fingerprint": "519582abb822036601756c36d8013aa847b93905d2c0743a3c4414338eb4ac68",
+  "local_verification_basis_commit": "976ca1ba38df9e7ab4f0d7518b01e27764b1a0bf",
+  "local_verification_basis_fingerprint": "519582abb822036601756c36d8013aa847b93905d2c0743a3c4414338eb4ac68",
   "preservation_replay": {
     "runtime": ".venv/Scripts/python.exe",
     "status": "passed",
@@ -38,6 +38,14 @@
     "failure_classification": "local_environment_policy",
     "changed_paths_overlap_failed_tests": false,
     "exact_head_ci_required": true
+  },
+  "provenance_binding": {
+    "tracked_provenance_path": ".work/changes/343-preserve-roberts-replication-package/acquisition-evidence.json",
+    "ignored_snapshot_path": "data/raw/snapshots/iree/roberts-2019-revisiting-drivers",
+    "snapshot_manifest_path": "data/raw/snapshots/iree/roberts-2019-revisiting-drivers/manifest.json",
+    "snapshot_manifest_sha256": "68ceedcc9c6900064a3694e4a05a3b521e138fd2eac7a92c76f89eca486095b0",
+    "archive_sha256": "d0b1bc18101438cabae21107f12e13fc4a9e9313447e273e0f8c129aae52a895",
+    "initial_untracked_finding_resolved_in_commit": "976ca1ba38df9e7ab4f0d7518b01e27764b1a0bf"
   },
   "specialist_review": {
     "working_tree_review": "one procedural finding: acquisition-evidence.json was untracked",
