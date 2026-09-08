@@ -1,0 +1,27 @@
+{
+  "schema_version": 1,
+  "change_id": "336-bhlr-replication-package",
+  "snapshot_path": "data/raw/snapshots/bhlr/bhlr-2025-real-time-forecasting",
+  "source_doi": "10.15456/jae.2025266.1900967125",
+  "source_urls": [
+    "https://doi.org/10.15456/jae.2025266.1900967125",
+    "https://sites.google.com/site/cjsbaumeister/research"
+  ],
+  "acquired_on": "2026-09-08",
+  "acquisition_mode": "operator_supplied_manual_download",
+  "manifest_bytes": 4222,
+  "manifest_sha256": "3d8ad1e8e3226fd22924b298ce08ddb71b2133200e8c6cba785d5bf55fbf172f",
+  "nested_archive_manifest_bytes": 255595,
+  "nested_archive_manifest_sha256": "5ab599c0872e5d06bf80cb2a0a871230125e525ced88c00098e47a08b15fe046",
+  "source_artifacts": {
+    "replication_archive": {"bytes": 30561810, "sha256": "399e63c8cbfb373b767a13888dee8e58121683511bd5bf416d738f4e99cc65de"},
+    "standalone_database": {"bytes": 11141585, "sha256": "1878146b58bcbd368e362d6a33d8b7a909d3d2703ffd79094c2d1276ce211862"},
+    "online_appendix": {"bytes": 1336045, "sha256": "75b20db22e6e15410152cb73eb833c80464099c3cf2fc7f0a2ef96a6d7ea3529"}
+  },
+  "package_member_counts": {"outer_archive": 5, "codes_non_directory": 1089, "nowcasts_non_directory": 113},
+  "database_identity_verified": true,
+  "all_source_to_durable_bytes_verified": true,
+  "outer_archive_extraction_verified": true,
+  "sealed_confirmation_data_touched": false,
+  "model_scoring_performed": false
+}

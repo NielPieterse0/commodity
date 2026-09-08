@@ -1,0 +1,31 @@
+{
+  "schema_version": 4,
+  "change_id": "336-bhlr-replication-package",
+  "status": "active",
+  "branch": "change/336-bhlr-replication-package",
+  "worktree": ".work/worktrees/336-bhlr-replication-package",
+  "base": "main",
+  "outcome": "Import and identity-bind the public Baumeister-Huber-Lee-Ravazzolo JAE replication package for rep-014 into the immutable durable data layer, preserving canonical source metadata and verified SHA-256 identities for handoff to Phase 1.",
+  "owned_paths": [
+    "data/raw/snapshots/bhlr/**",
+    ".work/changes/336-bhlr-replication-package/**"
+  ],
+  "shared_paths": [],
+  "excluded_paths": [],
+  "dependencies": [],
+  "integration_owner": null,
+  "complexity": "medium",
+  "risk_triggers": [
+    "persistent_state",
+    "public_contract"
+  ],
+  "base_evidence": {
+    "local_sha": "dc46a5d5c56b2bee267f095e235d02c74d89de95",
+    "local_tree": "5acca3778809c1d0700e12be666bc5df6d13b4b5",
+    "upstream_sha": "dc46a5d5c56b2bee267f095e235d02c74d89de95",
+    "upstream_tree": "5acca3778809c1d0700e12be666bc5df6d13b4b5",
+    "upstream_ref": "refs/remotes/origin/main",
+    "evidence_source": "local_remote_tracking_ref",
+    "relation": "same_sha"
+  }
+}
