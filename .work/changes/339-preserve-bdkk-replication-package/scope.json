@@ -1,0 +1,30 @@
+{
+  "schema_version": 4,
+  "change_id": "339-preserve-bdkk-replication-package",
+  "status": "active",
+  "branch": "change/339-preserve-bdkk-replication-package",
+  "worktree": ".work/worktrees/339-preserve-bdkk-replication-package",
+  "base": "main",
+  "outcome": "Preserve the operator-supplied Bernard et al. Journal of Applied Econometrics replication archive as an immutable durable raw snapshot with byte identity, provenance, and archive-member manifest linked to future research issue #338, without altering current rep-014 or sealed confirmation data.",
+  "owned_paths": [
+    "data/raw/snapshots/jae/bernard-et-al-2012-tvp/**",
+    ".work/changes/339-preserve-bdkk-replication-package/**"
+  ],
+  "shared_paths": [],
+  "excluded_paths": [],
+  "dependencies": [],
+  "integration_owner": null,
+  "complexity": "small",
+  "risk_triggers": [
+    "persistent_state"
+  ],
+  "base_evidence": {
+    "local_sha": "c936bc253a6648651d106d7b6c568151e56c72c3",
+    "local_tree": "d8b0965db9c78e0a0bfc2e57c351defe4c51bd18",
+    "upstream_sha": "c936bc253a6648651d106d7b6c568151e56c72c3",
+    "upstream_tree": "d8b0965db9c78e0a0bfc2e57c351defe4c51bd18",
+    "upstream_ref": "refs/remotes/origin/main",
+    "evidence_source": "local_remote_tracking_ref",
+    "relation": "same_sha"
+  }
+}

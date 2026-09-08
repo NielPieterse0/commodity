@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "change_id": "339-preserve-bdkk-replication-package",
+  "source_doi": "10.15456/jae.2022320.0725024505",
+  "acquired_on": "2026-09-08",
+  "acquisition_mode": "operator_supplied_manual_download",
+  "durable_snapshot_path": "data/raw/snapshots/jae/bernard-et-al-2012-tvp",
+  "snapshot_manifest": "data/raw/snapshots/jae/bernard-et-al-2012-tvp/manifest.json",
+  "snapshot_manifest_sha256": "eec7952d44ea20f34fcb9898c5c97f396330271fe1f934727984c67d1ab3d9e7",
+  "archive_path": "data/raw/snapshots/jae/bernard-et-al-2012-tvp/replication-data.zip",
+  "archive_bytes": 8658,
+  "archive_sha256": "d09437368be685ed544a854101941450f390ca4d37201daccb4195d14cd3a5d5",
+  "license_status": "not_verified",
+  "source_scope_summary": "Annual U.S. real natural-gas price series, 1919-2006; study uses log real prices; not Henry Hub-specific real-time forecast data.",
+  "linked_research_issue": 338,
+  "preservation_issue": 339,
+  "verification": {
+    "archive_hash_matches_operator_source": true,
+    "manifest_archive_and_member_hashes_verified": true,
+    "sealed_confirmation_data_touched": false,
+    "current_rep_014_artifacts_touched": false
+  }
+}
