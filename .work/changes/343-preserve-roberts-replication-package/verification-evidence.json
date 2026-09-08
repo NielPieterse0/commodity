@@ -1,0 +1,47 @@
+{
+  "schema_version": 1,
+  "change_id": "343-preserve-roberts-replication-package",
+  "verified_commit": "976ca1ba38df9e7ab4f0d7518b01e27764b1a0bf",
+  "verified_change_fingerprint": "519582abb822036601756c36d8013aa847b93905d2c0743a3c4414338eb4ac68",
+  "preservation_replay": {
+    "runtime": ".venv/Scripts/python.exe",
+    "status": "passed",
+    "checks_passed": 5,
+    "checks_total": 5,
+    "archive_sha256": "d0b1bc18101438cabae21107f12e13fc4a9e9313447e273e0f8c129aae52a895",
+    "manifest_sha256": "68ceedcc9c6900064a3694e4a05a3b521e138fd2eac7a92c76f89eca486095b0",
+    "archive_members_verified": 3,
+    "operator_source_equals_durable_archive": true,
+    "extracted_members_equal_archive_members": true
+  },
+  "focused_tests": {
+    "command": ".venv/Scripts/python.exe -m pytest -q tests/repository/test_change_workflow_contract.py",
+    "exit_code": 0,
+    "summary": "2 passed in 0.01s"
+  },
+  "canonical_verification": {
+    "command": "scripts/verify.ps1",
+    "exit_code": 1,
+    "pre_test_repository_checks": "passed",
+    "pytest_passed": 437,
+    "pytest_failed": 6,
+    "failed_test_file": "tests/providers/test_databento_futures_provider.py",
+    "failure_names": [
+      "test_databento_offline_decoder_reads_definition_and_compressed_ohlcv",
+      "test_databento_offline_canonicalization_preserves_exact_artifact_provenance",
+      "test_databento_offline_decoder_rejects_mismatched_adjacent_job_metadata",
+      "test_databento_offline_decoder_fails_closed_on_schema_mismatch_and_corruption",
+      "test_dbn_to_parquet_golden_fixture_is_deterministic",
+      "test_databento_offline_statistics_fails_closed_without_canonical_stats"
+    ],
+    "root_cause": "Windows Application Control blocked the worktree-local pyarrow._parquet DLL",
+    "failure_classification": "local_environment_policy",
+    "changed_paths_overlap_failed_tests": false,
+    "exact_head_ci_required": true
+  },
+  "specialist_review": {
+    "working_tree_review": "one procedural finding: acquisition-evidence.json was untracked",
+    "exact_commit_code_quality_review": "no findings",
+    "documentation_review": "requested durable binding for operational verification claims and explicit resolution of the initial tracking finding"
+  }
+}
