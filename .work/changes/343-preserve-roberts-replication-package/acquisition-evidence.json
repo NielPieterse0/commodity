@@ -1,0 +1,30 @@
+{
+  "schema_version": 1,
+  "change_id": "343-preserve-roberts-replication-package",
+  "source_doi": "10.15456/iree.2018197.145241",
+  "acquired_on": "2026-09-08",
+  "acquisition_mode": "operator_supplied_manual_download",
+  "operator_source_path": ".work/scratch/Revisiting_the_Drivers_of_Natural_Gas_Prices__Replication_Data_and_Code_resouces_1788880871.7897696.zip",
+  "operator_source_sha256": "d0b1bc18101438cabae21107f12e13fc4a9e9313447e273e0f8c129aae52a895",
+  "durable_snapshot_path": "data/raw/snapshots/iree/roberts-2019-revisiting-drivers",
+  "snapshot_manifest": "data/raw/snapshots/iree/roberts-2019-revisiting-drivers/manifest.json",
+  "snapshot_manifest_sha256": "68ceedcc9c6900064a3694e4a05a3b521e138fd2eac7a92c76f89eca486095b0",
+  "archive_path": "data/raw/snapshots/iree/roberts-2019-revisiting-drivers/original/Revisiting_the_Drivers_of_Natural_Gas_Prices__Replication_Data_and_Code_resouces_1788880871.7897696.zip",
+  "archive_bytes": 91436,
+  "archive_sha256": "d0b1bc18101438cabae21107f12e13fc4a9e9313447e273e0f8c129aae52a895",
+  "license_status": "not_verified",
+  "linked_research_issue": 327,
+  "preservation_issue": 343,
+  "archive_members": [
+    {"path": "resources/brownyuceldata.dta", "bytes": 87629, "sha256": "eaa3f5bd14cd72eaef7f3cff962465243e36ae9152ec0f3e1a29dd6763204c35"},
+    {"path": "resources/bycommands.do", "bytes": 3194, "sha256": "4af333341c5a22fe2e4ff17568b27b839651f8bd87d4c664fbe27f7e4c1663a0"},
+    {"path": "resources/citation.txt", "bytes": 217, "sha256": "f754d5acec047d5abbef497c035720fcd4140999013036bca681458a170b395b"}
+  ],
+  "verification": {
+    "archive_hash_matches_operator_source": true,
+    "manifest_archive_member_hashes_verified": true,
+    "extracted_members_match_archive_bytes": true,
+    "sealed_confirmation_data_touched": false,
+    "empirical_outcome_interpretation_performed": false
+  }
+}

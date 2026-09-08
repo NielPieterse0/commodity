@@ -1,0 +1,30 @@
+{
+  "schema_version": 4,
+  "change_id": "343-preserve-roberts-replication-package",
+  "status": "active",
+  "branch": "change/343-preserve-roberts-replication-package",
+  "worktree": ".work/worktrees/343-preserve-roberts-replication-package",
+  "base": "main",
+  "outcome": "Preserve the operator-supplied Roberts (2019) Revisiting the Drivers of Natural Gas Prices replication package as immutable durable raw evidence with exact DOI, source/archive/member SHA-256 identities for handoff to #327 rep-012, without empirical interpretation or sealed-confirmation access.",
+  "owned_paths": [
+    "data/raw/snapshots/iree/roberts-2019-revisiting-drivers/**",
+    ".work/changes/343-preserve-roberts-replication-package/**"
+  ],
+  "shared_paths": [],
+  "excluded_paths": [],
+  "dependencies": [],
+  "integration_owner": null,
+  "complexity": "small",
+  "risk_triggers": [
+    "persistent_state"
+  ],
+  "base_evidence": {
+    "local_sha": "2f38aed8283c64419e3119598292bd03119eeba3",
+    "local_tree": "c4c8d72014b3c0bcfe54e67c3d0a224617926797",
+    "upstream_sha": "2f38aed8283c64419e3119598292bd03119eeba3",
+    "upstream_tree": "c4c8d72014b3c0bcfe54e67c3d0a224617926797",
+    "upstream_ref": "refs/remotes/origin/main",
+    "evidence_source": "local_remote_tracking_ref",
+    "relation": "same_sha"
+  }
+}
