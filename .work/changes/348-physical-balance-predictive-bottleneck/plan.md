@@ -14,7 +14,8 @@
 - [x] Perform a bounded post-result acceptance review against #348 and preserve all frozen scores/hashes.
 - [x] Reconcile line-level synthesis and backlog so rep-021 is narrower evidence and #348 remains scientifically incomplete.
 - [x] Run generated-reference synchronization and canonical local verification (`496 passed, 7 skipped`; all repository checks green).
-- [ ] Obtain independent code review and verification evidence.
+- [x] Obtain independent code review for the implementation and canonical local verification evidence.
+- [ ] Obtain final documentation review closure and exact-head verification evidence.
 - [ ] Commit and publish a PR that lands rep-021 plus the acceptance finding without closing #348.
 - [ ] Require exact-head GitHub Actions success, merge the bounded change, reconcile Work/documentation state, and retain #348 for the feasibility successor.
 
