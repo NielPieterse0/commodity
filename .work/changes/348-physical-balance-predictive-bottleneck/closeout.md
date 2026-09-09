@@ -37,8 +37,12 @@
 - Canonical `scripts/verify.ps1`: passed; `496 passed, 7 skipped`; documentation, Python environment, research methodology, research memory, lint and whitespace gates all green.
 - `pwsh -NoProfile -File scripts/change-workflow.ps1 check`: passed on the reconciled tree.
 - Exact implementation/governance commit `e20c43bf836b57dab1cd87679926c295d1c6e8c3` received a complete independent code-quality review with no findings and no omitted files.
-- Scientific acceptance/docs review remains required before PR publication.
+- Exact scientific evidence/reconciliation commit `f9f158c18f6d5305058140447a3c72dd23c8fc51` received a complete independent review with no findings and no omitted files.
+- Final documentation range through `7ba26aebeff9b9c88e04bac1014a0aae6a0550e7` received complete independent documentation review with no findings, omissions, or unknowns.
+- Provider-native CI run `34375234136` passed on exact PR head `7ba26aebeff9b9c88e04bac1014a0aae6a0550e7`.
+- PR #349 merged that exact head as `b10cd92cd19a1230a62cad7840d234ae439b94d2`.
+- Post-merge GitHub verification confirmed issue #348 remains open and scientifically incomplete.
 
 ## Delivery disposition
 
-This change may land the frozen rep-021 evidence and its acceptance review, but GitHub issue #348 must remain open. The next scientific work is an unscored data-and-capacity feasibility assessment for the intended target-matched diagnostic under a new research identity.
+rep-021 is administratively delivered and this change record is closed. Its scientific disposition remains **INCONCLUSIVE**, C was not scored, and GitHub issue #348 remains open because its intended diagnostic is incomplete. The next scientific work is the bounded unscored data-and-capacity feasibility assessment for the intended target-matched diagnostic; any subsequent scored experiment requires a new frozen and accepted research identity/design plus capacity gate.
