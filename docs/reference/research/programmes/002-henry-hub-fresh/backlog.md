@@ -21,4 +21,4 @@ Source: `research/programmes/002-henry-hub-fresh/backlog.json`
 | `zoom_level` | str |
 | `programme_id` | str |
 | `generated_projection` | bool |
-| `items` | array (3 items) |
+| `items` | array (6 items) |
