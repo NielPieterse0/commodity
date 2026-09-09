@@ -1,11 +1,11 @@
 {
   "schema_version": 4,
   "change_id": "348-physical-balance-predictive-bottleneck",
-  "status": "active",
+  "status": "closed",
   "branch": "change/348-physical-balance-predictive-bottleneck",
   "worktree": ".work/worktrees/348-physical-balance-predictive-bottleneck",
   "base": "main",
-  "outcome": "Complete issue #348 with a frozen one-month Henry Hub A/B/C predictive-bottleneck diagnostic, auditable PIT/capacity gates, bounded execution, explicit scientific disposition, verification and governed closeout without opening sealed confirmation windows.",
+  "outcome": "Deliver rep-021 as narrower historical evidence with an explicit INCONCLUSIVE scientific disposition, preserve sealed confirmation windows, and reconcile the acceptance mismatch without completing GitHub issue #348; retain #348 for the unscored feasibility successor.",
   "owned_paths": [
     ".work/changes/348-physical-balance-predictive-bottleneck/**",
     "research/programmes/002-henry-hub-fresh/**",
