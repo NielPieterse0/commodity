@@ -1,0 +1,91 @@
+{
+  "schema_version": 1,
+  "design_id": "rep-021-physical-balance-predictive-bottleneck",
+  "issue": 348,
+  "source_zip_sha256": "8bdc295d8a5e45079738abad8ea7eabe52062536e1b0a490a2af119d44b4c8f1",
+  "source_member_sha256": {
+    "ng_henry": "4a6f9c060da902c25532d4817cc14001015fe1e756335d3d3a9159583d8395ff",
+    "production": "d6912cd27abf821faa32d4c012d18377e317ffd1bb5f0992b3440cfa89aaaaf3",
+    "storage": "dd567c1c2d955b7e00bb2dedf6cd8d987b1f72e2f47b24ad8886e11842d704b9",
+    "consumption": "fb5fe968e21d6741bf2c61626c75ca4b254a15c15ed1b0eb7edd217852cfdc74"
+  },
+  "chronology": {
+    "development_rows": 72,
+    "research_oos_rows": 212,
+    "research_oos_end": "2020-08"
+  },
+  "target_nonrevision_audit": {
+    "passed": true,
+    "max_abs_difference": 0.0
+  },
+  "A_to_B": {
+    "challenger": {
+      "n": 212.0,
+      "mae": 0.10197929704956217,
+      "rmse": 0.13409938812858335,
+      "bias": -0.027649798731922286,
+      "direction_accuracy": 1.0,
+      "prediction_actual_corr": 0.9586454736111564
+    },
+    "baseline": {
+      "n": 212.0,
+      "mae": 0.10455015346662519,
+      "rmse": 0.135310283656595,
+      "bias": -0.005278724259086977,
+      "direction_accuracy": 1.0,
+      "prediction_actual_corr": 0.9575788379099502
+    },
+    "relative_rmse_improvement": 0.008949028080413979,
+    "primary": {
+      "method": "moving_block_bootstrap",
+      "rmse_improvement": 0.0012108955280116518,
+      "ci_lower": -0.0032323013640507586,
+      "ci_upper": 0.005231112063812548,
+      "p_value": 0.553223388305847,
+      "significant": false,
+      "block_size": 3,
+      "effective_blocks": 70.66666666666667,
+      "resamples": 2000
+    },
+    "sensitivities": {
+      "1": {
+        "method": "moving_block_bootstrap",
+        "rmse_improvement": 0.0012108955280116518,
+        "ci_lower": -0.0029496380265005805,
+        "ci_upper": 0.005498579683290557,
+        "p_value": 0.5792103948025987,
+        "significant": false,
+        "block_size": 1,
+        "effective_blocks": 212.0,
+        "resamples": 2000
+      },
+      "6": {
+        "method": "moving_block_bootstrap",
+        "rmse_improvement": 0.0012108955280116518,
+        "ci_lower": -0.0031745791263921583,
+        "ci_upper": 0.005733554631206933,
+        "p_value": 0.6006996501749126,
+        "significant": false,
+        "block_size": 6,
+        "effective_blocks": 35.333333333333336,
+        "resamples": 2000
+      }
+    },
+    "chronological_thirds_rmse_improvement": {
+      "third_1": -0.002102321974483262,
+      "third_2": 6.534152230185108e-05,
+      "third_3": 0.006663616983633713
+    },
+    "nonnegative_chronological_thirds": 2,
+    "minimum_relative_improvement": 0.01,
+    "survives_primary_rule": false
+  },
+  "A_to_B_disposition": "INCONCLUSIVE_REALIZED_PHYSICAL_SIGNAL",
+  "B_to_C": null,
+  "C_to_A": null,
+  "pit_retention_fraction": null,
+  "pit_disposition": "NOT_RUN_A_TO_B_DID_NOT_SURVIVE",
+  "c_scored": false,
+  "protected_confirmation_accessed": false,
+  "confirmation_eligibility": "ineligible_no_fresh_historical_block"
+}

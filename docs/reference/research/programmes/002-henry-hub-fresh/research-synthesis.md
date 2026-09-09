@@ -13,10 +13,10 @@ Source: `research/programmes/002-henry-hub-fresh/research-synthesis.json`
 | `implementation_contracts_ref` | implementation-contracts.json |
 | `internal_reproductions_completed` | 6 |
 | `interpretation_rule` | External literature support is not internal proof. A finding becomes programme-reproduced only after a fresh programme experiment reproduces it under the declared design, source fidelity, MEPI/power and semantic rules. Contextual sources and exploratory gap discovery cannot be counted as strict reproduction. |
-| `next_stage` | Phase 1 literature-first proof has closed rep-001, rep-002, rep-005, rep-012, rep-014 and rep-018. rep-018 reproduces the source-era negative announcement premium but its calendar forecast translation is INCONCLUSIVE. No mechanism qualifies for Phase 2; select the next independent source-faithful target. |
+| `next_stage` | Issue 348 remains scientifically incomplete. rep-021 is preserved as a narrower historical sub-diagnostic with an INCONCLUSIVE 0.895% A-to-B RMSE improvement and C not scored, but it did not implement the intended target-matched futures baseline, realized target-period physical inputs, or adequate pre-outcome detectability gate. The next investment is an unscored data-and-capacity feasibility assessment under a new research identity; Phase 2 remains closed. |
 | `programme_id` | 002-henry-hub-fresh |
 | `schema_version` | 1 |
-| `scientific_design_state` | phase1_six_literature_targets_closed_no_phase2_survivor |
+| `scientific_design_state` | phase1_closed_rep021_narrow_subdiagnostic_issue348_intended_mapping_incomplete_no_phase2_survivor |
 | `scientific_start_state` | clean_slate |
 | `setup_authority` | experiment-setup.json |
 | `supporting_feasibility_detail_ref` | feasibility-ledger.json |
@@ -42,3 +42,4 @@ Source: `research/programmes/002-henry-hub-fresh/research-synthesis.json`
 | `scientific_start_state` | str |
 | `setup_authority` | str |
 | `supporting_feasibility_detail_ref` | str |
+| `successor_evidence` | object (1 keys) |

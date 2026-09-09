@@ -12,6 +12,9 @@
     },
     {
       "experiment_id": "rep-012-physical-balance-drivers"
+    },
+    {
+      "experiment_id": "rep-021-physical-balance-predictive-bottleneck"
     }
   ],
   "experiment_refs": [
@@ -22,16 +25,20 @@
     {
       "experiment_id": "rep-012-physical-balance-drivers",
       "path": "research/programmes/002-henry-hub-fresh/lines/005-fundamental-balance/experiments/rep-012-physical-balance-drivers"
+    },
+    {
+      "experiment_id": "rep-021-physical-balance-predictive-bottleneck",
+      "path": "research/programmes/002-henry-hub-fresh/lines/005-fundamental-balance/experiments/rep-021-physical-balance-predictive-bottleneck"
     }
   ],
   "historical_facts": {
     "does_not_rule_out": "Modern production, consumption, power and LNG balance channels remain unproven by this source and require separate evidence. A separately designed PIT modern physical-balance forecast may still be tested if its source/timing contract is defensible.",
-    "observed": "rep-012 independently reproduces the Roberts/Brown-Yucel source-period VECM and Table 6 physical controls. Weather deviations are positive/highly significant, storage above its five-year norm is negative/significant, and the controlled Henry Hub residual standard error falls from about 0.081 to 0.077. rep-014 remains an independently reproduced real-time forecasting result with a capacity-held translation.",
+    "observed": "rep-012 independently reproduces the Roberts/Brown-Yucel source-period VECM and Table 6 physical controls. Weather deviations are positive/highly significant, storage above its five-year norm is negative/significant, and the controlled Henry Hub residual standard error falls from about 0.081 to 0.077. rep-014 remains an independently reproduced real-time forecasting result with a capacity-held translation. rep-021 then produced narrower historical successor evidence: under a spot-plus-seasonal ridge, adding final-vintage origin-period production/storage/total-consumption improved RMSE by 0.895%, with a three-month MBB 95% CI spanning zero. Post-result acceptance review found that this mapping does not satisfy #348's intended target-matched futures baseline, realized target-period physical-input, and pre-outcome detectability requirements.",
     "rules_out": "A stable Brown-Yucel oil-gas cointegrating relation cannot be assumed after 2007; Roberts' full/post-2007 break reproduces. This rules out directly promoting the historical VECM as a modern predictive model."
   },
   "legacy_research_line_ids": [],
   "programme_id": "002-henry-hub-fresh",
-  "programme_interpretation": "Line 005 now contains successful source-faithful literature reproductions for rep-012 and rep-014, but still no Phase-2 predictive survivor. The rep-012 result supports source-period weather/storage physical controls while bounding direct modern use through the reproduced post-2007 structural break.",
+  "programme_interpretation": "Line 005 has successful rep-012/014 literature reproductions plus rep-021 narrower historical successor evidence. rep-021 is INCONCLUSIVE and C was correctly not scored under its frozen stop rule, but post-result acceptance review found that rep-021 did not implement #348's intended target-matched market/futures baseline, realized target-period physical inputs, or adequate pre-outcome detectability gate. #348's intended mapping therefore remains incompletely answered and Phase 2 remains closed.",
   "remaining_untested_roles": [
     "rep-013-lng-export-demand-channel"
   ],
@@ -43,13 +50,15 @@
   "stopping_rules": {
     "empirical_execution_requires_operator_transition": true,
     "protected_outcome_access": false,
-    "phase1_execution_authorized_issue": 327
+    "phase1_execution_authorized_issue": 327,
+    "successor_execution_authorized_issue": 348
   },
-  "tested_role_target_horizon": "rep-012 source-period weekly Brown-Yucel/Roberts physical controls are reproduced; rep-014 source-study monthly real-time forecastability is also reproduced, but no Phase-2 predictive survivor exists.",
+  "tested_role_target_horizon": "rep-021 tested a narrower one-month log nominal Henry Hub specification on 212 rolling OOS months using current spot plus seasonal terms versus the same ridge plus final-vintage origin-period physical inputs. A-to-B was INCONCLUSIVE at 0.895% relative RMSE improvement and C was not reached. This is not the complete #348 target-matched diagnostic.",
   "useful_secondary_observations": [
     "rep-012-physical-balance-drivers:source_period_core_reproduced_regime_break",
     "rep-013-lng-export-demand-channel:hold",
-    "rep-014-monthly-real-time-forecastability:literature_reproduced_translation_capacity_hold"
+    "rep-014-monthly-real-time-forecastability:literature_reproduced_translation_capacity_hold",
+    "rep-021-physical-balance-predictive-bottleneck:narrower_subdiagnostic_inconclusive_issue348_mapping_incomplete"
   ],
   "why_zoomed_in": "Production, demand, LNG, storage and other fundamentals need source-specific timing and frequency contracts before they can support explanation or forecasting.",
   "zoom_level": "L2"

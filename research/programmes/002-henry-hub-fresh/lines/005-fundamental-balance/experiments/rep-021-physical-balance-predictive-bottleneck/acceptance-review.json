@@ -1,0 +1,100 @@
+{
+  "schema_version": 1,
+  "zoom_level": "L5",
+  "design_id": "rep-021-physical-balance-predictive-bottleneck",
+  "issue": 348,
+  "reviewed_on": "2026-09-09",
+  "status": "bounded_subdiagnostic_not_issue_complete",
+  "preserved_evidence": {
+    "result_ref": "result.json",
+    "result_sha256": "7dccf398ac6857608d2e820f73371cd9d0cdf73c86e85ff2f3a17b7354ac4fb3",
+    "predictions_ref": "predictions.csv",
+    "predictions_sha256": "8da7a7f1e974cb1e1275233c0da6e240727edc023444d2dabf3f0737bca50cd2",
+    "experiment_contract_ref": "experiment-contract.json",
+    "experiment_contract_sha256": "9f5c8bb8edea548c7bbdbb40c8835660b92aa675cf5712e356fee344a95cd148",
+    "capacity_gate_ref": "capacity-gate.json",
+    "capacity_gate_sha256": "144acda0402f0e6173586732e2ff067d260de92dc990d68c73a13a360750e7e5",
+    "scores_mutated_by_acceptance_review": false,
+    "repository_line_ending_normalization_only": true
+  },
+  "authorization_review": {
+    "issue_body_rechecked": true,
+    "issue_comments_count": 0,
+    "narrower_mapping_explicitly_authorized": false,
+    "finding": "No issue text or comment explicitly authorizes replacing the required target-matched market/futures baseline with current spot plus seasonal terms, or replacing realized target-period physical inputs with final-vintage origin-period physical states."
+  },
+  "acceptance_matrix": [    {
+      "area": "target_semantics",
+      "issue_348_requirement": "Freeze a one-month calendar-month price-level target and equivalent market/futures mapping from timing/data semantics before scoring.",
+      "observed": "log nominal BHLR NG_HENRY at t+1; no evidence in the frozen artifacts demonstrates the calendar-average aggregation or equivalent futures-delivery mapping.",
+      "status": "NOT_DEMONSTRATED"
+    },
+    {
+      "area": "market_baseline_A",
+      "issue_348_requirement": "A must include a target-matched futures/market benchmark plus a predeclared market-only calibration fitted on training data alone.",
+      "observed": "Current-vintage log Henry Hub spot price plus target-month sine/cosine terms in a Ridge(10) model; the contract labels this an issue-authorized fallback, but no such authorization was found.",
+      "status": "FAILED"
+    },
+    {
+      "area": "realized_physical_B",
+      "issue_348_requirement": "B must supply subsequently realized target-period physical inputs under the same downstream feature identity used for C.",
+      "observed": "Final-vintage production, storage and total consumption from the forecast-origin row, while the target is taken from row t+1.",
+      "status": "FAILED"
+    },
+    {
+      "area": "capacity_timing_gate",
+      "issue_348_requirement": "Redesign or HOLD before scoring when uncertainty capacity is inadequate for the declared material-effect decision.",
+      "observed": "The pre-outcome gate proceeded although its own planning approximation required about 1.19% minimum relative RMSE improvement even at paired-error correlation 0.9995, and materially larger effects at lower correlations.",
+      "status": "FAILED"
+    },    {
+      "area": "fit_and_leakage",
+      "issue_348_requirement": "At each origin, evaluation-period outcomes must not enter coefficient fitting; B/C must otherwise share fitted coefficients.",
+      "observed": "Expanding-window A/B fits use only prior rows, and the C implementation is constrained to reuse the fitted B model without refitting.",
+      "status": "PASSED_IMPLEMENTATION_INVARIANT"
+    },
+    {
+      "area": "sealed_confirmation",
+      "issue_348_requirement": "Keep existing Phase-1 sealed windows unopened and unchanged.",
+      "observed": "Research OOS ends 2020-08 before the existing rep-014 sealed window; protected confirmation access is recorded false with zero openings.",
+      "status": "PASSED"
+    },
+    {
+      "area": "A_to_B_disposition",
+      "issue_348_requirement": "PASS, RULES OUT MATERIAL BENEFIT, or INCONCLUSIVE; RULES OUT requires uncertainty sufficiently precise to exclude the predeclared material effect.",
+      "observed": "Observed result is INCONCLUSIVE. The frozen contract's generic fail wording and runner's negative-thirds fallback are not valid grounds for a RULES OUT interpretation because they do not require exclusion of the 1% material-effect threshold.",
+      "status": "OBSERVED_RESULT_CORRECT_CONTRACT_INTERPRETATION_DEFECT"
+    },
+    {
+      "area": "C_execution",
+      "issue_348_requirement": "Run C only if B passes the frozen continuation gate.",
+      "observed": "C was not scored after the observed A-to-B comparison failed the continuation rule.",
+      "status": "PASSED_STOP_RULE_FOR_OBSERVED_RESULT"
+    }
+  ],  "scientific_interpretation": {
+    "supported": "Under the narrower historical specification actually executed, adding final-vintage origin-period production, storage and consumption to a spot-plus-seasonal ridge improved RMSE by 0.895%, with the paired three-month MBB interval spanning zero.",
+    "not_supported": [
+      "material benefit is established or ruled out for the intended #348 target-matched diagnostic",
+      "a futures-calibrated market baseline has been beaten",
+      "realized target-period physical information has been tested",
+      "a PIT deployability bottleneck has been located"
+    ],
+    "issue_348_completion": "INCOMPLETE_INTENDED_MAPPING"
+  },
+  "required_next_investigation": {
+    "type": "unscored_data_and_capacity_feasibility",
+    "new_research_identity_required_before_any_revised_scoring": true,
+    "must_establish": [
+      "target calendar-average and delivery semantics",
+      "target-matched market/futures history and training-only calibration",
+      "realized target-period physical variables with exact timing and revision semantics",
+      "PIT counterparts for the same physical feature identity",
+      "programme-wide outcome exposure and any genuinely untouched future confirmation plan",
+      "detectability adequate to distinguish the 1% material-effect threshold under plausible dependence"
+    ],
+    "prohibited_next_steps": [
+      "run C from rep-021",
+      "reinterpret rep-021 as the intended #348 diagnostic",
+      "start an adaptive model tournament"
+    ]
+  }
+}
