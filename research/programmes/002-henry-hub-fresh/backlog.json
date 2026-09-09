@@ -14,7 +14,7 @@
     },
     {
       "id": "resolve-held-source-contracts",
-      "item": "Resolve the six source/context/power HOLD gates and re-evaluate their machine-readable revisit triggers.",
+      "item": "Resolve the active source/context/power HOLD gates and re-evaluate their machine-readable revisit triggers, including feas-022 target-period PIT and 1% capacity requirements.",
       "kind": "recommendation",
       "status": "open",
       "source_record": "research/programmes/002-henry-hub-fresh/revisit-triggers.json",
@@ -38,19 +38,19 @@
     },
     {
       "id": "physical-balance-one-month-change-successor",
-      "item": "Any revised scored one-month target/horizon/model mapping must use a new research identity after feasibility is established; do not adapt rep-021 features, target semantics, baseline, predictor timing or thresholds post hoc.",
+      "item": "Do not draft or score a revised one-month successor until feas-022 releases from HOLD. Any later scored mapping must use a new identity with frozen target/futures semantics, target-month realized/PIT physical inputs, an explicitly validated capacity/GO criterion with its assumptions recorded, and prospective/untouched confirmation; do not adapt rep-021 post hoc.",
       "kind": "recommendation",
       "status": "open",
-      "source_record": "research/programmes/002-henry-hub-fresh/lines/005-fundamental-balance/experiments/rep-021-physical-balance-predictive-bottleneck/acceptance-review.json",
+      "source_record": "research/programmes/002-henry-hub-fresh/lines/005-fundamental-balance/experiments/feas-022-target-matched-physical-bottleneck/feasibility.json",
       "work_ref": "issue-348"
     },
     {
       "id": "issue348-intended-diagnostic-feasibility",
-      "item": "Before any new scoring, perform an unscored data-and-capacity feasibility assessment for #348's intended target-matched diagnostic: calendar-average target/delivery semantics, market/futures calibration history, realized target-period physical inputs, matching PIT inputs, programme-wide outcome exposure, and detectability of the 1% material-effect threshold under plausible dependence.",
+      "item": "feas-022 completed the unscored #348 feasibility assessment and returned HOLD. Next: validate the capacity rule and GO criterion; implement and verify exact target/delivery mapping with an eligible-month manifest; specify the simplest defensible target-month PIT physical forecasts; recompute exact aligned OOS capacity; consider additional history only against the remaining quantified gap; and preserve prospective/independently untouched confirmation before re-evaluating this gate.",
       "kind": "recommendation",
       "status": "open",
-      "source_record": "research/programmes/002-henry-hub-fresh/lines/005-fundamental-balance/experiments/rep-021-physical-balance-predictive-bottleneck/acceptance-review.json",
-      "work_ref": "issue-348"
+      "source_record": "research/programmes/002-henry-hub-fresh/lines/005-fundamental-balance/experiments/feas-022-target-matched-physical-bottleneck/feasibility.json",
+      "work_ref": "issue-351"
     }
   ]
 }

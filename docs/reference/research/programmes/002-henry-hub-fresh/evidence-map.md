@@ -18,7 +18,7 @@ Source: `research/programmes/002-henry-hub-fresh/evidence-map.json`
 | Field | Shape |
 | --- | --- |
 | `current_scan_id` | str |
-| `feasibility_map` | array (21 items) |
+| `feasibility_map` | array (22 items) |
 | `programme_id` | str |
 | `refresh_triggers` | array (4 items) |
 | `research_line_refs` | array (7 items) |
