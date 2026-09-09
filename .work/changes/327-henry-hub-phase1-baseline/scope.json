@@ -1,7 +1,7 @@
 {
   "schema_version": 4,
   "change_id": "327-henry-hub-phase1-baseline",
-  "status": "active",
+  "status": "closed",
   "branch": "change/327-henry-hub-phase1-baseline",
   "worktree": ".work/worktrees/327-henry-hub-phase1-baseline",
   "base": "main",
