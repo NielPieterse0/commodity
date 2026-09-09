@@ -1,0 +1,35 @@
+{
+  "schema_version": 4,
+  "change_id": "348-physical-balance-predictive-bottleneck",
+  "status": "active",
+  "branch": "change/348-physical-balance-predictive-bottleneck",
+  "worktree": ".work/worktrees/348-physical-balance-predictive-bottleneck",
+  "base": "main",
+  "outcome": "Complete issue #348 with a frozen one-month Henry Hub A/B/C predictive-bottleneck diagnostic, auditable PIT/capacity gates, bounded execution, explicit scientific disposition, verification and governed closeout without opening sealed confirmation windows.",
+  "owned_paths": [
+    ".work/changes/348-physical-balance-predictive-bottleneck/**",
+    "research/programmes/002-henry-hub-fresh/**",
+    "docs/reference/README.md",
+    "docs/reference/research/programmes/002-henry-hub-fresh/**",
+    "src/commodity/research_construction.py",
+    "src/commodity/research_forecasting.py",
+    "scripts/checks/check_research_methodology.py",
+    "scripts/checks/check_research_memory.py",
+    "tests/research/**"
+  ],
+  "shared_paths": [],
+  "excluded_paths": [],
+  "dependencies": [],
+  "integration_owner": null,
+  "complexity": "large",
+  "risk_triggers": [],
+  "base_evidence": {
+    "local_sha": "e043e33fe88e55cf2b0ce8d0b758d3302d45940d",
+    "local_tree": "3cfcce6c10efcd16212194c193ae94f3cd0545c2",
+    "upstream_sha": "a9ac0ab754afb3b4212b7f8e0af3fca8c5d44913",
+    "upstream_tree": "1fbdd7e4826158c6dae02456c375734294d65f0e",
+    "upstream_ref": "refs/remotes/origin/main",
+    "evidence_source": "local_remote_tracking_ref",
+    "relation": "content_divergence"
+  }
+}

@@ -1,0 +1,80 @@
+{
+  "schema_version": 1,
+  "design_id": "rep-021-physical-balance-predictive-bottleneck",
+  "issue": 348,
+  "programme_id": "002-henry-hub-fresh",
+  "status": "frozen_before_outcome_scoring",
+  "frozen_on": "2026-09-09",
+  "source_package_manifest_sha256": "3d8ad1e8e3226fd22924b298ce08ddb71b2133200e8c6cba785d5bf55fbf172f",
+  "protected_confirmation_accessed": false,
+  "confirmation_eligibility": "ineligible_no_fresh_historical_block",
+  "target": {
+    "horizon_months": 1,
+    "definition": "log nominal Henry Hub spot price at t+1",
+    "source_semantics": "BHLR NG_HENRY; delay 0; no revisions",
+    "evaluation_value": "BHLR 2024M2 column, numerically stable for non-revised Henry Hub history",
+    "primary_metric": "rmse_log_nominal_price"
+  },
+  "chronology": {
+    "candidate_origins_start": "1997-01",
+    "development_origins": ["1997-01", "2002-12"],
+    "development_rows": 72,
+    "research_oos_origins": ["2003-01", "2020-08"],
+    "research_oos_rows": 212,
+    "excluded_from_research": "all origins from 2020-09 onward; existing rep-014 sealed window begins 2020-09",
+    "fit": "expanding_window_monthly"
+  },
+  "models": {
+    "family": "StandardScaler plus Ridge(alpha=10.0)",
+    "retrain_every_month": true,
+    "A_market_only": [
+      "current-vintage log nominal Henry Hub spot price at origin",
+      "sin(2*pi*target_month/12)",
+      "cos(2*pi*target_month/12)"
+    ],
+    "curve_state": "omitted: governed long history does not cover the full 1997-2020 contract; issue-authorized AR/seasonal fallback used",
+    "B_realized_physical_additions": [
+      "log dry natural gas production at origin from BHLR final vintage",
+      "log working natural gas storage at origin from BHLR final vintage",
+      "log total natural gas consumption at origin from BHLR final vintage"
+    ],
+    "C_pit_substitutions": [
+      "log dry production from the origin-vintage BHLR column including source-study nowcast",
+      "log working storage from the origin-vintage BHLR column including source-study nowcast",
+      "log total consumption from the origin-vintage BHLR column including source-study nowcast"
+    ],
+    "C_fit_rule": "reuse each origin's fitted B scaler and ridge coefficients exactly; replace only the three physical prediction inputs; no C refit"
+  },
+  "source_semantics": {
+    "vintage_columns": "1991M1 through 2024M2, one column per origin month",
+    "dry_production": "MER Table 4.1; 1/2/3 month delay; ALD source-study nowcast; revised",
+    "working_storage": "MER Table 4.4; 1/2/3 month delay; prior-year month-on-month-change source-study nowcast; revised",
+    "total_consumption": "MER Table 4.3; 1/3 month delay; same-month-prior-year source-study nowcast; revised"
+  },
+  "evaluation": {
+    "primary_comparison": "A_to_B",
+    "conditional_comparison": "B_to_C_only_if_A_to_B_survives",
+    "relative_rmse_improvement": "1 - RMSE_challenger / RMSE_benchmark",
+    "paired_delta": "RMSE_benchmark_star - RMSE_challenger_star",
+    "moving_block_bootstrap": {
+      "primary_block_months": 3,
+      "sensitivity_block_months": [1, 6],
+      "resamples": 2000,
+      "confidence": 0.95,
+      "seed": 348
+    },
+    "chronological_thirds": 3,
+    "A_to_B_survive": "relative RMSE improvement >= 0.01; primary MBB lower 95% CI > 0; non-negative RMSE improvement in at least two chronological thirds",
+    "A_to_B_fail": "stop without C; physical mechanism remains explanatory only / rules out material predictive benefit under this contract",
+    "B_to_C_preserve": "C retains at least 50% of B's A-relative improvement and C clears the A-relative primary survival rule",
+    "B_to_C_information_kill": "C loses at least 50% of B's A-relative improvement or C no longer clears the A-relative primary survival rule",
+    "B_to_C_otherwise": "INCONCLUSIVE"
+  },
+  "guardrails": [
+    "no Programme-002 sealed confirmation outcome access",
+    "no feature/model/hyperparameter/threshold changes after this freeze",
+    "no full-matrix predictor screen",
+    "B is retrospective and non-deployable",
+    "C changes only physical prediction inputs under B coefficients"
+  ]
+}

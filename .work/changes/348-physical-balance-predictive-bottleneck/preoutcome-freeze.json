@@ -1,0 +1,11 @@
+{
+  "schema_version": 1,
+  "issue": 348,
+  "design_id": "rep-021-physical-balance-predictive-bottleneck",
+  "frozen_on": "2026-09-09",
+  "experiment_contract_sha256": "9f5c8bb8edea548c7bbdbb40c8835660b92aa675cf5712e356fee344a95cd148",
+  "capacity_gate_sha256": "144acda0402f0e6173586732e2ff067d260de92dc990d68c73a13a360750e7e5",
+  "outcome_scoring_performed_before_freeze": false,
+  "protected_confirmation_accessed": false,
+  "status": "frozen_for_execution"
+}

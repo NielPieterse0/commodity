@@ -89,7 +89,7 @@
       "issued forecast-revision return edge unresolved in primary literature inventory"
     ]
   },
-  "next_stage": "Phase 1 literature-first proof has closed rep-001, rep-002, rep-005, rep-012, rep-014 and rep-018. rep-018 reproduces the source-era negative announcement premium but its calendar forecast translation is INCONCLUSIVE. No mechanism qualifies for Phase 2; select the next independent source-faithful target.",
+  "next_stage": "Issue 348 remains scientifically incomplete. rep-021 is preserved as a narrower historical sub-diagnostic with an INCONCLUSIVE 0.895% A-to-B RMSE improvement and C not scored, but it did not implement the intended target-matched futures baseline, realized target-period physical inputs, or adequate pre-outcome detectability gate. The next investment is an unscored data-and-capacity feasibility assessment under a new research identity; Phase 2 remains closed.",
   "phase_0_transition": {
     "carried_forward": {
       "agent_a_work_316": {
@@ -331,8 +331,26 @@
   },
   "programme_id": "002-henry-hub-fresh",
   "schema_version": 1,
-  "scientific_design_state": "phase1_six_literature_targets_closed_no_phase2_survivor",
+  "scientific_design_state": "phase1_closed_rep021_narrow_subdiagnostic_issue348_intended_mapping_incomplete_no_phase2_survivor",
   "scientific_start_state": "clean_slate",
   "setup_authority": "experiment-setup.json",
-  "supporting_feasibility_detail_ref": "feasibility-ledger.json"
+  "supporting_feasibility_detail_ref": "feasibility-ledger.json",
+  "successor_evidence": {
+    "issue_348": {
+      "design_id": "rep-021-physical-balance-predictive-bottleneck",
+      "result_ref": "research/programmes/002-henry-hub-fresh/lines/005-fundamental-balance/experiments/rep-021-physical-balance-predictive-bottleneck/result.json",
+      "acceptance_review_ref": "research/programmes/002-henry-hub-fresh/lines/005-fundamental-balance/experiments/rep-021-physical-balance-predictive-bottleneck/acceptance-review.json",
+      "acceptance_status": "bounded_subdiagnostic_not_issue_complete",
+      "A_to_B_disposition": "INCONCLUSIVE_REALIZED_PHYSICAL_SIGNAL",
+      "relative_rmse_improvement": 0.008949028080413979,
+      "primary_mbb_ci": [
+        -0.0032323013640507586,
+        0.005231112063812548
+      ],
+      "nonnegative_chronological_thirds": 2,
+      "C_scored": false,
+      "protected_confirmation_accessed": false,
+      "interpretation": "rep-021 is useful narrower historical evidence only. It did not clear its own A-to-B gate and C was not opened; post-result acceptance review additionally found that the executed mapping does not satisfy #348's intended target-matched futures baseline, realized target-period physical inputs, or pre-outcome detectability requirement."
+    }
+  }
 }

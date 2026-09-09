@@ -27,6 +27,30 @@
       "status": "open",
       "source_record": "research/programmes/002-henry-hub-fresh/revisit-triggers.json",
       "work_ref": "issue-289"
+    },
+    {
+      "id": "rep021-prospective-exact-contract-confirmation",
+      "item": "Do not allocate genuinely unexposed future confirmation observations to the narrower frozen rep-021 mapping unless a later explicit research decision retains that mapping as independently worthwhile; existing Programme-002 sealed windows remain unopened.",
+      "kind": "recommendation",
+      "status": "open",
+      "source_record": "research/programmes/002-henry-hub-fresh/lines/005-fundamental-balance/experiments/rep-021-physical-balance-predictive-bottleneck/acceptance-review.json",
+      "work_ref": "issue-348"
+    },
+    {
+      "id": "physical-balance-one-month-change-successor",
+      "item": "Any revised scored one-month target/horizon/model mapping must use a new research identity after feasibility is established; do not adapt rep-021 features, target semantics, baseline, predictor timing or thresholds post hoc.",
+      "kind": "recommendation",
+      "status": "open",
+      "source_record": "research/programmes/002-henry-hub-fresh/lines/005-fundamental-balance/experiments/rep-021-physical-balance-predictive-bottleneck/acceptance-review.json",
+      "work_ref": "issue-348"
+    },
+    {
+      "id": "issue348-intended-diagnostic-feasibility",
+      "item": "Before any new scoring, perform an unscored data-and-capacity feasibility assessment for #348's intended target-matched diagnostic: calendar-average target/delivery semantics, market/futures calibration history, realized target-period physical inputs, matching PIT inputs, programme-wide outcome exposure, and detectability of the 1% material-effect threshold under plausible dependence.",
+      "kind": "recommendation",
+      "status": "open",
+      "source_record": "research/programmes/002-henry-hub-fresh/lines/005-fundamental-balance/experiments/rep-021-physical-balance-predictive-bottleneck/acceptance-review.json",
+      "work_ref": "issue-348"
     }
   ]
 }

@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "design_id": "rep-021-physical-balance-predictive-bottleneck",
+  "status": "passed_before_outcome_scoring_with_detectability_caveat",
+  "computed_on": "2026-09-09",
+  "outcomes_accessed": false,
+  "candidate_predictor_rows": 284,
+  "candidate_predictor_rows_usable": 284,
+  "development_rows": 72,
+  "research_oos_rows": 212,
+  "model_feature_counts": {"A": 3, "B": 6, "C": 6},
+  "model_capacity": "fixed ridge alpha 10; no search; simultaneous three-feature physical addition",
+  "moving_block_bootstrap": {
+    "primary_block_months": 3,
+    "primary_effective_blocks": 70.66666666666667,
+    "sensitivity": {
+      "1": {"effective_blocks": 212.0},
+      "6": {"effective_blocks": 35.333333333333336}
+    },
+    "minimum_effective_blocks": 8.0,
+    "all_capacity_checks_pass": true
+  },
+  "detectability_method": "outcome-blind Gaussian paired-loss planning approximation using OOS_rows/block_months as effective independent blocks; 80% power, two-sided 5% size",
+  "detectability_primary_block": {
+    "paired_error_correlation_0.95": {"minimum_relative_rmse_improvement": 0.1111},
+    "paired_error_correlation_0.99": {"minimum_relative_rmse_improvement": 0.0519},
+    "paired_error_correlation_0.999": {"minimum_relative_rmse_improvement": 0.0168},
+    "paired_error_correlation_0.9995": {"minimum_relative_rmse_improvement": 0.0119}
+  },
+  "detectability_interpretation": "The 1% promotion threshold is a decision threshold, not guaranteed power. Under the primary three-month dependence assumption, an effect near 1% is only well powered when paired errors are extremely highly correlated; weaker marginal effects may remain inconclusive.",
+  "proceed_rule": {
+    "requirements": [
+      "all candidate predictor rows are usable before outcome scoring",
+      "at least 8 effective blocks under primary and both sensitivity block lengths",
+      "development rows are at least 10 times the number of B physical additions",
+      "no added model family or adaptive feature search is needed"
+    ],
+    "passed": true
+  },
+  "sensitivity_policy": "Primary scientific disposition uses block=3 months only. Block=1 and block=6 are reported as robustness sensitivities and cannot rescue a failed primary result.",
+  "protected_confirmation_accessed": false
+}
