@@ -1,5 +1,6 @@
 import numpy as np
 import pandas as pd
+import pytest
 
 
 def _predictions(actual: np.ndarray, prediction: np.ndarray) -> pd.DataFrame:
@@ -33,6 +34,51 @@ def test_paired_block_bootstrap_reports_no_difference_for_same_input() -> None:
     assert result["rmse_improvement"] == 0.0
     assert result["significant"] is False
     assert result["p_value"] == 1.0
+
+
+def test_moving_block_capacity_gate_matches_bootstrap_minimum() -> None:
+    from commodity.evaluation import validate_moving_block_bootstrap_capacity
+
+    passing = validate_moving_block_bootstrap_capacity(sample_rows=160, block_size=20)
+    assert passing["effective_blocks"] == pytest.approx(8.0)
+    assert passing["status"] == "passed"
+    with pytest.raises(ValueError, match="at least 8 effective blocks"):
+        validate_moving_block_bootstrap_capacity(sample_rows=108, block_size=20)
+    with pytest.raises(ValueError, match="at least 8 effective blocks"):
+        validate_moving_block_bootstrap_capacity(sample_rows=28, block_size=4)
+
+
+def test_walk_forward_with_label_availability_excludes_unresolved_labels() -> None:
+    from commodity.evaluation import walk_forward_predict_with_label_availability
+
+    index = pd.date_range("2026-01-01 23:59", periods=30, freq="D", tz="UTC")
+    x = pd.DataFrame({"feature": np.arange(30, dtype=float)}, index=index)
+    y = pd.Series(np.arange(30, dtype=float), index=index)
+    label_available_at = pd.Series(index + pd.Timedelta(days=2), index=index)
+    fits: list[pd.DatetimeIndex] = []
+
+    class RecordingModel:
+        def fit(self, train_x, train_y):
+            assert train_x.index.equals(train_y.index)
+            fits.append(train_x.index.copy())
+            return self
+
+        def predict(self, predict_x):
+            return pd.Series([0.0], index=predict_x.index)
+
+    result = walk_forward_predict_with_label_availability(
+        RecordingModel,
+        x,
+        y,
+        label_available_at,
+        initial_train=22,
+        retrain_every=1,
+    )
+    assert result.index[0] == index[22]
+    assert fits[0][-1] == index[20]
+    assert index[21] not in fits[0]
+    for prediction_time, training_index in zip(result.index, fits, strict=True):
+        assert (label_available_at.loc[training_index] <= prediction_time).all()
 
 
 def test_secondary_block_sign_flip_check_reports_no_edge_for_worse_model() -> None:

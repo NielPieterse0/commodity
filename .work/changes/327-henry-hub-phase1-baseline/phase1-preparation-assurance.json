@@ -1,0 +1,286 @@
+{
+  "issue": 327,
+  "market_history": {
+    "canonical_contract_days": 554737,
+    "coverage_end": "2026-08-12T00:00:00+00:00",
+    "coverage_start": "2010-06-04T00:00:00+00:00",
+    "duplicate_contract_day_keys": 0,
+    "market_cache_authority_sha256": "cedc888c9758ad817c1b3742cc5aac323bcd8b6924f58b6380b421661fe953e4",
+    "missing_volume_contract_days": 317070,
+    "partition_count": 17,
+    "partition_manifest_sha256": {
+      "20100606-20101231": "91302264068f239fd55d48b42755453a12611204d6bc1c3d5b5b28b0021c4872",
+      "20110101-20111231": "e09a1ede4a5c1fe495a28c420fe004f349601a92bfe96a08a578d08d84bd0916",
+      "20120101-20121231": "bc07ae0a5fdffd3acb0cc7535b960efd201d52699a0115bf298ca4998a75c063",
+      "20130101-20131231": "f197b14bd21c1e772b4b1c4ba72030dbb7a823f6e44da77ed6129bde8884895a",
+      "20140101-20141231": "b04329fb905c5a781b7d2ad199902e1d1ff6de0a80599bf79bc8dee9d77a6cc9",
+      "20150101-20151231": "1c6da0e87f0cc37a112ee2f1b50879702247f0405e9677cd88ec7d3e91d51207",
+      "20160101-20161231": "b7d314ced0689dbf0a254ea64d52b6464b0716e33ba10aad736624945db3831d",
+      "20170101-20171231": "aa3efafc5c20bc0c212b95dd00d88c8e8056c3c323bbee889cec61400195d814",
+      "20180101-20181231": "dcec29b0172c1b269e39ac37876e6ebe2d32a7574be6277e67dbf2eed1147ea3",
+      "20190101-20191231": "0924a3c91b46d8ffe897679f697658a45daee436779efa1575c58d80fe13dea1",
+      "20200101-20201231": "9941339d061d9e0b2fd30a0ba85cf960a588e9a490a19ce1bf8e91bbd834affb",
+      "20210101-20211231": "736ace5ab105e3f0965ab46db1a63c0fc17858117f1848f6a4fde10d44cb81c1",
+      "20220101-20221231": "b9bdc467a1129c58c3da5c7fca4560a42ce57ec8227008cab4e74ecd4b77832e",
+      "20230101-20231231": "9e7f2068cb32ef993eb3a871039a40a04a9025b0aee48b4ece0a1273da0387e0",
+      "20240101-20241231": "ce9455451e8a64b70d467920213cba99ed3d7a7b1e32a1a840e45586ad3f7c88",
+      "20250101-20251231": "0f8d40655d326fad5fa270c875b1f71988e74d2097a1548a4b16fefb7fbc2e1a",
+      "20260101-20260812": "92eced3eca98e4c180ff556190b122bd0a3d44bc1bcab64df15e2017cde00610"
+    },
+    "positive_volume_contract_days": 99189,
+    "post_expiration_rows": 0,
+    "reconstruction_version": "metadata-symbology-v2",
+    "status": "certified_for_phase1_panel_construction",
+    "volume_observed_contract_days": 237667,
+    "work316_reconciliation": {
+      "cause": "positive_volume_contract_days_without_an_admissible_canonical_final_settlement",
+      "corrected_only_rows": 0,
+      "corrected_positive_volume_screen_rows": 99189,
+      "legacy_positive_volume_screen_rows": 99714,
+      "old_only_key_sha256": "05fa995b62fb9d06e8b9984992f1f75ea18ead2f5e34fc98c3ccdaf5669361cb",
+      "old_only_rows": 525,
+      "proof": {
+        "all_old_only_rows_resolve_to_same_target_symbol": true,
+        "canonical_screen_basis": "admissible_final_settlement_contract_day_with_volume_left_join",
+        "legacy_screen_basis": "cleared_volume_contract_day_only",
+        "outcome_scoring_performed_by_reconciliation": false,
+        "settlement_price_accessed_by_reconciliation": false
+      },
+      "resolved_discrepancy_sha256": "ab312bb240889355ea60c985e5d431c2f448b76164f50028a57253e48a995dba"
+    }
+  },
+  "model_fitting_performed": false,
+  "panel_preparation_metadata": {
+    "rep_001": {
+      "content_sha256": "f1b7feb8820e0f23ff94701fd592824662810e6735ea3606cab94e0cbdbf1157",
+      "planning_fraction": 0.2,
+      "pre_freeze_outcome_use": false,
+      "preparation_verification_scope": "full_prepared_frame",
+      "preparation_verification_status": "passed",
+      "prepared_rows": 3649,
+      "purged_boundary_rows": 2,
+      "research_rows": 2917,
+      "reserved_end": "2026-08-10T23:59:00+00:00",
+      "reserved_fraction": 0.20005480953685942,
+      "reserved_rows": 730,
+      "reserved_start": "2023-05-15T23:59:00+00:00"
+    },
+    "rep_002": {
+      "content_sha256": "455110cec8cb03ab4ea90128af6743d21924435047c9845421fa2f7e9ed44e29",
+      "planning_fraction": 0.2,
+      "pre_freeze_outcome_use": false,
+      "preparation_verification_scope": "full_prepared_frame",
+      "preparation_verification_status": "passed",
+      "prepared_rows": 3667,
+      "purged_boundary_rows": 2,
+      "research_rows": 2931,
+      "reserved_end": "2026-08-10T23:59:00+00:00",
+      "reserved_fraction": 0.20016362148895556,
+      "reserved_rows": 734,
+      "reserved_start": "2023-05-09T23:59:00+00:00"
+    },
+    "rep_004_rep_005": {
+      "content_sha256": "1598fbe51e9ab71dd23b07b06799616e47834a67630296d245e9da8fd7689419",
+      "planning_fraction": 0.2,
+      "pre_freeze_outcome_use": false,
+      "preparation_verification_scope": "full_prepared_frame",
+      "preparation_verification_status": "passed",
+      "prepared_rows": 100,
+      "purged_boundary_rows": 0,
+      "research_rows": 80,
+      "reserved_end": "2026-08-06T23:59:00+00:00",
+      "reserved_fraction": 0.2,
+      "reserved_rows": 20,
+      "reserved_start": "2026-03-12T23:59:00+00:00"
+    },
+    "rep_009": {
+      "content_sha256": "57759a4bd8263a7058b3d4866072f83b554a43ffd5584ae415784102233faef5",
+      "planning_fraction": 0.2,
+      "pre_freeze_outcome_use": false,
+      "preparation_verification_scope": "full_prepared_frame",
+      "preparation_verification_status": "passed",
+      "prepared_rows": 453,
+      "purged_boundary_rows": 2,
+      "research_rows": 360,
+      "reserved_end": "2026-08-04T23:59:00+00:00",
+      "reserved_fraction": 0.20088300220750552,
+      "reserved_rows": 91,
+      "reserved_start": "2026-03-11T23:59:00+00:00"
+    }
+  },
+  "panel_refs": {
+    "rep_001": {
+      "confirmation_eligibility": "ineligible",
+      "design_id": "rep-001-samuelson-maturity-volatility",
+      "prepared_rows": 3649,
+      "research_oos_capacity": {
+        "block_size": 20,
+        "effective_blocks": 95.15,
+        "minimum_effective_blocks": 8.0,
+        "sample_rows": 1903,
+        "status": "passed"
+      },
+      "research_rows": 2917,
+      "sealed_window_id": "phase1-rep001-reserved-confirmation-v1"
+    },
+    "rep_002": {
+      "confirmation_eligibility": "ineligible",
+      "design_id": "rep-002-seasonal-forward-curve",
+      "prepared_rows": 3667,
+      "research_oos_capacity": {
+        "block_size": 20,
+        "effective_blocks": 94.95,
+        "minimum_effective_blocks": 8.0,
+        "sample_rows": 1899,
+        "status": "passed"
+      },
+      "research_rows": 2931,
+      "sealed_window_id": "phase1-rep002-reserved-confirmation-v1"
+    },
+    "rep_004": {
+      "confirmation_eligibility": "ineligible",
+      "design_id": "rep-004-storage-state-nonlinearity",
+      "prepared_rows": 100,
+      "research_oos_capacity": {
+        "block_size": 4,
+        "effective_blocks": 7.0,
+        "reason": "moving-block bootstrap requires at least 8 effective blocks",
+        "sample_rows": 28,
+        "status": "failed"
+      },
+      "research_rows": 80,
+      "sealed_window_id": "phase1-rep004-rep005-reserved-confirmation-v1"
+    },
+    "rep_005": {
+      "confirmation_eligibility": "ineligible",
+      "design_id": "rep-005-scarcity-volatility",
+      "prepared_rows": 100,
+      "research_oos_capacity": {
+        "block_size": 4,
+        "effective_blocks": 7.0,
+        "reason": "moving-block bootstrap requires at least 8 effective blocks",
+        "sample_rows": 28,
+        "status": "failed"
+      },
+      "research_rows": 80,
+      "sealed_window_id": "phase1-rep004-rep005-reserved-confirmation-v1"
+    },
+    "rep_009": {
+      "confirmation_eligibility": "ineligible",
+      "design_id": "rep-009-announcement-volatility",
+      "prepared_rows": 453,
+      "research_oos_capacity": {
+        "block_size": 20,
+        "effective_blocks": 5.4,
+        "reason": "moving-block bootstrap requires at least 8 effective blocks",
+        "sample_rows": 108,
+        "status": "failed"
+      },
+      "research_rows": 360,
+      "sealed_window_id": "phase1-rep009-reserved-confirmation-v1"
+    }
+  },
+  "prediction_scoring_performed": false,
+  "programme_id": "002-henry-hub-fresh",
+  "research_oos_capacity_holds": [
+    "rep_004",
+    "rep_005",
+    "rep_009"
+  ],
+  "reserved_outcomes_human_inspected": false,
+  "reserved_outcomes_scored": false,
+  "schema_version": 1,
+  "scoring_functions_called": [],
+  "sealed_window_entries": {
+    "rep_001": {
+      "content_sha256": "f1b7feb8820e0f23ff94701fd592824662810e6735ea3606cab94e0cbdbf1157",
+      "dataset_id": "phase1-rep001-forecast-panel-v1",
+      "eligibility": "eligible",
+      "end": "2026-08-10T23:59:00+00:00",
+      "openings": [],
+      "permitted_openings": 1,
+      "preparation_assurance": {
+        "prepared_rows": 3649,
+        "protected_outcomes_accessed": false,
+        "purged_boundary_rows": 2,
+        "reserved_rows": 730,
+        "scope": "full_prepared_frame",
+        "status": "passed"
+      },
+      "sealed_window_id": "phase1-rep001-reserved-confirmation-v1",
+      "start": "2023-05-15T23:59:00+00:00"
+    },
+    "rep_002": {
+      "content_sha256": "455110cec8cb03ab4ea90128af6743d21924435047c9845421fa2f7e9ed44e29",
+      "dataset_id": "phase1-rep002-forecast-panel-v1",
+      "eligibility": "eligible",
+      "end": "2026-08-10T23:59:00+00:00",
+      "openings": [],
+      "permitted_openings": 1,
+      "preparation_assurance": {
+        "prepared_rows": 3667,
+        "protected_outcomes_accessed": false,
+        "purged_boundary_rows": 2,
+        "reserved_rows": 734,
+        "scope": "full_prepared_frame",
+        "status": "passed"
+      },
+      "sealed_window_id": "phase1-rep002-reserved-confirmation-v1",
+      "start": "2023-05-09T23:59:00+00:00"
+    },
+    "rep_004_rep_005": {
+      "content_sha256": "1598fbe51e9ab71dd23b07b06799616e47834a67630296d245e9da8fd7689419",
+      "dataset_id": "phase1-storage-pit-forecast-panel-v1",
+      "eligibility": "eligible",
+      "end": "2026-08-06T23:59:00+00:00",
+      "openings": [],
+      "permitted_openings": 1,
+      "preparation_assurance": {
+        "prepared_rows": 100,
+        "protected_outcomes_accessed": false,
+        "purged_boundary_rows": 0,
+        "reserved_rows": 20,
+        "scope": "full_prepared_frame",
+        "status": "passed"
+      },
+      "sealed_window_id": "phase1-rep004-rep005-reserved-confirmation-v1",
+      "start": "2026-03-12T23:59:00+00:00"
+    },
+    "rep_009": {
+      "content_sha256": "57759a4bd8263a7058b3d4866072f83b554a43ffd5584ae415784102233faef5",
+      "dataset_id": "phase1-announcement-forecast-panel-v1",
+      "eligibility": "eligible",
+      "end": "2026-08-04T23:59:00+00:00",
+      "openings": [],
+      "permitted_openings": 1,
+      "preparation_assurance": {
+        "prepared_rows": 453,
+        "protected_outcomes_accessed": false,
+        "purged_boundary_rows": 2,
+        "reserved_rows": 91,
+        "scope": "full_prepared_frame",
+        "status": "passed"
+      },
+      "sealed_window_id": "phase1-rep009-reserved-confirmation-v1",
+      "start": "2026-03-11T23:59:00+00:00"
+    }
+  },
+  "sealed_windows_authority": "sealed-windows.json",
+  "source_identities": {
+    "wngsr_sha256": "31d17f1f15f0d15c74820c5acd947c7837076b90d7d96a329c90399671f6c351"
+  },
+  "status": "phase1_panels_prepared_with_research_capacity_holds",
+  "storage_state_preparation": {
+    "development_rows": 52,
+    "excluded_no_same_contract_target": 5,
+    "low_inventory_quantile": 0.25,
+    "low_inventory_threshold_bcf": 2355.5,
+    "release_rows": 106,
+    "state_fit_scope": "development_point_in_time_storage_only",
+    "storage_change_mean_bcf": -2.8076923076923075,
+    "storage_change_std_bcf": 109.26802587806709,
+    "storage_level_mean_bcf": 2927.9615384615386,
+    "storage_level_std_bcf": 702.4092868214498,
+    "valid_same_contract_market_rows": 101
+  }
+}

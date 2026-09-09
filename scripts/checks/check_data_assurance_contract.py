@@ -56,6 +56,36 @@ def main() -> int:
     if methodology.get("dataset_semantic_verification_method") != SEMANTIC_METHOD:
         raise DataAssuranceError("methodology semantic verification method drifted")
 
+    research_dataset = json.loads(
+        (ROOT / "config/research_dataset.json").read_text(encoding="utf-8")
+    )
+    reserved = research_dataset["evaluation_evidence_policy"]["reserved_confirmation"]
+    assurance = reserved.get("pre_freeze_preparation_and_assurance", {})
+    if assurance.get("scope") != "100_percent_including_reserved_confirmation":
+        raise DataAssuranceError("reserved confirmation is not covered by full pre-freeze preparation")
+    required_assurance = {
+        "deterministic_reconstruction",
+        "identity_and_contract_mapping_validation",
+        "point_in_time_and_timestamp_validation",
+        "coverage_completeness_and_missingness_checks",
+        "deterministic_feature_and_target_construction",
+        "structural_and_numerical_usability_checks",
+        "content_hashing_and_sealed_window_registration",
+    }
+    if not required_assurance.issubset(set(assurance.get("required", []))):
+        raise DataAssuranceError("reserved-confirmation preparation assurance requirements drifted")
+    prohibited = set(reserved.get("prohibited_before_freeze", []))
+    required_prohibitions = {
+        "model_fitting",
+        "prediction_scoring",
+        "benchmark_comparison",
+        "effect_estimation",
+        "disposition_classification",
+        "outcome_summary_visualization_or_human_inspection",
+    }
+    if not required_prohibitions.issubset(prohibited):
+        raise DataAssuranceError("reserved-confirmation pre-freeze outcome protections drifted")
+
     preoutcome = build_preoutcome_assurance(
         dataset_identity={
             "dataset_id": "contract-check",

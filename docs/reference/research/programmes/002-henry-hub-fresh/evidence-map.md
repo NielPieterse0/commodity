@@ -8,20 +8,20 @@ Source: `research/programmes/002-henry-hub-fresh/evidence-map.json`
 
 | Field | Value |
 | --- | --- |
+| `current_scan_id` | non-outcome-feasibility-2026-09-03 |
+| `programme_id` | 002-henry-hub-fresh |
 | `schema_version` | 2 |
 | `zoom_level` | L1 |
-| `programme_id` | 002-henry-hub-fresh |
-| `current_scan_id` | non-outcome-feasibility-2026-09-03 |
 
 ## Structure
 
 | Field | Shape |
 | --- | --- |
-| `schema_version` | int |
-| `zoom_level` | str |
-| `programme_id` | str |
 | `current_scan_id` | str |
+| `feasibility_map` | array (21 items) |
+| `programme_id` | str |
 | `refresh_triggers` | array (4 items) |
 | `research_line_refs` | array (7 items) |
-| `feasibility_map` | array (21 items) |
+| `schema_version` | int |
 | `semantics` | object (8 keys) |
+| `zoom_level` | str |

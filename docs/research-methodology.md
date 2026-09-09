@@ -98,7 +98,7 @@ This is the one authoritative end-to-end research workflow. Every governed exper
 
 - Development — available for fitting, feature work, debugging, model selection and exploratory research.
 - Rolling research OOS — multiple chronological historical test periods used for development-time evaluation; repeated reuse makes them partly research-trained and they must not be described as pristine confirmation.
-- Reserved confirmation — a chronologically later block whose identity may be known but whose outcomes must not influence fitting, feature/model/hyperparameter/threshold selection, hypothesis formulation or redesign before freeze.
+- Reserved confirmation — a chronologically later block that is acquired, reconstructed, normalized, PIT/identity checked, usability checked and cryptographically bound under the same data-preparation contract as development data; before freeze its empirical outcomes must not influence fitting, scoring, feature/model/hyperparameter/threshold selection, hypothesis formulation or redesign.
 - True forward evidence — newly arriving post-freeze observations; the strongest independence class.
 
 ### Legacy evidence and migration rules
@@ -468,7 +468,9 @@ MEPI — Minimum Effect of Practical Importance — is an L1/L2 programme quanti
 ### Reserved-confirmation rules
 
 - The reserved confirmation block is governed by config/research_dataset.json and may be known by identity; independence is about non-use in design, fitting and selection before freeze, not secrecy.
-- Exploratory/L5 work must not use reserved confirmation outcomes for fitting, feature/model/hyperparameter/threshold selection, hypothesis formulation or redesign.
+- Before any development scoring, 100% of the candidate dataset including reserved confirmation must pass the same deterministic acquisition, reconstruction, schema, identity, PIT, coverage, missingness, feature/target construction and usability assurance; this automated assurance may establish presence/validity but must not expose empirical protected outcome values or performance summaries.
+- If the reserved block cannot pass that preparation/usability contract, repair the data or redesign the experiment before consuming development outcomes rather than discovering the defect at final confirmation.
+- Exploratory/L5 work must not use reserved confirmation outcomes for fitting, scoring, benchmark comparison, effect estimation, feature/model/hyperparameter/threshold selection, hypothesis formulation, redesign, visualization or human outcome inspection.
 - After freeze, the frozen design may generate predictions and evaluate them on eligible reserved confirmation observations.
 - Once reserved confirmation outcomes influence redesign or selection, those observations are consumed as independent confirmation evidence for that design and cannot be reused as fresh confirmation.
 - Opening/accounting for governed confirmation windows must record identity, eligibility, opening number, permitted openings, exposed artifacts and whether later claim use remains admissible.

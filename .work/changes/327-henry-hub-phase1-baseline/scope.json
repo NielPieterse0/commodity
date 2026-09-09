@@ -1,0 +1,49 @@
+{
+  "schema_version": 4,
+  "change_id": "327-henry-hub-phase1-baseline",
+  "status": "active",
+  "branch": "change/327-henry-hub-phase1-baseline",
+  "worktree": ".work/worktrees/327-henry-hub-phase1-baseline",
+  "base": "main",
+  "outcome": "Execute Henry Hub Phase 1 as literature-first proof: close rep-001 literature reproduction first, then rep-002, under the canonical Programme-002 source-study designs; preserve the already-run forecast translations as separate downstream evidence, pause later-mechanism expansion until both literature gates close, and retain provenance, PIT/leakage controls, failures, capacity evidence, sealed-confirmation protection, and one programme scorecard.",
+  "owned_paths": [
+    "data/henry_hub/phase1",
+    "analysis/henry_hub",
+    "reports/henry_hub/phase1",
+    "research/programmes/002-henry-hub-fresh/**",
+    "docs/reference/research/programmes/002-henry-hub-fresh/**",
+    "docs/reference/README.md",
+    "src/commodity",
+    "scripts",
+    "tests",
+    ".work/changes/327-henry-hub-phase1-baseline",
+    ".work/changes/327-henry-hub-phase1-baseline/**"
+  ],
+  "shared_paths": [],
+  "excluded_paths": [],
+  "dependencies": [],
+  "integration_owner": null,
+  "complexity": "large",
+  "risk_triggers": [
+    "persistent_state",
+    "public_contract"
+  ],
+  "base_evidence": {
+    "local_sha": "c936bc253a6648651d106d7b6c568151e56c72c3",
+    "local_tree": "d8b0965db9c78e0a0bfc2e57c351defe4c51bd18",
+    "upstream_sha": "c936bc253a6648651d106d7b6c568151e56c72c3",
+    "upstream_tree": "d8b0965db9c78e0a0bfc2e57c351defe4c51bd18",
+    "upstream_ref": "refs/remotes/origin/main",
+    "evidence_source": "local_remote_tracking_ref",
+    "relation": "same_sha"
+  },
+  "work_management": {
+    "project_id": "commodity",
+    "record_id": "WORK-327",
+    "source_repository": "NielPieterse0/commodity",
+    "source_number": 327,
+    "source_kind": "issue",
+    "documentation_impact": "planned",
+    "execution_owner": "codex"
+  }
+}

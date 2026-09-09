@@ -8,37 +8,37 @@ Source: `research/programmes/002-henry-hub-fresh/research-synthesis.json`
 
 | Field | Value |
 | --- | --- |
-| `schema_version` | 1 |
-| `programme_id` | 002-henry-hub-fresh |
-| `scientific_start_state` | clean_slate |
-| `internal_reproductions_completed` | 0 |
 | `design_authority` | experiment-designs.json |
-| `setup_authority` | experiment-setup.json |
-| `scientific_design_state` | all_redesign_defects_resolved_non_outcome_implementation_stage_unfrozen |
 | `feasibility_authority_ref` | evidence-map.json |
-| `supporting_feasibility_detail_ref` | feasibility-ledger.json |
-| `interpretation_rule` | External literature support is not internal proof. A finding becomes programme-reproduced only after a fresh programme experiment reproduces it under the declared design, source fidelity, MEPI/power and semantic rules. Contextual sources and exploratory gap discovery cannot be counted as strict reproduction. |
-| `next_stage` | Phase 1 forecast-signal proof under the Phase 0 transition baseline. Use governed schema-v3 exploratory runs on development and rolling research-OOS data; reserve preregistration/freeze for confirmatory use of reserved or sealed confirmation evidence. |
 | `implementation_contracts_ref` | implementation-contracts.json |
+| `internal_reproductions_completed` | 6 |
+| `interpretation_rule` | External literature support is not internal proof. A finding becomes programme-reproduced only after a fresh programme experiment reproduces it under the declared design, source fidelity, MEPI/power and semantic rules. Contextual sources and exploratory gap discovery cannot be counted as strict reproduction. |
+| `next_stage` | Phase 1 literature-first proof has closed rep-001, rep-002, rep-005, rep-012, rep-014 and rep-018. rep-018 reproduces the source-era negative announcement premium but its calendar forecast translation is INCONCLUSIVE. No mechanism qualifies for Phase 2; select the next independent source-faithful target. |
+| `programme_id` | 002-henry-hub-fresh |
+| `schema_version` | 1 |
+| `scientific_design_state` | phase1_six_literature_targets_closed_no_phase2_survivor |
+| `scientific_start_state` | clean_slate |
+| `setup_authority` | experiment-setup.json |
+| `supporting_feasibility_detail_ref` | feasibility-ledger.json |
 
 ## Structure
 
 | Field | Shape |
 | --- | --- |
-| `schema_version` | int |
-| `programme_id` | str |
-| `scientific_start_state` | str |
-| `internal_reproductions_completed` | int |
-| `literature_findings` | object (8 keys) |
 | `design_authority` | str |
-| `setup_authority` | str |
 | `design_coverage` | object (4 keys) |
-| `scientific_design_state` | str |
 | `feasibility_authority_ref` | str |
-| `supporting_feasibility_detail_ref` | str |
 | `feasibility_summary` | object (4 keys) |
-| `interpretation_rule` | str |
-| `next_stage` | str |
 | `implementation_contracts_ref` | str |
 | `implementation_status` | object (4 keys) |
+| `internal_reproductions_completed` | int |
+| `interpretation_rule` | str |
+| `literature_findings` | object (8 keys) |
+| `next_stage` | str |
 | `phase_0_transition` | object (8 keys) |
+| `programme_id` | str |
+| `schema_version` | int |
+| `scientific_design_state` | str |
+| `scientific_start_state` | str |
+| `setup_authority` | str |
+| `supporting_feasibility_detail_ref` | str |

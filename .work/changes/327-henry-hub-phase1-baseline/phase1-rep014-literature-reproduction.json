@@ -1,0 +1,355 @@
+{
+  "schema_version": 1,
+  "design_id": "rep-014-monthly-real-time-forecastability",
+  "source_doi": "10.1002/jae.70018",
+  "replication_data_doi": "10.15456/jae.2025266.1900967125",
+  "durable_manifest_sha256": "3d8ad1e8e3226fd22924b298ce08ddb71b2133200e8c6cba785d5bf55fbf172f",
+  "method": "Independent Python translation from source-study raw real-time inputs; author saved losses used only as a secondary audit.",
+  "published_cells_checked": 59,
+  "exact_published_cell_matches": 58,
+  "package_loss_audit_passed": true,
+  "literature_reproduction_status": "REPRODUCED_WITH_ONE_ANCILLARY_PACKAGE_TABLE_DISCREPANCY",
+  "table1": {
+    "computed": {
+      "end_of_month_full": [
+        0.671,
+        0.976,
+        1.051,
+        1.046,
+        1.051,
+        1.054,
+        1.072,
+        1.065,
+        1.076
+      ],
+      "end_of_month_short": [
+        0.439,
+        0.852,
+        1.044,
+        1.04,
+        1.065,
+        1.07,
+        1.073,
+        1.05,
+        1.05
+      ],
+      "futures_full": [
+        0.897,
+        0.978,
+        0.848,
+        0.792,
+        0.758,
+        0.811,
+        0.838,
+        0.859,
+        0.892
+      ],
+      "futures_short": [
+        0.891,
+        1.068,
+        0.941,
+        0.849,
+        0.802,
+        0.849,
+        0.851,
+        0.813,
+        0.799
+      ],
+      "eia_expert": [
+        1.631,
+        1.136,
+        0.798,
+        0.645,
+        0.615
+      ]
+    },
+    "published": {
+      "end_of_month_full": [
+        0.671,
+        0.976,
+        1.051,
+        1.046,
+        1.051,
+        1.054,
+        1.072,
+        1.065,
+        1.076
+      ],
+      "end_of_month_short": [
+        0.439,
+        0.852,
+        1.044,
+        1.04,
+        1.065,
+        1.07,
+        1.073,
+        1.05,
+        1.05
+      ],
+      "futures_full": [
+        0.897,
+        0.978,
+        0.848,
+        0.792,
+        0.758,
+        0.811,
+        0.838,
+        0.859,
+        0.892
+      ],
+      "futures_short": [
+        0.891,
+        1.068,
+        0.941,
+        0.849,
+        0.802,
+        0.849,
+        0.851,
+        0.813,
+        0.799
+      ],
+      "eia_expert": [
+        1.631,
+        1.136,
+        0.796,
+        0.645,
+        0.615
+      ]
+    },
+    "published_matches": {
+      "end_of_month_full": true,
+      "end_of_month_short": true,
+      "futures_full": true,
+      "futures_short": true,
+      "eia_expert": false
+    },
+    "published_cell_count": 41,
+    "exact_published_cell_matches": 40,
+    "known_package_paper_discrepancy": {
+      "table": 1,
+      "column": "US EIA expert forecasts",
+      "horizon": 6,
+      "published_ratio": 0.796,
+      "replication_package_ratio": 0.7984504115562417,
+      "interpretation": "Independent Python reconstruction and the authors' saved package losses agree; the discrepancy is between the published table and replication package, not the Python translation."
+    },
+    "author_loss_checks": [
+      {
+        "horizon": 1,
+        "end_of_month_max_abs_loss_diff": 1.3552527156068805e-20,
+        "futures_max_abs_loss_diff": 1.3322676295501878e-15
+      },
+      {
+        "horizon": 3,
+        "end_of_month_max_abs_loss_diff": 0.0,
+        "futures_max_abs_loss_diff": 3.1086244689504383e-15
+      },
+      {
+        "horizon": 6,
+        "end_of_month_max_abs_loss_diff": 0.0,
+        "futures_max_abs_loss_diff": 5.329070518200751e-15
+      },
+      {
+        "horizon": 9,
+        "end_of_month_max_abs_loss_diff": 2.7755575615628914e-17,
+        "futures_max_abs_loss_diff": 6.661338147750939e-15
+      },
+      {
+        "horizon": 12,
+        "end_of_month_max_abs_loss_diff": 0.0,
+        "futures_max_abs_loss_diff": 1.2434497875801753e-14
+      },
+      {
+        "horizon": 15,
+        "end_of_month_max_abs_loss_diff": 0.0,
+        "futures_max_abs_loss_diff": 1.4210854715202004e-14
+      },
+      {
+        "horizon": 18,
+        "end_of_month_max_abs_loss_diff": 0.0,
+        "futures_max_abs_loss_diff": 1.0658141036401503e-14
+      },
+      {
+        "horizon": 21,
+        "end_of_month_max_abs_loss_diff": 0.0,
+        "futures_max_abs_loss_diff": 7.105427357601002e-15
+      },
+      {
+        "horizon": 24,
+        "end_of_month_max_abs_loss_diff": 0.0,
+        "futures_max_abs_loss_diff": 1.1324274851176597e-14
+      },
+      {
+        "horizon": 1,
+        "max_abs_loss_diff": 6.217248937900877e-15
+      },
+      {
+        "horizon": 3,
+        "max_abs_loss_diff": 3.219646771412954e-15
+      },
+      {
+        "horizon": 6,
+        "max_abs_loss_diff": 5.329070518200751e-15
+      },
+      {
+        "horizon": 9,
+        "max_abs_loss_diff": 4.440892098500626e-15
+      },
+      {
+        "horizon": 12,
+        "max_abs_loss_diff": 5.329070518200751e-15
+      }
+    ]
+  },
+  "table3_var1": {
+    "computed": {
+      "growth_rates": [
+        0.968,
+        0.935,
+        0.863,
+        0.822,
+        0.799,
+        0.798,
+        0.798,
+        0.811,
+        0.836
+      ],
+      "log_levels": [
+        0.97,
+        0.926,
+        0.845,
+        0.794,
+        0.758,
+        0.762,
+        0.783,
+        0.817,
+        0.851
+      ]
+    },
+    "published": {
+      "growth_rates": [
+        0.968,
+        0.935,
+        0.863,
+        0.822,
+        0.799,
+        0.798,
+        0.798,
+        0.811,
+        0.836
+      ],
+      "log_levels": [
+        0.97,
+        0.926,
+        0.845,
+        0.794,
+        0.758,
+        0.762,
+        0.783,
+        0.817,
+        0.851
+      ]
+    },
+    "published_matches": {
+      "growth_rates": true,
+      "log_levels": true
+    },
+    "published_cell_count": 18,
+    "exact_published_cell_matches": 18,
+    "all_published_cells_match": true,
+    "core_finding": "Both parsimonious six-variable VAR(1) specifications beat the no-change benchmark at every reported horizon from 1 to 24 months.",
+    "author_loss_checks": [
+      {
+        "mode": "growth_rates",
+        "horizon": 1,
+        "max_abs_loss_diff": 7.73159314348959e-13
+      },
+      {
+        "mode": "growth_rates",
+        "horizon": 3,
+        "max_abs_loss_diff": 4.4067527404934026e-13
+      },
+      {
+        "mode": "growth_rates",
+        "horizon": 6,
+        "max_abs_loss_diff": 8.58424442640171e-13
+      },
+      {
+        "mode": "growth_rates",
+        "horizon": 9,
+        "max_abs_loss_diff": 2.0943247136528953e-12
+      },
+      {
+        "mode": "growth_rates",
+        "horizon": 12,
+        "max_abs_loss_diff": 2.9611868512802175e-12
+      },
+      {
+        "mode": "growth_rates",
+        "horizon": 15,
+        "max_abs_loss_diff": 3.886668764607748e-12
+      },
+      {
+        "mode": "growth_rates",
+        "horizon": 18,
+        "max_abs_loss_diff": 3.737010700888277e-12
+      },
+      {
+        "mode": "growth_rates",
+        "horizon": 21,
+        "max_abs_loss_diff": 5.474731779031572e-12
+      },
+      {
+        "mode": "growth_rates",
+        "horizon": 24,
+        "max_abs_loss_diff": 4.369837824924616e-12
+      },
+      {
+        "mode": "log_levels",
+        "horizon": 1,
+        "max_abs_loss_diff": 1.4628298572461063e-12
+      },
+      {
+        "mode": "log_levels",
+        "horizon": 3,
+        "max_abs_loss_diff": 3.4519054281645367e-12
+      },
+      {
+        "mode": "log_levels",
+        "horizon": 6,
+        "max_abs_loss_diff": 4.809264098071253e-12
+      },
+      {
+        "mode": "log_levels",
+        "horizon": 9,
+        "max_abs_loss_diff": 7.761791209759394e-12
+      },
+      {
+        "mode": "log_levels",
+        "horizon": 12,
+        "max_abs_loss_diff": 1.5729639812889218e-11
+      },
+      {
+        "mode": "log_levels",
+        "horizon": 15,
+        "max_abs_loss_diff": 1.2566392371127222e-11
+      },
+      {
+        "mode": "log_levels",
+        "horizon": 18,
+        "max_abs_loss_diff": 1.837374696833649e-11
+      },
+      {
+        "mode": "log_levels",
+        "horizon": 21,
+        "max_abs_loss_diff": 2.064126647383091e-11
+      },
+      {
+        "mode": "log_levels",
+        "horizon": 24,
+        "max_abs_loss_diff": 1.7124079931818414e-11
+      }
+    ]
+  },
+  "reproduced": true
+}

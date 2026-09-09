@@ -1,0 +1,17 @@
+{
+  "design_id": "rep-018-announcement-day-return-puzzle",
+  "forecast": {
+    "disposition": "INCONCLUSIVE",
+    "path": "forecast-translation.json",
+    "scored": true,
+    "sha256": "06f7c54ef936eee84b0cd4e15fae12509b2af09574c9840dca48c2b0dd44ea38"
+  },
+  "issue": 327,
+  "literature_reproduction": {
+    "disposition": "FULL_SOURCE_ERA_PUBLIC_NEAR_REPRODUCED_EXACT_CONTRACT_OVERLAP_WEAKENED_SURPRISE_CONTROL_FIDELITY_BOUNDARY",
+    "path": "literature-reproduction.json",
+    "sha256": "ab58483fb4c00b1c4401e36d4460e25245ecde45e4452d044412c4ff224f4f44"
+  },
+  "protected_confirmation_accessed": false,
+  "schema_version": 1
+}

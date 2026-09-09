@@ -59,6 +59,15 @@
       "enforcement": "pre-ci+ci"
     },
     {
+      "id": "reserved-confirmation-preparation-boundary",
+      "authority": "full-data preparation and outcome-blind reserved-confirmation exclusion before freeze",
+      "source": "config/research_dataset.json",
+      "verifier": [
+        "scripts/checks/check_data_assurance_contract.py"
+      ],
+      "enforcement": "pre-ci+ci"
+    },
+    {
       "id": "work-layout",
       "authority": "governed change/worktree lifecycle layout and repository KIS workflow entrypoint",
       "source": "AGENTS.md",

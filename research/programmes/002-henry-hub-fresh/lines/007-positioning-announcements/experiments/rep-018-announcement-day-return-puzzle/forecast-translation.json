@@ -1,0 +1,126 @@
+{
+  "design_id": "rep-018-announcement-day-return-puzzle",
+  "development_rows": 849,
+  "evaluation_contract": "research/programmes/002-henry-hub-fresh/phase1-evaluation-contract.json#rep_018",
+  "feature_contract": {
+    "benchmark": [
+      "target_end_monday",
+      "target_end_tuesday",
+      "target_end_wednesday",
+      "target_end_friday",
+      "winter"
+    ],
+    "challenger": [
+      "target_end_release",
+      "target_end_monday",
+      "target_end_tuesday",
+      "target_end_wednesday",
+      "target_end_friday",
+      "winter"
+    ],
+    "holiday_weeks": "unresolved federal-holiday weeks excluded",
+    "thursday_reference": true
+  },
+  "forecast": {
+    "baseline": {
+      "bias": -0.0008538603506338569,
+      "direction_accuracy": 0.5135989879822896,
+      "mae": 0.024375221174909603,
+      "n": 1581.0,
+      "prediction_actual_corr": 0.042234119636505495,
+      "rmse": 0.03389431198425876
+    },
+    "block_size": 20,
+    "bootstrap_resamples": 2000,
+    "challenger": {
+      "bias": -0.000853872444105727,
+      "direction_accuracy": 0.512966476913346,
+      "mae": 0.02437495480311057,
+      "n": 1581.0,
+      "prediction_actual_corr": 0.0423338884648847,
+      "rmse": 0.033894164340568626
+    },
+    "disposition": "INCONCLUSIVE",
+    "initial_train": 849,
+    "leakage_audit": "passed_feature_and_label_availability",
+    "min_relative_improvement": 0.01,
+    "negative_periods": 1,
+    "oos_rows": 1581,
+    "period_rmse_improvements": {
+      "period_1": -5.680517347721181e-07,
+      "period_2": 1.436458406250951e-07,
+      "period_3": 5.581883048971781e-07
+    },
+    "positive_periods": 2,
+    "relative_rmse_improvement": 4.356001980610719e-06,
+    "resolved_training_labels_only": true,
+    "retrain_every": 5,
+    "rmse_improvement": 1.4764369013486878e-07,
+    "target_rows": 2430,
+    "uncertainty": {
+      "block_size": 20,
+      "ci_lower": -4.941754678933554e-07,
+      "ci_upper": 7.638057187488167e-07,
+      "effective_blocks": 79.05,
+      "method": "moving_block_bootstrap",
+      "p_value": 0.6221889055472264,
+      "resamples": 2000,
+      "rmse_improvement": 1.4764369013486878e-07,
+      "significant": false
+    }
+  },
+  "issue": 327,
+  "literature_reproduction_sha256": "ab58483fb4c00b1c4401e36d4460e25245ecde45e4452d044412c4ff224f4f44",
+  "market_cache_sha256": "cedc888c9758ad817c1b3742cc5aac323bcd8b6924f58b6380b421661fe953e4",
+  "predictions": {
+    "path": "research/programmes/002-henry-hub-fresh/lines/007-positioning-announcements/experiments/rep-018-announcement-day-return-puzzle/predictions.csv",
+    "rows": 1581,
+    "sha256": "3e67e3afca039fd1a915abd9ab30148a4d561b2a6d3c996590039dd174976e67"
+  },
+  "prepared_rows": 3040,
+  "programme_id": "002-henry-hub-fresh",
+  "protected_confirmation_accessed": false,
+  "research_oos_capacity": {
+    "block_size": 20,
+    "effective_blocks": 79.05,
+    "minimum_effective_blocks": 8.0,
+    "sample_rows": 1581,
+    "status": "passed"
+  },
+  "research_rows": 2430,
+  "reserved_confirmation": {
+    "content_sha256": "4bb8eff52dcc077b037b958889d29917dc42c5dc6af1802f875687fe1b2cc5e6",
+    "outcomes_used_by_this_run": false,
+    "planning_fraction": 0.2,
+    "pre_freeze_outcome_use": false,
+    "preparation_verification_scope": "full_prepared_frame",
+    "preparation_verification_status": "passed",
+    "prepared_rows": 3040,
+    "purged_boundary_rows": 2,
+    "research_rows": 2430,
+    "reserved_end": "2026-08-10 23:59:00+00:00",
+    "reserved_fraction": 0.2,
+    "reserved_rows": 608,
+    "reserved_start": "2023-05-04 23:59:00+00:00",
+    "sealed_window": {
+      "content_sha256": "4bb8eff52dcc077b037b958889d29917dc42c5dc6af1802f875687fe1b2cc5e6",
+      "dataset_id": "phase1-rep018-calendar-forecast-panel-v1",
+      "eligibility": "ineligible",
+      "end": "2026-08-10T23:59:00+00:00",
+      "openings": [],
+      "permitted_openings": 1,
+      "preparation_assurance": {
+        "prepared_rows": 3040,
+        "protected_outcomes_accessed": false,
+        "purged_boundary_rows": 2,
+        "reserved_rows": 608,
+        "scope": "full_prepared_frame",
+        "status": "passed"
+      },
+      "sealed_window_id": "phase1-rep018-calendar-forecast-reserved-confirmation-v1",
+      "start": "2023-05-04T23:59:00+00:00"
+    }
+  },
+  "reserved_rows": 608,
+  "schema_version": 1
+}

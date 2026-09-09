@@ -1,6 +1,133 @@
 {
-  "schema_version": 1,
-  "zoom_level": "L1",
   "programme_id": "002-henry-hub-fresh",
-  "windows": []
+  "schema_version": 1,
+  "windows": [
+    {
+      "content_sha256": "f1b7feb8820e0f23ff94701fd592824662810e6735ea3606cab94e0cbdbf1157",
+      "dataset_id": "phase1-rep001-forecast-panel-v1",
+      "eligibility": "ineligible",
+      "end": "2026-08-10T23:59:00+00:00",
+      "openings": [],
+      "permitted_openings": 1,
+      "preparation_assurance": {
+        "prepared_rows": 3649,
+        "protected_outcomes_accessed": false,
+        "purged_boundary_rows": 2,
+        "reserved_rows": 730,
+        "scope": "full_prepared_frame",
+        "status": "passed"
+      },
+      "sealed_window_id": "phase1-rep001-reserved-confirmation-v1",
+      "start": "2023-05-15T23:59:00+00:00"
+    },
+    {
+      "content_sha256": "455110cec8cb03ab4ea90128af6743d21924435047c9845421fa2f7e9ed44e29",
+      "dataset_id": "phase1-rep002-forecast-panel-v1",
+      "eligibility": "ineligible",
+      "end": "2026-08-10T23:59:00+00:00",
+      "openings": [],
+      "permitted_openings": 1,
+      "preparation_assurance": {
+        "prepared_rows": 3667,
+        "protected_outcomes_accessed": false,
+        "purged_boundary_rows": 2,
+        "reserved_rows": 734,
+        "scope": "full_prepared_frame",
+        "status": "passed"
+      },
+      "sealed_window_id": "phase1-rep002-reserved-confirmation-v1",
+      "start": "2023-05-09T23:59:00+00:00"
+    },
+    {
+      "content_sha256": "1598fbe51e9ab71dd23b07b06799616e47834a67630296d245e9da8fd7689419",
+      "dataset_id": "phase1-storage-pit-forecast-panel-v1",
+      "eligibility": "ineligible",
+      "end": "2026-08-06T23:59:00+00:00",
+      "openings": [],
+      "permitted_openings": 1,
+      "preparation_assurance": {
+        "prepared_rows": 100,
+        "protected_outcomes_accessed": false,
+        "purged_boundary_rows": 0,
+        "reserved_rows": 20,
+        "scope": "full_prepared_frame",
+        "status": "passed"
+      },
+      "sealed_window_id": "phase1-rep004-rep005-reserved-confirmation-v1",
+      "start": "2026-03-12T23:59:00+00:00"
+    },
+    {
+      "content_sha256": "57759a4bd8263a7058b3d4866072f83b554a43ffd5584ae415784102233faef5",
+      "dataset_id": "phase1-announcement-forecast-panel-v1",
+      "eligibility": "ineligible",
+      "end": "2026-08-04T23:59:00+00:00",
+      "openings": [],
+      "permitted_openings": 1,
+      "preparation_assurance": {
+        "prepared_rows": 453,
+        "protected_outcomes_accessed": false,
+        "purged_boundary_rows": 2,
+        "reserved_rows": 91,
+        "scope": "full_prepared_frame",
+        "status": "passed"
+      },
+      "sealed_window_id": "phase1-rep009-reserved-confirmation-v1",
+      "start": "2026-03-11T23:59:00+00:00"
+    },
+    {
+      "content_sha256": "61d32b1f357149f87274d6dc1630ec27643e513aa11467e970b3be9f25b1b8cd",
+      "dataset_id": "phase1-rep014-monthly-horizon-family-v1",
+      "eligibility": "ineligible",
+      "end": "2022-02-28T23:59:59+00:00",
+      "openings": [],
+      "permitted_openings": 1,
+      "preparation_assurance": {
+        "prepared_rows": 86,
+        "protected_outcomes_accessed": false,
+        "purged_boundary_rows": 24,
+        "reserved_rows": 18,
+        "scope": "full_prepared_frame",
+        "status": "passed"
+      },
+      "sealed_window_id": "phase1-rep014-reserved-confirmation-v1",
+      "start": "2020-09-30T23:59:59+00:00"
+    },
+    {
+      "content_sha256": "4bb8eff52dcc077b037b958889d29917dc42c5dc6af1802f875687fe1b2cc5e6",
+      "dataset_id": "phase1-rep018-calendar-forecast-panel-v1",
+      "eligibility": "ineligible",
+      "end": "2026-08-10T23:59:00+00:00",
+      "openings": [],
+      "permitted_openings": 1,
+      "preparation_assurance": {
+        "prepared_rows": 3040,
+        "protected_outcomes_accessed": false,
+        "purged_boundary_rows": 2,
+        "reserved_rows": 608,
+        "scope": "full_prepared_frame",
+        "status": "passed"
+      },
+      "sealed_window_id": "phase1-rep018-calendar-forecast-reserved-confirmation-v1",
+      "start": "2023-05-04T23:59:00+00:00"
+    },
+    {
+      "content_sha256": "d9250516b0ddd5ba4d8118a4fe1fae3afbc77f61ae811f327e40833b44de8fd0",
+      "dataset_id": "phase1-rep018-announcement-return-panel-v1",
+      "eligibility": "ineligible",
+      "end": "2026-08-12T23:59:00+00:00",
+      "openings": [],
+      "permitted_openings": 1,
+      "preparation_assurance": {
+        "prepared_rows": 4058,
+        "protected_outcomes_accessed": false,
+        "purged_boundary_rows": 0,
+        "reserved_rows": 812,
+        "scope": "full_prepared_frame",
+        "status": "passed"
+      },
+      "sealed_window_id": "phase1-rep018-reserved-confirmation-v1",
+      "start": "2023-05-15T23:59:00+00:00"
+    }
+  ],
+  "zoom_level": "L1"
 }

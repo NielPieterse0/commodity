@@ -33,6 +33,49 @@ def walk_forward_predict(
     return pd.DataFrame(rows).set_index("date")
 
 
+def walk_forward_predict_with_label_availability(
+    model_factory: Callable[[], ForecastModel],
+    x: pd.DataFrame,
+    y: pd.Series,
+    label_available_at: pd.Series,
+    *,
+    initial_train: int = 252,
+    retrain_every: int = 5,
+) -> pd.DataFrame:
+    """Walk forward using only labels available by each prediction timestamp."""
+    if not x.index.equals(y.index) or not x.index.equals(label_available_at.index):
+        raise ValueError("Features, targets, and label availability indexes must match")
+    if not x.index.is_monotonic_increasing or x.index.has_duplicates:
+        raise ValueError("Walk-forward inputs must be chronological and unique")
+    if not isinstance(x.index, pd.DatetimeIndex):
+        raise TypeError("Label-aware walk-forward requires a DatetimeIndex")
+    if initial_train < 20 or initial_train >= len(x):
+        raise ValueError("initial_train must leave an out-of-sample period")
+    if retrain_every < 1:
+        raise ValueError("retrain_every must be at least 1")
+    prediction_times = pd.to_datetime(x.index, utc=True, errors="coerce")
+    availability = pd.to_datetime(label_available_at, utc=True, errors="coerce")
+    if prediction_times.isna().any() or availability.isna().any():
+        raise ValueError("Prediction and label availability timestamps must be valid")
+
+    prediction_ns = prediction_times.asi8
+    availability_ns = availability.array.asi8
+    positions = np.arange(len(x))
+    rows: list[dict[str, object]] = []
+    model: ForecastModel | None = None
+    for i in range(initial_train, len(x)):
+        if model is None or (i - initial_train) % retrain_every == 0:
+            eligible = np.flatnonzero(
+                (positions < i) & (availability_ns <= prediction_ns[i])
+            )
+            if len(eligible) < 20:
+                raise ValueError("Fewer than 20 resolved labels are available for training")
+            model = model_factory().fit(x.iloc[eligible], y.iloc[eligible])
+        pred = float(model.predict(x.iloc[[i]]).iloc[0])
+        rows.append({"date": x.index[i], "prediction": pred, "actual": float(y.iloc[i])})
+    return pd.DataFrame(rows).set_index("date")
+
+
 def evaluate_predictions(pred: pd.DataFrame) -> dict[str, float | None]:
     """Score forecast quality only; strategy and execution metrics live downstream."""
     error = pred["prediction"] - pred["actual"]
@@ -85,6 +128,28 @@ def paired_nonoverlapping_block_sign_flip_mse(
     }
 
 
+def validate_moving_block_bootstrap_capacity(
+    *,
+    sample_rows: int,
+    block_size: int,
+    minimum_effective_blocks: float = 8.0,
+) -> dict[str, float | int | str]:
+    if sample_rows < 2 or block_size < 1 or block_size > sample_rows:
+        raise ValueError("block_size must be between 1 and the paired sample size")
+    effective_blocks = sample_rows / block_size
+    if effective_blocks < minimum_effective_blocks:
+        raise ValueError(
+            f"moving-block bootstrap requires at least {minimum_effective_blocks:g} effective blocks"
+        )
+    return {
+        "status": "passed",
+        "sample_rows": sample_rows,
+        "block_size": block_size,
+        "effective_blocks": effective_blocks,
+        "minimum_effective_blocks": minimum_effective_blocks,
+    }
+
+
 def paired_block_bootstrap_rmse(
     challenger: pd.DataFrame,
     baseline: pd.DataFrame,
@@ -99,13 +164,10 @@ def paired_block_bootstrap_rmse(
     if not np.allclose(challenger["actual"], baseline["actual"], equal_nan=False):
         raise ValueError("Paired forecasts must have identical actual values")
     n = len(challenger)
-    if n < 2 or block_size < 1 or block_size > n:
-        raise ValueError("block_size must be between 1 and the paired sample size")
+    capacity = validate_moving_block_bootstrap_capacity(sample_rows=n, block_size=block_size)
+    effective_blocks = float(capacity["effective_blocks"])
     if resamples < 100:
         raise ValueError("resamples must be at least 100")
-    effective_blocks = n / block_size
-    if effective_blocks < 8:
-        raise ValueError("moving-block bootstrap requires at least 8 effective blocks")
     if not 0 < confidence < 1:
         raise ValueError("confidence must be between 0 and 1")
 

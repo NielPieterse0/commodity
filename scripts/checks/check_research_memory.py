@@ -49,6 +49,10 @@ def programme_dirs() -> list[Path]:
 
 
 def experiment_records(programme_dir: Path) -> list[Path]:
+    methodology = load_json(ROOT / "config/research_methodology.json")
+    exploratory_prereg_required = "valid_preregistration" in set(
+        methodology.get("new_exploratory_execution_requires", [])
+    )
     programme = validate("contracts/programme.schema.json", programme_dir / "programme.json")
     if programme["programme_id"] != programme_dir.name:
         raise ValueError(f"programme_id does not match directory: {programme_dir.name}")
@@ -67,8 +71,8 @@ def experiment_records(programme_dir: Path) -> list[Path]:
                 raise ValueError(f"experiment parent/identity mismatch: {experiment_ref['path']}")
             prereg = directory / "prereg.json"
             legacy = directory / "legacy-record.json"
-            if prereg.is_file() == legacy.is_file():
-                raise ValueError(f"registered experiment must contain exactly one of prereg.json or legacy-record.json: {experiment_ref['path']}")
+            if prereg.is_file() and legacy.is_file():
+                raise ValueError(f"registered experiment cannot contain both prereg.json and legacy-record.json: {experiment_ref['path']}")
             if legacy.is_file():
                 legacy_record = validate("contracts/legacy_experiment_record.schema.json", legacy)
                 for source in legacy_record["source_artifacts"]:
@@ -79,6 +83,19 @@ def experiment_records(programme_dir: Path) -> list[Path]:
                         if not preserved.is_file() or sha256(preserved) != source["sha256"]:
                             raise ValueError(f"preserved legacy source is not byte-identical: {preserved.relative_to(ROOT)}")
                 records.append(legacy)
+                continue
+            if not prereg.is_file():
+                result = directory / "result.json"
+                if exploratory_prereg_required or not result.is_file():
+                    raise ValueError(f"registered experiment without legacy/prereg must be an allowed pre-proof exploratory result: {experiment_ref['path']}")
+                result_value = load_json(result)
+                if result_value.get("design_id") != experiment_ref["experiment_id"]:
+                    raise ValueError(f"pre-proof exploratory result identity mismatch: {experiment_ref['path']}")
+                authorized_issue = (line.get("stopping_rules") or {}).get("phase1_execution_authorized_issue")
+                if authorized_issue is None or result_value.get("issue") != authorized_issue:
+                    raise ValueError(f"unpreregistered exploratory result lacks matching line-level operator authorization: {experiment_ref['path']}")
+                if result_value.get("protected_confirmation_accessed") is not False:
+                    raise ValueError(f"unpreregistered exploratory result must not access protected confirmation: {experiment_ref['path']}")
                 continue
             if (directory / "results.json").exists():
                 if not (directory / "record.json").is_file():

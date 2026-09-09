@@ -1,0 +1,197 @@
+{
+  "design_id": "rep-001-samuelson-maturity-volatility",
+  "ergen_rizvanoghlu_2016": {
+    "dissertation_precursor_2010_continuity_diagnostic": {
+      "disposition": "NOT_REPRODUCED_LATER_SAMPLE",
+      "later_sample_pattern_reproduced": false,
+      "models": {
+        "model5_without_winter_interaction": {
+          "alpha": 0.07816492087517111,
+          "beta": 0.9124129034567134,
+          "converged": true,
+          "exog_optimizer_scales": {
+            "monday": 1.0,
+            "storage_report_day": 1.0,
+            "ttm_business_days": 23.0,
+            "winter": 1.0
+          },
+          "gamma": {
+            "monday": {
+              "coefficient": 0.6389549141510773,
+              "standard_error": 0.373617880202479,
+              "z_stat": 1.710182911494496
+            },
+            "storage_report_day": {
+              "coefficient": 1.0724825961637257,
+              "standard_error": 0.4316862234587402,
+              "z_stat": 2.4844031101359243
+            },
+            "ttm_business_days": {
+              "coefficient": -0.021541163061500092,
+              "standard_error": 0.008943757557871064,
+              "z_stat": -2.4085137507492616
+            },
+            "winter": {
+              "coefficient": 0.04472717058543348,
+              "standard_error": 0.05302860037825361,
+              "z_stat": 0.8434537262230959
+            }
+          },
+          "minimum_conditional_variance": 1.2734571284332343,
+          "negative_log_likelihood": 7984.842704418936,
+          "omega": 1e-08,
+          "optimizer_message": "CONVERGENCE: RELATIVE REDUCTION OF F <= FACTR*EPSMCH",
+          "persistence": 0.9905778243318846,
+          "return_scale": "percent"
+        },
+        "model6_with_winter_interaction": {
+          "alpha": 0.0775109772920703,
+          "beta": 0.9133937426049755,
+          "converged": true,
+          "exog_optimizer_scales": {
+            "monday": 1.0,
+            "storage_report_day": 1.0,
+            "ttm_business_days": 23.0,
+            "ttm_winter": 23.0,
+            "winter": 1.0
+          },
+          "gamma": {
+            "monday": {
+              "coefficient": 0.6476259789168648,
+              "standard_error": 0.3759151801285085,
+              "z_stat": 1.7227981554122678
+            },
+            "storage_report_day": {
+              "coefficient": 1.1386232717006033,
+              "standard_error": 0.4281084968479647,
+              "z_stat": 2.659660530178558
+            },
+            "ttm_business_days": {
+              "coefficient": -0.023102666292735493,
+              "standard_error": 0.009259185281718875,
+              "z_stat": -2.495107894465496
+            },
+            "ttm_winter": {
+              "coefficient": 0.026923265180413075,
+              "standard_error": 0.029569228083633783,
+              "z_stat": 0.9105163348959652
+            },
+            "winter": {
+              "coefficient": -0.24354115220528078,
+              "standard_error": 0.31834110461563614,
+              "z_stat": -0.7650320636391944
+            }
+          },
+          "minimum_conditional_variance": 1.1915668531269152,
+          "negative_log_likelihood": 7984.412296342795,
+          "omega": 1e-08,
+          "optimizer_message": "CONVERGENCE: RELATIVE REDUCTION OF F <= FACTR*EPSMCH",
+          "persistence": 0.9909047198970458,
+          "return_scale": "percent"
+        },
+        "source_pattern_reproduced": false,
+        "winter_ttm_effect": {
+          "coefficient": 0.003820598887677582,
+          "standard_error": 0.02831053879636783,
+          "z_stat": 0.13495323826785505
+        }
+      },
+      "observations": 3246,
+      "ttm_business_day_range": [
+        1,
+        23
+      ]
+    },
+    "final_paper_faithful_reproduction_status": "UNAVAILABLE_CURRENT_SOURCE_CONTRACT",
+    "published_claim_accounted": true
+  },
+  "gate_interpretation": "Mu (2007) is the primary Samuelson reproduction. The final Ergen-Rizvanoghlu (2016) seasonal refinement is separately fidelity-bounded because its complete final estimation contract is not recoverable from current public evidence; the fully specified 2010 dissertation precursor is therefore reported only as a later-sample continuity diagnostic.",
+  "issue": 327,
+  "literature_disposition": "CORE_REPRODUCED_REFINEMENT_FIDELITY_BOUNDARY",
+  "literature_gate_closed": true,
+  "market_cache_sha256": "cedc888c9758ad817c1b3742cc5aac323bcd8b6924f58b6380b421661fe953e4",
+  "market_history_start": "2010-06-04T00:00:00+00:00",
+  "mu_2007": {
+    "garch_test": {
+      "h1_gt_h2_count": 3195,
+      "h1_gt_h2_fraction": 0.9842883548983364,
+      "mean_h1_percent_squared": 10.547569393267345,
+      "mean_h2_percent_squared": 8.60503727536565,
+      "paired_conditional_variance_dates": 3246,
+      "ret1_fit": {
+        "alpha": 0.07795725804234416,
+        "beta": 0.9151947611874343,
+        "converged": true,
+        "mean_percent": -0.07170423489391343,
+        "negative_log_likelihood": 7982.421993942526,
+        "omega": 0.08788066905205393,
+        "optimizer_message": "CONVERGENCE: RELATIVE REDUCTION OF F <= FACTR*EPSMCH",
+        "persistence": 0.9931520192297785,
+        "return_scale": "percent"
+      },
+      "ret2_fit": {
+        "alpha": 0.07388446574412702,
+        "beta": 0.9181445229197573,
+        "converged": true,
+        "mean_percent": -0.08387310693860978,
+        "negative_log_likelihood": 7677.007882941551,
+        "omega": 0.07613330877624237,
+        "optimizer_message": "CONVERGENCE: RELATIVE REDUCTION OF F <= FACTR*EPSMCH",
+        "persistence": 0.9920289886638843,
+        "return_scale": "percent"
+      }
+    },
+    "observed_roll_substitutions": 155,
+    "source_method_reproduced": true,
+    "unconditional_test": {
+      "observations": 3246,
+      "one_sided_f_pvalue": 1.1882875072729248e-08,
+      "ret1_std": 0.03218347440946886,
+      "ret2_std": 0.029176848161641886,
+      "variance_ratio_ret1_over_ret2": 1.216715676544448
+    }
+  },
+  "programme_id": "002-henry-hub-fresh",
+  "protected_confirmation_accessed": false,
+  "replication_class_achieved": "near_replication_core_mu_2007",
+  "replication_class_target": "near_replication",
+  "research_cutoff_exclusive": "2023-05-15T00:00:00+00:00",
+  "research_market_rows": 433048,
+  "research_sessions": 3247,
+  "schema_version": 1,
+  "sealed_confirmation": {
+    "content_sha256": "f1b7feb8820e0f23ff94701fd592824662810e6735ea3606cab94e0cbdbf1157",
+    "openings": 0,
+    "sealed_window_id": "phase1-rep001-reserved-confirmation-v1",
+    "start": "2023-05-15T23:59:00+00:00"
+  },
+  "source_fidelity": {
+    "ergen_dissertation_precursor_2010": {
+      "project_history_start": "2010-06-04",
+      "project_route": "later_sample_precursor_method_continuity_diagnostic",
+      "source_sample": "2001-01-04 through 2008-04-23",
+      "status": "fully_specified_but_source_period_unavailable",
+      "storage_report_control": "Thursday proxy on the later project sample"
+    },
+    "ergen_final_2016": {
+      "published_facts_recovered": [
+        "daily NYMEX nearby-month futures",
+        "time to maturity in days enters the conditional variance equation",
+        "maturity effect is present only during winter",
+        "published estimation text differs from the precursor zero-mean treatment"
+      ],
+      "rule": "do not substitute the 2010 dissertation precursor as the exact final-paper method",
+      "status": "fidelity_bounded_complete_final_method_not_recoverable",
+      "unresolved": [
+        "complete final mean equation from the truncated public publisher excerpt",
+        "exact final estimation sample and all final model details required for faithful execution"
+      ]
+    },
+    "mu_2007": {
+      "exact_sample_status": "unavailable_non_overlapping_market_history",
+      "project_history_start": "2010-06-04",
+      "project_route": "source_method_near_replication",
+      "source_sample": "1997-01-02 through 2000-12-29"
+    }
+  }
+}

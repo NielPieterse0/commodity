@@ -1,0 +1,136 @@
+{
+  "schema_version": 1,
+  "programme_id": "002-henry-hub-fresh",
+  "issue": 327,
+  "mode": "governed_exploratory_schema_v3",
+  "status": "fixed_before_phase1_outcome_execution",
+  "created_on": "2026-09-07",
+  "amended_on": "2026-09-08",
+  "amendment_scope": "Pre-outcome identity/timing and confirmation-capacity repair: all five scored mechanisms use statistics-DBN date-bounded symbology before target-definition filtering, the configured 23:59 UTC conservative market cutoff, future-only settlement targets, label-availability-aware walk-forward fitting, and a chronologically latest reserved-confirmation block. One hundred percent of each admissible prepared panel, including reserved rows, must pass deterministic preparation/usability assurance before scoring; reserved outcomes are then excluded from all Phase-1 fitting, scoring, descriptive outcome analysis, tuning, disposition and human inspection until separately authorized confirmation. No Phase-1 forecast disposition was accepted before these repairs.",
+  "data_assurance_ref": "research/programmes/002-henry-hub-fresh/phase1-data-assurance.json",
+  "source_policy": {
+    "new_paid_data": false,
+    "allowed": "public_free_or_already_lawfully_available",
+    "market_source": "data/raw/snapshots/databento/ng-full-history-v1",
+    "market_identity": "exact acquired Databento GLBX.MDP3 archive with statistics-metadata [start_date,end_date) symbology resolved before NG outright definition filtering"
+  },
+  "chronology": {
+    "development_through": "2014-12-31",
+    "rolling_research_oos_from": "2015-01-01",
+    "reserved_confirmation": {
+      "placement": "chronologically_latest_admissible_rows_per_scored_mechanism",
+      "planning_fraction": 0.2,
+      "pre_scoring_assurance_scope": "100_percent_of_prepared_panel_including_reserved_confirmation",
+      "permitted_pre_freeze_operations": "deterministic acquisition/reconstruction/normalization/PIT/identity/coverage/missingness/feature-target/usability validation plus opaque content hashing and sealed-window registration",
+      "prohibited_pre_freeze_operations": "model fitting, prediction scoring, benchmark comparison, effect estimation, tuning, disposition, visualization, empirical summary or human inspection of reserved outcomes",
+      "boundary_control": "purge research rows whose target availability reaches or crosses the first reserved prediction timestamp",
+      "failure_rule": "repair data or redesign before development scoring if reserved rows do not pass the same preparation/usability contract",
+      "registry": "research/programmes/002-henry-hub-fresh/sealed-windows.json"
+    },
+    "fit": "expanding_window",
+    "hyperparameter_tuning_on_oos": false,
+    "retrain_every_rows": 5,
+    "label_availability_rule": "At each prediction cutoff, model fitting may use only prior rows whose target-end settlement is already available under the same 23:59 UTC conservative market availability bound.",
+    "source_coverage_overrides": {
+      "rep-004-rep-005": {
+        "reason": "PIT WNGSR release-state reconstruction begins in 2024; the long EIA bulk history is current revised truth and is prohibited from predictive feature use",
+        "development_rows": 52,
+        "research_oos": "all subsequent valid PIT release rows before the reserved-confirmation block",
+        "state_fit": "first 52 valid PIT storage releases only; no market outcomes used to set storage scaling or threshold"
+      },
+      "rep-009": {
+        "reason": "verified release-calendar identity covers the reconstructed WNGSR event window",
+        "development_rows": 252,
+        "research_oos": "all subsequent same-contract daily targets inside verified release-calendar coverage before the reserved-confirmation block"
+      }
+    }
+  },
+  "common_evaluation": {
+    "primary_metric": "rmse",
+    "secondary_metrics": ["mae", "bias", "direction_accuracy", "prediction_actual_corr"],
+    "uncertainty": "paired_moving_block_bootstrap_rmse",
+    "bootstrap_block_size_sessions": 20,
+    "bootstrap_resamples": 2000,
+    "bootstrap_confidence": 0.95,
+    "bootstrap_seed": 327
+  },
+  "disposition": {
+    "survive": {
+      "minimum_relative_rmse_improvement": 0.01,
+      "bootstrap_ci_lower_strictly_positive": true,
+      "minimum_positive_chronological_thirds": 2
+    },
+    "kill": "relative RMSE improvement <= 0 with bootstrap upper CI <= 0, or negative RMSE improvement in at least two chronological thirds",
+    "inconclusive": "neither SURVIVE nor KILL",
+    "economic_plausibility": "improvement must arise from information available at prediction time and not depend on roll contamination or a single chronological third"
+  },
+  "rep_001": {
+    "design_id": "rep-001-samuelson-maturity-volatility",
+    "reproduction": "same-contract absolute log returns by fixed DTE bucket with winter/non-winter reporting",
+    "prediction_time": "trade_date 23:59 UTC conservative market availability cutoff",
+    "target": "absolute same-contract log return from the next trade-date settlement after prediction cutoff to the following trade-date settlement, using expiration-ranked M1 selected at prediction time",
+    "benchmark": "trailing_20_same_contract_mean_absolute_log_return",
+    "challenger_model": "fixed RidgeReturnModel(alpha=10)",
+    "challenger_features": ["trailing_20_abs_return", "days_to_maturity", "winter", "days_to_maturity_x_winter"],
+    "same_contract_target_required": true
+  },
+  "rep_002": {
+    "design_id": "rep-002-seasonal-forward-curve",
+    "reproduction": "M1-M6 log-price slope and winter/injection seasonal contrast",
+    "prediction_time": "trade_date 23:59 UTC conservative market availability cutoff",
+    "target": "same-contract log return from the next trade-date settlement after prediction cutoff to the following trade-date settlement, using expiration-ranked M1 selected at prediction time",
+    "benchmark": "zero_return",
+    "challenger_model": "fixed RidgeReturnModel(alpha=10)",
+    "challenger_features": ["m1_m6_log_slope", "winter", "m1_m6_log_slope_x_winter"],
+    "same_contract_target_required": true
+  },
+  "rep_004": {
+    "design_id": "rep-004-storage-state-nonlinearity",
+    "stage_a_reproduction": "current revised EIA historical storage truth may be used only for descriptive mechanism reproduction and may not enter predictive features",
+    "prediction_time": "release-day 23:59 UTC conservative market availability cutoff, after the PIT WNGSR state is public",
+    "target": "same-contract log return from the next trade-date settlement after prediction cutoff to the following trade-date settlement, using expiration-ranked M1 selected at prediction time",
+    "benchmark": "zero_return",
+    "challenger_model": "fixed RidgeReturnModel(alpha=10)",
+    "challenger_features": ["storage_level_z", "storage_change_z", "low_inventory", "winter", "storage_level_z_x_winter"],
+    "storage_state": "level/change standardized on first 52 valid PIT release rows; low_inventory is fixed first-52 25th percentile; no OOS refit",
+    "bootstrap_block_size_release_rows": 4,
+    "same_contract_target_required": true
+  },
+  "rep_005": {
+    "design_id": "rep-005-scarcity-volatility",
+    "stage_a_reproduction": "844-week current revised historical-truth overlap is descriptive only; PIT extension is scored separately",
+    "prediction_time": "release-day 23:59 UTC conservative market availability cutoff, after the PIT WNGSR state is public",
+    "target": "absolute same-contract log return from the next trade-date settlement after prediction cutoff to the following trade-date settlement, using expiration-ranked M1 selected at prediction time",
+    "benchmark": "trailing_20_same_contract_mean_absolute_log_return",
+    "challenger_model": "fixed RidgeReturnModel(alpha=10)",
+    "challenger_features": ["trailing_20_abs_return", "storage_level_z", "low_inventory", "winter", "low_inventory_x_winter"],
+    "storage_state": "same frozen first-52 PIT transform as rep-004",
+    "bootstrap_block_size_release_rows": 4,
+    "same_contract_target_required": true
+  },
+  "rep_009": {
+    "design_id": "rep-009-announcement-volatility",
+    "stage_a_reproduction": "verified release/control-day volatility contrast inside the reconstructed WNGSR calendar window",
+    "prediction_time": "trade_date 23:59 UTC conservative market availability cutoff; target-end release identity is advance-known calendar information",
+    "target": "absolute same-contract log return from the next trade-date settlement after prediction cutoff to the following trade-date settlement, using expiration-ranked M1 selected at prediction time; the release flag applies to the target-end trade date",
+    "benchmark": "trailing_20_same_contract_mean_absolute_log_return",
+    "challenger_model": "fixed RidgeReturnModel(alpha=10)",
+    "challenger_features": ["trailing_20_abs_return", "target_end_release", "winter", "target_end_release_x_winter"],
+    "calendar_rule": "holiday-shifted releases are classified by actual verified release date; dates outside verified calendar coverage are excluded",
+    "bootstrap_block_size_sessions": 20,
+    "same_contract_target_required": true
+  },
+  "rep_018": {
+    "design_id": "rep-018-announcement-day-return-puzzle",
+    "stage_a_reproduction": "2003-2018 public source-era near reproduction of the negative announcement premium, with exact-contract 2010-2018 overlap reported separately and Bloomberg surprise controls fidelity-bounded",
+    "prediction_time": "trade_date 23:59 UTC conservative market availability cutoff; the target-end standard release identity is known from the calendar before prediction time",
+    "target": "signed same-contract log return from the next trade-date settlement after prediction cutoff to the following trade-date settlement, using expiration-ranked M1 selected at prediction time; release identity applies to the target-end trade date",
+    "benchmark": "fixed RidgeReturnModel(alpha=10) using target-end weekday and winter calendar controls but excluding the release-day flag",
+    "challenger_model": "fixed RidgeReturnModel(alpha=10) using the same calendar controls plus target_end_release",
+    "challenger_features": ["target_end_release", "target_end_monday", "target_end_tuesday", "target_end_wednesday", "target_end_friday", "winter"],
+    "calendar_rule": "standard Thursdays reconstructed from WNGSR Friday week-ending identities; any unresolved federal-holiday week is excluded rather than guessed",
+    "translation_rule": "the release-day feature must improve the fixed weekday/winter calendar benchmark under the common RMSE/bootstrap/chronological-thirds survival gate; post-2018 literature evidence cannot alter features or thresholds",
+    "bootstrap_block_size_sessions": 20,
+    "same_contract_target_required": true
+  }
+}

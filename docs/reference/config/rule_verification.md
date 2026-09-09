@@ -21,5 +21,5 @@ Source: `config/rule_verification.json`
 | `generated_document` | str |
 | `pre_ci_entrypoint` | str |
 | `ci_workflow` | str |
-| `rules` | array (16 items) |
+| `rules` | array (17 items) |
 | `non_local_rules` | array (4 items) |

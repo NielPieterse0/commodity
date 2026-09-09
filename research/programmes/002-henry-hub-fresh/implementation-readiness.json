@@ -1,141 +1,375 @@
 {
-  "schema_version": 1,
-  "programme_id": "002-henry-hub-fresh",
-  "status": "transferred_to_phase1_exploratory",
-  "empirical_execution_authority": false,
-  "rule": "This record carries forward implementation machinery and source readiness. It does not itself authorize confirmatory evidence use. Phase-1 pre-proof execution follows config/research_methodology.json#preproof_exploratory_execution; reserved/sealed confirmation remains governed by confirmatory preregistration/freeze.",
   "designs": [
     {
       "design_id": "rep-001-samuelson-maturity-volatility",
-      "status": "local_machinery_ready",
-      "source_ids": ["databento_henry_hub"],
+      "empirical_execution_authority": false,
+      "local_functions": [
+        "rank_contracts_by_expiration",
+        "same_contract_log_returns",
+        "ar1_effective_information",
+        "standardized_detectable_effect"
+      ],
+      "remaining_pre_outcome_work": [
+        "fix DTE buckets and liquidity rules",
+        "derive numeric MEPI",
+        "clustered power simulation"
+      ],
+      "source_ids": [
+        "databento_henry_hub"
+      ],
       "source_parameters": {},
-      "local_functions": ["rank_contracts_by_expiration", "same_contract_log_returns", "ar1_effective_information", "standardized_detectable_effect"],
-      "remaining_pre_outcome_work": ["fix DTE buckets and liquidity rules", "derive numeric MEPI", "clustered power simulation"],
-      "empirical_execution_authority": false
+      "status": "local_machinery_ready"
     },
     {
       "design_id": "rep-002-seasonal-forward-curve",
-      "status": "local_machinery_ready",
-      "source_ids": ["databento_henry_hub"],
+      "empirical_execution_authority": false,
+      "local_functions": [
+        "build_curve_snapshot_eligibility",
+        "select_exact_maturity_ranks",
+        "standardized_detectable_effect"
+      ],
+      "remaining_pre_outcome_work": [
+        "fix exact seasonal curve statistic",
+        "derive numeric MEPI",
+        "year-block power simulation"
+      ],
+      "source_ids": [
+        "databento_henry_hub"
+      ],
       "source_parameters": {},
-      "local_functions": ["build_curve_snapshot_eligibility", "select_exact_maturity_ranks", "standardized_detectable_effect"],
-      "remaining_pre_outcome_work": ["fix exact seasonal curve statistic", "derive numeric MEPI", "year-block power simulation"],
-      "empirical_execution_authority": false
+      "status": "local_machinery_ready"
     },
     {
       "design_id": "rep-004-storage-state-nonlinearity",
-      "status": "local_machinery_ready",
-      "source_ids": ["eia_storage", "databento_henry_hub"],
-      "source_parameters": {"storage_mode": "fixed_revised_historical_truth"},
-      "local_functions": ["build_storage_seasonal_state", "ar1_effective_information", "standardized_detectable_effect"],
-      "remaining_pre_outcome_work": ["fix threshold/state rule", "derive numeric MEPI", "model-specific block power simulation"],
-      "empirical_execution_authority": false
+      "empirical_execution_authority": false,
+      "local_functions": [
+        "build_storage_seasonal_state",
+        "ar1_effective_information",
+        "standardized_detectable_effect"
+      ],
+      "remaining_pre_outcome_work": [
+        "fix threshold/state rule",
+        "derive numeric MEPI",
+        "model-specific block power simulation"
+      ],
+      "source_ids": [
+        "eia_storage",
+        "databento_henry_hub"
+      ],
+      "source_parameters": {
+        "storage_mode": "fixed_revised_historical_truth"
+      },
+      "status": "local_machinery_ready"
     },
     {
       "design_id": "rep-005-scarcity-volatility",
-      "status": "local_machinery_ready",
-      "source_ids": ["eia_storage", "databento_henry_hub"],
-      "source_parameters": {"storage_mode": "fixed_revised_historical_truth"},
-      "local_functions": ["build_storage_seasonal_state", "same_contract_log_returns", "ar1_effective_information", "standardized_detectable_effect"],
-      "remaining_pre_outcome_work": ["fix scarcity definition", "derive numeric MEPI", "interaction block-bootstrap power"],
-      "empirical_execution_authority": false
+      "empirical_execution_authority": false,
+      "local_functions": [
+        "build_storage_seasonal_state",
+        "same_contract_log_returns",
+        "ar1_effective_information",
+        "standardized_detectable_effect"
+      ],
+      "remaining_pre_outcome_work": [
+        "fix scarcity definition",
+        "derive numeric MEPI",
+        "interaction block-bootstrap power"
+      ],
+      "source_ids": [
+        "eia_storage",
+        "databento_henry_hub"
+      ],
+      "source_parameters": {
+        "storage_mode": "fixed_revised_historical_truth"
+      },
+      "status": "local_machinery_ready"
     },
     {
       "design_id": "rep-006-inventory-forward-curve-scarcity",
-      "status": "source_or_package_pending",
-      "source_ids": ["databento_henry_hub", "eia_storage", "US-MACRO"],
-      "source_parameters": {"one_year_rate": "FRED:GS1"},
-      "local_functions": ["build_curve_snapshot_eligibility", "select_exact_maturity_ranks", "build_exact_monthly_panel", "standardized_detectable_effect"],
-      "remaining_pre_outcome_work": ["pin GS1 acquisition snapshot", "recover exact source-study spread and deseasonalization formula", "derive numeric MEPI and block power"],
-      "empirical_execution_authority": false
+      "empirical_execution_authority": false,
+      "local_functions": [
+        "build_curve_snapshot_eligibility",
+        "select_exact_maturity_ranks",
+        "build_exact_monthly_panel",
+        "standardized_detectable_effect"
+      ],
+      "remaining_pre_outcome_work": [
+        "pin GS1 acquisition snapshot",
+        "recover exact source-study spread and deseasonalization formula",
+        "derive numeric MEPI and block power"
+      ],
+      "source_ids": [
+        "databento_henry_hub",
+        "eia_storage",
+        "US-MACRO"
+      ],
+      "source_parameters": {
+        "one_year_rate": "FRED:GS1"
+      },
+      "status": "source_or_package_pending"
     },
     {
       "design_id": "rep-007-weather-return-volatility-response",
-      "status": "reconstruction_contract_ready_source_artifact_pending",
-      "source_ids": ["noaa_observed_weather", "databento_henry_hub"],
-      "source_parameters": {"fidelity_tier": "tier_c_noaa_near_reconstruction", "acquisition_recipe": "data/acquisition-recipes/noaa-richman-lamb-reconstruction.json", "station_rule": "Richman-Lamb-style >=25-year completeness/stability/distance ranking with frozen primary-secondary-tertiary lineage", "climatology": "rolling prior-30-year day-of-year climatology from bound observed temperatures", "modern_robustness_normals": "NOAA Daily Climate Normals 1991-2020"},
-      "local_functions": ["build_observed_weather_departures", "build_weather_state_cells", "same_contract_log_returns", "ar1_effective_information", "standardized_detectable_effect"],
-      "remaining_pre_outcome_work": ["acquire and hash governed NOAA reconstruction inputs", "realize and freeze deterministic station/substitution manifest", "count eligible weather/season cells and run dependence-aware block power"],
-      "empirical_execution_authority": false
+      "empirical_execution_authority": false,
+      "local_functions": [
+        "build_observed_weather_departures",
+        "build_weather_state_cells",
+        "same_contract_log_returns",
+        "ar1_effective_information",
+        "standardized_detectable_effect"
+      ],
+      "remaining_pre_outcome_work": [
+        "acquire and hash governed NOAA reconstruction inputs",
+        "realize and freeze deterministic station/substitution manifest",
+        "count eligible weather/season cells and run dependence-aware block power"
+      ],
+      "source_ids": [
+        "noaa_observed_weather",
+        "databento_henry_hub"
+      ],
+      "source_parameters": {
+        "acquisition_recipe": "data/acquisition-recipes/noaa-richman-lamb-reconstruction.json",
+        "climatology": "rolling prior-30-year day-of-year climatology from bound observed temperatures",
+        "fidelity_tier": "tier_c_noaa_near_reconstruction",
+        "modern_robustness_normals": "NOAA Daily Climate Normals 1991-2020",
+        "station_rule": "Richman-Lamb-style >=25-year completeness/stability/distance ranking with frozen primary-secondary-tertiary lineage"
+      },
+      "status": "reconstruction_contract_ready_source_artifact_pending"
     },
     {
       "design_id": "rep-008-weather-season-sign-asymmetry",
-      "status": "reconstruction_contract_ready_source_artifact_pending",
-      "source_ids": ["noaa_observed_weather", "databento_henry_hub"],
-      "source_parameters": {"fidelity_tier": "tier_c_noaa_near_reconstruction", "acquisition_recipe": "data/acquisition-recipes/noaa-richman-lamb-reconstruction.json", "specification_basis": "ergen_dissertation_precursor", "final_2016_continuity": "not_assumed_without_final-paper evidence", "locations": ["Chicago", "New York", "Atlanta", "Dallas"], "weights": {"Chicago": 0.42, "New York": 0.28, "Atlanta": 0.17, "Dallas": 0.13}, "weather_shock_horizon_days": 7, "climatology": "prior 30-year historical daily average", "oos_weather_forecast": {"model": "ARIMA(1,2,1)", "training_window_calendar_days": 500, "selection": "SIC"}},
-      "local_functions": ["build_observed_weather_departures", "build_weather_state_cells", "same_contract_log_returns", "standardized_detectable_effect"],
-      "remaining_pre_outcome_work": ["acquire and hash NOAA observations for the four-city reconstruction", "freeze station mapping and derived rolling climatology without outcome access", "count fixed season/sign cells and run multiplicity-aware power"],
-      "empirical_execution_authority": false
+      "empirical_execution_authority": false,
+      "local_functions": [
+        "build_observed_weather_departures",
+        "build_weather_state_cells",
+        "same_contract_log_returns",
+        "standardized_detectable_effect"
+      ],
+      "remaining_pre_outcome_work": [
+        "acquire and hash NOAA observations for the four-city reconstruction",
+        "freeze station mapping and derived rolling climatology without outcome access",
+        "count fixed season/sign cells and run multiplicity-aware power"
+      ],
+      "source_ids": [
+        "noaa_observed_weather",
+        "databento_henry_hub"
+      ],
+      "source_parameters": {
+        "acquisition_recipe": "data/acquisition-recipes/noaa-richman-lamb-reconstruction.json",
+        "climatology": "prior 30-year historical daily average",
+        "fidelity_tier": "tier_c_noaa_near_reconstruction",
+        "final_2016_continuity": "not_assumed_without_final-paper evidence",
+        "locations": [
+          "Chicago",
+          "New York",
+          "Atlanta",
+          "Dallas"
+        ],
+        "oos_weather_forecast": {
+          "model": "ARIMA(1,2,1)",
+          "selection": "SIC",
+          "training_window_calendar_days": 500
+        },
+        "specification_basis": "ergen_dissertation_precursor",
+        "weather_shock_horizon_days": 7,
+        "weights": {
+          "Atlanta": 0.17,
+          "Chicago": 0.42,
+          "Dallas": 0.13,
+          "New York": 0.28
+        }
+      },
+      "status": "reconstruction_contract_ready_source_artifact_pending"
     },
     {
       "design_id": "rep-009-announcement-volatility",
-      "status": "local_machinery_ready",
-      "source_ids": ["eia_storage", "databento_henry_hub"],
-      "source_parameters": {"release_calendar": "PIT release events including holiday shifts"},
-      "local_functions": ["build_release_calendar", "build_release_day_labels", "same_contract_log_returns", "ar1_effective_information", "standardized_detectable_effect"],
-      "remaining_pre_outcome_work": ["fix matched-control calendar rule", "derive numeric MEPI", "HAC/year-block power simulation"],
-      "empirical_execution_authority": false
+      "empirical_execution_authority": false,
+      "local_functions": [
+        "build_release_calendar",
+        "build_release_day_labels",
+        "same_contract_log_returns",
+        "ar1_effective_information",
+        "standardized_detectable_effect"
+      ],
+      "remaining_pre_outcome_work": [
+        "fix matched-control calendar rule",
+        "derive numeric MEPI",
+        "HAC/year-block power simulation"
+      ],
+      "source_ids": [
+        "eia_storage",
+        "databento_henry_hub"
+      ],
+      "source_parameters": {
+        "release_calendar": "PIT release events including holiday shifts"
+      },
+      "status": "local_machinery_ready"
     },
     {
       "design_id": "rep-012-physical-balance-drivers",
-      "status": "local_machinery_ready",
-      "source_ids": ["eia_fundamentals", "eia_storage"],
-      "source_parameters": {"series_contract": "experiment-designs.json#rep-012.source_route.monthly_series"},
-      "local_functions": ["build_monthly_physical_balance_core", "build_exact_monthly_panel", "ar1_effective_information", "standardized_detectable_effect"],
-      "remaining_pre_outcome_work": ["derive family MEPI", "time-series power simulation", "bind target series only at separately authorized empirical execution"],
-      "empirical_execution_authority": false
+      "empirical_execution_authority": false,
+      "local_functions": [
+        "build_monthly_physical_balance_core",
+        "build_exact_monthly_panel",
+        "ar1_effective_information",
+        "standardized_detectable_effect"
+      ],
+      "remaining_pre_outcome_work": [
+        "do not promote the historical Roberts/Brown-Yucel VECM as a modern forecast after the reproduced post-2007 structural break",
+        "treat production, consumption, power and LNG as a separate Stage-B evidence block",
+        "any predictive Stage B must instantiate PIT release/vintage semantics and frozen-contract uncertainty capacity before scoring"
+      ],
+      "source_ids": [
+        "eia_fundamentals",
+        "eia_storage"
+      ],
+      "source_parameters": {
+        "archive_sha256": "d0b1bc18101438cabae21107f12e13fc4a9e9313447e273e0f8c129aae52a895",
+        "durable_manifest_sha256": "68ceedcc9c6900064a3694e4a05a3b521e138fd2eac7a92c76f89eca486095b0",
+        "replication_data_doi": "10.15456/iree.2018197.145241"
+      },
+      "status": "literature_reproduced_stage_b_separate"
     },
     {
       "design_id": "rep-014-monthly-real-time-forecastability",
-      "status": "source_or_package_pending",
-      "source_ids": ["LIT-BHLR-RTDB"],
-      "source_parameters": {"archive_doi": "10.15456/jae.2025266.1900967125"},
-      "local_functions": ["validate_replication_package_manifest", "build_exact_monthly_panel", "standardized_detectable_effect"],
-      "remaining_pre_outcome_work": ["import and hash author archive/code under a separately scoped data change", "verify target/benchmark/formulas and origin-by-horizon counts", "derive horizon-family MEPI and dependence-aware power"],
-      "empirical_execution_authority": false
+      "empirical_execution_authority": false,
+      "local_functions": [
+        "validate_replication_package_manifest",
+        "build_exact_monthly_panel",
+        "standardized_detectable_effect"
+      ],
+      "remaining_pre_outcome_work": [
+        "do not score the Commodity translation unless the frozen moving-block uncertainty capacity gate can be satisfied without weakening the existing contract",
+        "retain the registered latest-20-percent confirmation window unopened"
+      ],
+      "source_ids": [
+        "LIT-BHLR-RTDB"
+      ],
+      "source_parameters": {
+        "archive_doi": "10.15456/jae.2025266.1900967125",
+        "durable_manifest_sha256": "3d8ad1e8e3226fd22924b298ce08ddb71b2133200e8c6cba785d5bf55fbf172f"
+      },
+      "status": "literature_reproduced_translation_capacity_hold"
     },
     {
       "design_id": "rep-015-oil-gas-linkage-regimes",
-      "status": "source_or_package_pending",
-      "source_ids": ["US-OIL"],
-      "source_parameters": {"implementation_benchmark": "EIA Cushing WTI spot monthly (rwtc)", "fidelity": "mechanism_replication_candidate_not_exact_paper_substitution"},
-      "local_functions": ["build_exact_monthly_panel", "ar1_effective_information", "standardized_detectable_effect"],
-      "remaining_pre_outcome_work": ["pin public WTI monthly snapshot", "fix literature-derived regime/break rule", "derive numeric MEPI and block/break-test power"],
-      "empirical_execution_authority": false
+      "empirical_execution_authority": false,
+      "local_functions": [
+        "build_exact_monthly_panel",
+        "ar1_effective_information",
+        "standardized_detectable_effect"
+      ],
+      "remaining_pre_outcome_work": [
+        "pin public WTI monthly snapshot",
+        "fix literature-derived regime/break rule",
+        "derive numeric MEPI and block/break-test power"
+      ],
+      "source_ids": [
+        "US-OIL"
+      ],
+      "source_parameters": {
+        "fidelity": "mechanism_replication_candidate_not_exact_paper_substitution",
+        "implementation_benchmark": "EIA Cushing WTI spot monthly (rwtc)"
+      },
+      "status": "source_or_package_pending"
     },
     {
       "design_id": "rep-016-europe-us-transmission-limited",
-      "status": "source_or_package_pending",
-      "source_ids": ["LIT-RS-EUUS"],
-      "source_parameters": {"archive_doi": "10.18150/KCPFNE"},
-      "local_functions": ["validate_replication_package_manifest", "standardized_detectable_effect"],
-      "remaining_pre_outcome_work": ["import and hash RepOD package under separately scoped data change", "verify structural system and identification", "derive source-study effective-information/power contract"],
-      "empirical_execution_authority": false
+      "empirical_execution_authority": false,
+      "local_functions": [
+        "validate_replication_package_manifest",
+        "standardized_detectable_effect"
+      ],
+      "remaining_pre_outcome_work": [
+        "import and hash RepOD package under separately scoped data change",
+        "verify structural system and identification",
+        "derive source-study effective-information/power contract"
+      ],
+      "source_ids": [
+        "LIT-RS-EUUS"
+      ],
+      "source_parameters": {
+        "archive_doi": "10.18150/KCPFNE"
+      },
+      "status": "source_or_package_pending"
     },
     {
       "design_id": "rep-020-positioning-incremental-information",
-      "status": "local_machinery_ready",
-      "source_ids": ["cftc_cot"],
-      "source_parameters": {"primary_positioning_measure": "managed_money_net_change"},
-      "local_functions": ["managed_money_weekly_changes", "ar1_effective_information", "standardized_detectable_effect"],
-      "remaining_pre_outcome_work": ["fix physical-control block semantics", "derive numeric MEPI", "weekly HAC power simulation"],
-      "empirical_execution_authority": false
+      "empirical_execution_authority": false,
+      "local_functions": [
+        "managed_money_weekly_changes",
+        "ar1_effective_information",
+        "standardized_detectable_effect"
+      ],
+      "remaining_pre_outcome_work": [
+        "fix physical-control block semantics",
+        "derive numeric MEPI",
+        "weekly HAC power simulation"
+      ],
+      "source_ids": [
+        "cftc_cot"
+      ],
+      "source_parameters": {
+        "primary_positioning_measure": "managed_money_net_change"
+      },
+      "status": "local_machinery_ready"
     },
     {
       "design_id": "exp-021-issued-weather-revisions",
-      "status": "local_machinery_ready",
-      "source_ids": ["weather"],
-      "source_parameters": {"revision_key": "same location_id + forecast_valid_at across consecutive immutable issued runs"},
-      "local_functions": ["build_same_valid_time_revisions", "ar1_effective_information", "standardized_detectable_effect"],
-      "remaining_pre_outcome_work": ["bind raw issued-run loader to same-valid-time constructor", "define fixed aggregation/lead windows", "derive exploratory power/sensitivity"],
-      "empirical_execution_authority": false
+      "empirical_execution_authority": false,
+      "local_functions": [
+        "build_same_valid_time_revisions",
+        "ar1_effective_information",
+        "standardized_detectable_effect"
+      ],
+      "remaining_pre_outcome_work": [
+        "bind raw issued-run loader to same-valid-time constructor",
+        "define fixed aggregation/lead windows",
+        "derive exploratory power/sensitivity"
+      ],
+      "source_ids": [
+        "weather"
+      ],
+      "source_parameters": {
+        "revision_key": "same location_id + forecast_valid_at across consecutive immutable issued runs"
+      },
+      "status": "local_machinery_ready"
+    },
+    {
+      "design_id": "rep-018-announcement-day-return-puzzle",
+      "empirical_execution_authority": false,
+      "local_functions": [
+        "build_source_roll_returns",
+        "build_eia_source_roll_returns",
+        "build_advance_known_calendar_panel",
+        "rep018_forecast_test"
+      ],
+      "remaining_pre_outcome_work": [
+        "no further core reproduction work required",
+        "Bloomberg PIT surprise controls remain a separately fidelity-bounded refinement",
+        "do not open sealed confirmation because the forecast translation did not SURVIVE"
+      ],
+      "source_ids": [
+        "databento_henry_hub",
+        "eia_storage",
+        "EIA fixed-rank NG futures"
+      ],
+      "source_parameters": {
+        "forecast_translation_sha256": "06f7c54ef936eee84b0cd4e15fae12509b2af09574c9840dca48c2b0dd44ea38",
+        "literature_reproduction_sha256": "ab58483fb4c00b1c4401e36d4460e25245ecde45e4452d044412c4ff224f4f44"
+      },
+      "status": "literature_reproduced_forecast_inconclusive"
     }
   ],
+  "empirical_execution_authority": false,
   "phase_1_execution_route": {
-    "mode": "governed_exploratory_schema_v3",
     "handoff_ref": "research-synthesis.json#phase_0_transition",
-    "reuse_agent_a_rep_001_rep_002": true,
-    "paid_exact_replications_blocking": false
-  }
+    "mode": "governed_exploratory_schema_v3",
+    "paid_exact_replications_blocking": false,
+    "reuse_agent_a_rep_001_rep_002": true
+  },
+  "programme_id": "002-henry-hub-fresh",
+  "rule": "This record carries forward implementation machinery and source readiness. It does not itself authorize confirmatory evidence use. Phase-1 pre-proof execution follows config/research_methodology.json#preproof_exploratory_execution; reserved/sealed confirmation remains governed by confirmatory preregistration/freeze.",
+  "schema_version": 1,
+  "status": "transferred_to_phase1_exploratory"
 }

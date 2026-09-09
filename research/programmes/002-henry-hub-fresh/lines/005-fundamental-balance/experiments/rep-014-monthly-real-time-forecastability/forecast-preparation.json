@@ -1,0 +1,63 @@
+{
+  "boundary_label": "24-month target availability",
+  "design_id": "rep-014-monthly-real-time-forecastability",
+  "evaluation_contract_sha256": "3c2fb43f1239d59c7ed1aa1d5fb997fec89478219df8139e95b0b062165169f4",
+  "forecast_translation_contract_sha256": "b9a08cbfa5f2fc8b7631ee0f02db6a96071be7b89f90c37c82cd90d6ae2cf34f",
+  "horizons_months": [
+    1,
+    3,
+    6,
+    9,
+    12,
+    15,
+    18,
+    21,
+    24
+  ],
+  "issue": 327,
+  "model_fitting_performed": false,
+  "prediction_scoring_performed": false,
+  "preparation_verification_scope": "full_prepared_frame",
+  "preparation_verification_status": "passed",
+  "prepared_rows": 86,
+  "programme_id": "002-henry-hub-fresh",
+  "purged_boundary_rows": 24,
+  "research_end": "2018-08-31T23:59:59+00:00",
+  "research_line_id": "005-fundamental-balance",
+  "research_oos_capacity": {
+    "block_size": 20,
+    "effective_blocks": 2.2,
+    "reason": "moving-block bootstrap requires at least 8 effective blocks",
+    "sample_rows": 44,
+    "status": "failed"
+  },
+  "research_rows_after_overlap_purge": 44,
+  "research_start": "2015-01-31T23:59:59+00:00",
+  "reserved_end": "2022-02-28T23:59:59+00:00",
+  "reserved_fraction": 0.20930232558139536,
+  "reserved_outcomes_human_inspected": false,
+  "reserved_outcomes_scored": false,
+  "reserved_rows": 18,
+  "reserved_start": "2020-09-30T23:59:59+00:00",
+  "schema_version": 1,
+  "sealed_window": {
+    "content_sha256": "61d32b1f357149f87274d6dc1630ec27643e513aa11467e970b3be9f25b1b8cd",
+    "dataset_id": "phase1-rep014-monthly-horizon-family-v1",
+    "eligibility": "ineligible",
+    "end": "2022-02-28T23:59:59+00:00",
+    "openings": [],
+    "permitted_openings": 1,
+    "preparation_assurance": {
+      "prepared_rows": 86,
+      "protected_outcomes_accessed": false,
+      "purged_boundary_rows": 24,
+      "reserved_rows": 18,
+      "scope": "full_prepared_frame",
+      "status": "passed"
+    },
+    "sealed_window_id": "phase1-rep014-reserved-confirmation-v1",
+    "start": "2020-09-30T23:59:59+00:00"
+  },
+  "source_package_manifest_sha256": "3d8ad1e8e3226fd22924b298ce08ddb71b2133200e8c6cba785d5bf55fbf172f",
+  "status": "prepared_reserved_research_capacity_hold"
+}

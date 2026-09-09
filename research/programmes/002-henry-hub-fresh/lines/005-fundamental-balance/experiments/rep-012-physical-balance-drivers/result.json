@@ -1,0 +1,25 @@
+{
+  "schema_version": 1,
+  "design_id": "rep-012-physical-balance-drivers",
+  "issue": 327,
+  "programme_id": "002-henry-hub-fresh",
+  "research_line_id": "005-fundamental-balance",
+  "zoom_level": "L5",
+  "literature_reproduction": {
+    "path": "literature-reproduction.json",
+    "sha256": "26d383c27e74bbf33cca7b188dbe55f5cc38e4ae323151ecea2f004adf953fb0",
+    "disposition": "ROBERTS_BROWN_YUCEL_SOURCE_PERIOD_PHYSICAL_CONTROLS_REPRODUCED_WITH_REGIME_BREAK"
+  },
+  "forecast": {
+    "scored": false,
+    "disposition": "NOT_RUN",
+    "disposition_basis": "source-faithful physical-control mechanism reproduced, but source documents a post-2007 oil-gas regime break and Stage A is contemporaneous historical explanation, not a PIT forecast",
+    "next_requirement": "A separate modern physical-balance predictive design must establish PIT source semantics, target/horizon, and frozen-contract uncertainty capacity before scoring."
+  },
+  "stage_b_independent_extension": {
+    "status": "not_run_separate_evidence_required_for_broader_production_consumption_power_lng_claim",
+    "role": "monthly EIA revised-history physical-balance mechanism extension, not source-faithful Brown-Yucel reproduction"
+  },
+  "prediction_evidence": null,
+  "protected_confirmation_accessed": false
+}

@@ -143,7 +143,7 @@ def test_databento_normalization_prefers_final_settlement_and_joins_cleared_volu
     )
     row = frame.iloc[0]
     assert len(frame) == 1
-    assert row["contract_id"] == "NGF25"
+    assert row["contract_id"] == "NGF25@2025-01-29"
     assert row["settle"] == pytest.approx(3.08)
     assert row["volume"] == 1234
     assert row["trade_date"] == pd.Timestamp("2025-01-02", tz="UTC")
@@ -215,6 +215,62 @@ def test_databento_normalization_fails_closed_without_final_settlement() -> None
     ])
     statistics = pd.DataFrame([
         {"symbol": "NGF25", "stat_type": 3, "stat_flags": 0, "ts_ref": "2025-01-02T00:00:00Z", "ts_event": "2025-01-02T19:29:00Z", "price": 3.01}
+    ])
+    with pytest.raises(DataContractViolation, match="final settlement"):
+        normalize_databento_contract_history(
+            definitions, statistics, "2026-08-13T12:00:00Z", product_code="NG"
+        )
+
+
+def test_databento_normalization_uses_latest_nonpreliminary_legacy_settlement() -> None:
+    from commodity.providers.databento_futures import (
+        normalize_databento_contract_history,
+    )
+
+    definitions = pd.DataFrame([
+        {"raw_symbol": "NGF11", "instrument_class": "F", "asset": "NG", "expiration": "2010-12-28T19:30:00Z", "exchange": "XNYM"}
+    ])
+    statistics = pd.DataFrame([
+        {"symbol": "NGF11", "stat_type": 3, "stat_flags": 100, "ts_ref": "2010-12-20T00:00:00Z", "ts_event": "2010-12-20T19:00:00Z", "price": 4.01},
+        {"symbol": "NGF11", "stat_type": 3, "stat_flags": 0, "ts_ref": "2010-12-20T00:00:00Z", "ts_event": "2010-12-20T19:31:00Z", "price": 4.08},
+    ])
+    frame, metadata = normalize_databento_contract_history(
+        definitions, statistics, "2026-08-13T12:00:00Z", product_code="NG"
+    )
+    assert frame.iloc[0]["settle"] == pytest.approx(4.08)
+    selection = metadata["settlement_selection"]
+    assert selection["legacy_selected_groups"] == 1
+    assert selection["legacy_dropped_known_preliminary_groups"] == 0
+
+
+def test_databento_normalization_ignores_later_legacy_preliminary_after_final() -> None:
+    from commodity.providers.databento_futures import (
+        normalize_databento_contract_history,
+    )
+
+    definitions = pd.DataFrame([
+        {"raw_symbol": "NGF11", "instrument_class": "F", "asset": "NG", "expiration": "2010-12-28T19:30:00Z", "exchange": "XNYM"}
+    ])
+    statistics = pd.DataFrame([
+        {"symbol": "NGF11", "stat_type": 3, "stat_flags": 0, "ts_ref": "2010-12-20T00:00:00Z", "ts_event": "2010-12-20T19:31:00Z", "price": 4.08},
+        {"symbol": "NGF11", "stat_type": 3, "stat_flags": 100, "ts_ref": "2010-12-20T00:00:00Z", "ts_event": "2010-12-20T20:00:00Z", "price": 4.01},
+    ])
+    frame, _ = normalize_databento_contract_history(
+        definitions, statistics, "2026-08-13T12:00:00Z", product_code="NG"
+    )
+    assert frame.iloc[0]["settle"] == pytest.approx(4.08)
+
+
+def test_databento_normalization_drops_legacy_group_with_only_known_preliminary() -> None:
+    from commodity.providers.databento_futures import (
+        normalize_databento_contract_history,
+    )
+
+    definitions = pd.DataFrame([
+        {"raw_symbol": "NGF11", "instrument_class": "F", "asset": "NG", "expiration": "2010-12-28T19:30:00Z", "exchange": "XNYM"}
+    ])
+    statistics = pd.DataFrame([
+        {"symbol": "NGF11", "stat_type": 3, "stat_flags": 100, "ts_ref": "2010-12-20T00:00:00Z", "ts_event": "2010-12-20T19:00:00Z", "price": 4.01}
     ])
     with pytest.raises(DataContractViolation, match="final settlement"):
         normalize_databento_contract_history(
@@ -360,7 +416,7 @@ def test_databento_capture_archive_is_rank_bounded_and_secret_free(tmp_path) -> 
     manifest = json.loads(manifest_text)
     assert (manifest_path.parent / "definitions.csv").is_file()
     assert (manifest_path.parent / "statistics.csv").is_file()
-    assert list(canonical["contract_id"]) == ["NGF25"]
+    assert list(canonical["contract_id"]) == ["NGF25@2025-01-29"]
     assert manifest["request"]["max_contracts"] == 1
     assert manifest["canonical_evidence"] is False
     assert manifest["licensing_rights_verified"] is False
@@ -528,7 +584,7 @@ def test_databento_offline_canonicalization_preserves_exact_artifact_provenance(
         product_code="NG",
         retrieved_at="2026-08-14T12:00:00Z",
     )
-    assert list(frame["contract_id"]) == ["NGF25"]
+    assert list(frame["contract_id"]) == ["NGF25@2025-02-01"]
     assert frame.iloc[0]["settle"] == pytest.approx(3.08)
     assert frame.iloc[0]["available_at"] == pd.Timestamp(
         "2025-01-02T00:00:00.000000200Z"
@@ -550,6 +606,186 @@ def test_databento_offline_canonicalization_preserves_exact_artifact_provenance(
     assert artifacts["statistics"]["provider_metadata_sha256"] == hashlib.sha256(
         (statistics_dir / "metadata.json").read_bytes()
     ).hexdigest()
+
+
+def test_databento_offline_archive_uses_definition_history_across_file_boundaries(
+    monkeypatch,
+) -> None:
+    import commodity.providers.databento_futures as provider
+
+    definitions = {
+        "2010.definition": pd.DataFrame(
+            [
+                {
+                    "instrument_id": 42,
+                    "raw_symbol": "NGF11",
+                    "ts_recv": "2010-12-01T00:00:00Z",
+                    "ts_event": "2010-12-01T00:00:00Z",
+                    "instrument_class": "F",
+                    "asset": "NG",
+                    "expiration": "2011-01-27T19:30:00Z",
+                    "activation": "2010-10-01T00:00:00Z",
+                    "exchange": "XNYM",
+                }
+            ]
+        ),
+        "2011.definition": pd.DataFrame(
+            [
+                {
+                    "instrument_id": 43,
+                    "raw_symbol": "NGG11",
+                    "ts_recv": "2011-01-02T00:00:00Z",
+                    "ts_event": "2011-01-02T00:00:00Z",
+                    "instrument_class": "F",
+                    "asset": "NG",
+                    "expiration": "2011-02-24T19:30:00Z",
+                    "activation": "2010-11-01T00:00:00Z",
+                    "exchange": "XNYM",
+                }
+            ]
+        ),
+    }
+    statistics = {
+        "2010.statistics": pd.DataFrame(
+            [
+                {
+                    "instrument_id": 42,
+                    "ts_event": "2010-12-31T19:31:00Z",
+                    "ts_recv": "2010-12-31T19:31:01Z",
+                    "ts_ref": "2010-12-31T00:00:00Z",
+                    "price": 4.40,
+                    "quantity": 0,
+                    "stat_type": 3,
+                    "stat_flags": 0,
+                },
+                {
+                    "instrument_id": 42,
+                    "ts_event": "2010-12-31T20:00:00Z",
+                    "ts_recv": "2010-12-31T20:00:01Z",
+                    "ts_ref": "2010-12-31T00:00:00Z",
+                    "price": 0.0,
+                    "quantity": 100,
+                    "stat_type": 6,
+                    "stat_flags": 0,
+                },
+                {
+                    "instrument_id": 43,
+                    "ts_event": "2010-12-30T19:31:00Z",
+                    "ts_recv": "2010-12-30T19:31:01Z",
+                    "ts_ref": "2010-12-30T00:00:00Z",
+                    "price": 99.0,
+                    "quantity": 0,
+                    "stat_type": 3,
+                    "stat_flags": 0,
+                },
+                {
+                    "instrument_id": 42,
+                    "ts_event": "2010-12-29T19:31:00Z",
+                    "ts_recv": "2010-12-29T19:31:01Z",
+                    "ts_ref": 2**64 - 1,
+                    "price": 99.0,
+                    "quantity": 0,
+                    "stat_type": 3,
+                    "stat_flags": 0,
+                },
+            ]
+        ),
+        "2011.statistics": pd.DataFrame(
+            [
+                {
+                    "instrument_id": 42,
+                    "ts_event": "2011-01-03T19:31:00Z",
+                    "ts_recv": "2011-01-03T19:31:01Z",
+                    "ts_ref": "2011-01-03T00:00:00Z",
+                    "price": 4.45,
+                    "quantity": 0,
+                    "stat_type": 3,
+                    "stat_flags": 0,
+                },
+                {
+                    "instrument_id": 42,
+                    "ts_event": "2011-01-03T20:00:00Z",
+                    "ts_recv": "2011-01-03T20:00:01Z",
+                    "ts_ref": "2011-01-03T00:00:00Z",
+                    "price": 0.0,
+                    "quantity": 110,
+                    "stat_type": 6,
+                    "stat_flags": 0,
+                },
+            ]
+        ),
+    }
+
+    def fake_definitions(path, **_kwargs):
+        name = str(path)
+        frame = next(value for key, value in definitions.items() if key in name)
+        return frame.copy(), {
+            "dataset": "GLBX.MDP3",
+            "schema": "definition",
+            "source_file": name,
+            "source_sha256": hashlib.sha256(name.encode()).hexdigest(),
+        }
+
+    def fake_statistics(path, **_kwargs):
+        name = str(path)
+        frame = next(value for key, value in statistics.items() if key in name)
+        return frame.copy(), {
+            "dataset": "GLBX.MDP3",
+            "schema": "statistics",
+            "source_file": name,
+            "source_sha256": hashlib.sha256(name.encode()).hexdigest(),
+        }
+
+    mappings = {
+        "2010.statistics": {
+            "NGF11": [
+                {"start_date": "2010-10-01", "end_date": "2011-01-01", "symbol": "42"}
+            ],
+            "NG:WS F11-G11": [
+                {"start_date": "2010-10-01", "end_date": "2011-01-01", "symbol": "43"}
+            ],
+        },
+        "2011.statistics": {
+            "NGF11": [
+                {"start_date": "2011-01-01", "end_date": "2011-01-28", "symbol": "42"}
+            ]
+        },
+    }
+
+    def fake_mappings(path, **_kwargs):
+        name = str(path)
+        return next(value for key, value in mappings.items() if key in name)
+
+    monkeypatch.setattr(provider, "decode_databento_dbn_file", fake_definitions)
+    monkeypatch.setattr(provider, "_decode_databento_canonical_statistics", fake_statistics)
+    monkeypatch.setattr(provider, "_read_databento_dbn_symbol_mappings", fake_mappings)
+    frame, metadata = provider.canonicalize_databento_dbn_archive(
+        ["2010.definition", "2011.definition"],
+        ["2010.statistics", "2011.statistics"],
+        schema=_schema(),
+        product_code="NG",
+        retrieved_at="2026-08-14T12:00:00Z",
+    )
+    assert frame[["trade_date", "contract_id", "volume"]].to_dict("records") == [
+        {
+            "trade_date": pd.Timestamp("2010-12-31T00:00:00Z"),
+            "contract_id": "NGF11@2011-01-27",
+            "volume": 100,
+        },
+        {
+            "trade_date": pd.Timestamp("2011-01-03T00:00:00Z"),
+            "contract_id": "NGF11@2011-01-27",
+            "volume": 110,
+        },
+    ]
+    assert metadata["offline_decode"] is True
+    assert len(metadata["source_artifacts"]) == 4
+    identity_filters = metadata["identity_window_filter_by_source"]
+    assert identity_filters[0]["metadata_mapping_intervals"] == 2
+    assert identity_filters[0]["resolved_statistics_rows"] == 4
+    assert identity_filters[0]["excluded_non_target_symbol"] == 1
+    assert identity_filters[0]["dropped_invalid_reference_timestamp"] == 1
+    assert identity_filters[0]["dropped_outside_contract_lifetime"] == 0
 
 
 def test_databento_offline_decoder_rejects_mismatched_adjacent_job_metadata(tmp_path) -> None:
@@ -575,6 +811,136 @@ def test_databento_offline_decoder_rejects_mismatched_adjacent_job_metadata(tmp_
         decode_databento_dbn_file(definition_path, expected_schema="definition")
 
 
+def test_databento_metadata_mapping_resolves_instrument_id_by_event_date() -> None:
+    from commodity.providers.databento_futures import resolve_databento_metadata_symbols
+
+    mappings = {
+        "NG:WS N6-J7": [
+            {"start_date": "2016-05-12", "end_date": "2016-07-19", "symbol": "10341"}
+        ],
+        "NGM35": [
+            {"start_date": "2022-11-15", "end_date": "2023-01-01", "symbol": "10341"}
+        ],
+    }
+    observations = pd.DataFrame(
+        [
+            {"instrument_id": 10341, "ts_event": "2016-06-01T19:31:00Z"},
+            {"instrument_id": 10341, "ts_event": "2022-12-01T19:31:00Z"},
+        ]
+    )
+    resolved = resolve_databento_metadata_symbols(observations, mappings)
+    assert resolved["symbol"].tolist() == ["NG:WS N6-J7", "NGM35"]
+
+
+def test_databento_predefinition_target_row_is_excluded_only_before_activation() -> None:
+    from commodity.providers.databento_futures import (
+        _filter_resolved_target_observations,
+    )
+
+    definitions = pd.DataFrame(
+        [
+            {
+                "raw_symbol": "NGF30",
+                "instrument_class": "F",
+                "asset": "NG",
+                "ts_event": "2017-11-15T00:02:03.537Z",
+                "ts_recv": "2017-11-15T00:02:03.547Z",
+                "activation": "2017-11-29T00:00:00Z",
+            }
+        ]
+    )
+    observations = pd.DataFrame(
+        [
+            {
+                "instrument_id": 37857,
+                "symbol": "NGF30",
+                "ts_event": "2017-11-15T00:02:03.537Z",
+                "ts_ref": "2017-11-14T00:00:00Z",
+            }
+        ]
+    )
+    filtered, diagnostics = _filter_resolved_target_observations(
+        definitions, observations, product_code="NG"
+    )
+    assert filtered.empty
+    assert diagnostics == {
+        "excluded_non_target_symbol": 0,
+        "excluded_before_target_activation": 1,
+    }
+
+
+def test_databento_predefinition_target_row_fails_closed_after_activation() -> None:
+    from commodity.providers.databento_futures import (
+        _filter_resolved_target_observations,
+    )
+
+    definitions = pd.DataFrame(
+        [
+            {
+                "raw_symbol": "NGF30",
+                "instrument_class": "F",
+                "asset": "NG",
+                "ts_recv": "2017-11-15T00:02:03.547Z",
+                "activation": "2017-11-01T00:00:00Z",
+            }
+        ]
+    )
+    observations = pd.DataFrame(
+        [
+            {
+                "instrument_id": 37857,
+                "symbol": "NGF30",
+                "ts_event": "2017-11-15T00:02:03.537Z",
+                "ts_ref": "2017-11-14T00:00:00Z",
+            }
+        ]
+    )
+    with pytest.raises(DataContractViolation, match="after activation"):
+        _filter_resolved_target_observations(definitions, observations, product_code="NG")
+
+
+def test_databento_metadata_mapping_filters_post_target_spread_reuse() -> None:
+    from commodity.providers.databento_futures import (
+        map_databento_resolved_symbols_to_target_definitions,
+        resolve_databento_metadata_symbols,
+    )
+
+    mappings = {
+        "NGF25": [
+            {"start_date": "2024-01-01", "end_date": "2024-06-01", "symbol": "42"}
+        ],
+        "NGF25-NGG25": [
+            {"start_date": "2024-06-01", "end_date": "2024-08-01", "symbol": "42"}
+        ],
+    }
+    definitions = pd.DataFrame(
+        [
+            {
+                "instrument_id": 42,
+                "raw_symbol": "NGF25",
+                "ts_event": "2024-01-01T00:00:00Z",
+                "instrument_class": "F",
+                "asset": "NG",
+                "expiration": "2025-01-29T19:30:00Z",
+                "activation": "2023-11-01T00:00:00Z",
+                "exchange": "XNYM",
+            }
+        ]
+    )
+    observations = pd.DataFrame(
+        [
+            {"instrument_id": 42, "ts_event": "2024-05-15T19:31:00Z", "ts_ref": "2024-05-15T00:00:00Z"},
+            {"instrument_id": 42, "ts_event": "2024-06-15T19:31:00Z", "ts_ref": "2024-06-15T00:00:00Z"},
+        ]
+    )
+    resolved = resolve_databento_metadata_symbols(observations, mappings)
+    target = map_databento_resolved_symbols_to_target_definitions(
+        definitions, resolved, product_code="NG"
+    )
+    assert target["symbol"].tolist() == ["NGF25"]
+    assert target["ts_ref"].tolist() == ["2024-05-15T00:00:00Z"]
+
+
 def test_databento_offline_symbol_mapping_is_point_in_time() -> None:
     from commodity.providers.databento_futures import _map_offline_statistics_symbols
 
@@ -594,6 +960,137 @@ def test_databento_offline_symbol_mapping_is_point_in_time() -> None:
     )
     mapped = _map_offline_statistics_symbols(definitions, statistics)
     assert list(mapped["symbol"]) == ["NGF25", "NGH25", "NGG25"]
+
+
+def test_databento_instrument_mapping_handles_id_reuse_across_eras() -> None:
+    from commodity.providers.databento_futures import map_databento_instrument_symbols
+
+    definitions = pd.DataFrame(
+        [
+            {"instrument_id": 42, "raw_symbol": "NGF15", "ts_event": "2015-01-01T00:00:00Z"},
+            {"instrument_id": 42, "raw_symbol": "NGF26", "ts_event": "2026-01-01T00:00:00Z"},
+        ]
+    )
+    observations = pd.DataFrame(
+        [
+            {"instrument_id": 42, "ts_event": "2015-01-15T00:00:00Z", "close": 3.0},
+            {"instrument_id": 42, "ts_event": "2026-01-15T00:00:00Z", "close": 4.0},
+        ]
+    )
+    mapped = map_databento_instrument_symbols(definitions, observations)
+    assert mapped["symbol"].tolist() == ["NGF15", "NGF26"]
+    assert mapped["close"].tolist() == [3.0, 4.0]
+
+
+def test_databento_instrument_mapping_carries_time_valid_expiration() -> None:
+    from commodity.providers.databento_futures import map_databento_instrument_symbols
+
+    definitions = pd.DataFrame(
+        [
+            {
+                "instrument_id": 42,
+                "raw_symbol": "NGF0",
+                "expiration": "2010-01-27T19:30:00Z",
+                "ts_event": "2009-12-01T00:00:00Z",
+            },
+            {
+                "instrument_id": 84,
+                "raw_symbol": "NGF0",
+                "expiration": "2020-01-29T19:30:00Z",
+                "ts_event": "2019-12-01T00:00:00Z",
+            },
+        ]
+    )
+    observations = pd.DataFrame(
+        [
+            {"instrument_id": 42, "ts_event": "2010-01-15T00:00:00Z"},
+            {"instrument_id": 84, "ts_event": "2020-01-15T00:00:00Z"},
+        ]
+    )
+    mapped = map_databento_instrument_symbols(definitions, observations)
+    assert mapped["symbol"].tolist() == ["NGF0", "NGF0"]
+    assert pd.to_datetime(mapped["definition_expiration"], utc=True).tolist() == [
+        pd.Timestamp("2010-01-27T19:30:00Z"),
+        pd.Timestamp("2020-01-29T19:30:00Z"),
+    ]
+
+
+def test_databento_instrument_mapping_carries_definition_updates_for_same_contract() -> None:
+    from commodity.providers.databento_futures import map_databento_instrument_symbols
+
+    definitions = pd.DataFrame(
+        [
+            {"instrument_id": 42, "raw_symbol": "NGZ1", "expiration": "2021-11-26T19:30:00Z", "ts_recv": "2021-11-19T00:00:00Z"},
+            {"instrument_id": 42, "raw_symbol": "NGZ1", "expiration": "2021-11-26T18:30:00Z", "ts_recv": "2021-11-19T14:12:19Z"},
+        ]
+    )
+    observations = pd.DataFrame(
+        [
+            {"instrument_id": 42, "ts_recv": "2021-11-19T12:00:00Z"},
+            {"instrument_id": 42, "ts_recv": "2021-11-19T15:00:00Z"},
+        ]
+    )
+    mapped = map_databento_instrument_symbols(definitions, observations)
+    assert pd.to_datetime(mapped["definition_expiration"], utc=True).tolist() == [
+        pd.Timestamp("2021-11-26T19:30:00Z"),
+        pd.Timestamp("2021-11-26T18:30:00Z"),
+    ]
+
+
+def test_databento_contract_id_is_unique_when_raw_symbol_is_reused() -> None:
+    from commodity.providers.databento_futures import (
+        normalize_databento_contract_history,
+    )
+
+    definitions = pd.DataFrame(
+        [
+            {"raw_symbol": "NGF0", "instrument_class": "F", "asset": "NG", "expiration": "2010-01-27T19:30:00Z", "exchange": "XNYM"},
+            {"raw_symbol": "NGF0", "instrument_class": "F", "asset": "NG", "expiration": "2020-01-29T19:30:00Z", "exchange": "XNYM"},
+        ]
+    )
+    statistics = pd.DataFrame(
+        [
+            {"symbol": "NGF0", "stat_type": 3, "stat_flags": 1, "ts_ref": "2010-01-15T00:00:00Z", "ts_event": "2010-01-15T19:31:00Z", "price": 5.0, "definition_expiration": "2010-01-27T19:30:00Z", "definition_exchange": "XNYM"},
+            {"symbol": "NGF0", "stat_type": 3, "stat_flags": 1, "ts_ref": "2020-01-15T00:00:00Z", "ts_event": "2020-01-15T19:31:00Z", "price": 2.0, "definition_expiration": "2020-01-29T19:30:00Z", "definition_exchange": "XNYM"},
+        ]
+    )
+    frame, _ = normalize_databento_contract_history(
+        definitions, statistics, "2026-08-13T12:00:00Z", product_code="NG"
+    )
+    assert frame["expiration"].tolist() == [
+        pd.Timestamp("2010-01-27T19:30:00Z"),
+        pd.Timestamp("2020-01-29T19:30:00Z"),
+    ]
+    assert frame["contract_id"].nunique() == 2
+
+
+def test_databento_instrument_mapping_rejects_ambiguous_same_time_identity() -> None:
+    from commodity.providers.databento_futures import map_databento_instrument_symbols
+
+    definitions = pd.DataFrame(
+        [
+            {"instrument_id": 42, "raw_symbol": "NGF26", "ts_event": "2026-01-01T00:00:00Z"},
+            {"instrument_id": 42, "raw_symbol": "NGG26", "ts_event": "2026-01-01T00:00:00Z"},
+        ]
+    )
+    observations = pd.DataFrame(
+        [{"instrument_id": 42, "ts_event": "2026-01-15T00:00:00Z"}]
+    )
+    with pytest.raises(DataContractViolation, match="ambiguous point-in-time identity"):
+        map_databento_instrument_symbols(definitions, observations)
+
+
+def test_databento_instrument_mapping_rejects_observation_before_first_definition() -> None:
+    from commodity.providers.databento_futures import map_databento_instrument_symbols
+
+    definitions = pd.DataFrame(
+        [{"instrument_id": 42, "raw_symbol": "NGF26", "ts_event": "2026-01-01T00:00:00Z"}]
+    )
+    observations = pd.DataFrame(
+        [{"instrument_id": 42, "ts_event": "2025-12-31T23:59:59Z"}]
+    )
+    with pytest.raises(DataContractViolation, match="unmapped point-in-time instrument_id"):
+        map_databento_instrument_symbols(definitions, observations)
 
 
 def test_databento_offline_symbol_mapping_rejects_null_or_blank_identity() -> None:

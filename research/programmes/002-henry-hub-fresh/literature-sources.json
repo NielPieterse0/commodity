@@ -1,28 +1,294 @@
 {
-  "schema_version": 1,
   "programme_id": "002-henry-hub-fresh",
+  "schema_version": 1,
+  "scope_note": "Initial fresh-programme literature inventory. Source quality and scope are explicit; no source implies internal reproduction.",
   "sources": [
-    {"id":"mu-2007","citation":"Mu, X. (2007). Weather, storage, and natural gas price dynamics: fundamentals and volatility. Energy Economics 29(1), 46-63.","doi":"10.1016/j.eneco.2006.04.003","quality":"peer_reviewed_primary"},
-    {"id":"brown-yucel-2008","citation":"Brown, S.P.A. and Yucel, M.K. (2008). What Drives Natural Gas Prices? The Energy Journal 29(2), 45-60.","doi":"10.5547/ISSN0195-6574-EJ-Vol29-No2-3","quality":"peer_reviewed_primary"},
-    {"id":"geman-ohana-2009","citation":"Geman, H. and Ohana, S. (2009). Forward curves, scarcity and price volatility in oil and natural gas markets. Energy Economics 31(4), 576-585.","doi":"10.1016/j.eneco.2009.01.014","quality":"peer_reviewed_primary","data_scope":"Direct U.S. oil/natural-gas inventory, forward-curve and volatility evidence over an approximately 15-year database. For natural gas, the forward-curve spread is seasonality-filtered using a 12-month interval between the short and long contract; the working-paper description uses front-month versus 13th-month futures, a one-year U.S. interest rate, and monthly EIA inventory. Natural-gas scarcity is inventory below historical average and the inventory-volatility relation is reported as much stronger in winter."},
-    {"id":"gay-simkins-turac-2009","citation":"Gay, G.D., Simkins, B.J. and Turac, M. (2009). Analyst forecasts and price discovery in futures markets: The case of natural gas storage. Journal of Futures Markets 29(5), 451-477.","doi":"10.1002/fut.20368","quality":"peer_reviewed_primary","data_scope":"Analyst-storage-forecast database is constructed from Bloomberg surveys; reported source-study coverage is April 1997 through August 2005."},
-    {"id":"mirantes-et-al-2013","citation":"Mirantes, A.G., Poblacion, J. and Serna, G. (2013). The stochastic seasonal behavior of energy commodity convenience yields. Energy Economics 40, 155-166.","quality":"peer_reviewed_primary","scope":"Direct multi-commodity evidence includes Henry Hub natural gas; convenience yield is inferred from futures-price relationships and studied for seasonal dynamics."},
-    {"id":"chiou-wei-linn-zhu-2014","citation":"Chiou-Wei, S.-Z., Linn, S.C. and Zhu, Z. (2014). The response of U.S. natural gas futures and spot prices to storage change surprises. Journal of International Money and Finance 42, 156-173.","doi":"10.1016/j.jimonfin.2013.08.009","quality":"peer_reviewed_primary","data_scope":"Uses weekly Bloomberg consensus analyst forecasts as the storage-change expectation proxy; source-study sample covers August 30, 2002 through August 18, 2011."},
-    {"id":"ergen-rizvanoghlu-2016","citation":"Ergen, I. and Rizvanoghlu, I. (2016). Asymmetric impacts of fundamentals on the natural gas futures volatility. Energy Economics 56, 64-74.","quality":"peer_reviewed_primary"},
-    {"id":"ji-zhang-geng-2018","citation":"Ji, Q., Zhang, H.-Y. and Geng, J.-B. (2018). What drives natural gas prices in the United States? Energy Economics 69, 79-88.","doi":"10.1016/j.eneco.2017.11.002","quality":"peer_reviewed_primary"},
-    {"id":"rubaszek-uddin-2020","citation":"Rubaszek, M. and Uddin, G.S. (2020). The role of underground storage in the dynamics of the US natural gas market: A threshold model analysis. Energy Economics 87, 104713.","doi":"10.1016/j.eneco.2020.104713","quality":"peer_reviewed_primary"},
-    {"id":"prokopczuk-simen-wichmann-2021","citation":"Prokopczuk, M., Wese Simen, C. and Wichmann, R. (2021). The Natural Gas Announcement Day Puzzle. The Energy Journal 42(2), 91-112.","doi":"10.5547/01956574.42.2.mpro","quality":"peer_reviewed_primary"},
-    {"id":"liang-et-al-2022","citation":"Liang, C., Xia, Z., Lai, X. and Wang, L. (2022). Natural gas volatility prediction: Fresh evidence from extreme weather and extended GARCH-MIDAS-ES model. Energy Economics 116, 106437.","doi":"10.1016/j.eneco.2022.106437","quality":"peer_reviewed_primary","scope":"Source-faithful design uses EIA Henry Hub 1-month futures from January 1995 to July 2021 and historical weather variables including wind speed, temperature and precipitation; New York and Louisiana are reported weather locations. This is not evidence for issued-weather-forecast-vintage inputs. Exact weather-provider identity remains to be verified."},
-    {"id":"chen-hartley-lan-2023","citation":"Chen, Y., Hartley, P.R. and Lan, Y. (2023). Temperature, storage, and natural gas futures prices. Journal of Futures Markets 43, 549-575.","doi":"10.1002/fut.22402","quality":"peer_reviewed_primary"},
-    {"id":"stock-zaragoza-watkins-2024","citation":"Stock, J.H. and Zaragoza-Watkins, M. (2024). The Market and Climate Implications of U.S. LNG Exports.","quality":"research_working_paper"},
-    {"id":"rubaszek-szafranek-2025","citation":"Rubaszek, M. and Szafranek, K. (2025). The European energy crisis and the US natural gas market dynamics: a structural VAR investigation. International Economics and Economic Policy 22, 11.","doi":"10.1007/s10368-024-00636-6","quality":"peer_reviewed_primary","replication_data":{"repository":"RepOD","doi":"10.18150/KCPFNE","status":"author_linked_replication_files_identified"}},
-    {"id":"farag-ruhnau-2026","citation":"Farag, M. and Ruhnau, O. (2026). Decomposing return and volatility connectedness in Northwest European natural gas markets: Evidence from the R2 connectedness approach. Energy Economics 154, 109115.","doi":"10.1016/j.eneco.2025.109115","quality":"peer_reviewed_contextual"},
-    {"id":"baumeister-et-al-2026","citation":"Baumeister, C., Huber, F., Lee, T.K. and Ravazzolo, F. (2026). Forecasting Natural Gas Prices in Real Time. Journal of Applied Econometrics 41(2), 139-155.","doi":"10.1002/jae.70018","quality":"peer_reviewed_primary_open_access","replication_data":{"repository":"Journal of Applied Econometrics Data Archive","doi":"10.15456/jae.2025266.1900967125","status":"open_real_time_database_and_replication_materials_identified"}},
-    {"id":"gu-kurov-stan-2026","citation":"Gu, C., Kurov, A. and Stan, R. (2026). Trader Attention and Market Reaction to Fundamental News: Evidence From Natural Gas Futures. Journal of Futures Markets 46(7), 1171-1181.","doi":"10.1002/fut.70104","quality":"peer_reviewed_primary","data_scope":"Authors state study data are available from Genesis Financial Technologies and Bloomberg and require subscription fees; a repository Databento/alternative-consensus construction is therefore a near replication, not exact source reproduction."},
-    {"id":"linn-zhu-2004","citation":"Linn, S.C. and Zhu, Z. (2004). Natural gas prices and the gas storage report: Public news and volatility in energy futures markets. Journal of Futures Markets 24(3), 283-313.","quality":"peer_reviewed_primary"},
-    {"id":"buchanan-hodges-theis-2001","citation":"Buchanan, W.K., Hodges, P. and Theis, J. (2001). Which way the natural gas price: an attempt to predict the direction of natural gas spot price movements using trader positions. Energy Economics 23(3), 279-293.","doi":"10.1016/S0140-9883(00)00074-8","quality":"peer_reviewed_primary"},
-    {"id":"geng-ji-fan-2016","citation":"Geng, J.-B., Ji, Q. and Fan, Y. (2016). The impact of the North American shale gas revolution on regional natural gas markets: Evidence from the regime-switching model. Energy Policy 96, 167-178.","quality":"peer_reviewed_primary"},
-    {"id":"hevia-petrella-2016","citation":"Hevia, C. and Petrella, I. (2016). Risk Premia and Seasonality in Commodity Futures. Bank of England Staff Working Paper No. 591.","quality":"institutional_working_paper_contextual","scope":"Methodologically relevant commodity-futures seasonality evidence, but the empirical application is heating oil rather than Henry Hub natural gas; do not use as direct Henry Hub proof."}
-  ],
-  "scope_note": "Initial fresh-programme literature inventory. Source quality and scope are explicit; no source implies internal reproduction."
+    {
+      "citation": "Mu, X. (2007). Weather, storage, and natural gas price dynamics: fundamentals and volatility. Energy Economics 29(1), 46-63.",
+      "doi": "10.1016/j.eneco.2006.04.003",
+      "id": "mu-2007",
+      "quality": "peer_reviewed_primary",
+      "replication_contract": {
+        "market_source": "Commodity Research Bureau (formerly Bridge) daily natural-gas futures trading data",
+        "project_fidelity_boundary": "canonical Databento history starts in 2010, so source-period exact replication is impossible; source-method near replication is required",
+        "return_semantics": "daily log changes of settlement prices; two series from nearest and second-nearest contracts",
+        "roll_rule": "RET1 replaces the nearest-contract return on the contract's final trading day with the same-day second-nearest return to avoid thin-market expiry distortion",
+        "sample": "1997-01-02 through 2000-12-29; 1,002 RET1/RET2 return observations reported",
+        "samuelson_tests": "RET1 unconditional variance exceeds RET2 by one-sided F-test at 1%; separate GARCH(1,1) conditional variances are compared, with h1_t reported above h2_t in 954 of 998 paired cases"
+      }
+    },
+    {
+      "citation": "Brown, S.P.A. and Yucel, M.K. (2008). What Drives Natural Gas Prices? The Energy Journal 29(2), 45-60.",
+      "doi": "10.5547/ISSN0195-6574-EJ-Vol29-No2-3",
+      "id": "brown-yucel-2008",
+      "quality": "peer_reviewed_primary",
+      "replication_contract": {
+        "endogenous_prices": [
+          "ln_hh",
+          "ln_wti"
+        ],
+        "lag_semantics": "VAR lag order 5, corresponding to 4 lagged first differences in the VECM",
+        "method": "Johansen cointegration rank test and VECM/error-correction representation",
+        "project_source_route": "Roberts (2019) public revisit/replication package provides the prepared Brown-Yucel dataset and exact Stata command sequence for source-period reproduction",
+        "source_result": "one long-run Henry Hub/WTI relationship in the source period; natural-gas price adjusts to disequilibrium while oil is weakly exogenous; weather, storage and hurricane controls strengthen the relationship",
+        "source_study_sample": "weekly observations from 1997-06-13 through 2007-06-08",
+        "stationary_controls": [
+          "hdds",
+          "dev_hdds",
+          "cdds",
+          "dev_cdds",
+          "stor_diff",
+          "hurr_shutin_bcf"
+        ]
+      }
+    },
+    {
+      "citation": "Roberts, G. (2019). Revisiting the Drivers of Natural Gas Prices. International Journal for Re-Views in Empirical Economics.",
+      "doi": "10.18718/81781.11",
+      "id": "roberts-2019",
+      "quality": "peer_reviewed_replication_revisit",
+      "replication_contract": {
+        "brown_yucel_sample_rule": "week_no < 523",
+        "endogenous_prices": [
+          "ln_hh",
+          "ln_wti"
+        ],
+        "full_sample": "weekly 1997-06-13 through 2017-06-16",
+        "johansen_lag_order": 5,
+        "post_sample_rule": "week_no > 522",
+        "source_result": "Brown-Yucel long-run oil-gas relationship is reproduced in the 1997-2007 sample and disappears in the full and post-2007 samples",
+        "stationary_exogenous": [
+          "hdds",
+          "dev_hdds",
+          "cdds",
+          "dev_cdds",
+          "stor_diff",
+          "hurr_shutin_bcf"
+        ]
+      },
+      "replication_data": {
+        "archive_sha256": "d0b1bc18101438cabae21107f12e13fc4a9e9313447e273e0f8c129aae52a895",
+        "doi": "10.15456/iree.2018197.145241",
+        "manifest_sha256": "68ceedcc9c6900064a3694e4a05a3b521e138fd2eac7a92c76f89eca486095b0",
+        "preservation_issue": 343,
+        "repository": "International Journal for Re-Views in Empirical Economics data archive",
+        "status": "governed_exact_package_preserved"
+      }
+    },
+    {
+      "citation": "Geman, H. and Ohana, S. (2009). Forward curves, scarcity and price volatility in oil and natural gas markets. Energy Economics 31(4), 576-585.",
+      "doi": "10.1016/j.eneco.2009.01.014",
+      "id": "geman-ohana-2009",
+      "quality": "peer_reviewed_primary",
+      "replication_contract": {
+        "gas_inventory_sample": "U.S. natural-gas stocks at each month end, 1992-12-31 through 2006-07-31, from EIA/DOE",
+        "gas_market_sample": "daily NYMEX monthly natural-gas futures, January 1993 through August 2006, maturities 1 through 13 months",
+        "gas_source_statistics": {
+          "deseasonalized_volatility_scarcity": {
+            "pvalue": 2.71e-06,
+            "rho": -0.49
+          },
+          "deseasonalized_volatility_whole": {
+            "pvalue": 0.24,
+            "rho": -0.056
+          },
+          "original_volatility_scarcity": {
+            "pvalue": 2.9e-05,
+            "rho": -0.38
+          },
+          "original_volatility_whole": {
+            "pvalue": 0.62,
+            "rho": 0.023
+          }
+        },
+        "inventory_alignment": "one-month-lagged deseasonalized inventory is primary; source states contemporaneous inventory gives the same qualitative conclusions",
+        "inventory_deseasonalization": "OLS on constant + cos(2*pi*t/12) + sin(2*pi*t/12) + cos(2*pi*t/6); residual is deseasonalized inventory",
+        "monthly_volatility": "annualized standard deviation of returns of the front-month futures price over consecutive trading days within each month",
+        "primary_test": "Spearman rank correlation under one-sided negative-correlation alternative, separately for whole sample and scarcity periods, using original and deseasonalized front-month volatility",
+        "project_fidelity_boundary": "The pinned EIA NG bulk identifies the source inventory family as NG.N5020US2.M (U.S. Total Natural Gas in Underground Storage (Working Gas), Monthly): fitting the paper's exact 1992-12 through 2006-07 trigonometric specification yields coefficient magnitudes 2.1053, 0.6390, 0.6283 and 0.1699 Tcf versus published 2.11, 0.63, 0.64 and 0.17. The same pinned bulk contains official NYMEX Contract 1 daily prices (NG.RNGC1.D) from 1994-01-13, so a source-period near replication covers 1994-01 through 2006-08 but cannot recover the paper's first approximately 12 months of 1993 market observations. Canonical Databento 2010+ is retained only as a later-regime extension. The paper does not specify arithmetic versus log daily returns or a more detailed rolling convention; arithmetic Contract-1 returns are primary, log returns fixed robustness.",
+        "scarcity_definition": "deseasonalized inventory < 0",
+        "source_result": "For natural gas, inventory-volatility correlation is non-significant over the whole sample but strongly negative during scarcity; the published paper also reports that this negative relationship strengthens importantly in winter.",
+        "volatility_deseasonalization": "OLS on constant + cos(2*pi*t/12) + cos(2*pi*t/6) + sin(2*pi*t/6); residual is deseasonalized front-month volatility"
+      }
+    },
+    {
+      "citation": "Gay, G.D., Simkins, B.J. and Turac, M. (2009). Analyst forecasts and price discovery in futures markets: The case of natural gas storage. Journal of Futures Markets 29(5), 451-477.",
+      "data_scope": "Analyst-storage-forecast database is constructed from Bloomberg surveys; reported source-study coverage is April 1997 through August 2005.",
+      "doi": "10.1002/fut.20368",
+      "id": "gay-simkins-turac-2009",
+      "quality": "peer_reviewed_primary"
+    },
+    {
+      "citation": "Mirantes, A.G., Poblacion, J. and Serna, G. (2013). The stochastic seasonal behavior of energy commodity convenience yields. Energy Economics 40, 155-166.",
+      "doi": "10.1016/j.eneco.2013.06.011",
+      "id": "mirantes-et-al-2013",
+      "quality": "peer_reviewed_primary",
+      "replication_contract": {
+        "convenience_yield_formula": "delta_i = r_implicit_i_to_i+1 - ln(F_i+1/F_i)",
+        "fidelity_boundary": "canonical Databento begins 2010-06-04 and cannot reconstruct the full 1999-2011 source sample; the paper also does not identify the zero-coupon interest-rate data source/curve construction in the recoverable text. A Databento later-sample futures-ratio/carry reproduction must therefore keep the missing interest-rate term explicit and cannot be labeled exact convenience-yield replication.",
+        "henry_hub_source_statistics": {
+          "convenience_yield_delta1_to_delta9": [
+            80.7324,
+            82.6555,
+            88.6157,
+            101.8594,
+            106.3644,
+            107.5883,
+            112.318,
+            113.4766,
+            115.0153
+          ],
+          "futures_F1_to_F9": [
+            2.5974,
+            1.5667,
+            1.2366,
+            1.3626,
+            2.5048,
+            3.5382,
+            4.5504,
+            4.8063,
+            4.5406
+          ]
+        },
+        "market": "NYMEX Henry Hub natural-gas futures; maturities available from one month to six years",
+        "primary_seasonality_series": "contiguous F1-F9 futures prices and implicit adjacent-month convenience yields delta1-delta9",
+        "sample": "1999-09-27 through 2011-07-04; 615 weekly observations",
+        "seasonality_test": "compute calendar-month averages from each weekly series, then Kruskal-Wallis across the 12 calendar months; chi-square(11) critical value 24.725 at 99%",
+        "source_result": "strong monthly seasonality in Henry Hub convenience yields while the futures-price series do not reject monthly no-seasonality; convenience-yield seasonality is clearer than futures-price seasonality"
+      }
+    },
+    {
+      "citation": "Chiou-Wei, S.-Z., Linn, S.C. and Zhu, Z. (2014). The response of U.S. natural gas futures and spot prices to storage change surprises. Journal of International Money and Finance 42, 156-173.",
+      "data_scope": "Uses weekly Bloomberg consensus analyst forecasts as the storage-change expectation proxy; source-study sample covers August 30, 2002 through August 18, 2011.",
+      "doi": "10.1016/j.jimonfin.2013.08.009",
+      "id": "chiou-wei-linn-zhu-2014",
+      "quality": "peer_reviewed_primary"
+    },
+    {
+      "citation": "Ergen, I. and Rizvanoghlu, I. (2016). Asymmetric impacts of fundamentals on the natural gas futures volatility. Energy Economics 56, 64-74.",
+      "doi": "10.1016/j.eneco.2016.02.022",
+      "id": "ergen-rizvanoghlu-2016",
+      "quality": "peer_reviewed_primary",
+      "replication_contract": {
+        "continuity_rule": "Do not assume the fully specified 2010 dissertation precursor is method-identical to the final 2016 article. The final article explicitly describes TTM in days and its public estimation excerpt differs from the precursor zero-mean specification.",
+        "dissertation_precursor_2010": {
+          "maturity_model": "Gaussian GARCH(1,1) variance equation adds storage-report-day, Monday, December-February winter, business-days-to-maturity TTM, then TTM*WIN",
+          "mean_equation": "zero conditional mean",
+          "return_semantics": "compute log return within each individual contract first, then select the earliest-maturing active contract for each session",
+          "sample": "2001-01-04 through 2008-04-23; 1,823 nearby-month daily returns",
+          "source_result": "TTM is negative/significant before interaction; after TTM*WIN is added standalone TTM t-stat is -0.15 while the winter combined TTM effect has t-stat -8.416"
+        },
+        "project_fidelity_boundary": "canonical Databento history begins in 2010, after the precursor source sample. Exact source-period reproduction is unavailable; the precursor method may be tested on later pre-sealed history only as a separately labeled continuity diagnostic, while the final-2016 refinement remains fidelity-bounded unless its complete final estimation contract is recovered.",
+        "published_2016": {
+          "market": "daily NYMEX nearby-month natural-gas futures",
+          "mean_equation_public_evidence": "publisher text reports a long-term average return of -0.1386% and reasonable autocorrelation, then states that a first-order term is included; the publicly accessible excerpt truncates before the exact final mean equation is fully recoverable",
+          "method_fidelity_status": "final-paper maturity claim is directly recoverable, but the complete final estimation equation and exact final sample are not fully recoverable from the accessible publisher text",
+          "published_maturity_measure": "time to maturity in days included directly in the conditional variance equation",
+          "published_maturity_result": "maturity impact is seasonally asymmetric and present only during winter"
+        }
+      }
+    },
+    {
+      "citation": "Ji, Q., Zhang, H.-Y. and Geng, J.-B. (2018). What drives natural gas prices in the United States? Energy Economics 69, 79-88.",
+      "doi": "10.1016/j.eneco.2017.11.002",
+      "id": "ji-zhang-geng-2018",
+      "quality": "peer_reviewed_primary"
+    },
+    {
+      "citation": "Rubaszek, M. and Uddin, G.S. (2020). The role of underground storage in the dynamics of the US natural gas market: A threshold model analysis. Energy Economics 87, 104713.",
+      "doi": "10.1016/j.eneco.2020.104713",
+      "id": "rubaszek-uddin-2020",
+      "quality": "peer_reviewed_primary"
+    },
+    {
+      "citation": "Prokopczuk, M., Wese Simen, C. and Wichmann, R. (2021). The Natural Gas Announcement Day Puzzle. The Energy Journal 42(2), 91-112.",
+      "doi": "10.5547/01956574.42.2.mpro",
+      "id": "prokopczuk-simen-wichmann-2021",
+      "quality": "peer_reviewed_primary",
+      "replication_contract": {
+        "core_finding": "More than 50% of annual futures return is generated on EIA storage-announcement days; announcement-day and non-announcement-day average returns differ significantly and the announcement premium is negative.",
+        "intraday_secondary": "Two-hour announcement return is reported as 49.4% pre-announcement and 50.6% post-announcement; a 90-minute-pre to 30-minute-post short strategy is reported at about 12% annual return, t=2.93, Sharpe 1.76 after costs.",
+        "market_source": "Bloomberg daily price, volume and open interest for 499 Henry Hub NYMEX natural-gas futures contracts (ticker NG)",
+        "project_fidelity_boundary": "Canonical exact listed-contract Databento history begins 2010-06-04, so the exact 2003-2018 Bloomberg sample is unavailable. Stage A is a source-method near replication on the 2010-06 through 2018-12 overlap using the source roll rule and a conservative EIA release calendar; holiday-shift weeks lacking exact historical release-day proof are excluded. Bloomberg analyst consensus is unavailable, so surprise-controlled persistence remains a separate fidelity boundary.",
+        "roll_rule": "Szymanowska et al. (2014): roll the entire curve at the end of the month preceding the month prior to delivery",
+        "source_sample": "March 2003 through December 2018",
+        "surprise_refinement": "The paper reports the announcement-day difference survives storage-surprise and other controls; storage surprise uses analyst expectations and is not required to test the unconditional core anomaly."
+      }
+    },
+    {
+      "citation": "Liang, C., Xia, Z., Lai, X. and Wang, L. (2022). Natural gas volatility prediction: Fresh evidence from extreme weather and extended GARCH-MIDAS-ES model. Energy Economics 116, 106437.",
+      "doi": "10.1016/j.eneco.2022.106437",
+      "id": "liang-et-al-2022",
+      "quality": "peer_reviewed_primary",
+      "scope": "Source-faithful design uses EIA Henry Hub 1-month futures from January 1995 to July 2021 and historical weather variables including wind speed, temperature and precipitation; New York and Louisiana are reported weather locations. This is not evidence for issued-weather-forecast-vintage inputs. Exact weather-provider identity remains to be verified."
+    },
+    {
+      "citation": "Chen, Y., Hartley, P.R. and Lan, Y. (2023). Temperature, storage, and natural gas futures prices. Journal of Futures Markets 43, 549-575.",
+      "doi": "10.1002/fut.22402",
+      "id": "chen-hartley-lan-2023",
+      "quality": "peer_reviewed_primary"
+    },
+    {
+      "citation": "Stock, J.H. and Zaragoza-Watkins, M. (2024). The Market and Climate Implications of U.S. LNG Exports.",
+      "id": "stock-zaragoza-watkins-2024",
+      "quality": "research_working_paper"
+    },
+    {
+      "citation": "Rubaszek, M. and Szafranek, K. (2025). The European energy crisis and the US natural gas market dynamics: a structural VAR investigation. International Economics and Economic Policy 22, 11.",
+      "doi": "10.1007/s10368-024-00636-6",
+      "id": "rubaszek-szafranek-2025",
+      "quality": "peer_reviewed_primary",
+      "replication_data": {
+        "doi": "10.18150/KCPFNE",
+        "repository": "RepOD",
+        "status": "author_linked_replication_files_identified"
+      }
+    },
+    {
+      "citation": "Farag, M. and Ruhnau, O. (2026). Decomposing return and volatility connectedness in Northwest European natural gas markets: Evidence from the R2 connectedness approach. Energy Economics 154, 109115.",
+      "doi": "10.1016/j.eneco.2025.109115",
+      "id": "farag-ruhnau-2026",
+      "quality": "peer_reviewed_contextual"
+    },
+    {
+      "citation": "Baumeister, C., Huber, F., Lee, T.K. and Ravazzolo, F. (2026). Forecasting Natural Gas Prices in Real Time. Journal of Applied Econometrics 41(2), 139-155.",
+      "doi": "10.1002/jae.70018",
+      "id": "baumeister-et-al-2026",
+      "quality": "peer_reviewed_primary_open_access",
+      "replication_data": {
+        "doi": "10.15456/jae.2025266.1900967125",
+        "repository": "Journal of Applied Econometrics Data Archive",
+        "status": "open_real_time_database_and_replication_materials_identified"
+      }
+    },
+    {
+      "citation": "Gu, C., Kurov, A. and Stan, R. (2026). Trader Attention and Market Reaction to Fundamental News: Evidence From Natural Gas Futures. Journal of Futures Markets 46(7), 1171-1181.",
+      "data_scope": "Authors state study data are available from Genesis Financial Technologies and Bloomberg and require subscription fees; a repository Databento/alternative-consensus construction is therefore a near replication, not exact source reproduction.",
+      "doi": "10.1002/fut.70104",
+      "id": "gu-kurov-stan-2026",
+      "quality": "peer_reviewed_primary"
+    },
+    {
+      "citation": "Linn, S.C. and Zhu, Z. (2004). Natural gas prices and the gas storage report: Public news and volatility in energy futures markets. Journal of Futures Markets 24(3), 283-313.",
+      "id": "linn-zhu-2004",
+      "quality": "peer_reviewed_primary"
+    },
+    {
+      "citation": "Buchanan, W.K., Hodges, P. and Theis, J. (2001). Which way the natural gas price: an attempt to predict the direction of natural gas spot price movements using trader positions. Energy Economics 23(3), 279-293.",
+      "doi": "10.1016/S0140-9883(00)00074-8",
+      "id": "buchanan-hodges-theis-2001",
+      "quality": "peer_reviewed_primary"
+    },
+    {
+      "citation": "Geng, J.-B., Ji, Q. and Fan, Y. (2016). The impact of the North American shale gas revolution on regional natural gas markets: Evidence from the regime-switching model. Energy Policy 96, 167-178.",
+      "id": "geng-ji-fan-2016",
+      "quality": "peer_reviewed_primary"
+    },
+    {
+      "citation": "Hevia, C. and Petrella, I. (2016). Risk Premia and Seasonality in Commodity Futures. Bank of England Staff Working Paper No. 591.",
+      "id": "hevia-petrella-2016",
+      "quality": "institutional_working_paper_contextual",
+      "scope": "Methodologically relevant commodity-futures seasonality evidence, but the empirical application is heating oil rather than Henry Hub natural gas; do not use as direct Henry Hub proof."
+    }
+  ]
 }

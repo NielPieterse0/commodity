@@ -1,0 +1,194 @@
+{
+  "design_id": "rep-005-scarcity-volatility",
+  "eia_bulk_sha256": "5c0d230e123df8be8e309677317323c9673d0e345f1bb7ff4789418f9fb1f449",
+  "interpretation": "Geman-Ohana source pattern reproduced on the 1994-2006 source-period near replication.",
+  "issue": 327,
+  "later_regime_extension": {
+    "continuous_front_test": {
+      "deseasonalized_volatility_scarcity": {
+        "observations": 89,
+        "one_sided_pvalue": 0.9891832754527023,
+        "rho": 0.24322437861763707
+      },
+      "deseasonalized_volatility_whole": {
+        "observations": 189,
+        "one_sided_pvalue": 0.9745779354345991,
+        "rho": 0.1422652375619901
+      },
+      "original_volatility_scarcity": {
+        "observations": 89,
+        "one_sided_pvalue": 0.9985910107809686,
+        "rho": 0.31304051753489964
+      },
+      "original_volatility_whole": {
+        "observations": 189,
+        "one_sided_pvalue": 0.9996205505722991,
+        "rho": 0.24287314029755241
+      },
+      "scarcity_observations": 89,
+      "scarcity_significantly_negative": false,
+      "source_pattern_reproduced": false,
+      "whole_not_significantly_negative": true
+    },
+    "same_contract_direction_consistent": false,
+    "same_contract_test": {
+      "deseasonalized_volatility_scarcity": {
+        "observations": 89,
+        "one_sided_pvalue": 0.9674494709187493,
+        "rho": 0.19639087504256045
+      },
+      "deseasonalized_volatility_whole": {
+        "observations": 189,
+        "one_sided_pvalue": 0.972718064349029,
+        "rho": 0.14006825574574736
+      },
+      "original_volatility_scarcity": {
+        "observations": 89,
+        "one_sided_pvalue": 0.9947424049749463,
+        "rho": 0.2699523323118829
+      },
+      "original_volatility_whole": {
+        "observations": 189,
+        "one_sided_pvalue": 0.9998395262974975,
+        "rho": 0.25893990294886154
+      },
+      "scarcity_observations": 89,
+      "scarcity_significantly_negative": false,
+      "source_pattern_reproduced": false,
+      "whole_not_significantly_negative": true
+    },
+    "sample": {
+      "end": "2026-02",
+      "months": 189,
+      "roll_returns": 191,
+      "scarcity_months": 89,
+      "start": "2010-06"
+    },
+    "winter_scarcity_descriptive": {
+      "same_contract_front_volatility": {
+        "observations": 14,
+        "rho": -0.03736263736263736,
+        "status": "descriptive_only"
+      },
+      "source_front_volatility": {
+        "observations": 14,
+        "rho": 0.04175824175824176,
+        "status": "descriptive_only"
+      }
+    }
+  },
+  "literature_disposition": "SOURCE_PERIOD_NEAR_REPRODUCED",
+  "literature_gate_closed": true,
+  "market_cache_sha256": "cedc888c9758ad817c1b3742cc5aac323bcd8b6924f58b6380b421661fe953e4",
+  "programme_id": "002-henry-hub-fresh",
+  "protected_confirmation_accessed": false,
+  "replication_class_achieved": "near_replication_source_period_1994_2006",
+  "replication_class_target": "near_replication",
+  "research_cutoff_exclusive": "2026-03-01T00:00:00+00:00",
+  "schema_version": 1,
+  "sealed_confirmation": {
+    "content_sha256": "1598fbe51e9ab71dd23b07b06799616e47834a67630296d245e9da8fd7689419",
+    "openings": 0,
+    "sealed_window_id": "phase1-rep004-rep005-reserved-confirmation-v1",
+    "start": "2026-03-12T23:59:00+00:00"
+  },
+  "source_anchors": {
+    "deseasonalized_volatility_scarcity_rho": -0.49,
+    "deseasonalized_volatility_whole_rho": -0.056,
+    "original_volatility_scarcity_rho": -0.38,
+    "original_volatility_whole_rho": 0.023
+  },
+  "source_fidelity": {
+    "inventory_identity_proof": {
+      "absolute_magnitude_errors": [
+        0.004694644008948146,
+        0.00895528240565957,
+        0.011731195235362257,
+        0.00010797253021099795
+      ],
+      "coefficients_tcf": [
+        2.1053053559910517,
+        0.6389552824056596,
+        -0.6282688047646378,
+        0.16989202746978901
+      ],
+      "matches_published_fit": true,
+      "source_reported_magnitudes_tcf": [
+        2.11,
+        0.63,
+        0.64,
+        0.17
+      ]
+    },
+    "inventory_series": "NG.N5020US2.M",
+    "later_extension_route": "canonical_Databento_expiration_ranked_front_month",
+    "market_series": "NG.RNGC1.D",
+    "market_series_observed_end": "2006-08-31T00:00:00+00:00",
+    "market_series_observed_start": "1994-01-13T00:00:00+00:00",
+    "missing_source_market_segment": "1993-01 through 1994-01-12",
+    "source_inventory_sample": "1992-12 through 2006-07",
+    "source_market_sample": "1993-01 through 2006-08",
+    "source_period_route": "official_EIA_NYMEX_contract1_near_replication"
+  },
+  "source_period_log_return_robustness": {
+    "deseasonalized_volatility_scarcity": {
+      "observations": 70,
+      "one_sided_pvalue": 8.118680663670644e-05,
+      "rho": -0.43584988190009616
+    },
+    "deseasonalized_volatility_whole": {
+      "observations": 152,
+      "one_sided_pvalue": 0.11307418946130575,
+      "rho": -0.09874657426581646
+    },
+    "original_volatility_scarcity": {
+      "observations": 70,
+      "one_sided_pvalue": 0.004611075535274484,
+      "rho": -0.3091068148018546
+    },
+    "original_volatility_whole": {
+      "observations": 152,
+      "one_sided_pvalue": 0.48115466898556575,
+      "rho": -0.0038648432534394025
+    },
+    "scarcity_observations": 70,
+    "scarcity_significantly_negative": true,
+    "source_pattern_reproduced": true,
+    "whole_not_significantly_negative": true
+  },
+  "source_period_primary_test": {
+    "deseasonalized_volatility_scarcity": {
+      "observations": 70,
+      "one_sided_pvalue": 0.00012482367260902884,
+      "rho": -0.42451229113813316
+    },
+    "deseasonalized_volatility_whole": {
+      "observations": 152,
+      "one_sided_pvalue": 0.1318190301126888,
+      "rho": -0.09123217080488522
+    },
+    "original_volatility_scarcity": {
+      "observations": 70,
+      "one_sided_pvalue": 0.006343544844326249,
+      "rho": -0.2965094917330067
+    },
+    "original_volatility_whole": {
+      "observations": 152,
+      "one_sided_pvalue": 0.5074171386345714,
+      "rho": 0.0015206500864549375
+    },
+    "scarcity_observations": 70,
+    "scarcity_significantly_negative": true,
+    "source_pattern_reproduced": true,
+    "whole_not_significantly_negative": true
+  },
+  "source_period_sample": {
+    "daily_front_rows": 3159,
+    "end": "2006-08",
+    "inventory_rows": 164,
+    "monthly_volatility_rows": 152,
+    "months": 152,
+    "scarcity_months": 70,
+    "start": "1994-01"
+  }
+}

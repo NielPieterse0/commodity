@@ -10,6 +10,15 @@
     "retrieved_at": "2026-08-14T12:00:00Z",
     "session_timezone": "America/New_York",
     "settlement_availability_semantics": "statistics_ts_recv_else_ts_event",
+    "settlement_selection": {
+      "legacy_dropped_known_preliminary_groups": 0,
+      "legacy_groups": 0,
+      "legacy_normalization_boundary": "2015-11-20T00:00:00Z",
+      "legacy_selected_groups": 0,
+      "legacy_selection": "latest_published_non_known_preliminary",
+      "modern_selected_groups": 1,
+      "modern_selection": "final_bit_set_and_intraday_bit_unset"
+    },
     "source_artifacts": [
       {
         "dataset": "GLBX.MDP3",
@@ -44,9 +53,9 @@
     "available_at"
   ],
   "dataset": "GLBX.MDP3",
-  "parquet_sha256": "4ebccb9bb1050d4e241fa6c47a3fea7a25756b05b06c37cefa3f3c6d835fcec9",
+  "parquet_sha256": "e8f27350ef90fd8a058e7daf23c9b61fb3b73f25c8b54a3c1433df7f705cf9d9",
   "product_code": "NG",
   "retrieved_at": "2026-08-14T12:00:00Z",
   "rows": 1,
-  "rows_sha256": "71e6558c9bc4cc312e5c257d013c0bc36fc3f5a141ac0472b88a32595b622698"
+  "rows_sha256": "1fc43d12de23ff25c7b469db587d206effef70242ca79a70ae231e4864a92423"
 }

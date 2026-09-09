@@ -1,0 +1,808 @@
+{
+  "design_id": "rep-002-seasonal-forward-curve",
+  "evaluation_contract": "research/programmes/002-henry-hub-fresh/phase1-evaluation-contract.json",
+  "evaluation_contract_sha256": "3c2fb43f1239d59c7ed1aa1d5fb997fec89478219df8139e95b0b062165169f4",
+  "forecast": {
+    "baseline": {
+      "bias": 0.0006614927570170483,
+      "direction_accuracy": 0.00737230121116377,
+      "mae": 0.02551183581214217,
+      "n": 1899.0,
+      "prediction_actual_corr": null,
+      "rmse": 0.0355031213174314
+    },
+    "block_size": 20,
+    "bootstrap_resamples": 2000,
+    "challenger": {
+      "bias": -0.0004727875600665129,
+      "direction_accuracy": 0.5002632964718273,
+      "mae": 0.025551757921643332,
+      "n": 1899.0,
+      "prediction_actual_corr": 0.019831635275859363,
+      "rmse": 0.035521283235916495
+    },
+    "disposition": "INCONCLUSIVE",
+    "initial_train": 1032,
+    "leakage_audit": "passed_feature_and_label_availability",
+    "min_relative_improvement": 0.01,
+    "negative_periods": 1,
+    "oos_rows": 1899,
+    "period_rmse_improvements": {
+      "period_1": 7.533154125152763e-05,
+      "period_2": -0.00016985933995602998,
+      "period_3": 2.5711342738793386e-05
+    },
+    "positive_periods": 2,
+    "relative_rmse_improvement": -0.0005115583591288073,
+    "resolved_training_labels_only": true,
+    "retrain_every": 5,
+    "rmse_improvement": -1.8161918485096185e-05,
+    "target_rows": 2931,
+    "uncertainty": {
+      "block_size": 20,
+      "ci_lower": -0.00013874318862136398,
+      "ci_upper": 8.881671977508125e-05,
+      "effective_blocks": 94.95,
+      "method": "moving_block_bootstrap",
+      "p_value": 0.7581209395302348,
+      "resamples": 2000,
+      "rmse_improvement": -1.8161918485096185e-05,
+      "significant": false
+    }
+  },
+  "issue": 327,
+  "mechanism_reproduction": {
+    "rows": 1873,
+    "season_counts": {
+      "injection": 1065,
+      "winter_withdrawal": 808
+    },
+    "season_mean_slope": {
+      "injection": 0.0878121724454898,
+      "winter_withdrawal": -0.003772535366234016
+    },
+    "season_std_slope": {
+      "injection": 0.1547255170655597,
+      "winter_withdrawal": 0.16483674851604127
+    },
+    "winter_minus_injection_mean": -0.09158470781172381
+  },
+  "mode": "governed_exploratory_schema_v3",
+  "outcome_role": "rolling_research_oos",
+  "phase": 1,
+  "prediction_evidence": {
+    "path": "research/programmes/002-henry-hub-fresh/lines/001-market-structure/experiments/rep-002-seasonal-forward-curve/predictions.csv",
+    "rows": 1899,
+    "sha256": "90b13e4315970cf25302c26d0297a7e36bd41e3fe5237c93d2471f2d45aab239"
+  },
+  "programme_id": "002-henry-hub-fresh",
+  "protected_confirmation_accessed": false,
+  "research_line_id": "001-market-structure",
+  "reserved_confirmation": {
+    "confirmation_eligibility": "ineligible",
+    "content_sha256": "455110cec8cb03ab4ea90128af6743d21924435047c9845421fa2f7e9ed44e29",
+    "outcomes_used_by_this_run": false,
+    "planning_fraction": 0.2,
+    "pre_freeze_outcome_use": false,
+    "preparation_verification_scope": "full_prepared_frame",
+    "preparation_verification_status": "passed",
+    "prepared_rows": 3667,
+    "purged_boundary_rows": 2,
+    "research_rows": 2931,
+    "reserved_end": "2026-08-10T23:59:00+00:00",
+    "reserved_fraction": 0.20016362148895556,
+    "reserved_rows": 734,
+    "reserved_start": "2023-05-09T23:59:00+00:00",
+    "sealed_window": {
+      "content_sha256": "455110cec8cb03ab4ea90128af6743d21924435047c9845421fa2f7e9ed44e29",
+      "dataset_id": "phase1-rep002-forecast-panel-v1",
+      "eligibility": "ineligible",
+      "end": "2026-08-10T23:59:00+00:00",
+      "openings": [],
+      "permitted_openings": 1,
+      "preparation_assurance": {
+        "prepared_rows": 3667,
+        "protected_outcomes_accessed": false,
+        "purged_boundary_rows": 2,
+        "reserved_rows": 734,
+        "scope": "full_prepared_frame",
+        "status": "passed"
+      },
+      "sealed_window_id": "phase1-rep002-reserved-confirmation-v1",
+      "start": "2023-05-09T23:59:00+00:00"
+    }
+  },
+  "schema_version": 1,
+  "search_context": {
+    "adaptive_oos_tuning": false,
+    "challenger_fixed_before_scored_oos": true,
+    "disposition_rule": "phase1-evaluation-contract.json#disposition",
+    "planned_sequence_position": 2
+  },
+  "source_evidence": {
+    "data_assurance_sha256": "cfeb91ed7b160be25496707429b7153baa5ea735dc9c3a89dc9c10c1177a7abd",
+    "market_end": "2026-08-12T00:00:00+00:00",
+    "market_rows": 554737,
+    "market_start": "2010-06-04T00:00:00+00:00",
+    "sources": [
+      {
+        "checkpoint_semantics": "validated_year_partition_then_global_assembly",
+        "definition_authority": {
+          "artifacts": [
+            {
+              "source_file": "glbx-mdp3-20100606-20101231.definition.dbn.zst",
+              "source_sha256": "97351c1c515c4b3dfe7f977e1c8bec57aa547917a034e4b42da675820113fae7"
+            },
+            {
+              "source_file": "glbx-mdp3-20110101-20111231.definition.dbn.zst",
+              "source_sha256": "4fb862bc0eadf0b2701621d5114619dcc62a110eafeec25fcc58e9899dca69b0"
+            },
+            {
+              "source_file": "glbx-mdp3-20120101-20121231.definition.dbn.zst",
+              "source_sha256": "028510fda46f95ceb895b26eb5298ea3b9c6c811e3d0bac5d56e6827d2462600"
+            },
+            {
+              "source_file": "glbx-mdp3-20130101-20131231.definition.dbn.zst",
+              "source_sha256": "ab435bf756a89072a8f19267d98299ba99370dcd6d91e797c822e7f7ff0983e9"
+            },
+            {
+              "source_file": "glbx-mdp3-20140101-20141231.definition.dbn.zst",
+              "source_sha256": "452a51fdf0a7d83fda778d9af38066fa4f23852af7757a2fcec656b812ae8e37"
+            },
+            {
+              "source_file": "glbx-mdp3-20150101-20151231.definition.dbn.zst",
+              "source_sha256": "12f65c436294d0ab6ecd56817cebffcb5a8a0852023d86eefb9797e669778f8e"
+            },
+            {
+              "source_file": "glbx-mdp3-20160101-20161231.definition.dbn.zst",
+              "source_sha256": "607def22f1ba46735b1e13b02ce67d4fff3ac60ab1ba81e08b0f74f307d9c238"
+            },
+            {
+              "source_file": "glbx-mdp3-20170101-20171231.definition.dbn.zst",
+              "source_sha256": "a8aac7cff22adbe257239fe9895b85d5f7421576194264d070f8fcda952cdada"
+            },
+            {
+              "source_file": "glbx-mdp3-20180101-20181231.definition.dbn.zst",
+              "source_sha256": "659f765860dbb67b4d431c72f986fe7a2db05455108271c4ddcfbb9dd47c4d7e"
+            },
+            {
+              "source_file": "glbx-mdp3-20190101-20191231.definition.dbn.zst",
+              "source_sha256": "dc9cc6e7066e6737a6bce9a6c3edb5087624c386f4b8632984414248c7a7c455"
+            },
+            {
+              "source_file": "glbx-mdp3-20200101-20201231.definition.dbn.zst",
+              "source_sha256": "efc11d56f7a5c91a4d8530abcaec75e2db16e70072fd5bd19439acfed0a1d1c9"
+            },
+            {
+              "source_file": "glbx-mdp3-20210101-20211231.definition.dbn.zst",
+              "source_sha256": "c3ed6f26b9ec0e2ac38daf1df44175c7192e6e1397b7092cd723447ed609f5d8"
+            },
+            {
+              "source_file": "glbx-mdp3-20220101-20221231.definition.dbn.zst",
+              "source_sha256": "a0b8a22c8505970b8778912f530719d2ecab0f7246b4377ec7bd73dc8d6a6a4d"
+            },
+            {
+              "source_file": "glbx-mdp3-20230101-20231231.definition.dbn.zst",
+              "source_sha256": "4ce59667ab479e328eff62b6a9a4a93cf1b25437605e22ddb14da8ce27a54b68"
+            },
+            {
+              "source_file": "glbx-mdp3-20240101-20241231.definition.dbn.zst",
+              "source_sha256": "a9b1bb91fd704b419cd57bad3821a6ade8ab3eea17eeaa66368f2406ef9f7e99"
+            },
+            {
+              "source_file": "glbx-mdp3-20250101-20251231.definition.dbn.zst",
+              "source_sha256": "095c5e337c6408670c628344f8dd9fbb9e4b417a67d32e3dfe5918cf1a8d5fa0"
+            },
+            {
+              "source_file": "glbx-mdp3-20260101-20260812.definition.dbn.zst",
+              "source_sha256": "806c41613f2a02f50ba5b4820004086150f670a7fca05112e120534b8b297d58"
+            }
+          ],
+          "checkpoint_origin": "adopted_prior_327_checkpoint",
+          "dataset": "GLBX.MDP3",
+          "definition_authority_sha256": "68db2440889f0ec4b541887b7f9e3737220c2eed4fb3b2069d2bfe088c7d5087",
+          "output_sha256": "a2b6918f3843644599b25b4d91af6142ca1736fa19044336d0eed1af2c5e0397",
+          "product_code": "NG",
+          "reconstruction_version": "metadata-symbology-v2",
+          "rows": 698175,
+          "validation_status": "passed"
+        },
+        "identity_semantics": "statistics_metadata_interval_symbology_then_time_valid_target_definition",
+        "partitions": [
+          {
+            "accounting": {
+              "candidate_statistics_rows": 1546620,
+              "canonical_contract_days": 14775,
+              "dropped_invalid_reference_timestamp": 45042,
+              "dropped_outside_contract_lifetime": 8,
+              "excluded_before_target_activation": 0,
+              "excluded_non_target_symbol": 1442956,
+              "missing_volume_contract_days": 14775,
+              "positive_volume_contract_days": 0,
+              "resolved_statistics_rows": 1546620,
+              "volume_observed_contract_days": 0
+            },
+            "definition_authority_sha256": "68db2440889f0ec4b541887b7f9e3737220c2eed4fb3b2069d2bfe088c7d5087",
+            "output_sha256": "afafd7b8b1a1fd72b088bc3f53d8a5a3fb0568322d2ab5fd9cb96acdb90e216b",
+            "partition_source_sha256": "1159844fa515c9bf862b4e10a9fd4e3db7f7650fbfa9d2e5b4720c1352f3f276",
+            "reconstruction_version": "metadata-symbology-v2",
+            "rows": 14775,
+            "schema_sha256": "152ff0c685bef11446253fdd15fed2a4a73c03de7521c46f6b53882655da0165",
+            "settlement_selection": {
+              "legacy_dropped_known_preliminary_groups": 113,
+              "legacy_groups": 14888,
+              "legacy_normalization_boundary": "2015-11-20T00:00:00Z",
+              "legacy_selected_groups": 14775,
+              "legacy_selection": "latest_published_non_known_preliminary",
+              "modern_selected_groups": 0,
+              "modern_selection": "final_bit_set_and_intraday_bit_unset"
+            },
+            "span": "20100606-20101231",
+            "statistics_source_file": "glbx-mdp3-20100606-20101231.statistics.dbn.zst",
+            "statistics_source_sha256": "136bbbfba272a628747de2b018365c1aecb3c9d359f1148e9608af302e26a3e3",
+            "validation_status": "passed"
+          },
+          {
+            "accounting": {
+              "candidate_statistics_rows": 2093423,
+              "canonical_contract_days": 25922,
+              "dropped_invalid_reference_timestamp": 75049,
+              "dropped_outside_contract_lifetime": 96,
+              "excluded_before_target_activation": 0,
+              "excluded_non_target_symbol": 1918639,
+              "missing_volume_contract_days": 25922,
+              "positive_volume_contract_days": 0,
+              "resolved_statistics_rows": 2093423,
+              "volume_observed_contract_days": 0
+            },
+            "definition_authority_sha256": "68db2440889f0ec4b541887b7f9e3737220c2eed4fb3b2069d2bfe088c7d5087",
+            "output_sha256": "8cf7c8e86736d8418e48b3a4297a909db3c383deb29fc14329cb96f731069886",
+            "partition_source_sha256": "540e4433d6206f5f75da4ec9b5cb2587a18d170a495dd9f68b8da6e141eb100c",
+            "reconstruction_version": "metadata-symbology-v2",
+            "rows": 25922,
+            "schema_sha256": "152ff0c685bef11446253fdd15fed2a4a73c03de7521c46f6b53882655da0165",
+            "settlement_selection": {
+              "legacy_dropped_known_preliminary_groups": 119,
+              "legacy_groups": 26041,
+              "legacy_normalization_boundary": "2015-11-20T00:00:00Z",
+              "legacy_selected_groups": 25922,
+              "legacy_selection": "latest_published_non_known_preliminary",
+              "modern_selected_groups": 0,
+              "modern_selection": "final_bit_set_and_intraday_bit_unset"
+            },
+            "span": "20110101-20111231",
+            "statistics_source_file": "glbx-mdp3-20110101-20111231.statistics.dbn.zst",
+            "statistics_source_sha256": "efa10a3fa9aca32059d9ff28cd058b1e2c39ed9c0ac903bc0140b4e67c07001e",
+            "validation_status": "passed"
+          },
+          {
+            "accounting": {
+              "candidate_statistics_rows": 1548727,
+              "canonical_contract_days": 25363,
+              "dropped_invalid_reference_timestamp": 71686,
+              "dropped_outside_contract_lifetime": 0,
+              "excluded_before_target_activation": 0,
+              "excluded_non_target_symbol": 1380294,
+              "missing_volume_contract_days": 25363,
+              "positive_volume_contract_days": 0,
+              "resolved_statistics_rows": 1548727,
+              "volume_observed_contract_days": 0
+            },
+            "definition_authority_sha256": "68db2440889f0ec4b541887b7f9e3737220c2eed4fb3b2069d2bfe088c7d5087",
+            "output_sha256": "9c70b170fd9badf43a7b6b1e9de77867c0f22684ea7c227625dbe19833346893",
+            "partition_source_sha256": "2323ffffd4b6ae3ebc59baa4e988740c9f9db05be036d735ddb7634cbc72c01c",
+            "reconstruction_version": "metadata-symbology-v2",
+            "rows": 25363,
+            "schema_sha256": "152ff0c685bef11446253fdd15fed2a4a73c03de7521c46f6b53882655da0165",
+            "settlement_selection": {
+              "legacy_dropped_known_preliminary_groups": 395,
+              "legacy_groups": 25758,
+              "legacy_normalization_boundary": "2015-11-20T00:00:00Z",
+              "legacy_selected_groups": 25363,
+              "legacy_selection": "latest_published_non_known_preliminary",
+              "modern_selected_groups": 0,
+              "modern_selection": "final_bit_set_and_intraday_bit_unset"
+            },
+            "span": "20120101-20121231",
+            "statistics_source_file": "glbx-mdp3-20120101-20121231.statistics.dbn.zst",
+            "statistics_source_sha256": "d1d532246b8f7a808e50cde680f2f0e33a5f9175415929c298d40e79b3552fd8",
+            "validation_status": "passed"
+          },
+          {
+            "accounting": {
+              "candidate_statistics_rows": 1164824,
+              "canonical_contract_days": 25157,
+              "dropped_invalid_reference_timestamp": 75903,
+              "dropped_outside_contract_lifetime": 474,
+              "excluded_before_target_activation": 0,
+              "excluded_non_target_symbol": 992623,
+              "missing_volume_contract_days": 25157,
+              "positive_volume_contract_days": 0,
+              "resolved_statistics_rows": 1164824,
+              "volume_observed_contract_days": 0
+            },
+            "definition_authority_sha256": "68db2440889f0ec4b541887b7f9e3737220c2eed4fb3b2069d2bfe088c7d5087",
+            "output_sha256": "354cdf954a7b223a7e76c327da61cbbae76a7e165bc9fd9fc0684159d2ea946b",
+            "partition_source_sha256": "962ba41478ef6ddc2b59f5116c024e45e88212abf516d4fab7e4657fb9a37f2d",
+            "reconstruction_version": "metadata-symbology-v2",
+            "rows": 25157,
+            "schema_sha256": "152ff0c685bef11446253fdd15fed2a4a73c03de7521c46f6b53882655da0165",
+            "settlement_selection": {
+              "legacy_dropped_known_preliminary_groups": 679,
+              "legacy_groups": 25836,
+              "legacy_normalization_boundary": "2015-11-20T00:00:00Z",
+              "legacy_selected_groups": 25157,
+              "legacy_selection": "latest_published_non_known_preliminary",
+              "modern_selected_groups": 0,
+              "modern_selection": "final_bit_set_and_intraday_bit_unset"
+            },
+            "span": "20130101-20131231",
+            "statistics_source_file": "glbx-mdp3-20130101-20131231.statistics.dbn.zst",
+            "statistics_source_sha256": "106797e93834f4a3f04e80560e92d5a32561c02b137d54c1150359c41b1b80a1",
+            "validation_status": "passed"
+          },
+          {
+            "accounting": {
+              "candidate_statistics_rows": 883853,
+              "canonical_contract_days": 28792,
+              "dropped_invalid_reference_timestamp": 73560,
+              "dropped_outside_contract_lifetime": 439,
+              "excluded_before_target_activation": 0,
+              "excluded_non_target_symbol": 683582,
+              "missing_volume_contract_days": 28792,
+              "positive_volume_contract_days": 0,
+              "resolved_statistics_rows": 883853,
+              "volume_observed_contract_days": 0
+            },
+            "definition_authority_sha256": "68db2440889f0ec4b541887b7f9e3737220c2eed4fb3b2069d2bfe088c7d5087",
+            "output_sha256": "727e368de7ccb22c06469db49a17d81eb131a16b01a9fc1292114c7bb9f81c50",
+            "partition_source_sha256": "1d8ac858597effdfb7e28a33be4a4828ca64dbf4263b286efdf866fecf625ff0",
+            "reconstruction_version": "metadata-symbology-v2",
+            "rows": 28792,
+            "schema_sha256": "152ff0c685bef11446253fdd15fed2a4a73c03de7521c46f6b53882655da0165",
+            "settlement_selection": {
+              "legacy_dropped_known_preliminary_groups": 720,
+              "legacy_groups": 29512,
+              "legacy_normalization_boundary": "2015-11-20T00:00:00Z",
+              "legacy_selected_groups": 28792,
+              "legacy_selection": "latest_published_non_known_preliminary",
+              "modern_selected_groups": 0,
+              "modern_selection": "final_bit_set_and_intraday_bit_unset"
+            },
+            "span": "20140101-20141231",
+            "statistics_source_file": "glbx-mdp3-20140101-20141231.statistics.dbn.zst",
+            "statistics_source_sha256": "1cb27f4298019db3223cb9ace67e6dcb375f443f85a290d5e2642db14855e827",
+            "validation_status": "passed"
+          },
+          {
+            "accounting": {
+              "candidate_statistics_rows": 820495,
+              "canonical_contract_days": 34176,
+              "dropped_invalid_reference_timestamp": 62277,
+              "dropped_outside_contract_lifetime": 351,
+              "excluded_before_target_activation": 0,
+              "excluded_non_target_symbol": 592178,
+              "missing_volume_contract_days": 31905,
+              "positive_volume_contract_days": 972,
+              "resolved_statistics_rows": 820495,
+              "volume_observed_contract_days": 2271
+            },
+            "definition_authority_sha256": "68db2440889f0ec4b541887b7f9e3737220c2eed4fb3b2069d2bfe088c7d5087",
+            "output_sha256": "0f3b18720d5c223783ef07202ff906810cced15a77f55de52cf603fe214b6467",
+            "partition_source_sha256": "6ccf9c608fe1c70dffa0f84a4040fe8e7c8fc6136b9b5eeedc8b425fe2e2aef3",
+            "reconstruction_version": "metadata-symbology-v2",
+            "rows": 34176,
+            "schema_sha256": "152ff0c685bef11446253fdd15fed2a4a73c03de7521c46f6b53882655da0165",
+            "settlement_selection": {
+              "legacy_dropped_known_preliminary_groups": 10,
+              "legacy_groups": 30009,
+              "legacy_normalization_boundary": "2015-11-20T00:00:00Z",
+              "legacy_selected_groups": 29999,
+              "legacy_selection": "latest_published_non_known_preliminary",
+              "modern_selected_groups": 4177,
+              "modern_selection": "final_bit_set_and_intraday_bit_unset"
+            },
+            "span": "20150101-20151231",
+            "statistics_source_file": "glbx-mdp3-20150101-20151231.statistics.dbn.zst",
+            "statistics_source_sha256": "cfedaf6a088aca49d2c2060c41bdcab6a13c302bd4f989ca64f0b841c6b7cd4d",
+            "validation_status": "passed"
+          },
+          {
+            "accounting": {
+              "candidate_statistics_rows": 908894,
+              "canonical_contract_days": 37759,
+              "dropped_invalid_reference_timestamp": 0,
+              "dropped_outside_contract_lifetime": 108,
+              "excluded_before_target_activation": 0,
+              "excluded_non_target_symbol": 656307,
+              "missing_volume_contract_days": 17324,
+              "positive_volume_contract_days": 7638,
+              "resolved_statistics_rows": 908894,
+              "volume_observed_contract_days": 20435
+            },
+            "definition_authority_sha256": "68db2440889f0ec4b541887b7f9e3737220c2eed4fb3b2069d2bfe088c7d5087",
+            "output_sha256": "152d6870763a51d023a7c219b66b355ef621deacd67b6373729849d765792cdf",
+            "partition_source_sha256": "b7d5db2417790d692981d84d35be608f35f19ee0a6ccf891935b61b3a31e19f1",
+            "reconstruction_version": "metadata-symbology-v2",
+            "rows": 37759,
+            "schema_sha256": "152ff0c685bef11446253fdd15fed2a4a73c03de7521c46f6b53882655da0165",
+            "settlement_selection": {
+              "legacy_dropped_known_preliminary_groups": 0,
+              "legacy_groups": 0,
+              "legacy_normalization_boundary": "2015-11-20T00:00:00Z",
+              "legacy_selected_groups": 0,
+              "legacy_selection": "latest_published_non_known_preliminary",
+              "modern_selected_groups": 37759,
+              "modern_selection": "final_bit_set_and_intraday_bit_unset"
+            },
+            "span": "20160101-20161231",
+            "statistics_source_file": "glbx-mdp3-20160101-20161231.statistics.dbn.zst",
+            "statistics_source_sha256": "fb0fc5f5b466c5d3d32a799e47e33b8bf700fa4dcb6487bb630cf28832957f6f",
+            "validation_status": "passed"
+          },
+          {
+            "accounting": {
+              "candidate_statistics_rows": 925021,
+              "canonical_contract_days": 37911,
+              "dropped_invalid_reference_timestamp": 0,
+              "dropped_outside_contract_lifetime": 24,
+              "excluded_before_target_activation": 12,
+              "excluded_non_target_symbol": 713096,
+              "missing_volume_contract_days": 19173,
+              "positive_volume_contract_days": 8451,
+              "resolved_statistics_rows": 925021,
+              "volume_observed_contract_days": 18738
+            },
+            "definition_authority_sha256": "68db2440889f0ec4b541887b7f9e3737220c2eed4fb3b2069d2bfe088c7d5087",
+            "output_sha256": "cdbe88f989e6f3c095d49d6e02466f091e8308467e72ce1bea3d2a53358e9713",
+            "partition_source_sha256": "faf36252a37e80fc6eba63f624db1a9f0e2b9624e3f4e013bbcca0ad667c2ee8",
+            "reconstruction_version": "metadata-symbology-v2",
+            "rows": 37911,
+            "schema_sha256": "152ff0c685bef11446253fdd15fed2a4a73c03de7521c46f6b53882655da0165",
+            "settlement_selection": {
+              "legacy_dropped_known_preliminary_groups": 0,
+              "legacy_groups": 0,
+              "legacy_normalization_boundary": "2015-11-20T00:00:00Z",
+              "legacy_selected_groups": 0,
+              "legacy_selection": "latest_published_non_known_preliminary",
+              "modern_selected_groups": 37911,
+              "modern_selection": "final_bit_set_and_intraday_bit_unset"
+            },
+            "span": "20170101-20171231",
+            "statistics_source_file": "glbx-mdp3-20170101-20171231.statistics.dbn.zst",
+            "statistics_source_sha256": "4f322f0e8a71ab4ec0cc9bede6ff54efe38dbed02b7f98564968caa4de6e6a2a",
+            "validation_status": "passed"
+          },
+          {
+            "accounting": {
+              "candidate_statistics_rows": 1067578,
+              "canonical_contract_days": 37752,
+              "dropped_invalid_reference_timestamp": 0,
+              "dropped_outside_contract_lifetime": 24,
+              "excluded_before_target_activation": 12,
+              "excluded_non_target_symbol": 906391,
+              "missing_volume_contract_days": 19177,
+              "positive_volume_contract_days": 8440,
+              "resolved_statistics_rows": 1067578,
+              "volume_observed_contract_days": 18575
+            },
+            "definition_authority_sha256": "68db2440889f0ec4b541887b7f9e3737220c2eed4fb3b2069d2bfe088c7d5087",
+            "output_sha256": "3dc231b56fd92a6ca0960c1b709d8eca00ee5b8147d737bc752f086328ce8d3c",
+            "partition_source_sha256": "a23601ffa003c79965ab577805cdca378483f01fec8d85c26c32707a1a1aff68",
+            "reconstruction_version": "metadata-symbology-v2",
+            "rows": 37752,
+            "schema_sha256": "152ff0c685bef11446253fdd15fed2a4a73c03de7521c46f6b53882655da0165",
+            "settlement_selection": {
+              "legacy_dropped_known_preliminary_groups": 0,
+              "legacy_groups": 0,
+              "legacy_normalization_boundary": "2015-11-20T00:00:00Z",
+              "legacy_selected_groups": 0,
+              "legacy_selection": "latest_published_non_known_preliminary",
+              "modern_selected_groups": 37752,
+              "modern_selection": "final_bit_set_and_intraday_bit_unset"
+            },
+            "span": "20180101-20181231",
+            "statistics_source_file": "glbx-mdp3-20180101-20181231.statistics.dbn.zst",
+            "statistics_source_sha256": "7ac18dfe86872578a77df7b18ab23289baebb27710096082a612caee9e5de173",
+            "validation_status": "passed"
+          },
+          {
+            "accounting": {
+              "candidate_statistics_rows": 1167906,
+              "canonical_contract_days": 37904,
+              "dropped_invalid_reference_timestamp": 0,
+              "dropped_outside_contract_lifetime": 24,
+              "excluded_before_target_activation": 12,
+              "excluded_non_target_symbol": 1005373,
+              "missing_volume_contract_days": 18581,
+              "positive_volume_contract_days": 8101,
+              "resolved_statistics_rows": 1167906,
+              "volume_observed_contract_days": 19323
+            },
+            "definition_authority_sha256": "68db2440889f0ec4b541887b7f9e3737220c2eed4fb3b2069d2bfe088c7d5087",
+            "output_sha256": "e4be83520b5696f89b639ffcd552327564f7a3c9a7fd44d9768889f76e3c6637",
+            "partition_source_sha256": "4cf2fb1366f6d1256cdc04c13d88c47b3adf5d7e1801db6d1c4d3f2e70252dfd",
+            "reconstruction_version": "metadata-symbology-v2",
+            "rows": 37904,
+            "schema_sha256": "152ff0c685bef11446253fdd15fed2a4a73c03de7521c46f6b53882655da0165",
+            "settlement_selection": {
+              "legacy_dropped_known_preliminary_groups": 0,
+              "legacy_groups": 0,
+              "legacy_normalization_boundary": "2015-11-20T00:00:00Z",
+              "legacy_selected_groups": 0,
+              "legacy_selection": "latest_published_non_known_preliminary",
+              "modern_selected_groups": 37904,
+              "modern_selection": "final_bit_set_and_intraday_bit_unset"
+            },
+            "span": "20190101-20191231",
+            "statistics_source_file": "glbx-mdp3-20190101-20191231.statistics.dbn.zst",
+            "statistics_source_sha256": "229ffa74450a636009f49c28e56443decc651f7121b9af19aed4443147b09e9b",
+            "validation_status": "passed"
+          },
+          {
+            "accounting": {
+              "candidate_statistics_rows": 1169808,
+              "canonical_contract_days": 37774,
+              "dropped_invalid_reference_timestamp": 0,
+              "dropped_outside_contract_lifetime": 24,
+              "excluded_before_target_activation": 12,
+              "excluded_non_target_symbol": 1000000,
+              "missing_volume_contract_days": 14499,
+              "positive_volume_contract_days": 8464,
+              "resolved_statistics_rows": 1169808,
+              "volume_observed_contract_days": 23275
+            },
+            "definition_authority_sha256": "68db2440889f0ec4b541887b7f9e3737220c2eed4fb3b2069d2bfe088c7d5087",
+            "output_sha256": "1c61135d1d6ad7059ba04bb70adf9fda3a025eb65b0ef88401715e930832e431",
+            "partition_source_sha256": "507a7425ea7283cc4e1fc73e24443dc980fbef6f1ca5fbe2b36ccd79fe5933e3",
+            "reconstruction_version": "metadata-symbology-v2",
+            "rows": 37774,
+            "schema_sha256": "152ff0c685bef11446253fdd15fed2a4a73c03de7521c46f6b53882655da0165",
+            "settlement_selection": {
+              "legacy_dropped_known_preliminary_groups": 0,
+              "legacy_groups": 0,
+              "legacy_normalization_boundary": "2015-11-20T00:00:00Z",
+              "legacy_selected_groups": 0,
+              "legacy_selection": "latest_published_non_known_preliminary",
+              "modern_selected_groups": 37774,
+              "modern_selection": "final_bit_set_and_intraday_bit_unset"
+            },
+            "span": "20200101-20201231",
+            "statistics_source_file": "glbx-mdp3-20200101-20201231.statistics.dbn.zst",
+            "statistics_source_sha256": "d6405bc717ab5de28e7f89e15e71232d391db5459e0f88eaba3b766cfade73fe",
+            "validation_status": "passed"
+          },
+          {
+            "accounting": {
+              "candidate_statistics_rows": 1156995,
+              "canonical_contract_days": 38069,
+              "dropped_invalid_reference_timestamp": 0,
+              "dropped_outside_contract_lifetime": 12,
+              "excluded_before_target_activation": 12,
+              "excluded_non_target_symbol": 989190,
+              "missing_volume_contract_days": 15259,
+              "positive_volume_contract_days": 8514,
+              "resolved_statistics_rows": 1156995,
+              "volume_observed_contract_days": 22810
+            },
+            "definition_authority_sha256": "68db2440889f0ec4b541887b7f9e3737220c2eed4fb3b2069d2bfe088c7d5087",
+            "output_sha256": "2d8200431762d09ea0aacca69a1b4936fd7eabed42a69598006a795f5c0638bd",
+            "partition_source_sha256": "7b7d839567cba37435049a2c6251107d978ebd5b7fb372213069ad64fb27d71d",
+            "reconstruction_version": "metadata-symbology-v2",
+            "rows": 38069,
+            "schema_sha256": "152ff0c685bef11446253fdd15fed2a4a73c03de7521c46f6b53882655da0165",
+            "settlement_selection": {
+              "legacy_dropped_known_preliminary_groups": 0,
+              "legacy_groups": 0,
+              "legacy_normalization_boundary": "2015-11-20T00:00:00Z",
+              "legacy_selected_groups": 0,
+              "legacy_selection": "latest_published_non_known_preliminary",
+              "modern_selected_groups": 38069,
+              "modern_selection": "final_bit_set_and_intraday_bit_unset"
+            },
+            "span": "20210101-20211231",
+            "statistics_source_file": "glbx-mdp3-20210101-20211231.statistics.dbn.zst",
+            "statistics_source_sha256": "7229645f94babbf3af77ee5d33460cd2d0cc7e00b95688d11aa998b40865b944",
+            "validation_status": "passed"
+          },
+          {
+            "accounting": {
+              "candidate_statistics_rows": 1140492,
+              "canonical_contract_days": 37456,
+              "dropped_invalid_reference_timestamp": 0,
+              "dropped_outside_contract_lifetime": 24,
+              "excluded_before_target_activation": 12,
+              "excluded_non_target_symbol": 972807,
+              "missing_volume_contract_days": 14455,
+              "positive_volume_contract_days": 10763,
+              "resolved_statistics_rows": 1140492,
+              "volume_observed_contract_days": 23001
+            },
+            "definition_authority_sha256": "68db2440889f0ec4b541887b7f9e3737220c2eed4fb3b2069d2bfe088c7d5087",
+            "output_sha256": "be3bd498abbf6e4e883842bf1f15854227705fe410610e4602f87c803c3b4604",
+            "partition_source_sha256": "df7fab3e65a2f08466acdb2b3c8bbd9988d453c7b85355cb2fd2037ca3443ea1",
+            "reconstruction_version": "metadata-symbology-v2",
+            "rows": 37456,
+            "schema_sha256": "152ff0c685bef11446253fdd15fed2a4a73c03de7521c46f6b53882655da0165",
+            "settlement_selection": {
+              "legacy_dropped_known_preliminary_groups": 0,
+              "legacy_groups": 0,
+              "legacy_normalization_boundary": "2015-11-20T00:00:00Z",
+              "legacy_selected_groups": 0,
+              "legacy_selection": "latest_published_non_known_preliminary",
+              "modern_selected_groups": 37456,
+              "modern_selection": "final_bit_set_and_intraday_bit_unset"
+            },
+            "span": "20220101-20221231",
+            "statistics_source_file": "glbx-mdp3-20220101-20221231.statistics.dbn.zst",
+            "statistics_source_sha256": "0dec170fe11c238ce19a6bc5dfe7bf577fddb3540c6e30b6a7b2b172684e2579",
+            "validation_status": "passed"
+          },
+          {
+            "accounting": {
+              "candidate_statistics_rows": 1179199,
+              "canonical_contract_days": 37913,
+              "dropped_invalid_reference_timestamp": 0,
+              "dropped_outside_contract_lifetime": 24,
+              "excluded_before_target_activation": 12,
+              "excluded_non_target_symbol": 1000727,
+              "missing_volume_contract_days": 9348,
+              "positive_volume_contract_days": 9372,
+              "resolved_statistics_rows": 1179199,
+              "volume_observed_contract_days": 28565
+            },
+            "definition_authority_sha256": "68db2440889f0ec4b541887b7f9e3737220c2eed4fb3b2069d2bfe088c7d5087",
+            "output_sha256": "65c80666825be09a6a112f7c7ecc25c3e315247fd5e510b714512a8d465b99c2",
+            "partition_source_sha256": "dad4fbe115f11de4bf9369f0920c5e12082a21cb26f95676c0dab068ede87edd",
+            "reconstruction_version": "metadata-symbology-v2",
+            "rows": 37913,
+            "schema_sha256": "152ff0c685bef11446253fdd15fed2a4a73c03de7521c46f6b53882655da0165",
+            "settlement_selection": {
+              "legacy_dropped_known_preliminary_groups": 0,
+              "legacy_groups": 0,
+              "legacy_normalization_boundary": "2015-11-20T00:00:00Z",
+              "legacy_selected_groups": 0,
+              "legacy_selection": "latest_published_non_known_preliminary",
+              "modern_selected_groups": 37913,
+              "modern_selection": "final_bit_set_and_intraday_bit_unset"
+            },
+            "span": "20230101-20231231",
+            "statistics_source_file": "glbx-mdp3-20230101-20231231.statistics.dbn.zst",
+            "statistics_source_sha256": "139f8af5978dc6f9dc957e8eb92d268652bb3d8be19fd7297e69c7a7b585f74f",
+            "validation_status": "passed"
+          },
+          {
+            "accounting": {
+              "candidate_statistics_rows": 1212440,
+              "canonical_contract_days": 37534,
+              "dropped_invalid_reference_timestamp": 0,
+              "dropped_outside_contract_lifetime": 24,
+              "excluded_before_target_activation": 12,
+              "excluded_non_target_symbol": 1038244,
+              "missing_volume_contract_days": 12176,
+              "positive_volume_contract_days": 10939,
+              "resolved_statistics_rows": 1212440,
+              "volume_observed_contract_days": 25358
+            },
+            "definition_authority_sha256": "68db2440889f0ec4b541887b7f9e3737220c2eed4fb3b2069d2bfe088c7d5087",
+            "output_sha256": "266698a627f3fb7eb9d3c1f9f960a32f79c07f981a56e411aec405502518811c",
+            "partition_source_sha256": "c8f130532d5b67ab9af5bda62cdb3ae4c01959a075b075b433b77782fbd46d35",
+            "reconstruction_version": "metadata-symbology-v2",
+            "rows": 37534,
+            "schema_sha256": "152ff0c685bef11446253fdd15fed2a4a73c03de7521c46f6b53882655da0165",
+            "settlement_selection": {
+              "legacy_dropped_known_preliminary_groups": 0,
+              "legacy_groups": 0,
+              "legacy_normalization_boundary": "2015-11-20T00:00:00Z",
+              "legacy_selected_groups": 0,
+              "legacy_selection": "latest_published_non_known_preliminary",
+              "modern_selected_groups": 37534,
+              "modern_selection": "final_bit_set_and_intraday_bit_unset"
+            },
+            "span": "20240101-20241231",
+            "statistics_source_file": "glbx-mdp3-20240101-20241231.statistics.dbn.zst",
+            "statistics_source_sha256": "339a2528e760e83f274d5f7cfe15cf44631b8199627d0e7f4bc1eedf9e7179fc",
+            "validation_status": "passed"
+          },
+          {
+            "accounting": {
+              "candidate_statistics_rows": 1217396,
+              "canonical_contract_days": 37132,
+              "dropped_invalid_reference_timestamp": 0,
+              "dropped_outside_contract_lifetime": 60,
+              "excluded_before_target_activation": 12,
+              "excluded_non_target_symbol": 1047787,
+              "missing_volume_contract_days": 14532,
+              "positive_volume_contract_days": 10475,
+              "resolved_statistics_rows": 1217396,
+              "volume_observed_contract_days": 22600
+            },
+            "definition_authority_sha256": "68db2440889f0ec4b541887b7f9e3737220c2eed4fb3b2069d2bfe088c7d5087",
+            "output_sha256": "88530d869177888c0a70bab5493101914b75532ba88e80ec9af6c71800236039",
+            "partition_source_sha256": "332ae38ecabecd98488f0ce413175ca579f46450d2e2e175ce661deaca4c8798",
+            "reconstruction_version": "metadata-symbology-v2",
+            "rows": 37132,
+            "schema_sha256": "152ff0c685bef11446253fdd15fed2a4a73c03de7521c46f6b53882655da0165",
+            "settlement_selection": {
+              "legacy_dropped_known_preliminary_groups": 0,
+              "legacy_groups": 0,
+              "legacy_normalization_boundary": "2015-11-20T00:00:00Z",
+              "legacy_selected_groups": 0,
+              "legacy_selection": "latest_published_non_known_preliminary",
+              "modern_selected_groups": 37132,
+              "modern_selection": "final_bit_set_and_intraday_bit_unset"
+            },
+            "span": "20250101-20251231",
+            "statistics_source_file": "glbx-mdp3-20250101-20251231.statistics.dbn.zst",
+            "statistics_source_sha256": "019361b2195046d3757ebc96abc99c8c04e5eb8fa169c82b2c8248f4ef491319",
+            "validation_status": "passed"
+          },
+          {
+            "accounting": {
+              "candidate_statistics_rows": 748838,
+              "canonical_contract_days": 23348,
+              "dropped_invalid_reference_timestamp": 0,
+              "dropped_outside_contract_lifetime": 14,
+              "excluded_before_target_activation": 0,
+              "excluded_non_target_symbol": 647448,
+              "missing_volume_contract_days": 10632,
+              "positive_volume_contract_days": 7060,
+              "resolved_statistics_rows": 748838,
+              "volume_observed_contract_days": 12716
+            },
+            "definition_authority_sha256": "68db2440889f0ec4b541887b7f9e3737220c2eed4fb3b2069d2bfe088c7d5087",
+            "output_sha256": "4ad9bf07f896a9dd096981077037b6cdcd31ae850aeb07677c86d90ca5bf9828",
+            "partition_source_sha256": "c4402729d7bc1caff54651ac0542d9026c30df58db1044237f744e3828de0b15",
+            "reconstruction_version": "metadata-symbology-v2",
+            "rows": 23348,
+            "schema_sha256": "152ff0c685bef11446253fdd15fed2a4a73c03de7521c46f6b53882655da0165",
+            "settlement_selection": {
+              "legacy_dropped_known_preliminary_groups": 0,
+              "legacy_groups": 0,
+              "legacy_normalization_boundary": "2015-11-20T00:00:00Z",
+              "legacy_selected_groups": 0,
+              "legacy_selection": "latest_published_non_known_preliminary",
+              "modern_selected_groups": 23348,
+              "modern_selection": "final_bit_set_and_intraday_bit_unset"
+            },
+            "span": "20260101-20260812",
+            "statistics_source_file": "glbx-mdp3-20260101-20260812.statistics.dbn.zst",
+            "statistics_source_sha256": "9508abecd6e56cae7c1c8abe0cf210516464176a08e6ae8459e29fa798a9e145",
+            "validation_status": "passed"
+          }
+        ],
+        "reconstruction_version": "metadata-symbology-v2",
+        "rows": 554737,
+        "schema_sha256": "152ff0c685bef11446253fdd15fed2a4a73c03de7521c46f6b53882655da0165",
+        "source_sha256": "9b0cba1d69134fea6bcf0ff8f309f592aa48e97c3e6811bef7a96b9ba4f4dd9c",
+        "spans": [
+          "20100606-20101231",
+          "20110101-20111231",
+          "20120101-20121231",
+          "20130101-20131231",
+          "20140101-20141231",
+          "20150101-20151231",
+          "20160101-20161231",
+          "20170101-20171231",
+          "20180101-20181231",
+          "20190101-20191231",
+          "20200101-20201231",
+          "20210101-20211231",
+          "20220101-20221231",
+          "20230101-20231231",
+          "20240101-20241231",
+          "20250101-20251231",
+          "20260101-20260812"
+        ],
+        "volume_accounting": {
+          "difference_from_work316_reference": -525,
+          "legacy_reference_is_acceptance_target": false,
+          "missing_volume_contract_days": 317070,
+          "positive_volume_contract_days": 99189,
+          "work316_legacy_positive_volume_reference": 99714
+        }
+      }
+    ]
+  },
+  "zoom_level": "L5"
+}
