@@ -59,7 +59,12 @@ def test_programmes_own_numbered_research_line_hierarchy() -> None:
                     assert not exploratory_prereg_required
                     result = load_json(experiment_dir / "result.json")
                     assert result["design_id"] == experiment_ref["experiment_id"]
-                    assert result["issue"] == line["stopping_rules"]["phase1_execution_authorized_issue"]
+                    stopping_rules = line["stopping_rules"]
+                    authorized_issues = {
+                        stopping_rules.get("phase1_execution_authorized_issue"),
+                        stopping_rules.get("successor_execution_authorized_issue"),
+                    }
+                    assert result["issue"] in authorized_issues
                     assert result["protected_confirmation_accessed"] is False
                     continue
                 prereg = load_json(prereg_path)

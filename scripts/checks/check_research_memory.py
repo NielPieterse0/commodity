@@ -91,8 +91,12 @@ def experiment_records(programme_dir: Path) -> list[Path]:
                 result_value = load_json(result)
                 if result_value.get("design_id") != experiment_ref["experiment_id"]:
                     raise ValueError(f"pre-proof exploratory result identity mismatch: {experiment_ref['path']}")
-                authorized_issue = (line.get("stopping_rules") or {}).get("phase1_execution_authorized_issue")
-                if authorized_issue is None or result_value.get("issue") != authorized_issue:
+                stopping_rules = line.get("stopping_rules") or {}
+                authorized_issues = {
+                    stopping_rules.get("phase1_execution_authorized_issue"),
+                    stopping_rules.get("successor_execution_authorized_issue"),
+                }
+                if result_value.get("issue") not in authorized_issues:
                     raise ValueError(f"unpreregistered exploratory result lacks matching line-level operator authorization: {experiment_ref['path']}")
                 if result_value.get("protected_confirmation_accessed") is not False:
                     raise ValueError(f"unpreregistered exploratory result must not access protected confirmation: {experiment_ref['path']}")
