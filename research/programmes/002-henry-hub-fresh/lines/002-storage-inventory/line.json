@@ -8,36 +8,55 @@
   "selection_basis": "Fresh external-literature mapping under programme 002; no legacy internal result is used as scientific calibration or expected outcome.",
   "stopping_rules": {
     "empirical_execution_requires_operator_transition": true,
-    "protected_outcome_access": false
+    "protected_outcome_access": false,
+    "phase1_execution_authorized_issue": 327
   },
   "big_picture": "This line tests storage state, scarcity and forward-curve relations as part of the wider goal of understanding Henry Hub before prediction or model selection.",
   "why_zoomed_in": "Storage is a central physical state variable in the Henry Hub literature, but revised-history descriptive reproduction must remain separate from PIT event/predictive use.",
-  "tested_role_target_horizon": "No literature outcome has been tested in programme 002. Current evidence covers literature mapping, source semantics, source capacity, dependence and feasibility only.",
+  "tested_role_target_horizon": "Phase 1 evaluated rep-004 and rep-005 under the frozen forecast contract. Both stopped at the pre-scoring uncertainty-capacity gate with 28 research-OOS rows and 7 effective blocks versus 8 required. Separately, rep-005 reproduced the Geman-Ohana source-period scarcity-volatility pattern; the 2010-2026 extension reversed sign.",
   "historical_facts": {
-    "observed": "External literature findings and source/design feasibility have been mapped; programme 002 has completed zero internal empirical reproductions.",
-    "rules_out": "Feasibility failures rule out the invalid source/design substitutions explicitly classified REDESIGN or HOLD; they do not establish a market null.",
-    "does_not_rule_out": "Source-faithful versions of the mapped mechanisms remain open until implementation is verified and empirical execution is separately authorized."
+    "observed": "rep-005 source-period scarcity-volatility is reproduced on official EIA data, while its modern extension reverses the historical relation. rep-004 and rep-005 forecast translations are INCONCLUSIVE capacity holds rather than scored failures; reserved confirmation was not opened.",
+    "rules_out": "The available Phase-1 PIT storage forecast panel is too small under the frozen uncertainty contract to support a scored rep-004 or rep-005 forecast claim. The historical rep-005 relation cannot be assumed stable in the modern period.",
+    "does_not_rule_out": "rep-003 remains unavailable for exact paid-consensus replication and rep-006 remains unexecuted; the capacity holds do not establish universal mechanism nulls."
   },
   "useful_secondary_observations": [
     "rep-003-storage-surprise-response:hold",
-    "rep-004-storage-state-nonlinearity:go",
-    "rep-005-scarcity-volatility:go",
-    "rep-006-inventory-forward-curve-scarcity:go"
+    "rep-004-storage-state-nonlinearity:forecast_capacity_hold",
+    "rep-005-scarcity-volatility:source_period_reproduced_modern_reversed_forecast_capacity_hold",
+    "rep-006-inventory-forward-curve-scarcity:go_unexecuted"
   ],
   "remaining_untested_roles": [
     "rep-003-storage-surprise-response",
-    "rep-004-storage-state-nonlinearity",
-    "rep-005-scarcity-volatility",
     "rep-006-inventory-forward-curve-scarcity"
   ],
-  "revisit_trigger": "Revisit empirical execution only after applicable HOLD/REDESIGN blockers are resolved, implementation/power contracts are verified, and the operator explicitly authorizes the transition.",
-  "programme_interpretation": "This line remains pre-empirical. Literature support is external evidence, not an internal programme result.",
+  "revisit_trigger": "Phase 1 is closed. Revisit or extend this line only through a new explicitly authorized successor research scope; do not tune against the same research-OOS evidence to rescue a held or inconclusive result.",
+  "programme_interpretation": "Line 002 now distinguishes a successful historical rep-005 reproduction from modern regime reversal and capacity-limited forecast translations. No Phase-2 survivor emerged.",
   "evidence_refs": [
     "research/programmes/002-henry-hub-fresh/lines/002-storage-inventory/findings/literature-findings.json",
     "research/programmes/002-henry-hub-fresh/evidence-map.json",
     "research/programmes/002-henry-hub-fresh/feasibility-ledger.json",
-    "research/programmes/002-henry-hub-fresh/feasibility-source-scan.json"
+    "research/programmes/002-henry-hub-fresh/feasibility-source-scan.json",
+    "research/programmes/002-henry-hub-fresh/lines/002-storage-inventory/experiments/rep-004-storage-state-nonlinearity/result.json",
+    "research/programmes/002-henry-hub-fresh/lines/002-storage-inventory/experiments/rep-005-scarcity-volatility/result.json",
+    "research/programmes/002-henry-hub-fresh/lines/002-storage-inventory/experiments/rep-005-scarcity-volatility/literature-reproduction.json",
+    "research/programmes/002-henry-hub-fresh/phase1-mechanism-scorecard.json"
   ],
-  "experiment_history": [],
-  "experiment_refs": []
+  "experiment_history": [
+    {
+      "experiment_id": "rep-004-storage-state-nonlinearity"
+    },
+    {
+      "experiment_id": "rep-005-scarcity-volatility"
+    }
+  ],
+  "experiment_refs": [
+    {
+      "experiment_id": "rep-004-storage-state-nonlinearity",
+      "path": "research/programmes/002-henry-hub-fresh/lines/002-storage-inventory/experiments/rep-004-storage-state-nonlinearity"
+    },
+    {
+      "experiment_id": "rep-005-scarcity-volatility",
+      "path": "research/programmes/002-henry-hub-fresh/lines/002-storage-inventory/experiments/rep-005-scarcity-volatility"
+    }
+  ]
 }

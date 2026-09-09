@@ -21,4 +21,4 @@ Source: `research/programmes/002-henry-hub-fresh/decisions.json`
 | `zoom_level` | str |
 | `programme_id` | str |
 | `generated_projection` | bool |
-| `decisions` | array (6 items) |
+| `decisions` | array (7 items) |

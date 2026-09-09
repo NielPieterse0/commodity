@@ -8,15 +8,15 @@ Source: `research/programmes/002-henry-hub-fresh/sealed-windows.json`
 
 | Field | Value |
 | --- | --- |
+| `programme_id` | 002-henry-hub-fresh |
 | `schema_version` | 1 |
 | `zoom_level` | L1 |
-| `programme_id` | 002-henry-hub-fresh |
 
 ## Structure
 
 | Field | Shape |
 | --- | --- |
-| `schema_version` | int |
-| `zoom_level` | str |
 | `programme_id` | str |
-| `windows` | array (0 items) |
+| `schema_version` | int |
+| `windows` | array (7 items) |
+| `zoom_level` | str |

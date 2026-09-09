@@ -1,0 +1,178 @@
+{
+  "core_reproduced": true,
+  "design_id": "rep-018-announcement-day-return-puzzle",
+  "full_preparation_assurance": {
+    "content_sha256": "d9250516b0ddd5ba4d8118a4fe1fae3afbc77f61ae811f327e40833b44de8fd0",
+    "planning_fraction": 0.2,
+    "pre_freeze_outcome_use": false,
+    "preparation_verification_scope": "full_prepared_frame",
+    "preparation_verification_status": "passed",
+    "prepared_rows": 4058,
+    "purged_boundary_rows": 0,
+    "research_rows": 3246,
+    "reserved_end": "2026-08-12T23:59:00+00:00",
+    "reserved_fraction": 0.20009857072449483,
+    "reserved_outcomes_used": false,
+    "reserved_rows": 812,
+    "reserved_start": "2023-05-15T23:59:00+00:00",
+    "sealed_window": {
+      "content_sha256": "d9250516b0ddd5ba4d8118a4fe1fae3afbc77f61ae811f327e40833b44de8fd0",
+      "dataset_id": "phase1-rep018-announcement-return-panel-v1",
+      "eligibility": "ineligible",
+      "end": "2026-08-12T23:59:00+00:00",
+      "openings": [],
+      "permitted_openings": 1,
+      "preparation_assurance": {
+        "prepared_rows": 4058,
+        "protected_outcomes_accessed": false,
+        "purged_boundary_rows": 0,
+        "reserved_rows": 812,
+        "scope": "full_prepared_frame",
+        "status": "passed"
+      },
+      "sealed_window_id": "phase1-rep018-reserved-confirmation-v1",
+      "start": "2023-05-15T23:59:00+00:00"
+    }
+  },
+  "full_source_era_public_reconstruction": {
+    "eia_bulk_sha256": "5c0d230e123df8be8e309677317323c9673d0e345f1bb7ff4789418f9fb1f449",
+    "end": "2018-12-31T00:00:00+00:00",
+    "identity_audit": {
+      "max_absolute_price_difference": 0.0050000000000003375,
+      "median_absolute_price_difference": 0.0,
+      "overlap_rows": 2128,
+      "rows_above_0_005": 1,
+      "rows_above_0_01": 0,
+      "validation_status": "passed"
+    },
+    "market_series": [
+      "NG.RNGC1.D",
+      "NG.RNGC2.D"
+    ],
+    "route": "official EIA Contract-1/Contract-2 daily histories stitched by predeclared source-roll delivery identity and validated against exact Databento 2010-2018 prices",
+    "rows": 3324,
+    "start": "2003-03-03T00:00:00+00:00",
+    "tests": {
+      "announcement_cumulative_return": -1.9936874157120545,
+      "announcement_mean": -0.002993524648216298,
+      "announcement_share_of_cumulative_return": 7.330288853271259,
+      "nonannouncement_mean": 0.0006477456869678535,
+      "nonrelease_days": 2658,
+      "raw_difference": -0.0036412703351841515,
+      "raw_hac": {
+        "ci_lower": -0.006291503613867522,
+        "ci_upper": -0.0009910370565007114,
+        "coefficient": -0.003641270335184117,
+        "pvalue_two_sided": 0.007082736586086782,
+        "standard_error": 0.001352159836062962,
+        "z_statistic": -2.6929289260552807
+      },
+      "release_days": 666,
+      "rows": 3324,
+      "total_cumulative_return": -0.27197937975150044,
+      "weekday_controlled_hac": {
+        "ci_lower": -0.00506190606289724,
+        "ci_upper": -0.0007813934814292853,
+        "coefficient": -0.0029216497721632627,
+        "pvalue_two_sided": 0.007459937759431397,
+        "standard_error": 0.0010919674952724375,
+        "z_statistic": -2.6755830963945804
+      }
+    }
+  },
+  "interpretation": "The announcement-day anomaly is reproduced on the predeclared full 2003-2018 public source-era reconstruction, while the exact-contract 2010-2018 overlap is weaker; Bloomberg surprise-controlled persistence remains fidelity-bounded.",
+  "issue": 327,
+  "literature_disposition": "FULL_SOURCE_ERA_PUBLIC_NEAR_REPRODUCED_EXACT_CONTRACT_OVERLAP_WEAKENED_SURPRISE_CONTROL_FIDELITY_BOUNDARY",
+  "literature_gate_closed": true,
+  "programme_id": "002-henry-hub-fresh",
+  "protected_confirmation_accessed": false,
+  "replication_class_achieved": "exact_contract_source_roll_overlap_near_replication",
+  "replication_class_target": "source_method_near_replication_then_separate_surprise_refinement",
+  "research_extension_post_2018_pre_reserve": {
+    "end": "2023-05-12T00:00:00+00:00",
+    "rows": 910,
+    "start": "2019-01-07T00:00:00+00:00",
+    "tests": {
+      "announcement_cumulative_return": -0.9273512843215156,
+      "announcement_mean": -0.005095336727041294,
+      "announcement_share_of_cumulative_return": 2.0632190832267217,
+      "nonannouncement_mean": 0.0006564328635405727,
+      "nonrelease_days": 728,
+      "raw_difference": -0.005751769590581867,
+      "raw_hac": {
+        "ci_lower": -0.011472223760696804,
+        "ci_upper": -3.131542046690833e-05,
+        "coefficient": -0.005751769590581856,
+        "pvalue_two_sided": 0.048754812161377836,
+        "standard_error": 0.0029185990663851778,
+        "z_statistic": -1.9707296068266387
+      },
+      "release_days": 182,
+      "rows": 910,
+      "total_cumulative_return": -0.4494681596639786,
+      "weekday_controlled_hac": {
+        "ci_lower": -0.009208464007822183,
+        "ci_upper": -0.00014943117881712018,
+        "coefficient": -0.004678947593319652,
+        "pvalue_two_sided": 0.04290213938822417,
+        "standard_error": 0.002310977762501292,
+        "z_statistic": -2.0246614524993887
+      }
+    }
+  },
+  "schema_version": 1,
+  "source_anchors": {
+    "announcement_premium_direction": "negative",
+    "annual_return_share_on_announcement_days": "greater_than_50_percent",
+    "intraday_post_share": 0.506,
+    "intraday_pre_share": 0.494,
+    "reported_post_cost_intraday_short_annual_return": 0.12,
+    "reported_post_cost_intraday_short_sharpe": 1.76,
+    "reported_post_cost_intraday_short_t_stat": 2.93,
+    "surprise_relation": "negative"
+  },
+  "source_fidelity": {
+    "calendar_route": "WNGSR Friday week-ending identity + six days for standard Thursday; exclude any federal-holiday week with unresolved alternate release date",
+    "market_cache_sha256": "cedc888c9758ad817c1b3742cc5aac323bcd8b6924f58b6380b421661fe953e4",
+    "market_overlap": "2010-06-04 through 2018-12-31",
+    "market_route": "canonical Databento exact listed NG contracts",
+    "source_period_ambiguous_holiday_weeks_excluded": 86,
+    "source_roll_rule": "roll entire curve at end of month preceding month prior to delivery",
+    "surprise_control_status": "fidelity_boundary_bloomberg_pit_consensus_unavailable",
+    "wngsr_history_sha256": "7973c8f5721c1addb2f8df496134aa0697a98f1f4eb9b075223f19f12f513b18"
+  },
+  "source_overlap": {
+    "end": "2018-12-21T00:00:00+00:00",
+    "rows": 1793,
+    "start": "2010-06-07T00:00:00+00:00",
+    "tests": {
+      "announcement_cumulative_return": -0.7484144225285825,
+      "announcement_mean": -0.0020963989426570936,
+      "announcement_share_of_cumulative_return": 0.48053220365979266,
+      "nonannouncement_mean": -0.0005634090769454198,
+      "nonrelease_days": 1436,
+      "raw_difference": -0.0015329898657116738,
+      "raw_hac": {
+        "ci_lower": -0.004555101053310839,
+        "ci_upper": 0.0014891213218875012,
+        "coefficient": -0.001532989865711669,
+        "pvalue_two_sided": 0.32011307521547394,
+        "standard_error": 0.0015418934630608012,
+        "z_statistic": -0.9942255430985111
+      },
+      "release_days": 357,
+      "rows": 1793,
+      "total_cumulative_return": -1.5574698570222052,
+      "weekday_controlled_hac": {
+        "ci_lower": -0.0038157677126172164,
+        "ci_upper": 0.0010716816220072171,
+        "coefficient": -0.0013720430453049996,
+        "pvalue_two_sided": 0.27113475645631446,
+        "standard_error": 0.0012467982996490902,
+        "z_statistic": -1.1004530930874379
+      }
+    }
+  },
+  "source_study_doi": "10.5547/01956574.42.2.mpro",
+  "source_study_sample": "2003-03 through 2018-12"
+}

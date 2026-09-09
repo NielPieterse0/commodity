@@ -1,0 +1,410 @@
+{
+  "schema_version": 1,
+  "design_id": "rep-012-physical-balance-drivers",
+  "issue": 327,
+  "programme_id": "002-henry-hub-fresh",
+  "research_line_id": "005-fundamental-balance",
+  "zoom_level": "L5",
+  "literature_gate_closed": true,
+  "literature_disposition": "ROBERTS_BROWN_YUCEL_SOURCE_PERIOD_PHYSICAL_CONTROLS_REPRODUCED_WITH_REGIME_BREAK",
+  "replication_class_target": "source_faithful_replication_then_independent_mechanism_extension",
+  "replication_class_achieved": "exact_public_roberts_replication_python_translation",
+  "source_study": {
+    "brown_yucel_doi": "10.5547/ISSN0195-6574-EJ-Vol29-No2-3",
+    "roberts_revisit_doi": "10.18718/81781.11",
+    "replication_data_doi": "10.15456/iree.2018197.145241"
+  },
+  "source_package": {
+    "preservation_issue": 343,
+    "manifest_sha256": "68ceedcc9c6900064a3694e4a05a3b521e138fd2eac7a92c76f89eca486095b0",
+    "archive_sha256": "d0b1bc18101438cabae21107f12e13fc4a9e9313447e273e0f8c129aae52a895",
+    "dataset_sha256": "eaa3f5bd14cd72eaef7f3cff962465243e36ae9152ec0f3e1a29dd6763204c35",
+    "commands_sha256": "4af333341c5a22fe2e4ff17568b27b839651f8bd87d4c664fbe27f7e4c1663a0"
+  },
+  "method": "Independent Python implementation of the exact Roberts Stata Johansen/VECM design using the governed prepared dataset. VAR lag order 5 gives four lagged differences; an unrestricted constant is included; source stationary controls enter contemporaneously exactly as sindicators(); Stata if-qualifier semantics retain pre-boundary lag context for the post-2007 sample.",
+  "source_claim": "A rank-one long-run Henry Hub/WTI relationship exists in the 1997-2007 Brown-Yucel period, primarily adjusted through natural-gas prices; the relationship disappears in the full and post-2007 samples, while stationary gas-market controls strengthen source-period cointegration evidence.",
+  "reproduction": {
+    "dataset_rows": 1045,
+    "date_start": "1997-06-13",
+    "date_end": "2017-06-16",
+    "var_lags": 5,
+    "vec_lagged_differences": 4,
+    "results": {
+      "brown_yucel": {
+        "without_exogenous": {
+          "sample": "brown_yucel",
+          "with_exogenous": false,
+          "input_rows": 522,
+          "effective_rows": 517,
+          "eigenvalues": [
+            0.029975153516528293,
+            0.0008853789182985193
+          ],
+          "trace_statistics": [
+            16.1921111771772,
+            0.457943657518674
+          ],
+          "max_eigen_statistics": [
+            15.734167519658527,
+            0.457943657518674
+          ],
+          "beta": [
+            1.0,
+            -0.9466945410202887
+          ],
+          "beta_se_wti": 0.11816096179753037,
+          "alpha": [
+            -0.05902686390124841,
+            0.004579881693986036
+          ],
+          "alpha_se": [
+            0.01562555574729235,
+            0.008026775010746879
+          ],
+          "rank_at_5pct": 1,
+          "rank_at_1pct": 0
+        },
+        "with_exogenous": {
+          "sample": "brown_yucel",
+          "with_exogenous": true,
+          "input_rows": 522,
+          "effective_rows": 517,
+          "eigenvalues": [
+            0.06459725544952541,
+            0.001234569979774936
+          ],
+          "trace_statistics": [
+            35.16294449438691,
+            0.6386670002659184
+          ],
+          "max_eigen_statistics": [
+            34.524277494120994,
+            0.6386670002659184
+          ],
+          "beta": [
+            1.0,
+            -0.9117721367953177
+          ],
+          "beta_se_wti": 0.06804510961072519,
+          "alpha": [
+            -0.10738249313721329,
+            0.017551283466964766
+          ],
+          "alpha_se": [
+            0.020210655191159395,
+            0.010711437758885145
+          ],
+          "rank_at_5pct": 1,
+          "rank_at_1pct": 1
+        }
+      },
+      "full": {
+        "without_exogenous": {
+          "sample": "full",
+          "with_exogenous": false,
+          "input_rows": 1045,
+          "effective_rows": 1040,
+          "eigenvalues": [
+            0.007406645859386346,
+            0.003013252950260669
+          ],
+          "trace_statistics": [
+            10.870093721752928,
+            3.1385140148919057
+          ],
+          "max_eigen_statistics": [
+            7.731579706861022,
+            3.1385140148919057
+          ],
+          "beta": [
+            1.0,
+            -0.3107920276134271
+          ],
+          "beta_se_wti": 0.24117725377436536,
+          "alpha": [
+            -0.015040522965933716,
+            0.001004477828201354
+          ],
+          "alpha_se": [
+            0.005582660499609715,
+            0.0032446716247399392
+          ],
+          "rank_at_5pct": 0,
+          "rank_at_1pct": 0
+        },
+        "with_exogenous": {
+          "sample": "full",
+          "with_exogenous": true,
+          "input_rows": 1045,
+          "effective_rows": 1040,
+          "eigenvalues": [
+            0.006800610486064397,
+            0.0033109927072724767
+          ],
+          "trace_statistics": [
+            10.545939234445866,
+            3.4491456197754236
+          ],
+          "max_eigen_statistics": [
+            7.0967936146704425,
+            3.4491456197754236
+          ],
+          "beta": [
+            1.0,
+            -0.44474406140053097
+          ],
+          "beta_se_wti": 0.2210365201613421,
+          "alpha": [
+            -0.012193036509129736,
+            0.006032509427539521
+          ],
+          "alpha_se": [
+            0.0064437895852248,
+            0.0037640164180756668
+          ],
+          "rank_at_5pct": 0,
+          "rank_at_1pct": 0
+        }
+      },
+      "post_2007": {
+        "without_exogenous": {
+          "sample": "post_2007",
+          "with_exogenous": false,
+          "input_rows": 523,
+          "effective_rows": 523,
+          "eigenvalues": [
+            0.020172327185479243,
+            0.003831494828838938
+          ],
+          "trace_statistics": [
+            12.665711002639165,
+            2.007720541806917
+          ],
+          "max_eigen_statistics": [
+            10.657990460832249,
+            2.007720541806917
+          ],
+          "beta": [
+            1.0,
+            -1.0520077284019127
+          ],
+          "beta_se_wti": 0.3336739032173647,
+          "alpha": [
+            -0.02106674139977555,
+            0.0064459684921714284
+          ],
+          "alpha_se": [
+            0.0074393113543178525,
+            0.00510886342830082
+          ],
+          "rank_at_5pct": 0,
+          "rank_at_1pct": 0
+        },
+        "with_exogenous": {
+          "sample": "post_2007",
+          "with_exogenous": true,
+          "input_rows": 523,
+          "effective_rows": 523,
+          "eigenvalues": [
+            0.023419833546489556,
+            0.00012243379886742748
+          ],
+          "trace_statistics": [
+            12.4583189989463,
+            0.06403679702183716
+          ],
+          "max_eigen_statistics": [
+            12.394282201924463,
+            0.06403679702183716
+          ],
+          "beta": [
+            1.0,
+            -1.2818179505914453
+          ],
+          "beta_se_wti": 0.3336884524697261,
+          "alpha": [
+            -0.009765325597951938,
+            0.016147017072297466
+          ],
+          "alpha_se": [
+            0.007605437986876905,
+            0.005198190265734376
+          ],
+          "rank_at_5pct": 0,
+          "rank_at_1pct": 0
+        }
+      }
+    },
+    "henry_hub_equations": {
+      "without_exogenous": {
+        "with_exogenous": false,
+        "coefficients": {
+          "error_correction": -0.05902686390124831,
+          "dln_hh_l1": 0.1500521721679599,
+          "dln_wti_l1": 0.06859877620504923,
+          "dln_hh_l2": -0.024412141346556778,
+          "dln_wti_l2": -0.1240676657982017,
+          "dln_hh_l3": 0.006962498090761511,
+          "dln_wti_l3": -0.02287585400123717,
+          "dln_hh_l4": -0.08611482029976793,
+          "dln_wti_l4": -0.05982834895740179,
+          "constant": -0.10482375328034879
+        },
+        "standard_errors": {
+          "error_correction": 0.015625555747292352,
+          "dln_hh_l1": 0.04453855475580078,
+          "dln_wti_l1": 0.0872498326651232,
+          "dln_hh_l2": 0.04506139536087391,
+          "dln_wti_l2": 0.08787493973237721,
+          "dln_hh_l3": 0.044924536876693094,
+          "dln_wti_l3": 0.08780744857754127,
+          "dln_hh_l4": 0.04468957826448317,
+          "dln_wti_l4": 0.08704233942908772,
+          "constant": 0.028659814523551225
+        },
+        "z_statistics": {
+          "error_correction": -3.777584929193746,
+          "dln_hh_l1": 3.369039992219704,
+          "dln_wti_l1": 0.7862338999358396,
+          "dln_hh_l2": -0.5417528940471615,
+          "dln_wti_l2": -1.4118662974455436,
+          "dln_hh_l3": 0.15498207827655233,
+          "dln_wti_l3": -0.2605229325281658,
+          "dln_hh_l4": -1.9269553136107187,
+          "dln_wti_l4": -0.6873476672366232,
+          "constant": -3.6575168061262153
+        },
+        "residual_standard_error": 0.08065851229824639
+      },
+      "with_exogenous": {
+        "with_exogenous": true,
+        "coefficients": {
+          "error_correction": -0.10738249313721872,
+          "dln_hh_l1": 0.098715818273276,
+          "dln_wti_l1": 0.06474898661610298,
+          "dln_hh_l2": -0.06637070256036066,
+          "dln_wti_l2": -0.09666753960262774,
+          "dln_hh_l3": -0.003367052275055827,
+          "dln_wti_l3": 0.0024571554932373875,
+          "dln_hh_l4": -0.07660681750122586,
+          "dln_wti_l4": -0.09680372797000882,
+          "hdds": 8.344586137692261e-05,
+          "dev_hdds": 0.0009113935890279279,
+          "cdds": -0.0002634492357997467,
+          "dev_cdds": 0.0030007128064765635,
+          "stor_diff": -4.386099276169897e-05,
+          "hurr_shutin_bcf": 0.0004466065010099151,
+          "constant": -0.17544767352114504
+        },
+        "standard_errors": {
+          "error_correction": 0.02021065519115939,
+          "dln_hh_l1": 0.044400576666503405,
+          "dln_wti_l1": 0.08440483820825757,
+          "dln_hh_l2": 0.044423959901775806,
+          "dln_wti_l2": 0.0849481276218497,
+          "dln_hh_l3": 0.04347766648872685,
+          "dln_wti_l3": 0.08464647297260335,
+          "dln_hh_l4": 0.043180683790807986,
+          "dln_wti_l4": 0.08399445851371884,
+          "hdds": 8.200700170077285e-05,
+          "dev_hdds": 0.0001881446125604232,
+          "cdds": 0.00023911082309727215,
+          "dev_cdds": 0.0006473016448464495,
+          "stor_diff": 1.6475301163450312e-05,
+          "hurr_shutin_bcf": 0.0007140253910550404,
+          "constant": 0.036699191817488104
+        },
+        "z_statistics": {
+          "error_correction": -5.313162394863394,
+          "dln_hh_l1": 2.2233003641988502,
+          "dln_wti_l1": 0.7671241126763797,
+          "dln_hh_l2": -1.4940294090646242,
+          "dln_wti_l2": -1.1379596267612573,
+          "dln_hh_l3": -0.07744326103446367,
+          "dln_wti_l3": 0.029028445095788807,
+          "dln_hh_l4": -1.7740992215953144,
+          "dln_wti_l4": -1.1525013635774297,
+          "hdds": 1.0175455710647716,
+          "dev_hdds": 4.844112072224397,
+          "cdds": -1.1017871645758732,
+          "dev_cdds": 4.635725600833876,
+          "stor_diff": -2.6622270710900593,
+          "hurr_shutin_bcf": 0.6254770581057509,
+          "constant": -4.7806958364009455
+        },
+        "residual_standard_error": 0.0774813971654108
+      }
+    }
+  },
+  "core_checks": {
+    "brown_yucel_without_exogenous_rank_5pct": 1,
+    "brown_yucel_with_exogenous_rank_1pct": 1,
+    "full_without_exogenous_rank_5pct": 0,
+    "full_with_exogenous_rank_5pct": 0,
+    "post_without_exogenous_rank_5pct": 0,
+    "post_with_exogenous_rank_5pct": 0,
+    "all_rank_decisions_match_source": true
+  },
+  "published_precision_matches": {
+    "table3_brown_yucel_core": "all reported eigenvalues, trace/max-eigen statistics, beta, beta SE, alpha and alpha SE reproduce to printed precision",
+    "table4_full_sample_core": "trace/max-eigen statistics, beta and alpha reproduce to printed precision; rank decision is identical",
+    "table5_post_sample_core": "trace/max-eigen statistics and beta reproduce to printed precision in both specifications; controlled-model alpha also reproduces"
+  },
+  "paper_table_discrepancies": [
+    {
+      "table": 5,
+      "specification": "post_2007_without_exogenous",
+      "published": "alpha=(-0.0150, 0.0010), SE=(0.0055, 0.0032)",
+      "computed_from_exact_package_and_command_semantics": "alpha=(-0.0211, 0.0064), SE=(0.0074, 0.0051)",
+      "diagnosis": "The published values are identical to Table 4 full-sample alpha/SE values, while Table 5 rank statistics and beta require Stata if-qualifier lag context. This is treated as a paper-table copy/paste discrepancy, not a reproduction failure."
+    },
+    {
+      "table": 5,
+      "specification": "post_2007_with_exogenous",
+      "published_wti_alpha_se": "0.052 in machine-readable paper text",
+      "computed_wti_alpha_se": 0.005198190327995855,
+      "diagnosis": "The computed value rounds to 0.0052 and is consistent with the scale of the fitted VECM; retain as an ancillary printed-decimal discrepancy."
+    }
+  ],
+  "interpretation": "Roberts (2019) is independently reproduced from the exact public package in Python. The Brown-Yucel 1997-2007 source period has rank-one Henry Hub/WTI cointegration, Henry Hub performs the dominant error correction, and Roberts Table 6 physical controls reproduce: cold and cooling-degree surprises are positive/highly significant while storage above its five-year norm is significantly negative, reducing the Henry Hub equation residual standard error from about 0.081 to 0.077. The long-run oil-gas relationship is not supported in the full or post-2007 samples, confirming Roberts' structural-break conclusion. This closes the source-faithful rep-012 literature gate for the weather/storage physical-control mechanism; production, consumption, power and LNG remain outside this source and require separate evidence.",
+  "forecast_translation_role": "not_run; historical source-period physical-control reproduction does not authorize direct modern predictive translation after the documented regime break",
+  "protected_confirmation_accessed": false,
+  "table6_physical_balance": {
+    "model_1_without_controls": {
+      "residual_standard_error": 0.08065851229824639,
+      "published_rounded": 0.081
+    },
+    "model_2_with_controls": {
+      "residual_standard_error": 0.0774813971654108,
+      "published_rounded": 0.077,
+      "physical_controls": {
+        "hdds": {
+          "coefficient": 8.344586137692261e-05,
+          "z_statistic": 1.0175455710647716
+        },
+        "dev_hdds": {
+          "coefficient": 0.0009113935890279279,
+          "z_statistic": 4.844112072224397
+        },
+        "cdds": {
+          "coefficient": -0.0002634492357997467,
+          "z_statistic": -1.1017871645758732
+        },
+        "dev_cdds": {
+          "coefficient": 0.0030007128064765635,
+          "z_statistic": 4.635725600833876
+        },
+        "stor_diff": {
+          "coefficient": -4.386099276169897e-05,
+          "z_statistic": -2.6622270710900593
+        },
+        "hurr_shutin_bcf": {
+          "coefficient": 0.0004466065010099151,
+          "z_statistic": 0.6254770581057509
+        }
+      }
+    },
+    "published_precision_match": true,
+    "mechanism_result": "Weather deviations and storage imbalance materially enter the source-period Henry Hub error-correction equation: dev_hdds and dev_cdds are positive/highly significant; stor_diff is negative/significant; level HDD/CDD and hurricane shut-in are not significant in the Roberts replication."
+  }
+}

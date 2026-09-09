@@ -1,0 +1,63 @@
+{
+  "schema_version": 1,
+  "programme_id": "002-henry-hub-fresh",
+  "research_line_id": "005-fundamental-balance",
+  "design_id": "rep-014-monthly-real-time-forecastability",
+  "issue": 327,
+  "status": "fixed_before_rep014_translation_outcome_execution",
+  "evaluation_contract": "research/programmes/002-henry-hub-fresh/phase1-evaluation-contract.json",
+  "evaluation_contract_sha256": "3c2fb43f1239d59c7ed1aa1d5fb997fec89478219df8139e95b0b062165169f4",
+  "literature_reproduction": "literature-reproduction.json",
+  "literature_reproduction_sha256": "f811a5fcb7c477378078baa07bc43c2e524fc3a7949adc01af7897bd5cdcaa93",
+  "source_package_manifest_sha256": "3d8ad1e8e3226fd22924b298ce08ddb71b2133200e8c6cba785d5bf55fbf172f",
+  "selection_basis": "Use one source-faithful parsimonious model fixed from the successfully reproduced external literature before Commodity translation outcomes are scored; do not tune model family, lag order, horizon, threshold, or transformations on Commodity research OOS.",
+  "challenger": {
+    "model": "six-variable unrestricted VAR(1)",
+    "source_study_specification": "baseline predictors in log levels",
+    "variables": [
+      "log dry natural gas production",
+      "log natural gas rig count",
+      "log working gas inventories",
+      "log real Henry Hub spot price",
+      "capacity utilization",
+      "REDTI"
+    ],
+    "estimation": "recursive OLS VAR with intercept using only the exact BHLR real-time vintage available at each forecast origin",
+    "hyperparameter_tuning": false
+  },
+  "benchmark": "source-study monthly no-change forecast of the real Henry Hub spot price",
+  "horizons_months": [1, 3, 6, 9, 12, 15, 18, 21, 24],
+  "horizon_policy": "Evaluate the complete predeclared horizon family; no post-outcome horizon selection.",
+  "chronology": {
+    "research_oos_prediction_time_from": "2015-01-01",
+    "prepared_panel": "common forecast origins for which all nine horizon targets through 24 months are available in the frozen source package",
+    "reserved_confirmation_fraction": 0.2,
+    "reserved_confirmation_placement": "chronologically latest common forecast origins",
+    "boundary_purge": "purge every research origin whose 24-month target availability reaches or crosses the first reserved prediction timestamp",
+    "reserved_outcome_model_fitting": false,
+    "reserved_outcome_scoring": false,
+    "reserved_outcome_human_inspection": false
+  },
+  "prediction_time": "end of BHLR source-vintage month under a conservative 23:59 UTC monthly availability bound",
+  "target": "source-study ex-post real Henry Hub spot price at each declared horizon",
+  "pit_rule": "all challenger inputs come from the exact BHLR historical real-time vintage at the forecast origin; final revised values are outcome truth only",
+  "evaluation": {
+    "primary_metric": "rmse",
+    "secondary_metrics": ["mae", "bias", "direction_accuracy", "prediction_actual_corr"],
+    "uncertainty": "paired moving-block bootstrap RMSE under the unchanged common Phase-1 block size of 20 observations",
+    "bootstrap_block_size": 20,
+    "bootstrap_resamples": 2000,
+    "bootstrap_confidence": 0.95,
+    "bootstrap_seed": 327,
+    "minimum_effective_blocks": 8,
+    "minimum_relative_rmse_improvement": 0.01,
+    "chronological_thirds_required_positive": 2
+  },
+  "family_disposition": {
+    "survive": "At least five of nine horizons individually satisfy the frozen SURVIVE rule and at least one survivor occurs in each of the short [1,3,6], medium [9,12,15], and long [18,21,24] bands.",
+    "kill": "At least five of nine horizons individually satisfy the frozen KILL rule.",
+    "inconclusive": "Otherwise, including any pre-scoring uncertainty-capacity failure that prevents the declared horizon family from being evaluated.",
+    "purpose": "Prevent a single favorable horizon from being cherry-picked after observing the horizon family."
+  },
+  "protected_confirmation_accessed": false
+}

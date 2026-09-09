@@ -8,15 +8,15 @@ Source: `research/programmes/002-henry-hub-fresh/literature-sources.json`
 
 | Field | Value |
 | --- | --- |
-| `schema_version` | 1 |
 | `programme_id` | 002-henry-hub-fresh |
+| `schema_version` | 1 |
 | `scope_note` | Initial fresh-programme literature inventory. Source quality and scope are explicit; no source implies internal reproduction. |
 
 ## Structure
 
 | Field | Shape |
 | --- | --- |
-| `schema_version` | int |
 | `programme_id` | str |
-| `sources` | array (21 items) |
+| `schema_version` | int |
 | `scope_note` | str |
+| `sources` | array (22 items) |

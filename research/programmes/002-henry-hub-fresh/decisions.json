@@ -45,6 +45,13 @@
       "status": "active",
       "source_record": "research/programmes/002-henry-hub-fresh/feasibility-ledger.json",
       "superseded_by": null
+    },
+    {
+      "id": "phase1-close-no-survivor",
+      "decision": "Close Phase 1 after reconciling its completed literature and forecast evidence even though no mechanism met the original predictive-survivor continuation criterion. This operator closeout decision ends issue 327 as a research phase only; it does not satisfy or weaken the Phase-2 readiness gate. Any further Henry Hub signal search requires a new explicitly authorized successor scope.",
+      "status": "active",
+      "source_record": "research/programmes/002-henry-hub-fresh/phase1-mechanism-scorecard.json",
+      "superseded_by": null
     }
   ]
 }

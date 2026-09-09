@@ -50,6 +50,41 @@
             "type": "string",
             "pattern": "^[0-9a-fA-F]{64}$"
           },
+          "preparation_assurance": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "scope",
+              "status",
+              "protected_outcomes_accessed",
+              "prepared_rows",
+              "reserved_rows",
+              "purged_boundary_rows"
+            ],
+            "properties": {
+              "scope": {
+                "const": "full_prepared_frame"
+              },
+              "status": {
+                "const": "passed"
+              },
+              "protected_outcomes_accessed": {
+                "const": false
+              },
+              "prepared_rows": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "reserved_rows": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "purged_boundary_rows": {
+                "type": "integer",
+                "minimum": 0
+              }
+            }
+          },
           "eligibility": {
             "enum": [
               "eligible",

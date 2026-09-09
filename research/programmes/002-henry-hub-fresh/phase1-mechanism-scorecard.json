@@ -1,0 +1,675 @@
+{
+  "confirmation_state": {
+    "all_phase1_windows_ineligible": true,
+    "all_windows_openings_empty": true,
+    "protected_confirmation_accessed": false
+  },
+  "evaluation_contract": "phase1-evaluation-contract.json",
+  "evaluation_contract_sha256": "5726c4792bf8ea04e17afa2a2a15cd0afb50f7e95584df6782b6c1d209c91157",
+  "execution_history": [
+    "WORK-316's 99,714 count was a cleared-volume-only contract-day screen; the corrected settlement-anchored canonical universe contains 99,189 positive-volume contract-days, with exactly 525 old-only keys and zero corrected-only keys.",
+    "All 525 old-only keys resolve to the expected NG outright symbol; the 525-row difference is caused by positive-volume contract-days without an admissible canonical final settlement, not by symbol substitution.",
+    "Global archive construction was corrected for cross-file time-valid definitions and date-bounded metadata symbology before Phase-1 scoring.",
+    "rep-001 and rep-002 were scored on research OOS only and both were INCONCLUSIVE.",
+    "rep-004 failed before bootstrap scoring because 28 OOS release rows at block size 4 provide only 7 effective blocks; the same frozen capacity gate also holds rep-005.",
+    "rep-009 was not launched after deterministic capacity review showed 108 OOS sessions at block size 20 provide only 5.4 effective blocks.",
+    "No reserved confirmation window was opened or inspected.",
+    "Phase-1 direction was then corrected to literature-first proof: rep-001 literature reproduction must close before rep-002, and later-mechanism expansion is paused. Existing rep-001/002 forecast results remain valid forecast-translation evidence but do not count as literature reproductions.",
+    "rep-001 literature gate closed: Mu (2007) source-method near replication reproduced the core Samuelson maturity-volatility effect; the final Ergen-Rizvanoghlu (2016) seasonal refinement is fidelity-bounded because the complete final estimation contract is not recoverable, while the fully specified 2010 dissertation precursor did not reproduce its winter-only pattern on the later 2010-2023 pre-sealed sample.",
+    "rep-002 literature gate closed: the Mirantes et al. adjacent-month futures-ratio component reproduces the source qualitative pattern with all nine carry series rejecting monthly no-seasonality at 99% and zero of nine futures-price series rejecting; exact convenience-yield reproduction remains unavailable because the source zero-coupon-rate provider and curve construction are unresolved.",
+    "rep-005 literature gate closed: the pinned EIA national working-gas series reproduces Geman-Ohana's published seasonal inventory fit, and official EIA NYMEX Contract-1 data from 1994-2006 reproduce the source scarcity-volatility regime pattern. The separate 2010-2026 Databento extension reverses the relation to positive, while the existing PIT forecast translation remains capacity-limited rather than a literature failure.",
+    "rep-014 literature gate closed: an independent Python translation from the exact BHLR real-time package reproduced 58 of 59 checked published MSPE cells to three decimals, including all 18 parsimonious six-variable VAR(1) cells; the sole mismatch is the published EIA-expert h=6 cell (0.796) versus 0.798450 from both raw reconstruction and the authors' saved package losses.",
+    "rep-014 forecast translation stopped at the frozen pre-scoring uncertainty-capacity gate: 86 common 2015+ forecast origins produced 18 reserved rows and 24 target-overlap purges, leaving 44 research rows; block size 20 yields 2.2 effective blocks versus the required 8. No model fitting, prediction scoring, or reserved-confirmation opening occurred.",
+    "rep-012 literature gate closed: the exact Roberts (2019) public package reproduces the Brown-Yucel 1997-2007 rank-one Henry Hub/WTI relation and Table 6 physical controls in Python; weather deviations are positive and highly significant, storage above its five-year norm is significantly negative, and the controlled Henry Hub equation residual standard error falls from about 0.081 to 0.077.",
+    "rep-012 also reproduces Roberts' structural-break result: the same stable oil-gas cointegration is rejected in the full and post-2007 samples. Therefore no direct modern forecast translation was run from the historical VECM.",
+    "rep-018 literature gate closed: the predeclared public 2003-2018 source-era reconstruction reproduces the negative announcement premium with HAC p=0.0071 and more than half of cumulative return concentrated on announcement days; exact-contract 2010-2018 overlap is directionally negative but weaker, and Bloomberg surprise controls remain fidelity-bounded.",
+    "rep-018 separate advance-known-calendar forecast translation passed the frozen uncertainty-capacity gate with 1,581 research-OOS rows but was INCONCLUSIVE: relative RMSE improvement was about 0.0004%, far below the 1% survival hurdle. Reserved confirmation remained unopened."
+  ],
+  "forecast_translation_reconciliation": {
+    "rep-001-samuelson-maturity-volatility": {
+      "forecast_disposition": "INCONCLUSIVE",
+      "interpretation": "The Samuelson maturity-volatility mechanism reproduces in the literature-faithful test, but the existing chronological one-step forecast translation is INCONCLUSIVE and below the frozen 1% relative-RMSE survival threshold. Mechanism reproduction therefore does not imply current predictive usefulness.",
+      "literature_gate": "CORE_REPRODUCED_REFINEMENT_FIDELITY_BOUNDARY",
+      "relative_rmse_improvement": 0.002905617829006796
+    },
+    "rep-002-seasonal-forward-curve": {
+      "forecast_disposition": "INCONCLUSIVE",
+      "interpretation": "The Mirantes seasonal term-structure pattern reproduces in the adjacent-month futures-ratio component, with exact convenience-yield reproduction bounded by the unresolved zero-coupon-rate source. The existing chronological forecast translation is INCONCLUSIVE and does not improve RMSE, so literature seasonality does not imply current one-step predictive usefulness.",
+      "literature_gate": "CARRY_PATTERN_REPRODUCED_EXACT_CONVENIENCE_YIELD_RATE_SOURCE_UNAVAILABLE",
+      "relative_rmse_improvement": -0.0005115583591288073
+    },
+    "rep-005-scarcity-volatility": {
+      "forecast_capacity": {
+        "block_size": 4,
+        "effective_blocks": 7.0,
+        "reason": "moving-block bootstrap requires at least 8 effective blocks",
+        "sample_rows": 28,
+        "status": "failed"
+      },
+      "forecast_disposition": "INCONCLUSIVE",
+      "interpretation": "Geman-Ohana reproduces on the 1994-2006 source-period near replication, but the 2010-2026 historical extension reverses the scarcity-volatility relation to positive. The existing PIT forecast translation remains an uncertainty-capacity hold, so the forecast result neither confirms nor refutes the historical literature mechanism.",
+      "later_regime_extension": {
+        "deseasonalized_volatility_scarcity": {
+          "observations": 89,
+          "one_sided_pvalue": 0.9891832754527023,
+          "rho": 0.24322437861763707
+        },
+        "deseasonalized_volatility_whole": {
+          "observations": 189,
+          "one_sided_pvalue": 0.9745779354345991,
+          "rho": 0.1422652375619901
+        },
+        "original_volatility_scarcity": {
+          "observations": 89,
+          "one_sided_pvalue": 0.9985910107809686,
+          "rho": 0.31304051753489964
+        },
+        "original_volatility_whole": {
+          "observations": 189,
+          "one_sided_pvalue": 0.9996205505722991,
+          "rho": 0.24287314029755241
+        },
+        "scarcity_observations": 89,
+        "scarcity_significantly_negative": false,
+        "source_pattern_reproduced": false,
+        "whole_not_significantly_negative": true
+      },
+      "literature_gate": "SOURCE_PERIOD_NEAR_REPRODUCED"
+    },
+    "rep-012-physical-balance-drivers": {
+      "forecast_disposition": "NOT_RUN",
+      "interpretation": "The source-period physical-control mechanism reproduces, but Roberts also reproduces a post-2007 structural break in the oil-gas relation. A modern PIT forecast must therefore be a separate Stage-B design, not a direct translation of the historical VECM.",
+      "literature_gate": "ROBERTS_BROWN_YUCEL_SOURCE_PERIOD_PHYSICAL_CONTROLS_REPRODUCED_WITH_REGIME_BREAK"
+    },
+    "rep-014-monthly-real-time-forecastability": {
+      "forecast_capacity": {
+        "block_size": 20,
+        "effective_blocks": 2.2,
+        "reason": "moving-block bootstrap requires at least 8 effective blocks",
+        "sample_rows": 44,
+        "status": "failed"
+      },
+      "forecast_disposition": "INCONCLUSIVE",
+      "forecast_preparation_sha256": "7e29495ab2c9f47ee2399313bf2e122b99393234a56f1249c4103d5a60e070c1",
+      "forecast_translation_contract_sha256": "b9a08cbfa5f2fc8b7631ee0f02db6a96071be7b89f90c37c82cd90d6ae2cf34f",
+      "interpretation": "The source-study real-time forecastability result reproduces independently, but the separate frozen Commodity translation cannot be scored without weakening the predeclared uncertainty contract: the common 2015+ nine-horizon research panel has only 44 post-purge rows, or 2.2 effective 20-row blocks. This is a capacity hold, not a failed literature replication or a negative forecast result.",
+      "literature_gate": "REPRODUCED_WITH_ONE_ANCILLARY_PACKAGE_TABLE_DISCREPANCY"
+    },
+    "rep-018-announcement-day-return-puzzle": {
+      "forecast_capacity": {
+        "block_size": 20,
+        "effective_blocks": 79.05,
+        "minimum_effective_blocks": 8.0,
+        "sample_rows": 1581,
+        "status": "passed"
+      },
+      "forecast_disposition": "INCONCLUSIVE",
+      "interpretation": "The source-era announcement premium reproduces, but adding advance-known release-day identity to fixed weekday/winter calendar controls yields essentially zero incremental chronological RMSE improvement under the frozen Commodity translation.",
+      "literature_gate": "FULL_SOURCE_ERA_PUBLIC_NEAR_REPRODUCED_EXACT_CONTRACT_OVERLAP_WEAKENED_SURPRISE_CONTROL_FIDELITY_BOUNDARY",
+      "relative_rmse_improvement": 4.356001980610719e-06
+    }
+  },
+  "issue": 327,
+  "literature_reproduction_artifacts": {
+    "rep-001-samuelson-maturity-volatility": {
+      "disposition": "CORE_REPRODUCED_REFINEMENT_FIDELITY_BOUNDARY",
+      "path": "research/programmes/002-henry-hub-fresh/lines/001-market-structure/experiments/rep-001-samuelson-maturity-volatility/literature-reproduction.json",
+      "sha256": "b5489acee2fe267c0a0087cfafa72169db42e66fd1938f41cd5fc6c6c8362637"
+    },
+    "rep-002-seasonal-forward-curve": {
+      "disposition": "CARRY_PATTERN_REPRODUCED_EXACT_CONVENIENCE_YIELD_RATE_SOURCE_UNAVAILABLE",
+      "path": "research/programmes/002-henry-hub-fresh/lines/001-market-structure/experiments/rep-002-seasonal-forward-curve/literature-reproduction.json",
+      "sha256": "8049502c31ac21530eedc33764e67b04d92c16acb0fa1e162d50c62b92affa9e"
+    },
+    "rep-005-scarcity-volatility": {
+      "disposition": "SOURCE_PERIOD_NEAR_REPRODUCED",
+      "path": "research/programmes/002-henry-hub-fresh/lines/002-storage-inventory/experiments/rep-005-scarcity-volatility/literature-reproduction.json",
+      "sha256": "789fb2da18aa6568114388bbc46ef26263d5eb2083c89b33d2af9bdd93e45fdc"
+    },
+    "rep-012-physical-balance-drivers": {
+      "disposition": "ROBERTS_BROWN_YUCEL_SOURCE_PERIOD_PHYSICAL_CONTROLS_REPRODUCED_WITH_REGIME_BREAK",
+      "path": "research/programmes/002-henry-hub-fresh/lines/005-fundamental-balance/experiments/rep-012-physical-balance-drivers/literature-reproduction.json",
+      "sha256": "26d383c27e74bbf33cca7b188dbe55f5cc38e4ae323151ecea2f004adf953fb0"
+    },
+    "rep-014-monthly-real-time-forecastability": {
+      "disposition": "REPRODUCED_WITH_ONE_ANCILLARY_PACKAGE_TABLE_DISCREPANCY",
+      "path": "research/programmes/002-henry-hub-fresh/lines/005-fundamental-balance/experiments/rep-014-monthly-real-time-forecastability/literature-reproduction.json",
+      "sha256": "f811a5fcb7c477378078baa07bc43c2e524fc3a7949adc01af7897bd5cdcaa93"
+    },
+    "rep-018-announcement-day-return-puzzle": {
+      "disposition": "FULL_SOURCE_ERA_PUBLIC_NEAR_REPRODUCED_EXACT_CONTRACT_OVERLAP_WEAKENED_SURPRISE_CONTROL_FIDELITY_BOUNDARY",
+      "path": "research/programmes/002-henry-hub-fresh/lines/007-positioning-announcements/experiments/rep-018-announcement-day-return-puzzle/literature-reproduction.json",
+      "sha256": "ab58483fb4c00b1c4401e36d4460e25245ecde45e4452d044412c4ff224f4f44"
+    }
+  },
+  "literature_reproduction_gate": {
+    "later_mechanisms": "select_next_independent_source_faithful_target",
+    "prior_forecast_results": "retained_as_non_reproduction_evidence",
+    "rep_001": "closed_core_reproduced_refinement_fidelity_boundary",
+    "rep_002": "closed_carry_pattern_reproduced_exact_convenience_yield_rate_source_unavailable",
+    "rep_005": "closed_source_period_near_reproduced_modern_regime_reversed",
+    "rep_012": "closed_source_period_physical_controls_reproduced_with_regime_break",
+    "rep_014": "closed_reproduced_with_one_ancillary_package_table_discrepancy",
+    "rep_018": "closed_full_source_era_public_near_reproduced_exact_contract_overlap_weakened_surprise_boundary",
+    "rule": "A literature mechanism must first be reproduced under its declared source-study-faithful design, or have a precise evidence-backed impossibility boundary, before its forecast translation is interpreted as the programme conclusion.",
+    "sequence": [
+      "rep-001-samuelson-maturity-volatility",
+      "rep-002-seasonal-forward-curve",
+      "rep-005-scarcity-volatility",
+      "rep-014-monthly-real-time-forecastability",
+      "rep-012-physical-balance-drivers",
+      "rep-018-announcement-day-return-puzzle"
+    ]
+  },
+  "next_action": "Phase 1 is closed by explicit operator decision after evidence reconciliation. Phase 2 remains not Ready because no mechanism met the frozen SURVIVE rule; any further Henry Hub signal search requires a new explicitly authorized successor scope.",
+  "phase": 1,
+  "phase2_gate": {
+    "met": false,
+    "rule": "At least one literature-accounted mechanism must then satisfy the frozen SURVIVE rule for repeatable chronological OOS predictive content with >=1% relative RMSE improvement.",
+    "survivors": []
+  },
+  "programme_id": "002-henry-hub-fresh",
+  "result_artifacts": {
+    "rep-001-samuelson-maturity-volatility": {
+      "path": "research/programmes/002-henry-hub-fresh/lines/001-market-structure/experiments/rep-001-samuelson-maturity-volatility/result.json",
+      "sha256": "4933d8b991af3c5b0d60598b52f6a7a62fb82dc227b96274522d15bcd48481ab"
+    },
+    "rep-002-seasonal-forward-curve": {
+      "path": "research/programmes/002-henry-hub-fresh/lines/001-market-structure/experiments/rep-002-seasonal-forward-curve/result.json",
+      "sha256": "e3b6364f6c34723bd60973e28be1a7229a0f643212c3c22363b32b7434cd8deb"
+    },
+    "rep-004-storage-state-nonlinearity": {
+      "path": "research/programmes/002-henry-hub-fresh/lines/002-storage-inventory/experiments/rep-004-storage-state-nonlinearity/result.json",
+      "sha256": "6d0376aa70171b7084947075198a9af09606b32e7539ea4f232ca71cc9611b43"
+    },
+    "rep-005-scarcity-volatility": {
+      "path": "research/programmes/002-henry-hub-fresh/lines/002-storage-inventory/experiments/rep-005-scarcity-volatility/result.json",
+      "sha256": "f7c4d510de67f6839481269f976b9d27589f51dc783a9efb3c8ef3a98eb5d3ec"
+    },
+    "rep-009-announcement-volatility": {
+      "path": "research/programmes/002-henry-hub-fresh/lines/004-volatility/experiments/rep-009-announcement-volatility/result.json",
+      "sha256": "f35738a98a706a984b144cd0efd765ff6e4ac70d532d7067fa87d6acd621b4ee"
+    },
+    "rep-012-physical-balance-drivers": {
+      "path": "research/programmes/002-henry-hub-fresh/lines/005-fundamental-balance/experiments/rep-012-physical-balance-drivers/result.json",
+      "sha256": "473abcf5172709d0c0328ff1cef75c9594abba83f5065067507c7ce6a21e12c3"
+    },
+    "rep-014-monthly-real-time-forecastability": {
+      "path": "research/programmes/002-henry-hub-fresh/lines/005-fundamental-balance/experiments/rep-014-monthly-real-time-forecastability/result.json",
+      "sha256": "0616cebcb1391d669976c6ff9ef0c8faaa380e29b721067c87fee9c6979a0992"
+    },
+    "rep-018-announcement-day-return-puzzle": {
+      "path": "research/programmes/002-henry-hub-fresh/lines/007-positioning-announcements/experiments/rep-018-announcement-day-return-puzzle/result.json",
+      "sha256": "386a378ef72de120cb94ecbbfc717a945cbab7b2b21bd6253cd65a4ed6013044"
+    }
+  },
+  "schema_version": 1,
+  "search_multiplicity": {
+    "adaptive_oos_tuning": false,
+    "attempted_mechanisms": 8,
+    "capacity_held_mechanisms": 4,
+    "disposition_rule_fixed_before_scoring": true,
+    "planned_sequence": [
+      "rep-001-samuelson-maturity-volatility",
+      "rep-002-seasonal-forward-curve",
+      "rep-004-storage-state-nonlinearity",
+      "rep-005-scarcity-volatility",
+      "rep-009-announcement-volatility",
+      "rep-014-monthly-real-time-forecastability",
+      "rep-012-physical-balance-drivers",
+      "rep-018-announcement-day-return-puzzle"
+    ],
+    "scored_mechanisms": 3,
+    "thresholds_selected_from_oos": false
+  },
+  "status": "closed_no_phase2_survivor",
+  "tested_mechanisms": [
+    {
+      "baseline_rmse": 0.022875601567935215,
+      "benchmark": "trailing_20_same_contract_mean_absolute_log_return",
+      "bootstrap_ci": [
+        -6.553471927919529e-05,
+        0.00020055971410640162
+      ],
+      "capacity": null,
+      "challenger_rmse": 0.022809133812170167,
+      "design_id": "rep-001-samuelson-maturity-volatility",
+      "disposition": "INCONCLUSIVE",
+      "evidence_status": "scored_research_oos",
+      "leakage_audit": "passed_feature_and_label_availability",
+      "negative_periods": 0,
+      "oos_rows": 1903,
+      "period_rmse_improvements": {
+        "period_1": 0.00013171835858545936,
+        "period_2": 4.454430978773072e-05,
+        "period_3": 4.8028063160440726e-05
+      },
+      "positive_periods": 3,
+      "prediction_evidence": {
+        "path": "research/programmes/002-henry-hub-fresh/lines/001-market-structure/experiments/rep-001-samuelson-maturity-volatility/predictions.csv",
+        "rows": 1903,
+        "sha256": "f9eb54748ed529a580a38301306e56ee0bb214bc6d3c0dc6a0c12e3c8c750828"
+      },
+      "prediction_time": "trade_date 23:59 UTC conservative market availability cutoff",
+      "relative_rmse_improvement": 0.002905617829006796,
+      "reserved_confirmation": {
+        "confirmation_eligibility": "ineligible",
+        "content_sha256": "f1b7feb8820e0f23ff94701fd592824662810e6735ea3606cab94e0cbdbf1157",
+        "outcomes_used_by_this_run": false,
+        "planning_fraction": 0.2,
+        "pre_freeze_outcome_use": false,
+        "preparation_verification_scope": "full_prepared_frame",
+        "preparation_verification_status": "passed",
+        "prepared_rows": 3649,
+        "purged_boundary_rows": 2,
+        "research_rows": 2917,
+        "reserved_end": "2026-08-10T23:59:00+00:00",
+        "reserved_fraction": 0.20005480953685942,
+        "reserved_rows": 730,
+        "reserved_start": "2023-05-15T23:59:00+00:00",
+        "sealed_window": {
+          "content_sha256": "f1b7feb8820e0f23ff94701fd592824662810e6735ea3606cab94e0cbdbf1157",
+          "dataset_id": "phase1-rep001-forecast-panel-v1",
+          "eligibility": "ineligible",
+          "end": "2026-08-10T23:59:00+00:00",
+          "openings": [],
+          "permitted_openings": 1,
+          "preparation_assurance": {
+            "prepared_rows": 3649,
+            "protected_outcomes_accessed": false,
+            "purged_boundary_rows": 2,
+            "reserved_rows": 730,
+            "scope": "full_prepared_frame",
+            "status": "passed"
+          },
+          "sealed_window_id": "phase1-rep001-reserved-confirmation-v1",
+          "start": "2023-05-15T23:59:00+00:00"
+        }
+      },
+      "result_key": "rep_001",
+      "rmse_improvement": 6.646775576504838e-05,
+      "target": "absolute same-contract log return from the next trade-date settlement after prediction cutoff to the following trade-date settlement, using expiration-ranked M1 selected at prediction time",
+      "target_rows": 2917,
+      "zero_new_cost": true
+    },
+    {
+      "baseline_rmse": null,
+      "benchmark": "zero_return",
+      "bootstrap_ci": null,
+      "capacity": {
+        "block_size": 4,
+        "effective_blocks": 7.0,
+        "reason": "moving-block bootstrap requires at least 8 effective blocks",
+        "sample_rows": 28,
+        "status": "failed"
+      },
+      "challenger_rmse": null,
+      "design_id": "rep-004-storage-state-nonlinearity",
+      "disposition": "INCONCLUSIVE",
+      "evidence_status": "research_oos_uncertainty_capacity_hold",
+      "leakage_audit": "not_reached_capacity_gate_failed",
+      "negative_periods": null,
+      "oos_rows": 28,
+      "period_rmse_improvements": null,
+      "positive_periods": null,
+      "prediction_evidence": null,
+      "prediction_time": "release-day 23:59 UTC conservative market availability cutoff, after the PIT WNGSR state is public",
+      "relative_rmse_improvement": null,
+      "reserved_confirmation": {
+        "outcomes_used_by_this_run": false,
+        "sealed_window": {
+          "content_sha256": "1598fbe51e9ab71dd23b07b06799616e47834a67630296d245e9da8fd7689419",
+          "dataset_id": "phase1-storage-pit-forecast-panel-v1",
+          "eligibility": "ineligible",
+          "end": "2026-08-06T23:59:00+00:00",
+          "openings": [],
+          "permitted_openings": 1,
+          "preparation_assurance": {
+            "prepared_rows": 100,
+            "protected_outcomes_accessed": false,
+            "purged_boundary_rows": 0,
+            "reserved_rows": 20,
+            "scope": "full_prepared_frame",
+            "status": "passed"
+          },
+          "sealed_window_id": "phase1-rep004-rep005-reserved-confirmation-v1",
+          "start": "2026-03-12T23:59:00+00:00"
+        }
+      },
+      "result_key": "rep_004",
+      "rmse_improvement": null,
+      "target": "same-contract log return from the next trade-date settlement after prediction cutoff to the following trade-date settlement, using expiration-ranked M1 selected at prediction time",
+      "target_rows": null,
+      "zero_new_cost": true
+    },
+    {
+      "baseline_rmse": null,
+      "benchmark": "trailing_20_same_contract_mean_absolute_log_return",
+      "bootstrap_ci": null,
+      "capacity": {
+        "block_size": 4,
+        "effective_blocks": 7.0,
+        "reason": "moving-block bootstrap requires at least 8 effective blocks",
+        "sample_rows": 28,
+        "status": "failed"
+      },
+      "challenger_rmse": null,
+      "design_id": "rep-005-scarcity-volatility",
+      "disposition": "INCONCLUSIVE",
+      "evidence_status": "research_oos_uncertainty_capacity_hold",
+      "leakage_audit": "not_reached_capacity_gate_failed",
+      "negative_periods": null,
+      "oos_rows": 28,
+      "period_rmse_improvements": null,
+      "positive_periods": null,
+      "prediction_evidence": null,
+      "prediction_time": "release-day 23:59 UTC conservative market availability cutoff, after the PIT WNGSR state is public",
+      "relative_rmse_improvement": null,
+      "reserved_confirmation": {
+        "outcomes_used_by_this_run": false,
+        "sealed_window": {
+          "content_sha256": "1598fbe51e9ab71dd23b07b06799616e47834a67630296d245e9da8fd7689419",
+          "dataset_id": "phase1-storage-pit-forecast-panel-v1",
+          "eligibility": "ineligible",
+          "end": "2026-08-06T23:59:00+00:00",
+          "openings": [],
+          "permitted_openings": 1,
+          "preparation_assurance": {
+            "prepared_rows": 100,
+            "protected_outcomes_accessed": false,
+            "purged_boundary_rows": 0,
+            "reserved_rows": 20,
+            "scope": "full_prepared_frame",
+            "status": "passed"
+          },
+          "sealed_window_id": "phase1-rep004-rep005-reserved-confirmation-v1",
+          "start": "2026-03-12T23:59:00+00:00"
+        }
+      },
+      "result_key": "rep_005",
+      "rmse_improvement": null,
+      "target": "absolute same-contract log return from the next trade-date settlement after prediction cutoff to the following trade-date settlement, using expiration-ranked M1 selected at prediction time",
+      "target_rows": null,
+      "zero_new_cost": true
+    },
+    {
+      "baseline_rmse": null,
+      "benchmark": "trailing_20_same_contract_mean_absolute_log_return",
+      "bootstrap_ci": null,
+      "capacity": {
+        "block_size": 20,
+        "effective_blocks": 5.4,
+        "reason": "moving-block bootstrap requires at least 8 effective blocks",
+        "sample_rows": 108,
+        "status": "failed"
+      },
+      "challenger_rmse": null,
+      "design_id": "rep-009-announcement-volatility",
+      "disposition": "INCONCLUSIVE",
+      "evidence_status": "research_oos_uncertainty_capacity_hold",
+      "leakage_audit": "not_reached_capacity_gate_failed",
+      "negative_periods": null,
+      "oos_rows": 108,
+      "period_rmse_improvements": null,
+      "positive_periods": null,
+      "prediction_evidence": null,
+      "prediction_time": "trade_date 23:59 UTC conservative market availability cutoff; target-end release identity is advance-known calendar information",
+      "relative_rmse_improvement": null,
+      "reserved_confirmation": {
+        "outcomes_used_by_this_run": false,
+        "sealed_window": {
+          "content_sha256": "57759a4bd8263a7058b3d4866072f83b554a43ffd5584ae415784102233faef5",
+          "dataset_id": "phase1-announcement-forecast-panel-v1",
+          "eligibility": "ineligible",
+          "end": "2026-08-04T23:59:00+00:00",
+          "openings": [],
+          "permitted_openings": 1,
+          "preparation_assurance": {
+            "prepared_rows": 453,
+            "protected_outcomes_accessed": false,
+            "purged_boundary_rows": 2,
+            "reserved_rows": 91,
+            "scope": "full_prepared_frame",
+            "status": "passed"
+          },
+          "sealed_window_id": "phase1-rep009-reserved-confirmation-v1",
+          "start": "2026-03-11T23:59:00+00:00"
+        }
+      },
+      "result_key": "rep_009",
+      "rmse_improvement": null,
+      "target": "absolute same-contract log return from the next trade-date settlement after prediction cutoff to the following trade-date settlement, using expiration-ranked M1 selected at prediction time; the release flag applies to the target-end trade date",
+      "target_rows": null,
+      "zero_new_cost": true
+    },
+    {
+      "baseline_rmse": 0.0355031213174314,
+      "benchmark": "zero_return",
+      "bootstrap_ci": [
+        -0.00013874318862136398,
+        8.881671977508125e-05
+      ],
+      "capacity": null,
+      "challenger_rmse": 0.035521283235916495,
+      "design_id": "rep-002-seasonal-forward-curve",
+      "disposition": "INCONCLUSIVE",
+      "evidence_status": "scored_research_oos",
+      "leakage_audit": "passed_feature_and_label_availability",
+      "negative_periods": 1,
+      "oos_rows": 1899,
+      "period_rmse_improvements": {
+        "period_1": 7.533154125152763e-05,
+        "period_2": -0.00016985933995602998,
+        "period_3": 2.5711342738793386e-05
+      },
+      "positive_periods": 2,
+      "prediction_evidence": {
+        "path": "research/programmes/002-henry-hub-fresh/lines/001-market-structure/experiments/rep-002-seasonal-forward-curve/predictions.csv",
+        "rows": 1899,
+        "sha256": "90b13e4315970cf25302c26d0297a7e36bd41e3fe5237c93d2471f2d45aab239"
+      },
+      "prediction_time": "trade_date 23:59 UTC conservative market availability cutoff",
+      "relative_rmse_improvement": -0.0005115583591288073,
+      "reserved_confirmation": {
+        "confirmation_eligibility": "ineligible",
+        "content_sha256": "455110cec8cb03ab4ea90128af6743d21924435047c9845421fa2f7e9ed44e29",
+        "outcomes_used_by_this_run": false,
+        "planning_fraction": 0.2,
+        "pre_freeze_outcome_use": false,
+        "preparation_verification_scope": "full_prepared_frame",
+        "preparation_verification_status": "passed",
+        "prepared_rows": 3667,
+        "purged_boundary_rows": 2,
+        "research_rows": 2931,
+        "reserved_end": "2026-08-10T23:59:00+00:00",
+        "reserved_fraction": 0.20016362148895556,
+        "reserved_rows": 734,
+        "reserved_start": "2023-05-09T23:59:00+00:00",
+        "sealed_window": {
+          "content_sha256": "455110cec8cb03ab4ea90128af6743d21924435047c9845421fa2f7e9ed44e29",
+          "dataset_id": "phase1-rep002-forecast-panel-v1",
+          "eligibility": "ineligible",
+          "end": "2026-08-10T23:59:00+00:00",
+          "openings": [],
+          "permitted_openings": 1,
+          "preparation_assurance": {
+            "prepared_rows": 3667,
+            "protected_outcomes_accessed": false,
+            "purged_boundary_rows": 2,
+            "reserved_rows": 734,
+            "scope": "full_prepared_frame",
+            "status": "passed"
+          },
+          "sealed_window_id": "phase1-rep002-reserved-confirmation-v1",
+          "start": "2023-05-09T23:59:00+00:00"
+        }
+      },
+      "result_key": "rep_002",
+      "rmse_improvement": -1.8161918485096185e-05,
+      "target": "same-contract log return from the next trade-date settlement after prediction cutoff to the following trade-date settlement, using expiration-ranked M1 selected at prediction time",
+      "target_rows": 2931,
+      "zero_new_cost": true
+    },
+    {
+      "baseline_rmse": null,
+      "benchmark": "source-study monthly no-change real Henry Hub forecast",
+      "bootstrap_ci": null,
+      "capacity": {
+        "block_size": 20,
+        "effective_blocks": 2.2,
+        "reason": "moving-block bootstrap requires at least 8 effective blocks",
+        "sample_rows": 44,
+        "status": "failed"
+      },
+      "challenger_rmse": null,
+      "design_id": "rep-014-monthly-real-time-forecastability",
+      "disposition": "INCONCLUSIVE",
+      "evidence_status": "research_oos_uncertainty_capacity_hold",
+      "leakage_audit": "not_reached_capacity_gate_failed",
+      "negative_periods": null,
+      "oos_rows": 44,
+      "period_rmse_improvements": null,
+      "positive_periods": null,
+      "prediction_evidence": null,
+      "prediction_time": "end of BHLR source-vintage month under conservative 23:59 UTC monthly availability bound",
+      "relative_rmse_improvement": null,
+      "reserved_confirmation": {
+        "outcomes_used_by_this_run": false,
+        "sealed_window": {
+          "content_sha256": "61d32b1f357149f87274d6dc1630ec27643e513aa11467e970b3be9f25b1b8cd",
+          "dataset_id": "phase1-rep014-monthly-horizon-family-v1",
+          "eligibility": "ineligible",
+          "end": "2022-02-28T23:59:59+00:00",
+          "openings": [],
+          "permitted_openings": 1,
+          "preparation_assurance": {
+            "prepared_rows": 86,
+            "protected_outcomes_accessed": false,
+            "purged_boundary_rows": 24,
+            "reserved_rows": 18,
+            "scope": "full_prepared_frame",
+            "status": "passed"
+          },
+          "sealed_window_id": "phase1-rep014-reserved-confirmation-v1",
+          "start": "2020-09-30T23:59:59+00:00"
+        }
+      },
+      "result_key": "rep_014",
+      "rmse_improvement": null,
+      "target": "real Henry Hub spot price at the complete predeclared 1,3,6,9,12,15,18,21,24 month horizon family",
+      "target_rows": 44,
+      "zero_new_cost": true
+    },
+    {
+      "baseline_rmse": null,
+      "benchmark": null,
+      "bootstrap_ci": null,
+      "capacity": null,
+      "challenger_rmse": null,
+      "design_id": "rep-012-physical-balance-drivers",
+      "disposition": "NOT_RUN",
+      "evidence_status": "literature_reproduced_forecast_not_run_by_design",
+      "leakage_audit": "not_applicable_no_predictive_translation_run",
+      "negative_periods": null,
+      "oos_rows": null,
+      "period_rmse_improvements": null,
+      "positive_periods": null,
+      "prediction_evidence": null,
+      "prediction_time": null,
+      "relative_rmse_improvement": null,
+      "reserved_confirmation": {
+        "outcomes_used_by_this_run": false
+      },
+      "result_key": "rep_012",
+      "rmse_improvement": null,
+      "target": "source-period weekly Henry Hub physical-control mechanism",
+      "target_rows": 522,
+      "zero_new_cost": true
+    },
+    {
+      "baseline_rmse": 0.03389431198425876,
+      "benchmark": "weekday/winter calendar ridge without release-day flag",
+      "bootstrap_ci": [
+        -4.941754678933554e-07,
+        7.638057187488167e-07
+      ],
+      "capacity": {
+        "block_size": 20,
+        "effective_blocks": 79.05,
+        "minimum_effective_blocks": 8.0,
+        "sample_rows": 1581,
+        "status": "passed"
+      },
+      "challenger_rmse": 0.033894164340568626,
+      "design_id": "rep-018-announcement-day-return-puzzle",
+      "disposition": "INCONCLUSIVE",
+      "evidence_status": "literature_reproduced_then_scored_research_oos",
+      "leakage_audit": "passed_feature_and_label_availability",
+      "negative_periods": 1,
+      "oos_rows": 1581,
+      "period_rmse_improvements": {
+        "period_1": -5.680517347721181e-07,
+        "period_2": 1.436458406250951e-07,
+        "period_3": 5.581883048971781e-07
+      },
+      "positive_periods": 2,
+      "prediction_evidence": {
+        "path": "research/programmes/002-henry-hub-fresh/lines/007-positioning-announcements/experiments/rep-018-announcement-day-return-puzzle/predictions.csv",
+        "rows": 1581,
+        "sha256": "3e67e3afca039fd1a915abd9ab30148a4d561b2a6d3c996590039dd174976e67"
+      },
+      "prediction_time": "trade_date 23:59 UTC; target-end release identity known in advance",
+      "relative_rmse_improvement": 4.356001980610719e-06,
+      "reserved_confirmation": {
+        "content_sha256": "4bb8eff52dcc077b037b958889d29917dc42c5dc6af1802f875687fe1b2cc5e6",
+        "outcomes_used_by_this_run": false,
+        "planning_fraction": 0.2,
+        "pre_freeze_outcome_use": false,
+        "preparation_verification_scope": "full_prepared_frame",
+        "preparation_verification_status": "passed",
+        "prepared_rows": 3040,
+        "purged_boundary_rows": 2,
+        "research_rows": 2430,
+        "reserved_end": "2026-08-10 23:59:00+00:00",
+        "reserved_fraction": 0.2,
+        "reserved_rows": 608,
+        "reserved_start": "2023-05-04 23:59:00+00:00",
+        "sealed_window": {
+          "content_sha256": "4bb8eff52dcc077b037b958889d29917dc42c5dc6af1802f875687fe1b2cc5e6",
+          "dataset_id": "phase1-rep018-calendar-forecast-panel-v1",
+          "eligibility": "ineligible",
+          "end": "2026-08-10T23:59:00+00:00",
+          "openings": [],
+          "permitted_openings": 1,
+          "preparation_assurance": {
+            "prepared_rows": 3040,
+            "protected_outcomes_accessed": false,
+            "purged_boundary_rows": 2,
+            "reserved_rows": 608,
+            "scope": "full_prepared_frame",
+            "status": "passed"
+          },
+          "sealed_window_id": "phase1-rep018-calendar-forecast-reserved-confirmation-v1",
+          "start": "2023-05-04T23:59:00+00:00"
+        }
+      },
+      "result_key": "rep_018",
+      "rmse_improvement": 1.4764369013486878e-07,
+      "target": "signed same-contract target-end daily log return",
+      "target_rows": 2430,
+      "zero_new_cost": true
+    }
+  ],
+  "zoom_level": "L1",
+  "phase1_closeout": {
+    "closed": true,
+    "closure_basis": "explicit_operator_decision_after_phase1_evidence_reconciliation",
+    "closure_outcome": "completed_without_phase2_predictive_survivor",
+    "original_continuation_rule_satisfied": false,
+    "original_continuation_rule_disposition": "superseded_for_phase_lifecycle_only_by_explicit_operator_closeout_decision",
+    "phase2_ready": false,
+    "phase2_gate_changed": false,
+    "protected_confirmation_accessed": false,
+    "further_signal_search": "requires_new_explicit_successor_scope"
+  }
+}

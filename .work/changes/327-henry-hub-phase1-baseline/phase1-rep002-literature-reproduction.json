@@ -1,0 +1,391 @@
+{
+  "design_id": "rep-002-seasonal-forward-curve",
+  "interpretation": "The Mirantes exact convenience-yield replication remains unavailable because the source zero-coupon rate contract is unresolved. The project therefore reports the exact futures-price test and the adjacent-month futures-ratio component separately without inventing an interest-rate term.",
+  "issue": 327,
+  "literature_disposition": "CARRY_PATTERN_REPRODUCED_EXACT_CONVENIENCE_YIELD_RATE_SOURCE_UNAVAILABLE",
+  "literature_gate_closed": true,
+  "market_cache_sha256": "cedc888c9758ad817c1b3742cc5aac323bcd8b6924f58b6380b421661fe953e4",
+  "market_history_start": "2010-06-04T00:00:00+00:00",
+  "partial_source_period_overlap": {
+    "end": "2011-06-27T00:00:00+00:00",
+    "monthly_averages": 13,
+    "pattern": {
+      "all_nine_carry_reject_99": false,
+      "carry_reject_count_99": 0,
+      "futures_reject_count_99": 0,
+      "no_futures_reject_99": true,
+      "source_pattern_near_reproduced": false
+    },
+    "start": "2010-06-07T00:00:00+00:00",
+    "statistics": {
+      "carry": {
+        "carry1": {
+          "critical_value_99": 24.725,
+          "monthly_averages": 13,
+          "pvalue": 0.36612635085519685,
+          "reject_no_monthly_seasonality_99": false,
+          "statistic": 11.96703296703297
+        },
+        "carry2": {
+          "critical_value_99": 24.725,
+          "monthly_averages": 13,
+          "pvalue": 0.36612635085519685,
+          "reject_no_monthly_seasonality_99": false,
+          "statistic": 11.96703296703297
+        },
+        "carry3": {
+          "critical_value_99": 24.725,
+          "monthly_averages": 13,
+          "pvalue": 0.45904415442827007,
+          "reject_no_monthly_seasonality_99": false,
+          "statistic": 10.813186813186817
+        },
+        "carry4": {
+          "critical_value_99": 24.725,
+          "monthly_averages": 13,
+          "pvalue": 0.36612635085519685,
+          "reject_no_monthly_seasonality_99": false,
+          "statistic": 11.96703296703297
+        },
+        "carry5": {
+          "critical_value_99": 24.725,
+          "monthly_averages": 13,
+          "pvalue": 0.36612635085519685,
+          "reject_no_monthly_seasonality_99": false,
+          "statistic": 11.96703296703297
+        },
+        "carry6": {
+          "critical_value_99": 24.725,
+          "monthly_averages": 13,
+          "pvalue": 0.36612635085519685,
+          "reject_no_monthly_seasonality_99": false,
+          "statistic": 11.96703296703297
+        },
+        "carry7": {
+          "critical_value_99": 24.725,
+          "monthly_averages": 13,
+          "pvalue": 0.36612635085519685,
+          "reject_no_monthly_seasonality_99": false,
+          "statistic": 11.96703296703297
+        },
+        "carry8": {
+          "critical_value_99": 24.725,
+          "monthly_averages": 13,
+          "pvalue": 0.36612635085519685,
+          "reject_no_monthly_seasonality_99": false,
+          "statistic": 11.96703296703297
+        },
+        "carry9": {
+          "critical_value_99": 24.725,
+          "monthly_averages": 13,
+          "pvalue": 0.36612635085519685,
+          "reject_no_monthly_seasonality_99": false,
+          "statistic": 11.96703296703297
+        }
+      },
+      "futures": {
+        "F1": {
+          "critical_value_99": 24.725,
+          "monthly_averages": 13,
+          "pvalue": 0.3736365770209813,
+          "reject_no_monthly_seasonality_99": false,
+          "statistic": 11.868131868131869
+        },
+        "F2": {
+          "critical_value_99": 24.725,
+          "monthly_averages": 13,
+          "pvalue": 0.36612635085519685,
+          "reject_no_monthly_seasonality_99": false,
+          "statistic": 11.96703296703297
+        },
+        "F3": {
+          "critical_value_99": 24.725,
+          "monthly_averages": 13,
+          "pvalue": 0.36612635085519685,
+          "reject_no_monthly_seasonality_99": false,
+          "statistic": 11.96703296703297
+        },
+        "F4": {
+          "critical_value_99": 24.725,
+          "monthly_averages": 13,
+          "pvalue": 0.3863535957435211,
+          "reject_no_monthly_seasonality_99": false,
+          "statistic": 11.703296703296708
+        },
+        "F5": {
+          "critical_value_99": 24.725,
+          "monthly_averages": 13,
+          "pvalue": 0.3863535957435211,
+          "reject_no_monthly_seasonality_99": false,
+          "statistic": 11.703296703296708
+        },
+        "F6": {
+          "critical_value_99": 24.725,
+          "monthly_averages": 13,
+          "pvalue": 0.3736365770209813,
+          "reject_no_monthly_seasonality_99": false,
+          "statistic": 11.868131868131869
+        },
+        "F7": {
+          "critical_value_99": 24.725,
+          "monthly_averages": 13,
+          "pvalue": 0.3736365770209813,
+          "reject_no_monthly_seasonality_99": false,
+          "statistic": 11.868131868131869
+        },
+        "F8": {
+          "critical_value_99": 24.725,
+          "monthly_averages": 13,
+          "pvalue": 0.3863535957435211,
+          "reject_no_monthly_seasonality_99": false,
+          "statistic": 11.703296703296708
+        },
+        "F9": {
+          "critical_value_99": 24.725,
+          "monthly_averages": 13,
+          "pvalue": 0.4045663699377943,
+          "reject_no_monthly_seasonality_99": false,
+          "statistic": 11.472527472527474
+        }
+      }
+    },
+    "status": "partial_source_period_overlap_low_information",
+    "weekly_observations": 51
+  },
+  "programme_id": "002-henry-hub-fresh",
+  "project_sample": {
+    "coverage": {
+      "complete_f1_f10_mondays": 607,
+      "coverage_fraction": 0.8992592592592593,
+      "expected_mondays": 675,
+      "first_missing_examples": [
+        "2010-07-05T00:00:00+00:00",
+        "2010-09-06T00:00:00+00:00",
+        "2011-01-17T00:00:00+00:00",
+        "2011-02-21T00:00:00+00:00",
+        "2011-05-30T00:00:00+00:00",
+        "2011-07-04T00:00:00+00:00",
+        "2011-09-05T00:00:00+00:00",
+        "2011-12-26T00:00:00+00:00",
+        "2012-01-02T00:00:00+00:00",
+        "2012-01-16T00:00:00+00:00",
+        "2012-02-20T00:00:00+00:00",
+        "2012-05-28T00:00:00+00:00",
+        "2012-09-03T00:00:00+00:00",
+        "2012-12-24T00:00:00+00:00",
+        "2012-12-31T00:00:00+00:00",
+        "2013-01-21T00:00:00+00:00",
+        "2013-02-18T00:00:00+00:00",
+        "2013-05-27T00:00:00+00:00",
+        "2013-09-02T00:00:00+00:00",
+        "2014-01-20T00:00:00+00:00"
+      ],
+      "first_observed": "2010-06-07T00:00:00+00:00",
+      "last_observed": "2023-05-08T00:00:00+00:00",
+      "missing_complete_curve_mondays": 68
+    },
+    "end": "2023-05-08T00:00:00+00:00",
+    "monthly_averages": 156,
+    "pattern": {
+      "all_nine_carry_reject_99": true,
+      "carry_reject_count_99": 9,
+      "futures_reject_count_99": 0,
+      "no_futures_reject_99": true,
+      "source_pattern_near_reproduced": true
+    },
+    "start": "2010-06-07T00:00:00+00:00",
+    "statistics": {
+      "carry": {
+        "carry1": {
+          "critical_value_99": 24.725,
+          "monthly_averages": 156,
+          "pvalue": 1.2102448660634653e-12,
+          "reject_no_monthly_seasonality_99": true,
+          "statistic": 80.44529453887606
+        },
+        "carry2": {
+          "critical_value_99": 24.725,
+          "monthly_averages": 156,
+          "pvalue": 2.6718667818330435e-14,
+          "reject_no_monthly_seasonality_99": true,
+          "statistic": 88.9539441450271
+        },
+        "carry3": {
+          "critical_value_99": 24.725,
+          "monthly_averages": 156,
+          "pvalue": 3.0120880215029706e-16,
+          "reject_no_monthly_seasonality_99": true,
+          "statistic": 98.85286247314662
+        },
+        "carry4": {
+          "critical_value_99": 24.725,
+          "monthly_averages": 156,
+          "pvalue": 8.00354325799615e-19,
+          "reject_no_monthly_seasonality_99": true,
+          "statistic": 111.7994572796141
+        },
+        "carry5": {
+          "critical_value_99": 24.725,
+          "monthly_averages": 156,
+          "pvalue": 4.0574567181892876e-21,
+          "reject_no_monthly_seasonality_99": true,
+          "statistic": 123.22892247390041
+        },
+        "carry6": {
+          "critical_value_99": 24.725,
+          "monthly_averages": 156,
+          "pvalue": 6.457151912271707e-23,
+          "reject_no_monthly_seasonality_99": true,
+          "statistic": 132.12727546828478
+        },
+        "carry7": {
+          "critical_value_99": 24.725,
+          "monthly_averages": 156,
+          "pvalue": 1.1080870501026138e-23,
+          "reject_no_monthly_seasonality_99": true,
+          "statistic": 135.9019711302907
+        },
+        "carry8": {
+          "critical_value_99": 24.725,
+          "monthly_averages": 156,
+          "pvalue": 2.551907535040893e-24,
+          "reject_no_monthly_seasonality_99": true,
+          "statistic": 139.04115629593332
+        },
+        "carry9": {
+          "critical_value_99": 24.725,
+          "monthly_averages": 156,
+          "pvalue": 4.235279453274519e-25,
+          "reject_no_monthly_seasonality_99": true,
+          "statistic": 142.87426977725852
+        }
+      },
+      "futures": {
+        "F1": {
+          "critical_value_99": 24.725,
+          "monthly_averages": 156,
+          "pvalue": 0.7150088683150897,
+          "reject_no_monthly_seasonality_99": false,
+          "statistic": 7.980954636505022
+        },
+        "F2": {
+          "critical_value_99": 24.725,
+          "monthly_averages": 156,
+          "pvalue": 0.5233193665464504,
+          "reject_no_monthly_seasonality_99": false,
+          "statistic": 10.078732144876199
+        },
+        "F3": {
+          "critical_value_99": 24.725,
+          "monthly_averages": 156,
+          "pvalue": 0.3836831022306282,
+          "reject_no_monthly_seasonality_99": false,
+          "statistic": 11.737646871737207
+        },
+        "F4": {
+          "critical_value_99": 24.725,
+          "monthly_averages": 156,
+          "pvalue": 0.3395866072294649,
+          "reject_no_monthly_seasonality_99": false,
+          "statistic": 12.326801226034503
+        },
+        "F5": {
+          "critical_value_99": 24.725,
+          "monthly_averages": 156,
+          "pvalue": 0.3720324093320714,
+          "reject_no_monthly_seasonality_99": false,
+          "statistic": 11.889156845345239
+        },
+        "F6": {
+          "critical_value_99": 24.725,
+          "monthly_averages": 156,
+          "pvalue": 0.48476325605107307,
+          "reject_no_monthly_seasonality_99": false,
+          "statistic": 10.51475298463245
+        },
+        "F7": {
+          "critical_value_99": 24.725,
+          "monthly_averages": 156,
+          "pvalue": 0.6130354750995664,
+          "reject_no_monthly_seasonality_99": false,
+          "statistic": 9.095955979346513
+        },
+        "F8": {
+          "critical_value_99": 24.725,
+          "monthly_averages": 156,
+          "pvalue": 0.7916320521624423,
+          "reject_no_monthly_seasonality_99": false,
+          "statistic": 7.0914256730248235
+        },
+        "F9": {
+          "critical_value_99": 24.725,
+          "monthly_averages": 156,
+          "pvalue": 0.9458202247301227,
+          "reject_no_monthly_seasonality_99": false,
+          "statistic": 4.676402969886567
+        }
+      }
+    },
+    "weekly_observations": 607
+  },
+  "protected_confirmation_accessed": false,
+  "replication_class_achieved": "near_replication_futures_ratio_component",
+  "replication_class_target": "near_replication",
+  "research_cutoff_exclusive": "2023-05-09T00:00:00+00:00",
+  "schema_version": 1,
+  "sealed_confirmation": {
+    "content_sha256": "455110cec8cb03ab4ea90128af6743d21924435047c9845421fa2f7e9ed44e29",
+    "openings": 0,
+    "sealed_window_id": "phase1-rep002-reserved-confirmation-v1",
+    "start": "2023-05-09T23:59:00+00:00"
+  },
+  "source_contract": {
+    "literature_sources_sha256": "7cf9401941a21e8ea3480c5856c0b3f8d37f8b4123f00904d95cc7125eb59231",
+    "source": {
+      "citation": "Mirantes, A.G., Poblacion, J. and Serna, G. (2013). The stochastic seasonal behavior of energy commodity convenience yields. Energy Economics 40, 155-166.",
+      "doi": "10.1016/j.eneco.2013.06.011",
+      "id": "mirantes-et-al-2013",
+      "quality": "peer_reviewed_primary",
+      "replication_contract": {
+        "convenience_yield_formula": "delta_i = r_implicit_i_to_i+1 - ln(F_i+1/F_i)",
+        "fidelity_boundary": "canonical Databento begins 2010-06-04 and cannot reconstruct the full 1999-2011 source sample; the paper also does not identify the zero-coupon interest-rate data source/curve construction in the recoverable text. A Databento later-sample futures-ratio/carry reproduction must therefore keep the missing interest-rate term explicit and cannot be labeled exact convenience-yield replication.",
+        "henry_hub_source_statistics": {
+          "convenience_yield_delta1_to_delta9": [
+            80.7324,
+            82.6555,
+            88.6157,
+            101.8594,
+            106.3644,
+            107.5883,
+            112.318,
+            113.4766,
+            115.0153
+          ],
+          "futures_F1_to_F9": [
+            2.5974,
+            1.5667,
+            1.2366,
+            1.3626,
+            2.5048,
+            3.5382,
+            4.5504,
+            4.8063,
+            4.5406
+          ]
+        },
+        "market": "NYMEX Henry Hub natural-gas futures; maturities available from one month to six years",
+        "primary_seasonality_series": "contiguous F1-F9 futures prices and implicit adjacent-month convenience yields delta1-delta9",
+        "sample": "1999-09-27 through 2011-07-04; 615 weekly observations",
+        "seasonality_test": "compute calendar-month averages from each weekly series, then Kruskal-Wallis across the 12 calendar months; chi-square(11) critical value 24.725 at 99%",
+        "source_result": "strong monthly seasonality in Henry Hub convenience yields while the futures-price series do not reject monthly no-seasonality; convenience-yield seasonality is clearer than futures-price seasonality"
+      }
+    }
+  },
+  "source_fidelity": {
+    "exact_convenience_yield": "UNAVAILABLE_CURRENT_SOURCE_CONTRACT",
+    "exact_source_sample": "unavailable_before_2010_06_04",
+    "fabricated_rate_term_used": false,
+    "missing_contract": "zero-coupon interest-rate provider and curve construction",
+    "project_component": "-ln(F_i_plus_1/F_i) only"
+  }
+}

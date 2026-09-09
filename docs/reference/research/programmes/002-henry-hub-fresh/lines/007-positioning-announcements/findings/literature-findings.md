@@ -8,15 +8,15 @@ Source: `research/programmes/002-henry-hub-fresh/lines/007-positioning-announcem
 
 | Field | Value |
 | --- | --- |
-| `schema_version` | 1 |
 | `level` | L3 |
 | `line_id` | 007-positioning-announcements |
+| `schema_version` | 1 |
 
 ## Structure
 
 | Field | Shape |
 | --- | --- |
-| `schema_version` | int |
+| `findings` | array (4 items) |
 | `level` | str |
 | `line_id` | str |
-| `findings` | array (4 items) |
+| `schema_version` | int |

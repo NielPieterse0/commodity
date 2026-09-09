@@ -8,34 +8,45 @@
   "selection_basis": "Fresh external-literature mapping under programme 002; no legacy internal result is used as scientific calibration or expected outcome.",
   "stopping_rules": {
     "empirical_execution_requires_operator_transition": true,
-    "protected_outcome_access": false
+    "protected_outcome_access": false,
+    "phase1_execution_authorized_issue": 327
   },
   "big_picture": "This line tests announcement and state-dependent volatility as part of the wider goal of understanding Henry Hub before prediction or model selection.",
   "why_zoomed_in": "Volatility is a downstream market response that should be decomposed by source-faithful state families before any predictive model is selected.",
-  "tested_role_target_horizon": "No literature outcome has been tested in programme 002. Current evidence covers literature mapping, source semantics, source capacity, dependence and feasibility only.",
+  "tested_role_target_horizon": "Phase 1 evaluated rep-009 through the frozen pre-scoring uncertainty-capacity gate. Its 108 research-OOS sessions at block size 20 provide 5.4 effective blocks versus 8 required, so no forecast scoring or protected-confirmation access occurred.",
   "historical_facts": {
-    "observed": "External literature findings and source/design feasibility have been mapped; programme 002 has completed zero internal empirical reproductions.",
-    "rules_out": "Feasibility failures rule out the invalid source/design substitutions explicitly classified REDESIGN or HOLD; they do not establish a market null.",
-    "does_not_rule_out": "Source-faithful versions of the mapped mechanisms remain open until implementation is verified and empirical execution is separately authorized."
+    "observed": "rep-009 is an INCONCLUSIVE uncertainty-capacity hold. Phase 1 did not claim a source-study literature reproduction for this line and did not score the underpowered forecast translation.",
+    "rules_out": "The current Phase-1 announcement-volatility research-OOS panel cannot support the frozen moving-block-bootstrap uncertainty requirement.",
+    "does_not_rule_out": "rep-009 is not a market null; rep-010 remains redesign-gated and rep-011 remains held."
   },
   "useful_secondary_observations": [
-    "rep-009-announcement-volatility:go",
+    "rep-009-announcement-volatility:forecast_capacity_hold",
     "rep-010-volatility-state-dependence:redesign",
     "rep-011-weather-enhanced-volatility-oos:hold"
   ],
   "remaining_untested_roles": [
-    "rep-009-announcement-volatility",
     "rep-010-volatility-state-dependence",
     "rep-011-weather-enhanced-volatility-oos"
   ],
-  "revisit_trigger": "Revisit empirical execution only after applicable HOLD/REDESIGN blockers are resolved, implementation/power contracts are verified, and the operator explicitly authorizes the transition.",
-  "programme_interpretation": "This line remains pre-empirical. Literature support is external evidence, not an internal programme result.",
+  "revisit_trigger": "Phase 1 is closed. Revisit or extend this line only through a new explicitly authorized successor research scope; do not tune against the same research-OOS evidence to rescue a held or inconclusive result.",
+  "programme_interpretation": "Line 004 has a completed Phase-1 capacity result for rep-009 but no scored forecast result and no Phase-2 survivor.",
   "evidence_refs": [
     "research/programmes/002-henry-hub-fresh/lines/004-volatility/findings/literature-findings.json",
     "research/programmes/002-henry-hub-fresh/evidence-map.json",
     "research/programmes/002-henry-hub-fresh/feasibility-ledger.json",
-    "research/programmes/002-henry-hub-fresh/feasibility-source-scan.json"
+    "research/programmes/002-henry-hub-fresh/feasibility-source-scan.json",
+    "research/programmes/002-henry-hub-fresh/lines/004-volatility/experiments/rep-009-announcement-volatility/result.json",
+    "research/programmes/002-henry-hub-fresh/phase1-mechanism-scorecard.json"
   ],
-  "experiment_history": [],
-  "experiment_refs": []
+  "experiment_history": [
+    {
+      "experiment_id": "rep-009-announcement-volatility"
+    }
+  ],
+  "experiment_refs": [
+    {
+      "experiment_id": "rep-009-announcement-volatility",
+      "path": "research/programmes/002-henry-hub-fresh/lines/004-volatility/experiments/rep-009-announcement-volatility"
+    }
+  ]
 }

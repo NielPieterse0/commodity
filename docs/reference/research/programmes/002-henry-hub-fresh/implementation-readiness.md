@@ -8,20 +8,20 @@ Source: `research/programmes/002-henry-hub-fresh/implementation-readiness.json`
 
 | Field | Value |
 | --- | --- |
-| `schema_version` | 1 |
-| `programme_id` | 002-henry-hub-fresh |
-| `status` | transferred_to_phase1_exploratory |
 | `empirical_execution_authority` | false |
+| `programme_id` | 002-henry-hub-fresh |
 | `rule` | This record carries forward implementation machinery and source readiness. It does not itself authorize confirmatory evidence use. Phase-1 pre-proof execution follows config/research_methodology.json#preproof_exploratory_execution; reserved/sealed confirmation remains governed by confirmatory preregistration/freeze. |
+| `schema_version` | 1 |
+| `status` | transferred_to_phase1_exploratory |
 
 ## Structure
 
 | Field | Shape |
 | --- | --- |
-| `schema_version` | int |
-| `programme_id` | str |
-| `status` | str |
+| `designs` | array (15 items) |
 | `empirical_execution_authority` | bool |
-| `rule` | str |
-| `designs` | array (14 items) |
 | `phase_1_execution_route` | object (4 keys) |
+| `programme_id` | str |
+| `rule` | str |
+| `schema_version` | int |
+| `status` | str |

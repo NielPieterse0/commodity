@@ -1,0 +1,63 @@
+{
+  "design_id": "rep-014-monthly-real-time-forecastability",
+  "evaluation_contract": "research/programmes/002-henry-hub-fresh/phase1-evaluation-contract.json",
+  "evaluation_contract_sha256": "3c2fb43f1239d59c7ed1aa1d5fb997fec89478219df8139e95b0b062165169f4",
+  "forecast": {
+    "capacity": {
+      "block_size": 20,
+      "effective_blocks": 2.2,
+      "reason": "moving-block bootstrap requires at least 8 effective blocks",
+      "sample_rows": 44,
+      "status": "failed"
+    },
+    "disposition": "INCONCLUSIVE",
+    "disposition_basis": "pre_scoring_research_oos_uncertainty_capacity_failure",
+    "horizon_family": [
+      1,
+      3,
+      6,
+      9,
+      12,
+      15,
+      18,
+      21,
+      24
+    ],
+    "scored": false
+  },
+  "forecast_translation_contract": "forecast-translation-contract.json",
+  "forecast_translation_contract_sha256": "b9a08cbfa5f2fc8b7631ee0f02db6a96071be7b89f90c37c82cd90d6ae2cf34f",
+  "issue": 327,
+  "literature_reproduction": {
+    "disposition": "REPRODUCED_WITH_ONE_ANCILLARY_PACKAGE_TABLE_DISCREPANCY",
+    "path": "literature-reproduction.json",
+    "sha256": "f811a5fcb7c477378078baa07bc43c2e524fc3a7949adc01af7897bd5cdcaa93"
+  },
+  "prediction_evidence": null,
+  "programme_id": "002-henry-hub-fresh",
+  "protected_confirmation_accessed": false,
+  "research_line_id": "005-fundamental-balance",
+  "reserved_confirmation": {
+    "outcomes_used_by_this_run": false,
+    "sealed_window": {
+      "content_sha256": "61d32b1f357149f87274d6dc1630ec27643e513aa11467e970b3be9f25b1b8cd",
+      "dataset_id": "phase1-rep014-monthly-horizon-family-v1",
+      "eligibility": "ineligible",
+      "end": "2022-02-28T23:59:59+00:00",
+      "openings": [],
+      "permitted_openings": 1,
+      "preparation_assurance": {
+        "prepared_rows": 86,
+        "protected_outcomes_accessed": false,
+        "purged_boundary_rows": 24,
+        "reserved_rows": 18,
+        "scope": "full_prepared_frame",
+        "status": "passed"
+      },
+      "sealed_window_id": "phase1-rep014-reserved-confirmation-v1",
+      "start": "2020-09-30T23:59:59+00:00"
+    }
+  },
+  "schema_version": 1,
+  "zoom_level": "L5"
+}

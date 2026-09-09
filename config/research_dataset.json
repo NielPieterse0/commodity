@@ -38,6 +38,22 @@
       "fraction_semantics": "planning_default_not_universal_rule",
       "selection_rule": "justify the actual share from horizon, dependence, power, regime coverage, usable history and remaining confirmation capacity",
       "may_be_known_by_identity": true,
+      "pre_freeze_preparation_and_assurance": {
+        "scope": "100_percent_including_reserved_confirmation",
+        "required": [
+          "source_acquisition_and_version_binding",
+          "deterministic_reconstruction",
+          "schema_and_type_validation",
+          "identity_and_contract_mapping_validation",
+          "point_in_time_and_timestamp_validation",
+          "coverage_completeness_and_missingness_checks",
+          "deterministic_feature_and_target_construction",
+          "structural_and_numerical_usability_checks",
+          "content_hashing_and_sealed_window_registration"
+        ],
+        "outcome_blindness": "automated preparation/assurance may validate that protected values are present, finite, correctly reconstructed and usable, but must not summarize, score, compare, visualize or expose their empirical outcome values before authorized confirmation",
+        "failure_rule": "reserved confirmation must be repaired or the experiment redesigned before development scoring if the reserved block cannot pass the same preparation and usability contract as development data"
+      },
       "prohibited_before_freeze": [
         "model_fitting",
         "feature_selection",
@@ -45,7 +61,12 @@
         "hyperparameter_tuning",
         "threshold_selection",
         "hypothesis_formulation",
-        "design_redesign"
+        "design_redesign",
+        "prediction_scoring",
+        "benchmark_comparison",
+        "effect_estimation",
+        "disposition_classification",
+        "outcome_summary_visualization_or_human_inspection"
       ],
       "prediction_and_evaluation_after_freeze": true,
       "consumption_rule": "once outcomes influence redesign or selection, those observations are consumed as independent confirmation evidence for that design"

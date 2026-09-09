@@ -1,30 +1,46 @@
 {
-  "schema_version": 1,
-  "level": "L3",
-  "line_id": "005-fundamental-balance",
   "findings": [
     {
-      "finding_id": "balance-drivers-matter",
       "claim": "U.S. natural-gas prices are jointly conditioned by storage, seasonality, weather and physical supply-demand factors rather than by a single financial driver.",
+      "evidence_ref": "research/programmes/002-henry-hub-fresh/lines/005-fundamental-balance/experiments/rep-012-physical-balance-drivers/literature-reproduction.json",
       "expected_direction": "tighter physical balance -> higher scarcity value and price pressure",
-      "sources": [{"source_id":"brown-yucel-2008"},{"source_id":"ji-zhang-geng-2018"}],
-      "programme_status": "external_literature_finding_not_yet_reproduced"
+      "finding_id": "balance-drivers-matter",
+      "programme_status": "source_period_weather_storage_controls_reproduced_broader_modern_balance_unproven",
+      "sources": [
+        {
+          "source_id": "brown-yucel-2008"
+        },
+        {
+          "source_id": "ji-zhang-geng-2018"
+        }
+      ]
     },
     {
-      "finding_id": "lng-export-demand-channel",
+      "caveat": "Magnitude is regime- and infrastructure-dependent; capacity availability must be separated from global price signals.",
       "claim": "Growth of U.S. LNG exports creates a structural demand channel through which export capacity and feedgas demand can tighten the domestic gas balance.",
       "expected_direction": "higher export/feedgas demand, holding supply fixed -> tighter domestic balance",
-      "sources": [{"source_id":"stock-zaragoza-watkins-2024"}],
-      "caveat": "Magnitude is regime- and infrastructure-dependent; capacity availability must be separated from global price signals.",
-      "programme_status": "external_literature_finding_not_yet_reproduced"
+      "finding_id": "lng-export-demand-channel",
+      "programme_status": "external_literature_finding_not_yet_reproduced",
+      "sources": [
+        {
+          "source_id": "stock-zaragoza-watkins-2024"
+        }
+      ]
     },
     {
-      "finding_id": "monthly-real-time-forecastability",
       "claim": "At monthly frequency, real-time U.S. natural-gas price forecasts can outperform a no-change benchmark at several horizons extending to two years; futures-based forecasts, parsimonious fundamentals and forecast combinations are competitive, while the nearest horizon remains difficult.",
-      "expected_direction": "forecastability is horizon-dependent and no single model dominates all horizons",
-      "sources": [{"source_id":"baumeister-et-al-2026"}],
       "design_implication": "Reproduce the monthly 1-24 month real-time forecasting result as its own fresh target family.",
-      "programme_status": "external_literature_finding_not_yet_reproduced"
+      "expected_direction": "forecastability is horizon-dependent and no single model dominates all horizons",
+      "finding_id": "monthly-real-time-forecastability",
+      "programme_status": "external_literature_finding_not_yet_reproduced",
+      "sources": [
+        {
+          "source_id": "baumeister-et-al-2026"
+        }
+      ]
     }
-  ]
+  ],
+  "level": "L3",
+  "line_id": "005-fundamental-balance",
+  "schema_version": 1
 }

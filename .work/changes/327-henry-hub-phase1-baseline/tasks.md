@@ -1,0 +1,26 @@
+# Tasks: Henry Hub Phase 1 Literature-First Proof
+
+- [x] Confirm live #327 / WORK-327 authority and Phase-0 handoff.
+- [x] Claim WORK-327 and create one governed isolated change.
+- [x] Reuse verified WORK-316 rep-001/002 machinery and correct the canonical Databento identity/reconstruction defects found during Phase 1.
+- [x] Enforce 100% pre-scoring data preparation/usability assurance, latest-20% hash-bound reservation, target-overlap purging, and pre-scoring uncertainty-capacity checks.
+- [x] Preserve initial rep-001/rep-002 forecast translations as separate evidence: both are currently `INCONCLUSIVE`; neither counts as a literature reproduction.
+- [x] Preserve rep-004/005/009 capacity findings as capacity evidence, not failed literature replications; no sealed confirmation was opened.
+- [x] Refocus Programme 002 / Phase 1 on literature reproduction first; pause later-mechanism expansion.
+- [x] Reproduce rep-001 Samuelson maturity-volatility under the canonical source-study design and close it as core Mu (2007) reproduced plus a precise Ergen-Rizvanoghlu (2016) refinement fidelity boundary; preserve the later-sample precursor mismatch separately.
+- [x] Reproduce rep-002 under the corrected Mirantes literature contract: 9/9 adjacent-month carry series reject monthly no-seasonality at 99% while 0/9 futures-price series do; exact convenience-yield reproduction remains bounded by the unresolved zero-coupon-rate source.
+- [x] Reconcile both already-run forecast translations separately and explain literature-to-forecast divergence: rep-001 is +0.29% relative RMSE but below the 1% survival threshold; rep-002 is INCONCLUSIVE with negative relative RMSE improvement.
+- [x] Update the authoritative Programme-002 scorecard/result artifacts with rep-001 and rep-002 literature closeout evidence.
+- [x] With rep-001/002 closed, select rep-005 scarcity-volatility as the next literature target based on source fidelity and information value rather than defaulting to rep-020.
+- [x] Close rep-005 under the Geman-Ohana source contract: identify the national EIA storage series by reproducing the paper's seasonal coefficients, reproduce the 1994-2006 scarcity-volatility pattern with official EIA NYMEX Contract-1 data, and preserve the opposite-sign 2010-2026 extension separately.
+- [x] Reconcile rep-005 with its prior forecast evidence: literature reproduction succeeds historically, the modern regime reverses, and the PIT forecast translation remains an uncertainty-capacity hold rather than a failed literature replication.
+- [x] Reproduce rep-014 BHLR real-time monthly forecastability from the exact public package in Python; preserve its separate Commodity forecast translation as an uncertainty-capacity hold with sealed confirmation unopened.
+- [x] Preserve and reproduce rep-012 from the Roberts (2019) Brown-Yucel package: source-period weather/storage physical controls reproduce, and the post-2007 oil-gas structural break reproduces. Do not promote the historical VECM as a modern forecast.
+- [x] Account for rep-015's core oil-gas regime-break finding as shared Roberts source evidence without double-counting a second independent experiment.
+- [x] Select rep-018 announcement-day return puzzle as the next independent source-faithful Phase-1 target and pin its Stage-A source-method overlap contract before reading rep-018 market outcomes.
+- [x] Reproduce rep-018 core announcement-day return anomaly on the predeclared public 2003-2018 source-era reconstruction, report the weaker exact-contract 2010-2018 overlap separately, and preserve Bloomberg surprise controls as a fidelity boundary.
+- [x] Run the separate rep-018 advance-known-calendar forecast translation after its frozen research-OOS capacity gate passed; record the essentially zero incremental RMSE value without opening sealed confirmation.
+- [x] Reconcile the Phase-1 terminal research state: no mechanism met the frozen Phase-2 SURVIVE rule; by explicit operator decision Phase 1 closes as a completed no-survivor phase, Phase 2 remains blocked, and any further signal search requires a new successor scope.
+- [x] Run governed scope check, affected verification, full canonical verification, and specialist review; automated review evidence exceeded its bounded budget, so exact-diff fallback was used, one governance weakness was fixed, and the complete verifier passed with 500 tests.
+- [ ] Commit, prepare exact reviewable PR, pass exact-head GitHub Actions, and merge through KIS.
+- [ ] Reconcile Programme 002 / Work state and clean the worktree; close #327 with the superseding operator-closeout decision and without declaring Phase 2 Ready.

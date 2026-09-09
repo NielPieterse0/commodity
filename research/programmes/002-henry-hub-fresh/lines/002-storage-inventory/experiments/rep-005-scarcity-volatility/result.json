@@ -1,0 +1,56 @@
+{
+  "design_id": "rep-005-scarcity-volatility",
+  "evaluation_contract": "research/programmes/002-henry-hub-fresh/phase1-evaluation-contract.json",
+  "evaluation_contract_sha256": "3c2fb43f1239d59c7ed1aa1d5fb997fec89478219df8139e95b0b062165169f4",
+  "forecast": {
+    "capacity": {
+      "block_size": 4,
+      "effective_blocks": 7.0,
+      "reason": "moving-block bootstrap requires at least 8 effective blocks",
+      "sample_rows": 28,
+      "status": "failed"
+    },
+    "disposition": "INCONCLUSIVE",
+    "disposition_basis": "pre_scoring_research_oos_uncertainty_capacity_failure",
+    "scored": false
+  },
+  "issue": 327,
+  "mode": "governed_exploratory_schema_v3",
+  "outcome_role": "rolling_research_oos",
+  "phase": 1,
+  "prediction_evidence": null,
+  "programme_id": "002-henry-hub-fresh",
+  "protected_confirmation_accessed": false,
+  "research_line_id": "002-storage-inventory",
+  "reserved_confirmation": {
+    "outcomes_used_by_this_run": false,
+    "sealed_window": {
+      "content_sha256": "1598fbe51e9ab71dd23b07b06799616e47834a67630296d245e9da8fd7689419",
+      "dataset_id": "phase1-storage-pit-forecast-panel-v1",
+      "eligibility": "ineligible",
+      "end": "2026-08-06T23:59:00+00:00",
+      "openings": [],
+      "permitted_openings": 1,
+      "preparation_assurance": {
+        "prepared_rows": 100,
+        "protected_outcomes_accessed": false,
+        "purged_boundary_rows": 0,
+        "reserved_rows": 20,
+        "scope": "full_prepared_frame",
+        "status": "passed"
+      },
+      "sealed_window_id": "phase1-rep004-rep005-reserved-confirmation-v1",
+      "start": "2026-03-12T23:59:00+00:00"
+    }
+  },
+  "schema_version": 1,
+  "search_context": {
+    "adaptive_oos_tuning": false,
+    "disposition_rule": "capacity gate before phase1-evaluation-contract.json#disposition",
+    "planned_sequence_position": 4
+  },
+  "source_evidence": {
+    "wngsr_sha256": "31d17f1f15f0d15c74820c5acd947c7837076b90d7d96a329c90399671f6c351"
+  },
+  "zoom_level": "L5"
+}

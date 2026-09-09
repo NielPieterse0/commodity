@@ -8,32 +8,51 @@
   "selection_basis": "Fresh external-literature mapping under programme 002; no legacy internal result is used as scientific calibration or expected outcome.",
   "stopping_rules": {
     "empirical_execution_requires_operator_transition": true,
-    "protected_outcome_access": false
+    "protected_outcome_access": false,
+    "phase1_execution_authorized_issue": 327
   },
   "big_picture": "This line tests maturity and seasonal curve structure as part of the wider goal of understanding Henry Hub before prediction or model selection.",
   "why_zoomed_in": "Exact-contract market structure is the cleanest calibration layer for testing whether canonical Henry Hub market data preserve published stylized facts.",
-  "tested_role_target_horizon": "No literature outcome has been tested in programme 002. Current evidence covers literature mapping, source semantics, source capacity, dependence and feasibility only.",
+  "tested_role_target_horizon": "Phase 1 completed rep-001 and rep-002 literature accounting and separate chronological research-OOS forecast translations. rep-001 reproduced the core Samuelson maturity-volatility effect; rep-002 reproduced the source-faithful adjacent-month carry seasonality component. Both forecast translations were INCONCLUSIVE and neither met the 1% relative-RMSE SURVIVE threshold.",
   "historical_facts": {
-    "observed": "External literature findings and source/design feasibility have been mapped; programme 002 has completed zero internal empirical reproductions.",
-    "rules_out": "Feasibility failures rule out the invalid source/design substitutions explicitly classified REDESIGN or HOLD; they do not establish a market null.",
-    "does_not_rule_out": "Source-faithful versions of the mapped mechanisms remain open until implementation is verified and empirical execution is separately authorized."
+    "observed": "rep-001 core Samuelson maturity-volatility reproduces, with its later seasonal refinement fidelity-bounded; rep-002 adjacent-month carry seasonality reproduces while exact convenience-yield reproduction remains bounded by the unresolved source rate construction. Their separate forecast translations were INCONCLUSIVE: rep-001 improved relative RMSE by about 0.29%, and rep-002 worsened it slightly.",
+    "rules_out": "Neither rep-001 nor rep-002 provides the repeatable >=1% chronological OOS improvement required for the Phase-2 gate.",
+    "does_not_rule_out": "The literature mechanisms remain valid historical/source-study findings; the forecast results do not establish a universal market null or consume reserved confirmation."
   },
   "useful_secondary_observations": [
-    "rep-001-samuelson-maturity-volatility:go",
-    "rep-002-seasonal-forward-curve:go"
+    "rep-001-samuelson-maturity-volatility:core_literature_reproduced_forecast_inconclusive",
+    "rep-002-seasonal-forward-curve:carry_pattern_reproduced_forecast_inconclusive"
   ],
-  "remaining_untested_roles": [
-    "rep-001-samuelson-maturity-volatility",
-    "rep-002-seasonal-forward-curve"
-  ],
-  "revisit_trigger": "Revisit empirical execution only after applicable HOLD/REDESIGN blockers are resolved, implementation/power contracts are verified, and the operator explicitly authorizes the transition.",
-  "programme_interpretation": "This line remains pre-empirical. Literature support is external evidence, not an internal programme result.",
+  "remaining_untested_roles": [],
+  "revisit_trigger": "Phase 1 is closed. Revisit or extend this line only through a new explicitly authorized successor research scope; do not tune against the same research-OOS evidence to rescue a held or inconclusive result.",
+  "programme_interpretation": "Line 001 contains successful literature accounting for rep-001 and rep-002 but no Phase-2 predictive survivor. Literature reproduction and forecast usefulness remain separate conclusions.",
   "evidence_refs": [
     "research/programmes/002-henry-hub-fresh/lines/001-market-structure/findings/literature-findings.json",
     "research/programmes/002-henry-hub-fresh/evidence-map.json",
     "research/programmes/002-henry-hub-fresh/feasibility-ledger.json",
-    "research/programmes/002-henry-hub-fresh/feasibility-source-scan.json"
+    "research/programmes/002-henry-hub-fresh/feasibility-source-scan.json",
+    "research/programmes/002-henry-hub-fresh/lines/001-market-structure/experiments/rep-001-samuelson-maturity-volatility/result.json",
+    "research/programmes/002-henry-hub-fresh/lines/001-market-structure/experiments/rep-002-seasonal-forward-curve/result.json",
+    "research/programmes/002-henry-hub-fresh/lines/001-market-structure/experiments/rep-001-samuelson-maturity-volatility/literature-reproduction.json",
+    "research/programmes/002-henry-hub-fresh/lines/001-market-structure/experiments/rep-002-seasonal-forward-curve/literature-reproduction.json",
+    "research/programmes/002-henry-hub-fresh/phase1-mechanism-scorecard.json"
   ],
-  "experiment_history": [],
-  "experiment_refs": []
+  "experiment_history": [
+    {
+      "experiment_id": "rep-001-samuelson-maturity-volatility"
+    },
+    {
+      "experiment_id": "rep-002-seasonal-forward-curve"
+    }
+  ],
+  "experiment_refs": [
+    {
+      "experiment_id": "rep-001-samuelson-maturity-volatility",
+      "path": "research/programmes/002-henry-hub-fresh/lines/001-market-structure/experiments/rep-001-samuelson-maturity-volatility"
+    },
+    {
+      "experiment_id": "rep-002-seasonal-forward-curve",
+      "path": "research/programmes/002-henry-hub-fresh/lines/001-market-structure/experiments/rep-002-seasonal-forward-curve"
+    }
+  ]
 }

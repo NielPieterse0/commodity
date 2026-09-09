@@ -22,6 +22,10 @@ def validate(schema_name: str, path: Path) -> dict:
 def test_programmes_own_numbered_research_line_hierarchy() -> None:
     assert not (ROOT / "research" / "programme").exists()
     assert not (ROOT / "research" / "experiments").exists()
+    methodology = load_json(ROOT / "config" / "research_methodology.json")
+    exploratory_prereg_required = "valid_preregistration" in set(
+        methodology.get("new_exploratory_execution_requires", [])
+    )
     programme_dirs = sorted(path for path in PROGRAMMES.iterdir() if path.is_dir())
     assert programme_dirs
     for programme_dir in programme_dirs:
@@ -44,12 +48,19 @@ def test_programmes_own_numbered_research_line_hierarchy() -> None:
                 assert experiment_dir.parent == experiments_dir
                 legacy_path = experiment_dir / "legacy-record.json"
                 prereg_path = experiment_dir / "prereg.json"
-                assert legacy_path.is_file() != prereg_path.is_file()
+                assert not (legacy_path.is_file() and prereg_path.is_file())
                 if legacy_path.is_file():
                     legacy = validate("legacy_experiment_record.schema.json", legacy_path)
                     assert legacy["programme_id"] == programme["programme_id"]
                     assert legacy["research_line_id"] == line["research_line_id"]
                     assert legacy["experiment_id"] == experiment_ref["experiment_id"]
+                    continue
+                if not prereg_path.is_file():
+                    assert not exploratory_prereg_required
+                    result = load_json(experiment_dir / "result.json")
+                    assert result["design_id"] == experiment_ref["experiment_id"]
+                    assert result["issue"] == line["stopping_rules"]["phase1_execution_authorized_issue"]
+                    assert result["protected_confirmation_accessed"] is False
                     continue
                 prereg = load_json(prereg_path)
                 record = load_json(experiment_dir / "record.json")

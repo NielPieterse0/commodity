@@ -8,15 +8,15 @@ Source: `research/programmes/002-henry-hub-fresh/lines/005-fundamental-balance/f
 
 | Field | Value |
 | --- | --- |
-| `schema_version` | 1 |
 | `level` | L3 |
 | `line_id` | 005-fundamental-balance |
+| `schema_version` | 1 |
 
 ## Structure
 
 | Field | Shape |
 | --- | --- |
-| `schema_version` | int |
+| `findings` | array (3 items) |
 | `level` | str |
 | `line_id` | str |
-| `findings` | array (3 items) |
+| `schema_version` | int |

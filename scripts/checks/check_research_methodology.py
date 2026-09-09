@@ -128,6 +128,9 @@ def check_schema() -> None:
     )
     for name in schema_names:
         Draft202012Validator.check_schema(load_json(ROOT / "contracts" / name))
+    methodology = load_json(ROOT / "config/research_methodology.json")
+    exploratory_requires = set(methodology.get("new_exploratory_execution_requires", []))
+    exploratory_prereg_required = "valid_preregistration" in exploratory_requires
     for programme_dir in programme_dirs():
         programme_path = programme_dir / "programme.json"
         validate_document(ROOT / "contracts/programme.schema.json", programme_path)
@@ -153,11 +156,22 @@ def check_schema() -> None:
                 directory = ROOT / experiment_ref["path"]
                 legacy = directory / "legacy-record.json"
                 prereg = directory / "prereg.json"
-                if legacy.is_file() == prereg.is_file():
-                    raise ValueError(f"registered experiment must contain exactly one of legacy-record.json or prereg.json: {experiment_ref['path']}")
+                if legacy.is_file() and prereg.is_file():
+                    raise ValueError(f"registered experiment cannot contain both legacy-record.json and prereg.json: {experiment_ref['path']}")
                 if legacy.is_file():
                     validate_document(ROOT / "contracts/legacy_experiment_record.schema.json", legacy)
-    methodology = load_json(ROOT / "config/research_methodology.json")
+                elif not prereg.is_file():
+                    result = directory / "result.json"
+                    if exploratory_prereg_required or not result.is_file():
+                        raise ValueError(f"registered experiment without legacy/prereg must be an allowed pre-proof exploratory result: {experiment_ref['path']}")
+                    result_value = load_json(result)
+                    if result_value.get("design_id") != experiment_ref["experiment_id"]:
+                        raise ValueError(f"pre-proof exploratory result identity mismatch: {experiment_ref['path']}")
+                    authorized_issue = (line.get("stopping_rules") or {}).get("phase1_execution_authorized_issue")
+                    if authorized_issue is None or result_value.get("issue") != authorized_issue:
+                        raise ValueError(f"unpreregistered exploratory result lacks matching line-level operator authorization: {experiment_ref['path']}")
+                    if result_value.get("protected_confirmation_accessed") is not False:
+                        raise ValueError(f"unpreregistered exploratory result must not access protected confirmation: {experiment_ref['path']}")
     if methodology.get("issue") != 320 or methodology.get("execution_authority") is not False:
         raise ValueError("research_methodology.json must retain #320 identity and no trading authority")
     if methodology.get("new_exploratory_schema_version") != 3:

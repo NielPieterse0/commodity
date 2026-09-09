@@ -131,7 +131,8 @@ def test_positioning_primary_uses_weekly_change_not_persistent_level():
 
 def test_physical_balance_monthly_series_are_pinned_before_outcome_access():
     design = designs_by_id()["rep-012-physical-balance-drivers"]
-    assert design["source_route"]["monthly_series"] == {
+    stage_b = design["source_route"]["stage_b_independent_extension"]
+    assert stage_b["monthly_series"] == {
         "production": "NG.N9070US2.M",
         "consumption": "NG.N9140US2.M",
         "imports": "NG.N9100US2.M",
@@ -139,7 +140,7 @@ def test_physical_balance_monthly_series_are_pinned_before_outcome_access():
         "storage_working_gas": "NG.NGM_EPG0_SAO_R48_MMCF.M",
         "henry_hub_reference": "NG.RNGWHHD.M",
     }
-    assert design["source_route"]["physical_unit"] == "Million Cubic Feet"
+    assert stage_b["physical_unit"] == "Million Cubic Feet"
 
 
 def test_external_go_routes_remain_source_bounded():

@@ -1,0 +1,49 @@
+{
+  "capacities": {
+    "rep_001": {
+      "block_size": 20,
+      "effective_blocks": 95.15,
+      "minimum_effective_blocks": 8.0,
+      "sample_rows": 1903,
+      "status": "passed"
+    },
+    "rep_002": {
+      "block_size": 20,
+      "effective_blocks": 94.95,
+      "minimum_effective_blocks": 8.0,
+      "sample_rows": 1899,
+      "status": "passed"
+    },
+    "rep_004": {
+      "block_size": 4,
+      "effective_blocks": 7.0,
+      "reason": "moving-block bootstrap requires at least 8 effective blocks",
+      "sample_rows": 28,
+      "status": "failed"
+    },
+    "rep_005": {
+      "block_size": 4,
+      "effective_blocks": 7.0,
+      "reason": "moving-block bootstrap requires at least 8 effective blocks",
+      "sample_rows": 28,
+      "status": "failed"
+    },
+    "rep_009": {
+      "block_size": 20,
+      "effective_blocks": 5.4,
+      "reason": "moving-block bootstrap requires at least 8 effective blocks",
+      "sample_rows": 108,
+      "status": "failed"
+    }
+  },
+  "issue": 327,
+  "registry_updates": {
+    "phase1-rep001-reserved-confirmation-v1": "research_oos_disposition_inconclusive",
+    "phase1-rep002-reserved-confirmation-v1": "research_oos_disposition_inconclusive",
+    "phase1-rep004-rep005-reserved-confirmation-v1": "research_oos_uncertainty_capacity_failed",
+    "phase1-rep009-reserved-confirmation-v1": "research_oos_uncertainty_capacity_failed"
+  },
+  "repair_inputs": "metadata_counts_contract_and_research_oos_result_metadata_only",
+  "reserved_outcomes_accessed": false,
+  "schema_version": 1
+}
