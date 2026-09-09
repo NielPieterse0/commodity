@@ -36,6 +36,15 @@
       ]
     },
     {
+      "path": "docs/quantitative-research-knowledge.md",
+      "kind": "quantitative_research_knowledge",
+      "sources": [
+        "config/quantitative_research_knowledge.json",
+        "contracts/quantitative_research_knowledge.schema.json",
+        "AGENTS.md"
+      ]
+    },
+    {
       "path": "docs/roadmap.md",
       "kind": "research_roadmap",
       "sources": [

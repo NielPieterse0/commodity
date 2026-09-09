@@ -1,0 +1,166 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://commodity.local/contracts/quantitative_research_knowledge.schema.json",
+  "title": "Commodity quantitative research knowledge router",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "router_id",
+    "programme_issue",
+    "phase_issue",
+    "purpose",
+    "canonical_methodology_owner",
+    "agent_usage",
+    "sources",
+    "routing",
+    "playbooks",
+    "methodology_map",
+    "missing_controls",
+    "legacy_inputs",
+    "copyright_policy",
+    "protected_confirmation_boundary"
+  ],
+  "properties": {
+    "schema_version": {"const": 1},
+    "router_id": {"type": "string", "minLength": 1},
+    "programme_issue": {"const": 353},
+    "phase_issue": {"const": 354},
+    "purpose": {"type": "string", "minLength": 1},
+    "canonical_methodology_owner": {"const": "config/research_methodology.json"},
+    "agent_usage": {
+      "type": "object",
+      "required": ["rule", "skill_boundary", "precedence"],
+      "properties": {
+        "rule": {"type": "string", "minLength": 1},
+        "skill_boundary": {"type": "string", "minLength": 1},
+        "precedence": {"type": "array", "minItems": 3, "items": {"type": "string"}}
+      }
+    },
+    "sources": {
+      "type": "object",
+      "minProperties": 5,
+      "additionalProperties": {"$ref": "#/$defs/source"}
+    },
+    "routing": {
+      "type": "object",
+      "minProperties": 8,
+      "additionalProperties": {"$ref": "#/$defs/route"}
+    },
+    "playbooks": {
+      "type": "object",
+      "minProperties": 7,
+      "additionalProperties": {"$ref": "#/$defs/playbook"}
+    },
+    "methodology_map": {
+      "type": "array",
+      "minItems": 3,
+      "items": {"$ref": "#/$defs/methodologyMap"}
+    },
+    "missing_controls": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"$ref": "#/$defs/missingControl"}
+    },
+    "legacy_inputs": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["issue", "role", "url"],
+        "properties": {
+          "issue": {"type": "integer", "minimum": 1},
+          "role": {"type": "string", "minLength": 1},
+          "url": {"type": "string", "pattern": "^https://"}
+        }
+      }
+    },
+    "copyright_policy": {
+      "type": "object",
+      "required": ["copy_book_prose", "allowed_repository_content", "third_party_code_requires_license_review", "third_party_code_imported_in_phase_zero"],
+      "properties": {
+        "copy_book_prose": {"const": false},
+        "allowed_repository_content": {"type": "array", "minItems": 1, "items": {"type": "string"}},
+        "third_party_code_requires_license_review": {"const": true},
+        "third_party_code_imported_in_phase_zero": {"const": false}
+      }
+    },
+    "protected_confirmation_boundary": {"$ref": "#/$defs/protectedBoundary"}
+  },
+  "$defs": {
+    "source": {
+      "type": "object",
+      "required": ["title", "authors", "tier", "url", "access", "license_or_copyright", "authority_domains"],
+      "properties": {
+        "title": {"type": "string", "minLength": 1},
+        "authors": {"type": "array", "minItems": 1, "items": {"type": "string"}},
+        "tier": {"type": "integer", "enum": [1, 2]},
+        "url": {"type": "string", "pattern": "^https://"},
+        "access": {"type": "string", "minLength": 1},
+        "license_or_copyright": {"type": "string", "minLength": 1},
+        "authority_domains": {"type": "array", "minItems": 1, "items": {"type": "string"}}
+      }
+    },
+    "route": {
+      "type": "object",
+      "required": ["question", "primary_sources", "secondary_sources", "owner_refs"],
+      "properties": {
+        "question": {"type": "string", "minLength": 1},
+        "primary_sources": {"type": "array", "minItems": 1, "items": {"type": "string"}},
+        "secondary_sources": {"type": "array", "items": {"type": "string"}},
+        "owner_refs": {"type": "array", "minItems": 1, "items": {"type": "string"}}
+      }
+    },
+    "playbook": {
+      "type": "object",
+      "required": ["purpose", "rules"],
+      "properties": {
+        "purpose": {"type": "string", "minLength": 1},
+        "rules": {"type": "array", "minItems": 4, "items": {"$ref": "#/$defs/playbookRule"}}
+      }
+    },
+    "playbookRule": {
+      "type": "object",
+      "required": ["order", "rule_id", "instruction", "source_ids", "owner_refs"],
+      "properties": {
+        "order": {"type": "integer", "minimum": 1},
+        "rule_id": {"type": "string", "minLength": 1},
+        "instruction": {"type": "string", "minLength": 1},
+        "source_ids": {"type": "array", "minItems": 1, "items": {"type": "string"}},
+        "owner_refs": {"type": "array", "minItems": 1, "items": {"type": "string"}}
+      }
+    },
+    "methodologyMap": {
+      "type": "object",
+      "required": ["control_id", "current_rule", "owner_refs", "source_authority", "legacy_evidence", "status", "missing_control"],
+      "properties": {
+        "control_id": {"type": "string", "minLength": 1},
+        "current_rule": {"type": "string", "minLength": 1},
+        "owner_refs": {"type": "array", "minItems": 1, "items": {"type": "string"}},
+        "source_authority": {"type": "array", "minItems": 1, "items": {"type": "string"}},
+        "legacy_evidence": {"type": "array", "items": {"type": "integer"}},
+        "status": {"enum": ["covered", "partial", "missing"]},
+        "missing_control": {"type": ["string", "null"]}
+      }
+    },    "missingControl": {
+      "type": "object",
+      "required": ["control_id", "source_authority", "target_phase", "requirement"],
+      "properties": {
+        "control_id": {"type": "string", "minLength": 1},
+        "source_authority": {"type": "array", "minItems": 1, "items": {"type": "string"}},
+        "target_phase": {"type": "integer", "minimum": 1, "maximum": 8},
+        "requirement": {"type": "string", "minLength": 1}
+      }
+    },
+    "protectedBoundary": {
+      "type": "object",
+      "required": ["outcomes_must_remain_unread", "outcomes_must_not_influence_design_or_selection", "allowed_preparation", "authority_refs"],
+      "properties": {
+        "outcomes_must_remain_unread": {"const": true},
+        "outcomes_must_not_influence_design_or_selection": {"const": true},
+        "allowed_preparation": {"type": "string", "minLength": 1},
+        "authority_refs": {"type": "array", "minItems": 1, "items": {"type": "string"}}
+      }
+    }
+  }
+}

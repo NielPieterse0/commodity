@@ -1,0 +1,49 @@
+{
+  "schema_version": 4,
+  "change_id": "354-quantitative-research-knowledge-router",
+  "status": "active",
+  "branch": "change/354-quantitative-research-knowledge-router",
+  "worktree": ".work/worktrees/354-quantitative-research-knowledge-router",
+  "base": "main",
+  "outcome": "Establish Programme 003 Phase 0 as a repository-native quantitative-research knowledge router with cited source ownership, executable Commodity playbooks, methodology gap mapping, generated guidance, and protected-confirmation boundaries intact.",
+  "owned_paths": [
+    ".work/changes/354-quantitative-research-knowledge-router/**",
+    "AGENTS.md",
+    "config/quantitative_research_knowledge.json",
+    "config/documentation.json",
+    "config/rule_verification.json",
+    "contracts/quantitative_research_knowledge.schema.json",
+    "scripts/checks/check_quantitative_research_knowledge.py",
+    "scripts/docs/generate_docs.py",
+    "scripts/verify.ps1",
+    ".github/workflows/ci.yml",
+    "tests/repository/test_quantitative_research_knowledge.py",
+    "docs/**"
+  ],
+  "shared_paths": [],
+  "excluded_paths": [],  "dependencies": [],
+  "integration_owner": null,
+  "complexity": "medium",
+  "risk_triggers": [
+    "architecture_boundary",
+    "public_contract"
+  ],
+  "base_evidence": {
+    "local_sha": "2ac561c2aeee1493440915dbd0cd4bc392e69945",
+    "local_tree": "f26eedbc61f18b6a26c4a93e2410c53663b8317f",
+    "upstream_sha": "2ac561c2aeee1493440915dbd0cd4bc392e69945",
+    "upstream_tree": "f26eedbc61f18b6a26c4a93e2410c53663b8317f",
+    "upstream_ref": "refs/remotes/origin/main",
+    "evidence_source": "verified_github_default_branch",
+    "relation": "same_sha"
+  },
+  "work_management": {
+    "project_id": "commodity",
+    "record_id": "WORK-354",
+    "source_repository": "NielPieterse0/commodity",
+    "source_number": 354,
+    "source_kind": "issue",
+    "documentation_impact": "planned",
+    "execution_owner": "codex"
+  }
+}

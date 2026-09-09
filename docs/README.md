@@ -11,6 +11,7 @@ Governed change records remain under `.work/changes/` for their full lifecycle, 
 - `big-picture.md` — programme state and direction
 - `data-manifest.md` — data architecture and source state
 - `research-methodology.md` — governed research lifecycle
+- `quantitative-research-knowledge.md` — external knowledge routes, playbooks, and methodology gaps
 - `roadmap.md` — maturity progression
 - `THIRD_PARTY.md` — third-party trust and licensing policy
 - `reference/` — direct artifact reference pages

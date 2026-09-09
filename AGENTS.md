@@ -64,6 +64,7 @@ Until the repository ownership model is deliberately simplified and migrated, re
 | 38 | Preserved non-authoritative legacy/scratch/audit working material | `.work/historical/` |
 | 39 | Human onboarding/orientation | `README.md` |
 | 40 | Binding repository rule-to-verifier registry and generated verification projection | `config/rule_verification.json`; projected through the documentation generator as `docs/rule-verification.md` |
+| 41 | Quantitative-research external knowledge routing, distilled playbooks, methodology coverage map, and deferred control gaps | `config/quantitative_research_knowledge.json`, constrained by `contracts/quantitative_research_knowledge.schema.json`; projected as generated `docs/quantitative-research-knowledge.md` |
 
 When information changes, update its canonical owner first. Do not create another competing ownership registry elsewhere.
 
@@ -92,6 +93,8 @@ The linked GitHub Project issue is the human-facing research-slice document. New
 - Work Management owns configured operational tracking such as priority, readiness, hold/defer state, scheduling, and claims; it does not own repository, scientific, policy, or KIS workflow truth.
 
 ## Skills
+
+Before designing or changing forecasting, financial-ML, feature-engineering, temporal-integrity, model-selection, backtesting, data-engineering, or production-monitoring behavior, consult `config/quantitative_research_knowledge.json` for the external-source route, distilled Commodity playbook, current methodology coverage, and deferred control gaps. The router supplements but never overrides the canonical owners above.
 
 Reusable skills must be discovered and loaded through the live KIS Skills module. Do not vendor or maintain a repository-local reusable skill catalogue.
 
