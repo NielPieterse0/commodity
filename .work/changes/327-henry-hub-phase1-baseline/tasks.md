@@ -23,4 +23,4 @@
 - [x] Reconcile the Phase-1 terminal research state: no mechanism met the frozen Phase-2 SURVIVE rule; by explicit operator decision Phase 1 closes as a completed no-survivor phase, Phase 2 remains blocked, and any further signal search requires a new successor scope.
 - [x] Run governed scope check, affected verification, full canonical verification, and specialist review; automated review evidence exceeded its bounded budget, so exact-diff fallback was used, one governance weakness was fixed, and the complete verifier passed with 500 tests.
 - [x] Commit, prepare exact reviewable PR #345, pass exact-head GitHub Actions run 34328476519 on `94c73dd6cf27e1929100bd96faaca4422e1df8ed`, and merge through KIS as `1baeacbfc7318d4f8d4d50b9a85dfc0c0a047c5e`.
-- [ ] Reconcile Programme 002 / Work state and clean the worktree; close #327 with the superseding operator-closeout decision and without declaring Phase 2 Ready.
+- [x] Reconcile Programme 002 / Work state and close #327 with the superseding operator-closeout decision without declaring Phase 2 Ready; terminal worktree retirement follows after this closed-scope record lands.
