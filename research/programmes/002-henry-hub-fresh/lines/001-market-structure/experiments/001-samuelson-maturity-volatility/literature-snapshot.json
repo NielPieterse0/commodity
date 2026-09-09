@@ -1,0 +1,48 @@
+{
+  "schema_version": 1,
+  "snapshot_id": "rep-001-literature-pre-outcome-2026-09-05",
+  "research_question": "Does Henry Hub listed-contract volatility exhibit the Samuelson maturity effect, including the literature-reported winter dependence?",
+  "search_scope": "Fresh Programme 002 literature inventory only; no legacy internal outcomes or magnitudes used.",
+  "sources": [
+    {
+      "source_id": "mu-2007",
+      "title": "Weather, storage, and natural gas price dynamics: fundamentals and volatility",
+      "source_type": "peer_reviewed",
+      "quality": "primary",
+      "locator": "doi:10.1016/j.eneco.2006.04.003",
+      "year": 2007
+    },
+    {
+      "source_id": "ergen-rizvanoghlu-2016",
+      "title": "Asymmetric impacts of fundamentals on the natural gas futures volatility",
+      "source_type": "peer_reviewed",
+      "quality": "primary",
+      "locator": "Energy Economics 56 (2016), 64-74",
+      "year": 2016
+    }
+  ],
+  "claim_map": [
+    {
+      "claim": "Nearer natural-gas futures maturities are more volatile than farther maturities.",
+      "source_ids": [
+        "mu-2007",
+        "ergen-rizvanoghlu-2016"
+      ]
+    },
+    {
+      "claim": "The time-to-maturity volatility effect is season-dependent and is reported in winter in the Ergen-Rizvanoghlu specification.",
+      "source_ids": [
+        "ergen-rizvanoghlu-2016"
+      ]
+    }
+  ],
+  "expected_observations": [
+    "Mean absolute same-contract log return decreases in the predeclared order as DTE increases.",
+    "The Samuelson contrast is present in winter-withdrawal months and is not stronger in the opposite direction outside winter."
+  ],
+  "disconfirming_observations": [
+    "The ordered DTE contrast is flat or opposite under informative power.",
+    "Any apparent maturity effect depends on cross-contract returns or on price-conditioned liquidity filtering.",
+    "The winter interaction is opposite the literature-reported seasonal pattern without a source-fidelity explanation."
+  ]
+}

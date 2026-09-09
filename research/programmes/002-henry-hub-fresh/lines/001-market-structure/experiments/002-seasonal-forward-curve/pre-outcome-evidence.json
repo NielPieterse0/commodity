@@ -1,0 +1,46 @@
+{
+  "archive_complete_through": "2026-08-12",
+  "archive_id": "databento-ng-full-history-v1",
+  "change_local_dry_run_sha256": "c581dd32e8c62bbc815749a52133967cfb7b1b9d4ca0bde90592b0740fa5f7ef",
+  "conclusion": "Outcome-blind identity-only dry run confirms all 195 calendar months have an eligible exact-contract M1-M6 snapshot; settlement prices were not accessed.",
+  "definition_manifest_sha256": "28384d503e8edb3bb06f28c5e0c7c527af1a6af7967665028c2590ab8d8fb0f4",
+  "design_id": "rep-002-seasonal-forward-curve",
+  "evidence_class": "outcome_blind_archive_dry_run",
+  "experiment_id": "002-seasonal-forward-curve",
+  "identity_semantics": "instrument_id and definition payload are resolved point-in-time; provider-undefined timestamps are excluded; no global symbol-to-expiration mapping",
+  "power": {
+    "alpha": 0.05,
+    "block_length_months": 12,
+    "detectable_standardized_effect": 0.6949877579153834,
+    "effective_information": 16.25,
+    "method": "12_month_calendar_block_effective_information",
+    "power_at_mepi": 0.8561960885019033,
+    "raw_months": 195,
+    "scientific_mepi_standardized": 0.75,
+    "target_power": 0.8
+  },
+  "protected_outcomes_accessed": false,
+  "runner_sha256": "01e99c9ee59a7f73bd3435048ba81a946be506cf4943e8e0f81793e02329874d",
+  "sample": {
+    "eligible_months": 195,
+    "first_snapshot": "2010-06-30",
+    "last_snapshot": "2026-08-12",
+    "minimum_active_maturities": 94,
+    "trade_dates_screened": 4223
+  },
+  "schema_version": 1,
+  "statistics_access_contract": {
+    "all_records": [
+      "stat_type"
+    ],
+    "cleared_volume_only": [
+      "instrument_id",
+      "ts_ref",
+      "ts_event",
+      "ts_recv",
+      "quantity"
+    ],
+    "settlement_price": "never accessed"
+  },
+  "statistics_manifest_sha256": "506142d2e8668be0d2cbd9ec2f99565c87de6066dc605fb868df9b927f291a30"
+}

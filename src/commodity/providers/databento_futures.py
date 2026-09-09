@@ -414,6 +414,18 @@ def _symbol_column(frame: pd.DataFrame) -> str:
     raise DataContractViolation("Databento statistics are missing mapped raw symbols")
 
 
+def databento_contract_id(
+    symbols: pd.Series,
+    expirations: pd.Series,
+) -> pd.Series:
+    """Build a stable listed-contract identity across Databento symbol reuse eras."""
+    symbol = symbols.astype("string").str.strip()
+    expiration = pd.to_datetime(expirations, utc=True, errors="coerce")
+    if symbol.isna().any() or symbol.eq("").any() or expiration.isna().any():
+        raise DataContractViolation("Databento contract identity contains invalid symbol or expiration")
+    return symbol + "@" + expiration.dt.strftime("%Y-%m-%d")
+
+
 def normalize_databento_contract_history(
     definitions: pd.DataFrame,
     statistics: pd.DataFrame,
@@ -451,10 +463,12 @@ def normalize_databento_contract_history(
     definitions = definitions[definitions["instrument_class"].astype(str) == "F"].copy()
     if definitions.empty:
         raise DataContractViolation("Databento definitions contain no outright futures")
+    definitions["raw_symbol"] = definitions["raw_symbol"].astype("string").str.strip()
     definitions["expiration"] = pd.to_datetime(definitions["expiration"], utc=True, errors="coerce")
+    if definitions["raw_symbol"].isna().any() or definitions["raw_symbol"].eq("").any():
+        raise DataContractViolation("Databento definitions contain invalid raw_symbol")
     if definitions["expiration"].isna().any():
         raise DataContractViolation("Databento definitions contain invalid expiration")
-    definitions = definitions.sort_values("expiration").drop_duplicates("raw_symbol", keep="last")
 
     stats = statistics.copy()
     symbol_col = _symbol_column(stats)
@@ -468,6 +482,24 @@ def normalize_databento_contract_history(
         stats["_available_at"] = received.fillna(stats["ts_event"])
     else:
         stats["_available_at"] = stats["ts_event"]
+
+    temporal_fields = {"definition_expiration", "definition_exchange"}
+    temporal_present = temporal_fields.intersection(stats.columns)
+    if temporal_present and temporal_present != temporal_fields:
+        raise DataContractViolation("Databento statistics contain incomplete temporal definition identity")
+    has_temporal_definition = temporal_present == temporal_fields
+    if has_temporal_definition:
+        stats["definition_expiration"] = pd.to_datetime(
+            stats["definition_expiration"], utc=True, errors="coerce"
+        )
+        if stats["definition_expiration"].isna().any():
+            raise DataContractViolation("Databento statistics contain invalid temporal expiration")
+        if "definition_asset" in stats.columns:
+            stats = stats[stats["definition_asset"].astype(str).eq(product_code)].copy()
+        if "definition_instrument_class" in stats.columns:
+            stats = stats[
+                stats["definition_instrument_class"].astype(str).eq("F")
+            ].copy()
 
     settlements = stats[stats["stat_type"].eq(SETTLEMENT_STAT_TYPE)].copy()
     settlements = settlements[
@@ -488,9 +520,10 @@ def normalize_databento_contract_history(
         .drop_duplicates(["_symbol", "ts_ref"], keep="last")
         .copy()
     )
-    settlements = settlements[
-        ["_symbol", "ts_ref", "ts_event", "_available_at", "price"]
-    ].copy()
+    settlement_columns = ["_symbol", "ts_ref", "ts_event", "_available_at", "price"]
+    if has_temporal_definition:
+        settlement_columns.extend(["definition_expiration", "definition_exchange"])
+    settlements = settlements[settlement_columns].copy()
 
     volumes = stats[stats["stat_type"].eq(CLEARED_VOLUME_STAT_TYPE)].copy()
     if not volumes.empty and "quantity" in volumes.columns:
@@ -515,20 +548,42 @@ def normalize_databento_contract_history(
             ["_available_at", "_volume_available_at"]
         ].max(axis=1)
 
-    definition_cols = ["raw_symbol", "expiration", "exchange"]
-    out = settlements.merge(
-        definitions[definition_cols],
-        left_on="_symbol",
-        right_on="raw_symbol",
-        how="inner",
-        validate="many_to_one",
-    )
+    if has_temporal_definition:
+        out = settlements.rename(
+            columns={
+                "definition_expiration": "expiration",
+                "definition_exchange": "exchange",
+            }
+        ).copy()
+        out["raw_symbol"] = out["_symbol"].astype("string").str.strip()
+        if out[["expiration", "exchange"]].isna().any().any():
+            raise DataContractViolation("Databento temporal definition identity is incomplete")
+    else:
+        definition_identity = definitions[
+            ["raw_symbol", "expiration", "exchange"]
+        ].drop_duplicates()
+        reused = definition_identity.groupby("raw_symbol").agg(
+            expirations=("expiration", "nunique"),
+            exchanges=("exchange", "nunique"),
+        )
+        if reused[["expirations", "exchanges"]].gt(1).any(axis=1).any():
+            raise DataContractViolation(
+                "Databento reused raw_symbol requires temporal definition identity"
+            )
+        definition_identity = definition_identity.drop_duplicates("raw_symbol", keep="last")
+        out = settlements.merge(
+            definition_identity,
+            left_on="_symbol",
+            right_on="raw_symbol",
+            how="inner",
+            validate="many_to_one",
+        )
     if out.empty:
         raise DataContractViolation("Databento final settlements do not match outright definitions")
     canonical = pd.DataFrame(
         {
             "trade_date": out["ts_ref"].dt.normalize(),
-            "contract_id": out["raw_symbol"].astype(str),
+            "contract_id": databento_contract_id(out["raw_symbol"], out["expiration"]),
             "expiration": out["expiration"],
             "settle": out["price"],
             "available_at": out["_available_at"],
@@ -559,9 +614,9 @@ def normalize_databento_contract_history(
     return canonical, metadata
 
 
-def _map_offline_statistics_symbols(
+def map_databento_instrument_symbols(
     definitions: pd.DataFrame,
-    statistics: pd.DataFrame,
+    observations: pd.DataFrame,
 ) -> pd.DataFrame:
     required_definitions = {"instrument_id", "raw_symbol"}
     missing_definitions = sorted(required_definitions - set(definitions.columns))
@@ -569,18 +624,26 @@ def _map_offline_statistics_symbols(
         raise DataContractViolation(
             f"Databento offline definitions missing identity fields: {missing_definitions}"
         )
-    if "instrument_id" not in statistics.columns:
+    if "instrument_id" not in observations.columns:
         raise DataContractViolation(
-            "Databento offline statistics are missing instrument_id"
+            "Databento offline observations are missing instrument_id"
         )
     definition_time = "ts_recv" if "ts_recv" in definitions.columns else "ts_event"
-    statistics_time = "ts_recv" if "ts_recv" in statistics.columns else "ts_event"
-    if definition_time not in definitions.columns or statistics_time not in statistics.columns:
+    observation_time = "ts_recv" if "ts_recv" in observations.columns else "ts_event"
+    if definition_time not in definitions.columns or observation_time not in observations.columns:
         raise DataContractViolation(
-            "Databento offline identity mapping requires definition/statistics timestamps"
+            "Databento offline identity mapping requires definition/observation timestamps"
         )
 
-    identity = definitions[["instrument_id", "raw_symbol", definition_time]].copy()
+    payload_fields = [
+        column
+        for column in ("expiration", "activation", "exchange", "asset", "instrument_class")
+        if column in definitions.columns
+    ]
+    identity = definitions[
+        ["instrument_id", "raw_symbol", definition_time, *payload_fields]
+    ].copy()
+    identity["instrument_id"] = pd.to_numeric(identity["instrument_id"], errors="coerce")
     identity["_definition_time"] = pd.to_datetime(
         identity[definition_time], utc=True, errors="coerce"
     )
@@ -593,8 +656,13 @@ def _map_offline_statistics_symbols(
         raise DataContractViolation(
             "Databento offline definitions contain no usable point-in-time symbols"
         )
+    identity["instrument_id"] = identity["instrument_id"].astype("uint64")
+    signature_fields = ["_mapped_symbol", *payload_fields]
+    identity["_identity_signature"] = (
+        identity[signature_fields].astype("string").fillna("<NA>").agg("\x1f".join, axis=1)
+    )
     ambiguous = (
-        identity.groupby(["instrument_id", "_definition_time"])["_mapped_symbol"]
+        identity.groupby(["instrument_id", "_definition_time"])["_identity_signature"]
         .nunique()
         .gt(1)
     )
@@ -604,21 +672,32 @@ def _map_offline_statistics_symbols(
         )
     identity = identity.drop_duplicates(
         ["instrument_id", "_definition_time"], keep="last"
-    )[["instrument_id", "_definition_time", "_mapped_symbol"]]
-
-    mapped = statistics.copy()
-    mapped["_row_order"] = range(len(mapped))
-    mapped["_statistics_time"] = pd.to_datetime(
-        mapped[statistics_time], utc=True, errors="coerce"
     )
-    if mapped["_statistics_time"].isna().any():
+    payload_columns = {field: f"_mapped_{field}" for field in payload_fields}
+    identity = identity.rename(columns=payload_columns)
+    identity_columns = [
+        "instrument_id",
+        "_definition_time",
+        "_mapped_symbol",
+        *payload_columns.values(),
+    ]
+    identity = identity[identity_columns]
+
+    mapped = observations.copy()
+    mapped["_row_order"] = range(len(mapped))
+    mapped["instrument_id"] = pd.to_numeric(mapped["instrument_id"], errors="coerce")
+    mapped["_observation_time"] = pd.to_datetime(
+        mapped[observation_time], utc=True, errors="coerce"
+    )
+    if mapped[["instrument_id", "_observation_time"]].isna().any().any():
         raise DataContractViolation(
-            "Databento offline statistics contain invalid identity timestamps"
+            "Databento offline observations contain invalid identity keys or timestamps"
         )
+    mapped["instrument_id"] = mapped["instrument_id"].astype("uint64")
     mapped = pd.merge_asof(
-        mapped.sort_values("_statistics_time"),
+        mapped.sort_values("_observation_time"),
         identity.sort_values("_definition_time"),
-        left_on="_statistics_time",
+        left_on="_observation_time",
         right_on="_definition_time",
         by="instrument_id",
         direction="backward",
@@ -626,12 +705,26 @@ def _map_offline_statistics_symbols(
     )
     if mapped["_mapped_symbol"].isna().any():
         raise DataContractViolation(
-            "Databento offline statistics contain unmapped point-in-time instrument_id values"
+            "Databento offline observations contain unmapped point-in-time instrument_id values"
         )
     mapped["symbol"] = mapped["_mapped_symbol"]
-    return mapped.sort_values("_row_order").drop(
-        columns=["_row_order", "_statistics_time", "_definition_time", "_mapped_symbol"]
-    )
+    for field, mapped_column in payload_columns.items():
+        mapped[f"definition_{field}"] = mapped[mapped_column]
+    helper_columns = [
+        "_row_order",
+        "_observation_time",
+        "_definition_time",
+        "_mapped_symbol",
+        *payload_columns.values(),
+    ]
+    return mapped.sort_values("_row_order").drop(columns=helper_columns)
+
+
+def _map_offline_statistics_symbols(
+    definitions: pd.DataFrame,
+    statistics: pd.DataFrame,
+) -> pd.DataFrame:
+    return map_databento_instrument_symbols(definitions, statistics)
 
 
 def canonicalize_databento_dbn_history(

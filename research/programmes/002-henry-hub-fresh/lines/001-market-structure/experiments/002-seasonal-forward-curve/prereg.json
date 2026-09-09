@@ -1,0 +1,189 @@
+{
+  "schema_version": 1,
+  "zoom_level": "L3",
+  "experiment_id": "002-seasonal-forward-curve",
+  "programme_id": "002-henry-hub-fresh",
+  "research_line_id": "001-market-structure",
+  "slice_id": "rep-002-seasonal-forward-curve",
+  "orientation": {
+    "big_picture_ref": "docs/big-picture.md",
+    "where_this_fits": "Second exact-contract market-structure reproduction in Programme 002; tests whether canonical Henry Hub forward curves preserve externally documented seasonal structure before prediction/model selection.",
+    "origin_refs": [
+      "github-issue:NielPieterse0/commodity#316",
+      "tranche-a-pre-outcome-freeze-2026-09-05"
+    ],
+    "programme_question": "Which externally documented Henry Hub behaviours reproduce under source-faithful exact-contract data and semantics?"
+  },
+  "evidence_scan_ref": {
+    "path": "research/programmes/002-henry-hub-fresh/evidence-map.json",
+    "sha256": "ece3bc85ccdd21d48dadd8c622a97b413349b2410a4ca016375168179bec550e",
+    "scan_id": "tranche-a-pre-outcome-freeze-2026-09-05"
+  },
+  "literature_snapshot_ref": {
+    "path": "research/programmes/002-henry-hub-fresh/lines/001-market-structure/experiments/002-seasonal-forward-curve/literature-snapshot.json",
+    "sha256": "a837b940b83793178c9d1808071c2e581365988bef79f4720032f1e3ca09aa8e"
+  },
+  "parent_question": "Does the exact listed-contract Henry Hub M1-M6 curve exhibit material seasonal structure between winter-withdrawal and injection months?",
+  "uncertainty_reduced": "Whether a fixed, scale-free M1-M6 curve statistic shows a material seasonal difference after exact maturity alignment and year-block dependence adjustment.",
+  "outside_scope": [
+    "predictive forecasting",
+    "live trading",
+    "synthetic continuous futures",
+    "post-outcome curve-statistic or month-selection changes"
+  ],
+  "mechanism": "Seasonal demand and inventory cycles alter scarcity and convenience yield, producing systematic seasonal differences in the level and shape of the Henry Hub futures curve.",
+  "hypotheses": {
+    "h0": "The standardized winter-withdrawal versus injection difference in the predeclared monthly M1-M6 log-curve slope is smaller than the scientific MEPI.",
+    "h1": "The standardized seasonal difference in the predeclared monthly M1-M6 log-curve slope reaches at least the scientific MEPI; sign is reported rather than imposed because the direct literature inventory does not specify the repository-specific M1-M6 sign."
+  },
+  "expectations": {
+    "expected": [
+      "The predeclared winter-withdrawal and injection distributions of monthly M1-M6 log-curve slope differ by at least the scientific MEPI with uncertainty excluding the disconfirming region."
+    ],
+    "disconfirming": [
+      "The seasonal slope contrast is below the scientific MEPI under informative power.",
+      "The seasonal pattern disappears when exact listed-contract maturity alignment and the fixed monthly snapshot rule are enforced.",
+      "Any apparent seasonal difference depends on changing the M1-M6 statistic, month-selection rule, or season definition after outcome access."
+    ]
+  },
+  "post_result_triangulation": {
+    "required": true,
+    "independent_search_required": true
+  },
+  "mepi": {
+    "scientific_mepi": {
+      "formula": "absolute",
+      "inputs": {
+        "minimum_effect": 0.75
+      },
+      "value": 0.75
+    }
+  },
+  "forecast": {
+    "target": "monthly_m1_m6_log_curve_slope_seasonal_contrast",
+    "horizon": "monthly_curve_state",
+    "prediction_timestamp_semantics": "not predictive; descriptive last identity-eligible session of each calendar month",
+    "target_timestamp_semantics": "same-day exact M1-M6 final-settlement curve snapshot",
+    "information_cutoff_semantics": "monthly date selection uses identity/expiration only; statistic and season rules fixed before price access"
+  },
+  "datasets": [
+    {
+      "id": "databento_henry_hub_contract_history",
+      "vintage": "existing-approved-full-history-complete-through-2026-08-12",
+      "split_id": "full-admissible-descriptive-reproduction",
+      "role": "confirmatory_reproduction"
+    }
+  ],
+  "dependence": {
+    "method": "block_bootstrap",
+    "raw_n": 195,
+    "parameters": {
+      "block_length": 12
+    }
+  },
+  "power": {
+    "method": "normal_effect_size",
+    "alpha": 0.05,
+    "target_power": 0.8,
+    "minimum_effect": 0.75
+  },
+  "features": {
+    "definition_id": "m1-m6-log-curve-slope-v1",
+    "preprocessing_id": "last-eligible-monthly-exact-contract-v1",
+    "information_families": [
+      "curve_seasonality",
+      "exact_maturity_structure"
+    ]
+  },
+  "model": {
+    "family": "descriptive_seasonal_contrast",
+    "configuration_id": "m1-m6-log-slope-winter-vs-injection-v1",
+    "training_rules": "No model fitting or tuning. Each month uses the last trade date with >=6 exact active listed contracts. Statistic is OLS beta of ln(final settlement) on normalized maturity rank (rank-1)/5 for M1..M6. Winter-withdrawal=Nov-Mar; injection=Apr-Oct."
+  },
+  "evaluation": {
+    "claim_scope": "descriptive_mechanism",
+    "market_implied_relevant": false,
+    "primary_metric": "standardized_winter_injection_m1_m6_slope_difference",
+    "secondary_metrics": [
+      "raw_winter_injection_slope_difference",
+      "curve_curvature_robustness",
+      "m1_m4_and_m1_m12_robustness"
+    ],
+    "inference_procedure": "calendar-year block bootstrap of the fixed monthly seasonal contrast",
+    "programme_inference_procedure": "benjamini_hochberg",
+    "statistical_family": "programme-002-market-structure-tranche-a",
+    "candidate_family": [
+      "rep-001-samuelson-maturity-volatility",
+      "rep-002-seasonal-forward-curve"
+    ],
+    "benchmarks": [
+      {
+        "id": "zero-seasonal-curve-difference",
+        "type": "scientific_null",
+        "interpretation": "no winter-withdrawal versus injection M1-M6 log-slope difference"
+      }
+    ]
+  },
+  "inference_ledger_entry_id": "inf-002-market-structure-rep-002",
+  "sealed_window": {
+    "sealed_window_id": null,
+    "use": "none"
+  },
+  "coherence_triggers": [
+    {
+      "id": "implausibly_large_seasonal_curve_effect",
+      "direction": "unexpectedly_good",
+      "metric": "absolute_standardized_seasonal_slope_difference",
+      "operator": "gte",
+      "threshold": 2.5
+    },
+    {
+      "id": "exact_maturity_alignment_failure",
+      "direction": "unexpectedly_bad",
+      "metric": "invalid_or_missing_maturity_snapshot_count",
+      "operator": "gt",
+      "threshold": 0
+    },
+    {
+      "id": "postfreeze_rule_drift",
+      "direction": "both",
+      "metric": "design_rule_drift_detected",
+      "operator": "eq",
+      "threshold": true
+    }
+  ],
+  "outcome_logic": {
+    "success": "Absolute standardized winter-withdrawal versus injection M1-M6 slope difference reaches >=0.75 MEPI, the block-bootstrap interval excludes zero/disconfirming region, and exact-maturity robustness does not invalidate the seasonal claim.",
+    "failure": "The seasonal contrast remains below 0.75 with informative uncertainty or disappears under required exact-maturity/calendar-consistent robustness.",
+    "inconclusive": "The estimated seasonal difference is nonzero/directionally structured but uncertainty overlaps the 0.75 MEPI/disconfirming region."
+  },
+  "permitted_human_dispositions": [
+    "advance",
+    "replicate",
+    "refine",
+    "branch",
+    "hold",
+    "stop"
+  ],
+  "reproduction": {
+    "mode": "logical",
+    "tolerance": {
+      "absolute": 1e-12,
+      "relative": 1e-09
+    },
+    "lockfile_identity": "requirements.lock.txt:sha256:4784d9d0037f308ea64b4e790c4894b9f06747eece8711029b12ddcbc09ac418",
+    "runtime_identity": "CPython>=3.11 locked-requirements logical reproduction",
+    "model_checkpoint_identity": "none-descriptive-estimator",
+    "hardware_sensitive_facts": []
+  },
+  "lineage": {
+    "programme_ref": "research/programmes/002-henry-hub-fresh/programme.json",
+    "research_line_ref": "research/programmes/002-henry-hub-fresh/lines/001-market-structure/line.json",
+    "predecessor_experiment_id": null,
+    "successor_experiment_ids": [],
+    "supersedes_prereg_sha256": null,
+    "supersedes_prereg_path": "",
+    "amendment_reason": "",
+    "exploratory_ancestry": []
+  }
+}

@@ -1,0 +1,190 @@
+{
+  "schema_version": 1,
+  "zoom_level": "L3",
+  "experiment_id": "001-samuelson-maturity-volatility",
+  "programme_id": "002-henry-hub-fresh",
+  "research_line_id": "001-market-structure",
+  "slice_id": "rep-001-samuelson-maturity-volatility",
+  "orientation": {
+    "big_picture_ref": "docs/big-picture.md",
+    "where_this_fits": "First exact-contract market-structure reproduction in Programme 002; establishes whether canonical Henry Hub data preserve the Samuelson maturity-volatility stylized fact before any predictive work.",
+    "origin_refs": [
+      "github-issue:NielPieterse0/commodity#316",
+      "tranche-a-pre-outcome-freeze-2026-09-05"
+    ],
+    "programme_question": "Which externally documented Henry Hub behaviours reproduce under source-faithful exact-contract data and semantics?"
+  },
+  "evidence_scan_ref": {
+    "path": "research/programmes/002-henry-hub-fresh/evidence-map.json",
+    "sha256": "ece3bc85ccdd21d48dadd8c622a97b413349b2410a4ca016375168179bec550e",
+    "scan_id": "tranche-a-pre-outcome-freeze-2026-09-05"
+  },
+  "literature_snapshot_ref": {
+    "path": "research/programmes/002-henry-hub-fresh/lines/001-market-structure/experiments/001-samuelson-maturity-volatility/literature-snapshot.json",
+    "sha256": "5023691048f3afdf48623dafb49c1e5837b94224d3db6e2c1b115724244a61e1"
+  },
+  "parent_question": "Does Henry Hub listed-contract volatility decline with time to maturity under same-contract, liquidity-safe construction?",
+  "uncertainty_reduced": "Whether the Samuelson maturity effect is reproducible in canonical Henry Hub contract history and whether its winter dependence is directionally coherent.",
+  "outside_scope": [
+    "predictive forecasting",
+    "live trading",
+    "cross-contract roll returns",
+    "post-outcome threshold tuning"
+  ],
+  "mechanism": "Delivery-relevant information and physical scarcity shocks become more important as contract maturity approaches, increasing near-contract volatility.",
+  "hypotheses": {
+    "h0": "The predeclared ordered maturity-volatility contrast is non-positive or smaller than the scientific MEPI under informative power.",
+    "h1": "Mean absolute same-contract daily log return decreases across the predeclared DTE buckets in the Samuelson direction by at least the scientific MEPI, with the winter-withdrawal interaction reported separately."
+  },
+  "expectations": {
+    "expected": [
+      "Mean absolute same-contract log return decreases in the predeclared order as DTE increases.",
+      "The Samuelson contrast is present in winter-withdrawal months and is not stronger in the opposite direction outside winter."
+    ],
+    "disconfirming": [
+      "The ordered DTE contrast is flat or opposite under informative power.",
+      "Any apparent maturity effect depends on cross-contract returns or on price-conditioned liquidity filtering.",
+      "The winter interaction is opposite the literature-reported seasonal pattern without a source-fidelity explanation."
+    ]
+  },
+  "post_result_triangulation": {
+    "required": true,
+    "independent_search_required": true
+  },
+  "mepi": {
+    "scientific_mepi": {
+      "formula": "absolute",
+      "inputs": {
+        "minimum_effect": 0.25
+      },
+      "value": 0.25
+    }
+  },
+  "forecast": {
+    "target": "absolute_same_contract_daily_log_return_by_dte",
+    "horizon": "same_trade_date_contract_state",
+    "prediction_timestamp_semantics": "not predictive; descriptive session-close contract state",
+    "target_timestamp_semantics": "same listed-contract daily return observation",
+    "information_cutoff_semantics": "exact acquired market snapshot; no post-outcome sample rule changes"
+  },
+  "datasets": [
+    {
+      "id": "databento_henry_hub_contract_history",
+      "vintage": "existing-approved-full-history-complete-through-2026-08-12",
+      "split_id": "full-admissible-descriptive-reproduction",
+      "role": "confirmatory_reproduction"
+    }
+  ],
+  "dependence": {
+    "method": "event_clusters",
+    "raw_n": 99714,
+    "parameters": {
+      "clusters": 210
+    }
+  },
+  "power": {
+    "method": "normal_effect_size",
+    "alpha": 0.05,
+    "target_power": 0.8,
+    "minimum_effect": 0.25
+  },
+  "features": {
+    "definition_id": "samuelson-dte-volume-v1",
+    "preprocessing_id": "same-contract-absolute-log-return-v1",
+    "information_families": [
+      "maturity_structure",
+      "winter_withdrawal"
+    ]
+  },
+  "model": {
+    "family": "ordered_descriptive_contrast",
+    "configuration_id": "samuelson-six-dte-buckets-v1",
+    "training_rules": "No model fitting or tuning. Fixed DTE buckets (0,30], (30,60], (60,90], (90,180], (180,365], (365,+inf); primary liquidity requires finite cleared volume > 0; primary volatility proxy is absolute same-contract daily log return."
+  },
+  "evaluation": {
+    "claim_scope": "volatility",
+    "market_implied_relevant": false,
+    "primary_metric": "standardized_ordered_dte_contrast",
+    "secondary_metrics": [
+      "bucket_mean_absolute_log_return",
+      "winter_withdrawal_interaction",
+      "squared_log_return_robustness"
+    ],
+    "inference_procedure": "contract-clustered ordered contrast with calendar-year block-bootstrap sensitivity",
+    "programme_inference_procedure": "benjamini_hochberg",
+    "statistical_family": "programme-002-market-structure-tranche-a",
+    "candidate_family": [
+      "rep-001-samuelson-maturity-volatility",
+      "rep-002-seasonal-forward-curve"
+    ],
+    "benchmarks": [
+      {
+        "id": "flat-maturity-null",
+        "type": "scientific_null",
+        "interpretation": "zero ordered maturity-volatility contrast"
+      }
+    ]
+  },
+  "inference_ledger_entry_id": "inf-002-market-structure-rep-001",
+  "sealed_window": {
+    "sealed_window_id": null,
+    "use": "none"
+  },
+  "coherence_triggers": [
+    {
+      "id": "implausibly_large_samuelson_effect",
+      "direction": "unexpectedly_good",
+      "metric": "standardized_ordered_dte_contrast",
+      "operator": "gte",
+      "threshold": 2.0
+    },
+    {
+      "id": "material_reverse_samuelson_effect",
+      "direction": "unexpectedly_bad",
+      "metric": "standardized_ordered_dte_contrast",
+      "operator": "lte",
+      "threshold": -0.25
+    },
+    {
+      "id": "roll_contamination_detected",
+      "direction": "both",
+      "metric": "cross_contract_return_count",
+      "operator": "gt",
+      "threshold": 0
+    }
+  ],
+  "outcome_logic": {
+    "success": "Primary ordered contrast is in the Samuelson direction, reaches >=0.25 standardized MEPI, uncertainty excludes zero/disconfirming direction, and required semantic/robustness checks do not invalidate the claim.",
+    "failure": "Primary contrast is non-positive/reversed under informative power, depends on roll contamination, or required winter/source-fidelity checks contradict the claim.",
+    "inconclusive": "Direction is literature-consistent but uncertainty cannot distinguish the 0.25 MEPI/disconfirming region."
+  },
+  "permitted_human_dispositions": [
+    "advance",
+    "replicate",
+    "refine",
+    "branch",
+    "hold",
+    "stop"
+  ],
+  "reproduction": {
+    "mode": "logical",
+    "tolerance": {
+      "absolute": 1e-12,
+      "relative": 1e-09
+    },
+    "lockfile_identity": "requirements.lock.txt:sha256:4784d9d0037f308ea64b4e790c4894b9f06747eece8711029b12ddcbc09ac418",
+    "runtime_identity": "CPython>=3.11 locked-requirements logical reproduction",
+    "model_checkpoint_identity": "none-descriptive-estimator",
+    "hardware_sensitive_facts": []
+  },
+  "lineage": {
+    "programme_ref": "research/programmes/002-henry-hub-fresh/programme.json",
+    "research_line_ref": "research/programmes/002-henry-hub-fresh/lines/001-market-structure/line.json",
+    "predecessor_experiment_id": null,
+    "successor_experiment_ids": [],
+    "supersedes_prereg_sha256": null,
+    "supersedes_prereg_path": "",
+    "amendment_reason": "",
+    "exploratory_ancestry": []
+  }
+}

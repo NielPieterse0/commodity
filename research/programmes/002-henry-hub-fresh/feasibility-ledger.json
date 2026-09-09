@@ -11,41 +11,41 @@
       "decision": "GO",
       "dependence_structure": "Repeated daily observations within contracts and common market shocks; contract and calendar dependence require clustered/block inference.",
       "design_id": "rep-001-samuelson-maturity-volatility",
-      "detectable_effect_screen": "Standardized cluster-count screen: 2.802/sqrt(209) = 0.194 SD; actual detectable effect must be recomputed with contract/calendar dependence.",
-      "effective_information": "209 contract identities is an optimistic cluster-count screen, not independent daily N.",
-      "eligible_raw_n": "5,025 trade dates; 209 raw contract symbols; 135,384 mapped outright contract-days",
+      "detectable_effect_screen": "Outcome-blind liquidity-qualified contract-cluster planning bound: 210 exact contract identities gives two-sided 80% MDE 0.1933277 SD at alpha 0.05; power at 0.25 SD MEPI is 0.951832.",
+      "effective_information": "210 exact contract identities are the dependence-adjusted planning units across 99,714 positive-cleared-volume contract-days; empirical uncertainty must additionally use calendar-aware block sensitivity.",
+      "eligible_raw_n": "Outcome-blind dry run: 99,714 positive-cleared-volume contract-days across 210 exact contract identities. The earlier 5,025-trade-date / 135,384-row source scan remains separate identity-coverage evidence.",
       "empirical_execution_authority": false,
-      "freeze_ready": false,
-      "mepi_derivation": "Literature requires a monotone maturity-volatility pattern; no defensible paper-magnitude MEPI was recovered, so numeric MEPI remains a freeze blocker.",
-      "power_sensitivity": "Source/sample capacity is strong. Final power must use the implemented ordered-contrast covariance, not raw rows.",
+      "freeze_ready": true,
+      "mepi_derivation": "Programme decision anchor = 0.25 standardized ordered contrast. Literature anchors direction/season dependence but not a defensible numeric magnitude; 0.25 SD is fixed as the smallest small-to-moderate descriptive Samuelson effect worth reproducing, without Programme 002 outcome access.",
+      "power_sensitivity": "PASS at the predeclared 0.25 SD MEPI under the updated 210-contract cluster planning bound; calendar-year block bootstrap remains mandatory empirical inference sensitivity and cannot rescue a failed primary contrast.",
       "remaining_blockers": [
-        "derive numeric scientific MEPI before freeze",
-        "implementation-specific clustered power simulation"
+        "remote-bind and freeze exact preregistration before outcome access"
       ],
       "semantic_fidelity_class": "near_replication_source_ready",
       "source_identities": [
         "databento_henry_hub"
-      ]
+      ],
+      "pre_outcome_evidence_ref": "research/programmes/002-henry-hub-fresh/lines/001-market-structure/experiments/001-samuelson-maturity-volatility/pre-outcome-evidence.json"
     },
     {
       "decision": "GO",
       "dependence_structure": "Curve snapshots are serially dependent and seasonal comparisons repeat within calendar years.",
       "design_id": "rep-002-seasonal-forward-curve",
-      "detectable_effect_screen": "Screen spans about 0.201 SD at raw monthly N=195 to 0.680 SD at 17 independent year blocks.",
-      "effective_information": "17 calendar years is the conservative year-block information count; 195 months is the unadjusted upper-bound row count.",
+      "detectable_effect_screen": "Twelve-month calendar-block planning bound: raw N=195 months, block length=12, effective information=16.25, two-sided 80% MDE 0.6949878 SD at alpha 0.05; power at 0.75 SD MEPI is 0.856196.",
+      "effective_information": "195 monthly snapshots is the raw upper bound; 12-month block planning yields effective information 16.25, consistent with the 17-calendar-year conservative screen.",
       "eligible_raw_n": "4,987 dates with >=6 maturities; 4,575 with >=12; 4,487 with >=13; all 195 overlapping months have a >=13-maturity date",
       "empirical_execution_authority": false,
-      "freeze_ready": false,
-      "mepi_derivation": "MEPI should be a literature/decision-relevant standardized seasonal slope shift; numeric value not yet justified from the source literature.",
-      "power_sensitivity": "Can implement now; small seasonal effects may remain unresolved after block dependence.",
+      "freeze_ready": true,
+      "mepi_derivation": "Programme decision anchor = 0.75 standardized seasonal slope contrast. Direct literature supports material Henry Hub seasonality but does not specify this repository M1-M6 scalar or a numeric magnitude; 0.75 SD is fixed as the minimum large descriptive separation worth reproducing, without Programme 002 outcome access.",
+      "power_sensitivity": "PASS at the predeclared 0.75 SD MEPI under the 12-month block planning bound; empirical uncertainty uses calendar-year block bootstrap.",
       "remaining_blockers": [
-        "derive numeric MEPI",
-        "year-block/bootstrap power simulation"
+        "remote-bind and freeze exact preregistration before outcome access"
       ],
       "semantic_fidelity_class": "mechanism_replication_source_ready",
       "source_identities": [
         "databento_henry_hub"
-      ]
+      ],
+      "pre_outcome_evidence_ref": "research/programmes/002-henry-hub-fresh/lines/001-market-structure/experiments/002-seasonal-forward-curve/pre-outcome-evidence.json"
     },
     {
       "decision": "HOLD",

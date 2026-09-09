@@ -112,6 +112,14 @@ def test_canonical_prereg_identity_ignores_key_order() -> None:
     assert canonical_prereg_sha256(prereg) == canonical_prereg_sha256(reordered)
 
 
+def test_descriptive_mechanism_preregistration_is_a_valid_claim_scope() -> None:
+    prereg = sample_prereg()
+    prereg["evaluation"]["claim_scope"] = "descriptive_mechanism"
+    prereg["mepi"].pop("economic_mepi")
+    result = verify_preregistration(prereg)
+    assert result["status"] == "verified"
+
+
 def test_mepi_is_recomputed_not_trusted() -> None:
     prereg = sample_prereg()
     prereg["mepi"]["economic_mepi"]["value"] = 999

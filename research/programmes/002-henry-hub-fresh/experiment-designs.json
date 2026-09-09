@@ -55,8 +55,8 @@
         "open_interest",
         "season"
       ],
-      "primary_estimand": "Monotone slope of log realized-volatility measure versus fixed days-to-maturity bucket, estimated on same-contract returns.",
-      "primary_test": "Joint ordered-contrast test that near-maturity volatility exceeds far-maturity volatility; report bucket effect sizes and confidence intervals.",
+      "primary_estimand": "Monotone ordered decrease in mean absolute same-contract daily log return across fixed calendar-day DTE buckets (0,30], (30,60], (60,90], (90,180], (180,365], and (365,+inf), with the winter-withdrawal interaction predeclared separately.",
+      "primary_test": "One-sided ordered-contrast test in the Samuelson direction using contract-clustered uncertainty; report bucket effects and confidence intervals, with calendar-year block-bootstrap sensitivity.",
       "required_strata": [
         "winter",
         "non_winter"
@@ -81,7 +81,36 @@
         "contract_identity_and_roll_rule": "exact listed contract; same-contract returns only",
         "availability_lag": "not predictive; contemporaneous descriptive reproduction",
         "evaluation_sample": "full admissible descriptive sample after feasibility; no reserved confirmation needed unless operator later requests independent confirmation"
-      }
+      },
+      "primary_volatility_proxy": "absolute same-contract daily log return; squared same-contract log return is robustness only",
+      "days_to_maturity_rule": "fractional calendar days from trade_date UTC-normalized timestamp to exact listed-contract expiration; require DTE > 0",
+      "dte_buckets": [
+        "0-30",
+        "31-60",
+        "61-90",
+        "91-180",
+        "181-365",
+        "366+"
+      ],
+      "liquidity_rule": "primary sample requires finite cleared volume > 0; zero-volume rows are ineligible; no price-conditioned liquidity filtering; open-interest screening is robustness only if source-valid",
+      "season_rule": "winter_withdrawal = November-March; non_winter = April-October",
+      "scientific_mepi": {
+        "type": "programme_decision_anchor",
+        "standardized_effect": 0.25,
+        "definition": "minimum standardized ordered maturity-volatility contrast worth treating as a reproduced Samuelson effect",
+        "rationale": "0.25 SD separates a trivial descriptive gradient from a small-to-moderate market-structure effect; it is not a paper magnitude and was fixed without reading Programme 002 market outcomes"
+      },
+      "dependence_power": {
+        "method": "contract_cluster_effective_information",
+        "raw_contract_days": 99714,
+        "contract_clusters": 210,
+        "alpha": 0.05,
+        "target_power": 0.8,
+        "detectable_standardized_effect": 0.19332774705823966,
+        "power_at_mepi": 0.9518318027610269,
+        "calendar_sensitivity": "calendar-year block bootstrap is mandatory for empirical uncertainty; cluster-count power is the pre-outcome planning bound"
+      },
+      "pre_outcome_evidence_ref": "research/programmes/002-henry-hub-fresh/lines/001-market-structure/experiments/001-samuelson-maturity-volatility/pre-outcome-evidence.json"
     },
     {
       "design_id": "rep-002-seasonal-forward-curve",
@@ -111,13 +140,13 @@
         "delivery_month",
         "season"
       ],
-      "primary_estimand": "Seasonal difference in standardized M1-M6 curve slope using exact listed contracts matched by time-to-delivery.",
+      "primary_estimand": "Difference between winter-withdrawal and injection-season monthly M1-M6 log-curve slopes, standardized by the pooled monthly-slope scale.",
       "secondary_estimands": [
         "curve curvature",
         "winter premium",
         "near/far spread distribution"
       ],
-      "primary_test": "Seasonal contrast with block-bootstrap confidence interval by year to preserve serial dependence.",
+      "primary_test": "Two-sided seasonal contrast with calendar-year block-bootstrap confidence interval; sign is reported rather than imposed because the direct literature inventory supports material seasonality but not a repository-specific M1-M6 sign.",
       "robustness": [
         "M1-M4 and M1-M12 eligible subsets",
         "calendar-month fixed effects",
@@ -137,7 +166,27 @@
         "contract_identity_and_roll_rule": "exact listed contracts; no synthetic continuous prices",
         "availability_lag": "not predictive",
         "evaluation_sample": "full admissible descriptive sample"
-      }
+      },
+      "curve_snapshot_rule": "for each calendar month select the last trade date with at least six simultaneously active exact listed contracts, using identity/expiration only before price access",
+      "curve_statistic": "OLS slope beta of ln(final settlement) on normalized exact maturity rank x=(rank-1)/5 for ranks M1..M6; positive beta means prices rise with maturity and negative beta means prices fall with maturity",
+      "season_rule": "winter_withdrawal = November-March; injection = April-October",
+      "scientific_mepi": {
+        "type": "programme_decision_anchor",
+        "standardized_effect": 0.75,
+        "definition": "minimum standardized winter-withdrawal versus injection difference in monthly M1-M6 log-curve slope worth calling material seasonal curve structure",
+        "rationale": "0.75 SD deliberately requires a large descriptive seasonal separation for the literature claim of material curve seasonality; it is not a paper magnitude and was fixed without reading Programme 002 market outcomes"
+      },
+      "dependence_power": {
+        "method": "12_month_calendar_block_effective_information",
+        "raw_months": 195,
+        "block_length_months": 12,
+        "effective_information": 16.25,
+        "alpha": 0.05,
+        "target_power": 0.8,
+        "detectable_standardized_effect": 0.6949877579153834,
+        "power_at_mepi": 0.8561960885019033
+      },
+      "pre_outcome_evidence_ref": "research/programmes/002-henry-hub-fresh/lines/001-market-structure/experiments/002-seasonal-forward-curve/pre-outcome-evidence.json"
     },
     {
       "design_id": "rep-003-storage-surprise-response",
@@ -286,7 +335,7 @@
       },
       "unit": "weekly_historical_storage_state_with_market_volatility_measure",
       "sample": "Stage A near replication uses the maximum 2010-06-06 onward overlap of canonical Databento and the fixed 2026-08-13 WNGSR historical snapshot: 844 weekly storage observations across 17 calendar years. This matches the literature's descriptive inventory-volatility question and is explicitly not a PIT predictive sample.",
-      "primary_estimand": "Interaction effect of below-historical-average inventory \u00d7 winter on the predeclared natural-gas volatility measure, with scarcity defined from inventory only before outcome analysis.",
+      "primary_estimand": "Interaction effect of below-historical-average inventory \u00c3\u2014 winter on the predeclared natural-gas volatility measure, with scarcity defined from inventory only before outcome analysis.",
       "primary_test": "Historical-state regression/correlation contrast with year/block bootstrap or HAC uncertainty, matching the paper's claim that the negative inventory-volatility relationship is concentrated in scarcity and intensifies in winter.",
       "secondary_estimands": [
         "continuous inventory-deviation slope",
@@ -525,7 +574,7 @@
       "primary_test": "Calendar/event-state regression with HAC uncertainty and year-block bootstrap sensitivity.",
       "secondary_estimands": [
         "winter main effect",
-        "announcement\u00d7winter interaction"
+        "announcement\u00c3\u2014winter interaction"
       ],
       "disconfirmers": [
         "announcement-day volatility not elevated under informative power",
@@ -968,7 +1017,7 @@
         "bloomberg_reconstruction": "Use the same entitled Bloomberg PiT event-key/last-pre-release-state extraction contract as rep-003 for independently reconstructed surprise; preserve Genesis/Bloomberg as the exact-study data family and label Databento+PiT as near replication."
       },
       "sample": "Exact Stage A replication requires the source-study Genesis/Bloomberg data family and published sample semantics. If those subscription data are unavailable, a Databento plus verified-consensus construction is a separately labeled near replication using all fidelity-qualified Thursday and Friday EIA release events.",
-      "primary_estimand": "Friday \u00d7 storage-surprise interaction relative to Thursday response.",
+      "primary_estimand": "Friday \u00c3\u2014 storage-surprise interaction relative to Thursday response.",
       "primary_test": "Event regression with release-event robust uncertainty; report percentage attenuation and confidence interval.",
       "magnitude_anchor": "The literature reports approximately 74% weaker daily response on Friday; this is an external magnitude anchor for feasibility/MEPI planning, not an internally assumed result.",
       "disconfirmers": [

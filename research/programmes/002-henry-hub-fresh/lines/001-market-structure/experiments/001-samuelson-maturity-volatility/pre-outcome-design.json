@@ -1,0 +1,32 @@
+{
+  "schema_version": 1,
+  "programme_id": "002-henry-hub-fresh",
+  "research_line_id": "001-market-structure",
+  "experiment_id": "001-samuelson-maturity-volatility",
+  "design_id": "rep-001-samuelson-maturity-volatility",
+  "status": "pre_outcome_ready_unfrozen",
+  "protected_outcomes_accessed": false,
+  "primary_proxy": "absolute same-contract daily log return",
+  "dte_buckets": [
+    "0-30",
+    "31-60",
+    "61-90",
+    "91-180",
+    "181-365",
+    "366+"
+  ],
+  "liquidity_rule": "finite cleared volume > 0",
+  "season_rule": "winter_withdrawal Nov-Mar; non_winter Apr-Oct",
+  "scientific_mepi_standardized": 0.25,
+  "power": {
+    "method": "contract_cluster_effective_information",
+    "raw_contract_days": 99714,
+    "contract_clusters": 210,
+    "alpha": 0.05,
+    "target_power": 0.8,
+    "detectable_standardized_effect": 0.19332774705823966,
+    "power_at_mepi": 0.9518318027610269,
+    "calendar_sensitivity": "calendar-year block bootstrap is mandatory for empirical uncertainty; cluster-count power is the pre-outcome planning bound"
+  },
+  "dry_run_evidence_ref": "research/programmes/002-henry-hub-fresh/lines/001-market-structure/experiments/001-samuelson-maturity-volatility/pre-outcome-evidence.json"
+}

@@ -158,14 +158,24 @@ def test_go_implementation_contracts_match_feasibility_and_existing_primitives()
     contracts = load(PROGRAMME / "implementation-contracts.json")
     go_ids = {item["design_id"] for item in ledger["entries"] if item["decision"] == "GO"}
     hold_ids = {item["design_id"] for item in ledger["entries"] if item["decision"] == "HOLD"}
+    freeze_ready_ids = {
+        item["design_id"] for item in ledger["entries"] if item.get("freeze_ready") is True
+    }
+    authorized_freeze_ids = {
+        "rep-001-samuelson-maturity-volatility",
+        "rep-002-seasonal-forward-curve",
+    }
     entries = {item["design_id"]: item for item in contracts["entries"]}
 
     assert set(entries) == go_ids
     assert not set(entries) & hold_ids
-    for item in entries.values():
+    assert authorized_freeze_ids <= freeze_ready_ids
+    for design_id, item in entries.items():
         assert item["constructors"]
         assert all(hasattr(construction, name) for name in item["constructors"])
         assert item["real_data_literature_outcome_execution_allowed"] is False
         assert item["empirical_execution_authority"] is False
-        assert item["preregistration_freeze_authority"] is False
+        assert item["preregistration_freeze_authority"] is (
+            design_id in authorized_freeze_ids
+        )
         assert item["protected_evidence_opening_authority"] is False

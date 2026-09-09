@@ -1,0 +1,137 @@
+{
+  "assurance_method": "structural_identity_contract_v1",
+  "component_contracts": {
+    "contract_mapping_contract": {
+      "identity_payload": [
+        "raw_symbol",
+        "expiration",
+        "activation",
+        "exchange",
+        "asset",
+        "instrument_class"
+      ],
+      "identity_semantics": "instrument_id and definition payload are resolved point-in-time; provider-undefined timestamps are excluded; no global symbol-to-expiration mapping",
+      "join_key": "instrument_id",
+      "missing_time_valid_definition": "reject",
+      "same_timestamp_conflicting_identity": "reject",
+      "stable_contract_identity": "raw_symbol_plus_definition_expiration"
+    },
+    "pit_rules": {
+      "curve_statistic": "OLS slope beta of ln(final settlement) on normalized exact maturity rank x=(rank-1)/5 for ranks M1..M6; positive beta means prices rise with maturity and negative beta means prices fall with maturity",
+      "outcome_rule_changes_after_freeze": "prohibited",
+      "price_access_before_snapshot_selection": "prohibited",
+      "season_rule": "winter_withdrawal = November-March; injection = April-October",
+      "snapshot_rule": "for each calendar month select the last trade date with at least six simultaneously active exact listed contracts, using identity/expiration only before price access"
+    },
+    "schema_contract": {
+      "definition_identity_fields": [
+        "instrument_id",
+        "raw_symbol",
+        "ts_recv",
+        "ts_event",
+        "instrument_class",
+        "asset",
+        "exchange",
+        "activation",
+        "expiration"
+      ],
+      "protected_settlement_price_access": "prohibited_preoutcome",
+      "statistics_all_record_fields_preoutcome": [
+        "stat_type"
+      ],
+      "statistics_cleared_volume_fields_preoutcome": [
+        "instrument_id",
+        "ts_ref",
+        "ts_event",
+        "ts_recv",
+        "quantity"
+      ]
+    },
+    "timestamp_contract": {
+      "allow_exact_timestamp_match": true,
+      "definition_time": "ts_recv_else_ts_event",
+      "observation_time": "ts_recv_else_ts_event",
+      "temporal_join": "latest_definition_time_lte_observation_time",
+      "timezone": "UTC"
+    }
+  },
+  "dataset_id": "databento_henry_hub_contract_history",
+  "preoutcome_data_assurance": {
+    "assurance_sha256": "012b127690603e2d5f07c5f5253151911726b5e1f267193c7ce6d630006c5a0b",
+    "assurance_stage": "pre_outcome",
+    "contract_mapping_sha256": "d4bf2fb15a11ac404d425e87e665b5fd6c0e3336717ae7536f87b32c32e861a0",
+    "dataset_identity": {
+      "dataset_id": "databento_henry_hub_contract_history",
+      "split_id": "full-admissible-descriptive-reproduction",
+      "vintage_id": "existing-approved-full-history-complete-through-2026-08-12"
+    },
+    "expected_coverage": {
+      "archive_complete_through": "2026-08-12",
+      "eligible_months": 195,
+      "first_snapshot": "2010-06-30",
+      "last_snapshot": "2026-08-12",
+      "minimum_active_maturities": 94
+    },
+    "outcome_access_state": "not_accessed",
+    "pit_rules_sha256": "7aa9c8a3931dd31ba5f4a63b54d91ee1b384555d4806fd29f6be10cc28312420",
+    "post_unblinding_requirement": "deterministic_rebuild_exact_comparison+explicit_dataset_semantics_v1",
+    "schema_sha256": "ceab8bbd54d4536a29e7a6ab184c817e93b21628280c6275865473fb4c26792f",
+    "schema_version": 1,
+    "source_inputs": [
+      {
+        "id": "databento_definition_archive_manifest",
+        "sha256": "28384d503e8edb3bb06f28c5e0c7c527af1a6af7967665028c2590ab8d8fb0f4"
+      },
+      {
+        "id": "databento_statistics_archive_manifest",
+        "sha256": "506142d2e8668be0d2cbd9ec2f99565c87de6066dc605fb868df9b927f291a30"
+      }
+    ],
+    "structural_invariants": [
+      {
+        "expected": "never_preoutcome",
+        "name": "protected_settlement_price_access"
+      },
+      {
+        "expected": "point_in_time_fail_closed",
+        "name": "temporal_contract_identity"
+      },
+      {
+        "expected": "for each calendar month select the last trade date with at least six simultaneously active exact listed contracts, using identity/expiration only before price access",
+        "name": "snapshot_selection"
+      },
+      {
+        "expected": 6,
+        "name": "minimum_exact_maturities"
+      }
+    ],
+    "timestamp_contract_sha256": "3adc69150896a765ab7ee9d7bf18ee5870e055e453331753e9371819fe352a9d",
+    "transformation_sha256": {
+      "databento_futures_provider": "c3d11eafa115ef6bfb9103f82b0ca15473aa33c922ce626bcfb18b30aa48d33d",
+      "preoutcome_dry_run_runner": "01e99c9ee59a7f73bd3435048ba81a946be506cf4943e8e0f81793e02329874d",
+      "research_construction": "5f14cf39d6f144a9fe6b4b7353c7999b5757df93bd0316c204fabb6332ccfa09"
+    }
+  },
+  "protected_outcomes_accessed": false,
+  "schema_version": 1,
+  "split_id": "full-admissible-descriptive-reproduction",
+  "supporting_refs": [
+    {
+      "path": "research/programmes/002-henry-hub-fresh/lines/001-market-structure/experiments/002-seasonal-forward-curve/pre-outcome-design.json",
+      "sha256": "eed8ae44677909ecd89b4539519da9eab3ac4dc0795c55db47a1f12729c5f157"
+    },
+    {
+      "path": "research/programmes/002-henry-hub-fresh/lines/001-market-structure/experiments/002-seasonal-forward-curve/pre-outcome-evidence.json",
+      "sha256": "7907cabfa8464fe0cd53cb1bc96d53c56779d0a42a808e9ef5d9966e6bf124da"
+    },
+    {
+      "path": "src/commodity/providers/databento_futures.py",
+      "sha256": "c3d11eafa115ef6bfb9103f82b0ca15473aa33c922ce626bcfb18b30aa48d33d"
+    },
+    {
+      "path": "src/commodity/research_construction.py",
+      "sha256": "5f14cf39d6f144a9fe6b4b7353c7999b5757df93bd0316c204fabb6332ccfa09"
+    }
+  ],
+  "vintage_id": "existing-approved-full-history-complete-through-2026-08-12"
+}

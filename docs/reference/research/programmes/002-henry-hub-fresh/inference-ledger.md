@@ -19,5 +19,5 @@ Source: `research/programmes/002-henry-hub-fresh/inference-ledger.json`
 | `schema_version` | int |
 | `zoom_level` | str |
 | `programme_id` | str |
-| `entries` | array (0 items) |
+| `entries` | array (2 items) |
 | `family_inference` | array (0 items) |

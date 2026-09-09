@@ -11,7 +11,7 @@ Source: `research/programmes/002-henry-hub-fresh/evidence-map.json`
 | `schema_version` | 2 |
 | `zoom_level` | L1 |
 | `programme_id` | 002-henry-hub-fresh |
-| `current_scan_id` | non-outcome-feasibility-2026-09-03 |
+| `current_scan_id` | tranche-a-pre-outcome-freeze-2026-09-05 |
 
 ## Structure
 

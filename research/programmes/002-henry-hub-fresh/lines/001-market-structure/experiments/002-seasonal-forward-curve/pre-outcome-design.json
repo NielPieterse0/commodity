@@ -1,0 +1,24 @@
+{
+  "schema_version": 1,
+  "programme_id": "002-henry-hub-fresh",
+  "research_line_id": "001-market-structure",
+  "experiment_id": "002-seasonal-forward-curve",
+  "design_id": "rep-002-seasonal-forward-curve",
+  "status": "pre_outcome_ready_unfrozen",
+  "protected_outcomes_accessed": false,
+  "snapshot_rule": "for each calendar month select the last trade date with at least six simultaneously active exact listed contracts, using identity/expiration only before price access",
+  "curve_statistic": "OLS slope beta of ln(final settlement) on normalized exact maturity rank x=(rank-1)/5 for ranks M1..M6; positive beta means prices rise with maturity and negative beta means prices fall with maturity",
+  "season_rule": "winter_withdrawal = November-March; injection = April-October",
+  "scientific_mepi_standardized": 0.75,
+  "power": {
+    "method": "12_month_calendar_block_effective_information",
+    "raw_months": 195,
+    "block_length_months": 12,
+    "effective_information": 16.25,
+    "alpha": 0.05,
+    "target_power": 0.8,
+    "detectable_standardized_effect": 0.6949877579153834,
+    "power_at_mepi": 0.8561960885019033
+  },
+  "dry_run_evidence_ref": "research/programmes/002-henry-hub-fresh/lines/001-market-structure/experiments/002-seasonal-forward-curve/pre-outcome-evidence.json"
+}

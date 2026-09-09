@@ -1,0 +1,43 @@
+{
+  "archive_root": "data/raw/snapshots/databento/ng-full-history-v1",
+  "definition_files": 17,
+  "definition_manifest_sha256": "28384d503e8edb3bb06f28c5e0c7c527af1a6af7967665028c2590ab8d8fb0f4",
+  "instrument_ids_reused_across_symbols": 0,
+  "protected_settlement_price_accessed": false,
+  "rep001": {
+    "contract_clusters": 210,
+    "dte_bucket_counts": {
+      "0-30": 2696,
+      "181-365": 16435,
+      "31-60": 2614,
+      "366+": 67384,
+      "61-90": 2623,
+      "91-180": 7962
+    },
+    "positive_volume_contract_days": 99714,
+    "raw_cleared_volume_contract_days": 240069
+  },
+  "rep002": {
+    "eligible_months": 195,
+    "first_snapshot": "2010-06-30",
+    "last_snapshot": "2026-08-12",
+    "minimum_active_maturities": 94,
+    "trade_dates_screened": 4223
+  },
+  "schema_version": 1,
+  "statistics_access_contract": {
+    "all_records": [
+      "stat_type"
+    ],
+    "cleared_volume_only": [
+      "instrument_id",
+      "ts_ref",
+      "ts_event",
+      "ts_recv",
+      "quantity"
+    ],
+    "settlement_price": "never accessed"
+  },
+  "statistics_files": 17,
+  "statistics_manifest_sha256": "506142d2e8668be0d2cbd9ec2f99565c87de6066dc605fb868df9b927f291a30"
+}
