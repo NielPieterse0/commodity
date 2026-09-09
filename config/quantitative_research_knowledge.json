@@ -1,0 +1,220 @@
+{
+  "schema_version": 1,
+  "router_id": "programme-003-quantitative-research-knowledge",
+  "programme_issue": 353,
+  "phase_issue": 354,
+  "purpose": "Route Commodity quantitative-research and engineering questions to authoritative sources and executable repository rules without replacing canonical methodology.",
+  "canonical_methodology_owner": "config/research_methodology.json",
+  "agent_usage": {
+    "rule": "Consult this router before designing or changing forecasting, financial-ML, data-engineering, temporal-integrity, backtesting, or production-monitoring behavior.",
+    "skill_boundary": "Reusable procedural skills remain live KIS skills; this repository artifact is domain knowledge and routing authority, not a local skill catalogue.",
+    "precedence": [
+      "AGENTS.md",
+      "canonical repository config/contracts",
+      "config/quantitative_research_knowledge.json",
+      "cited external sources"
+    ]
+  },
+  "sources": {
+    "ml4t3": {
+      "title": "Machine Learning for Trading, 3rd edition repository",
+      "authors": ["Stefan Jansen"],
+      "tier": 1,
+      "url": "https://github.com/stefan-jansen/machine-learning-for-trading",
+      "access": "Public GitHub repository; rolling third-edition material.",
+      "license_or_copyright": "Repository code is MIT where declared; book content remains copyright of the author and is not copied into Commodity.",
+      "authority_domains": ["financial_ml_research", "feature_engineering", "model_selection_and_tuning", "backtesting_and_trading"]
+    },    "fpp3": {
+      "title": "Forecasting: Principles and Practice, 3rd edition",
+      "authors": ["Rob J Hyndman", "George Athanasopoulos"],
+      "tier": 1,
+      "url": "https://otexts.com/fpp3/",
+      "access": "Public online textbook; website content is cited rather than copied.",
+      "license_or_copyright": "Book-text reuse rights are not inferred from the GPL-licensed companion software; Commodity stores only distilled rules and citations.",
+      "authority_domains": ["forecasting", "feature_engineering", "forecast_evaluation"]
+    },
+    "fde": {
+      "title": "Fundamentals of Data Engineering",
+      "authors": ["Joe Reis", "Matt Housley"],
+      "tier": 1,
+      "url": "https://www.oreilly.com/library/view/fundamentals-of-data/9781098108298/",
+      "access": "Publisher-hosted book; access may require O'Reilly subscription.",
+      "license_or_copyright": "Copyrighted publisher content; Commodity stores distilled principles and citations only.",
+      "authority_domains": ["data_engineering"]
+    },
+    "dmls": {
+      "title": "Designing Machine Learning Systems",
+      "authors": ["Chip Huyen"],
+      "tier": 1,
+      "url": "https://www.oreilly.com/library/view/designing-machine-learning/9781098107956/",
+      "access": "Publisher-hosted book; access may require O'Reilly subscription.",
+      "license_or_copyright": "Copyrighted publisher content; Commodity stores distilled principles and citations only.",
+      "authority_domains": ["temporal_integrity_and_leakage", "model_selection_and_tuning", "production_monitoring"]
+    },    "ddia2": {
+      "title": "Designing Data-Intensive Applications, 2nd edition",
+      "authors": ["Martin Kleppmann", "Chris Riccomini"],
+      "tier": 2,
+      "url": "https://www.oreilly.com/library/view/designing-data-intensive-applications/9781098119058/",
+      "access": "Publisher-hosted book; consult only when deeper infrastructure reasoning is needed.",
+      "license_or_copyright": "Copyrighted publisher content; Commodity stores distilled principles and citations only.",
+      "authority_domains": ["data_infrastructure_deep_dive"]
+    }
+  },
+  "routing": {
+    "data_engineering": {
+      "question": "How should data be generated, ingested, stored, transformed, orchestrated, served, governed, or observed?",
+      "primary_sources": ["fde"],
+      "secondary_sources": ["ddia2"],
+      "owner_refs": ["config/data_sources.json", "config/research_dataset.json", "data/acquisition-recipes/"]
+    },
+    "forecasting": {
+      "question": "How should baselines, transformations, diagnostics, forecast models, uncertainty, or forecast evaluation be designed?",
+      "primary_sources": ["fpp3"],
+      "secondary_sources": ["ml4t3"],
+      "owner_refs": ["config/research_methodology.json", "tests/evaluation/"]
+    },
+    "financial_ml_research": {
+      "question": "How should an end-to-end financial ML research workflow be designed and evaluated?",
+      "primary_sources": ["ml4t3"],
+      "secondary_sources": ["fpp3", "dmls"],
+      "owner_refs": ["config/research_methodology.json", "research/programmes/"]
+    },    "feature_engineering": {
+      "question": "How should market, calendar, physical, or model-derived features be constructed without leakage?",
+      "primary_sources": ["ml4t3"],
+      "secondary_sources": ["fpp3", "dmls"],
+      "owner_refs": ["config/research_methodology.json", "config/research_dataset.json"]
+    },
+    "model_selection_and_tuning": {
+      "question": "How should candidate models, hyperparameters, calibration, and selection budgets be controlled?",
+      "primary_sources": ["ml4t3"],
+      "secondary_sources": ["dmls", "fpp3"],
+      "owner_refs": ["config/research_methodology.json", "config/models.json"]
+    },
+    "temporal_integrity_and_leakage": {
+      "question": "How should event time, availability time, versions, training-serving boundaries, and leakage controls be enforced?",
+      "primary_sources": ["dmls"],
+      "secondary_sources": ["ml4t3", "fde"],
+      "owner_refs": ["config/research_dataset.json", "config/research_methodology.json"]
+    },
+    "backtesting_and_trading": {
+      "question": "How should signals be translated into executable fills, held contracts, costs, positions, rolls, and P&L?",
+      "primary_sources": ["ml4t3"],
+      "secondary_sources": ["fpp3"],
+      "owner_refs": ["config/trading-policy.json", "config/simulation.json", "config/signal_policy.json"]
+    },
+    "production_monitoring": {
+      "question": "How should feature freshness, drift, retraining, serving behavior, and operational health be monitored?",
+      "primary_sources": ["dmls"],
+      "secondary_sources": ["fde", "ddia2"],
+      "owner_refs": ["config/models.json", "config/data_sources.json"]
+    }
+  },  "playbooks": {
+    "temporal_integrity": {
+      "purpose": "Make every model input reconstructable at the decision timestamp.",
+      "rules": [
+        {"order": 1, "rule_id": "temporal_integrity-availability-clock", "instruction": "Record event time, availability time, source, version/as-of identity, and revision state for every forecast input whose publication can lag observation.", "source_ids": ["dmls", "fde"], "owner_refs": ["config/research_dataset.json", "config/data_sources.json"]},
+        {"order": 2, "rule_id": "temporal_integrity-point-in-time-join", "instruction": "At each decision timestamp, join only records whose declared availability time is not later than that timestamp; fail closed when timing cannot be defended.", "source_ids": ["dmls", "ml4t3"], "owner_refs": ["config/research_methodology.json", "config/research_dataset.json"]},
+        {"order": 3, "rule_id": "temporal_integrity-train-only-transform", "instruction": "Fit scaling, imputation, encoding, feature selection, calibration, and learned transformations inside the active training fold only, then apply them forward.", "source_ids": ["ml4t3", "dmls"], "owner_refs": ["config/research_methodology.json"]},
+        {"order": 4, "rule_id": "temporal_integrity-protected-evidence", "instruction": "Keep reserved-confirmation outcomes unread and unusable during design, fitting, tuning, calibration, model selection, threshold selection, and feature revision.", "source_ids": ["ml4t3"], "owner_refs": ["config/research_dataset.json", "config/research_methodology.json"]}
+      ]
+    },
+    "target_definition": {
+      "purpose": "Bind the forecast target to the intended trading decision and executable exposure.",
+      "rules": [
+        {"order": 1, "rule_id": "target_definition-decision-window", "instruction": "Declare decision timestamp, target start/end, forecast horizon, target units, and contract/roll identity before model fitting.", "source_ids": ["fpp3", "ml4t3"], "owner_refs": ["config/research_methodology.json", "config/trading-policy.json"]},
+        {"order": 2, "rule_id": "target_definition-information-cutoff", "instruction": "Construct labels so no value published or realized after the decision timestamp enters a predictor or selection statistic.", "source_ids": ["fpp3", "dmls"], "owner_refs": ["config/research_dataset.json"]},
+        {"order": 3, "rule_id": "target_definition-overlap-control", "instruction": "Identify overlapping target windows and require purge, embargo, or dependence-aware evaluation whenever overlap can leak label information across folds.", "source_ids": ["ml4t3"], "owner_refs": ["config/research_methodology.json"]},
+        {"order": 4, "rule_id": "target_definition-forecast-vs-execution", "instruction": "Keep the statistical forecast target separate from signal policy and executable P&L accounting; document the translation explicitly.", "source_ids": ["ml4t3", "fpp3"], "owner_refs": ["config/signal_policy.json", "config/trading-policy.json"]}
+      ]
+    },    "feature_engineering": {
+      "purpose": "Create features whose timing, transformation, and missingness are reproducible out of sample.",
+      "rules": [
+        {"order": 1, "rule_id": "feature_engineering-lineage", "instruction": "For every feature family, record raw source, timing semantics, transformation, lag, revision behavior, and the decision-time availability rule.", "source_ids": ["ml4t3", "fde"], "owner_refs": ["config/data_sources.json", "config/research_dataset.json"]},
+        {"order": 2, "rule_id": "feature_engineering-train-fit", "instruction": "Estimate data-dependent transformations and feature-selection decisions only on the training sample of the active fold.", "source_ids": ["ml4t3", "dmls"], "owner_refs": ["config/research_methodology.json"]},
+        {"order": 3, "rule_id": "feature_engineering-missingness", "instruction": "Represent unavailable, not-yet-published, structurally absent, and genuinely missing values explicitly instead of silently forward filling across an information boundary.", "source_ids": ["fde", "dmls"], "owner_refs": ["config/research_dataset.json"]},
+        {"order": 4, "rule_id": "feature_engineering-ablation", "instruction": "Require simple feature-family baselines and controlled ablations before crediting a large feature set with incremental forecast value.", "source_ids": ["ml4t3", "fpp3"], "owner_refs": ["config/research_methodology.json"]}
+      ]
+    },
+    "validation_and_cross_validation": {
+      "purpose": "Estimate generalization using chronological, dependence-aware partitions.",
+      "rules": [
+        {"order": 1, "rule_id": "validation_and_cross_validation-chronological", "instruction": "Use chronological train/validation/test ordering; do not use random K-fold validation for temporally dependent forecast samples.", "source_ids": ["fpp3", "ml4t3"], "owner_refs": ["config/research_methodology.json"]},
+        {"order": 2, "rule_id": "validation_and_cross_validation-nested-selection", "instruction": "When comparing or tuning candidates, keep model selection inside inner walk-forward folds and reserve outer folds for unbiased selection-performance estimation.", "source_ids": ["ml4t3"], "owner_refs": ["config/research_methodology.json"]},
+        {"order": 3, "rule_id": "validation_and_cross_validation-purge-embargo", "instruction": "Purge or embargo observations whose label windows or information sets overlap across fold boundaries, with the gap derived from the target construction.", "source_ids": ["ml4t3"], "owner_refs": ["config/research_methodology.json", "config/research_dataset.json"]},
+        {"order": 4, "rule_id": "validation_and_cross_validation-history", "instruction": "Preserve all attempted candidates and fold-level scores, including failures, so the selection path and research multiplicity remain auditable.", "source_ids": ["ml4t3", "dmls"], "owner_refs": ["config/research_methodology.json", ".work/changes/"]}
+      ]
+    },    "model_selection_and_tuning": {
+      "purpose": "Bound candidate search so selection evidence remains interpretable and reproducible.",
+      "rules": [
+        {"order": 1, "rule_id": "model_selection_and_tuning-freeze-space", "instruction": "Before selection, declare the candidate families, hyperparameter ranges, objective, calibration choices, and compute/search budget.", "source_ids": ["ml4t3", "dmls"], "owner_refs": ["config/models.json", "config/research_methodology.json"]},
+        {"order": 2, "rule_id": "model_selection_and_tuning-baselines", "instruction": "Include naive, seasonal, linear, and other decision-relevant simple baselines appropriate to the target before promoting more complex candidates.", "source_ids": ["fpp3", "ml4t3"], "owner_refs": ["config/research_methodology.json"]},
+        {"order": 3, "rule_id": "model_selection_and_tuning-inner-only", "instruction": "Choose hyperparameters, model family, calibration, thresholds, and feature subsets using training/inner-validation evidence only.", "source_ids": ["ml4t3", "dmls"], "owner_refs": ["config/research_methodology.json", "config/research_dataset.json"]},
+        {"order": 4, "rule_id": "model_selection_and_tuning-stack-boundary", "instruction": "Fit calibrators and stackers from out-of-fold base-model predictions and treat their fitting as a separate selection boundary with its own timing controls.", "source_ids": ["ml4t3", "dmls"], "owner_refs": ["config/models.json", "config/research_methodology.json"]}
+      ]
+    },
+    "forecast_evaluation": {
+      "purpose": "Judge forecasts against target-matched baselines with uncertainty and diagnostic context.",
+      "rules": [
+        {"order": 1, "rule_id": "forecast_evaluation-baseline-ladder", "instruction": "Score against target-matched naive, seasonal, simple statistical, and market-implied baselines where each comparator is defensible and available at forecast time.", "source_ids": ["fpp3", "ml4t3"], "owner_refs": ["config/research_methodology.json"]},
+        {"order": 2, "rule_id": "forecast_evaluation-target-metrics", "instruction": "Choose primary and secondary metrics from the target units and downstream decision; do not substitute an easier metric after outcomes are observed.", "source_ids": ["fpp3", "ml4t3"], "owner_refs": ["config/research_methodology.json", "tests/evaluation/"]},
+        {"order": 3, "rule_id": "forecast_evaluation-diagnostics", "instruction": "Report residual/error diagnostics by horizon and predeclared market state, including bias, scale, autocorrelation/dependence, and failure concentration.", "source_ids": ["fpp3"], "owner_refs": ["config/research_methodology.json", "artifacts/research-metrics/"]},
+        {"order": 4, "rule_id": "forecast_evaluation-uncertainty", "instruction": "When probabilistic forecasts are used, evaluate interval or quantile calibration and sharpness, and use dependence-aware uncertainty for comparative claims.", "source_ids": ["fpp3"], "owner_refs": ["config/research_methodology.json", "tests/evaluation/"]}
+      ]
+    },    "backtesting": {
+      "purpose": "Translate forecast information into auditable, executable trading outcomes without timing or accounting shortcuts.",
+      "rules": [
+        {"order": 1, "rule_id": "backtesting-signal-fill-clock", "instruction": "Record signal timestamp, earliest executable fill timestamp, execution rule, and actual held contract; reject same-bar fills unless market timing makes them defensible.", "source_ids": ["ml4t3"], "owner_refs": ["config/trading-policy.json", "config/simulation.json"]},
+        {"order": 2, "rule_id": "backtesting-costs", "instruction": "Apply declared spread, slippage, fees, contract sizing/rounding, margin/capital constraints, and roll costs before evaluating trading value.", "source_ids": ["ml4t3"], "owner_refs": ["config/trading-policy.json", "config/simulation.json"]},
+        {"order": 3, "rule_id": "backtesting-position-state", "instruction": "Carry positions across bars explicitly, account for entries, exits, rolls, and flat states, and derive P&L from the instrument actually held rather than a proxy target series.", "source_ids": ["ml4t3"], "owner_refs": ["config/simulation.json", "config/signal_policy.json"]},
+        {"order": 4, "rule_id": "backtesting-audit-boundary", "instruction": "Preserve signal, order/fill assumption, position, contract, cost, and equity ledgers while keeping reserved-confirmation outcomes outside policy optimization.", "source_ids": ["ml4t3", "dmls"], "owner_refs": ["config/research_methodology.json", "config/research_dataset.json", "config/trading-policy.json"]}
+      ]
+    }
+  },
+  "methodology_map": [
+    {"control_id": "point-in-time-data-and-availability", "current_rule": "Forecast inputs must be reconstructable from information available at the decision time.", "owner_refs": ["config/research_dataset.json", "config/research_methodology.json"], "source_authority": ["dmls", "fde", "ml4t3"], "legacy_evidence": [292, 341], "status": "covered", "missing_control": null},
+    {"control_id": "protected-confirmation", "current_rule": "Reserved-confirmation outcomes remain unused before the governed confirmation boundary.", "owner_refs": ["config/research_dataset.json", "config/research_methodology.json"], "source_authority": ["ml4t3", "dmls"], "legacy_evidence": [290], "status": "covered", "missing_control": null},
+    {"control_id": "attempt-history-and-reproducibility", "current_rule": "Retain bounded change history, failures, evidence lineage, and reproducible environment identity.", "owner_refs": ["AGENTS.md", "config/research_methodology.json", ".work/changes/"], "source_authority": ["ml4t3", "fde", "dmls"], "legacy_evidence": [290, 291, 341], "status": "covered", "missing_control": null},
+    {"control_id": "target-matched-benchmarks", "current_rule": "Research requires declared comparators and decision-relevant benchmarks.", "owner_refs": ["config/research_methodology.json"], "source_authority": ["fpp3", "ml4t3"], "legacy_evidence": [291, 292], "status": "partial", "missing_control": "Formalize a reusable baseline ladder per target/horizon and require forecast residual diagnostics."},    {"control_id": "nested-walk-forward-selection", "current_rule": "Chronological OOS and confirmation boundaries exist, but nested model-selection topology is not yet a repository-wide executable contract.", "owner_refs": ["config/research_methodology.json"], "source_authority": ["ml4t3", "fpp3"], "legacy_evidence": [291, 310, 311, 312, 313, 314], "status": "missing", "missing_control": "Implement nested walk-forward outer evaluation with inner-only tuning, purge/embargo rules, and retained fold evidence."},
+    {"control_id": "execution-accounting", "current_rule": "Trading and simulation policies define costs and execution constraints, but Programme 003 needs one complete signal-to-fill-to-held-contract ledger contract.", "owner_refs": ["config/trading-policy.json", "config/simulation.json", "config/signal_policy.json"], "source_authority": ["ml4t3"], "legacy_evidence": [291, 310, 311, 312, 313, 314], "status": "partial", "missing_control": "Complete and verify signal timestamp, fill timestamp, held contract, position persistence, roll, cost, and P&L accounting as one baseline path."},
+    {"control_id": "probabilistic-forecast-evaluation", "current_rule": "Evaluation statistics exist, but calibrated interval/quantile coverage is not a universal forecast contract.", "owner_refs": ["tests/evaluation/", "config/research_methodology.json"], "source_authority": ["fpp3"], "legacy_evidence": [291], "status": "partial", "missing_control": "Require calibration and coverage checks whenever a candidate emits probabilistic forecasts."},
+    {"control_id": "training-serving-skew", "current_rule": "PIT and environment controls exist, but training-versus-serving feature equivalence is not yet a production contract.", "owner_refs": ["config/models.json", "config/data_sources.json"], "source_authority": ["dmls", "fde"], "legacy_evidence": [341], "status": "missing", "missing_control": "Add feature freshness, schema parity, training-serving skew, and inference-input audit checks before production hardening."},
+    {"control_id": "pipeline-observability", "current_rule": "Source provenance and verification are strong, but operational data-quality objectives and pipeline observability are not yet formalized.", "owner_refs": ["config/data_sources.json", "data/acquisition-recipes/"], "source_authority": ["fde", "ddia2"], "legacy_evidence": [292, 341], "status": "partial", "missing_control": "Define production freshness, completeness, lineage, failure, and recovery telemetry only when Phase 8 is justified."},
+    {"control_id": "drift-retraining-policy", "current_rule": "Research revisit triggers exist; production drift and retraining controls do not.", "owner_refs": ["config/research_methodology.json", "config/models.json"], "source_authority": ["dmls"], "legacy_evidence": [341], "status": "missing", "missing_control": "Define drift detection, retraining authority, rollback, and model suspension rules after prospective edge exists."}
+  ],
+  "missing_controls": [
+    {"control_id": "baseline-ladder-and-residual-diagnostics", "source_authority": ["fpp3", "ml4t3"], "target_phase": 1, "requirement": "Define target/horizon-specific naive, seasonal, statistical, and market-implied baselines plus residual diagnostics."},
+    {"control_id": "nested-walk-forward-model-selection", "source_authority": ["ml4t3", "fpp3"], "target_phase": 2, "requirement": "Implement outer chronological evaluation with inner-only tuning and target-derived purge/embargo."},
+    {"control_id": "complete-execution-ledger", "source_authority": ["ml4t3"], "target_phase": 1, "requirement": "Complete signal-to-fill-to-held-contract-to-cost-to-P&L accounting in one auditable path."},
+    {"control_id": "probabilistic-calibration", "source_authority": ["fpp3"], "target_phase": 4, "requirement": "Evaluate interval/quantile calibration and coverage for probabilistic specialist forecasts."},
+    {"control_id": "training-serving-skew-and-drift", "source_authority": ["dmls", "fde"], "target_phase": 8, "requirement": "Add feature freshness, schema parity, skew, drift, retraining, rollback, and model suspension controls."},
+    {"control_id": "data-pipeline-observability", "source_authority": ["fde", "ddia2"], "target_phase": 8, "requirement": "Define freshness, completeness, lineage, failure, recovery, and serving observability after prospective edge is demonstrated."}
+  ],
+  "legacy_inputs": [
+    {"issue": 290, "role": "Operator-only confirmation/freeze authority, mutable development, and complete attempt history.", "url": "https://github.com/NielPieterse0/commodity/issues/290"},
+    {"issue": 291, "role": "Historical experiment and successor map used to avoid rediscovery.", "url": "https://github.com/NielPieterse0/commodity/issues/291"},
+    {"issue": 292, "role": "Henry Hub market-fact canon and data-source reasoning.", "url": "https://github.com/NielPieterse0/commodity/issues/292"},
+    {"issue": 310, "role": "External repository opportunity patterns; retain only evidence-backed data-quality, PIT, numerical, backtest, evaluation, and failure-visibility practices.", "url": "https://github.com/NielPieterse0/commodity/issues/310"},
+    {"issue": 311, "role": "External repository opportunity patterns feeding later phases, not direct authority.", "url": "https://github.com/NielPieterse0/commodity/issues/311"},
+    {"issue": 312, "role": "External repository opportunity patterns feeding later phases, not direct authority.", "url": "https://github.com/NielPieterse0/commodity/issues/312"},
+    {"issue": 313, "role": "External repository opportunity patterns feeding later phases, not direct authority.", "url": "https://github.com/NielPieterse0/commodity/issues/313"},
+    {"issue": 314, "role": "External repository opportunity patterns feeding later phases, not direct authority.", "url": "https://github.com/NielPieterse0/commodity/issues/314"},    {"issue": 335, "role": "Low-priority material; admit only when stronger authority or reproducible evidence supports it.", "url": "https://github.com/NielPieterse0/commodity/issues/335"},
+    {"issue": 341, "role": "Provenance, literature, audit, replication, reviewer/verifier, and bounded-loop patterns.", "url": "https://github.com/NielPieterse0/commodity/issues/341"}
+  ],
+  "copyright_policy": {
+    "copy_book_prose": false,
+    "allowed_repository_content": [
+      "source metadata",
+      "distilled principles in original Commodity wording",
+      "Commodity-specific executable rules",
+      "stable citations and URLs"
+    ],
+    "third_party_code_requires_license_review": true,
+    "third_party_code_imported_in_phase_zero": false
+  },
+  "protected_confirmation_boundary": {
+    "outcomes_must_remain_unread": true,
+    "outcomes_must_not_influence_design_or_selection": true,
+    "allowed_preparation": "Outcome-blind data preparation, integrity verification, identity recording, and capacity planning remain allowed under canonical repository methodology.",
+    "authority_refs": ["config/research_dataset.json", "config/research_methodology.json"]
+  }
+}

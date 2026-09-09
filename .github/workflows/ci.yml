@@ -58,6 +58,8 @@ jobs:
         run: .venv/bin/python scripts/checks/check_research_metrics.py
       - name: research-memory
         run: .venv/bin/python scripts/checks/check_research_memory.py
+      - name: quantitative-research-knowledge
+        run: .venv/bin/python scripts/checks/check_quantitative_research_knowledge.py
       - name: Test
         run: .venv/bin/python -m pytest -q
       - name: Lint

@@ -20,6 +20,7 @@
 | `programme-inference-integrity` | programme inference registration (`research/programmes/001-commodity-natural-gas/inference-ledger.json`) | `scripts/checks/check_research_methodology.py --check programme-inference-integrity` | pre-ci+ci |
 | `research-metrics-contract` | canonical longitudinal research-metrics schema and ledger (`contracts/research_metrics.schema.json`) | `scripts/checks/check_research_metrics.py` | pre-ci+ci |
 | `research-memory` | research decision/backlog projections (`research/programmes/001-commodity-natural-gas`) | `scripts/checks/check_research_memory.py` | pre-ci+ci |
+| `quantitative-research-knowledge` | quantitative-research external-source routing, distilled playbooks, coverage map, deferred gaps, and protected-evidence/copyright boundaries (`config/quantitative_research_knowledge.json`) | `scripts/checks/check_quantitative_research_knowledge.py` | pre-ci+ci |
 | `tests` | repository executable contracts (`tests`) | `-m pytest -q` | pre-ci+ci |
 | `lint` | Python static-quality rules (`pyproject.toml`) | `-m ruff check .` | pre-ci+ci |
 | `whitespace` | Git whitespace policy across working tree, index, and committed change range (`.gitattributes`) | `scripts/checks/check_git_whitespace.py` | pre-ci+ci |

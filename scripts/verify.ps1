@@ -38,6 +38,8 @@ try {
     if ($LASTEXITCODE -ne 0) { throw 'VERIFY_RESEARCH_METRICS_FAILED' }
     & $RepositoryPython scripts/checks/check_research_memory.py
     if ($LASTEXITCODE -ne 0) { throw 'VERIFY_RESEARCH_MEMORY_FAILED' }
+    & $RepositoryPython scripts/checks/check_quantitative_research_knowledge.py
+    if ($LASTEXITCODE -ne 0) { throw 'VERIFY_QUANTITATIVE_RESEARCH_KNOWLEDGE_FAILED' }
     & $RepositoryPython -m pytest -q
     if ($LASTEXITCODE -ne 0) { throw 'VERIFY_TESTS_FAILED' }
     & $RepositoryPython -m ruff check .

@@ -139,6 +139,15 @@
       "enforcement": "pre-ci+ci"
     },
     {
+      "id": "quantitative-research-knowledge",
+      "authority": "quantitative-research external-source routing, distilled playbooks, coverage map, deferred gaps, and protected-evidence/copyright boundaries",
+      "source": "config/quantitative_research_knowledge.json",
+      "verifier": [
+        "scripts/checks/check_quantitative_research_knowledge.py"
+      ],
+      "enforcement": "pre-ci+ci"
+    },
+    {
       "id": "tests",
       "authority": "repository executable contracts",
       "source": "tests",

@@ -370,10 +370,63 @@ def render_governed_research_workflow_details(methodology: dict[str, Any]) -> st
     return "\n\n".join(sections)
 
 
+def render_quantitative_research_knowledge(payload: dict[str, Any]) -> str:
+    lines = [
+        "# Quantitative Research Knowledge Router",
+        "",
+        "Source: `config/quantitative_research_knowledge.json`",
+        "",
+        payload["purpose"],
+        "",
+        "This router supplements canonical Commodity owners; it does not replace repository methodology, policy, contracts, or live KIS skills.",
+        "",
+        "## External authorities",
+        "",
+        "| ID | Tier | Source | Primary domains |",
+        "| --- | ---: | --- | --- |",
+    ]
+    for source_id, source in payload["sources"].items():
+        domains = ", ".join(source["authority_domains"])
+        lines.append(f"| `{source_id}` | {source['tier']} | {source['title']} | {domains} |")
+
+    lines += ["", "## Routing", "", "| Domain | Primary | Secondary |", "| --- | --- | --- |"]
+    for domain, route in payload["routing"].items():
+        primary = ", ".join(f"`{item}`" for item in route["primary_sources"])
+        secondary = ", ".join(f"`{item}`" for item in route["secondary_sources"])
+        lines.append(f"| `{domain}` | {primary} | {secondary} |")
+
+    lines += ["", "## Executable playbooks", ""]
+    for playbook_id, playbook in payload["playbooks"].items():
+        lines += [f"### {playbook_id.replace('_', ' ').title()}", "", playbook["purpose"], ""]
+        for rule in playbook["rules"]:
+            lines.append(f"{rule['order']}. {rule['instruction']}")
+        lines.append("")
+
+    lines += ["## Methodology coverage", "", "| Control | Status | Gap |", "| --- | --- | --- |"]
+    for item in payload["methodology_map"]:
+        gap = item["missing_control"] or "—"
+        lines.append(f"| `{item['control_id']}` | `{item['status']}` | {gap} |")
+
+    lines += ["", "## Deferred controls", "", "| Control | Target phase | Requirement |", "| --- | ---: | --- |"]
+    for item in payload["missing_controls"]:
+        lines.append(f"| `{item['control_id']}` | {item['target_phase']} | {item['requirement']} |")
+
+    lines += [
+        "",
+        "## Boundaries",
+        "",
+        "- External copyrighted book prose is not copied into Commodity; only source metadata, original distilled principles, executable Commodity rules, and citations are retained.",
+        "- Third-party code requires explicit license review before import; Phase 0 imports no third-party code.",
+        "- Reserved-confirmation outcomes remain unread and cannot influence design, fitting, tuning, calibration, selection, or feature revision.",
+        "",
+    ]
+    return "\n".join(lines)
+
+
 def render_page(page: dict[str, Any]) -> str:
     kind = page["kind"]
     if kind == "repository_index":
-        body = "# Repository Documentation\n\nAll Markdown under `docs/` is generated. Edit the machine-readable source artifacts, then run `scripts/docs/generate_docs.py`.\n\nGoverned change records remain under `.work/changes/` for their full lifecycle, and retained implementation worktrees belong under `.work/worktrees/`. `.work/historical/` is reserved for pre-governance, non-governed, or otherwise non-authoritative legacy material. `docs/` is a generated projection, not an archive or authority source.\n\n## Human-facing pages\n\n- `big-picture.md` — programme state and direction\n- `data-manifest.md` — data architecture and source state\n- `research-methodology.md` — governed research lifecycle\n- `roadmap.md` — maturity progression\n- `THIRD_PARTY.md` — third-party trust and licensing policy\n- `reference/` — direct artifact reference pages\n"
+        body = "# Repository Documentation\n\nAll Markdown under `docs/` is generated. Edit the machine-readable source artifacts, then run `scripts/docs/generate_docs.py`.\n\nGoverned change records remain under `.work/changes/` for their full lifecycle, and retained implementation worktrees belong under `.work/worktrees/`. `.work/historical/` is reserved for pre-governance, non-governed, or otherwise non-authoritative legacy material. `docs/` is a generated projection, not an archive or authority source.\n\n## Human-facing pages\n\n- `big-picture.md` — programme state and direction\n- `data-manifest.md` — data architecture and source state\n- `research-methodology.md` — governed research lifecycle\n- `quantitative-research-knowledge.md` — external knowledge routes, playbooks, and methodology gaps\n- `roadmap.md` — maturity progression\n- `THIRD_PARTY.md` — third-party trust and licensing policy\n- `reference/` — direct artifact reference pages\n"
     elif kind == "repository_big_picture":
         agents = (ROOT / "AGENTS.md").read_text(encoding="utf-8")
         commodity_start = agents.index("# Commodity")
@@ -413,6 +466,10 @@ def render_page(page: dict[str, Any]) -> str:
         )
         details = render_governed_research_workflow_details(m)
         body = "# Research Methodology\n\nSource: `config/research_methodology.json`\n\n## Big-picture research hierarchy\n\nEvery governed research artifact declares a zoom level.\n\n" + hierarchy_rows + "\n\n**North Star rule:** " + hierarchy["north_star_rule"] + "\n\n**Promotion rule:** " + hierarchy["promotion_rule"] + "\n\n## Governed research workflow\n\nThis is the one authoritative end-to-end research workflow. Every governed experiment/run enters this 15-step workflow and may stop early only through the governed disposition/revisit rules.\n\n| Step | Zoom level | Workflow stage | Required outcome |\n| ---: | --- | --- | --- |\n" + flow_rows + "\n\n# Detailed governed research workflow\n\n" + details + "\n\n## Exploratory research\n\nExploratory work uses the active exploratory schema and may investigate feasibility and mechanisms, but it does not establish a confirmatory claim.\n\n## Confirmatory research\n\nConfirmatory work is bound to the preregistration/results contracts and must satisfy the machine execution gates before protected evidence is used.\n\n## What is immutable\n\nFrozen preregistration and bound evidence identities are not rewritten after observing protected results.\n\n## Confirmatory execution requires\n\n" + "\n".join(f"- `{x}`" for x in m["new_confirmatory_execution_requires"]) + "\n\n## Human and machine responsibilities\n\nHumans select and interpret research questions; machine contracts verify the encoded commitments and evidence bindings. Research evidence does not grant trading permission.\n"
+    elif kind == "quantitative_research_knowledge":
+        body = render_quantitative_research_knowledge(
+            load_json(ROOT / "config/quantitative_research_knowledge.json")
+        )
     elif kind == "research_roadmap":
         s = load_json(ROOT / "config/research_stages.json")
         body = "# Commodity Research Roadmap\n\nSource: `config/research_stages.json`\n\n" + " -> ".join(f"`{x}`" for x in s["stages"]) + "\n\nPromotion scope: `research_evidence_only`. Live trading authority remains false.\n"
