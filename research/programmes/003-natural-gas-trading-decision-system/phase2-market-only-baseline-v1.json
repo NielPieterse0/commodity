@@ -1,0 +1,4956 @@
+{
+  "authority": "github-issue-356-comment-5625358200",
+  "baseline_freeze": {
+    "candidate": {
+      "feature_set": "core",
+      "id": "histgb-core-v1",
+      "model": "hist_gb",
+      "parameters": {
+        "learning_rate": 0.05,
+        "max_iter": 20,
+        "max_leaf_nodes": 15,
+        "random_state": 0
+      },
+      "simplicity_rank": 4
+    },
+    "candidate_id": "histgb-core-v1",
+    "config_sha256": "36900d9d28d2807b5e28d42fbcf272a06971af3123dc96a03425c26c10daab11",
+    "confirmation_status": "not_confirmatory",
+    "evidence_role": "development_selected_market_only_baseline",
+    "feature_columns": [
+      "feature_ret_1",
+      "feature_ret_5",
+      "feature_ret_20",
+      "feature_vol_5",
+      "feature_vol_20",
+      "feature_range_pct",
+      "feature_ma_gap_5",
+      "feature_ma_gap_20",
+      "feature_season_sin",
+      "feature_season_cos",
+      "feature_selected_dte",
+      "feature_roll_event"
+    ],
+    "features_sha256": "34a4851c4c3446334a2198409c2b1d75b9f44d4b2f96dafbb0400f986c623747",
+    "freeze_sha256": "38225498e910b9a1fa76093e043701b8cada4ed5e70fc40bc5aa890f914eec9d",
+    "input_implementation_sha256": "629817871c6c0d4d3a08e7e84fbb704277f5c29de7386b789aca2440f64794a4",
+    "session_path_sha256": "6602debd83a2f7634119f89c1ebf06d646f89a8e24dca2636aa3cb58fa9b8c6a",
+    "source_provenance_sha256": "dca3bf0692e9f3ccc52ec6c6aae81ebf668e17176e2fedf7ee0086b483bcef23"
+  },
+  "claim_boundary": "development_baseline_only_no_confirmatory_trading_edge_claim",
+  "evaluation": {
+    "cost_sensitivity": [
+      {
+        "blocks": [
+          {
+            "block_id": "outer-2017-2018",
+            "net_pnl_usd": 30060.000000000047
+          },
+          {
+            "block_id": "outer-2019-2020",
+            "net_pnl_usd": 3459.9999999999936
+          },
+          {
+            "block_id": "outer-2021-2022",
+            "net_pnl_usd": -7480.000000000005
+          }
+        ],
+        "net_pnl_usd": 26040.000000000036,
+        "profile_id": "base",
+        "round_trip_cost_usd": 30.0,
+        "transaction_cost_usd": 1860.0
+      },
+      {
+        "blocks": [
+          {
+            "block_id": "outer-2017-2018",
+            "net_pnl_usd": 30380.000000000047
+          },
+          {
+            "block_id": "outer-2019-2020",
+            "net_pnl_usd": 3354.9999999999936
+          },
+          {
+            "block_id": "outer-2021-2022",
+            "net_pnl_usd": -7495.000000000002
+          }
+        ],
+        "net_pnl_usd": 26240.00000000004,
+        "profile_id": "higher_1_5x",
+        "round_trip_cost_usd": 45.0,
+        "transaction_cost_usd": 2790.0
+      },
+      {
+        "blocks": [
+          {
+            "block_id": "outer-2017-2018",
+            "net_pnl_usd": 28740.00000000005
+          },
+          {
+            "block_id": "outer-2019-2020",
+            "net_pnl_usd": 3249.9999999999936
+          },
+          {
+            "block_id": "outer-2021-2022",
+            "net_pnl_usd": -7570.000000000002
+          }
+        ],
+        "net_pnl_usd": 24420.000000000044,
+        "profile_id": "higher_2x",
+        "round_trip_cost_usd": 60.0,
+        "transaction_cost_usd": 3660.0
+      }
+    ],
+    "diagnostics": {
+      "calmar": 3.3994499022801348,
+      "execution_side_count": 124,
+      "flat": {
+        "gross_pnl_usd": 0.0,
+        "net_pnl_usd": -345.0,
+        "sessions": 1532,
+        "transaction_cost_usd": 345.0
+      },
+      "forecast": {
+        "direction_accuracy_nonzero": 0.489650249821556,
+        "forecasts": 1401,
+        "mae_per_mmbtu": 0.1955946795004958,
+        "nonzero_forecasts": 1401,
+        "rmse_per_mmbtu": 0.3245886096767439
+      },
+      "largest_year_abs_pnl_fraction": 0.72294776119403,
+      "long": {
+        "gross_pnl_usd": 6470.000000000017,
+        "net_pnl_usd": 5870.000000000017,
+        "sessions": 68,
+        "transaction_cost_usd": 600.0
+      },
+      "max_abs_contracts": 1,
+      "max_drawdown_fraction": 0.07660062877389091,
+      "net_pnl_usd": 26040.000000000036,
+      "sharpe": 0.7961606178388917,
+      "short": {
+        "gross_pnl_usd": 21430.000000000025,
+        "net_pnl_usd": 20515.000000000025,
+        "sessions": 267,
+        "transaction_cost_usd": 915.0
+      },
+      "sortino": 0.5250935061202127,
+      "transaction_cost_usd": 1860.0,
+      "volatility_regime_net_pnl_usd": {
+        "high": 6914.999999999996,
+        "low": 1575.000000000024,
+        "mid": 16460.000000000025
+      },
+      "volatility_regime_thresholds": {
+        "low_upper": 0.02022773757235469,
+        "mid_upper": 0.028401156157095642
+      },
+      "yearly_net_pnl_usd": {
+        "2017": 31000.00000000005,
+        "2018": -940.000000000002,
+        "2019": 3459.999999999995,
+        "2020": 0.0,
+        "2021": -7480.0000000000055,
+        "2022": 0.0
+      }
+    },
+    "final_baseline": {
+      "candidate": {
+        "feature_set": "core",
+        "id": "histgb-core-v1",
+        "model": "hist_gb",
+        "parameters": {
+          "learning_rate": 0.05,
+          "max_iter": 20,
+          "max_leaf_nodes": 15,
+          "random_state": 0
+        },
+        "simplicity_rank": 4
+      },
+      "candidate_id": "histgb-core-v1",
+      "feature_columns": [
+        "feature_ret_1",
+        "feature_ret_5",
+        "feature_ret_20",
+        "feature_vol_5",
+        "feature_vol_20",
+        "feature_range_pct",
+        "feature_ma_gap_5",
+        "feature_ma_gap_20",
+        "feature_season_sin",
+        "feature_season_cos",
+        "feature_selected_dte",
+        "feature_roll_event"
+      ],
+      "outer_aggregate": {
+        "blocks": [
+          "outer-2017-2018",
+          "outer-2019-2020",
+          "outer-2021-2022"
+        ],
+        "candidate_id": "histgb-core-v1",
+        "net_pnl_usd": 26040.000000000036,
+        "simplicity_rank": 4,
+        "transaction_cost_usd": 1860.0
+      }
+    },
+    "final_candidate_aggregate": [
+      {
+        "blocks": [
+          "outer-2017-2018",
+          "outer-2019-2020",
+          "outer-2021-2022"
+        ],
+        "candidate_id": "zero-v1",
+        "net_pnl_usd": 0.0,
+        "simplicity_rank": 0,
+        "transaction_cost_usd": 0.0
+      },
+      {
+        "blocks": [
+          "outer-2017-2018",
+          "outer-2019-2020",
+          "outer-2021-2022"
+        ],
+        "candidate_id": "expanding-mean-v1",
+        "net_pnl_usd": 9380.000000000004,
+        "simplicity_rank": 1,
+        "transaction_cost_usd": 480.0
+      },
+      {
+        "blocks": [
+          "outer-2017-2018",
+          "outer-2019-2020",
+          "outer-2021-2022"
+        ],
+        "candidate_id": "ridge-core-a1",
+        "net_pnl_usd": 14090.000000000022,
+        "simplicity_rank": 2,
+        "transaction_cost_usd": 1830.0
+      },
+      {
+        "blocks": [
+          "outer-2017-2018",
+          "outer-2019-2020",
+          "outer-2021-2022"
+        ],
+        "candidate_id": "ridge-core-a10",
+        "net_pnl_usd": 14700.000000000022,
+        "simplicity_rank": 2,
+        "transaction_cost_usd": 1800.0
+      },
+      {
+        "blocks": [
+          "outer-2017-2018",
+          "outer-2019-2020",
+          "outer-2021-2022"
+        ],
+        "candidate_id": "ridge-curve-a1",
+        "net_pnl_usd": 16190.000000000035,
+        "simplicity_rank": 3,
+        "transaction_cost_usd": 2790.0
+      },
+      {
+        "blocks": [
+          "outer-2017-2018",
+          "outer-2019-2020",
+          "outer-2021-2022"
+        ],
+        "candidate_id": "ridge-curve-a10",
+        "net_pnl_usd": 11930.000000000018,
+        "simplicity_rank": 3,
+        "transaction_cost_usd": 2430.0
+      },
+      {
+        "blocks": [
+          "outer-2017-2018",
+          "outer-2019-2020",
+          "outer-2021-2022"
+        ],
+        "candidate_id": "histgb-core-v1",
+        "net_pnl_usd": 26040.000000000036,
+        "simplicity_rank": 4,
+        "transaction_cost_usd": 1860.0
+      },
+      {
+        "blocks": [
+          "outer-2017-2018",
+          "outer-2019-2020",
+          "outer-2021-2022"
+        ],
+        "candidate_id": "histgb-curve-v1",
+        "net_pnl_usd": 16399.999999999978,
+        "simplicity_rank": 5,
+        "transaction_cost_usd": 2070.0
+      }
+    ],
+    "inner_folds": [
+      {
+        "end": "2014-12-31",
+        "id": "inner-2014-01-01-2014-12-31",
+        "start": "2014-01-01"
+      },
+      {
+        "end": "2015-12-31",
+        "id": "inner-2015-01-01-2015-12-31",
+        "start": "2015-01-01"
+      },
+      {
+        "end": "2016-12-31",
+        "id": "inner-2016-01-01-2016-12-31",
+        "start": "2016-01-01"
+      },
+      {
+        "end": "2017-12-31",
+        "id": "inner-2017-01-01-2017-12-31",
+        "start": "2017-01-01"
+      },
+      {
+        "end": "2018-12-31",
+        "id": "inner-2018-01-01-2018-12-31",
+        "start": "2018-01-01"
+      },
+      {
+        "end": "2019-12-31",
+        "id": "inner-2019-01-01-2019-12-31",
+        "start": "2019-01-01"
+      },
+      {
+        "end": "2020-12-31",
+        "id": "inner-2020-01-01-2020-12-31",
+        "start": "2020-01-01"
+      }
+    ],
+    "nested_selection": {
+      "cumulative_net_pnl_usd": 16370.000000000025,
+      "outer_blocks": [
+        {
+          "block_id": "outer-2017-2018",
+          "inner_aggregate": {
+            "blocks": [
+              "inner-2014-01-01-2014-12-31",
+              "inner-2015-01-01-2015-12-31",
+              "inner-2016-01-01-2016-12-31"
+            ],
+            "candidate_id": "ridge-curve-a1",
+            "net_pnl_usd": 13960.000000000011,
+            "simplicity_rank": 3,
+            "transaction_cost_usd": 3360.0
+          },
+          "outer_score": {
+            "block_id": "outer-2017-2018",
+            "boundary_timestamp": "2019-01-01T00:00:00+00:00",
+            "candidate_id": "ridge-curve-a1",
+            "diagnostics": {
+              "calmar": 3.331094117647065,
+              "direction_accuracy_nonzero": 0.5301724137931034,
+              "execution_side_count": 174,
+              "flat": {
+                "gross_pnl_usd": 0.0,
+                "net_pnl_usd": -285.0,
+                "sessions": 321,
+                "transaction_cost_usd": 285.0
+              },
+              "forecasts": 464,
+              "long": {
+                "gross_pnl_usd": 2440.0000000000127,
+                "net_pnl_usd": 1360.0000000000127,
+                "sessions": 156,
+                "transaction_cost_usd": 1080.0
+              },
+              "mae_per_mmbtu": 0.10790860484351081,
+              "max_abs_contracts": 1,
+              "max_drawdown_fraction": 0.050073637702503684,
+              "net_pnl_usd": 16680.000000000033,
+              "nonzero_forecasts": 464,
+              "rmse_per_mmbtu": 0.16129748698579094,
+              "sharpe": 1.0209690015817148,
+              "short": {
+                "gross_pnl_usd": 16850.000000000022,
+                "net_pnl_usd": 15605.000000000022,
+                "sessions": 145,
+                "transaction_cost_usd": 1245.0
+              },
+              "sortino": 1.075843903213849,
+              "transaction_cost_usd": 2610.0
+            },
+            "end_date": "2018-12-31",
+            "execution_side_count": 174,
+            "feature_set": "full_market",
+            "kill_triggered": true,
+            "latest_training_target_end": "2016-12-28T00:00:00+00:00",
+            "max_drawdown_fraction": 0.050073637702503684,
+            "model": "ridge",
+            "net_pnl_usd": 16680.000000000033,
+            "simplicity_rank": 3,
+            "start_date": "2017-01-01",
+            "start_timestamp": "2017-01-02T00:00:00+00:00",
+            "status": "passed",
+            "training_rows": 1461,
+            "transaction_cost_usd": 2610.0
+          },
+          "selected_candidate_id": "ridge-curve-a1"
+        },
+        {
+          "block_id": "outer-2019-2020",
+          "inner_aggregate": {
+            "blocks": [
+              "inner-2014-01-01-2014-12-31",
+              "inner-2015-01-01-2015-12-31",
+              "inner-2016-01-01-2016-12-31",
+              "inner-2017-01-01-2017-12-31",
+              "inner-2018-01-01-2018-12-31"
+            ],
+            "candidate_id": "histgb-core-v1",
+            "net_pnl_usd": 35460.00000000006,
+            "simplicity_rank": 4,
+            "transaction_cost_usd": 2580.0
+          },
+          "outer_score": {
+            "block_id": "outer-2019-2020",
+            "boundary_timestamp": "2021-01-03T00:00:00+00:00",
+            "candidate_id": "histgb-core-v1",
+            "diagnostics": {
+              "calmar": 0.9239704347826071,
+              "direction_accuracy_nonzero": 0.5145833333333333,
+              "execution_side_count": 14,
+              "flat": {
+                "gross_pnl_usd": 0.0,
+                "net_pnl_usd": -15.0,
+                "sessions": 603,
+                "transaction_cost_usd": 15.0
+              },
+              "forecasts": 480,
+              "long": {
+                "gross_pnl_usd": 1859.999999999999,
+                "net_pnl_usd": 1754.999999999999,
+                "sessions": 16,
+                "transaction_cost_usd": 105.0
+              },
+              "mae_per_mmbtu": 0.1133910579039234,
+              "max_abs_contracts": 1,
+              "max_drawdown_fraction": 0.03744708563985672,
+              "net_pnl_usd": 3459.9999999999936,
+              "nonzero_forecasts": 480,
+              "rmse_per_mmbtu": 0.1504671684926785,
+              "sharpe": 0.3572839556790066,
+              "short": {
+                "gross_pnl_usd": 1809.9999999999961,
+                "net_pnl_usd": 1719.9999999999961,
+                "sessions": 6,
+                "transaction_cost_usd": 90.0
+              },
+              "sortino": 0.11034095266146052,
+              "transaction_cost_usd": 210.0
+            },
+            "end_date": "2020-12-31",
+            "execution_side_count": 14,
+            "feature_set": "core",
+            "kill_triggered": true,
+            "latest_training_target_end": "2018-12-31T00:00:00+00:00",
+            "max_drawdown_fraction": 0.03744708563985672,
+            "model": "hist_gb",
+            "net_pnl_usd": 3459.9999999999936,
+            "simplicity_rank": 4,
+            "start_date": "2019-01-01",
+            "start_timestamp": "2019-01-01T00:00:00+00:00",
+            "status": "passed",
+            "training_rows": 1925,
+            "transaction_cost_usd": 210.0
+          },
+          "selected_candidate_id": "histgb-core-v1"
+        },
+        {
+          "block_id": "outer-2021-2022",
+          "inner_aggregate": {
+            "blocks": [
+              "inner-2014-01-01-2014-12-31",
+              "inner-2015-01-01-2015-12-31",
+              "inner-2016-01-01-2016-12-31",
+              "inner-2017-01-01-2017-12-31",
+              "inner-2018-01-01-2018-12-31",
+              "inner-2019-01-01-2019-12-31",
+              "inner-2020-01-01-2020-12-31"
+            ],
+            "candidate_id": "ridge-core-a10",
+            "net_pnl_usd": 39999.99999999999,
+            "simplicity_rank": 2,
+            "transaction_cost_usd": 4050.0
+          },
+          "outer_score": {
+            "block_id": "outer-2021-2022",
+            "boundary_timestamp": "2022-12-30T00:00:00.000000001+00:00",
+            "candidate_id": "ridge-core-a10",
+            "diagnostics": {
+              "calmar": -0.7469611925708701,
+              "direction_accuracy_nonzero": 0.4638949671772429,
+              "execution_side_count": 4,
+              "flat": {
+                "gross_pnl_usd": 0.0,
+                "net_pnl_usd": -15.0,
+                "sessions": 591,
+                "transaction_cost_usd": 15.0
+              },
+              "forecasts": 457,
+              "long": {
+                "gross_pnl_usd": 0.0,
+                "net_pnl_usd": 0.0,
+                "sessions": 0,
+                "transaction_cost_usd": 0.0
+              },
+              "mae_per_mmbtu": 0.36601075951110357,
+              "max_abs_contracts": 1,
+              "max_drawdown_fraction": 0.0504711628595392,
+              "net_pnl_usd": -3770.0000000000005,
+              "nonzero_forecasts": 457,
+              "rmse_per_mmbtu": 0.5126358766058995,
+              "sharpe": -0.6186075294406256,
+              "short": {
+                "gross_pnl_usd": -3710.0,
+                "net_pnl_usd": -3755.0,
+                "sessions": 29,
+                "transaction_cost_usd": 45.0
+              },
+              "sortino": -0.15463609211135,
+              "transaction_cost_usd": 60.0
+            },
+            "end_date": "2022-12-31",
+            "execution_side_count": 4,
+            "feature_set": "core",
+            "kill_triggered": true,
+            "latest_training_target_end": "2020-12-29T00:00:00+00:00",
+            "max_drawdown_fraction": 0.0504711628595392,
+            "model": "ridge",
+            "net_pnl_usd": -3770.0000000000005,
+            "simplicity_rank": 2,
+            "start_date": "2021-01-01",
+            "start_timestamp": "2021-01-03T00:00:00+00:00",
+            "status": "passed",
+            "training_rows": 2408,
+            "transaction_cost_usd": 60.0
+          },
+          "selected_candidate_id": "ridge-core-a10"
+        }
+      ]
+    },
+    "origin_canonicalization": {
+      "collapsed": 64,
+      "input_origins": 2929,
+      "output_origins": 2865
+    },
+    "origins": 2865,
+    "preflight": {
+      "blocks": 10,
+      "checks": 80,
+      "minimum_training_rows": 504,
+      "structural_survivors": [
+        "expanding-mean-v1",
+        "histgb-core-v1",
+        "histgb-curve-v1",
+        "ridge-core-a1",
+        "ridge-core-a10",
+        "ridge-curve-a1",
+        "ridge-curve-a10",
+        "zero-v1"
+      ]
+    },
+    "search_history": {
+      "inner": [
+        {
+          "block_id": "inner-2014-01-01-2014-12-31",
+          "boundary_timestamp": "2015-01-01T00:00:00+00:00",
+          "candidate_id": "zero-v1",
+          "diagnostics": {
+            "calmar": null,
+            "direction_accuracy_nonzero": 0.0,
+            "execution_side_count": 0,
+            "flat": {
+              "gross_pnl_usd": 0.0,
+              "net_pnl_usd": 0.0,
+              "sessions": 305,
+              "transaction_cost_usd": 0.0
+            },
+            "forecasts": 212,
+            "long": {
+              "gross_pnl_usd": 0.0,
+              "net_pnl_usd": 0.0,
+              "sessions": 0,
+              "transaction_cost_usd": 0.0
+            },
+            "mae_per_mmbtu": 0.18673584905660381,
+            "max_abs_contracts": 0,
+            "max_drawdown_fraction": 0.0,
+            "net_pnl_usd": 0.0,
+            "nonzero_forecasts": 0,
+            "rmse_per_mmbtu": 0.2884951685282631,
+            "sharpe": null,
+            "short": {
+              "gross_pnl_usd": 0.0,
+              "net_pnl_usd": 0.0,
+              "sessions": 0,
+              "transaction_cost_usd": 0.0
+            },
+            "sortino": null,
+            "transaction_cost_usd": 0.0
+          },
+          "end_date": "2014-12-31",
+          "execution_side_count": 0,
+          "feature_set": "core",
+          "kill_triggered": false,
+          "latest_training_target_end": "2013-12-31T00:00:00+00:00",
+          "max_drawdown_fraction": 0.0,
+          "model": "zero",
+          "net_pnl_usd": 0.0,
+          "simplicity_rank": 0,
+          "start_date": "2014-01-01",
+          "start_timestamp": "2014-01-01T00:00:00+00:00",
+          "status": "passed",
+          "training_rows": 791,
+          "transaction_cost_usd": 0.0
+        },
+        {
+          "block_id": "inner-2014-01-01-2014-12-31",
+          "boundary_timestamp": "2015-01-01T00:00:00+00:00",
+          "candidate_id": "expanding-mean-v1",
+          "diagnostics": {
+            "calmar": -0.5679874549387173,
+            "direction_accuracy_nonzero": 0.5471698113207547,
+            "execution_side_count": 2,
+            "flat": {
+              "gross_pnl_usd": 0.0,
+              "net_pnl_usd": -15.0,
+              "sessions": 290,
+              "transaction_cost_usd": 15.0
+            },
+            "forecasts": 212,
+            "long": {
+              "gross_pnl_usd": 0.0,
+              "net_pnl_usd": 0.0,
+              "sessions": 0,
+              "transaction_cost_usd": 0.0
+            },
+            "mae_per_mmbtu": 0.18554586980893545,
+            "max_abs_contracts": 1,
+            "max_drawdown_fraction": 0.06725500654608932,
+            "net_pnl_usd": -3820.0000000000036,
+            "nonzero_forecasts": 212,
+            "rmse_per_mmbtu": 0.2878112002901357,
+            "sharpe": -0.7918475423184512,
+            "short": {
+              "gross_pnl_usd": -3790.0000000000045,
+              "net_pnl_usd": -3805.0000000000045,
+              "sessions": 15,
+              "transaction_cost_usd": 15.0
+            },
+            "sortino": -0.2507086895628077,
+            "transaction_cost_usd": 30.0
+          },
+          "end_date": "2014-12-31",
+          "execution_side_count": 2,
+          "feature_set": "core",
+          "kill_triggered": true,
+          "latest_training_target_end": "2013-12-31T00:00:00+00:00",
+          "max_drawdown_fraction": 0.06725500654608932,
+          "model": "expanding_mean",
+          "net_pnl_usd": -3820.0000000000036,
+          "simplicity_rank": 1,
+          "start_date": "2014-01-01",
+          "start_timestamp": "2014-01-01T00:00:00+00:00",
+          "status": "passed",
+          "training_rows": 791,
+          "transaction_cost_usd": 30.0
+        },
+        {
+          "block_id": "inner-2014-01-01-2014-12-31",
+          "boundary_timestamp": "2015-01-01T00:00:00+00:00",
+          "candidate_id": "ridge-core-a1",
+          "diagnostics": {
+            "calmar": -0.5679874549387173,
+            "direction_accuracy_nonzero": 0.5330188679245284,
+            "execution_side_count": 2,
+            "flat": {
+              "gross_pnl_usd": 0.0,
+              "net_pnl_usd": -15.0,
+              "sessions": 290,
+              "transaction_cost_usd": 15.0
+            },
+            "forecasts": 212,
+            "long": {
+              "gross_pnl_usd": 0.0,
+              "net_pnl_usd": 0.0,
+              "sessions": 0,
+              "transaction_cost_usd": 0.0
+            },
+            "mae_per_mmbtu": 0.18473319092401957,
+            "max_abs_contracts": 1,
+            "max_drawdown_fraction": 0.06725500654608932,
+            "net_pnl_usd": -3820.0000000000036,
+            "nonzero_forecasts": 212,
+            "rmse_per_mmbtu": 0.2892541549805578,
+            "sharpe": -0.7918475423184512,
+            "short": {
+              "gross_pnl_usd": -3790.0000000000045,
+              "net_pnl_usd": -3805.0000000000045,
+              "sessions": 15,
+              "transaction_cost_usd": 15.0
+            },
+            "sortino": -0.2507086895628077,
+            "transaction_cost_usd": 30.0
+          },
+          "end_date": "2014-12-31",
+          "execution_side_count": 2,
+          "feature_set": "core",
+          "kill_triggered": true,
+          "latest_training_target_end": "2013-12-31T00:00:00+00:00",
+          "max_drawdown_fraction": 0.06725500654608932,
+          "model": "ridge",
+          "net_pnl_usd": -3820.0000000000036,
+          "simplicity_rank": 2,
+          "start_date": "2014-01-01",
+          "start_timestamp": "2014-01-01T00:00:00+00:00",
+          "status": "passed",
+          "training_rows": 791,
+          "transaction_cost_usd": 30.0
+        },
+        {
+          "block_id": "inner-2014-01-01-2014-12-31",
+          "boundary_timestamp": "2015-01-01T00:00:00+00:00",
+          "candidate_id": "ridge-core-a10",
+          "diagnostics": {
+            "calmar": -0.5679874549387173,
+            "direction_accuracy_nonzero": 0.5377358490566038,
+            "execution_side_count": 2,
+            "flat": {
+              "gross_pnl_usd": 0.0,
+              "net_pnl_usd": -15.0,
+              "sessions": 290,
+              "transaction_cost_usd": 15.0
+            },
+            "forecasts": 212,
+            "long": {
+              "gross_pnl_usd": 0.0,
+              "net_pnl_usd": 0.0,
+              "sessions": 0,
+              "transaction_cost_usd": 0.0
+            },
+            "mae_per_mmbtu": 0.18473262988012845,
+            "max_abs_contracts": 1,
+            "max_drawdown_fraction": 0.06725500654608932,
+            "net_pnl_usd": -3820.0000000000036,
+            "nonzero_forecasts": 212,
+            "rmse_per_mmbtu": 0.2891691476682312,
+            "sharpe": -0.7918475423184512,
+            "short": {
+              "gross_pnl_usd": -3790.0000000000045,
+              "net_pnl_usd": -3805.0000000000045,
+              "sessions": 15,
+              "transaction_cost_usd": 15.0
+            },
+            "sortino": -0.2507086895628077,
+            "transaction_cost_usd": 30.0
+          },
+          "end_date": "2014-12-31",
+          "execution_side_count": 2,
+          "feature_set": "core",
+          "kill_triggered": true,
+          "latest_training_target_end": "2013-12-31T00:00:00+00:00",
+          "max_drawdown_fraction": 0.06725500654608932,
+          "model": "ridge",
+          "net_pnl_usd": -3820.0000000000036,
+          "simplicity_rank": 2,
+          "start_date": "2014-01-01",
+          "start_timestamp": "2014-01-01T00:00:00+00:00",
+          "status": "passed",
+          "training_rows": 791,
+          "transaction_cost_usd": 30.0
+        },
+        {
+          "block_id": "inner-2014-01-01-2014-12-31",
+          "boundary_timestamp": "2015-01-01T00:00:00+00:00",
+          "candidate_id": "ridge-curve-a1",
+          "diagnostics": {
+            "calmar": -0.666767441860466,
+            "direction_accuracy_nonzero": 0.5235849056603774,
+            "execution_side_count": 6,
+            "flat": {
+              "gross_pnl_usd": 0.0,
+              "net_pnl_usd": -15.0,
+              "sessions": 290,
+              "transaction_cost_usd": 15.0
+            },
+            "forecasts": 212,
+            "long": {
+              "gross_pnl_usd": -910.0000000000019,
+              "net_pnl_usd": -940.0000000000019,
+              "sessions": 1,
+              "transaction_cost_usd": 30.0
+            },
+            "mae_per_mmbtu": 0.18574363457195087,
+            "max_abs_contracts": 1,
+            "max_drawdown_fraction": 0.08548707753479125,
+            "net_pnl_usd": -5700.000000000007,
+            "nonzero_forecasts": 212,
+            "rmse_per_mmbtu": 0.27674971863343356,
+            "sharpe": -1.1812161689547318,
+            "short": {
+              "gross_pnl_usd": -4700.000000000006,
+              "net_pnl_usd": -4745.000000000006,
+              "sessions": 14,
+              "transaction_cost_usd": 45.0
+            },
+            "sortino": -0.39248313849427124,
+            "transaction_cost_usd": 90.0
+          },
+          "end_date": "2014-12-31",
+          "execution_side_count": 6,
+          "feature_set": "full_market",
+          "kill_triggered": true,
+          "latest_training_target_end": "2013-12-31T00:00:00+00:00",
+          "max_drawdown_fraction": 0.08548707753479125,
+          "model": "ridge",
+          "net_pnl_usd": -5700.000000000007,
+          "simplicity_rank": 3,
+          "start_date": "2014-01-01",
+          "start_timestamp": "2014-01-01T00:00:00+00:00",
+          "status": "passed",
+          "training_rows": 791,
+          "transaction_cost_usd": 90.0
+        },
+        {
+          "block_id": "inner-2014-01-01-2014-12-31",
+          "boundary_timestamp": "2015-01-01T00:00:00+00:00",
+          "candidate_id": "ridge-curve-a10",
+          "diagnostics": {
+            "calmar": -0.6243061431285626,
+            "direction_accuracy_nonzero": 0.5283018867924528,
+            "execution_side_count": 8,
+            "flat": {
+              "gross_pnl_usd": 0.0,
+              "net_pnl_usd": -45.0,
+              "sessions": 293,
+              "transaction_cost_usd": 45.0
+            },
+            "forecasts": 212,
+            "long": {
+              "gross_pnl_usd": -910.0000000000019,
+              "net_pnl_usd": -940.0000000000019,
+              "sessions": 1,
+              "transaction_cost_usd": 30.0
+            },
+            "mae_per_mmbtu": 0.1845336551277627,
+            "max_abs_contracts": 1,
+            "max_drawdown_fraction": 0.07656500024244775,
+            "net_pnl_usd": -4780.000000000002,
+            "nonzero_forecasts": 212,
+            "rmse_per_mmbtu": 0.2760710168909085,
+            "sharpe": -0.9237313532809284,
+            "short": {
+              "gross_pnl_usd": -3749.9999999999995,
+              "net_pnl_usd": -3794.9999999999995,
+              "sessions": 11,
+              "transaction_cost_usd": 45.0
+            },
+            "sortino": -0.24936389622676058,
+            "transaction_cost_usd": 120.0
+          },
+          "end_date": "2014-12-31",
+          "execution_side_count": 8,
+          "feature_set": "full_market",
+          "kill_triggered": true,
+          "latest_training_target_end": "2013-12-31T00:00:00+00:00",
+          "max_drawdown_fraction": 0.07656500024244775,
+          "model": "ridge",
+          "net_pnl_usd": -4780.000000000002,
+          "simplicity_rank": 3,
+          "start_date": "2014-01-01",
+          "start_timestamp": "2014-01-01T00:00:00+00:00",
+          "status": "passed",
+          "training_rows": 791,
+          "transaction_cost_usd": 120.0
+        },
+        {
+          "block_id": "inner-2014-01-01-2014-12-31",
+          "boundary_timestamp": "2015-01-01T00:00:00+00:00",
+          "candidate_id": "histgb-core-v1",
+          "diagnostics": {
+            "calmar": -0.28644650912996616,
+            "direction_accuracy_nonzero": 0.5707547169811321,
+            "execution_side_count": 6,
+            "flat": {
+              "gross_pnl_usd": 0.0,
+              "net_pnl_usd": -15.0,
+              "sessions": 288,
+              "transaction_cost_usd": 15.0
+            },
+            "forecasts": 212,
+            "long": {
+              "gross_pnl_usd": 3600.000000000003,
+              "net_pnl_usd": 3570.000000000003,
+              "sessions": 5,
+              "transaction_cost_usd": 30.0
+            },
+            "mae_per_mmbtu": 0.1852341099639041,
+            "max_abs_contracts": 1,
+            "max_drawdown_fraction": 0.04503458617520437,
+            "net_pnl_usd": -1289.9999999999927,
+            "nonzero_forecasts": 212,
+            "rmse_per_mmbtu": 0.2861672249778412,
+            "sharpe": -0.20796874114612668,
+            "short": {
+              "gross_pnl_usd": -4799.9999999999945,
+              "net_pnl_usd": -4844.9999999999945,
+              "sessions": 12,
+              "transaction_cost_usd": 45.0
+            },
+            "sortino": -0.06773671131536606,
+            "transaction_cost_usd": 90.0
+          },
+          "end_date": "2014-12-31",
+          "execution_side_count": 6,
+          "feature_set": "core",
+          "kill_triggered": true,
+          "latest_training_target_end": "2013-12-31T00:00:00+00:00",
+          "max_drawdown_fraction": 0.04503458617520437,
+          "model": "hist_gb",
+          "net_pnl_usd": -1289.9999999999927,
+          "simplicity_rank": 4,
+          "start_date": "2014-01-01",
+          "start_timestamp": "2014-01-01T00:00:00+00:00",
+          "status": "passed",
+          "training_rows": 791,
+          "transaction_cost_usd": 90.0
+        },
+        {
+          "block_id": "inner-2014-01-01-2014-12-31",
+          "boundary_timestamp": "2015-01-01T00:00:00+00:00",
+          "candidate_id": "histgb-curve-v1",
+          "diagnostics": {
+            "calmar": 0.6108662728249217,
+            "direction_accuracy_nonzero": 0.5141509433962265,
+            "execution_side_count": 6,
+            "flat": {
+              "gross_pnl_usd": 0.0,
+              "net_pnl_usd": -15.0,
+              "sessions": 288,
+              "transaction_cost_usd": 15.0
+            },
+            "forecasts": 212,
+            "long": {
+              "gross_pnl_usd": 5570.000000000004,
+              "net_pnl_usd": 5540.000000000004,
+              "sessions": 8,
+              "transaction_cost_usd": 30.0
+            },
+            "mae_per_mmbtu": 0.18607400639745,
+            "max_abs_contracts": 1,
+            "max_drawdown_fraction": 0.043381016728018265,
+            "net_pnl_usd": 2650.0000000000095,
+            "nonzero_forecasts": 212,
+            "rmse_per_mmbtu": 0.28237754422911504,
+            "sharpe": 0.4278805495052211,
+            "short": {
+              "gross_pnl_usd": -2829.9999999999945,
+              "net_pnl_usd": -2874.9999999999945,
+              "sessions": 9,
+              "transaction_cost_usd": 45.0
+            },
+            "sortino": 0.1323153425966673,
+            "transaction_cost_usd": 90.0
+          },
+          "end_date": "2014-12-31",
+          "execution_side_count": 6,
+          "feature_set": "full_market",
+          "kill_triggered": true,
+          "latest_training_target_end": "2013-12-31T00:00:00+00:00",
+          "max_drawdown_fraction": 0.043381016728018265,
+          "model": "hist_gb",
+          "net_pnl_usd": 2650.0000000000095,
+          "simplicity_rank": 5,
+          "start_date": "2014-01-01",
+          "start_timestamp": "2014-01-01T00:00:00+00:00",
+          "status": "passed",
+          "training_rows": 791,
+          "transaction_cost_usd": 90.0
+        },
+        {
+          "block_id": "inner-2015-01-01-2015-12-31",
+          "boundary_timestamp": "2016-01-03T00:00:00+00:00",
+          "candidate_id": "zero-v1",
+          "diagnostics": {
+            "calmar": null,
+            "direction_accuracy_nonzero": 0.0,
+            "execution_side_count": 0,
+            "flat": {
+              "gross_pnl_usd": 0.0,
+              "net_pnl_usd": 0.0,
+              "sessions": 312,
+              "transaction_cost_usd": 0.0
+            },
+            "forecasts": 232,
+            "long": {
+              "gross_pnl_usd": 0.0,
+              "net_pnl_usd": 0.0,
+              "sessions": 0,
+              "transaction_cost_usd": 0.0
+            },
+            "mae_per_mmbtu": 0.10345689655172413,
+            "max_abs_contracts": 0,
+            "max_drawdown_fraction": 0.0,
+            "net_pnl_usd": 0.0,
+            "nonzero_forecasts": 0,
+            "rmse_per_mmbtu": 0.13158060988060408,
+            "sharpe": null,
+            "short": {
+              "gross_pnl_usd": 0.0,
+              "net_pnl_usd": 0.0,
+              "sessions": 0,
+              "transaction_cost_usd": 0.0
+            },
+            "sortino": null,
+            "transaction_cost_usd": 0.0
+          },
+          "end_date": "2015-12-31",
+          "execution_side_count": 0,
+          "feature_set": "core",
+          "kill_triggered": false,
+          "latest_training_target_end": "2014-12-31T00:00:00+00:00",
+          "max_drawdown_fraction": 0.0,
+          "model": "zero",
+          "net_pnl_usd": 0.0,
+          "simplicity_rank": 0,
+          "start_date": "2015-01-01",
+          "start_timestamp": "2015-01-01T00:00:00+00:00",
+          "status": "passed",
+          "training_rows": 1005,
+          "transaction_cost_usd": 0.0
+        },
+        {
+          "block_id": "inner-2015-01-01-2015-12-31",
+          "boundary_timestamp": "2016-01-03T00:00:00+00:00",
+          "candidate_id": "expanding-mean-v1",
+          "diagnostics": {
+            "calmar": -1.0000000000000004,
+            "direction_accuracy_nonzero": 0.5689655172413793,
+            "execution_side_count": 2,
+            "flat": {
+              "gross_pnl_usd": 0.0,
+              "net_pnl_usd": -15.0,
+              "sessions": 311,
+              "transaction_cost_usd": 15.0
+            },
+            "forecasts": 232,
+            "long": {
+              "gross_pnl_usd": 0.0,
+              "net_pnl_usd": 0.0,
+              "sessions": 0,
+              "transaction_cost_usd": 0.0
+            },
+            "mae_per_mmbtu": 0.10152333161777322,
+            "max_abs_contracts": 1,
+            "max_drawdown_fraction": 0.0236,
+            "net_pnl_usd": -2360.000000000001,
+            "nonzero_forecasts": 232,
+            "rmse_per_mmbtu": 0.12930275620059406,
+            "sharpe": -0.9044658564691278,
+            "short": {
+              "gross_pnl_usd": -2330.000000000001,
+              "net_pnl_usd": -2345.000000000001,
+              "sessions": 1,
+              "transaction_cost_usd": 15.0
+            },
+            "sortino": -0.07288140832606885,
+            "transaction_cost_usd": 30.0
+          },
+          "end_date": "2015-12-31",
+          "execution_side_count": 2,
+          "feature_set": "core",
+          "kill_triggered": true,
+          "latest_training_target_end": "2014-12-31T00:00:00+00:00",
+          "max_drawdown_fraction": 0.0236,
+          "model": "expanding_mean",
+          "net_pnl_usd": -2360.000000000001,
+          "simplicity_rank": 1,
+          "start_date": "2015-01-01",
+          "start_timestamp": "2015-01-01T00:00:00+00:00",
+          "status": "passed",
+          "training_rows": 1005,
+          "transaction_cost_usd": 30.0
+        },
+        {
+          "block_id": "inner-2015-01-01-2015-12-31",
+          "boundary_timestamp": "2016-01-03T00:00:00+00:00",
+          "candidate_id": "ridge-core-a1",
+          "diagnostics": {
+            "calmar": 0.6931263233190244,
+            "direction_accuracy_nonzero": 0.5474137931034483,
+            "execution_side_count": 12,
+            "flat": {
+              "gross_pnl_usd": 0.0,
+              "net_pnl_usd": -15.0,
+              "sessions": 301,
+              "transaction_cost_usd": 15.0
+            },
+            "forecasts": 232,
+            "long": {
+              "gross_pnl_usd": 3509.999999999995,
+              "net_pnl_usd": 3434.999999999995,
+              "sessions": 4,
+              "transaction_cost_usd": 75.0
+            },
+            "mae_per_mmbtu": 0.10002661293919303,
+            "max_abs_contracts": 1,
+            "max_drawdown_fraction": 0.03303871059223897,
+            "net_pnl_usd": 2289.9999999999905,
+            "nonzero_forecasts": 232,
+            "rmse_per_mmbtu": 0.126877332156363,
+            "sharpe": 0.41448762446259063,
+            "short": {
+              "gross_pnl_usd": -1040.0000000000055,
+              "net_pnl_usd": -1130.0000000000055,
+              "sessions": 7,
+              "transaction_cost_usd": 90.0
+            },
+            "sortino": 0.08649833714634524,
+            "transaction_cost_usd": 180.0
+          },
+          "end_date": "2015-12-31",
+          "execution_side_count": 12,
+          "feature_set": "core",
+          "kill_triggered": true,
+          "latest_training_target_end": "2014-12-31T00:00:00+00:00",
+          "max_drawdown_fraction": 0.03303871059223897,
+          "model": "ridge",
+          "net_pnl_usd": 2289.9999999999905,
+          "simplicity_rank": 2,
+          "start_date": "2015-01-01",
+          "start_timestamp": "2015-01-01T00:00:00+00:00",
+          "status": "passed",
+          "training_rows": 1005,
+          "transaction_cost_usd": 180.0
+        },
+        {
+          "block_id": "inner-2015-01-01-2015-12-31",
+          "boundary_timestamp": "2016-01-03T00:00:00+00:00",
+          "candidate_id": "ridge-core-a10",
+          "diagnostics": {
+            "calmar": 0.6931263233190244,
+            "direction_accuracy_nonzero": 0.5474137931034483,
+            "execution_side_count": 12,
+            "flat": {
+              "gross_pnl_usd": 0.0,
+              "net_pnl_usd": -15.0,
+              "sessions": 301,
+              "transaction_cost_usd": 15.0
+            },
+            "forecasts": 232,
+            "long": {
+              "gross_pnl_usd": 3509.999999999995,
+              "net_pnl_usd": 3434.999999999995,
+              "sessions": 4,
+              "transaction_cost_usd": 75.0
+            },
+            "mae_per_mmbtu": 0.10002438750577548,
+            "max_abs_contracts": 1,
+            "max_drawdown_fraction": 0.03303871059223897,
+            "net_pnl_usd": 2289.9999999999905,
+            "nonzero_forecasts": 232,
+            "rmse_per_mmbtu": 0.12687126919849406,
+            "sharpe": 0.41448762446259063,
+            "short": {
+              "gross_pnl_usd": -1040.0000000000055,
+              "net_pnl_usd": -1130.0000000000055,
+              "sessions": 7,
+              "transaction_cost_usd": 90.0
+            },
+            "sortino": 0.08649833714634524,
+            "transaction_cost_usd": 180.0
+          },
+          "end_date": "2015-12-31",
+          "execution_side_count": 12,
+          "feature_set": "core",
+          "kill_triggered": true,
+          "latest_training_target_end": "2014-12-31T00:00:00+00:00",
+          "max_drawdown_fraction": 0.03303871059223897,
+          "model": "ridge",
+          "net_pnl_usd": 2289.9999999999905,
+          "simplicity_rank": 2,
+          "start_date": "2015-01-01",
+          "start_timestamp": "2015-01-01T00:00:00+00:00",
+          "status": "passed",
+          "training_rows": 1005,
+          "transaction_cost_usd": 180.0
+        },
+        {
+          "block_id": "inner-2015-01-01-2015-12-31",
+          "boundary_timestamp": "2016-01-03T00:00:00+00:00",
+          "candidate_id": "ridge-curve-a1",
+          "diagnostics": {
+            "calmar": 2.23888566176471,
+            "direction_accuracy_nonzero": 0.5043103448275862,
+            "execution_side_count": 102,
+            "flat": {
+              "gross_pnl_usd": 0.0,
+              "net_pnl_usd": -135.0,
+              "sessions": 16,
+              "transaction_cost_usd": 135.0
+            },
+            "forecasts": 232,
+            "long": {
+              "gross_pnl_usd": 2690.0000000000127,
+              "net_pnl_usd": 1970.0000000000127,
+              "sessions": 212,
+              "transaction_cost_usd": 720.0
+            },
+            "mae_per_mmbtu": 0.1068808803641275,
+            "max_abs_contracts": 1,
+            "max_drawdown_fraction": 0.059091896589180966,
+            "net_pnl_usd": 13230.000000000022,
+            "nonzero_forecasts": 232,
+            "rmse_per_mmbtu": 0.13475658690965908,
+            "sharpe": 1.0839304954855429,
+            "short": {
+              "gross_pnl_usd": 12070.000000000011,
+              "net_pnl_usd": 11395.000000000011,
+              "sessions": 84,
+              "transaction_cost_usd": 675.0
+            },
+            "sortino": 1.867041738363757,
+            "transaction_cost_usd": 1530.0
+          },
+          "end_date": "2015-12-31",
+          "execution_side_count": 102,
+          "feature_set": "full_market",
+          "kill_triggered": false,
+          "latest_training_target_end": "2014-12-31T00:00:00+00:00",
+          "max_drawdown_fraction": 0.059091896589180966,
+          "model": "ridge",
+          "net_pnl_usd": 13230.000000000022,
+          "simplicity_rank": 3,
+          "start_date": "2015-01-01",
+          "start_timestamp": "2015-01-01T00:00:00+00:00",
+          "status": "passed",
+          "training_rows": 1005,
+          "transaction_cost_usd": 1530.0
+        },
+        {
+          "block_id": "inner-2015-01-01-2015-12-31",
+          "boundary_timestamp": "2016-01-03T00:00:00+00:00",
+          "candidate_id": "ridge-curve-a10",
+          "diagnostics": {
+            "calmar": -1.0000000000000004,
+            "direction_accuracy_nonzero": 0.5172413793103449,
+            "execution_side_count": 2,
+            "flat": {
+              "gross_pnl_usd": 0.0,
+              "net_pnl_usd": -15.0,
+              "sessions": 311,
+              "transaction_cost_usd": 15.0
+            },
+            "forecasts": 232,
+            "long": {
+              "gross_pnl_usd": 0.0,
+              "net_pnl_usd": 0.0,
+              "sessions": 0,
+              "transaction_cost_usd": 0.0
+            },
+            "mae_per_mmbtu": 0.10658511352693806,
+            "max_abs_contracts": 1,
+            "max_drawdown_fraction": 0.0236,
+            "net_pnl_usd": -2360.000000000001,
+            "nonzero_forecasts": 232,
+            "rmse_per_mmbtu": 0.13552643070658477,
+            "sharpe": -0.9044658564691278,
+            "short": {
+              "gross_pnl_usd": -2330.000000000001,
+              "net_pnl_usd": -2345.000000000001,
+              "sessions": 1,
+              "transaction_cost_usd": 15.0
+            },
+            "sortino": -0.07288140832606885,
+            "transaction_cost_usd": 30.0
+          },
+          "end_date": "2015-12-31",
+          "execution_side_count": 2,
+          "feature_set": "full_market",
+          "kill_triggered": true,
+          "latest_training_target_end": "2014-12-31T00:00:00+00:00",
+          "max_drawdown_fraction": 0.0236,
+          "model": "ridge",
+          "net_pnl_usd": -2360.000000000001,
+          "simplicity_rank": 3,
+          "start_date": "2015-01-01",
+          "start_timestamp": "2015-01-01T00:00:00+00:00",
+          "status": "passed",
+          "training_rows": 1005,
+          "transaction_cost_usd": 30.0
+        },
+        {
+          "block_id": "inner-2015-01-01-2015-12-31",
+          "boundary_timestamp": "2016-01-03T00:00:00+00:00",
+          "candidate_id": "histgb-core-v1",
+          "diagnostics": {
+            "calmar": -1.0000000000000004,
+            "direction_accuracy_nonzero": 0.5301724137931034,
+            "execution_side_count": 2,
+            "flat": {
+              "gross_pnl_usd": 0.0,
+              "net_pnl_usd": -15.0,
+              "sessions": 311,
+              "transaction_cost_usd": 15.0
+            },
+            "forecasts": 232,
+            "long": {
+              "gross_pnl_usd": 0.0,
+              "net_pnl_usd": 0.0,
+              "sessions": 0,
+              "transaction_cost_usd": 0.0
+            },
+            "mae_per_mmbtu": 0.11057984684394262,
+            "max_abs_contracts": 1,
+            "max_drawdown_fraction": 0.0236,
+            "net_pnl_usd": -2360.000000000001,
+            "nonzero_forecasts": 232,
+            "rmse_per_mmbtu": 0.14117607304824317,
+            "sharpe": -0.9044658564691278,
+            "short": {
+              "gross_pnl_usd": -2330.000000000001,
+              "net_pnl_usd": -2345.000000000001,
+              "sessions": 1,
+              "transaction_cost_usd": 15.0
+            },
+            "sortino": -0.07288140832606885,
+            "transaction_cost_usd": 30.0
+          },
+          "end_date": "2015-12-31",
+          "execution_side_count": 2,
+          "feature_set": "core",
+          "kill_triggered": true,
+          "latest_training_target_end": "2014-12-31T00:00:00+00:00",
+          "max_drawdown_fraction": 0.0236,
+          "model": "hist_gb",
+          "net_pnl_usd": -2360.000000000001,
+          "simplicity_rank": 4,
+          "start_date": "2015-01-01",
+          "start_timestamp": "2015-01-01T00:00:00+00:00",
+          "status": "passed",
+          "training_rows": 1005,
+          "transaction_cost_usd": 30.0
+        },
+        {
+          "block_id": "inner-2015-01-01-2015-12-31",
+          "boundary_timestamp": "2016-01-03T00:00:00+00:00",
+          "candidate_id": "histgb-curve-v1",
+          "diagnostics": {
+            "calmar": -1.0000000000000004,
+            "direction_accuracy_nonzero": 0.4870689655172414,
+            "execution_side_count": 2,
+            "flat": {
+              "gross_pnl_usd": 0.0,
+              "net_pnl_usd": -15.0,
+              "sessions": 311,
+              "transaction_cost_usd": 15.0
+            },
+            "forecasts": 232,
+            "long": {
+              "gross_pnl_usd": 0.0,
+              "net_pnl_usd": 0.0,
+              "sessions": 0,
+              "transaction_cost_usd": 0.0
+            },
+            "mae_per_mmbtu": 0.10857676336382947,
+            "max_abs_contracts": 1,
+            "max_drawdown_fraction": 0.0236,
+            "net_pnl_usd": -2360.000000000001,
+            "nonzero_forecasts": 232,
+            "rmse_per_mmbtu": 0.1393935728013919,
+            "sharpe": -0.9044658564691278,
+            "short": {
+              "gross_pnl_usd": -2330.000000000001,
+              "net_pnl_usd": -2345.000000000001,
+              "sessions": 1,
+              "transaction_cost_usd": 15.0
+            },
+            "sortino": -0.07288140832606885,
+            "transaction_cost_usd": 30.0
+          },
+          "end_date": "2015-12-31",
+          "execution_side_count": 2,
+          "feature_set": "full_market",
+          "kill_triggered": true,
+          "latest_training_target_end": "2014-12-31T00:00:00+00:00",
+          "max_drawdown_fraction": 0.0236,
+          "model": "hist_gb",
+          "net_pnl_usd": -2360.000000000001,
+          "simplicity_rank": 5,
+          "start_date": "2015-01-01",
+          "start_timestamp": "2015-01-01T00:00:00+00:00",
+          "status": "passed",
+          "training_rows": 1005,
+          "transaction_cost_usd": 30.0
+        },
+        {
+          "block_id": "inner-2016-01-01-2016-12-31",
+          "boundary_timestamp": "2017-01-02T00:00:00+00:00",
+          "candidate_id": "zero-v1",
+          "diagnostics": {
+            "calmar": null,
+            "direction_accuracy_nonzero": 0.0,
+            "execution_side_count": 0,
+            "flat": {
+              "gross_pnl_usd": 0.0,
+              "net_pnl_usd": 0.0,
+              "sessions": 311,
+              "transaction_cost_usd": 0.0
+            },
+            "forecasts": 222,
+            "long": {
+              "gross_pnl_usd": 0.0,
+              "net_pnl_usd": 0.0,
+              "sessions": 0,
+              "transaction_cost_usd": 0.0
+            },
+            "mae_per_mmbtu": 0.11332882882882882,
+            "max_abs_contracts": 0,
+            "max_drawdown_fraction": 0.0,
+            "net_pnl_usd": 0.0,
+            "nonzero_forecasts": 0,
+            "rmse_per_mmbtu": 0.14278597036590582,
+            "sharpe": null,
+            "short": {
+              "gross_pnl_usd": 0.0,
+              "net_pnl_usd": 0.0,
+              "sessions": 0,
+              "transaction_cost_usd": 0.0
+            },
+            "sortino": null,
+            "transaction_cost_usd": 0.0
+          },
+          "end_date": "2016-12-31",
+          "execution_side_count": 0,
+          "feature_set": "core",
+          "kill_triggered": false,
+          "latest_training_target_end": "2015-12-29T00:00:00+00:00",
+          "max_drawdown_fraction": 0.0,
+          "model": "zero",
+          "net_pnl_usd": 0.0,
+          "simplicity_rank": 0,
+          "start_date": "2016-01-01",
+          "start_timestamp": "2016-01-03T00:00:00+00:00",
+          "status": "passed",
+          "training_rows": 1239,
+          "transaction_cost_usd": 0.0
+        },
+        {
+          "block_id": "inner-2016-01-01-2016-12-31",
+          "boundary_timestamp": "2017-01-02T00:00:00+00:00",
+          "candidate_id": "expanding-mean-v1",
+          "diagnostics": {
+            "calmar": 0.5464894913627643,
+            "direction_accuracy_nonzero": 0.5045045045045045,
+            "execution_side_count": 22,
+            "flat": {
+              "gross_pnl_usd": 0.0,
+              "net_pnl_usd": -60.0,
+              "sessions": 47,
+              "transaction_cost_usd": 60.0
+            },
+            "forecasts": 222,
+            "long": {
+              "gross_pnl_usd": 0.0,
+              "net_pnl_usd": 0.0,
+              "sessions": 0,
+              "transaction_cost_usd": 0.0
+            },
+            "mae_per_mmbtu": 0.11412834747580512,
+            "max_abs_contracts": 1,
+            "max_drawdown_fraction": 0.09679966556737424,
+            "net_pnl_usd": 5290.000000000004,
+            "nonzero_forecasts": 222,
+            "rmse_per_mmbtu": 0.14350887196386583,
+            "sharpe": 0.48588069688760943,
+            "short": {
+              "gross_pnl_usd": 5620.0000000000055,
+              "net_pnl_usd": 5350.0000000000055,
+              "sessions": 264,
+              "transaction_cost_usd": 270.0
+            },
+            "sortino": 0.6424537897013239,
+            "transaction_cost_usd": 330.0
+          },
+          "end_date": "2016-12-31",
+          "execution_side_count": 22,
+          "feature_set": "core",
+          "kill_triggered": true,
+          "latest_training_target_end": "2015-12-29T00:00:00+00:00",
+          "max_drawdown_fraction": 0.09679966556737424,
+          "model": "expanding_mean",
+          "net_pnl_usd": 5290.000000000004,
+          "simplicity_rank": 1,
+          "start_date": "2016-01-01",
+          "start_timestamp": "2016-01-03T00:00:00+00:00",
+          "status": "passed",
+          "training_rows": 1239,
+          "transaction_cost_usd": 330.0
+        },
+        {
+          "block_id": "inner-2016-01-01-2016-12-31",
+          "boundary_timestamp": "2017-01-02T00:00:00+00:00",
+          "candidate_id": "ridge-core-a1",
+          "diagnostics": {
+            "calmar": 1.709926245210727,
+            "direction_accuracy_nonzero": 0.527027027027027,
+            "execution_side_count": 86,
+            "flat": {
+              "gross_pnl_usd": 0.0,
+              "net_pnl_usd": -225.0,
+              "sessions": 67,
+              "transaction_cost_usd": 225.0
+            },
+            "forecasts": 222,
+            "long": {
+              "gross_pnl_usd": 2599.999999999993,
+              "net_pnl_usd": 2104.999999999993,
+              "sessions": 57,
+              "transaction_cost_usd": 495.0
+            },
+            "mae_per_mmbtu": 0.1153991825083179,
+            "max_abs_contracts": 1,
+            "max_drawdown_fraction": 0.06930123467716953,
+            "net_pnl_usd": 11849.999999999993,
+            "nonzero_forecasts": 222,
+            "rmse_per_mmbtu": 0.1451315781637225,
+            "sharpe": 1.1488158604795522,
+            "short": {
+              "gross_pnl_usd": 10540.0,
+              "net_pnl_usd": 9970.0,
+              "sessions": 187,
+              "transaction_cost_usd": 570.0
+            },
+            "sortino": 1.4787099203439127,
+            "transaction_cost_usd": 1290.0
+          },
+          "end_date": "2016-12-31",
+          "execution_side_count": 86,
+          "feature_set": "core",
+          "kill_triggered": true,
+          "latest_training_target_end": "2015-12-29T00:00:00+00:00",
+          "max_drawdown_fraction": 0.06930123467716953,
+          "model": "ridge",
+          "net_pnl_usd": 11849.999999999993,
+          "simplicity_rank": 2,
+          "start_date": "2016-01-01",
+          "start_timestamp": "2016-01-03T00:00:00+00:00",
+          "status": "passed",
+          "training_rows": 1239,
+          "transaction_cost_usd": 1290.0
+        },
+        {
+          "block_id": "inner-2016-01-01-2016-12-31",
+          "boundary_timestamp": "2017-01-02T00:00:00+00:00",
+          "candidate_id": "ridge-core-a10",
+          "diagnostics": {
+            "calmar": 1.7386653256704976,
+            "direction_accuracy_nonzero": 0.527027027027027,
+            "execution_side_count": 86,
+            "flat": {
+              "gross_pnl_usd": 0.0,
+              "net_pnl_usd": -210.0,
+              "sessions": 66,
+              "transaction_cost_usd": 210.0
+            },
+            "forecasts": 222,
+            "long": {
+              "gross_pnl_usd": 2599.999999999993,
+              "net_pnl_usd": 2104.999999999993,
+              "sessions": 57,
+              "transaction_cost_usd": 495.0
+            },
+            "mae_per_mmbtu": 0.11542696939010551,
+            "max_abs_contracts": 1,
+            "max_drawdown_fraction": 0.0691910042857774,
+            "net_pnl_usd": 12029.999999999996,
+            "nonzero_forecasts": 222,
+            "rmse_per_mmbtu": 0.14515681357771326,
+            "sharpe": 1.16602318302255,
+            "short": {
+              "gross_pnl_usd": 10720.0,
+              "net_pnl_usd": 10135.0,
+              "sessions": 188,
+              "transaction_cost_usd": 585.0
+            },
+            "sortino": 1.499788637176141,
+            "transaction_cost_usd": 1290.0
+          },
+          "end_date": "2016-12-31",
+          "execution_side_count": 86,
+          "feature_set": "core",
+          "kill_triggered": true,
+          "latest_training_target_end": "2015-12-29T00:00:00+00:00",
+          "max_drawdown_fraction": 0.0691910042857774,
+          "model": "ridge",
+          "net_pnl_usd": 12029.999999999996,
+          "simplicity_rank": 2,
+          "start_date": "2016-01-01",
+          "start_timestamp": "2016-01-03T00:00:00+00:00",
+          "status": "passed",
+          "training_rows": 1239,
+          "transaction_cost_usd": 1290.0
+        },
+        {
+          "block_id": "inner-2016-01-01-2016-12-31",
+          "boundary_timestamp": "2017-01-02T00:00:00+00:00",
+          "candidate_id": "ridge-curve-a1",
+          "diagnostics": {
+            "calmar": 1.0182231159420285,
+            "direction_accuracy_nonzero": 0.4954954954954955,
+            "execution_side_count": 116,
+            "flat": {
+              "gross_pnl_usd": 0.0,
+              "net_pnl_usd": -165.0,
+              "sessions": 58,
+              "transaction_cost_usd": 165.0
+            },
+            "forecasts": 222,
+            "long": {
+              "gross_pnl_usd": 2739.9999999999927,
+              "net_pnl_usd": 1989.9999999999916,
+              "sessions": 81,
+              "transaction_cost_usd": 750.0
+            },
+            "mae_per_mmbtu": 0.12519568926007452,
+            "max_abs_contracts": 1,
+            "max_drawdown_fraction": 0.06314922436278772,
+            "net_pnl_usd": 6429.999999999997,
+            "nonzero_forecasts": 222,
+            "rmse_per_mmbtu": 0.15730852028453213,
+            "sharpe": 0.5987494782225432,
+            "short": {
+              "gross_pnl_usd": 5430.000000000005,
+              "net_pnl_usd": 4605.000000000005,
+              "sessions": 172,
+              "transaction_cost_usd": 825.0
+            },
+            "sortino": 0.7577329628839129,
+            "transaction_cost_usd": 1740.0
+          },
+          "end_date": "2016-12-31",
+          "execution_side_count": 116,
+          "feature_set": "full_market",
+          "kill_triggered": true,
+          "latest_training_target_end": "2015-12-29T00:00:00+00:00",
+          "max_drawdown_fraction": 0.06314922436278772,
+          "model": "ridge",
+          "net_pnl_usd": 6429.999999999997,
+          "simplicity_rank": 3,
+          "start_date": "2016-01-01",
+          "start_timestamp": "2016-01-03T00:00:00+00:00",
+          "status": "passed",
+          "training_rows": 1239,
+          "transaction_cost_usd": 1740.0
+        },
+        {
+          "block_id": "inner-2016-01-01-2016-12-31",
+          "boundary_timestamp": "2017-01-02T00:00:00+00:00",
+          "candidate_id": "ridge-curve-a10",
+          "diagnostics": {
+            "calmar": 0.5210866574965594,
+            "direction_accuracy_nonzero": 0.49099099099099097,
+            "execution_side_count": 106,
+            "flat": {
+              "gross_pnl_usd": 0.0,
+              "net_pnl_usd": -165.0,
+              "sessions": 69,
+              "transaction_cost_usd": 165.0
+            },
+            "forecasts": 222,
+            "long": {
+              "gross_pnl_usd": -2510.000000000012,
+              "net_pnl_usd": -3155.000000000012,
+              "sessions": 71,
+              "transaction_cost_usd": 645.0
+            },
+            "mae_per_mmbtu": 0.12387612423079392,
+            "max_abs_contracts": 1,
+            "max_drawdown_fraction": 0.06601589103291713,
+            "net_pnl_usd": 3439.9999999999873,
+            "nonzero_forecasts": 222,
+            "rmse_per_mmbtu": 0.15582549759610834,
+            "sharpe": 0.33189512951690864,
+            "short": {
+              "gross_pnl_usd": 7539.999999999997,
+              "net_pnl_usd": 6759.999999999998,
+              "sessions": 171,
+              "transaction_cost_usd": 780.0
+            },
+            "sortino": 0.3913359020285484,
+            "transaction_cost_usd": 1590.0
+          },
+          "end_date": "2016-12-31",
+          "execution_side_count": 106,
+          "feature_set": "full_market",
+          "kill_triggered": true,
+          "latest_training_target_end": "2015-12-29T00:00:00+00:00",
+          "max_drawdown_fraction": 0.06601589103291713,
+          "model": "ridge",
+          "net_pnl_usd": 3439.9999999999873,
+          "simplicity_rank": 3,
+          "start_date": "2016-01-01",
+          "start_timestamp": "2016-01-03T00:00:00+00:00",
+          "status": "passed",
+          "training_rows": 1239,
+          "transaction_cost_usd": 1590.0
+        },
+        {
+          "block_id": "inner-2016-01-01-2016-12-31",
+          "boundary_timestamp": "2017-01-02T00:00:00+00:00",
+          "candidate_id": "histgb-core-v1",
+          "diagnostics": {
+            "calmar": 1.450633955223881,
+            "direction_accuracy_nonzero": 0.5540540540540541,
+            "execution_side_count": 64,
+            "flat": {
+              "gross_pnl_usd": 0.0,
+              "net_pnl_usd": -150.0,
+              "sessions": 63,
+              "transaction_cost_usd": 150.0
+            },
+            "forecasts": 222,
+            "long": {
+              "gross_pnl_usd": -50.000000000001364,
+              "net_pnl_usd": -365.0000000000009,
+              "sessions": 33,
+              "transaction_cost_usd": 315.0
+            },
+            "mae_per_mmbtu": 0.11472453665562266,
+            "max_abs_contracts": 1,
+            "max_drawdown_fraction": 0.062386517063177986,
+            "net_pnl_usd": 9050.000000000002,
+            "nonzero_forecasts": 222,
+            "rmse_per_mmbtu": 0.1451457561500968,
+            "sharpe": 0.8880049374151123,
+            "short": {
+              "gross_pnl_usd": 10060.000000000004,
+              "net_pnl_usd": 9565.000000000004,
+              "sessions": 215,
+              "transaction_cost_usd": 495.0
+            },
+            "sortino": 1.1004143349158837,
+            "transaction_cost_usd": 960.0
+          },
+          "end_date": "2016-12-31",
+          "execution_side_count": 64,
+          "feature_set": "core",
+          "kill_triggered": true,
+          "latest_training_target_end": "2015-12-29T00:00:00+00:00",
+          "max_drawdown_fraction": 0.062386517063177986,
+          "model": "hist_gb",
+          "net_pnl_usd": 9050.000000000002,
+          "simplicity_rank": 4,
+          "start_date": "2016-01-01",
+          "start_timestamp": "2016-01-03T00:00:00+00:00",
+          "status": "passed",
+          "training_rows": 1239,
+          "transaction_cost_usd": 960.0
+        },
+        {
+          "block_id": "inner-2016-01-01-2016-12-31",
+          "boundary_timestamp": "2017-01-02T00:00:00+00:00",
+          "candidate_id": "histgb-curve-v1",
+          "diagnostics": {
+            "calmar": 1.4552423076923091,
+            "direction_accuracy_nonzero": 0.5630630630630631,
+            "execution_side_count": 66,
+            "flat": {
+              "gross_pnl_usd": 0.0,
+              "net_pnl_usd": -285.0,
+              "sessions": 82,
+              "transaction_cost_usd": 285.0
+            },
+            "forecasts": 222,
+            "long": {
+              "gross_pnl_usd": -379.9999999999982,
+              "net_pnl_usd": -619.9999999999982,
+              "sessions": 49,
+              "transaction_cost_usd": 240.0
+            },
+            "mae_per_mmbtu": 0.11290500735947358,
+            "max_abs_contracts": 1,
+            "max_drawdown_fraction": 0.07174063002989194,
+            "net_pnl_usd": 10440.000000000011,
+            "nonzero_forecasts": 222,
+            "rmse_per_mmbtu": 0.1435333488279546,
+            "sharpe": 1.0346266665568458,
+            "short": {
+              "gross_pnl_usd": 11810.000000000011,
+              "net_pnl_usd": 11345.000000000011,
+              "sessions": 180,
+              "transaction_cost_usd": 465.0
+            },
+            "sortino": 1.3198788519246016,
+            "transaction_cost_usd": 990.0
+          },
+          "end_date": "2016-12-31",
+          "execution_side_count": 66,
+          "feature_set": "full_market",
+          "kill_triggered": true,
+          "latest_training_target_end": "2015-12-29T00:00:00+00:00",
+          "max_drawdown_fraction": 0.07174063002989194,
+          "model": "hist_gb",
+          "net_pnl_usd": 10440.000000000011,
+          "simplicity_rank": 5,
+          "start_date": "2016-01-01",
+          "start_timestamp": "2016-01-03T00:00:00+00:00",
+          "status": "passed",
+          "training_rows": 1239,
+          "transaction_cost_usd": 990.0
+        },
+        {
+          "block_id": "inner-2017-01-01-2017-12-31",
+          "boundary_timestamp": "2018-01-01T00:00:00+00:00",
+          "candidate_id": "zero-v1",
+          "diagnostics": {
+            "calmar": null,
+            "direction_accuracy_nonzero": 0.0,
+            "execution_side_count": 0,
+            "flat": {
+              "gross_pnl_usd": 0.0,
+              "net_pnl_usd": 0.0,
+              "sessions": 310,
+              "transaction_cost_usd": 0.0
+            },
+            "forecasts": 234,
+            "long": {
+              "gross_pnl_usd": 0.0,
+              "net_pnl_usd": 0.0,
+              "sessions": 0,
+              "transaction_cost_usd": 0.0
+            },
+            "mae_per_mmbtu": 0.09802136752136752,
+            "max_abs_contracts": 0,
+            "max_drawdown_fraction": 0.0,
+            "net_pnl_usd": 0.0,
+            "nonzero_forecasts": 0,
+            "rmse_per_mmbtu": 0.1199028274653606,
+            "sharpe": null,
+            "short": {
+              "gross_pnl_usd": 0.0,
+              "net_pnl_usd": 0.0,
+              "sessions": 0,
+              "transaction_cost_usd": 0.0
+            },
+            "sortino": null,
+            "transaction_cost_usd": 0.0
+          },
+          "end_date": "2017-12-31",
+          "execution_side_count": 0,
+          "feature_set": "core",
+          "kill_triggered": false,
+          "latest_training_target_end": "2016-12-28T00:00:00+00:00",
+          "max_drawdown_fraction": 0.0,
+          "model": "zero",
+          "net_pnl_usd": 0.0,
+          "simplicity_rank": 0,
+          "start_date": "2017-01-01",
+          "start_timestamp": "2017-01-02T00:00:00+00:00",
+          "status": "passed",
+          "training_rows": 1461,
+          "transaction_cost_usd": 0.0
+        },
+        {
+          "block_id": "inner-2017-01-01-2017-12-31",
+          "boundary_timestamp": "2018-01-01T00:00:00+00:00",
+          "candidate_id": "expanding-mean-v1",
+          "diagnostics": {
+            "calmar": 3.6318349090909106,
+            "direction_accuracy_nonzero": 0.5811965811965812,
+            "execution_side_count": 24,
+            "flat": {
+              "gross_pnl_usd": 0.0,
+              "net_pnl_usd": -45.0,
+              "sessions": 10,
+              "transaction_cost_usd": 45.0
+            },
+            "forecasts": 234,
+            "long": {
+              "gross_pnl_usd": 0.0,
+              "net_pnl_usd": 0.0,
+              "sessions": 0,
+              "transaction_cost_usd": 0.0
+            },
+            "mae_per_mmbtu": 0.09622462954187802,
+            "max_abs_contracts": 1,
+            "max_drawdown_fraction": 0.05000227283058321,
+            "net_pnl_usd": 18160.000000000007,
+            "nonzero_forecasts": 234,
+            "rmse_per_mmbtu": 0.11790781775977359,
+            "sharpe": 1.686429173101297,
+            "short": {
+              "gross_pnl_usd": 18520.00000000001,
+              "net_pnl_usd": 18205.000000000007,
+              "sessions": 300,
+              "transaction_cost_usd": 315.0
+            },
+            "sortino": 2.570822491880942,
+            "transaction_cost_usd": 360.0
+          },
+          "end_date": "2017-12-31",
+          "execution_side_count": 24,
+          "feature_set": "core",
+          "kill_triggered": false,
+          "latest_training_target_end": "2016-12-28T00:00:00+00:00",
+          "max_drawdown_fraction": 0.05000227283058321,
+          "model": "expanding_mean",
+          "net_pnl_usd": 18160.000000000007,
+          "simplicity_rank": 1,
+          "start_date": "2017-01-01",
+          "start_timestamp": "2017-01-02T00:00:00+00:00",
+          "status": "passed",
+          "training_rows": 1461,
+          "transaction_cost_usd": 360.0
+        },
+        {
+          "block_id": "inner-2017-01-01-2017-12-31",
+          "boundary_timestamp": "2018-01-01T00:00:00+00:00",
+          "candidate_id": "ridge-core-a1",
+          "diagnostics": {
+            "calmar": 5.635834988713324,
+            "direction_accuracy_nonzero": 0.6068376068376068,
+            "execution_side_count": 112,
+            "flat": {
+              "gross_pnl_usd": 0.0,
+              "net_pnl_usd": -285.0,
+              "sessions": 32,
+              "transaction_cost_usd": 285.0
+            },
+            "forecasts": 234,
+            "long": {
+              "gross_pnl_usd": 4260.0000000000055,
+              "net_pnl_usd": 3600.000000000006,
+              "sessions": 77,
+              "transaction_cost_usd": 660.0
+            },
+            "mae_per_mmbtu": 0.0936327783354349,
+            "max_abs_contracts": 1,
+            "max_drawdown_fraction": 0.04070381770570129,
+            "net_pnl_usd": 22940.000000000025,
+            "nonzero_forecasts": 234,
+            "rmse_per_mmbtu": 0.11556868811347257,
+            "sharpe": 2.222987702214947,
+            "short": {
+              "gross_pnl_usd": 20360.000000000022,
+              "net_pnl_usd": 19625.000000000022,
+              "sessions": 201,
+              "transaction_cost_usd": 735.0
+            },
+            "sortino": 3.186021532249019,
+            "transaction_cost_usd": 1680.0
+          },
+          "end_date": "2017-12-31",
+          "execution_side_count": 112,
+          "feature_set": "core",
+          "kill_triggered": false,
+          "latest_training_target_end": "2016-12-28T00:00:00+00:00",
+          "max_drawdown_fraction": 0.04070381770570129,
+          "model": "ridge",
+          "net_pnl_usd": 22940.000000000025,
+          "simplicity_rank": 2,
+          "start_date": "2017-01-01",
+          "start_timestamp": "2017-01-02T00:00:00+00:00",
+          "status": "passed",
+          "training_rows": 1461,
+          "transaction_cost_usd": 1680.0
+        },
+        {
+          "block_id": "inner-2017-01-01-2017-12-31",
+          "boundary_timestamp": "2018-01-01T00:00:00+00:00",
+          "candidate_id": "ridge-core-a10",
+          "diagnostics": {
+            "calmar": 5.698528145695371,
+            "direction_accuracy_nonzero": 0.6068376068376068,
+            "execution_side_count": 110,
+            "flat": {
+              "gross_pnl_usd": 0.0,
+              "net_pnl_usd": -270.0,
+              "sessions": 30,
+              "transaction_cost_usd": 270.0
+            },
+            "forecasts": 234,
+            "long": {
+              "gross_pnl_usd": 4260.0000000000055,
+              "net_pnl_usd": 3600.000000000006,
+              "sessions": 77,
+              "transaction_cost_usd": 660.0
+            },
+            "mae_per_mmbtu": 0.09360489976415808,
+            "max_abs_contracts": 1,
+            "max_drawdown_fraction": 0.04132646079459928,
+            "net_pnl_usd": 23550.000000000025,
+            "nonzero_forecasts": 234,
+            "rmse_per_mmbtu": 0.11549525526411517,
+            "sharpe": 2.253097724619136,
+            "short": {
+              "gross_pnl_usd": 20940.00000000002,
+              "net_pnl_usd": 20220.00000000002,
+              "sessions": 203,
+              "transaction_cost_usd": 720.0
+            },
+            "sortino": 3.2768873672335688,
+            "transaction_cost_usd": 1650.0
+          },
+          "end_date": "2017-12-31",
+          "execution_side_count": 110,
+          "feature_set": "core",
+          "kill_triggered": false,
+          "latest_training_target_end": "2016-12-28T00:00:00+00:00",
+          "max_drawdown_fraction": 0.04132646079459928,
+          "model": "ridge",
+          "net_pnl_usd": 23550.000000000025,
+          "simplicity_rank": 2,
+          "start_date": "2017-01-01",
+          "start_timestamp": "2017-01-02T00:00:00+00:00",
+          "status": "passed",
+          "training_rows": 1461,
+          "transaction_cost_usd": 1650.0
+        },
+        {
+          "block_id": "inner-2017-01-01-2017-12-31",
+          "boundary_timestamp": "2018-01-01T00:00:00+00:00",
+          "candidate_id": "ridge-curve-a1",
+          "diagnostics": {
+            "calmar": 3.2312411764705926,
+            "direction_accuracy_nonzero": 0.5641025641025641,
+            "execution_side_count": 154,
+            "flat": {
+              "gross_pnl_usd": 0.0,
+              "net_pnl_usd": -255.0,
+              "sessions": 27,
+              "transaction_cost_usd": 255.0
+            },
+            "forecasts": 234,
+            "long": {
+              "gross_pnl_usd": 150.00000000000728,
+              "net_pnl_usd": -809.9999999999927,
+              "sessions": 144,
+              "transaction_cost_usd": 960.0
+            },
+            "mae_per_mmbtu": 0.09351528057846036,
+            "max_abs_contracts": 1,
+            "max_drawdown_fraction": 0.050073637702503684,
+            "net_pnl_usd": 16180.000000000022,
+            "nonzero_forecasts": 234,
+            "rmse_per_mmbtu": 0.11574162700171226,
+            "sharpe": 1.5318985120321675,
+            "short": {
+              "gross_pnl_usd": 18340.000000000022,
+              "net_pnl_usd": 17245.000000000022,
+              "sessions": 139,
+              "transaction_cost_usd": 1095.0
+            },
+            "sortino": 2.340657463329452,
+            "transaction_cost_usd": 2310.0
+          },
+          "end_date": "2017-12-31",
+          "execution_side_count": 154,
+          "feature_set": "full_market",
+          "kill_triggered": false,
+          "latest_training_target_end": "2016-12-28T00:00:00+00:00",
+          "max_drawdown_fraction": 0.050073637702503684,
+          "model": "ridge",
+          "net_pnl_usd": 16180.000000000022,
+          "simplicity_rank": 3,
+          "start_date": "2017-01-01",
+          "start_timestamp": "2017-01-02T00:00:00+00:00",
+          "status": "passed",
+          "training_rows": 1461,
+          "transaction_cost_usd": 2310.0
+        },
+        {
+          "block_id": "inner-2017-01-01-2017-12-31",
+          "boundary_timestamp": "2018-01-01T00:00:00+00:00",
+          "candidate_id": "ridge-curve-a10",
+          "diagnostics": {
+            "calmar": 5.27435167014614,
+            "direction_accuracy_nonzero": 0.5769230769230769,
+            "execution_side_count": 140,
+            "flat": {
+              "gross_pnl_usd": 0.0,
+              "net_pnl_usd": -210.0,
+              "sessions": 31,
+              "transaction_cost_usd": 210.0
+            },
+            "forecasts": 234,
+            "long": {
+              "gross_pnl_usd": 4450.000000000001,
+              "net_pnl_usd": 3610.000000000001,
+              "sessions": 116,
+              "transaction_cost_usd": 840.0
+            },
+            "mae_per_mmbtu": 0.09219714234643646,
+            "max_abs_contracts": 1,
+            "max_drawdown_fraction": 0.044991311698680314,
+            "net_pnl_usd": 23730.000000000007,
+            "nonzero_forecasts": 234,
+            "rmse_per_mmbtu": 0.11479833307399771,
+            "sharpe": 2.2639107561558753,
+            "short": {
+              "gross_pnl_usd": 21380.00000000001,
+              "net_pnl_usd": 20330.00000000001,
+              "sessions": 163,
+              "transaction_cost_usd": 1050.0
+            },
+            "sortino": 3.4566314524907824,
+            "transaction_cost_usd": 2100.0
+          },
+          "end_date": "2017-12-31",
+          "execution_side_count": 140,
+          "feature_set": "full_market",
+          "kill_triggered": false,
+          "latest_training_target_end": "2016-12-28T00:00:00+00:00",
+          "max_drawdown_fraction": 0.044991311698680314,
+          "model": "ridge",
+          "net_pnl_usd": 23730.000000000007,
+          "simplicity_rank": 3,
+          "start_date": "2017-01-01",
+          "start_timestamp": "2017-01-02T00:00:00+00:00",
+          "status": "passed",
+          "training_rows": 1461,
+          "transaction_cost_usd": 2100.0
+        },
+        {
+          "block_id": "inner-2017-01-01-2017-12-31",
+          "boundary_timestamp": "2018-01-01T00:00:00+00:00",
+          "candidate_id": "histgb-core-v1",
+          "diagnostics": {
+            "calmar": 8.849822404371599,
+            "direction_accuracy_nonzero": 0.6025641025641025,
+            "execution_side_count": 98,
+            "flat": {
+              "gross_pnl_usd": 0.0,
+              "net_pnl_usd": -270.0,
+              "sessions": 30,
+              "transaction_cost_usd": 270.0
+            },
+            "forecasts": 234,
+            "long": {
+              "gross_pnl_usd": 6680.000000000018,
+              "net_pnl_usd": 6230.000000000018,
+              "sessions": 43,
+              "transaction_cost_usd": 450.0
+            },
+            "mae_per_mmbtu": 0.0925553265476301,
+            "max_abs_contracts": 1,
+            "max_drawdown_fraction": 0.03502895152414222,
+            "net_pnl_usd": 31000.00000000005,
+            "nonzero_forecasts": 234,
+            "rmse_per_mmbtu": 0.11406710336456255,
+            "sharpe": 3.035982165460789,
+            "short": {
+              "gross_pnl_usd": 25790.000000000033,
+              "net_pnl_usd": 25040.000000000033,
+              "sessions": 237,
+              "transaction_cost_usd": 750.0
+            },
+            "sortino": 5.130029012509008,
+            "transaction_cost_usd": 1470.0
+          },
+          "end_date": "2017-12-31",
+          "execution_side_count": 98,
+          "feature_set": "core",
+          "kill_triggered": false,
+          "latest_training_target_end": "2016-12-28T00:00:00+00:00",
+          "max_drawdown_fraction": 0.03502895152414222,
+          "model": "hist_gb",
+          "net_pnl_usd": 31000.00000000005,
+          "simplicity_rank": 4,
+          "start_date": "2017-01-01",
+          "start_timestamp": "2017-01-02T00:00:00+00:00",
+          "status": "passed",
+          "training_rows": 1461,
+          "transaction_cost_usd": 1470.0
+        },
+        {
+          "block_id": "inner-2017-01-01-2017-12-31",
+          "boundary_timestamp": "2018-01-01T00:00:00+00:00",
+          "candidate_id": "histgb-curve-v1",
+          "diagnostics": {
+            "calmar": 4.499135519125683,
+            "direction_accuracy_nonzero": 0.5213675213675214,
+            "execution_side_count": 78,
+            "flat": {
+              "gross_pnl_usd": 0.0,
+              "net_pnl_usd": -240.0,
+              "sessions": 49,
+              "transaction_cost_usd": 240.0
+            },
+            "forecasts": 234,
+            "long": {
+              "gross_pnl_usd": -3619.999999999997,
+              "net_pnl_usd": -3934.999999999997,
+              "sessions": 65,
+              "transaction_cost_usd": 315.0
+            },
+            "mae_per_mmbtu": 0.09581142711015171,
+            "max_abs_contracts": 1,
+            "max_drawdown_fraction": 0.03502895152414222,
+            "net_pnl_usd": 15760.0,
+            "nonzero_forecasts": 234,
+            "rmse_per_mmbtu": 0.11716601107610261,
+            "sharpe": 1.5239360294966648,
+            "short": {
+              "gross_pnl_usd": 20550.0,
+              "net_pnl_usd": 19935.0,
+              "sessions": 196,
+              "transaction_cost_usd": 615.0
+            },
+            "sortino": 2.381773326222161,
+            "transaction_cost_usd": 1170.0
+          },
+          "end_date": "2017-12-31",
+          "execution_side_count": 78,
+          "feature_set": "full_market",
+          "kill_triggered": false,
+          "latest_training_target_end": "2016-12-28T00:00:00+00:00",
+          "max_drawdown_fraction": 0.03502895152414222,
+          "model": "hist_gb",
+          "net_pnl_usd": 15760.0,
+          "simplicity_rank": 5,
+          "start_date": "2017-01-01",
+          "start_timestamp": "2017-01-02T00:00:00+00:00",
+          "status": "passed",
+          "training_rows": 1461,
+          "transaction_cost_usd": 1170.0
+        },
+        {
+          "block_id": "inner-2018-01-01-2018-12-31",
+          "boundary_timestamp": "2019-01-01T00:00:00+00:00",
+          "candidate_id": "zero-v1",
+          "diagnostics": {
+            "calmar": null,
+            "direction_accuracy_nonzero": 0.0,
+            "execution_side_count": 0,
+            "flat": {
+              "gross_pnl_usd": 0.0,
+              "net_pnl_usd": 0.0,
+              "sessions": 313,
+              "transaction_cost_usd": 0.0
+            },
+            "forecasts": 230,
+            "long": {
+              "gross_pnl_usd": 0.0,
+              "net_pnl_usd": 0.0,
+              "sessions": 0,
+              "transaction_cost_usd": 0.0
+            },
+            "mae_per_mmbtu": 0.1098391304347826,
+            "max_abs_contracts": 0,
+            "max_drawdown_fraction": 0.0,
+            "net_pnl_usd": 0.0,
+            "nonzero_forecasts": 0,
+            "rmse_per_mmbtu": 0.18274530862948837,
+            "sharpe": null,
+            "short": {
+              "gross_pnl_usd": 0.0,
+              "net_pnl_usd": 0.0,
+              "sessions": 0,
+              "transaction_cost_usd": 0.0
+            },
+            "sortino": null,
+            "transaction_cost_usd": 0.0
+          },
+          "end_date": "2018-12-31",
+          "execution_side_count": 0,
+          "feature_set": "core",
+          "kill_triggered": false,
+          "latest_training_target_end": "2017-12-27T00:00:00+00:00",
+          "max_drawdown_fraction": 0.0,
+          "model": "zero",
+          "net_pnl_usd": 0.0,
+          "simplicity_rank": 0,
+          "start_date": "2018-01-01",
+          "start_timestamp": "2018-01-01T00:00:00+00:00",
+          "status": "passed",
+          "training_rows": 1695,
+          "transaction_cost_usd": 0.0
+        },
+        {
+          "block_id": "inner-2018-01-01-2018-12-31",
+          "boundary_timestamp": "2019-01-01T00:00:00+00:00",
+          "candidate_id": "expanding-mean-v1",
+          "diagnostics": {
+            "calmar": -0.3092917874396142,
+            "direction_accuracy_nonzero": 0.44782608695652176,
+            "execution_side_count": 2,
+            "flat": {
+              "gross_pnl_usd": 0.0,
+              "net_pnl_usd": -15.0,
+              "sessions": 303,
+              "transaction_cost_usd": 15.0
+            },
+            "forecasts": 230,
+            "long": {
+              "gross_pnl_usd": 0.0,
+              "net_pnl_usd": 0.0,
+              "sessions": 0,
+              "transaction_cost_usd": 0.0
+            },
+            "mae_per_mmbtu": 0.11271505707323329,
+            "max_abs_contracts": 1,
+            "max_drawdown_fraction": 0.030392012920276025,
+            "net_pnl_usd": -940.000000000002,
+            "nonzero_forecasts": 230,
+            "rmse_per_mmbtu": 0.18444472684499189,
+            "sharpe": -0.27860539817053703,
+            "short": {
+              "gross_pnl_usd": -910.000000000002,
+              "net_pnl_usd": -925.000000000002,
+              "sessions": 10,
+              "transaction_cost_usd": 15.0
+            },
+            "sortino": -0.056741379625301194,
+            "transaction_cost_usd": 30.0
+          },
+          "end_date": "2018-12-31",
+          "execution_side_count": 2,
+          "feature_set": "core",
+          "kill_triggered": true,
+          "latest_training_target_end": "2017-12-27T00:00:00+00:00",
+          "max_drawdown_fraction": 0.030392012920276025,
+          "model": "expanding_mean",
+          "net_pnl_usd": -940.000000000002,
+          "simplicity_rank": 1,
+          "start_date": "2018-01-01",
+          "start_timestamp": "2018-01-01T00:00:00+00:00",
+          "status": "passed",
+          "training_rows": 1695,
+          "transaction_cost_usd": 30.0
+        },
+        {
+          "block_id": "inner-2018-01-01-2018-12-31",
+          "boundary_timestamp": "2019-01-01T00:00:00+00:00",
+          "candidate_id": "ridge-core-a1",
+          "diagnostics": {
+            "calmar": -0.3092917874396142,
+            "direction_accuracy_nonzero": 0.45652173913043476,
+            "execution_side_count": 2,
+            "flat": {
+              "gross_pnl_usd": 0.0,
+              "net_pnl_usd": -15.0,
+              "sessions": 303,
+              "transaction_cost_usd": 15.0
+            },
+            "forecasts": 230,
+            "long": {
+              "gross_pnl_usd": 0.0,
+              "net_pnl_usd": 0.0,
+              "sessions": 0,
+              "transaction_cost_usd": 0.0
+            },
+            "mae_per_mmbtu": 0.11475861869383366,
+            "max_abs_contracts": 1,
+            "max_drawdown_fraction": 0.030392012920276025,
+            "net_pnl_usd": -940.000000000002,
+            "nonzero_forecasts": 230,
+            "rmse_per_mmbtu": 0.1916152159231433,
+            "sharpe": -0.27860539817053703,
+            "short": {
+              "gross_pnl_usd": -910.000000000002,
+              "net_pnl_usd": -925.000000000002,
+              "sessions": 10,
+              "transaction_cost_usd": 15.0
+            },
+            "sortino": -0.056741379625301194,
+            "transaction_cost_usd": 30.0
+          },
+          "end_date": "2018-12-31",
+          "execution_side_count": 2,
+          "feature_set": "core",
+          "kill_triggered": true,
+          "latest_training_target_end": "2017-12-27T00:00:00+00:00",
+          "max_drawdown_fraction": 0.030392012920276025,
+          "model": "ridge",
+          "net_pnl_usd": -940.000000000002,
+          "simplicity_rank": 2,
+          "start_date": "2018-01-01",
+          "start_timestamp": "2018-01-01T00:00:00+00:00",
+          "status": "passed",
+          "training_rows": 1695,
+          "transaction_cost_usd": 30.0
+        },
+        {
+          "block_id": "inner-2018-01-01-2018-12-31",
+          "boundary_timestamp": "2019-01-01T00:00:00+00:00",
+          "candidate_id": "ridge-core-a10",
+          "diagnostics": {
+            "calmar": -0.3092917874396142,
+            "direction_accuracy_nonzero": 0.45217391304347826,
+            "execution_side_count": 2,
+            "flat": {
+              "gross_pnl_usd": 0.0,
+              "net_pnl_usd": -15.0,
+              "sessions": 303,
+              "transaction_cost_usd": 15.0
+            },
+            "forecasts": 230,
+            "long": {
+              "gross_pnl_usd": 0.0,
+              "net_pnl_usd": 0.0,
+              "sessions": 0,
+              "transaction_cost_usd": 0.0
+            },
+            "mae_per_mmbtu": 0.11468844615668237,
+            "max_abs_contracts": 1,
+            "max_drawdown_fraction": 0.030392012920276025,
+            "net_pnl_usd": -940.000000000002,
+            "nonzero_forecasts": 230,
+            "rmse_per_mmbtu": 0.19149144383169914,
+            "sharpe": -0.27860539817053703,
+            "short": {
+              "gross_pnl_usd": -910.000000000002,
+              "net_pnl_usd": -925.000000000002,
+              "sessions": 10,
+              "transaction_cost_usd": 15.0
+            },
+            "sortino": -0.056741379625301194,
+            "transaction_cost_usd": 30.0
+          },
+          "end_date": "2018-12-31",
+          "execution_side_count": 2,
+          "feature_set": "core",
+          "kill_triggered": true,
+          "latest_training_target_end": "2017-12-27T00:00:00+00:00",
+          "max_drawdown_fraction": 0.030392012920276025,
+          "model": "ridge",
+          "net_pnl_usd": -940.000000000002,
+          "simplicity_rank": 2,
+          "start_date": "2018-01-01",
+          "start_timestamp": "2018-01-01T00:00:00+00:00",
+          "status": "passed",
+          "training_rows": 1695,
+          "transaction_cost_usd": 30.0
+        },
+        {
+          "block_id": "inner-2018-01-01-2018-12-31",
+          "boundary_timestamp": "2019-01-01T00:00:00+00:00",
+          "candidate_id": "ridge-curve-a1",
+          "diagnostics": {
+            "calmar": -0.5280959752321972,
+            "direction_accuracy_nonzero": 0.4782608695652174,
+            "execution_side_count": 8,
+            "flat": {
+              "gross_pnl_usd": 0.0,
+              "net_pnl_usd": -30.0,
+              "sessions": 294,
+              "transaction_cost_usd": 30.0
+            },
+            "forecasts": 230,
+            "long": {
+              "gross_pnl_usd": 210.00000000000352,
+              "net_pnl_usd": 180.00000000000352,
+              "sessions": 2,
+              "transaction_cost_usd": 30.0
+            },
+            "mae_per_mmbtu": 0.12537372328318871,
+            "max_abs_contracts": 1,
+            "max_drawdown_fraction": 0.04733987981826176,
+            "net_pnl_usd": -2499.9999999999955,
+            "nonzero_forecasts": 230,
+            "rmse_per_mmbtu": 0.2018769484020281,
+            "sharpe": -0.5949831701003511,
+            "short": {
+              "gross_pnl_usd": -2589.999999999999,
+              "net_pnl_usd": -2649.999999999999,
+              "sessions": 17,
+              "transaction_cost_usd": 60.0
+            },
+            "sortino": -0.14843918749173082,
+            "transaction_cost_usd": 120.0
+          },
+          "end_date": "2018-12-31",
+          "execution_side_count": 8,
+          "feature_set": "full_market",
+          "kill_triggered": true,
+          "latest_training_target_end": "2017-12-27T00:00:00+00:00",
+          "max_drawdown_fraction": 0.04733987981826176,
+          "model": "ridge",
+          "net_pnl_usd": -2499.9999999999955,
+          "simplicity_rank": 3,
+          "start_date": "2018-01-01",
+          "start_timestamp": "2018-01-01T00:00:00+00:00",
+          "status": "passed",
+          "training_rows": 1695,
+          "transaction_cost_usd": 120.0
+        },
+        {
+          "block_id": "inner-2018-01-01-2018-12-31",
+          "boundary_timestamp": "2019-01-01T00:00:00+00:00",
+          "candidate_id": "ridge-curve-a10",
+          "diagnostics": {
+            "calmar": -0.3139230769230757,
+            "direction_accuracy_nonzero": 0.4782608695652174,
+            "execution_side_count": 4,
+            "flat": {
+              "gross_pnl_usd": 0.0,
+              "net_pnl_usd": -30.0,
+              "sessions": 308,
+              "transaction_cost_usd": 30.0
+            },
+            "forecasts": 230,
+            "long": {
+              "gross_pnl_usd": 0.0,
+              "net_pnl_usd": 0.0,
+              "sessions": 0,
+              "transaction_cost_usd": 0.0
+            },
+            "mae_per_mmbtu": 0.12585148974152016,
+            "max_abs_contracts": 1,
+            "max_drawdown_fraction": 0.028669443763783387,
+            "net_pnl_usd": -899.9999999999965,
+            "nonzero_forecasts": 230,
+            "rmse_per_mmbtu": 0.2016625172468385,
+            "sharpe": -0.2750285365150384,
+            "short": {
+              "gross_pnl_usd": -839.9999999999964,
+              "net_pnl_usd": -869.9999999999964,
+              "sessions": 5,
+              "transaction_cost_usd": 30.0
+            },
+            "sortino": -0.044327428912399054,
+            "transaction_cost_usd": 60.0
+          },
+          "end_date": "2018-12-31",
+          "execution_side_count": 4,
+          "feature_set": "full_market",
+          "kill_triggered": true,
+          "latest_training_target_end": "2017-12-27T00:00:00+00:00",
+          "max_drawdown_fraction": 0.028669443763783387,
+          "model": "ridge",
+          "net_pnl_usd": -899.9999999999965,
+          "simplicity_rank": 3,
+          "start_date": "2018-01-01",
+          "start_timestamp": "2018-01-01T00:00:00+00:00",
+          "status": "passed",
+          "training_rows": 1695,
+          "transaction_cost_usd": 60.0
+        },
+        {
+          "block_id": "inner-2018-01-01-2018-12-31",
+          "boundary_timestamp": "2019-01-01T00:00:00+00:00",
+          "candidate_id": "histgb-core-v1",
+          "diagnostics": {
+            "calmar": -0.3092917874396142,
+            "direction_accuracy_nonzero": 0.4434782608695652,
+            "execution_side_count": 2,
+            "flat": {
+              "gross_pnl_usd": 0.0,
+              "net_pnl_usd": -15.0,
+              "sessions": 303,
+              "transaction_cost_usd": 15.0
+            },
+            "forecasts": 230,
+            "long": {
+              "gross_pnl_usd": 0.0,
+              "net_pnl_usd": 0.0,
+              "sessions": 0,
+              "transaction_cost_usd": 0.0
+            },
+            "mae_per_mmbtu": 0.11470168065251792,
+            "max_abs_contracts": 1,
+            "max_drawdown_fraction": 0.030392012920276025,
+            "net_pnl_usd": -940.000000000002,
+            "nonzero_forecasts": 230,
+            "rmse_per_mmbtu": 0.18865050924015753,
+            "sharpe": -0.27860539817053703,
+            "short": {
+              "gross_pnl_usd": -910.000000000002,
+              "net_pnl_usd": -925.000000000002,
+              "sessions": 10,
+              "transaction_cost_usd": 15.0
+            },
+            "sortino": -0.056741379625301194,
+            "transaction_cost_usd": 30.0
+          },
+          "end_date": "2018-12-31",
+          "execution_side_count": 2,
+          "feature_set": "core",
+          "kill_triggered": true,
+          "latest_training_target_end": "2017-12-27T00:00:00+00:00",
+          "max_drawdown_fraction": 0.030392012920276025,
+          "model": "hist_gb",
+          "net_pnl_usd": -940.000000000002,
+          "simplicity_rank": 4,
+          "start_date": "2018-01-01",
+          "start_timestamp": "2018-01-01T00:00:00+00:00",
+          "status": "passed",
+          "training_rows": 1695,
+          "transaction_cost_usd": 30.0
+        },
+        {
+          "block_id": "inner-2018-01-01-2018-12-31",
+          "boundary_timestamp": "2019-01-01T00:00:00+00:00",
+          "candidate_id": "histgb-curve-v1",
+          "diagnostics": {
+            "calmar": -0.6280979115479136,
+            "direction_accuracy_nonzero": 0.43478260869565216,
+            "execution_side_count": 60,
+            "flat": {
+              "gross_pnl_usd": 0.0,
+              "net_pnl_usd": -225.0,
+              "sessions": 81,
+              "transaction_cost_usd": 225.0
+            },
+            "forecasts": 230,
+            "long": {
+              "gross_pnl_usd": 869.9999999999987,
+              "net_pnl_usd": 674.9999999999987,
+              "sessions": 77,
+              "transaction_cost_usd": 195.0
+            },
+            "mae_per_mmbtu": 0.12369497055817098,
+            "max_abs_contracts": 1,
+            "max_drawdown_fraction": 0.07928700141236059,
+            "net_pnl_usd": -4980.0000000000155,
+            "nonzero_forecasts": 230,
+            "rmse_per_mmbtu": 0.2127582380612989,
+            "sharpe": -0.6204883290589667,
+            "short": {
+              "gross_pnl_usd": -4950.000000000014,
+              "net_pnl_usd": -5430.000000000015,
+              "sessions": 155,
+              "transaction_cost_usd": 480.0
+            },
+            "sortino": -0.7782586597124045,
+            "transaction_cost_usd": 900.0
+          },
+          "end_date": "2018-12-31",
+          "execution_side_count": 60,
+          "feature_set": "full_market",
+          "kill_triggered": true,
+          "latest_training_target_end": "2017-12-27T00:00:00+00:00",
+          "max_drawdown_fraction": 0.07928700141236059,
+          "model": "hist_gb",
+          "net_pnl_usd": -4980.0000000000155,
+          "simplicity_rank": 5,
+          "start_date": "2018-01-01",
+          "start_timestamp": "2018-01-01T00:00:00+00:00",
+          "status": "passed",
+          "training_rows": 1695,
+          "transaction_cost_usd": 900.0
+        },
+        {
+          "block_id": "inner-2019-01-01-2019-12-31",
+          "boundary_timestamp": "2020-01-01T00:00:00+00:00",
+          "candidate_id": "zero-v1",
+          "diagnostics": {
+            "calmar": null,
+            "direction_accuracy_nonzero": 0.0,
+            "execution_side_count": 0,
+            "flat": {
+              "gross_pnl_usd": 0.0,
+              "net_pnl_usd": 0.0,
+              "sessions": 313,
+              "transaction_cost_usd": 0.0
+            },
+            "forecasts": 232,
+            "long": {
+              "gross_pnl_usd": 0.0,
+              "net_pnl_usd": 0.0,
+              "sessions": 0,
+              "transaction_cost_usd": 0.0
+            },
+            "mae_per_mmbtu": 0.08972413793103447,
+            "max_abs_contracts": 0,
+            "max_drawdown_fraction": 0.0,
+            "net_pnl_usd": 0.0,
+            "nonzero_forecasts": 0,
+            "rmse_per_mmbtu": 0.12417118328590047,
+            "sharpe": null,
+            "short": {
+              "gross_pnl_usd": 0.0,
+              "net_pnl_usd": 0.0,
+              "sessions": 0,
+              "transaction_cost_usd": 0.0
+            },
+            "sortino": null,
+            "transaction_cost_usd": 0.0
+          },
+          "end_date": "2019-12-31",
+          "execution_side_count": 0,
+          "feature_set": "core",
+          "kill_triggered": false,
+          "latest_training_target_end": "2018-12-31T00:00:00+00:00",
+          "max_drawdown_fraction": 0.0,
+          "model": "zero",
+          "net_pnl_usd": 0.0,
+          "simplicity_rank": 0,
+          "start_date": "2019-01-01",
+          "start_timestamp": "2019-01-01T00:00:00+00:00",
+          "status": "passed",
+          "training_rows": 1925,
+          "transaction_cost_usd": 0.0
+        },
+        {
+          "block_id": "inner-2019-01-01-2019-12-31",
+          "boundary_timestamp": "2020-01-01T00:00:00+00:00",
+          "candidate_id": "expanding-mean-v1",
+          "diagnostics": {
+            "calmar": -0.9988229447852768,
+            "direction_accuracy_nonzero": 0.5732758620689655,
+            "execution_side_count": 2,
+            "flat": {
+              "gross_pnl_usd": 0.0,
+              "net_pnl_usd": -15.0,
+              "sessions": 303,
+              "transaction_cost_usd": 15.0
+            },
+            "forecasts": 232,
+            "long": {
+              "gross_pnl_usd": 0.0,
+              "net_pnl_usd": 0.0,
+              "sessions": 0,
+              "transaction_cost_usd": 0.0
+            },
+            "mae_per_mmbtu": 0.08851712942230183,
+            "max_abs_contracts": 1,
+            "max_drawdown_fraction": 0.04074796260186991,
+            "net_pnl_usd": -4070.0000000000027,
+            "nonzero_forecasts": 232,
+            "rmse_per_mmbtu": 0.12275068196005744,
+            "sharpe": -1.0900612119310806,
+            "short": {
+              "gross_pnl_usd": -4040.0000000000036,
+              "net_pnl_usd": -4055.0000000000036,
+              "sessions": 10,
+              "transaction_cost_usd": 15.0
+            },
+            "sortino": -0.1861621268385627,
+            "transaction_cost_usd": 30.0
+          },
+          "end_date": "2019-12-31",
+          "execution_side_count": 2,
+          "feature_set": "core",
+          "kill_triggered": true,
+          "latest_training_target_end": "2018-12-31T00:00:00+00:00",
+          "max_drawdown_fraction": 0.04074796260186991,
+          "model": "expanding_mean",
+          "net_pnl_usd": -4070.0000000000027,
+          "simplicity_rank": 1,
+          "start_date": "2019-01-01",
+          "start_timestamp": "2019-01-01T00:00:00+00:00",
+          "status": "passed",
+          "training_rows": 1925,
+          "transaction_cost_usd": 30.0
+        },
+        {
+          "block_id": "inner-2019-01-01-2019-12-31",
+          "boundary_timestamp": "2020-01-01T00:00:00+00:00",
+          "candidate_id": "ridge-core-a1",
+          "diagnostics": {
+            "calmar": -0.8725212565445024,
+            "direction_accuracy_nonzero": 0.5991379310344828,
+            "execution_side_count": 4,
+            "flat": {
+              "gross_pnl_usd": 0.0,
+              "net_pnl_usd": -15.0,
+              "sessions": 303,
+              "transaction_cost_usd": 15.0
+            },
+            "forecasts": 232,
+            "long": {
+              "gross_pnl_usd": -19.99999999999784,
+              "net_pnl_usd": -34.99999999999784,
+              "sessions": 3,
+              "transaction_cost_usd": 15.0
+            },
+            "mae_per_mmbtu": 0.08507004520113352,
+            "max_abs_contracts": 1,
+            "max_drawdown_fraction": 0.047448700750236,
+            "net_pnl_usd": -4139.999999999999,
+            "nonzero_forecasts": 232,
+            "rmse_per_mmbtu": 0.11967324258486321,
+            "sharpe": -1.1095103496684466,
+            "short": {
+              "gross_pnl_usd": -4060.000000000001,
+              "net_pnl_usd": -4090.000000000001,
+              "sessions": 7,
+              "transaction_cost_usd": 30.0
+            },
+            "sortino": -0.20147480417462407,
+            "transaction_cost_usd": 60.0
+          },
+          "end_date": "2019-12-31",
+          "execution_side_count": 4,
+          "feature_set": "core",
+          "kill_triggered": true,
+          "latest_training_target_end": "2018-12-31T00:00:00+00:00",
+          "max_drawdown_fraction": 0.047448700750236,
+          "model": "ridge",
+          "net_pnl_usd": -4139.999999999999,
+          "simplicity_rank": 2,
+          "start_date": "2019-01-01",
+          "start_timestamp": "2019-01-01T00:00:00+00:00",
+          "status": "passed",
+          "training_rows": 1925,
+          "transaction_cost_usd": 60.0
+        },
+        {
+          "block_id": "inner-2019-01-01-2019-12-31",
+          "boundary_timestamp": "2020-01-01T00:00:00+00:00",
+          "candidate_id": "ridge-core-a10",
+          "diagnostics": {
+            "calmar": -0.8725212565445024,
+            "direction_accuracy_nonzero": 0.603448275862069,
+            "execution_side_count": 4,
+            "flat": {
+              "gross_pnl_usd": 0.0,
+              "net_pnl_usd": -15.0,
+              "sessions": 303,
+              "transaction_cost_usd": 15.0
+            },
+            "forecasts": 232,
+            "long": {
+              "gross_pnl_usd": -19.99999999999784,
+              "net_pnl_usd": -34.99999999999784,
+              "sessions": 3,
+              "transaction_cost_usd": 15.0
+            },
+            "mae_per_mmbtu": 0.08505959941112182,
+            "max_abs_contracts": 1,
+            "max_drawdown_fraction": 0.047448700750236,
+            "net_pnl_usd": -4139.999999999999,
+            "nonzero_forecasts": 232,
+            "rmse_per_mmbtu": 0.11966137208411559,
+            "sharpe": -1.1095103496684466,
+            "short": {
+              "gross_pnl_usd": -4060.000000000001,
+              "net_pnl_usd": -4090.000000000001,
+              "sessions": 7,
+              "transaction_cost_usd": 30.0
+            },
+            "sortino": -0.20147480417462407,
+            "transaction_cost_usd": 60.0
+          },
+          "end_date": "2019-12-31",
+          "execution_side_count": 4,
+          "feature_set": "core",
+          "kill_triggered": true,
+          "latest_training_target_end": "2018-12-31T00:00:00+00:00",
+          "max_drawdown_fraction": 0.047448700750236,
+          "model": "ridge",
+          "net_pnl_usd": -4139.999999999999,
+          "simplicity_rank": 2,
+          "start_date": "2019-01-01",
+          "start_timestamp": "2019-01-01T00:00:00+00:00",
+          "status": "passed",
+          "training_rows": 1925,
+          "transaction_cost_usd": 60.0
+        },
+        {
+          "block_id": "inner-2019-01-01-2019-12-31",
+          "boundary_timestamp": "2020-01-01T00:00:00+00:00",
+          "candidate_id": "ridge-curve-a1",
+          "diagnostics": {
+            "calmar": 1.0876012145748986,
+            "direction_accuracy_nonzero": 0.47413793103448276,
+            "execution_side_count": 6,
+            "flat": {
+              "gross_pnl_usd": 0.0,
+              "net_pnl_usd": -30.0,
+              "sessions": 295,
+              "transaction_cost_usd": 30.0
+            },
+            "forecasts": 232,
+            "long": {
+              "gross_pnl_usd": 3429.999999999999,
+              "net_pnl_usd": 3384.999999999999,
+              "sessions": 17,
+              "transaction_cost_usd": 45.0
+            },
+            "mae_per_mmbtu": 0.09257234634535422,
+            "max_abs_contracts": 1,
+            "max_drawdown_fraction": 0.03447954957889349,
+            "net_pnl_usd": 3749.999999999998,
+            "nonzero_forecasts": 232,
+            "rmse_per_mmbtu": 0.12645950396862193,
+            "sharpe": 0.6408464530942348,
+            "short": {
+              "gross_pnl_usd": 409.99999999999926,
+              "net_pnl_usd": 394.99999999999926,
+              "sessions": 1,
+              "transaction_cost_usd": 15.0
+            },
+            "sortino": 0.23342858531722796,
+            "transaction_cost_usd": 90.0
+          },
+          "end_date": "2019-12-31",
+          "execution_side_count": 6,
+          "feature_set": "full_market",
+          "kill_triggered": true,
+          "latest_training_target_end": "2018-12-31T00:00:00+00:00",
+          "max_drawdown_fraction": 0.03447954957889349,
+          "model": "ridge",
+          "net_pnl_usd": 3749.999999999998,
+          "simplicity_rank": 3,
+          "start_date": "2019-01-01",
+          "start_timestamp": "2019-01-01T00:00:00+00:00",
+          "status": "passed",
+          "training_rows": 1925,
+          "transaction_cost_usd": 90.0
+        },
+        {
+          "block_id": "inner-2019-01-01-2019-12-31",
+          "boundary_timestamp": "2020-01-01T00:00:00+00:00",
+          "candidate_id": "ridge-curve-a10",
+          "diagnostics": {
+            "calmar": -0.789263917525774,
+            "direction_accuracy_nonzero": 0.5043103448275862,
+            "execution_side_count": 4,
+            "flat": {
+              "gross_pnl_usd": 0.0,
+              "net_pnl_usd": -15.0,
+              "sessions": 303,
+              "transaction_cost_usd": 15.0
+            },
+            "forecasts": 232,
+            "long": {
+              "gross_pnl_usd": 720.0000000000006,
+              "net_pnl_usd": 705.0000000000006,
+              "sessions": 8,
+              "transaction_cost_usd": 15.0
+            },
+            "mae_per_mmbtu": 0.09088980470569107,
+            "max_abs_contracts": 1,
+            "max_drawdown_fraction": 0.033702288181863306,
+            "net_pnl_usd": -2660.0000000000027,
+            "nonzero_forecasts": 232,
+            "rmse_per_mmbtu": 0.12496162463585067,
+            "sharpe": -0.7124036465470105,
+            "short": {
+              "gross_pnl_usd": -3320.0000000000027,
+              "net_pnl_usd": -3350.0000000000027,
+              "sessions": 2,
+              "transaction_cost_usd": 30.0
+            },
+            "sortino": -0.11833017979774094,
+            "transaction_cost_usd": 60.0
+          },
+          "end_date": "2019-12-31",
+          "execution_side_count": 4,
+          "feature_set": "full_market",
+          "kill_triggered": true,
+          "latest_training_target_end": "2018-12-31T00:00:00+00:00",
+          "max_drawdown_fraction": 0.033702288181863306,
+          "model": "ridge",
+          "net_pnl_usd": -2660.0000000000027,
+          "simplicity_rank": 3,
+          "start_date": "2019-01-01",
+          "start_timestamp": "2019-01-01T00:00:00+00:00",
+          "status": "passed",
+          "training_rows": 1925,
+          "transaction_cost_usd": 60.0
+        },
+        {
+          "block_id": "inner-2019-01-01-2019-12-31",
+          "boundary_timestamp": "2020-01-01T00:00:00+00:00",
+          "candidate_id": "histgb-core-v1",
+          "diagnostics": {
+            "calmar": 0.9239704347826071,
+            "direction_accuracy_nonzero": 0.5948275862068966,
+            "execution_side_count": 14,
+            "flat": {
+              "gross_pnl_usd": 0.0,
+              "net_pnl_usd": -15.0,
+              "sessions": 291,
+              "transaction_cost_usd": 15.0
+            },
+            "forecasts": 232,
+            "long": {
+              "gross_pnl_usd": 1859.999999999999,
+              "net_pnl_usd": 1754.999999999999,
+              "sessions": 16,
+              "transaction_cost_usd": 105.0
+            },
+            "mae_per_mmbtu": 0.0868534336513811,
+            "max_abs_contracts": 1,
+            "max_drawdown_fraction": 0.03744708563985672,
+            "net_pnl_usd": 3459.9999999999936,
+            "nonzero_forecasts": 232,
+            "rmse_per_mmbtu": 0.12032113108578417,
+            "sharpe": 0.5045962807028861,
+            "short": {
+              "gross_pnl_usd": 1809.9999999999961,
+              "net_pnl_usd": 1719.9999999999961,
+              "sessions": 6,
+              "transaction_cost_usd": 90.0
+            },
+            "sortino": 0.22032937831761285,
+            "transaction_cost_usd": 210.0
+          },
+          "end_date": "2019-12-31",
+          "execution_side_count": 14,
+          "feature_set": "core",
+          "kill_triggered": true,
+          "latest_training_target_end": "2018-12-31T00:00:00+00:00",
+          "max_drawdown_fraction": 0.03744708563985672,
+          "model": "hist_gb",
+          "net_pnl_usd": 3459.9999999999936,
+          "simplicity_rank": 4,
+          "start_date": "2019-01-01",
+          "start_timestamp": "2019-01-01T00:00:00+00:00",
+          "status": "passed",
+          "training_rows": 1925,
+          "transaction_cost_usd": 210.0
+        },
+        {
+          "block_id": "inner-2019-01-01-2019-12-31",
+          "boundary_timestamp": "2020-01-01T00:00:00+00:00",
+          "candidate_id": "histgb-curve-v1",
+          "diagnostics": {
+            "calmar": 0.45197487437185874,
+            "direction_accuracy_nonzero": 0.5732758620689655,
+            "execution_side_count": 6,
+            "flat": {
+              "gross_pnl_usd": 0.0,
+              "net_pnl_usd": -15.0,
+              "sessions": 294,
+              "transaction_cost_usd": 15.0
+            },
+            "forecasts": 232,
+            "long": {
+              "gross_pnl_usd": 1779.999999999999,
+              "net_pnl_usd": 1734.999999999999,
+              "sessions": 18,
+              "transaction_cost_usd": 45.0
+            },
+            "mae_per_mmbtu": 0.08867200926174462,
+            "max_abs_contracts": 1,
+            "max_drawdown_fraction": 0.046462759747840296,
+            "net_pnl_usd": 2099.9999999999973,
+            "nonzero_forecasts": 232,
+            "rmse_per_mmbtu": 0.1252782076139358,
+            "sharpe": 0.3422099592002031,
+            "short": {
+              "gross_pnl_usd": 409.99999999999926,
+              "net_pnl_usd": 379.99999999999926,
+              "sessions": 1,
+              "transaction_cost_usd": 30.0
+            },
+            "sortino": 0.12155947265804389,
+            "transaction_cost_usd": 90.0
+          },
+          "end_date": "2019-12-31",
+          "execution_side_count": 6,
+          "feature_set": "full_market",
+          "kill_triggered": true,
+          "latest_training_target_end": "2018-12-31T00:00:00+00:00",
+          "max_drawdown_fraction": 0.046462759747840296,
+          "model": "hist_gb",
+          "net_pnl_usd": 2099.9999999999973,
+          "simplicity_rank": 5,
+          "start_date": "2019-01-01",
+          "start_timestamp": "2019-01-01T00:00:00+00:00",
+          "status": "passed",
+          "training_rows": 1925,
+          "transaction_cost_usd": 90.0
+        },
+        {
+          "block_id": "inner-2020-01-01-2020-12-31",
+          "boundary_timestamp": "2021-01-03T00:00:00+00:00",
+          "candidate_id": "zero-v1",
+          "diagnostics": {
+            "calmar": null,
+            "direction_accuracy_nonzero": 0.0,
+            "execution_side_count": 0,
+            "flat": {
+              "gross_pnl_usd": 0.0,
+              "net_pnl_usd": 0.0,
+              "sessions": 313,
+              "transaction_cost_usd": 0.0
+            },
+            "forecasts": 245,
+            "long": {
+              "gross_pnl_usd": 0.0,
+              "net_pnl_usd": 0.0,
+              "sessions": 0,
+              "transaction_cost_usd": 0.0
+            },
+            "mae_per_mmbtu": 0.12806530612244899,
+            "max_abs_contracts": 0,
+            "max_drawdown_fraction": 0.0,
+            "net_pnl_usd": 0.0,
+            "nonzero_forecasts": 0,
+            "rmse_per_mmbtu": 0.16709718545731134,
+            "sharpe": null,
+            "short": {
+              "gross_pnl_usd": 0.0,
+              "net_pnl_usd": 0.0,
+              "sessions": 0,
+              "transaction_cost_usd": 0.0
+            },
+            "sortino": null,
+            "transaction_cost_usd": 0.0
+          },
+          "end_date": "2020-12-31",
+          "execution_side_count": 0,
+          "feature_set": "core",
+          "kill_triggered": false,
+          "latest_training_target_end": "2019-12-31T00:00:00+00:00",
+          "max_drawdown_fraction": 0.0,
+          "model": "zero",
+          "net_pnl_usd": 0.0,
+          "simplicity_rank": 0,
+          "start_date": "2020-01-01",
+          "start_timestamp": "2020-01-01T00:00:00+00:00",
+          "status": "passed",
+          "training_rows": 2160,
+          "transaction_cost_usd": 0.0
+        },
+        {
+          "block_id": "inner-2020-01-01-2020-12-31",
+          "boundary_timestamp": "2021-01-03T00:00:00+00:00",
+          "candidate_id": "expanding-mean-v1",
+          "diagnostics": {
+            "calmar": 0.8309474885844749,
+            "direction_accuracy_nonzero": 0.5224489795918368,
+            "execution_side_count": 16,
+            "flat": {
+              "gross_pnl_usd": 0.0,
+              "net_pnl_usd": -15.0,
+              "sessions": 129,
+              "transaction_cost_usd": 15.0
+            },
+            "forecasts": 245,
+            "long": {
+              "gross_pnl_usd": 0.0,
+              "net_pnl_usd": 0.0,
+              "sessions": 0,
+              "transaction_cost_usd": 0.0
+            },
+            "mae_per_mmbtu": 0.12833946712018138,
+            "max_abs_contracts": 1,
+            "max_drawdown_fraction": 0.049942987457240594,
+            "net_pnl_usd": 4150.0,
+            "nonzero_forecasts": 245,
+            "rmse_per_mmbtu": 0.16597294129247736,
+            "sharpe": 0.44359708689212046,
+            "short": {
+              "gross_pnl_usd": 4390.0,
+              "net_pnl_usd": 4165.0,
+              "sessions": 184,
+              "transaction_cost_usd": 225.0
+            },
+            "sortino": 0.43138920445941215,
+            "transaction_cost_usd": 240.0
+          },
+          "end_date": "2020-12-31",
+          "execution_side_count": 16,
+          "feature_set": "core",
+          "kill_triggered": true,
+          "latest_training_target_end": "2019-12-31T00:00:00+00:00",
+          "max_drawdown_fraction": 0.049942987457240594,
+          "model": "expanding_mean",
+          "net_pnl_usd": 4150.0,
+          "simplicity_rank": 1,
+          "start_date": "2020-01-01",
+          "start_timestamp": "2020-01-01T00:00:00+00:00",
+          "status": "passed",
+          "training_rows": 2160,
+          "transaction_cost_usd": 240.0
+        },
+        {
+          "block_id": "inner-2020-01-01-2020-12-31",
+          "boundary_timestamp": "2021-01-03T00:00:00+00:00",
+          "candidate_id": "ridge-core-a1",
+          "diagnostics": {
+            "calmar": 2.685426287553645,
+            "direction_accuracy_nonzero": 0.5265306122448979,
+            "execution_side_count": 54,
+            "flat": {
+              "gross_pnl_usd": 0.0,
+              "net_pnl_usd": -120.0,
+              "sessions": 138,
+              "transaction_cost_usd": 120.0
+            },
+            "forecasts": 245,
+            "long": {
+              "gross_pnl_usd": 4599.999999999993,
+              "net_pnl_usd": 4344.999999999993,
+              "sessions": 43,
+              "transaction_cost_usd": 255.0
+            },
+            "mae_per_mmbtu": 0.13265809500388193,
+            "max_abs_contracts": 1,
+            "max_drawdown_fraction": 0.041073553391212374,
+            "net_pnl_usd": 11029.999999999987,
+            "nonzero_forecasts": 245,
+            "rmse_per_mmbtu": 0.17011495474694055,
+            "sharpe": 1.1895161099299039,
+            "short": {
+              "gross_pnl_usd": 7239.999999999995,
+              "net_pnl_usd": 6804.999999999996,
+              "sessions": 132,
+              "transaction_cost_usd": 435.0
+            },
+            "sortino": 1.110071395717049,
+            "transaction_cost_usd": 810.0
+          },
+          "end_date": "2020-12-31",
+          "execution_side_count": 54,
+          "feature_set": "core",
+          "kill_triggered": true,
+          "latest_training_target_end": "2019-12-31T00:00:00+00:00",
+          "max_drawdown_fraction": 0.041073553391212374,
+          "model": "ridge",
+          "net_pnl_usd": 11029.999999999987,
+          "simplicity_rank": 2,
+          "start_date": "2020-01-01",
+          "start_timestamp": "2020-01-01T00:00:00+00:00",
+          "status": "passed",
+          "training_rows": 2160,
+          "transaction_cost_usd": 810.0
+        },
+        {
+          "block_id": "inner-2020-01-01-2020-12-31",
+          "boundary_timestamp": "2021-01-03T00:00:00+00:00",
+          "candidate_id": "ridge-core-a10",
+          "diagnostics": {
+            "calmar": 2.685426287553645,
+            "direction_accuracy_nonzero": 0.5224489795918368,
+            "execution_side_count": 54,
+            "flat": {
+              "gross_pnl_usd": 0.0,
+              "net_pnl_usd": -120.0,
+              "sessions": 138,
+              "transaction_cost_usd": 120.0
+            },
+            "forecasts": 245,
+            "long": {
+              "gross_pnl_usd": 4599.999999999993,
+              "net_pnl_usd": 4344.999999999993,
+              "sessions": 43,
+              "transaction_cost_usd": 255.0
+            },
+            "mae_per_mmbtu": 0.13266270346705195,
+            "max_abs_contracts": 1,
+            "max_drawdown_fraction": 0.041073553391212374,
+            "net_pnl_usd": 11029.999999999987,
+            "nonzero_forecasts": 245,
+            "rmse_per_mmbtu": 0.17011480067543014,
+            "sharpe": 1.1895161099299039,
+            "short": {
+              "gross_pnl_usd": 7239.999999999995,
+              "net_pnl_usd": 6804.999999999996,
+              "sessions": 132,
+              "transaction_cost_usd": 435.0
+            },
+            "sortino": 1.110071395717049,
+            "transaction_cost_usd": 810.0
+          },
+          "end_date": "2020-12-31",
+          "execution_side_count": 54,
+          "feature_set": "core",
+          "kill_triggered": true,
+          "latest_training_target_end": "2019-12-31T00:00:00+00:00",
+          "max_drawdown_fraction": 0.041073553391212374,
+          "model": "ridge",
+          "net_pnl_usd": 11029.999999999987,
+          "simplicity_rank": 2,
+          "start_date": "2020-01-01",
+          "start_timestamp": "2020-01-01T00:00:00+00:00",
+          "status": "passed",
+          "training_rows": 2160,
+          "transaction_cost_usd": 810.0
+        },
+        {
+          "block_id": "inner-2020-01-01-2020-12-31",
+          "boundary_timestamp": "2021-01-03T00:00:00+00:00",
+          "candidate_id": "ridge-curve-a1",
+          "diagnostics": {
+            "calmar": -0.8201934511434517,
+            "direction_accuracy_nonzero": 0.4857142857142857,
+            "execution_side_count": 44,
+            "flat": {
+              "gross_pnl_usd": 0.0,
+              "net_pnl_usd": -60.0,
+              "sessions": 133,
+              "transaction_cost_usd": 60.0
+            },
+            "forecasts": 245,
+            "long": {
+              "gross_pnl_usd": -6190.000000000002,
+              "net_pnl_usd": -6445.000000000002,
+              "sessions": 125,
+              "transaction_cost_usd": 255.0
+            },
+            "mae_per_mmbtu": 0.13917258262527787,
+            "max_abs_contracts": 1,
+            "max_drawdown_fraction": 0.09583105045574539,
+            "net_pnl_usd": -7860.0000000000055,
+            "nonzero_forecasts": 245,
+            "rmse_per_mmbtu": 0.17504237951975413,
+            "sharpe": -0.8588400103566356,
+            "short": {
+              "gross_pnl_usd": -1010.000000000002,
+              "net_pnl_usd": -1355.0000000000016,
+              "sessions": 55,
+              "transaction_cost_usd": 345.0
+            },
+            "sortino": -0.8765099813001888,
+            "transaction_cost_usd": 660.0
+          },
+          "end_date": "2020-12-31",
+          "execution_side_count": 44,
+          "feature_set": "full_market",
+          "kill_triggered": true,
+          "latest_training_target_end": "2019-12-31T00:00:00+00:00",
+          "max_drawdown_fraction": 0.09583105045574539,
+          "model": "ridge",
+          "net_pnl_usd": -7860.0000000000055,
+          "simplicity_rank": 3,
+          "start_date": "2020-01-01",
+          "start_timestamp": "2020-01-01T00:00:00+00:00",
+          "status": "passed",
+          "training_rows": 2160,
+          "transaction_cost_usd": 660.0
+        },
+        {
+          "block_id": "inner-2020-01-01-2020-12-31",
+          "boundary_timestamp": "2021-01-03T00:00:00+00:00",
+          "candidate_id": "ridge-curve-a10",
+          "diagnostics": {
+            "calmar": -0.33374223798266506,
+            "direction_accuracy_nonzero": 0.49387755102040815,
+            "execution_side_count": 56,
+            "flat": {
+              "gross_pnl_usd": 0.0,
+              "net_pnl_usd": -75.0,
+              "sessions": 134,
+              "transaction_cost_usd": 75.0
+            },
+            "forecasts": 245,
+            "long": {
+              "gross_pnl_usd": -2930.0000000000105,
+              "net_pnl_usd": -3230.0000000000105,
+              "sessions": 126,
+              "transaction_cost_usd": 300.0
+            },
+            "mae_per_mmbtu": 0.13794572810013433,
+            "max_abs_contracts": 1,
+            "max_drawdown_fraction": 0.06082538465225519,
+            "net_pnl_usd": -2030.0000000000095,
+            "nonzero_forecasts": 245,
+            "rmse_per_mmbtu": 0.17501008402466375,
+            "sharpe": -0.22067697255938518,
+            "short": {
+              "gross_pnl_usd": 1739.9999999999973,
+              "net_pnl_usd": 1274.9999999999973,
+              "sessions": 53,
+              "transaction_cost_usd": 465.0
+            },
+            "sortino": -0.22895810109166642,
+            "transaction_cost_usd": 840.0
+          },
+          "end_date": "2020-12-31",
+          "execution_side_count": 56,
+          "feature_set": "full_market",
+          "kill_triggered": true,
+          "latest_training_target_end": "2019-12-31T00:00:00+00:00",
+          "max_drawdown_fraction": 0.06082538465225519,
+          "model": "ridge",
+          "net_pnl_usd": -2030.0000000000095,
+          "simplicity_rank": 3,
+          "start_date": "2020-01-01",
+          "start_timestamp": "2020-01-01T00:00:00+00:00",
+          "status": "passed",
+          "training_rows": 2160,
+          "transaction_cost_usd": 840.0
+        },
+        {
+          "block_id": "inner-2020-01-01-2020-12-31",
+          "boundary_timestamp": "2021-01-03T00:00:00+00:00",
+          "candidate_id": "histgb-core-v1",
+          "diagnostics": {
+            "calmar": -0.17031240620310067,
+            "direction_accuracy_nonzero": 0.5020408163265306,
+            "execution_side_count": 60,
+            "flat": {
+              "gross_pnl_usd": 0.0,
+              "net_pnl_usd": -165.0,
+              "sessions": 160,
+              "transaction_cost_usd": 165.0
+            },
+            "forecasts": 245,
+            "long": {
+              "gross_pnl_usd": -5539.999999999996,
+              "net_pnl_usd": -5839.999999999996,
+              "sessions": 42,
+              "transaction_cost_usd": 300.0
+            },
+            "mae_per_mmbtu": 0.13367014587703063,
+            "max_abs_contracts": 1,
+            "max_drawdown_fraction": 0.09218353700714779,
+            "net_pnl_usd": -1569.9999999999918,
+            "nonzero_forecasts": 245,
+            "rmse_per_mmbtu": 0.1709091974367108,
+            "sharpe": -0.1933303735480344,
+            "short": {
+              "gross_pnl_usd": 4870.000000000006,
+              "net_pnl_usd": 4435.0000000000055,
+              "sessions": 111,
+              "transaction_cost_usd": 435.0
+            },
+            "sortino": -0.17541853909342636,
+            "transaction_cost_usd": 900.0
+          },
+          "end_date": "2020-12-31",
+          "execution_side_count": 60,
+          "feature_set": "core",
+          "kill_triggered": true,
+          "latest_training_target_end": "2019-12-31T00:00:00+00:00",
+          "max_drawdown_fraction": 0.09218353700714779,
+          "model": "hist_gb",
+          "net_pnl_usd": -1569.9999999999918,
+          "simplicity_rank": 4,
+          "start_date": "2020-01-01",
+          "start_timestamp": "2020-01-01T00:00:00+00:00",
+          "status": "passed",
+          "training_rows": 2160,
+          "transaction_cost_usd": 900.0
+        },
+        {
+          "block_id": "inner-2020-01-01-2020-12-31",
+          "boundary_timestamp": "2021-01-03T00:00:00+00:00",
+          "candidate_id": "histgb-curve-v1",
+          "diagnostics": {
+            "calmar": -0.11755971910112425,
+            "direction_accuracy_nonzero": 0.45714285714285713,
+            "execution_side_count": 66,
+            "flat": {
+              "gross_pnl_usd": 0.0,
+              "net_pnl_usd": -270.0,
+              "sessions": 150,
+              "transaction_cost_usd": 270.0
+            },
+            "forecasts": 245,
+            "long": {
+              "gross_pnl_usd": -2220.0000000000073,
+              "net_pnl_usd": -2475.0000000000073,
+              "sessions": 52,
+              "transaction_cost_usd": 255.0
+            },
+            "mae_per_mmbtu": 0.1286698652731346,
+            "max_abs_contracts": 1,
+            "max_drawdown_fraction": 0.08421251833278137,
+            "net_pnl_usd": -990.0000000000055,
+            "nonzero_forecasts": 245,
+            "rmse_per_mmbtu": 0.16494089517730456,
+            "sharpe": -0.11717516551115369,
+            "short": {
+              "gross_pnl_usd": 2220.0000000000045,
+              "net_pnl_usd": 1755.000000000004,
+              "sessions": 111,
+              "transaction_cost_usd": 465.0
+            },
+            "sortino": -0.11809489188135297,
+            "transaction_cost_usd": 990.0
+          },
+          "end_date": "2020-12-31",
+          "execution_side_count": 66,
+          "feature_set": "full_market",
+          "kill_triggered": true,
+          "latest_training_target_end": "2019-12-31T00:00:00+00:00",
+          "max_drawdown_fraction": 0.08421251833278137,
+          "model": "hist_gb",
+          "net_pnl_usd": -990.0000000000055,
+          "simplicity_rank": 5,
+          "start_date": "2020-01-01",
+          "start_timestamp": "2020-01-01T00:00:00+00:00",
+          "status": "passed",
+          "training_rows": 2160,
+          "transaction_cost_usd": 990.0
+        }
+      ],
+      "outer": [
+        {
+          "block_id": "outer-2017-2018",
+          "boundary_timestamp": "2019-01-01T00:00:00+00:00",
+          "candidate_id": "zero-v1",
+          "diagnostics": {
+            "calmar": null,
+            "direction_accuracy_nonzero": 0.0,
+            "execution_side_count": 0,
+            "flat": {
+              "gross_pnl_usd": 0.0,
+              "net_pnl_usd": 0.0,
+              "sessions": 622,
+              "transaction_cost_usd": 0.0
+            },
+            "forecasts": 464,
+            "long": {
+              "gross_pnl_usd": 0.0,
+              "net_pnl_usd": 0.0,
+              "sessions": 0,
+              "transaction_cost_usd": 0.0
+            },
+            "mae_per_mmbtu": 0.10387931034482759,
+            "max_abs_contracts": 0,
+            "max_drawdown_fraction": 0.0,
+            "net_pnl_usd": 0.0,
+            "nonzero_forecasts": 0,
+            "rmse_per_mmbtu": 0.15428638563756508,
+            "sharpe": null,
+            "short": {
+              "gross_pnl_usd": 0.0,
+              "net_pnl_usd": 0.0,
+              "sessions": 0,
+              "transaction_cost_usd": 0.0
+            },
+            "sortino": null,
+            "transaction_cost_usd": 0.0
+          },
+          "end_date": "2018-12-31",
+          "execution_side_count": 0,
+          "feature_set": "core",
+          "kill_triggered": false,
+          "latest_training_target_end": "2016-12-28T00:00:00+00:00",
+          "max_drawdown_fraction": 0.0,
+          "model": "zero",
+          "net_pnl_usd": 0.0,
+          "simplicity_rank": 0,
+          "start_date": "2017-01-01",
+          "start_timestamp": "2017-01-02T00:00:00+00:00",
+          "status": "passed",
+          "training_rows": 1461,
+          "transaction_cost_usd": 0.0
+        },
+        {
+          "block_id": "outer-2017-2018",
+          "boundary_timestamp": "2019-01-01T00:00:00+00:00",
+          "candidate_id": "expanding-mean-v1",
+          "diagnostics": {
+            "calmar": 3.443843454545456,
+            "direction_accuracy_nonzero": 0.5150862068965517,
+            "execution_side_count": 26,
+            "flat": {
+              "gross_pnl_usd": 0.0,
+              "net_pnl_usd": -60.0,
+              "sessions": 312,
+              "transaction_cost_usd": 60.0
+            },
+            "forecasts": 464,
+            "long": {
+              "gross_pnl_usd": 0.0,
+              "net_pnl_usd": 0.0,
+              "sessions": 0,
+              "transaction_cost_usd": 0.0
+            },
+            "mae_per_mmbtu": 0.10428867214236824,
+            "max_abs_contracts": 1,
+            "max_drawdown_fraction": 0.05000227283058321,
+            "net_pnl_usd": 17220.000000000007,
+            "nonzero_forecasts": 464,
+            "rmse_per_mmbtu": 0.15443891119717307,
+            "sharpe": 1.0755606794285404,
+            "short": {
+              "gross_pnl_usd": 17610.000000000007,
+              "net_pnl_usd": 17280.000000000007,
+              "sessions": 310,
+              "transaction_cost_usd": 330.0
+            },
+            "sortino": 1.1215110681048963,
+            "transaction_cost_usd": 390.0
+          },
+          "end_date": "2018-12-31",
+          "execution_side_count": 26,
+          "feature_set": "core",
+          "kill_triggered": true,
+          "latest_training_target_end": "2016-12-28T00:00:00+00:00",
+          "max_drawdown_fraction": 0.05000227283058321,
+          "model": "expanding_mean",
+          "net_pnl_usd": 17220.000000000007,
+          "simplicity_rank": 1,
+          "start_date": "2017-01-01",
+          "start_timestamp": "2017-01-02T00:00:00+00:00",
+          "status": "passed",
+          "training_rows": 1461,
+          "transaction_cost_usd": 390.0
+        },
+        {
+          "block_id": "outer-2017-2018",
+          "boundary_timestamp": "2019-01-01T00:00:00+00:00",
+          "candidate_id": "ridge-core-a1",
+          "diagnostics": {
+            "calmar": 5.4048984198645655,
+            "direction_accuracy_nonzero": 0.5431034482758621,
+            "execution_side_count": 114,
+            "flat": {
+              "gross_pnl_usd": 0.0,
+              "net_pnl_usd": -300.0,
+              "sessions": 334,
+              "transaction_cost_usd": 300.0
+            },
+            "forecasts": 464,
+            "long": {
+              "gross_pnl_usd": 4260.0000000000055,
+              "net_pnl_usd": 3600.000000000006,
+              "sessions": 77,
+              "transaction_cost_usd": 660.0
+            },
+            "mae_per_mmbtu": 0.10395838060647349,
+            "max_abs_contracts": 1,
+            "max_drawdown_fraction": 0.04070381770570129,
+            "net_pnl_usd": 22000.000000000022,
+            "nonzero_forecasts": 464,
+            "rmse_per_mmbtu": 0.15797481865439306,
+            "sharpe": 1.4254845111287602,
+            "short": {
+              "gross_pnl_usd": 19450.000000000015,
+              "net_pnl_usd": 18700.000000000015,
+              "sessions": 211,
+              "transaction_cost_usd": 750.0
+            },
+            "sortino": 1.4047458511688347,
+            "transaction_cost_usd": 1710.0
+          },
+          "end_date": "2018-12-31",
+          "execution_side_count": 114,
+          "feature_set": "core",
+          "kill_triggered": true,
+          "latest_training_target_end": "2016-12-28T00:00:00+00:00",
+          "max_drawdown_fraction": 0.04070381770570129,
+          "model": "ridge",
+          "net_pnl_usd": 22000.000000000022,
+          "simplicity_rank": 2,
+          "start_date": "2017-01-01",
+          "start_timestamp": "2017-01-02T00:00:00+00:00",
+          "status": "passed",
+          "training_rows": 1461,
+          "transaction_cost_usd": 1710.0
+        },
+        {
+          "block_id": "outer-2017-2018",
+          "boundary_timestamp": "2019-01-01T00:00:00+00:00",
+          "candidate_id": "ridge-core-a10",
+          "diagnostics": {
+            "calmar": 5.471070971302434,
+            "direction_accuracy_nonzero": 0.5452586206896551,
+            "execution_side_count": 112,
+            "flat": {
+              "gross_pnl_usd": 0.0,
+              "net_pnl_usd": -285.0,
+              "sessions": 332,
+              "transaction_cost_usd": 285.0
+            },
+            "forecasts": 464,
+            "long": {
+              "gross_pnl_usd": 4260.0000000000055,
+              "net_pnl_usd": 3600.000000000006,
+              "sessions": 77,
+              "transaction_cost_usd": 660.0
+            },
+            "mae_per_mmbtu": 0.10388632573168882,
+            "max_abs_contracts": 1,
+            "max_drawdown_fraction": 0.04132646079459928,
+            "net_pnl_usd": 22610.000000000022,
+            "nonzero_forecasts": 464,
+            "rmse_per_mmbtu": 0.15782960660000916,
+            "sharpe": 1.4479514793767707,
+            "short": {
+              "gross_pnl_usd": 20030.00000000002,
+              "net_pnl_usd": 19295.00000000002,
+              "sessions": 213,
+              "transaction_cost_usd": 735.0
+            },
+            "sortino": 1.4469896969625926,
+            "transaction_cost_usd": 1680.0
+          },
+          "end_date": "2018-12-31",
+          "execution_side_count": 112,
+          "feature_set": "core",
+          "kill_triggered": true,
+          "latest_training_target_end": "2016-12-28T00:00:00+00:00",
+          "max_drawdown_fraction": 0.04132646079459928,
+          "model": "ridge",
+          "net_pnl_usd": 22610.000000000022,
+          "simplicity_rank": 2,
+          "start_date": "2017-01-01",
+          "start_timestamp": "2017-01-02T00:00:00+00:00",
+          "status": "passed",
+          "training_rows": 1461,
+          "transaction_cost_usd": 1680.0
+        },
+        {
+          "block_id": "outer-2017-2018",
+          "boundary_timestamp": "2019-01-01T00:00:00+00:00",
+          "candidate_id": "ridge-curve-a1",
+          "diagnostics": {
+            "calmar": 3.331094117647065,
+            "direction_accuracy_nonzero": 0.5301724137931034,
+            "execution_side_count": 174,
+            "flat": {
+              "gross_pnl_usd": 0.0,
+              "net_pnl_usd": -285.0,
+              "sessions": 321,
+              "transaction_cost_usd": 285.0
+            },
+            "forecasts": 464,
+            "long": {
+              "gross_pnl_usd": 2440.0000000000127,
+              "net_pnl_usd": 1360.0000000000127,
+              "sessions": 156,
+              "transaction_cost_usd": 1080.0
+            },
+            "mae_per_mmbtu": 0.10790860484351081,
+            "max_abs_contracts": 1,
+            "max_drawdown_fraction": 0.050073637702503684,
+            "net_pnl_usd": 16680.000000000033,
+            "nonzero_forecasts": 464,
+            "rmse_per_mmbtu": 0.16129748698579094,
+            "sharpe": 1.0209690015817148,
+            "short": {
+              "gross_pnl_usd": 16850.000000000022,
+              "net_pnl_usd": 15605.000000000022,
+              "sessions": 145,
+              "transaction_cost_usd": 1245.0
+            },
+            "sortino": 1.075843903213849,
+            "transaction_cost_usd": 2610.0
+          },
+          "end_date": "2018-12-31",
+          "execution_side_count": 174,
+          "feature_set": "full_market",
+          "kill_triggered": true,
+          "latest_training_target_end": "2016-12-28T00:00:00+00:00",
+          "max_drawdown_fraction": 0.050073637702503684,
+          "model": "ridge",
+          "net_pnl_usd": 16680.000000000033,
+          "simplicity_rank": 3,
+          "start_date": "2017-01-01",
+          "start_timestamp": "2017-01-02T00:00:00+00:00",
+          "status": "passed",
+          "training_rows": 1461,
+          "transaction_cost_usd": 2610.0
+        },
+        {
+          "block_id": "outer-2017-2018",
+          "boundary_timestamp": "2019-01-01T00:00:00+00:00",
+          "candidate_id": "ridge-curve-a10",
+          "diagnostics": {
+            "calmar": 3.48867923954373,
+            "direction_accuracy_nonzero": 0.5301724137931034,
+            "execution_side_count": 154,
+            "flat": {
+              "gross_pnl_usd": 0.0,
+              "net_pnl_usd": -240.0,
+              "sessions": 324,
+              "transaction_cost_usd": 240.0
+            },
+            "forecasts": 464,
+            "long": {
+              "gross_pnl_usd": 3270.000000000006,
+              "net_pnl_usd": 2355.000000000006,
+              "sessions": 123,
+              "transaction_cost_usd": 915.0
+            },
+            "mae_per_mmbtu": 0.10787875286859451,
+            "max_abs_contracts": 1,
+            "max_drawdown_fraction": 0.05262736623043983,
+            "net_pnl_usd": 18360.000000000022,
+            "nonzero_forecasts": 464,
+            "rmse_per_mmbtu": 0.16160357633090283,
+            "sharpe": 1.142272409401387,
+            "short": {
+              "gross_pnl_usd": 17400.000000000015,
+              "net_pnl_usd": 16245.000000000015,
+              "sessions": 175,
+              "transaction_cost_usd": 1155.0
+            },
+            "sortino": 1.156901209851054,
+            "transaction_cost_usd": 2310.0
+          },
+          "end_date": "2018-12-31",
+          "execution_side_count": 154,
+          "feature_set": "full_market",
+          "kill_triggered": true,
+          "latest_training_target_end": "2016-12-28T00:00:00+00:00",
+          "max_drawdown_fraction": 0.05262736623043983,
+          "model": "ridge",
+          "net_pnl_usd": 18360.000000000022,
+          "simplicity_rank": 3,
+          "start_date": "2017-01-01",
+          "start_timestamp": "2017-01-02T00:00:00+00:00",
+          "status": "passed",
+          "training_rows": 1461,
+          "transaction_cost_usd": 2310.0
+        },
+        {
+          "block_id": "outer-2017-2018",
+          "boundary_timestamp": "2019-01-01T00:00:00+00:00",
+          "candidate_id": "histgb-core-v1",
+          "diagnostics": {
+            "calmar": 8.581472950819686,
+            "direction_accuracy_nonzero": 0.5086206896551724,
+            "execution_side_count": 100,
+            "flat": {
+              "gross_pnl_usd": 0.0,
+              "net_pnl_usd": -285.0,
+              "sessions": 332,
+              "transaction_cost_usd": 285.0
+            },
+            "forecasts": 464,
+            "long": {
+              "gross_pnl_usd": 6680.000000000018,
+              "net_pnl_usd": 6230.000000000018,
+              "sessions": 43,
+              "transaction_cost_usd": 450.0
+            },
+            "mae_per_mmbtu": 0.1044953851303072,
+            "max_abs_contracts": 1,
+            "max_drawdown_fraction": 0.03502895152414222,
+            "net_pnl_usd": 30060.000000000047,
+            "nonzero_forecasts": 464,
+            "rmse_per_mmbtu": 0.15582872000982614,
+            "sharpe": 1.9587236367183676,
+            "short": {
+              "gross_pnl_usd": 24880.000000000033,
+              "net_pnl_usd": 24115.000000000033,
+              "sessions": 247,
+              "transaction_cost_usd": 765.0
+            },
+            "sortino": 2.1957828751085215,
+            "transaction_cost_usd": 1500.0
+          },
+          "end_date": "2018-12-31",
+          "execution_side_count": 100,
+          "feature_set": "core",
+          "kill_triggered": true,
+          "latest_training_target_end": "2016-12-28T00:00:00+00:00",
+          "max_drawdown_fraction": 0.03502895152414222,
+          "model": "hist_gb",
+          "net_pnl_usd": 30060.000000000047,
+          "simplicity_rank": 4,
+          "start_date": "2017-01-01",
+          "start_timestamp": "2017-01-02T00:00:00+00:00",
+          "status": "passed",
+          "training_rows": 1461,
+          "transaction_cost_usd": 1500.0
+        },
+        {
+          "block_id": "outer-2017-2018",
+          "boundary_timestamp": "2019-01-01T00:00:00+00:00",
+          "candidate_id": "histgb-curve-v1",
+          "diagnostics": {
+            "calmar": 3.846719696969693,
+            "direction_accuracy_nonzero": 0.4892241379310345,
+            "execution_side_count": 128,
+            "flat": {
+              "gross_pnl_usd": 0.0,
+              "net_pnl_usd": -435.0,
+              "sessions": 131,
+              "transaction_cost_usd": 435.0
+            },
+            "forecasts": 464,
+            "long": {
+              "gross_pnl_usd": -420.00000000000273,
+              "net_pnl_usd": -915.0000000000027,
+              "sessions": 141,
+              "transaction_cost_usd": 495.0
+            },
+            "mae_per_mmbtu": 0.10816480404621873,
+            "max_abs_contracts": 1,
+            "max_drawdown_fraction": 0.04697508896797153,
+            "net_pnl_usd": 18069.99999999998,
+            "nonzero_forecasts": 464,
+            "rmse_per_mmbtu": 0.16870361938891995,
+            "sharpe": 0.9749357206491363,
+            "short": {
+              "gross_pnl_usd": 20409.999999999993,
+              "net_pnl_usd": 19419.999999999993,
+              "sessions": 350,
+              "transaction_cost_usd": 990.0
+            },
+            "sortino": 1.4134200652283841,
+            "transaction_cost_usd": 1920.0
+          },
+          "end_date": "2018-12-31",
+          "execution_side_count": 128,
+          "feature_set": "full_market",
+          "kill_triggered": true,
+          "latest_training_target_end": "2016-12-28T00:00:00+00:00",
+          "max_drawdown_fraction": 0.04697508896797153,
+          "model": "hist_gb",
+          "net_pnl_usd": 18069.99999999998,
+          "simplicity_rank": 5,
+          "start_date": "2017-01-01",
+          "start_timestamp": "2017-01-02T00:00:00+00:00",
+          "status": "passed",
+          "training_rows": 1461,
+          "transaction_cost_usd": 1920.0
+        },
+        {
+          "block_id": "outer-2019-2020",
+          "boundary_timestamp": "2021-01-03T00:00:00+00:00",
+          "candidate_id": "zero-v1",
+          "diagnostics": {
+            "calmar": null,
+            "direction_accuracy_nonzero": 0.0,
+            "execution_side_count": 0,
+            "flat": {
+              "gross_pnl_usd": 0.0,
+              "net_pnl_usd": 0.0,
+              "sessions": 625,
+              "transaction_cost_usd": 0.0
+            },
+            "forecasts": 480,
+            "long": {
+              "gross_pnl_usd": 0.0,
+              "net_pnl_usd": 0.0,
+              "sessions": 0,
+              "transaction_cost_usd": 0.0
+            },
+            "mae_per_mmbtu": 0.10928958333333333,
+            "max_abs_contracts": 0,
+            "max_drawdown_fraction": 0.0,
+            "net_pnl_usd": 0.0,
+            "nonzero_forecasts": 0,
+            "rmse_per_mmbtu": 0.14749639119879057,
+            "sharpe": null,
+            "short": {
+              "gross_pnl_usd": 0.0,
+              "net_pnl_usd": 0.0,
+              "sessions": 0,
+              "transaction_cost_usd": 0.0
+            },
+            "sortino": null,
+            "transaction_cost_usd": 0.0
+          },
+          "end_date": "2020-12-31",
+          "execution_side_count": 0,
+          "feature_set": "core",
+          "kill_triggered": false,
+          "latest_training_target_end": "2018-12-31T00:00:00+00:00",
+          "max_drawdown_fraction": 0.0,
+          "model": "zero",
+          "net_pnl_usd": 0.0,
+          "simplicity_rank": 0,
+          "start_date": "2019-01-01",
+          "start_timestamp": "2019-01-01T00:00:00+00:00",
+          "status": "passed",
+          "training_rows": 1925,
+          "transaction_cost_usd": 0.0
+        },
+        {
+          "block_id": "outer-2019-2020",
+          "boundary_timestamp": "2021-01-03T00:00:00+00:00",
+          "candidate_id": "expanding-mean-v1",
+          "diagnostics": {
+            "calmar": -0.9988229447852768,
+            "direction_accuracy_nonzero": 0.55,
+            "execution_side_count": 2,
+            "flat": {
+              "gross_pnl_usd": 0.0,
+              "net_pnl_usd": -15.0,
+              "sessions": 615,
+              "transaction_cost_usd": 15.0
+            },
+            "forecasts": 480,
+            "long": {
+              "gross_pnl_usd": 0.0,
+              "net_pnl_usd": 0.0,
+              "sessions": 0,
+              "transaction_cost_usd": 0.0
+            },
+            "mae_per_mmbtu": 0.10873123917748918,
+            "max_abs_contracts": 1,
+            "max_drawdown_fraction": 0.04074796260186991,
+            "net_pnl_usd": -4070.0000000000027,
+            "nonzero_forecasts": 480,
+            "rmse_per_mmbtu": 0.14624179209303334,
+            "sharpe": -0.7711130304322737,
+            "short": {
+              "gross_pnl_usd": -4040.0000000000036,
+              "net_pnl_usd": -4055.0000000000036,
+              "sessions": 10,
+              "transaction_cost_usd": 15.0
+            },
+            "sortino": -0.09322999312075221,
+            "transaction_cost_usd": 30.0
+          },
+          "end_date": "2020-12-31",
+          "execution_side_count": 2,
+          "feature_set": "core",
+          "kill_triggered": true,
+          "latest_training_target_end": "2018-12-31T00:00:00+00:00",
+          "max_drawdown_fraction": 0.04074796260186991,
+          "model": "expanding_mean",
+          "net_pnl_usd": -4070.0000000000027,
+          "simplicity_rank": 1,
+          "start_date": "2019-01-01",
+          "start_timestamp": "2019-01-01T00:00:00+00:00",
+          "status": "passed",
+          "training_rows": 1925,
+          "transaction_cost_usd": 30.0
+        },
+        {
+          "block_id": "outer-2019-2020",
+          "boundary_timestamp": "2021-01-03T00:00:00+00:00",
+          "candidate_id": "ridge-core-a1",
+          "diagnostics": {
+            "calmar": -0.8725212565445024,
+            "direction_accuracy_nonzero": 0.5770833333333333,
+            "execution_side_count": 4,
+            "flat": {
+              "gross_pnl_usd": 0.0,
+              "net_pnl_usd": -15.0,
+              "sessions": 615,
+              "transaction_cost_usd": 15.0
+            },
+            "forecasts": 480,
+            "long": {
+              "gross_pnl_usd": -19.99999999999784,
+              "net_pnl_usd": -34.99999999999784,
+              "sessions": 3,
+              "transaction_cost_usd": 15.0
+            },
+            "mae_per_mmbtu": 0.10898134627453632,
+            "max_abs_contracts": 1,
+            "max_drawdown_fraction": 0.047448700750236,
+            "net_pnl_usd": -4139.999999999999,
+            "nonzero_forecasts": 480,
+            "rmse_per_mmbtu": 0.14702515540478236,
+            "sharpe": -0.7848381342846427,
+            "short": {
+              "gross_pnl_usd": -4060.000000000001,
+              "net_pnl_usd": -4090.000000000001,
+              "sessions": 7,
+              "transaction_cost_usd": 30.0
+            },
+            "sortino": -0.10089858193065172,
+            "transaction_cost_usd": 60.0
+          },
+          "end_date": "2020-12-31",
+          "execution_side_count": 4,
+          "feature_set": "core",
+          "kill_triggered": true,
+          "latest_training_target_end": "2018-12-31T00:00:00+00:00",
+          "max_drawdown_fraction": 0.047448700750236,
+          "model": "ridge",
+          "net_pnl_usd": -4139.999999999999,
+          "simplicity_rank": 2,
+          "start_date": "2019-01-01",
+          "start_timestamp": "2019-01-01T00:00:00+00:00",
+          "status": "passed",
+          "training_rows": 1925,
+          "transaction_cost_usd": 60.0
+        },
+        {
+          "block_id": "outer-2019-2020",
+          "boundary_timestamp": "2021-01-03T00:00:00+00:00",
+          "candidate_id": "ridge-core-a10",
+          "diagnostics": {
+            "calmar": -0.8725212565445024,
+            "direction_accuracy_nonzero": 0.5791666666666667,
+            "execution_side_count": 4,
+            "flat": {
+              "gross_pnl_usd": 0.0,
+              "net_pnl_usd": -15.0,
+              "sessions": 615,
+              "transaction_cost_usd": 15.0
+            },
+            "forecasts": 480,
+            "long": {
+              "gross_pnl_usd": -19.99999999999784,
+              "net_pnl_usd": -34.99999999999784,
+              "sessions": 3,
+              "transaction_cost_usd": 15.0
+            },
+            "mae_per_mmbtu": 0.10896091323579675,
+            "max_abs_contracts": 1,
+            "max_drawdown_fraction": 0.047448700750236,
+            "net_pnl_usd": -4139.999999999999,
+            "nonzero_forecasts": 480,
+            "rmse_per_mmbtu": 0.14699893232238767,
+            "sharpe": -0.7848381342846427,
+            "short": {
+              "gross_pnl_usd": -4060.000000000001,
+              "net_pnl_usd": -4090.000000000001,
+              "sessions": 7,
+              "transaction_cost_usd": 30.0
+            },
+            "sortino": -0.10089858193065172,
+            "transaction_cost_usd": 60.0
+          },
+          "end_date": "2020-12-31",
+          "execution_side_count": 4,
+          "feature_set": "core",
+          "kill_triggered": true,
+          "latest_training_target_end": "2018-12-31T00:00:00+00:00",
+          "max_drawdown_fraction": 0.047448700750236,
+          "model": "ridge",
+          "net_pnl_usd": -4139.999999999999,
+          "simplicity_rank": 2,
+          "start_date": "2019-01-01",
+          "start_timestamp": "2019-01-01T00:00:00+00:00",
+          "status": "passed",
+          "training_rows": 1925,
+          "transaction_cost_usd": 60.0
+        },
+        {
+          "block_id": "outer-2019-2020",
+          "boundary_timestamp": "2021-01-03T00:00:00+00:00",
+          "candidate_id": "ridge-curve-a1",
+          "diagnostics": {
+            "calmar": 1.0876012145748986,
+            "direction_accuracy_nonzero": 0.48125,
+            "execution_side_count": 6,
+            "flat": {
+              "gross_pnl_usd": 0.0,
+              "net_pnl_usd": -30.0,
+              "sessions": 607,
+              "transaction_cost_usd": 30.0
+            },
+            "forecasts": 480,
+            "long": {
+              "gross_pnl_usd": 3429.999999999999,
+              "net_pnl_usd": 3384.999999999999,
+              "sessions": 17,
+              "transaction_cost_usd": 45.0
+            },
+            "mae_per_mmbtu": 0.1172139195308097,
+            "max_abs_contracts": 1,
+            "max_drawdown_fraction": 0.03447954957889349,
+            "net_pnl_usd": 3749.999999999998,
+            "nonzero_forecasts": 480,
+            "rmse_per_mmbtu": 0.1560587986346311,
+            "sharpe": 0.45368680644292586,
+            "short": {
+              "gross_pnl_usd": 409.99999999999926,
+              "net_pnl_usd": 394.99999999999926,
+              "sessions": 1,
+              "transaction_cost_usd": 15.0
+            },
+            "sortino": 0.11690103552686777,
+            "transaction_cost_usd": 90.0
+          },
+          "end_date": "2020-12-31",
+          "execution_side_count": 6,
+          "feature_set": "full_market",
+          "kill_triggered": true,
+          "latest_training_target_end": "2018-12-31T00:00:00+00:00",
+          "max_drawdown_fraction": 0.03447954957889349,
+          "model": "ridge",
+          "net_pnl_usd": 3749.999999999998,
+          "simplicity_rank": 3,
+          "start_date": "2019-01-01",
+          "start_timestamp": "2019-01-01T00:00:00+00:00",
+          "status": "passed",
+          "training_rows": 1925,
+          "transaction_cost_usd": 90.0
+        },
+        {
+          "block_id": "outer-2019-2020",
+          "boundary_timestamp": "2021-01-03T00:00:00+00:00",
+          "candidate_id": "ridge-curve-a10",
+          "diagnostics": {
+            "calmar": -0.789263917525774,
+            "direction_accuracy_nonzero": 0.49583333333333335,
+            "execution_side_count": 4,
+            "flat": {
+              "gross_pnl_usd": 0.0,
+              "net_pnl_usd": -15.0,
+              "sessions": 615,
+              "transaction_cost_usd": 15.0
+            },
+            "forecasts": 480,
+            "long": {
+              "gross_pnl_usd": 720.0000000000006,
+              "net_pnl_usd": 705.0000000000006,
+              "sessions": 8,
+              "transaction_cost_usd": 15.0
+            },
+            "mae_per_mmbtu": 0.11539760600654764,
+            "max_abs_contracts": 1,
+            "max_drawdown_fraction": 0.033702288181863306,
+            "net_pnl_usd": -2660.0000000000027,
+            "nonzero_forecasts": 480,
+            "rmse_per_mmbtu": 0.15358363015715393,
+            "sharpe": -0.5042971908620346,
+            "short": {
+              "gross_pnl_usd": -3320.0000000000027,
+              "net_pnl_usd": -3350.0000000000027,
+              "sessions": 2,
+              "transaction_cost_usd": 30.0
+            },
+            "sortino": -0.05925975404270867,
+            "transaction_cost_usd": 60.0
+          },
+          "end_date": "2020-12-31",
+          "execution_side_count": 4,
+          "feature_set": "full_market",
+          "kill_triggered": true,
+          "latest_training_target_end": "2018-12-31T00:00:00+00:00",
+          "max_drawdown_fraction": 0.033702288181863306,
+          "model": "ridge",
+          "net_pnl_usd": -2660.0000000000027,
+          "simplicity_rank": 3,
+          "start_date": "2019-01-01",
+          "start_timestamp": "2019-01-01T00:00:00+00:00",
+          "status": "passed",
+          "training_rows": 1925,
+          "transaction_cost_usd": 60.0
+        },
+        {
+          "block_id": "outer-2019-2020",
+          "boundary_timestamp": "2021-01-03T00:00:00+00:00",
+          "candidate_id": "histgb-core-v1",
+          "diagnostics": {
+            "calmar": 0.9239704347826071,
+            "direction_accuracy_nonzero": 0.5145833333333333,
+            "execution_side_count": 14,
+            "flat": {
+              "gross_pnl_usd": 0.0,
+              "net_pnl_usd": -15.0,
+              "sessions": 603,
+              "transaction_cost_usd": 15.0
+            },
+            "forecasts": 480,
+            "long": {
+              "gross_pnl_usd": 1859.999999999999,
+              "net_pnl_usd": 1754.999999999999,
+              "sessions": 16,
+              "transaction_cost_usd": 105.0
+            },
+            "mae_per_mmbtu": 0.1133910579039234,
+            "max_abs_contracts": 1,
+            "max_drawdown_fraction": 0.03744708563985672,
+            "net_pnl_usd": 3459.9999999999936,
+            "nonzero_forecasts": 480,
+            "rmse_per_mmbtu": 0.1504671684926785,
+            "sharpe": 0.3572839556790066,
+            "short": {
+              "gross_pnl_usd": 1809.9999999999961,
+              "net_pnl_usd": 1719.9999999999961,
+              "sessions": 6,
+              "transaction_cost_usd": 90.0
+            },
+            "sortino": 0.11034095266146052,
+            "transaction_cost_usd": 210.0
+          },
+          "end_date": "2020-12-31",
+          "execution_side_count": 14,
+          "feature_set": "core",
+          "kill_triggered": true,
+          "latest_training_target_end": "2018-12-31T00:00:00+00:00",
+          "max_drawdown_fraction": 0.03744708563985672,
+          "model": "hist_gb",
+          "net_pnl_usd": 3459.9999999999936,
+          "simplicity_rank": 4,
+          "start_date": "2019-01-01",
+          "start_timestamp": "2019-01-01T00:00:00+00:00",
+          "status": "passed",
+          "training_rows": 1925,
+          "transaction_cost_usd": 210.0
+        },
+        {
+          "block_id": "outer-2019-2020",
+          "boundary_timestamp": "2021-01-03T00:00:00+00:00",
+          "candidate_id": "histgb-curve-v1",
+          "diagnostics": {
+            "calmar": 0.45197487437185874,
+            "direction_accuracy_nonzero": 0.5354166666666667,
+            "execution_side_count": 6,
+            "flat": {
+              "gross_pnl_usd": 0.0,
+              "net_pnl_usd": -15.0,
+              "sessions": 606,
+              "transaction_cost_usd": 15.0
+            },
+            "forecasts": 480,
+            "long": {
+              "gross_pnl_usd": 1779.999999999999,
+              "net_pnl_usd": 1734.999999999999,
+              "sessions": 18,
+              "transaction_cost_usd": 45.0
+            },
+            "mae_per_mmbtu": 0.11006863126401695,
+            "max_abs_contracts": 1,
+            "max_drawdown_fraction": 0.046462759747840296,
+            "net_pnl_usd": 2099.9999999999973,
+            "nonzero_forecasts": 480,
+            "rmse_per_mmbtu": 0.14825560586318254,
+            "sharpe": 0.24233795131157324,
+            "short": {
+              "gross_pnl_usd": 409.99999999999926,
+              "net_pnl_usd": 379.99999999999926,
+              "sessions": 1,
+              "transaction_cost_usd": 30.0
+            },
+            "sortino": 0.06087698390714839,
+            "transaction_cost_usd": 90.0
+          },
+          "end_date": "2020-12-31",
+          "execution_side_count": 6,
+          "feature_set": "full_market",
+          "kill_triggered": true,
+          "latest_training_target_end": "2018-12-31T00:00:00+00:00",
+          "max_drawdown_fraction": 0.046462759747840296,
+          "model": "hist_gb",
+          "net_pnl_usd": 2099.9999999999973,
+          "simplicity_rank": 5,
+          "start_date": "2019-01-01",
+          "start_timestamp": "2019-01-01T00:00:00+00:00",
+          "status": "passed",
+          "training_rows": 1925,
+          "transaction_cost_usd": 90.0
+        },
+        {
+          "block_id": "outer-2021-2022",
+          "boundary_timestamp": "2022-12-30T00:00:00.000000001+00:00",
+          "candidate_id": "zero-v1",
+          "diagnostics": {
+            "calmar": null,
+            "direction_accuracy_nonzero": 0.0,
+            "execution_side_count": 0,
+            "flat": {
+              "gross_pnl_usd": 0.0,
+              "net_pnl_usd": 0.0,
+              "sessions": 620,
+              "transaction_cost_usd": 0.0
+            },
+            "forecasts": 457,
+            "long": {
+              "gross_pnl_usd": 0.0,
+              "net_pnl_usd": 0.0,
+              "sessions": 0,
+              "transaction_cost_usd": 0.0
+            },
+            "mae_per_mmbtu": 0.3623238512035011,
+            "max_abs_contracts": 0,
+            "max_drawdown_fraction": 0.0,
+            "net_pnl_usd": 0.0,
+            "nonzero_forecasts": 0,
+            "rmse_per_mmbtu": 0.5111080381835551,
+            "sharpe": null,
+            "short": {
+              "gross_pnl_usd": 0.0,
+              "net_pnl_usd": 0.0,
+              "sessions": 0,
+              "transaction_cost_usd": 0.0
+            },
+            "sortino": null,
+            "transaction_cost_usd": 0.0
+          },
+          "end_date": "2022-12-31",
+          "execution_side_count": 0,
+          "feature_set": "core",
+          "kill_triggered": false,
+          "latest_training_target_end": "2020-12-29T00:00:00+00:00",
+          "max_drawdown_fraction": 0.0,
+          "model": "zero",
+          "net_pnl_usd": 0.0,
+          "simplicity_rank": 0,
+          "start_date": "2021-01-01",
+          "start_timestamp": "2021-01-03T00:00:00+00:00",
+          "status": "passed",
+          "training_rows": 2408,
+          "transaction_cost_usd": 0.0
+        },
+        {
+          "block_id": "outer-2021-2022",
+          "boundary_timestamp": "2022-12-30T00:00:00.000000001+00:00",
+          "candidate_id": "expanding-mean-v1",
+          "diagnostics": {
+            "calmar": -0.7469611925708701,
+            "direction_accuracy_nonzero": 0.424507658643326,
+            "execution_side_count": 4,
+            "flat": {
+              "gross_pnl_usd": 0.0,
+              "net_pnl_usd": -15.0,
+              "sessions": 591,
+              "transaction_cost_usd": 15.0
+            },
+            "forecasts": 457,
+            "long": {
+              "gross_pnl_usd": 0.0,
+              "net_pnl_usd": 0.0,
+              "sessions": 0,
+              "transaction_cost_usd": 0.0
+            },
+            "mae_per_mmbtu": 0.36508522557921436,
+            "max_abs_contracts": 1,
+            "max_drawdown_fraction": 0.0504711628595392,
+            "net_pnl_usd": -3770.0000000000005,
+            "nonzero_forecasts": 457,
+            "rmse_per_mmbtu": 0.5120370775037933,
+            "sharpe": -0.6186075294406256,
+            "short": {
+              "gross_pnl_usd": -3710.0,
+              "net_pnl_usd": -3755.0,
+              "sessions": 29,
+              "transaction_cost_usd": 45.0
+            },
+            "sortino": -0.15463609211135,
+            "transaction_cost_usd": 60.0
+          },
+          "end_date": "2022-12-31",
+          "execution_side_count": 4,
+          "feature_set": "core",
+          "kill_triggered": true,
+          "latest_training_target_end": "2020-12-29T00:00:00+00:00",
+          "max_drawdown_fraction": 0.0504711628595392,
+          "model": "expanding_mean",
+          "net_pnl_usd": -3770.0000000000005,
+          "simplicity_rank": 1,
+          "start_date": "2021-01-01",
+          "start_timestamp": "2021-01-03T00:00:00+00:00",
+          "status": "passed",
+          "training_rows": 2408,
+          "transaction_cost_usd": 60.0
+        },
+        {
+          "block_id": "outer-2021-2022",
+          "boundary_timestamp": "2022-12-30T00:00:00.000000001+00:00",
+          "candidate_id": "ridge-core-a1",
+          "diagnostics": {
+            "calmar": -0.7469611925708701,
+            "direction_accuracy_nonzero": 0.4660831509846827,
+            "execution_side_count": 4,
+            "flat": {
+              "gross_pnl_usd": 0.0,
+              "net_pnl_usd": -15.0,
+              "sessions": 591,
+              "transaction_cost_usd": 15.0
+            },
+            "forecasts": 457,
+            "long": {
+              "gross_pnl_usd": 0.0,
+              "net_pnl_usd": 0.0,
+              "sessions": 0,
+              "transaction_cost_usd": 0.0
+            },
+            "mae_per_mmbtu": 0.36603074667775476,
+            "max_abs_contracts": 1,
+            "max_drawdown_fraction": 0.0504711628595392,
+            "net_pnl_usd": -3770.0000000000005,
+            "nonzero_forecasts": 457,
+            "rmse_per_mmbtu": 0.5126369948840008,
+            "sharpe": -0.6186075294406256,
+            "short": {
+              "gross_pnl_usd": -3710.0,
+              "net_pnl_usd": -3755.0,
+              "sessions": 29,
+              "transaction_cost_usd": 45.0
+            },
+            "sortino": -0.15463609211135,
+            "transaction_cost_usd": 60.0
+          },
+          "end_date": "2022-12-31",
+          "execution_side_count": 4,
+          "feature_set": "core",
+          "kill_triggered": true,
+          "latest_training_target_end": "2020-12-29T00:00:00+00:00",
+          "max_drawdown_fraction": 0.0504711628595392,
+          "model": "ridge",
+          "net_pnl_usd": -3770.0000000000005,
+          "simplicity_rank": 2,
+          "start_date": "2021-01-01",
+          "start_timestamp": "2021-01-03T00:00:00+00:00",
+          "status": "passed",
+          "training_rows": 2408,
+          "transaction_cost_usd": 60.0
+        },
+        {
+          "block_id": "outer-2021-2022",
+          "boundary_timestamp": "2022-12-30T00:00:00.000000001+00:00",
+          "candidate_id": "ridge-core-a10",
+          "diagnostics": {
+            "calmar": -0.7469611925708701,
+            "direction_accuracy_nonzero": 0.4638949671772429,
+            "execution_side_count": 4,
+            "flat": {
+              "gross_pnl_usd": 0.0,
+              "net_pnl_usd": -15.0,
+              "sessions": 591,
+              "transaction_cost_usd": 15.0
+            },
+            "forecasts": 457,
+            "long": {
+              "gross_pnl_usd": 0.0,
+              "net_pnl_usd": 0.0,
+              "sessions": 0,
+              "transaction_cost_usd": 0.0
+            },
+            "mae_per_mmbtu": 0.36601075951110357,
+            "max_abs_contracts": 1,
+            "max_drawdown_fraction": 0.0504711628595392,
+            "net_pnl_usd": -3770.0000000000005,
+            "nonzero_forecasts": 457,
+            "rmse_per_mmbtu": 0.5126358766058995,
+            "sharpe": -0.6186075294406256,
+            "short": {
+              "gross_pnl_usd": -3710.0,
+              "net_pnl_usd": -3755.0,
+              "sessions": 29,
+              "transaction_cost_usd": 45.0
+            },
+            "sortino": -0.15463609211135,
+            "transaction_cost_usd": 60.0
+          },
+          "end_date": "2022-12-31",
+          "execution_side_count": 4,
+          "feature_set": "core",
+          "kill_triggered": true,
+          "latest_training_target_end": "2020-12-29T00:00:00+00:00",
+          "max_drawdown_fraction": 0.0504711628595392,
+          "model": "ridge",
+          "net_pnl_usd": -3770.0000000000005,
+          "simplicity_rank": 2,
+          "start_date": "2021-01-01",
+          "start_timestamp": "2021-01-03T00:00:00+00:00",
+          "status": "passed",
+          "training_rows": 2408,
+          "transaction_cost_usd": 60.0
+        },
+        {
+          "block_id": "outer-2021-2022",
+          "boundary_timestamp": "2022-12-30T00:00:00.000000001+00:00",
+          "candidate_id": "ridge-curve-a1",
+          "diagnostics": {
+            "calmar": -0.8315591836734687,
+            "direction_accuracy_nonzero": 0.4617067833698031,
+            "execution_side_count": 6,
+            "flat": {
+              "gross_pnl_usd": 0.0,
+              "net_pnl_usd": -30.0,
+              "sessions": 592,
+              "transaction_cost_usd": 30.0
+            },
+            "forecasts": 457,
+            "long": {
+              "gross_pnl_usd": 0.0,
+              "net_pnl_usd": 0.0,
+              "sessions": 0,
+              "transaction_cost_usd": 0.0
+            },
+            "mae_per_mmbtu": 0.36801197998322516,
+            "max_abs_contracts": 1,
+            "max_drawdown_fraction": 0.05098855359001041,
+            "net_pnl_usd": -4239.999999999996,
+            "nonzero_forecasts": 457,
+            "rmse_per_mmbtu": 0.5134872742993172,
+            "sharpe": -0.7000056179205398,
+            "short": {
+              "gross_pnl_usd": -4149.999999999996,
+              "net_pnl_usd": -4209.999999999996,
+              "sessions": 28,
+              "transaction_cost_usd": 60.0
+            },
+            "sortino": -0.17451245836648863,
+            "transaction_cost_usd": 90.0
+          },
+          "end_date": "2022-12-31",
+          "execution_side_count": 6,
+          "feature_set": "full_market",
+          "kill_triggered": true,
+          "latest_training_target_end": "2020-12-29T00:00:00+00:00",
+          "max_drawdown_fraction": 0.05098855359001041,
+          "model": "ridge",
+          "net_pnl_usd": -4239.999999999996,
+          "simplicity_rank": 3,
+          "start_date": "2021-01-01",
+          "start_timestamp": "2021-01-03T00:00:00+00:00",
+          "status": "passed",
+          "training_rows": 2408,
+          "transaction_cost_usd": 90.0
+        },
+        {
+          "block_id": "outer-2021-2022",
+          "boundary_timestamp": "2022-12-30T00:00:00.000000001+00:00",
+          "candidate_id": "ridge-curve-a10",
+          "diagnostics": {
+            "calmar": -0.7469611925708701,
+            "direction_accuracy_nonzero": 0.43982494529540483,
+            "execution_side_count": 4,
+            "flat": {
+              "gross_pnl_usd": 0.0,
+              "net_pnl_usd": -15.0,
+              "sessions": 591,
+              "transaction_cost_usd": 15.0
+            },
+            "forecasts": 457,
+            "long": {
+              "gross_pnl_usd": 0.0,
+              "net_pnl_usd": 0.0,
+              "sessions": 0,
+              "transaction_cost_usd": 0.0
+            },
+            "mae_per_mmbtu": 0.36946965315952407,
+            "max_abs_contracts": 1,
+            "max_drawdown_fraction": 0.0504711628595392,
+            "net_pnl_usd": -3770.0000000000005,
+            "nonzero_forecasts": 457,
+            "rmse_per_mmbtu": 0.5137149612797856,
+            "sharpe": -0.6186075294406256,
+            "short": {
+              "gross_pnl_usd": -3710.0,
+              "net_pnl_usd": -3755.0,
+              "sessions": 29,
+              "transaction_cost_usd": 45.0
+            },
+            "sortino": -0.15463609211135,
+            "transaction_cost_usd": 60.0
+          },
+          "end_date": "2022-12-31",
+          "execution_side_count": 4,
+          "feature_set": "full_market",
+          "kill_triggered": true,
+          "latest_training_target_end": "2020-12-29T00:00:00+00:00",
+          "max_drawdown_fraction": 0.0504711628595392,
+          "model": "ridge",
+          "net_pnl_usd": -3770.0000000000005,
+          "simplicity_rank": 3,
+          "start_date": "2021-01-01",
+          "start_timestamp": "2021-01-03T00:00:00+00:00",
+          "status": "passed",
+          "training_rows": 2408,
+          "transaction_cost_usd": 60.0
+        },
+        {
+          "block_id": "outer-2021-2022",
+          "boundary_timestamp": "2022-12-30T00:00:00.000000001+00:00",
+          "candidate_id": "histgb-core-v1",
+          "diagnostics": {
+            "calmar": -0.9764932899022807,
+            "direction_accuracy_nonzero": 0.4442013129102845,
+            "execution_side_count": 10,
+            "flat": {
+              "gross_pnl_usd": 0.0,
+              "net_pnl_usd": -45.0,
+              "sessions": 597,
+              "transaction_cost_usd": 45.0
+            },
+            "forecasts": 457,
+            "long": {
+              "gross_pnl_usd": -2070.0000000000027,
+              "net_pnl_usd": -2115.0000000000027,
+              "sessions": 9,
+              "transaction_cost_usd": 45.0
+            },
+            "mae_per_mmbtu": 0.3744301520478094,
+            "max_abs_contracts": 1,
+            "max_drawdown_fraction": 0.07660062877389091,
+            "net_pnl_usd": -7480.000000000005,
+            "nonzero_forecasts": 457,
+            "rmse_per_mmbtu": 0.5239801613543602,
+            "sharpe": -1.499796371713519,
+            "short": {
+              "gross_pnl_usd": -5260.000000000003,
+              "net_pnl_usd": -5320.000000000003,
+              "sessions": 14,
+              "transaction_cost_usd": 60.0
+            },
+            "sortino": -0.34841410418652385,
+            "transaction_cost_usd": 150.0
+          },
+          "end_date": "2022-12-31",
+          "execution_side_count": 10,
+          "feature_set": "core",
+          "kill_triggered": true,
+          "latest_training_target_end": "2020-12-29T00:00:00+00:00",
+          "max_drawdown_fraction": 0.07660062877389091,
+          "model": "hist_gb",
+          "net_pnl_usd": -7480.000000000005,
+          "simplicity_rank": 4,
+          "start_date": "2021-01-01",
+          "start_timestamp": "2021-01-03T00:00:00+00:00",
+          "status": "passed",
+          "training_rows": 2408,
+          "transaction_cost_usd": 150.0
+        },
+        {
+          "block_id": "outer-2021-2022",
+          "boundary_timestamp": "2022-12-30T00:00:00.000000001+00:00",
+          "candidate_id": "histgb-curve-v1",
+          "diagnostics": {
+            "calmar": -0.7469611925708701,
+            "direction_accuracy_nonzero": 0.424507658643326,
+            "execution_side_count": 4,
+            "flat": {
+              "gross_pnl_usd": 0.0,
+              "net_pnl_usd": -15.0,
+              "sessions": 591,
+              "transaction_cost_usd": 15.0
+            },
+            "forecasts": 457,
+            "long": {
+              "gross_pnl_usd": 0.0,
+              "net_pnl_usd": 0.0,
+              "sessions": 0,
+              "transaction_cost_usd": 0.0
+            },
+            "mae_per_mmbtu": 0.37837453862199255,
+            "max_abs_contracts": 1,
+            "max_drawdown_fraction": 0.0504711628595392,
+            "net_pnl_usd": -3770.0000000000005,
+            "nonzero_forecasts": 457,
+            "rmse_per_mmbtu": 0.5298594613482205,
+            "sharpe": -0.6186075294406256,
+            "short": {
+              "gross_pnl_usd": -3710.0,
+              "net_pnl_usd": -3755.0,
+              "sessions": 29,
+              "transaction_cost_usd": 45.0
+            },
+            "sortino": -0.15463609211135,
+            "transaction_cost_usd": 60.0
+          },
+          "end_date": "2022-12-31",
+          "execution_side_count": 4,
+          "feature_set": "full_market",
+          "kill_triggered": true,
+          "latest_training_target_end": "2020-12-29T00:00:00+00:00",
+          "max_drawdown_fraction": 0.0504711628595392,
+          "model": "hist_gb",
+          "net_pnl_usd": -3770.0000000000005,
+          "simplicity_rank": 5,
+          "start_date": "2021-01-01",
+          "start_timestamp": "2021-01-03T00:00:00+00:00",
+          "status": "passed",
+          "training_rows": 2408,
+          "transaction_cost_usd": 60.0
+        }
+      ]
+    }
+  },
+  "evidence_boundary": {
+    "instrument": "CME_NYMEX_NG",
+    "last_allowed_trade_date": "2022-12-31",
+    "outcome_role": "development",
+    "protected_confirmation_accessed": false,
+    "source": "databento_henry_hub",
+    "start_trade_date": "2010-06-06"
+  },
+  "input_identity": {
+    "features_sha256": "34a4851c4c3446334a2198409c2b1d75b9f44d4b2f96dafbb0400f986c623747",
+    "input_implementation_sha256": "629817871c6c0d4d3a08e7e84fbb704277f5c29de7386b789aca2440f64794a4",
+    "session_path_sha256": "6602debd83a2f7634119f89c1ebf06d646f89a8e24dca2636aa3cb58fa9b8c6a",
+    "source_provenance_sha256": "dca3bf0692e9f3ccc52ec6c6aae81ebf668e17176e2fedf7ee0086b483bcef23"
+  },
+  "phase": 2,
+  "phase2_config_sha256": "36900d9d28d2807b5e28d42fbcf272a06971af3123dc96a03425c26c10daab11",
+  "programme_id": "003-natural-gas-trading-decision-system",
+  "protected_confirmation_accessed": false,
+  "result_sha256": "4dc07ffb68234dd9e25bbb71adf6027a85076b7df3f30fe613fcd61a32cca1e0",
+  "schema_version": 1,
+  "source_provenance": {
+    "canonical_content_sha256": "d3ffeab360493f6cc4183c05105bf5876867871143565f6155f8fd6d84c7884b",
+    "canonical_rows": 418810,
+    "end_trade_date": "2022-12-29",
+    "execution_bars_content_sha256": "42d4478e4d0a52e32ea4be28dd870d134d5f78f02649c05b912b766b74c63db4",
+    "execution_price_semantics": "databento_ohlcv_1d_utc_interval_open",
+    "market_content_sha256": "01da6ae9e773e30c04a7b1ea4b99b7402eef5c311f3a025046a31200a70d9738",
+    "ohlcv_feature_join_rows": 94559,
+    "ohlcv_semantics": "utc_day_bars; execution only at strictly later interval boundary; features after trade_date_2359_utc",
+    "partitions": [
+      {
+        "definition": {
+          "file": "glbx-mdp3-20100606-20101231.definition.dbn.zst",
+          "sha256": "97351c1c515c4b3dfe7f977e1c8bec57aa547917a034e4b42da675820113fae7"
+        },
+        "ohlcv_1d": {
+          "file": "glbx-mdp3-20100606-20101231.ohlcv-1d.dbn.zst",
+          "sha256": "2c0dd2b51d8cf34820e2190aa0d63eb208d712587886a87854e717bdb5ab9102"
+        },
+        "partition": "20100606-20101231",
+        "statistics": {
+          "file": "glbx-mdp3-20100606-20101231.statistics.dbn.zst",
+          "sha256": "136bbbfba272a628747de2b018365c1aecb3c9d359f1148e9608af302e26a3e3"
+        }
+      },
+      {
+        "definition": {
+          "file": "glbx-mdp3-20110101-20111231.definition.dbn.zst",
+          "sha256": "4fb862bc0eadf0b2701621d5114619dcc62a110eafeec25fcc58e9899dca69b0"
+        },
+        "ohlcv_1d": {
+          "file": "glbx-mdp3-20110101-20111231.ohlcv-1d.dbn.zst",
+          "sha256": "8e69662600f73ddbed5d8229ee9341ffed186d6832b638cc227ff110eea9b665"
+        },
+        "partition": "20110101-20111231",
+        "statistics": {
+          "file": "glbx-mdp3-20110101-20111231.statistics.dbn.zst",
+          "sha256": "efa10a3fa9aca32059d9ff28cd058b1e2c39ed9c0ac903bc0140b4e67c07001e"
+        }
+      },
+      {
+        "definition": {
+          "file": "glbx-mdp3-20120101-20121231.definition.dbn.zst",
+          "sha256": "028510fda46f95ceb895b26eb5298ea3b9c6c811e3d0bac5d56e6827d2462600"
+        },
+        "ohlcv_1d": {
+          "file": "glbx-mdp3-20120101-20121231.ohlcv-1d.dbn.zst",
+          "sha256": "49743821f87e130eaed32c2b42fad18afee7508fcb194bf039cdc96f1b440210"
+        },
+        "partition": "20120101-20121231",
+        "statistics": {
+          "file": "glbx-mdp3-20120101-20121231.statistics.dbn.zst",
+          "sha256": "d1d532246b8f7a808e50cde680f2f0e33a5f9175415929c298d40e79b3552fd8"
+        }
+      },
+      {
+        "definition": {
+          "file": "glbx-mdp3-20130101-20131231.definition.dbn.zst",
+          "sha256": "ab435bf756a89072a8f19267d98299ba99370dcd6d91e797c822e7f7ff0983e9"
+        },
+        "ohlcv_1d": {
+          "file": "glbx-mdp3-20130101-20131231.ohlcv-1d.dbn.zst",
+          "sha256": "6434d3b3aa09047d38ff569e694ac6892fa7a84fd77f6f8c27f8350d91f42c55"
+        },
+        "partition": "20130101-20131231",
+        "statistics": {
+          "file": "glbx-mdp3-20130101-20131231.statistics.dbn.zst",
+          "sha256": "106797e93834f4a3f04e80560e92d5a32561c02b137d54c1150359c41b1b80a1"
+        }
+      },
+      {
+        "definition": {
+          "file": "glbx-mdp3-20140101-20141231.definition.dbn.zst",
+          "sha256": "452a51fdf0a7d83fda778d9af38066fa4f23852af7757a2fcec656b812ae8e37"
+        },
+        "ohlcv_1d": {
+          "file": "glbx-mdp3-20140101-20141231.ohlcv-1d.dbn.zst",
+          "sha256": "8430bcc512f58cf557b7a0fb4eb7d555140dbdf9043d1151ba4ba1ab763be54e"
+        },
+        "partition": "20140101-20141231",
+        "statistics": {
+          "file": "glbx-mdp3-20140101-20141231.statistics.dbn.zst",
+          "sha256": "1cb27f4298019db3223cb9ace67e6dcb375f443f85a290d5e2642db14855e827"
+        }
+      },
+      {
+        "definition": {
+          "file": "glbx-mdp3-20150101-20151231.definition.dbn.zst",
+          "sha256": "12f65c436294d0ab6ecd56817cebffcb5a8a0852023d86eefb9797e669778f8e"
+        },
+        "ohlcv_1d": {
+          "file": "glbx-mdp3-20150101-20151231.ohlcv-1d.dbn.zst",
+          "sha256": "ef38122d33d1f9a183f82a3a9e1154e8c32df9acc76fdcbf1ff9cbb1323a2bb9"
+        },
+        "partition": "20150101-20151231",
+        "statistics": {
+          "file": "glbx-mdp3-20150101-20151231.statistics.dbn.zst",
+          "sha256": "cfedaf6a088aca49d2c2060c41bdcab6a13c302bd4f989ca64f0b841c6b7cd4d"
+        }
+      },
+      {
+        "definition": {
+          "file": "glbx-mdp3-20160101-20161231.definition.dbn.zst",
+          "sha256": "607def22f1ba46735b1e13b02ce67d4fff3ac60ab1ba81e08b0f74f307d9c238"
+        },
+        "ohlcv_1d": {
+          "file": "glbx-mdp3-20160101-20161231.ohlcv-1d.dbn.zst",
+          "sha256": "5f98d139d2dbeab68d15eb5fa4efb45ee7c6c1c5164cedde3f35a6f8a30d55e0"
+        },
+        "partition": "20160101-20161231",
+        "statistics": {
+          "file": "glbx-mdp3-20160101-20161231.statistics.dbn.zst",
+          "sha256": "fb0fc5f5b466c5d3d32a799e47e33b8bf700fa4dcb6487bb630cf28832957f6f"
+        }
+      },
+      {
+        "definition": {
+          "file": "glbx-mdp3-20170101-20171231.definition.dbn.zst",
+          "sha256": "a8aac7cff22adbe257239fe9895b85d5f7421576194264d070f8fcda952cdada"
+        },
+        "ohlcv_1d": {
+          "file": "glbx-mdp3-20170101-20171231.ohlcv-1d.dbn.zst",
+          "sha256": "12d9a1252688ecb487ac875e8cfe8cd0fb122cc5620d737071206c50960e96b7"
+        },
+        "partition": "20170101-20171231",
+        "statistics": {
+          "file": "glbx-mdp3-20170101-20171231.statistics.dbn.zst",
+          "sha256": "4f322f0e8a71ab4ec0cc9bede6ff54efe38dbed02b7f98564968caa4de6e6a2a"
+        }
+      },
+      {
+        "definition": {
+          "file": "glbx-mdp3-20180101-20181231.definition.dbn.zst",
+          "sha256": "659f765860dbb67b4d431c72f986fe7a2db05455108271c4ddcfbb9dd47c4d7e"
+        },
+        "ohlcv_1d": {
+          "file": "glbx-mdp3-20180101-20181231.ohlcv-1d.dbn.zst",
+          "sha256": "570426ef62db1caf3c5006d13e78c9166ea9010a7e66338d1e0d4ee0cfc5d74f"
+        },
+        "partition": "20180101-20181231",
+        "statistics": {
+          "file": "glbx-mdp3-20180101-20181231.statistics.dbn.zst",
+          "sha256": "7ac18dfe86872578a77df7b18ab23289baebb27710096082a612caee9e5de173"
+        }
+      },
+      {
+        "definition": {
+          "file": "glbx-mdp3-20190101-20191231.definition.dbn.zst",
+          "sha256": "dc9cc6e7066e6737a6bce9a6c3edb5087624c386f4b8632984414248c7a7c455"
+        },
+        "ohlcv_1d": {
+          "file": "glbx-mdp3-20190101-20191231.ohlcv-1d.dbn.zst",
+          "sha256": "47e8842bdb23bf42566de84905f94de03c5450faf4f945532df00fb8b64a5e98"
+        },
+        "partition": "20190101-20191231",
+        "statistics": {
+          "file": "glbx-mdp3-20190101-20191231.statistics.dbn.zst",
+          "sha256": "229ffa74450a636009f49c28e56443decc651f7121b9af19aed4443147b09e9b"
+        }
+      },
+      {
+        "definition": {
+          "file": "glbx-mdp3-20200101-20201231.definition.dbn.zst",
+          "sha256": "efc11d56f7a5c91a4d8530abcaec75e2db16e70072fd5bd19439acfed0a1d1c9"
+        },
+        "ohlcv_1d": {
+          "file": "glbx-mdp3-20200101-20201231.ohlcv-1d.dbn.zst",
+          "sha256": "44f7a24bedd42c6c9ecfa4e11dcf5c86c1fe322685515f84bd4e171858a62c11"
+        },
+        "partition": "20200101-20201231",
+        "statistics": {
+          "file": "glbx-mdp3-20200101-20201231.statistics.dbn.zst",
+          "sha256": "d6405bc717ab5de28e7f89e15e71232d391db5459e0f88eaba3b766cfade73fe"
+        }
+      },
+      {
+        "definition": {
+          "file": "glbx-mdp3-20210101-20211231.definition.dbn.zst",
+          "sha256": "c3ed6f26b9ec0e2ac38daf1df44175c7192e6e1397b7092cd723447ed609f5d8"
+        },
+        "ohlcv_1d": {
+          "file": "glbx-mdp3-20210101-20211231.ohlcv-1d.dbn.zst",
+          "sha256": "56a80e4b4a190c0ba7e56a402c217a8b13ed7e47bb0213a95a8dcba139f3b8b1"
+        },
+        "partition": "20210101-20211231",
+        "statistics": {
+          "file": "glbx-mdp3-20210101-20211231.statistics.dbn.zst",
+          "sha256": "7229645f94babbf3af77ee5d33460cd2d0cc7e00b95688d11aa998b40865b944"
+        }
+      },
+      {
+        "definition": {
+          "file": "glbx-mdp3-20220101-20221231.definition.dbn.zst",
+          "sha256": "a0b8a22c8505970b8778912f530719d2ecab0f7246b4377ec7bd73dc8d6a6a4d"
+        },
+        "ohlcv_1d": {
+          "file": "glbx-mdp3-20220101-20221231.ohlcv-1d.dbn.zst",
+          "sha256": "9a992dbe8ecd9a76d5488053ba9fe6f9b754845b4af695e6965427bebae4a2be"
+        },
+        "partition": "20220101-20221231",
+        "statistics": {
+          "file": "glbx-mdp3-20220101-20221231.statistics.dbn.zst",
+          "sha256": "0dec170fe11c238ce19a6bc5dfe7bf577fddb3540c6e30b6a7b2b172684e2579"
+        }
+      }
+    ],
+    "provenance_sha256": "dca3bf0692e9f3ccc52ec6c6aae81ebf668e17176e2fedf7ee0086b483bcef23",
+    "source_id": "databento_henry_hub_pre2023_phase2",
+    "source_root_role": "local_retained_nonredistributable_raw_snapshot",
+    "start_trade_date": "2010-06-07",
+    "utc_day_execution_rows": 103793
+  }
+}

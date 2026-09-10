@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "zoom_level": "L1",
+  "programme_id": "003-natural-gas-trading-decision-system",
+  "generated_projection": false,
+  "decisions": [
+    {
+      "id": "phase2-market-only-baseline-freeze",
+      "decision": "Freeze histgb-core-v1 as the Phase-2 market-only development baseline; do not interpret this as confirmatory evidence.",
+      "status": "active",
+      "source_record": "research/programmes/003-natural-gas-trading-decision-system/phase2-market-only-baseline-v1.json"
+    }
+  ]
+}
