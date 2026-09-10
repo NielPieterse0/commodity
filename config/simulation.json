@@ -6,6 +6,40 @@
     "execution_authority": false
   },
   "default_simulation": "placeholder_v0",
+  "default_decision_system_simulation": "phase1_standard_ng_v0",
+  "decision_system_simulations": {
+    "phase1_standard_ng_v0": {
+      "enabled": true,
+      "canonical_evidence_allowed": false,
+      "authority": "github-issue-355-comment-5611074612",
+      "instrument": "CME_NYMEX_NG",
+      "roll_policy": "volume_crossover_dte_v1",
+      "horizon_sessions": 5,
+      "contract_multiplier_mmbtu": 10000.0,
+      "tick_size_usd_per_mmbtu": 0.001,
+      "tick_value_usd": 10.0,
+      "minimum_training_rows": 20,
+      "selected_model": "ridge",
+      "risk_policy_id": "phase1_standard_ng_v0",
+      "state_mode": "fresh_offline_replay",
+      "persistent_paper_state_supported": false,
+      "allowed_evidence_partitions": ["development", "rolling_research_oos"],
+      "benchmark_policies": ["flat", "long_only", "forecast_sign"],
+      "cost_model": {
+        "type": "explicit_per_side_tick_cost_v1",
+        "numeric_values_source": "required_run_research_assumption_file",
+        "required_fields": [
+          "commission_usd_per_side",
+          "exchange_clearing_fees_usd_per_side",
+          "half_spread_ticks_per_side",
+          "slippage_ticks_per_side",
+          "initial_margin_usd_per_contract"
+        ],
+        "verified_broker_terms": false
+      },
+      "status": "paper_research_only_unverified_broker_terms"
+    }
+  },
   "simulations": {
     "placeholder_v0": {
       "enabled": true,

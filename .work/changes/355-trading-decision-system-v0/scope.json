@@ -1,0 +1,51 @@
+{
+  "schema_version": 4,
+  "change_id": "355-trading-decision-system-v0",
+  "status": "active",
+  "branch": "change/355-trading-decision-system-v0",
+  "worktree": ".work/worktrees/355-trading-decision-system-v0",
+  "base": "main",
+  "outcome": "Implement the Phase 1 Trading Decision System v0 end-to-end baseline exactly as frozen in GitHub issue #355: roll-safe five-session NG forecasting, bounded paper-only position/risk policy, realistic execution/cost accounting, deterministic ledger/equity outputs, flat/long-only/forecast-sign benchmarks, and tests without opening protected confirmation outcomes.",
+  "owned_paths": [
+    "config/trading-policy.json",
+    "config/simulation.json",
+    "config/models.json",
+    "config/rule_verification.json",
+    "docs/reference/config/models.md",
+    "docs/reference/config/simulation.md",
+    "docs/reference/config/trading-policy.md",
+    "src/commodity/**",
+    "tests/**",
+    "scripts/**",
+    "research/programmes/003-natural-gas-trading-decision-system/**",
+    "artifacts/runs/**",
+    ".work/changes/355-trading-decision-system-v0/**"
+  ],
+  "shared_paths": [],
+  "excluded_paths": [],
+  "dependencies": [],
+  "integration_owner": null,
+  "complexity": "large",
+  "risk_triggers": [
+    "money",
+    "persistent_state"
+  ],
+  "base_evidence": {
+    "local_sha": "cf64a0f2de8919465fec18387e38c28515f5cafc",
+    "local_tree": "d5934442a4c626abc611a93fee412eda4aa2317f",
+    "upstream_sha": "cf64a0f2de8919465fec18387e38c28515f5cafc",
+    "upstream_tree": "d5934442a4c626abc611a93fee412eda4aa2317f",
+    "upstream_ref": "refs/remotes/origin/main",
+    "evidence_source": "local_remote_tracking_ref",
+    "relation": "same_sha"
+  },
+  "work_management": {
+    "project_id": "commodity",
+    "record_id": "WORK-355",
+    "source_repository": "NielPieterse0/commodity",
+    "source_number": 355,
+    "source_kind": "issue",
+    "documentation_impact": "planned",
+    "execution_owner": "chatgpt-scheduled-commodity"
+  }
+}

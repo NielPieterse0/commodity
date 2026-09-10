@@ -17,7 +17,7 @@ Source: `config/models.json`
 | --- | --- |
 | `schema_version` | int |
 | `default_model` | str |
-| `models` | object (6 keys) |
+| `models` | object (7 keys) |
 | `kronos_confirmation_profile` | object (6 keys) |
 
 ## Models
@@ -25,6 +25,7 @@ Source: `config/models.json`
 | Model | Enabled | Kind | Family | Architecture |
 | --- | --- | --- | --- | --- |
 | `naive` | true | baseline | linear_baseline | zero_return |
+| `expanding_mean` | true | baseline | historical_mean_baseline | expanding_historical_mean |
 | `ridge` | true | sklearn | linear_baseline | ridge |
 | `hist_gb` | true | sklearn | tree_boosting_baseline | hist_gradient_boosting |
 | `kronos_mini` | false | optional_foundation_model | foundation_model | kronos_mini |

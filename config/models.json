@@ -10,6 +10,14 @@
       "baseline_implementation": "zero_return",
       "description": "zero-return/random-walk benchmark"
     },
+    "expanding_mean": {
+      "kind": "baseline",
+      "enabled": true,
+      "family": "historical_mean_baseline",
+      "architecture": "expanding_historical_mean",
+      "baseline_implementation": "expanding_mean_return",
+      "description": "expanding-window mean of the exact five-session target"
+    },
     "ridge": {
       "kind": "sklearn",
       "enabled": true,
