@@ -1,0 +1,51 @@
+{
+  "schema_version": 4,
+  "change_id": "356-market-only-nested-walk-forward",
+  "status": "active",
+  "branch": "change/356-market-only-nested-walk-forward",
+  "worktree": ".work/worktrees/356-market-only-nested-walk-forward",
+  "base": "main",
+  "outcome": "Implement and freeze the strongest bounded market-only Phase-2 nested walk-forward baseline using only pre-2023 development evidence, with exact Phase-1 execution semantics and no protected-confirmation access.",
+  "owned_paths": [
+    ".work/changes/356-market-only-nested-walk-forward/**",
+    "src/commodity/market_only_phase2.py",
+    "src/commodity/phase2_runtime.py",
+    "src/commodity/providers/databento_futures.py",
+    "src/commodity/trading_decision_v0.py",
+    "src/commodity/cli.py",
+    "config/phase2_market_only.json",
+    ".gitignore",
+    "tests/test_market_only_phase2.py",
+    "tests/providers/test_databento_futures_provider.py",
+    "research/programmes/003-natural-gas-trading-decision-system/**",
+    "docs/reference/README.md",
+    "docs/reference/config/phase2_market_only.md",
+    "docs/reference/research/programmes/003-natural-gas-trading-decision-system/**"
+  ],
+  "shared_paths": [],
+  "excluded_paths": [],
+  "dependencies": [],
+  "integration_owner": null,
+  "complexity": "large",
+  "risk_triggers": [
+    "money"
+  ],
+  "base_evidence": {
+    "local_sha": "365e1ad6c09eca61516e1058bb182487f28f3a87",
+    "local_tree": "e37ac54c52a1c869468cf51a54c2ce7097d55e24",
+    "upstream_sha": "365e1ad6c09eca61516e1058bb182487f28f3a87",
+    "upstream_tree": "e37ac54c52a1c869468cf51a54c2ce7097d55e24",
+    "upstream_ref": "refs/remotes/origin/main",
+    "evidence_source": "local_remote_tracking_ref",
+    "relation": "same_sha"
+  },
+  "work_management": {
+    "project_id": "commodity",
+    "record_id": "WORK-356",
+    "source_repository": "NielPieterse0/commodity",
+    "source_number": 356,
+    "source_kind": "issue",
+    "documentation_impact": "planned",
+    "execution_owner": "chatgpt-scheduled-commodity"
+  }
+}

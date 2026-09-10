@@ -1,0 +1,28 @@
+{
+  "schema_version": 2,
+  "zoom_level": "L1",
+  "programme_id": "003-natural-gas-trading-decision-system",
+  "current_scan_id": "phase2-market-only-2026-09-10",
+  "refresh_triggers": ["A new programme phase changes the tested information family or evidence boundary."],
+  "research_line_refs": [
+    {
+      "research_line_id": "001-trading-system",
+      "path": "research/programmes/003-natural-gas-trading-decision-system/lines/001-trading-system/line.json"
+    }
+  ],
+  "feasibility_map": [
+    {
+      "target": "five-session exact-contract open-to-next-open net trading decision target",
+      "horizon": "5 executable intervals",
+      "information_family": "market-only price, curve, volatility, liquidity and seasonality",
+      "scientific_mepi": null,
+      "raw_information": 2865,
+      "effective_information_method": {"method": "nested chronological development evaluation"},
+      "detectable_effect": null,
+      "expected_snr": null,
+      "costs": {"base_round_trip_usd": 30.0},
+      "feasibility": "go"
+    }
+  ],
+  "semantics": {"protected_confirmation_accessed": false, "development_only": true}
+}

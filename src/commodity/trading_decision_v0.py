@@ -405,6 +405,16 @@ def _decision_origins(
     return pd.DataFrame(records), feature_columns
 
 
+def build_decision_origins(
+    path: pd.DataFrame,
+    features: pd.DataFrame,
+    *,
+    horizon_sessions: int,
+) -> tuple[pd.DataFrame, list[str]]:
+    """Expose the Phase-1 target/origin contract for later governed research phases."""
+    return _decision_origins(path, features, horizon_sessions=horizon_sessions)
+
+
 def _uncertainty(target: pd.Series, residuals: pd.Series | None = None) -> float:
     values = residuals if residuals is not None and len(residuals) > 1 else target
     if len(values) <= 1:

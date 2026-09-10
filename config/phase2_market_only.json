@@ -1,0 +1,150 @@
+{
+  "schema_version": 1,
+  "authority": "github-issue-356-comment-5625358200",
+  "programme_id": "003-natural-gas-trading-decision-system",
+  "phase": 2,
+  "evidence_boundary": {
+    "source": "databento_henry_hub",
+    "instrument": "CME_NYMEX_NG",
+    "start_trade_date": "2010-06-06",
+    "last_allowed_trade_date": "2022-12-31",
+    "protected_confirmation_accessed": false,
+    "outcome_role": "development"
+  },
+  "execution_contract": {
+    "simulation_id": "phase1_standard_ng_v0",
+    "risk_policy_id": "phase1_standard_ng_v0",
+    "horizon_sessions": 5,
+    "contract_multiplier_mmbtu": 10000.0,
+    "tick_value_usd": 10.0,
+    "roll_policy": "volume_crossover_dte_v1",
+    "ohlcv_available_at_method": "trade_date_2359_utc",
+    "ohlcv_role": "utc_day_features_and_strictly_later_interval_execution",
+    "execution_open_price_source": "databento_ohlcv_1d_utc_interval_open",
+    "execution_open_schema": "ohlcv-1d",
+    "execution_open_rule": "first_retained_interval_open_strictly_after_all_inputs_available",
+    "execution_open_missing_policy": "skip_non_executable_interval_no_synthetic_fill",
+    "fill_clock": "first_eligible_utc_day_interval_open_strictly_after_all_inputs_available",
+    "minimum_training_rows": 504
+  },
+  "validation": {
+    "outer_blocks": [
+      {"id": "outer-2017-2018", "start": "2017-01-01", "end": "2018-12-31"},
+      {"id": "outer-2019-2020", "start": "2019-01-01", "end": "2020-12-31"},
+      {"id": "outer-2021-2022", "start": "2021-01-01", "end": "2022-12-31"}
+    ],
+    "inner_validation_block_months": 12,
+    "earliest_inner_validation_start": "2014-01-01",
+    "purge_rule": "target_end_timestamp_must_not_cross_training_or_validation_boundary",
+    "outer_score_state": "fresh_100k_paper_replay_per_outer_block"
+  },
+  "feature_sets": {
+    "core": [
+      "feature_ret_1",
+      "feature_ret_5",
+      "feature_ret_20",
+      "feature_vol_5",
+      "feature_vol_20",
+      "feature_range_pct",
+      "feature_ma_gap_5",
+      "feature_ma_gap_20",
+      "feature_season_sin",
+      "feature_season_cos",
+      "feature_selected_dte",
+      "feature_roll_event"
+    ],
+    "full_market": [
+      "feature_ret_1",
+      "feature_ret_5",
+      "feature_ret_20",
+      "feature_vol_5",
+      "feature_vol_20",
+      "feature_range_pct",
+      "feature_ma_gap_5",
+      "feature_ma_gap_20",
+      "feature_season_sin",
+      "feature_season_cos",
+      "feature_selected_dte",
+      "feature_roll_event",
+      "feature_curve_log_settle_m1",
+      "feature_curve_log_settle_m2",
+      "feature_curve_log_settle_m3",
+      "feature_curve_log_settle_m4",
+      "feature_curve_spread_m1_m2",
+      "feature_curve_spread_m2_m3",
+      "feature_curve_spread_m3_m4",
+      "feature_curve_slope_m1_m4",
+      "feature_curve_dte_m1",
+      "feature_curve_dte_m2",
+      "feature_curve_dte_m3",
+      "feature_curve_dte_m4",
+      "feature_curve_log_volume_m1",
+      "feature_curve_log_volume_m2",
+      "feature_curve_log_volume_m3",
+      "feature_curve_log_volume_m4",
+      "feature_curve_volume_ratio_m1_m2"
+    ]
+  },
+  "candidates": [
+    {"id": "zero-v1", "model": "zero", "feature_set": "core", "simplicity_rank": 0},
+    {"id": "expanding-mean-v1", "model": "expanding_mean", "feature_set": "core", "simplicity_rank": 1},
+    {"id": "ridge-core-a1", "model": "ridge", "feature_set": "core", "parameters": {"alpha": 1.0}, "simplicity_rank": 2},
+    {"id": "ridge-core-a10", "model": "ridge", "feature_set": "core", "parameters": {"alpha": 10.0}, "simplicity_rank": 2},
+    {"id": "ridge-curve-a1", "model": "ridge", "feature_set": "full_market", "parameters": {"alpha": 1.0}, "simplicity_rank": 3},
+    {"id": "ridge-curve-a10", "model": "ridge", "feature_set": "full_market", "parameters": {"alpha": 10.0}, "simplicity_rank": 3},
+    {"id": "histgb-core-v1", "model": "hist_gb", "feature_set": "core", "parameters": {"learning_rate": 0.05, "max_iter": 20, "max_leaf_nodes": 15, "random_state": 0}, "simplicity_rank": 4},
+    {"id": "histgb-curve-v1", "model": "hist_gb", "feature_set": "full_market", "parameters": {"learning_rate": 0.05, "max_iter": 20, "max_leaf_nodes": 15, "random_state": 0}, "simplicity_rank": 5}
+  ],
+  "selection": {
+    "primary_objective": "cumulative_net_pnl_usd",
+    "constraint_max_contracts": 1,
+    "risk_engine_peak_drawdown_kill_fraction": 0.10,
+    "tie_breakers": ["lower_transaction_cost_usd", "lower_simplicity_rank", "config_id_lexicographic"]
+  },
+  "cost_profiles": {
+    "base": {
+      "assumption_status": "declared_research_assumption_unverified_broker_terms",
+      "commission_usd_per_side": 2.0,
+      "exchange_clearing_fees_usd_per_side": 3.0,
+      "half_spread_ticks_per_side": 0.5,
+      "slippage_ticks_per_side": 0.5,
+      "initial_margin_usd_per_contract": 5000.0
+    },
+    "higher_1_5x": {
+      "assumption_status": "declared_research_assumption_unverified_broker_terms",
+      "commission_usd_per_side": 3.0,
+      "exchange_clearing_fees_usd_per_side": 4.5,
+      "half_spread_ticks_per_side": 0.75,
+      "slippage_ticks_per_side": 0.75,
+      "initial_margin_usd_per_contract": 5000.0
+    },
+    "higher_2x": {
+      "assumption_status": "declared_research_assumption_unverified_broker_terms",
+      "commission_usd_per_side": 4.0,
+      "exchange_clearing_fees_usd_per_side": 6.0,
+      "half_spread_ticks_per_side": 1.0,
+      "slippage_ticks_per_side": 1.0,
+      "initial_margin_usd_per_contract": 5000.0
+    }
+  },
+  "diagnostics": {
+    "volatility_regime": "development_feature_vol_20_terciles",
+    "period_concentration": "calendar_year",
+    "required": [
+      "long_short_pnl",
+      "yearly_pnl",
+      "volatility_regime_pnl",
+      "cost_sensitivity",
+      "drawdown",
+      "exposure",
+      "turnover",
+      "rmse",
+      "mae",
+      "direction_accuracy",
+      "sharpe",
+      "sortino",
+      "calmar"
+    ]
+  },
+  "claim_boundary": "development_baseline_only_no_confirmatory_trading_edge_claim"
+}

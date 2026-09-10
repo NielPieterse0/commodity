@@ -1,0 +1,15 @@
+{
+  "schema_version": 1,
+  "zoom_level": "L1",
+  "programme_id": "003-natural-gas-trading-decision-system",
+  "legacy_programme_ids": [],
+  "name": "Natural gas trading decision system",
+  "mission": "Build and test a governed Henry Hub trading decision system phase by phase while preserving chronological development evidence and sealed confirmation independence.",
+  "status": "active",
+  "line_refs": [
+    {
+      "research_line_id": "001-trading-system",
+      "path": "research/programmes/003-natural-gas-trading-decision-system/lines/001-trading-system/line.json"
+    }
+  ]
+}

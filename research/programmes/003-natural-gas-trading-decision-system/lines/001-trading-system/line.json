@@ -1,0 +1,26 @@
+{
+  "schema_version": 1,
+  "zoom_level": "L2",
+  "programme_id": "003-natural-gas-trading-decision-system",
+  "research_line_id": "001-trading-system",
+  "legacy_research_line_ids": [],
+  "status": "active",
+  "big_picture": "Develop the strongest governed Henry Hub trading decision system in staged evidence layers before any protected confirmation opening.",
+  "why_zoomed_in": "Phase 2 establishes the market-only benchmark that later fundamentals and specialist models must beat incrementally.",
+  "tested_role_target_horizon": "Market-only predictors for the frozen five-executable-interval exact-contract trading target.",
+  "historical_facts": {
+    "observed": "Phase-2 development selected histgb-core-v1 with positive nested and aggregate net P&L under the inherited risk and cost engine.",
+    "rules_out": "It rules out treating more complex curve features as automatically superior within the frozen Phase-2 grid.",
+    "does_not_rule_out": "It does not establish confirmatory trading edge or rule out incremental value from PIT fundamentals or specialist models."
+  },
+  "useful_secondary_observations": ["Short-side development contribution exceeded long-side contribution."],
+  "remaining_untested_roles": ["PIT fundamentals", "Kronos and TimesFM specialists", "stacked policy optimization"],
+  "revisit_trigger": "Revisit only when a later governed phase supplies new information or a material design change.",
+  "programme_interpretation": "Use histgb-core-v1 as the frozen market-only comparator for later phases; keep 2023+ protected confirmation unopened.",
+  "evidence_refs": [
+    "research/programmes/003-natural-gas-trading-decision-system/phase2-market-only-baseline-v1.json",
+    "github-issue-356-comment-5625358200"
+  ],
+  "experiment_history": [],
+  "experiment_refs": []
+}

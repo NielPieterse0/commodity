@@ -26,6 +26,7 @@ from commodity.config import (
 from commodity.data import YFinanceMarketDataSource, save_raw
 from commodity.data_assurance import assert_preoutcome_freeze_ready
 from commodity.market_data import canonical_market_readiness, resolve_market_source
+from commodity.market_only_phase2 import Phase2MarketOnlyError, run_phase2_market_only
 from commodity.policy import assert_model_cannot_submit_orders
 from commodity.provenance import sha256_file, utc_now, write_json
 from commodity.providers.canonical import load_canonical_provider
@@ -821,6 +822,33 @@ def _trading_decision_v0(args: argparse.Namespace) -> None:
     print(json.dumps({"run_id": identity["run_id"], "output": str(run_output)}, indent=2))
 
 
+def _phase2_market_only(args: argparse.Namespace) -> None:
+    result = run_phase2_market_only(
+        config_path("phase2_market_only.json"),
+        Path(args.databento_root),
+        checkpoint_dir=Path(args.checkpoint_dir),
+        heartbeat_seconds=float(args.heartbeat_seconds),
+    )
+    output = Path(args.output)
+    output.parent.mkdir(parents=True, exist_ok=True)
+    try:
+        with output.open("x", encoding="utf-8", newline="\n") as handle:
+            json.dump(result, handle, indent=2, sort_keys=True, allow_nan=False)
+            handle.write("\n")
+    except FileExistsError as exc:
+        raise Phase2MarketOnlyError("refusing to overwrite an existing Phase-2 freeze") from exc
+    print(
+        json.dumps(
+            {
+                "output": str(output),
+                "candidate_id": result["baseline_freeze"]["candidate_id"],
+                "freeze_sha256": result["baseline_freeze"]["freeze_sha256"],
+            },
+            indent=2,
+        )
+    )
+
+
 def _doctor(_: argparse.Namespace) -> None:
     assert_model_cannot_submit_orders()
     data_cfg = data_config()
@@ -900,6 +928,25 @@ def build_parser() -> argparse.ArgumentParser:
     decision.add_argument("--model")
     decision.add_argument("--output", required=True)
     decision.set_defaults(func=_trading_decision_v0)
+
+    phase2 = sub.add_parser(
+        "phase2-market-only",
+        help="Phase-2 pre-2023 nested market-only development and baseline freeze",
+    )
+    phase2.add_argument("--databento-root", required=True)
+    phase2.add_argument(
+        "--checkpoint-dir",
+        default=str(REPO_ROOT / ".work/checkpoints/phase2-market-only-v1"),
+    )
+    phase2.add_argument("--heartbeat-seconds", type=float, default=30.0)
+    phase2.add_argument(
+        "--output",
+        default=str(
+            REPO_ROOT
+            / "research/programmes/003-natural-gas-trading-decision-system/phase2-market-only-baseline-v1.json"
+        ),
+    )
+    phase2.set_defaults(func=_phase2_market_only)
 
     saxo = sub.add_parser("probe-saxo-market")
     saxo.add_argument("--continuous-uic", type=int)
