@@ -1,7 +1,13 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
+import inspect
 import json
+import os
+import sys
+import types
+from contextlib import ExitStack
 from pathlib import Path
 
 import pandas as pd
@@ -10,6 +16,7 @@ from jsonschema import Draft202012Validator
 from commodity.config import (
     REPO_ROOT,
     assumptions_config,
+    config_path,
     data_config,
     model_config,
     policy_config,
@@ -58,6 +65,17 @@ from commodity.research_metrics import (
     render_markdown_summary,
 )
 from commodity.simulation import simulate_forecasts
+from commodity.trading_decision_v0 import (
+    DecisionSystemError,
+    build_roll_safe_session_path,
+    build_walk_forward_forecasts,
+    governed_input_authority_identity,
+    parse_cost_assumptions,
+    parse_input_boundary,
+    parse_risk_policy,
+    selected_model_forecasts,
+    simulate_policy,
+)
 from commodity.weather import OpenMeteoSingleRunClient, capture_weather_run
 
 
@@ -442,6 +460,367 @@ def _experiment_summary(args: argparse.Namespace) -> None:
     output.write_text(summary, encoding="utf-8", newline="\n")
     print(f"summary={output}")
 
+def _json_snapshot(path: Path, label: str) -> tuple[dict[str, object], str]:
+    data = path.read_bytes()
+    try:
+        payload = json.loads(data.decode("utf-8"))
+    except (UnicodeDecodeError, json.JSONDecodeError) as exc:
+        raise DecisionSystemError(f"invalid {label} JSON: {exc}") from exc
+    if not isinstance(payload, dict):
+        raise DecisionSystemError(f"{label} JSON must contain an object")
+    return payload, hashlib.sha256(data).hexdigest()
+
+
+def _stream_sha256(handle) -> str:
+    handle.seek(0)
+    digest = hashlib.sha256()
+    for chunk in iter(lambda: handle.read(1024 * 1024), b""):
+        digest.update(chunk)
+    return digest.hexdigest()
+
+
+def _create_exclusive_run_directory(output: Path) -> Path:
+    output = Path(output)
+    output.parent.mkdir(parents=True, exist_ok=True)
+    try:
+        output.mkdir(mode=0o700)
+    except FileExistsError as exc:
+        raise DecisionSystemError(
+            "refusing to overwrite an existing decision-system run path"
+        ) from exc
+    if output.is_symlink() or not output.is_dir():
+        raise DecisionSystemError("decision-system run path is not an exclusive directory")
+    return output
+
+
+def _write_csv_exclusive(frame: pd.DataFrame, path: Path) -> None:
+    for column in frame.select_dtypes(include=["object", "string"]).columns:
+        for value in frame[column].dropna():
+            if isinstance(value, str) and value.lstrip(" \t\r\n").startswith(("=", "+", "-", "@")):
+                raise DecisionSystemError(
+                    f"decision-system CSV contains spreadsheet formula text: {column}"
+                )
+    try:
+        with Path(path).open("x", encoding="utf-8", newline="") as handle:
+            frame.to_csv(handle, index=False)
+            handle.flush()
+            os.fsync(handle.fileno())
+    except FileExistsError as exc:
+        raise DecisionSystemError(f"decision-system output already exists: {path.name}") from exc
+
+
+def _write_json_exclusive(path: Path, payload: dict[str, object]) -> None:
+    content = (
+        json.dumps(payload, indent=2, sort_keys=True, allow_nan=False) + "\n"
+    ).encode("utf-8")
+    try:
+        with Path(path).open("xb") as handle:
+            handle.write(content)
+            handle.flush()
+            os.fsync(handle.fileno())
+    except FileExistsError as exc:
+        raise DecisionSystemError(f"decision-system output already exists: {path.name}") from exc
+
+
+def _stable_code_identity(code: types.CodeType) -> dict[str, object]:
+    def stable_constant(value: object) -> dict[str, object]:
+        if isinstance(value, types.CodeType):
+            return {"type": "code", "value": _stable_code_identity(value)}
+        if value is None:
+            return {"type": "none"}
+        if value is Ellipsis:
+            return {"type": "ellipsis"}
+        if isinstance(value, bool):
+            return {"type": "bool", "value": value}
+        if isinstance(value, int):
+            return {"type": "int", "value": str(value)}
+        if isinstance(value, float):
+            return {"type": "float", "value": value.hex()}
+        if isinstance(value, complex):
+            return {
+                "type": "complex",
+                "real": value.real.hex(),
+                "imag": value.imag.hex(),
+            }
+        if isinstance(value, str):
+            return {"type": "str", "value": value}
+        if isinstance(value, bytes):
+            return {"type": "bytes", "value": value.hex()}
+        if isinstance(value, tuple):
+            return {"type": "tuple", "items": [stable_constant(item) for item in value]}
+        if isinstance(value, frozenset):
+            items = [stable_constant(item) for item in value]
+            items.sort(key=lambda item: json.dumps(item, sort_keys=True, separators=(",", ":")))
+            return {"type": "frozenset", "items": items}
+        raise DecisionSystemError(
+            f"unsupported loaded-code constant type: {type(value).__qualname__}"
+        )
+
+    return {
+        "name": code.co_name,
+        "qualname": code.co_qualname,
+        "argcount": code.co_argcount,
+        "posonlyargcount": code.co_posonlyargcount,
+        "kwonlyargcount": code.co_kwonlyargcount,
+        "nlocals": code.co_nlocals,
+        "stacksize": code.co_stacksize,
+        "flags": code.co_flags,
+        "code": code.co_code.hex(),
+        "constants": [stable_constant(value) for value in code.co_consts],
+        "names": list(code.co_names),
+        "varnames": list(code.co_varnames),
+        "freevars": list(code.co_freevars),
+        "cellvars": list(code.co_cellvars),
+        "linetable": code.co_linetable.hex(),
+        "exceptiontable": getattr(code, "co_exceptiontable", b"").hex(),
+    }
+
+
+def _loaded_module_code_sha256(module: types.ModuleType) -> str:
+    source_path = Path(str(module.__file__)).resolve()
+    records: list[tuple[str, dict[str, object]]] = []
+
+    def add_code(label: str, function: object) -> None:
+        code = getattr(function, "__code__", None)
+        if isinstance(code, types.CodeType) and Path(code.co_filename).resolve() == source_path:
+            records.append((label, _stable_code_identity(code)))
+
+    for name, value in sorted(vars(module).items()):
+        if inspect.isfunction(value) and getattr(value, "__module__", None) == module.__name__:
+            add_code(name, value)
+        elif inspect.isclass(value) and getattr(value, "__module__", None) == module.__name__:
+            for member_name, member in sorted(vars(value).items()):
+                if isinstance(member, (staticmethod, classmethod)):
+                    add_code(f"{name}.{member_name}", member.__func__)
+                elif isinstance(member, property):
+                    for accessor, function in (("get", member.fget), ("set", member.fset), ("del", member.fdel)):
+                        if function is not None:
+                            add_code(f"{name}.{member_name}.{accessor}", function)
+                else:
+                    add_code(f"{name}.{member_name}", member)
+    if not records:
+        raise DecisionSystemError(f"no loaded module code objects found for module {module.__name__}")
+    digest = hashlib.sha256()
+    for label, code_identity in records:
+        digest.update(label.encode("utf-8"))
+        digest.update(b"\0")
+        digest.update(
+            json.dumps(
+                code_identity,
+                sort_keys=True,
+                separators=(",", ":"),
+                ensure_ascii=True,
+                allow_nan=False,
+            ).encode("utf-8")
+        )
+        digest.update(b"\0")
+    return digest.hexdigest()
+
+
+def _trading_decision_v0(args: argparse.Namespace) -> None:
+    simulation_root, simulation_hash = _json_snapshot(
+        config_path("simulation.json"), "simulation config"
+    )
+    simulation_id = args.simulation or str(simulation_root["default_decision_system_simulation"])
+    simulations = simulation_root.get("decision_system_simulations")
+    if not isinstance(simulations, dict) or simulation_id not in simulations:
+        raise DecisionSystemError(f"decision-system simulation is unavailable: {simulation_id}")
+    decision_cfg = simulations[simulation_id]
+    if not isinstance(decision_cfg, dict):
+        raise DecisionSystemError(f"decision-system simulation is invalid: {simulation_id}")
+    if not decision_cfg.get("enabled", False):
+        raise RuntimeError(f"decision-system simulation is disabled: {simulation_id}")
+    if decision_cfg.get("state_mode") != "fresh_offline_replay":
+        raise DecisionSystemError("Phase-1 decision engine requires fresh offline replay state")
+    if decision_cfg.get("persistent_paper_state_supported") is not False:
+        raise DecisionSystemError("Phase-1 decision engine must not claim persistent paper state")
+
+    risk_root, trading_policy_hash = _json_snapshot(
+        config_path("trading-policy.json"), "trading policy"
+    )
+    risk_policy_id = str(decision_cfg.get("risk_policy_id", "")).strip()
+    if not risk_policy_id:
+        raise DecisionSystemError("decision-system simulation must bind a fixed risk policy")
+    if args.risk_policy is not None and args.risk_policy != risk_policy_id:
+        raise DecisionSystemError(
+            f"Phase-1 risk policy is fixed by the selected simulation: {risk_policy_id}"
+        )
+    try:
+        risk_payload = risk_root["paper_risk_policies"][risk_policy_id]
+    except KeyError as exc:
+        raise DecisionSystemError(
+            f"fixed decision-system risk policy is unavailable: {risk_policy_id}"
+        ) from exc
+    risk = parse_risk_policy(risk_payload)
+    model_root, models_hash = _json_snapshot(config_path("models.json"), "models config")
+    runtime_paths = {
+        "decision_engine_sha256": REPO_ROOT / "src/commodity/trading_decision_v0.py",
+        "cli_sha256": Path(__file__),
+        "baseline_models_sha256": REPO_ROOT / "src/commodity/models/baselines.py",
+        "requirements_lock_sha256": REPO_ROOT / "requirements.lock.txt",
+    }
+    runtime_hashes = {name: sha256_file(path) for name, path in runtime_paths.items()}
+    loaded_modules = {
+        "decision_engine_loaded_code_objects_sha256": sys.modules["commodity.trading_decision_v0"],
+        "cli_loaded_code_objects_sha256": sys.modules[__name__],
+        "baseline_models_loaded_code_objects_sha256": sys.modules["commodity.models.baselines"],
+    }
+    loaded_code_hashes = {
+        name: _loaded_module_code_sha256(module) for name, module in loaded_modules.items()
+    }
+
+    market_path = Path(args.market)
+    selected_path = Path(args.selected_path)
+    features_path = Path(args.features)
+    cost_path = Path(args.cost_assumptions)
+    boundary_path = Path(args.input_boundary)
+    cost_payload, cost_hash = _json_snapshot(cost_path, "cost assumptions")
+    boundary_payload, boundary_hash = _json_snapshot(boundary_path, "input authority")
+    authority_identity = governed_input_authority_identity(
+        boundary_path,
+        repo_root=REPO_ROOT,
+        expected_sha256=boundary_hash,
+    )
+
+    with ExitStack() as stack:
+        handles = {
+            "market_sha256": stack.enter_context(market_path.open("rb")),
+            "selected_path_sha256": stack.enter_context(selected_path.open("rb")),
+            "features_sha256": stack.enter_context(features_path.open("rb")),
+        }
+        observed_hashes = {name: _stream_sha256(handle) for name, handle in handles.items()}
+        boundary = parse_input_boundary(
+            boundary_payload,
+            allowed_partitions=set(decision_cfg["allowed_evidence_partitions"]),
+            observed_hashes=observed_hashes,
+            expected_instrument=str(decision_cfg["instrument"]),
+            expected_roll_policy=str(decision_cfg["roll_policy"]),
+        )
+        for handle in handles.values():
+            handle.seek(0)
+        market = pd.read_csv(handles["market_sha256"])
+        selected = pd.read_csv(handles["selected_path_sha256"])
+        features = pd.read_csv(handles["features_sha256"])
+        post_hashes = {name: _stream_sha256(handle) for name, handle in handles.items()}
+        if post_hashes != observed_hashes:
+            raise DecisionSystemError("decision-system input changed while being read")
+
+    costs = parse_cost_assumptions(
+        cost_payload,
+        tick_value_usd=float(decision_cfg["tick_value_usd"]),
+    )
+
+    session_path = build_roll_safe_session_path(market, selected, price_col="open")
+    models = model_root["models"]
+    selected_model = args.model or decision_cfg["selected_model"]
+    forecasts = build_walk_forward_forecasts(
+        session_path,
+        features,
+        models=models,
+        horizon_sessions=int(decision_cfg["horizon_sessions"]),
+        contract_multiplier=float(decision_cfg["contract_multiplier_mmbtu"]),
+        selected_model=selected_model,
+        min_train_rows=int(decision_cfg["minimum_training_rows"]),
+    )
+    policy_forecasts = selected_model_forecasts(forecasts, selected_model)
+
+    output = Path(args.output)
+    if output.exists():
+        raise DecisionSystemError("refusing to overwrite an existing decision-system run path")
+    identity = {
+        "schema_version": 1,
+        "workflow": "phase1_trading_decision_system_v0",
+        **observed_hashes,
+        "cost_assumptions_sha256": cost_hash,
+        "input_authority_sha256": authority_identity["sha256"],
+        "input_authority_path": authority_identity["repo_relative_path"],
+        "input_authority_git_commit": authority_identity["git_commit"],
+        "input_authority_git_blob": authority_identity["git_blob"],
+        "data_assurance_sha256": boundary.data_assurance_sha256,
+        "models_config_sha256": models_hash,
+        "simulation_config_sha256": simulation_hash,
+        "trading_policy_config_sha256": trading_policy_hash,
+        **runtime_hashes,
+        **loaded_code_hashes,
+        "simulation_id": simulation_id,
+        "risk_policy_id": risk_policy_id,
+        "selected_model": selected_model,
+        "instrument": boundary.instrument,
+        "roll_policy": boundary.roll_policy,
+        "evidence_partition": boundary.evidence_partition,
+        "protected_confirmation_accessed": boundary.protected_confirmation_accessed,
+        "canonical_execution_evidence": False,
+    }
+    encoded = json.dumps(identity, sort_keys=True, separators=(",", ":")).encode("utf-8")
+    identity["run_id"] = hashlib.sha256(encoded).hexdigest()
+    session_path.insert(0, "run_id", identity["run_id"])
+    forecasts.insert(0, "run_id", identity["run_id"])
+    run_output = _create_exclusive_run_directory(output)
+    _write_csv_exclusive(session_path, run_output / "session_path.csv")
+    _write_csv_exclusive(forecasts, run_output / "forecasts.csv")
+    summaries: dict[str, object] = {}
+    empty = pd.DataFrame()
+    for policy_id in decision_cfg["benchmark_policies"]:
+        consumed = policy_forecasts if policy_id == "forecast_sign" else empty
+        ledger, summary = simulate_policy(
+            session_path,
+            consumed,
+            policy_id,
+            risk,
+            costs,
+            contract_multiplier=float(decision_cfg["contract_multiplier_mmbtu"]),
+        )
+        ledger.insert(0, "run_id", identity["run_id"])
+        _write_csv_exclusive(ledger, run_output / f"ledger-{policy_id}.csv")
+        _write_csv_exclusive(
+            ledger[["run_id", "trade_date", "session_open", "equity_usd"]],
+            run_output / f"equity-{policy_id}.csv",
+        )
+        summaries[policy_id] = summary
+
+    _write_json_exclusive(run_output / "input_manifest.json", identity)
+    _write_json_exclusive(
+        run_output / "summary.json",
+        {
+            "schema_version": 1,
+            "run_id": identity["run_id"],
+            "selected_model": selected_model,
+            "instrument": boundary.instrument,
+            "roll_policy": boundary.roll_policy,
+            "round_trip_cost_usd": costs.round_trip_usd,
+            "benchmark_summaries": summaries,
+            "risk_state_scope": "fresh_offline_replay",
+            "persistent_paper_state_supported": False,
+            "scientific_scope": "plumbing_and_executable_benchmark_only_no_edge_claim",
+        },
+    )
+    if {name: sha256_file(path) for name, path in runtime_paths.items()} != runtime_hashes:
+        raise DecisionSystemError("decision-system runtime source changed during execution")
+    if {
+        name: _loaded_module_code_sha256(module) for name, module in loaded_modules.items()
+    } != loaded_code_hashes:
+        raise DecisionSystemError("decision-system loaded code-object identity changed during execution")
+    if governed_input_authority_identity(
+        boundary_path,
+        repo_root=REPO_ROOT,
+        expected_sha256=boundary_hash,
+    ) != authority_identity:
+        raise DecisionSystemError("input authority identity changed during execution")
+    output_hashes = {
+        path.name: sha256_file(path)
+        for path in sorted(run_output.iterdir(), key=lambda item: item.name)
+        if path.is_file()
+    }
+    completion = {
+        "schema_version": 1,
+        "status": "complete",
+        "run_id": identity["run_id"],
+        "outputs": output_hashes,
+    }
+    _write_json_exclusive(run_output / "completion_manifest.json", completion)
+    print(json.dumps({"run_id": identity["run_id"], "output": str(run_output)}, indent=2))
+
+
 def _doctor(_: argparse.Namespace) -> None:
     assert_model_cannot_submit_orders()
     data_cfg = data_config()
@@ -506,6 +885,21 @@ def build_parser() -> argparse.ArgumentParser:
         sim.add_argument("--simulation", default=simulation_cfg["default_simulation"])
         sim.add_argument("--output", required=True)
         sim.set_defaults(func=_simulate)
+
+    decision = sub.add_parser(
+        "trading-decision-v0",
+        help="Phase-1 fresh offline NG forecast-to-equity replay",
+    )
+    decision.add_argument("--market", required=True)
+    decision.add_argument("--selected-path", required=True)
+    decision.add_argument("--features", required=True)
+    decision.add_argument("--cost-assumptions", required=True)
+    decision.add_argument("--input-boundary", required=True)
+    decision.add_argument("--simulation")
+    decision.add_argument("--risk-policy")
+    decision.add_argument("--model")
+    decision.add_argument("--output", required=True)
+    decision.set_defaults(func=_trading_decision_v0)
 
     saxo = sub.add_parser("probe-saxo-market")
     saxo.add_argument("--continuous-uic", type=int)

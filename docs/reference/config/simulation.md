@@ -10,6 +10,7 @@ Source: `config/simulation.json`
 | --- | --- |
 | `schema_version` | 1 |
 | `default_simulation` | placeholder_v0 |
+| `default_decision_system_simulation` | phase1_standard_ng_v0 |
 
 ## Structure
 
@@ -18,4 +19,6 @@ Source: `config/simulation.json`
 | `schema_version` | int |
 | `semantics` | object (3 keys) |
 | `default_simulation` | str |
+| `default_decision_system_simulation` | str |
+| `decision_system_simulations` | object (1 keys) |
 | `simulations` | object (1 keys) |

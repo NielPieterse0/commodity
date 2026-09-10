@@ -131,3 +131,43 @@ def test_schema3_build_results_fails_closed_without_post_unblinding_manifest(mon
     ])
     with pytest.raises(cli.MethodologyError, match="schema-v3 confirmatory results require"):
         args.func(args)
+
+
+def test_trading_decision_v0_parser_requires_reconstructable_inputs() -> None:
+    args = build_parser().parse_args([
+        "trading-decision-v0",
+        "--market", "market.csv",
+        "--selected-path", "selected.csv",
+        "--features", "features.csv",
+        "--cost-assumptions", "costs.json",
+        "--input-boundary", "boundary.json",
+        "--output", "artifacts/runs/example",
+    ])
+    assert args.market == "market.csv"
+    assert args.selected_path == "selected.csv"
+    assert args.features == "features.csv"
+    assert args.cost_assumptions == "costs.json"
+    assert args.input_boundary == "boundary.json"
+    assert args.output == "artifacts/runs/example"
+    assert args.model is None
+
+
+@pytest.mark.parametrize(
+    "missing_flag",
+    ["--market", "--selected-path", "--features", "--cost-assumptions", "--input-boundary", "--output"],
+)
+def test_trading_decision_v0_parser_rejects_missing_reconstructable_input(missing_flag: str) -> None:
+    arguments = [
+        "trading-decision-v0",
+        "--market", "market.csv",
+        "--selected-path", "selected.csv",
+        "--features", "features.csv",
+        "--cost-assumptions", "costs.json",
+        "--input-boundary", "boundary.json",
+        "--output", "artifacts/runs/example",
+    ]
+    flag_index = arguments.index(missing_flag)
+    del arguments[flag_index : flag_index + 2]
+    with pytest.raises(SystemExit) as exc:
+        build_parser().parse_args(arguments)
+    assert exc.value.code == 2

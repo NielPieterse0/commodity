@@ -22,5 +22,19 @@
     "position_sizing_owner": "separate_policy_layer",
     "stops_owner": "separate_policy_layer",
     "order_submission_owner": "separate_execution_adapter"
+  },
+  "default_paper_risk_policy": "phase1_standard_ng_v0",
+  "paper_risk_policies": {
+    "phase1_standard_ng_v0": {
+      "authority": "github-issue-355-comment-5611074612",
+      "capital_usd": 100000.0,
+      "max_standard_contracts": 1,
+      "daily_loss_fraction": 0.02,
+      "peak_drawdown_kill_fraction": 0.10,
+      "after_kill": "remain_flat_until_explicit_operator_restart",
+      "live_trading_allowed": false,
+      "model_tunable": false,
+      "status": "operator_approved_paper_simulation_only"
+    }
   }
 }
