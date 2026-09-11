@@ -1,0 +1,27 @@
+{
+  "schema_version": 1,
+  "authority": "github-issue-358-comment-5632161050",
+  "evidence_role": "development_native_sequence_path_diagnostic_not_policy_selection",
+  "model_id": "NeoQuasar/Kronos-base",
+  "source_revision": "67b630e67f6a18c9e9be918d9b4337c960db1e9a",
+  "pred_len": 5,
+  "eligible_universe_origins": 1308,
+  "selection": {
+    "method": "outcome_blind_evenly_spaced_within_outer_block",
+    "max_per_block": 32,
+    "selected_target_origins": 96,
+    "selection_inputs": ["outer_block_id", "prediction_time", "contract_id"]
+  },
+  "inference_profile": {
+    "name": "upstream_usage_defaults",
+    "T": 1.0,
+    "top_p": 0.9,
+    "sample_count": 1,
+    "reason": "native-strength mechanism check uses pinned upstream usage defaults rather than the heavier prior paper-backtest ensemble profile"
+  },
+  "batch_size": 64,
+  "deterministic_seed": 0,
+  "metrics": ["h1_h5_return_mae_rmse_direction", "terminal_direction", "slope_sign_and_mae", "range_mae", "dispersion_mae", "turning_count"],
+  "protected_confirmation_accessed": false,
+  "superseded_attempt": "16-row paper_backtest_inference partial preserved without interpretation; full continuation was stopped before a new checkpoint because execution cost was disproportionate to this bounded diagnostic"
+}

@@ -1,0 +1,51 @@
+{
+  "all_ready": false,
+  "authority": "github-issue-358-comment-5634786235",
+  "models": [
+    {
+      "artifact_ready": false,
+      "artifacts": [
+        {
+          "expected_sha256": "b082dfcbd8e8c142a725c8bbb99781802f38fec81210e13479effb32b3c3e020",
+          "filename": "model.safetensors",
+          "hash_match": false,
+          "kind": "model",
+          "observed_sha256": null,
+          "path": "C:\\Projects\\commodity\\.work\\kronos-cache\\models--NeoQuasar--Kronos-small\\snapshots\\901c26c1332695a2a8f243eb2f37243a37bea320\\model.safetensors",
+          "present": false,
+          "repo_id": "NeoQuasar/Kronos-small",
+          "revision": "901c26c1332695a2a8f243eb2f37243a37bea320"
+        },
+        {
+          "expected_sha256": "59d85f6af76a2c3b8240ea06cb21db4213b4eeca053f246b23e29cf832fc6bee",
+          "filename": "model.safetensors",
+          "hash_match": true,
+          "kind": "tokenizer",
+          "observed_sha256": "59d85f6af76a2c3b8240ea06cb21db4213b4eeca053f246b23e29cf832fc6bee",
+          "path": "C:\\Projects\\commodity\\.work\\kronos-cache\\models--NeoQuasar--Kronos-Tokenizer-base\\snapshots\\0e0117387f39004a9016484a186a908917e22426\\model.safetensors",
+          "present": true,
+          "repo_id": "NeoQuasar/Kronos-Tokenizer-base",
+          "revision": "0e0117387f39004a9016484a186a908917e22426"
+        }
+      ],
+      "cache_bound": true,
+      "cache_env": "COMMODITY_KRONOS_CACHE_DIR",
+      "cache_path": "C:\\Projects\\commodity\\.work\\kronos-cache",
+      "license_status": "mit_verified_2026-09-11",
+      "model_id": "NeoQuasar/Kronos-small",
+      "model_key": "kronos_small",
+      "model_revision": "901c26c1332695a2a8f243eb2f37243a37bea320",
+      "pretraining_exposure": "not_proven_pre_target",
+      "promotion_eligibility": "deployment_candidate_or_capacity_control",
+      "ready": false,
+      "runtime_module": "model",
+      "runtime_package": null,
+      "runtime_present": true,
+      "runtime_source": "vendor/Kronos",
+      "source_release": null,
+      "source_revision": "67b630e67f6a18c9e9be918d9b4337c960db1e9a"
+    }
+  ],
+  "protected_confirmation_accessed": false,
+  "schema_version": 1
+}

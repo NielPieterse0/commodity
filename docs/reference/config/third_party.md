@@ -23,7 +23,7 @@ Source: `config/third_party.json`
 | `policy_id` | str |
 | `trust_classes` | object (4 keys) |
 | `research_source_families` | object (5 keys) |
-| `technical_sources` | array (8 items) |
+| `technical_sources` | array (10 items) |
 | `external_model_rule` | str |
 | `licensing_rule` | str |
 | `source_status_owner` | str |

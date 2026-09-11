@@ -1,0 +1,101 @@
+{
+  "authority": "github-issue-358-comment-5634786235",
+  "candidates": [
+    {
+      "artifact_sha256": "ddcda3c7508bf2528087723e98a20707cc04b7f370ae275a9fd88078ddba4f42",
+      "fixed_metrics": [
+        "h1_h5_mae_rmse_direction",
+        "terminal_direction",
+        "interval_coverage_and_width",
+        "slope_sign_and_mae",
+        "dispersion_mae"
+      ],
+      "fixed_outputs": [
+        "terminal_median_return",
+        "terminal_direction",
+        "q10_q90_interval_width",
+        "h1_h5_median_returns",
+        "path_slope",
+        "path_dispersion"
+      ],
+      "model_id": "amazon/chronos-2",
+      "model_key": "chronos_2",
+      "model_revision": "29ec3766d36d6f73f0696f85560a422f50e8498c",
+      "priority": 1,
+      "promotion_eligibility": "deployment_candidate",
+      "role": "native five-step probabilistic/multivariate market-path specialist"
+    },
+    {
+      "artifact_sha256": "b082dfcbd8e8c142a725c8bbb99781802f38fec81210e13479effb32b3c3e020",
+      "fixed_metrics": [
+        "same_as_kronos_base_path_metrics"
+      ],
+      "fixed_outputs": [
+        "same_as_kronos_base_path_summary"
+      ],
+      "model_id": "NeoQuasar/Kronos-small",
+      "model_key": "kronos_small",
+      "model_revision": "901c26c1332695a2a8f243eb2f37243a37bea320",
+      "priority": 2,
+      "promotion_eligibility": "capacity_control",
+      "role": "exact native five-step Kronos-base diagnostic replication on same sample/profile"
+    },
+    {
+      "artifact_sha256": "fb5652a3db8ea572606221b7cb1e77bb8962b168e4d4cc752cf31ceb04074669",
+      "fixed_metrics": [
+        "h1_h5_mae_rmse_direction",
+        "terminal_direction",
+        "interval_coverage_and_width",
+        "slope_sign_and_mae",
+        "dispersion_mae"
+      ],
+      "fixed_outputs": [
+        "terminal_median_return",
+        "terminal_direction",
+        "q10_q90_interval_width",
+        "h1_h5_median_returns",
+        "path_slope",
+        "path_dispersion"
+      ],
+      "model_id": "Salesforce/moirai-2.0-R-small",
+      "model_key": "moirai_2_small",
+      "model_revision": "30f43ff08c8494f4943ae1521e9d4e94a0fbb389",
+      "priority": 3,
+      "promotion_eligibility": "research_only_noncommercial_not_deployable",
+      "role": "five-step probabilistic/path cross-family comparator"
+    }
+  ],
+  "common_contract": {
+    "history": "PIT-known same-contract market history only",
+    "no_model_family_expansion": true,
+    "no_policy_search": true,
+    "no_protected_confirmation": true,
+    "no_threshold_search": true,
+    "pred_len": 5,
+    "same_contract_only": true
+  },
+  "evidence_role": "development_second_line_foundation_specialist_diagnostic_not_policy_selection",
+  "interpretation_rule": "Preserve positive and negative evidence. Only Chronos-2 may become a new deployable Phase-5 specialist candidate; Kronos-small is capacity evidence; Moirai is interpretive research evidence only under current weight license.",
+  "protected_confirmation_accessed": false,
+  "sample": {
+    "by_outer_block": {
+      "outer-2017-2018": 32,
+      "outer-2019-2020": 32,
+      "outer-2021-2022": 32
+    },
+    "keys_file": ".work/changes/358-foundation-specialists/second-line-sample-keys.csv",
+    "keys_sha256": "b8558d19e8edc90937d46a17ea06a807fdac9548495e7e39e0552af9771100ba",
+    "max_per_block": 32,
+    "rows": 96,
+    "selection_inputs": [
+      "outer_block_id",
+      "prediction_time",
+      "contract_id"
+    ],
+    "selection_method": "outcome_blind_evenly_spaced_within_outer_block",
+    "source": "kronos-native-path-preregistration.json / deterministic selection replay"
+  },
+  "schema_version": 1,
+  "search_budget_closed": true,
+  "status": "preregistered_before_second_line_model_scoring"
+}

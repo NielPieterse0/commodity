@@ -3,6 +3,127 @@
   "zoom_level": "L1",
   "programme_id": "003-natural-gas-trading-decision-system",
   "registry_id": "programme-003-revisit-v1",
-  "triggers": [],
-  "evaluation_history": []
+  "triggers": [
+    {
+      "trigger_id": "storage-surprise-pit-consensus-ready",
+      "source_record": "research/programmes/003-natural-gas-trading-decision-system/phase3-pit-fundamentals-v1.json",
+      "disposition": "hold",
+      "status": "active",
+      "evidence_input": "config/data_sources.json",
+      "metric": "source_library.discovered_after_recovery.assessments.historical_storage_consensus.status",
+      "operator": "eq",
+      "threshold": "pit_history_verified_for_empirical_use",
+      "successor_action": {
+        "kind": "release_successor",
+        "trace_ref": "issue-278"
+      }
+    },
+    {
+      "trigger_id": "weather-revision-replication-source-ready",
+      "source_record": "research/programmes/003-natural-gas-trading-decision-system/backlog.json",
+      "disposition": "hold",
+      "status": "active",
+      "evidence_input": "config/data_sources.json",
+      "metric": "sources.noaa_gfs_weather_revision.status",
+      "operator": "eq",
+      "threshold": "research_ready_source_verified",
+      "successor_action": {
+        "kind": "release_successor",
+        "trace_ref": "issue-282"
+      }
+    },
+    {
+      "trigger_id": "phase4-specialist-handoff-ready",
+      "source_record": "research/programmes/003-natural-gas-trading-decision-system/phase4-foundation-specialists-v1.json",
+      "disposition": "defer",
+      "status": "satisfied",
+      "evidence_input": "research/programmes/003-natural-gas-trading-decision-system/phase4-foundation-specialists-v1.json",
+      "metric": "disposition.programme_route",
+      "operator": "eq",
+      "threshold": "phase4_complete_handoff_to_phase5",
+      "successor_action": {
+        "kind": "release_successor",
+        "trace_ref": "issue-359"
+      }
+    },
+    {
+      "trigger_id": "moirai-deployment-license-ready",
+      "source_record": "research/programmes/003-natural-gas-trading-decision-system/phase4-foundation-specialists-v1.json",
+      "disposition": "hold",
+      "status": "active",
+      "evidence_input": "config/models.json",
+      "metric": "models.moirai_2_small.license_status",
+      "operator": "eq",
+      "threshold": "deployment_compatible_license_verified",
+      "successor_action": {
+        "kind": "create_successor",
+        "trace_ref": "issue-360"
+      }
+    }
+  ],
+  "evaluation_history": [
+    {
+      "evaluation_id": "storage-surprise-pit-consensus-ready:2026-09-11T10:12:47Z",
+      "evaluated_at": "2026-09-11T10:12:47Z",
+      "trigger_id": "storage-surprise-pit-consensus-ready",
+      "observed": "source_faithful_route_identified_subscription_history_audit_required",
+      "satisfied": false,
+      "evidence_ref": "config/data_sources.json",
+      "successor_ref": null
+    },
+    {
+      "evaluation_id": "weather-revision-replication-source-ready:2026-09-11T10:12:47Z",
+      "evaluated_at": "2026-09-11T10:12:47Z",
+      "trigger_id": "weather-revision-replication-source-ready",
+      "observed": "feasibility_hold_source_audit_required",
+      "satisfied": false,
+      "evidence_ref": "config/data_sources.json",
+      "successor_ref": null
+    },
+    {
+      "evaluation_id": "phase4-specialist-handoff-ready:2026-09-11T10:12:47Z",
+      "evaluated_at": "2026-09-11T10:12:47Z",
+      "trigger_id": "phase4-specialist-handoff-ready",
+      "observed": "phase4_mechanism_diagnostics_required_before_final_disposition",
+      "satisfied": false,
+      "evidence_ref": "research/programmes/003-natural-gas-trading-decision-system/phase4-foundation-specialists-v1.json",
+      "successor_ref": null
+    },
+    {
+      "evaluation_id": "phase4-specialist-handoff-ready:2026-09-11T12:18:34Z",
+      "evaluated_at": "2026-09-11T12:18:34Z",
+      "trigger_id": "phase4-specialist-handoff-ready",
+      "observed": "phase4_complete_handoff_to_phase5",
+      "satisfied": true,
+      "evidence_ref": "research/programmes/003-natural-gas-trading-decision-system/phase4-foundation-specialists-v1.json",
+      "successor_ref": "issue-359"
+    },
+    {
+      "evaluation_id": "phase4-specialist-handoff-ready:2026-09-11T12:52:00Z",
+      "evaluated_at": "2026-09-11T12:52:00Z",
+      "trigger_id": "phase4-specialist-handoff-ready",
+      "observed": "phase4_second_line_diagnostics_required_before_final_handoff",
+      "satisfied": false,
+      "evidence_ref": "github-issue-358-comment-5634786235",
+      "successor_ref": null
+    },
+    {
+      "evaluation_id": "phase4-specialist-handoff-ready:2026-09-11T18:38:31Z",
+      "evaluated_at": "2026-09-11T18:38:31Z",
+      "trigger_id": "phase4-specialist-handoff-ready",
+      "observed": "phase4_complete_handoff_to_phase5",
+      "satisfied": true,
+      "evidence_ref": "research/programmes/003-natural-gas-trading-decision-system/phase4-foundation-specialists-v1.json",
+      "successor_ref": "issue-359"
+    },
+    {
+      "evaluation_id": "moirai-deployment-license-ready:2026-09-11T18:47:01Z",
+      "evaluated_at": "2026-09-11T18:47:01Z",
+      "trigger_id": "moirai-deployment-license-ready",
+      "observed": "cc-by-nc-4.0_research_only_noncommercial",
+      "satisfied": false,
+      "evidence_ref": "config/models.json",
+      "successor_ref": null
+    }
+  ]
 }

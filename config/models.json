@@ -99,7 +99,9 @@
           "sha256": "59d85f6af76a2c3b8240ea06cb21db4213b4eeca053f246b23e29cf832fc6bee"
         }
       },
-      "reason": "#134 checkpoint preflight only; empirical use remains disabled pending frozen inference and roll-safe authority"
+      "license_status": "mit_verified_2026-09-11",
+      "pretraining_exposure": "not_proven_pre_target",
+      "reason": "#358 primary Kronos specialist pin; empirical use requires Phase-4 PIT feature generation and frozen whole-system evaluation"
     },
     "kronos_small": {
       "kind": "optional_foundation_model",
@@ -128,7 +130,88 @@
           "sha256": "59d85f6af76a2c3b8240ea06cb21db4213b4eeca053f246b23e29cf832fc6bee"
         }
       },
-      "reason": "#134 capacity control; empirical use remains disabled pending frozen diagnostic authority"
+      "reason": "#358 bounded same-family capacity control for the preregistered Kronos native five-step path diagnostic; not an independent family sweep",
+      "license_status": "mit_verified_2026-09-11",
+      "pretraining_exposure": "not_proven_pre_target",
+      "runtime_module": "model",
+      "runtime_source": "vendor/Kronos"
+    },
+    "timesfm_2_5": {
+      "kind": "optional_foundation_model",
+      "enabled": false,
+      "checkpoint_preflight_enabled": true,
+      "family": "foundation_model",
+      "architecture": "timesfm_2_5_200m",
+      "repository": "google-research/timesfm",
+      "source_revision": "3dae50b20d7a724981e8ea36cda75578f80dd2dc",
+      "model_id": "google/timesfm-2.5-200m-pytorch",
+      "model_revision": "1d952420fba87f3c6dee4f240de0f1a0fbc790e3",
+      "device": "cpu",
+      "max_context": 16384,
+      "checkpoint_cache_env": "COMMODITY_TIMESFM_CACHE_DIR",
+      "local_files_only": true,
+      "checkpoint_artifacts": {
+        "model": {
+          "filename": "model.safetensors",
+          "sha256": "2f776efe6245e42b24bc4153ffdf61810140210e4bd3b01fb21f7aa779ab6ce8"
+        }
+      },
+      "license_status": "apache-2.0_verified_2026-09-11",
+      "pretraining_exposure": "not_proven_pre_target",
+      "reason": "#358 deployment-compatible TimesFM specialist pin; disabled until Phase-4 specialist execution authority and PIT feature generation are frozen"
+    },
+    "chronos_2": {
+      "kind": "optional_foundation_model",
+      "enabled": false,
+      "checkpoint_preflight_enabled": true,
+      "family": "foundation_model",
+      "architecture": "chronos_2",
+      "repository": "amazon-science/chronos-forecasting",
+      "source_release": "v2.2.2",
+      "model_id": "amazon/chronos-2",
+      "model_revision": "29ec3766d36d6f73f0696f85560a422f50e8498c",
+      "device": "cpu",
+      "max_context": 8192,
+      "checkpoint_cache_env": "COMMODITY_CHRONOS_CACHE_DIR",
+      "local_files_only": true,
+      "checkpoint_artifacts": {
+        "model": {
+          "filename": "model.safetensors",
+          "sha256": "ddcda3c7508bf2528087723e98a20707cc04b7f370ae275a9fd88078ddba4f42"
+        }
+      },
+      "license_status": "apache-2.0_verified_2026-09-11",
+      "pretraining_exposure": "not_proven_pre_target",
+      "reason": "#358 bounded second-line deployment-compatible cross-family candidate; fixed native five-step probabilistic/multivariate market-path role only",
+      "runtime_module": "chronos",
+      "runtime_package": "chronos-forecasting==2.2.2"
+    },
+    "moirai_2_small": {
+      "kind": "optional_foundation_model",
+      "enabled": false,
+      "checkpoint_preflight_enabled": true,
+      "family": "foundation_model",
+      "architecture": "moirai_2_0_r_small",
+      "repository": "SalesforceAIResearch/uni2ts",
+      "source_release": "2.0.0",
+      "model_id": "Salesforce/moirai-2.0-R-small",
+      "model_revision": "30f43ff08c8494f4943ae1521e9d4e94a0fbb389",
+      "device": "cpu",
+      "max_context": 512,
+      "checkpoint_cache_env": "COMMODITY_MOIRAI_CACHE_DIR",
+      "local_files_only": true,
+      "research_only": true,
+      "checkpoint_artifacts": {
+        "model": {
+          "filename": "model.safetensors",
+          "sha256": "fb5652a3db8ea572606221b7cb1e77bb8962b168e4d4cc752cf31ceb04074669"
+        }
+      },
+      "license_status": "cc-by-nc-4.0_research_only_noncommercial",
+      "pretraining_exposure": "not_proven_pre_target",
+      "reason": "#358 bounded research-only cross-family comparator; current model-weight license prohibits production/commercial promotion",
+      "runtime_module": "uni2ts",
+      "runtime_package": "uni2ts==2.0.0"
     }
   },
   "kronos_confirmation_profile": {

@@ -1,0 +1,479 @@
+{
+  "aggregate_comparison": {
+    "histgb-core-both-v1": {
+      "net_pnl_usd": 41870.0,
+      "simplicity_rank": 6,
+      "transaction_cost_usd": 4260.0
+    },
+    "histgb-core-kronos-v1": {
+      "net_pnl_usd": 16729.999999999993,
+      "simplicity_rank": 5,
+      "transaction_cost_usd": 1950.0
+    },
+    "histgb-core-timesfm-v1": {
+      "net_pnl_usd": 43330.00000000005,
+      "simplicity_rank": 5,
+      "transaction_cost_usd": 4740.0
+    },
+    "histgb-core-v1": {
+      "net_pnl_usd": 26040.000000000036,
+      "simplicity_rank": 4,
+      "transaction_cost_usd": 1860.0
+    }
+  },
+  "audit_sha256": "52bc4495d010b13448efa541688ceb87d9030e99c71a2b703b1d8c661746adab",
+  "authority": "github-issue-358-comment-5628520758",
+  "authority_clarification": "github-issue-358-comment-5632161050",
+  "claim_boundary": "development_only_not_clean_historical_confirmation",
+  "disposition": {
+    "combined": {
+      "aggregate_net_pnl_usd": 41870.0,
+      "reason": "Mandatory remove-one diagnostic improves when Kronos is removed in the first-line direct-feature comparison.",
+      "remove_kronos_net_pnl_usd": 43330.00000000005,
+      "route": "not_promoted_first_line_role"
+    },
+    "kronos": {
+      "aggregate_incremental_net_pnl_usd": -9310.000000000044,
+      "reason": "No direct specialist promotion: unconditional one-step contribution was negative and the native five-step path showed only modest terminal-direction information. Preserve the cross-block baseline-long modifier and bounded sequence-feature hypotheses for preregistered Phase-5 testing.",
+      "route": "not_promoted_direct_role_handoff_conditional_candidates_to_phase5"
+    },
+    "programme_route": "phase4_complete_handoff_to_phase5",
+    "promoted_specialists": [],
+    "timesfm": {
+      "aggregate_incremental_net_pnl_usd": 17290.000000000015,
+      "nested_selected_path_incremental_net_pnl_usd": -319.9999999999891,
+      "reason": "No direct specialist promotion: raw development uplift was material but nested selection failed robustness. Preserve the cross-block baseline-short modifier and probabilistic-uncertainty hypotheses for preregistered Phase-5 policy selection.",
+      "route": "not_promoted_direct_role_handoff_conditional_candidates_to_phase5"
+    }
+  },
+  "feature_generation": {
+    "complete": true,
+    "kronos_feature_sha256": "98010ff7329c312cf04dbd4902d3fa6b3fe71ea562054c897eaf338e3f94df6c",
+    "origins": 3088,
+    "timesfm_feature_sha256": "692930439b863208b47dbeff246fd9790b4f2239f5434e72448538bc674aedc6"
+  },
+  "nested_selection": {
+    "baseline_aggregate_net_pnl_usd": 26040.000000000036,
+    "cumulative_net_pnl_usd": 25720.000000000047,
+    "incremental_vs_baseline_usd": -319.9999999999891,
+    "outer_blocks": [
+      {
+        "block_id": "outer-2017-2018",
+        "outer_net_pnl_usd": 30060.000000000047,
+        "selected_candidate_id": "histgb-core-v1"
+      },
+      {
+        "block_id": "outer-2019-2020",
+        "outer_net_pnl_usd": 3459.9999999999936,
+        "selected_candidate_id": "histgb-core-v1"
+      },
+      {
+        "block_id": "outer-2021-2022",
+        "outer_net_pnl_usd": -7799.999999999994,
+        "selected_candidate_id": "histgb-core-timesfm-v1"
+      }
+    ]
+  },
+  "phase": 4,
+  "programme_id": "003-natural-gas-trading-decision-system",
+  "protected_confirmation_accessed": false,
+  "remove_one_if_combined": {
+    "remove_kronos": {
+      "blocks": [
+        "outer-2017-2018",
+        "outer-2019-2020",
+        "outer-2021-2022"
+      ],
+      "candidate_id": "histgb-core-timesfm-v1",
+      "net_pnl_usd": 43330.00000000005,
+      "simplicity_rank": 5,
+      "transaction_cost_usd": 4740.0
+    },
+    "remove_timesfm": {
+      "blocks": [
+        "outer-2017-2018",
+        "outer-2019-2020",
+        "outer-2021-2022"
+      ],
+      "candidate_id": "histgb-core-kronos-v1",
+      "net_pnl_usd": 16729.999999999993,
+      "simplicity_rank": 5,
+      "transaction_cost_usd": 1950.0
+    }
+  },
+  "schema_version": 1,
+  "specialist_identities": {
+    "kronos": {
+      "model_checkpoint_sha256": "abff193acab6db1a0368e9773e75799d11403b6d054ee6d5f0a11aeabc5f4b83",
+      "model_id": "NeoQuasar/Kronos-base",
+      "model_revision": "2b554741eca47781b64468546e77fef3e85130e6",
+      "pretraining_exposure": "not_proven_pre_target",
+      "source_revision": "67b630e67f6a18c9e9be918d9b4337c960db1e9a",
+      "tokenizer_checkpoint_sha256": "59d85f6af76a2c3b8240ea06cb21db4213b4eeca053f246b23e29cf832fc6bee",
+      "tokenizer_revision": "0e0117387f39004a9016484a186a908917e22426"
+    },
+    "timesfm": {
+      "checkpoint_sha256": "2f776efe6245e42b24bc4153ffdf61810140210e4bd3b01fb21f7aa779ab6ce8",
+      "model_id": "google/timesfm-2.5-200m-pytorch",
+      "model_revision": "1d952420fba87f3c6dee4f240de0f1a0fbc790e3",
+      "pretraining_exposure": "not_proven_pre_target"
+    }
+  },
+  "timesfm_probabilistic_calibration": {
+    "above_interval_rate": 0.08288590604026845,
+    "below_interval_rate": 0.08691275167785235,
+    "coverage_error": 0.030201342281879096,
+    "empirical_coverage": 0.8302013422818791,
+    "excluded_no_next_same_contract_settle": 108,
+    "lower_calibration_error": -0.013087248322147652,
+    "lower_hit_rate": 0.08691275167785235,
+    "mean_interval_width": 0.08396747724321856,
+    "nominal_coverage": 0.8,
+    "rows": 2980,
+    "target_semantics": "next canonical settlement return for the same contract",
+    "total_origins": 3088,
+    "upper_calibration_error": 0.017114093959731513,
+    "upper_hit_rate": 0.9171140939597315,
+    "decision_use_caveat": "Coverage is for the next same-contract settlement return only. It does not validate uncertainty for the frozen five-session executable trading target and cannot by itself justify sizing, veto or abstention rules."
+  },
+  "mechanism_diagnostics": {
+    "evidence_role": "exploratory_mechanism_diagnostics_not_promotion_selection",
+    "protected_confirmation_accessed": false,
+    "evidence_sha256": "7e7e134393aecb01da6239fb54de33f79081be978a5f14b6ec5c9cacaacafc85",
+    "timesfm": {
+      "aggregate_incremental_net_pnl_usd": 17290.00000000001,
+      "baseline_short_incremental_net_pnl_usd": 14364.999999999996,
+      "baseline_short_origins": 969,
+      "baseline_short_outer_block_incremental_net_pnl_usd": {
+        "outer-2017-2018": 1334.9999999999955,
+        "outer-2019-2020": 12355.0,
+        "outer-2021-2022": 674.9999999999984
+      },
+      "baseline_long_incremental_net_pnl_usd": 2970.0000000000173,
+      "largest_origin_abs_increment_fraction": 0.020410374190193488,
+      "top10_origin_abs_increment_fraction": 0.12131389075466387
+    },
+    "kronos_one_step": {
+      "aggregate_incremental_net_pnl_usd": -9310.000000000047,
+      "baseline_long_incremental_net_pnl_usd": 9654.999999999978,
+      "baseline_long_origins": 432,
+      "baseline_long_outer_block_incremental_net_pnl_usd": {
+        "outer-2017-2018": 3994.9999999999836,
+        "outer-2019-2020": 2665.0,
+        "outer-2021-2022": 2994.9999999999936
+      },
+      "baseline_short_incremental_net_pnl_usd": -18965.00000000002,
+      "largest_origin_abs_increment_fraction": 0.09820117474302506,
+      "top10_origin_abs_increment_fraction": 0.4500734214390601
+    },
+    "population_reconciliation": {
+      "status": "reconciled_to_principal_phase4_ledgers",
+      "earlier_unreconciled_snapshot_valid_for_interpretation": false,
+      "join_contract": "specialist rows must reconcile to Phase-2 origin identity using trade_date, contract_id and prediction_time; the known parquet/CSV nanosecond-to-microsecond serialization boundary is normalized explicitly while >=1 microsecond or contract/date mismatches fail closed",
+      "timesfm": {
+        "principal_incremental_net_pnl_usd": 17290.000000000015,
+        "diagnostic_incremental_net_pnl_usd": 17290.00000000001,
+        "difference_usd": -3.637978807091713e-12,
+        "status": "matched"
+      },
+      "kronos": {
+        "principal_incremental_net_pnl_usd": -9310.000000000044,
+        "diagnostic_incremental_net_pnl_usd": -9310.000000000047,
+        "difference_usd": -3.637978807091713e-12,
+        "status": "matched"
+      }
+    }
+  },
+  "kronos_native_path_diagnostic": {
+    "evidence_role": "development_native_sequence_path_diagnostic",
+    "complete": true,
+    "protected_confirmation_accessed": false,
+    "total_eligible_origins": 1308,
+    "selected_origins": 96,
+    "selection": {
+      "max_per_block": 32,
+      "method": "outcome_blind_evenly_spaced_within_outer_block"
+    },
+    "pred_len": 5,
+    "inference_profile_name": "upstream_usage_defaults",
+    "inference_profile": {
+      "T": 1.0,
+      "sample_count": 1,
+      "source": "vendor/Kronos/README.md",
+      "top_p": 0.9
+    },
+    "output_sha256": "eb413512652532a641901613540001711f7bbbac59e2288aec3cd038d0b96b5b",
+    "summary_sha256": "c8d432434c7f7c1e9e6246ac7e42afb612a53a63dc6449a9449b1ae385fe0cd7",
+    "terminal_direction_accuracy": 0.5416666666666666,
+    "slope_sign_accuracy": 0.46875,
+    "turning_count_exact_rate": 0.20833333333333334,
+    "by_outer_block": {
+      "outer-2017-2018": {
+        "rows": 32,
+        "slope_sign_accuracy": 0.46875,
+        "terminal_direction_accuracy": 0.5625
+      },
+      "outer-2019-2020": {
+        "rows": 32,
+        "slope_sign_accuracy": 0.53125,
+        "terminal_direction_accuracy": 0.5625
+      },
+      "outer-2021-2022": {
+        "rows": 32,
+        "slope_sign_accuracy": 0.40625,
+        "terminal_direction_accuracy": 0.5
+      }
+    }
+  },
+  "phase5_handoff": {
+    "status": "final_second_line_complete_candidates_frozen",
+    "selection_boundary": "Phase 4 is complete with no direct specialist promotion. The four ordered TimesFM/Kronos retained-for-investigation roles remain the only deployable Phase-5 specialist inputs from this phase. Chronos-2 does not enter the handoff from its tested native five-step role; Moirai is research-only context. Phase 5 owns all policy selection under its independent two-boundary chronology and must preserve the adaptive-development-history boundary.",
+    "ordered_candidates": [
+      {
+        "priority": 1,
+        "candidate_id": "timesfm-baseline-short-modifier",
+        "specialist": "timesfm_2_5",
+        "role": "confirmation_veto_weighting_or_sizing_modifier_when_frozen_market_baseline_is_short",
+        "evidence": {
+          "origins": 969,
+          "aggregate_incremental_net_pnl_usd": 14364.999999999996,
+          "outer_block_incremental_net_pnl_usd": {
+            "outer-2017-2018": 1334.9999999999955,
+            "outer-2019-2020": 12355.0,
+            "outer-2021-2022": 674.9999999999984
+          }
+        },
+        "reason": "Positive incremental development P&L on baseline-short origins in every outer block, while the unconditional direct-feature variant failed nested promotion robustness.",
+        "candidate_status": "retained_for_investigation_not_approved_for_candidate_trading_policy"
+      },
+      {
+        "priority": 2,
+        "candidate_id": "kronos-baseline-long-modifier",
+        "specialist": "kronos_base",
+        "role": "confirmation_veto_weighting_or_sizing_modifier_when_frozen_market_baseline_is_long",
+        "evidence": {
+          "origins": 432,
+          "aggregate_incremental_net_pnl_usd": 9654.999999999978,
+          "outer_block_incremental_net_pnl_usd": {
+            "outer-2017-2018": 3994.9999999999836,
+            "outer-2019-2020": 2665.0,
+            "outer-2021-2022": 2994.9999999999936
+          }
+        },
+        "reason": "Positive incremental development P&L on baseline-long origins in every outer block despite negative unconditional one-step Kronos contribution.",
+        "candidate_status": "retained_for_investigation_not_approved_for_candidate_trading_policy"
+      },
+      {
+        "priority": 3,
+        "candidate_id": "kronos-five-step-terminal-sequence-feature",
+        "specialist": "kronos_base",
+        "role": "supporting_sequence_or_terminal_direction_feature_not_standalone_policy",
+        "evidence": {
+          "selected_origins": 96,
+          "terminal_direction_accuracy": 0.5416666666666666,
+          "slope_sign_accuracy": 0.46875,
+          "by_outer_block_terminal_direction_accuracy": {
+            "outer-2017-2018": 0.5625,
+            "outer-2019-2020": 0.5625,
+            "outer-2021-2022": 0.5
+          }
+        },
+        "reason": "Native five-step path retained modest terminal-direction information but not convincing path-shape accuracy; preserve it as a bounded sequence feature candidate rather than a standalone specialist.",
+        "candidate_status": "retained_for_investigation_not_approved_for_candidate_trading_policy"
+      },
+      {
+        "priority": 4,
+        "candidate_id": "timesfm-probabilistic-uncertainty-modifier",
+        "specialist": "timesfm_2_5",
+        "role": "uncertainty_filter_veto_or_sizing_input",
+        "evidence": {
+          "nominal_coverage": 0.8,
+          "empirical_coverage": 0.8302013422818791,
+          "coverage_error": 0.030201342281879096,
+          "rows": 2980
+        },
+        "reason": "TimesFM quantile outputs were reasonably calibrated on the development diagnostic and may add risk/filter information even where point forecasts are not selected.",
+        "candidate_status": "retained_for_investigation_not_approved_for_candidate_trading_policy"
+      }
+    ]
+  },
+  "second_line_extension": {
+    "authority": "github-issue-358-comment-5634786235",
+    "status": "complete_budget_exhausted_no_new_deployable_phase5_handoff",
+    "trigger": "first-line TimesFM/Kronos diagnostics exposed robust side-conditional clues but no robust unconditional direct specialist, justifying one bounded cross-family/capacity-control check",
+    "search_budget_closed": true,
+    "protected_confirmation_accessed": false,
+    "candidates": [
+      {
+        "priority": 1,
+        "candidate_id": "chronos-2-five-step-probabilistic-path",
+        "model_key": "chronos_2",
+        "promotion_eligibility": "deployment_candidate",
+        "role": "fixed native five-step probabilistic/multivariate same-contract market-path specialist",
+        "selection_rule": "mechanism evidence only in Phase 4; any policy use must be preregistered and selected in Phase 5"
+      },
+      {
+        "priority": 2,
+        "candidate_id": "kronos-small-capacity-control",
+        "model_key": "kronos_small",
+        "promotion_eligibility": "capacity_control_only_until_same-path-diagnostic-completes",
+        "role": "exact same 96-origin native five-step path diagnostic as Kronos-base",
+        "selection_rule": "no size sweep; preserve as capacity robustness evidence only unless the frozen diagnostic supports the existing Kronos clue"
+      },
+      {
+        "priority": 3,
+        "candidate_id": "moirai-2-small-research-comparator",
+        "model_key": "moirai_2_small",
+        "promotion_eligibility": "research_only_noncommercial_not_deployable",
+        "role": "bounded five-step probabilistic/path cross-family comparator",
+        "selection_rule": "interpretive evidence only; current CC-BY-NC-4.0 model-weight license forbids production/commercial promotion"
+      }
+    ],
+    "kronos_small_capacity_control": {
+      "candidate_id": "kronos-small-capacity-control",
+      "status": "complete_not_promoted",
+      "selected_origins": 96,
+      "total_eligible_origins": 1308,
+      "model_id": "NeoQuasar/Kronos-small",
+      "model_revision": "901c26c1332695a2a8f243eb2f37243a37bea320",
+      "model_checkpoint_sha256": "b082dfcbd8e8c142a725c8bbb99781802f38fec81210e13479effb32b3c3e020",
+      "tokenizer_checkpoint_sha256": "59d85f6af76a2c3b8240ea06cb21db4213b4eeca053f246b23e29cf832fc6bee",
+      "output_sha256": "f6c5d9f5a523378f0aaa07753207cbee53fcade21597ffefb5c57fb7d1207967",
+      "summary_sha256": "9d34aebb9bee41420bf7837a82cc3e0d891f3b569f831152138ec7e8530e4a60",
+      "terminal_direction_accuracy": 0.53125,
+      "slope_sign_accuracy": 0.4479166666666667,
+      "turning_count_exact_rate": 0.3125,
+      "turning_count_mae": 1.0833333333333333,
+      "h5_mae_return": 0.08530224323630364,
+      "h5_rmse_return": 0.12116464714959797,
+      "by_outer_block": {
+        "outer-2017-2018": {
+          "rows": 32,
+          "slope_sign_accuracy": 0.34375,
+          "terminal_direction_accuracy": 0.5
+        },
+        "outer-2019-2020": {
+          "rows": 32,
+          "slope_sign_accuracy": 0.53125,
+          "terminal_direction_accuracy": 0.59375
+        },
+        "outer-2021-2022": {
+          "rows": 32,
+          "slope_sign_accuracy": 0.46875,
+          "terminal_direction_accuracy": 0.5
+        }
+      },
+      "comparison_to_kronos_base": {
+        "terminal_direction_accuracy_delta": -0.01041666666666663,
+        "slope_sign_accuracy_delta": -0.020833333333333315,
+        "turning_count_exact_rate_delta": 0.10416666666666666,
+        "turning_count_mae_delta": -0.3333333333333335,
+        "h5_mae_return_delta": -0.04692018050824476,
+        "h5_rmse_return_delta": -0.06497686081535649,
+        "interpretation": "Kronos-small does not strengthen the modest terminal/slope directional clue, but materially improves return/path error and turning-count fit; preserve as capacity-robustness evidence rather than a new promoted role."
+      },
+      "protected_confirmation_accessed": false
+    },
+    "post_budget_rule": "Complete the already-preregistered Chronos-2 and Moirai checks, then admit no further foundation-model family before Phase-5 information-to-policy/risk-state work and the higher-value storage/weather source-timing gaps are addressed or explicitly deprioritized.",
+    "chronos_2_result": {
+      "candidate_id": "chronos-2-five-step-probabilistic-path",
+      "status": "complete_tested_native_role_not_handed_to_phase5",
+      "selected_origins": 96,
+      "model_id": "amazon/chronos-2",
+      "model_revision": "29ec3766d36d6f73f0696f85560a422f50e8498c",
+      "model_checkpoint_sha256": "ddcda3c7508bf2528087723e98a20707cc04b7f370ae275a9fd88078ddba4f42",
+      "config_sha256": "ef1143bfdc9c0376d9a056eefca46cb4b1ec3d0ffacd541ff56feb40fb708031",
+      "output_sha256": "3d4d544612c23508fc76a2af8371400edee049c9433c74dd197c444f86630993",
+      "summary_sha256": "37d6be5b6a53d1c0ee34dc967bed0c338436125f3e6258bceac395b70e9809c2",
+      "terminal_direction_accuracy": 0.4479166666666667,
+      "slope_sign_accuracy": 0.5104166666666666,
+      "slope_mae": 0.013287516594791354,
+      "dispersion_mae_pct": 0.023088482283065665,
+      "h5_mae_return": 0.06158297092053122,
+      "h5_rmse_return": 0.08281802844626557,
+      "h5_interval_coverage": 0.6458333333333334,
+      "h5_interval_mean_width": 0.12812720114986095,
+      "by_outer_block": {
+        "outer-2017-2018": {
+          "rows": 32,
+          "slope_sign_accuracy": 0.5,
+          "terminal_direction_accuracy": 0.59375
+        },
+        "outer-2019-2020": {
+          "rows": 32,
+          "slope_sign_accuracy": 0.40625,
+          "terminal_direction_accuracy": 0.3125
+        },
+        "outer-2021-2022": {
+          "rows": 32,
+          "slope_sign_accuracy": 0.625,
+          "terminal_direction_accuracy": 0.4375
+        }
+      },
+      "protected_confirmation_accessed": false,
+      "interpretation": "The fixed native five-step deployment-compatible Chronos-2 role did not strengthen Phase-4 directional evidence: terminal direction was 44.79% and unstable by block. Preserve the exact attempt and low return-error evidence; do not hand it to Phase 5. Revisit only under a separately preregistered horizon/refit or role change rather than a model-family sweep."
+    },
+    "moirai_2_small_result": {
+      "candidate_id": "moirai-2-small-five-step-probabilistic-path",
+      "status": "complete_research_only_clue_not_deployable",
+      "selected_origins": 96,
+      "model_id": "Salesforce/moirai-2.0-R-small",
+      "model_revision": "30f43ff08c8494f4943ae1521e9d4e94a0fbb389",
+      "model_checkpoint_sha256": "fb5652a3db8ea572606221b7cb1e77bb8962b168e4d4cc752cf31ceb04074669",
+      "config_sha256": "6b74b03c8ec199fabc352c0203465958142ca468183da68549652734836f853d",
+      "context_bundle_sha256": "de594857d600ab38d51f28ded0b01abd4d620bd278dd94ddd71af8435ccccbee",
+      "output_sha256": "b04e332e15126b6a29d81cf1adf05dcfe64ab908fa81559c106fe7c2110b980a",
+      "summary_sha256": "ce571082f3aac42a6be3762485ce1255e9931a140721b714ade392ebba98f0f5",
+      "runtime_package": "uni2ts==2.0.0",
+      "python_version": "3.11.13",
+      "terminal_direction_accuracy": 0.5625,
+      "slope_sign_accuracy": 0.4583333333333333,
+      "slope_mae": 0.013694966122422506,
+      "dispersion_mae_pct": 0.022423710476624243,
+      "h5_mae_return": 0.06211265847594314,
+      "h5_rmse_return": 0.08522357144291853,
+      "h5_interval_coverage": 0.71875,
+      "h5_interval_mean_width": 0.1560711084554592,
+      "by_outer_block": {
+        "outer-2017-2018": {
+          "rows": 32,
+          "slope_sign_accuracy": 0.46875,
+          "terminal_direction_accuracy": 0.625
+        },
+        "outer-2019-2020": {
+          "rows": 32,
+          "slope_sign_accuracy": 0.5,
+          "terminal_direction_accuracy": 0.5
+        },
+        "outer-2021-2022": {
+          "rows": 32,
+          "slope_sign_accuracy": 0.40625,
+          "terminal_direction_accuracy": 0.5625
+        }
+      },
+      "protected_confirmation_accessed": false,
+      "interpretation": "Moirai-2-small produced a research-only directional clue: 56.25% terminal direction, with 62.5%, 50.0% and 56.25% by outer block. Current CC-BY-NC-4.0 model-weight licensing prohibits deployable promotion. Preserve the result for architecture/mechanism comparison and revisit only if licensing or a deployable analogue changes."
+    },
+    "cross_family_comparison": {
+      "status": "complete_interpretive_only",
+      "evidence_sha256": "dfceec0ef7a16b2298ee54e14c768dd0299985cf5591733517cf09647ea609e6",
+      "chronos_moirai_terminal_forecast_correlation": 0.037170623191350054,
+      "chronos_moirai_terminal_sign_agreement": 0.4895833333333333,
+      "chronos_moirai_disagreement_rows": 49,
+      "chronos_correct_on_disagreement": 19,
+      "moirai_correct_on_disagreement": 30,
+      "terminal_error_correlation": 0.984461181208752,
+      "interpretation": "Near-zero forecast correlation and roughly half sign disagreement show architecture diversity, but 0.98 terminal-error correlation argues against treating diversity itself as an ensemble edge. No Phase-4 combination policy was searched."
+    },
+    "acquisition_resolution": {
+      "status": "exact_hash_exports_available_and_used_locally",
+      "work_item": "NielPieterse0/import-isolate#26",
+      "chronos_case_id": "20260911-173613_hf-chronos-2-20260911_a975dddc",
+      "chronos_sha256": "ddcda3c7508bf2528087723e98a20707cc04b7f370ae275a9fd88078ddba4f42",
+      "moirai_case_id": "20260911-173619_hf-moirai-2-small-20260911_c3926254",
+      "moirai_sha256": "fb5652a3db8ea572606221b7cb1e77bb8962b168e4d4cc752cf31ceb04074669",
+      "kronos_small_case_id": "20260911-173607_hf-kronos-small-20260911_4d6a12b4",
+      "kronos_small_sha256": "b082dfcbd8e8c142a725c8bbb99781802f38fec81210e13479effb32b3c3e020"
+    }
+  }
+}

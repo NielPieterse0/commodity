@@ -15,6 +15,36 @@
       "decision": "Do not retain the compact BHLR PIT production/storage/consumption block: aggregate development net P&L fell by $7,540 versus the frozen Phase-2 baseline and neither predeclared survival route cleared.",
       "status": "active",
       "source_record": "research/programmes/003-natural-gas-trading-decision-system/phase3-pit-fundamentals-v1.json"
+    },
+    {
+      "id": "phase4-foundation-specialists-disposition",
+      "decision": "Phase 4 is complete with no direct specialist promotion. Preserve the four ordered Phase-5 retained-for-investigation roles: TimesFM baseline-short modifier, Kronos baseline-long modifier, Kronos five-step supporting sequence feature, and TimesFM uncertainty modifier. Chronos-2 did not earn a handoff from its fixed native five-step role; Moirai-2-small is research-only architectural evidence and cannot be deployed under its current weight license. No further foundation family is admitted before higher-priority policy-conversion/risk-state/source-timing work.",
+      "status": "active",
+      "source_record": "research/programmes/003-natural-gas-trading-decision-system/phase4-foundation-specialists-v1.json"
+    },
+    {
+      "id": "phase2-development-evidence-interpretation",
+      "decision": "Keep two Phase-2 quantities distinct: $16,370 is the nested chronologically selected development path and is the cleaner estimate of selection performance; $26,040 is the aggregate development result of the ultimately frozen histgb-core-v1 candidate across the same outer blocks and is a useful comparator, not an independent estimate of future performance.",
+      "status": "active",
+      "source_record": "research/programmes/003-natural-gas-trading-decision-system/phase2-market-only-baseline-v1.json"
+    },
+    {
+      "id": "retained-for-investigation-state",
+      "decision": "Use an explicit middle state between rejection and promotion: retained_for_investigation means plausible conditional information is preserved for a bounded successor experiment but is not approved for the candidate trading policy. Phase-3 risk/filter clues and Phase-4 conditional specialist clues use this state unless and until a preregistered successor survives.",
+      "status": "active",
+      "source_record": "research/programmes/003-natural-gas-trading-decision-system/lines/001-trading-system/line.json"
+    },
+    {
+      "id": "adaptive-development-history-boundary",
+      "decision": "All development outcomes used to invent, refine or prioritize Phase-3/4/5 hypotheses remain part of one adaptive research history. Re-running nested validation on those same outcomes does not make them fresh evidence. Protected/prospective evidence is required for a new confirmatory claim.",
+      "status": "active",
+      "source_record": "research/programmes/003-natural-gas-trading-decision-system/lines/001-trading-system/line.json"
+    },
+    {
+      "id": "phase4-second-line-cross-family-conclusion",
+      "decision": "On the frozen 96-origin sample, Chronos-2 terminal direction was 44.79%; Moirai-2-small was 56.25% and non-negative in each outer block. Chronos and Moirai disagreed on 49 origins, with Moirai correct on 30 and Chronos on 19, but terminal forecast errors were 0.98 correlated. Preserve this as architectural/mechanism evidence, not as an ensemble or promotion result.",
+      "status": "active",
+      "source_record": "research/programmes/003-natural-gas-trading-decision-system/phase4-foundation-specialists-v1.json"
     }
   ]
 }

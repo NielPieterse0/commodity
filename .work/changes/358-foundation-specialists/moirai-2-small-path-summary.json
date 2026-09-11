@@ -1,0 +1,115 @@
+{
+  "authority": "github-issue-358-comment-5634786235",
+  "candidate_id": "moirai-2-small-five-step-probabilistic-path",
+  "complete": true,
+  "config_sha256": "6b74b03c8ec199fabc352c0203465958142ca468183da68549652734836f853d",
+  "context_bundle_sha256": "de594857d600ab38d51f28ded0b01abd4d620bd278dd94ddd71af8435ccccbee",
+  "context_length": 512,
+  "evidence_role": "development_second_line_foundation_specialist_diagnostic_not_policy_selection",
+  "metrics": {
+    "by_horizon": {
+      "h1": {
+        "direction_accuracy": 0.625,
+        "mae_return": 0.03241278181718704,
+        "rmse_return": 0.044654076841095215
+      },
+      "h2": {
+        "direction_accuracy": 0.5416666666666666,
+        "mae_return": 0.04265497668052331,
+        "rmse_return": 0.058740122380116354
+      },
+      "h3": {
+        "direction_accuracy": 0.5416666666666666,
+        "mae_return": 0.05434317354524606,
+        "rmse_return": 0.07507584958672382
+      },
+      "h4": {
+        "direction_accuracy": 0.5,
+        "mae_return": 0.05915145333259716,
+        "rmse_return": 0.08032078679868603
+      },
+      "h5": {
+        "direction_accuracy": 0.5625,
+        "mae_return": 0.06211265847594314,
+        "rmse_return": 0.08522357144291853
+      }
+    },
+    "by_outer_block": {
+      "outer-2017-2018": {
+        "rows": 32,
+        "slope_sign_accuracy": 0.46875,
+        "terminal_direction_accuracy": 0.625
+      },
+      "outer-2019-2020": {
+        "rows": 32,
+        "slope_sign_accuracy": 0.5,
+        "terminal_direction_accuracy": 0.5
+      },
+      "outer-2021-2022": {
+        "rows": 32,
+        "slope_sign_accuracy": 0.40625,
+        "terminal_direction_accuracy": 0.5625
+      }
+    },
+    "interval_by_horizon": {
+      "h1": {
+        "coverage": 0.6458333333333334,
+        "mean_width": 0.07938737981021395
+      },
+      "h2": {
+        "coverage": 0.65625,
+        "mean_width": 0.10814216670890638
+      },
+      "h3": {
+        "coverage": 0.6145833333333334,
+        "mean_width": 0.12684210389852515
+      },
+      "h4": {
+        "coverage": 0.65625,
+        "mean_width": 0.1429894988735516
+      },
+      "h5": {
+        "coverage": 0.71875,
+        "mean_width": 0.1560711084554592
+      }
+    },
+    "path": {
+      "dispersion_mae_pct": 0.022423710476624243,
+      "slope_mae": 0.013694966122422506,
+      "slope_sign_accuracy": 0.4583333333333333,
+      "terminal_direction_accuracy": 0.5625
+    }
+  },
+  "model_checkpoint_sha256": "fb5652a3db8ea572606221b7cb1e77bb8962b168e4d4cc752cf31ceb04074669",
+  "model_id": "Salesforce/moirai-2.0-R-small",
+  "model_key": "moirai_2_small",
+  "model_revision": "30f43ff08c8494f4943ae1521e9d4e94a0fbb389",
+  "output_sha256": "b04e332e15126b6a29d81cf1adf05dcfe64ab908fa81559c106fe7c2110b980a",
+  "pred_len": 5,
+  "promotion_eligibility": "research_only_noncommercial_not_deployable",
+  "protected_confirmation_accessed": false,
+  "python_version": "3.11.13",
+  "quantiles": [
+    0.1,
+    0.2,
+    0.3,
+    0.4,
+    0.5,
+    0.6,
+    0.7,
+    0.8,
+    0.9
+  ],
+  "rows": 96,
+  "runtime_package": "uni2ts==2.0.0",
+  "sample_keys_sha256": "b8558d19e8edc90937d46a17ea06a807fdac9548495e7e39e0552af9771100ba",
+  "schema_version": 1,
+  "selected_origins": 96,
+  "target_columns": [
+    "open",
+    "high",
+    "low",
+    "close",
+    "volume"
+  ]
+}

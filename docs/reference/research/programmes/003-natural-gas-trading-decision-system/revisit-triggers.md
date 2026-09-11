@@ -21,5 +21,5 @@ Source: `research/programmes/003-natural-gas-trading-decision-system/revisit-tri
 | `zoom_level` | str |
 | `programme_id` | str |
 | `registry_id` | str |
-| `triggers` | array (0 items) |
-| `evaluation_history` | array (0 items) |
+| `triggers` | array (4 items) |
+| `evaluation_history` | array (7 items) |

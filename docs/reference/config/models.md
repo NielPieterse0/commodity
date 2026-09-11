@@ -17,7 +17,7 @@ Source: `config/models.json`
 | --- | --- |
 | `schema_version` | int |
 | `default_model` | str |
-| `models` | object (7 keys) |
+| `models` | object (10 keys) |
 | `kronos_confirmation_profile` | object (6 keys) |
 
 ## Models
@@ -31,3 +31,6 @@ Source: `config/models.json`
 | `kronos_mini` | false | optional_foundation_model | foundation_model | kronos_mini |
 | `kronos_base` | false | optional_foundation_model | foundation_model | kronos_base |
 | `kronos_small` | false | optional_foundation_model | foundation_model | kronos_small |
+| `timesfm_2_5` | false | optional_foundation_model | foundation_model | timesfm_2_5_200m |
+| `chronos_2` | false | optional_foundation_model | foundation_model | chronos_2 |
+| `moirai_2_small` | false | optional_foundation_model | foundation_model | moirai_2_0_r_small |
