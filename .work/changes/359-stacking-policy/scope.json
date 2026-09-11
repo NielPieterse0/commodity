@@ -1,0 +1,52 @@
+{
+  "schema_version": 4,
+  "change_id": "359-stacking-policy",
+  "status": "active",
+  "branch": "change/359-stacking-policy",
+  "worktree": ".work/worktrees/359-stacking-policy",
+  "base": "main",
+  "outcome": "Implement and execute the preregistered Phase-5 nested chronological stacking and bounded long/short/flat policy-selection workflow using only development and rolling research-OOS evidence, preserving all tried policy configurations and failures, reporting specialist ablations, shutdown attribution, continuous replay, uncertainty-aware sizing/abstention, costs/turnover/drawdown/concentration, timing/latency and target/horizon diagnostics, and select exactly one candidate for the next evidence stage without opening protected 2023+ confirmation.",
+  "owned_paths": [
+    ".work/changes/359-stacking-policy/**",
+    "research/programmes/003-natural-gas-trading-decision-system/phase5-stacking-policy-v1.json",
+    "research/programmes/003-natural-gas-trading-decision-system/backlog.json",
+    "research/programmes/003-natural-gas-trading-decision-system/decisions.json",
+    "research/programmes/003-natural-gas-trading-decision-system/evidence-map.json",
+    "research/programmes/003-natural-gas-trading-decision-system/revisit-triggers.json",
+    "research/programmes/003-natural-gas-trading-decision-system/lines/001-trading-system/line.json",
+    "src/commodity/stacking_policy.py",
+    "scripts/research/prepare_phase5_inputs.py",
+    "scripts/research/run_phase5_stacking_policy.py",
+    "tests/test_stacking_policy.py",
+    "docs/reference/research/programmes/003-natural-gas-trading-decision-system/**"
+  ],
+  "shared_paths": [],
+  "excluded_paths": [
+    ".work/runtime/359-stacking-policy/**"
+  ],
+  "dependencies": [],
+  "integration_owner": null,
+  "complexity": "large",
+  "risk_triggers": [
+    "money",
+    "persistent_state"
+  ],
+  "base_evidence": {
+    "local_sha": "b67e5508896083cbbc60eae4b908fdaaa360e6af",
+    "local_tree": "2ee4fff52801db4debd5f05d2e064b15a93a3171",
+    "upstream_sha": "b67e5508896083cbbc60eae4b908fdaaa360e6af",
+    "upstream_tree": "2ee4fff52801db4debd5f05d2e064b15a93a3171",
+    "upstream_ref": "refs/remotes/origin/main",
+    "evidence_source": "local_remote_tracking_ref",
+    "relation": "same_sha"
+  },
+  "work_management": {
+    "project_id": "commodity",
+    "record_id": "WORK-359",
+    "source_repository": "NielPieterse0/commodity",
+    "source_number": 359,
+    "source_kind": "issue",
+    "documentation_impact": "planned",
+    "execution_owner": "chatgpt-scheduled-commodity"
+  }
+}

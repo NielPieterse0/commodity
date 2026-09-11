@@ -1,0 +1,80 @@
+{
+  "schema_version": 1,
+  "phase_issue": 359,
+  "work_id": "WORK-359",
+  "work_handoff_fingerprint": "91c42252dd053d690ca5947545067e91d4824869c14223fb6c12c35792fa0f8c",
+  "status": "frozen_before_phase5_policy_scoring",
+  "protected_confirmation_accessed": false,
+  "evidence_end": "2022-12-31",
+  "baseline": {
+    "candidate_id": "histgb-core-v1",
+    "phase2_record_sha256": "fdd44e59f2afb3b4276d5fef3d193572becc44e62b1b1842409b7a14e0b5e3d7",
+    "position_rule": "forecast_sign_only_when_predicted_gross_pnl_exceeds_round_trip_cost",
+    "risk_budget": "unchanged_phase1_standard_ng_v0"
+  },
+  "specialist_artifacts": {
+    "timesfm": {"path": ".work/changes/358-foundation-specialists/timesfm-features.csv", "sha256": "692930439b863208b47dbeff246fd9790b4f2239f5434e72448538bc674aedc6"},
+    "kronos": {"path": ".work/changes/358-foundation-specialists/kronos-features.csv", "sha256": "98010ff7329c312cf04dbd4902d3fa6b3fe71ea562054c897eaf338e3f94df6c"},
+    "kronos_path": {"path": ".work/changes/358-foundation-specialists/kronos-path-features.csv", "sha256": "eb413512652532a641901613540001711f7bbbac59e2288aec3cd038d0b96b5b"}
+  },
+  "candidate_contract": {
+    "allowed_hypotheses": [
+      "timesfm-baseline-short-modifier",
+      "kronos-baseline-long-modifier",
+      "kronos-five-step-terminal-sequence-feature",
+      "timesfm-probabilistic-uncertainty-modifier"
+    ],
+    "short_modifier_modes": ["none", "half", "veto"],
+    "long_modifier_modes": ["none", "half", "veto"],
+    "path_modifier_modes": ["none", "half"],
+    "uncertainty_modes": ["none", "half_high"],
+    "configuration_count": 36,
+    "position_levels": [-1.0, -0.5, 0.0, 0.5, 1.0],
+    "unknown_specialists": "reject",
+    "missing_kronos_path_feature": "neutral_no_effect"
+  },
+  "modifier_semantics": {
+    "timesfm_short": "only when baseline requests short; specialist disagreement is timesfm_point_return >= 0; half maps -1 to -0.5 and veto maps -1 to 0",
+    "kronos_long": "only when baseline requests long; specialist disagreement is kronos_close_return <= 0; half maps +1 to +0.5 and veto maps +1 to 0",
+    "kronos_path": "only on the frozen 96-origin native-path sample; disagreement is pred_terminal_return sign versus baseline requested sign; half reduces absolute position by half; absent sample rows are neutral",
+    "timesfm_uncertainty": "raw next-settlement q10/q90 coverage is not five-session calibration; high uncertainty may halve size only after prior-OOS evidence establishes a positive relationship between TimesFM interval width and five-session absolute baseline forecast error"
+  },
+  "chronology": {
+    "policy_oos_block": "calendar_year",
+    "first_policy_oos_year": 2014,
+    "outer_blocks": ["2017-2018", "2019-2020", "2021-2022"],
+    "selection_rule": "for each outer block, score configurations only on complete yearly OOS blocks ending before that outer block begins; freeze one configuration before scoring the outer block",
+    "outer_adaptation": "none_within_outer_block",
+    "adaptive_history_boundary": "Phase-4 hypotheses were discovered on development evidence; Phase-5 results remain adaptive-development evidence, not clean historical confirmation"
+  },
+  "uncertainty_calibration": {
+    "minimum_prior_oos_rows": 50,
+    "association": "Spearman correlation between TimesFM interval width and absolute five-session baseline forecast error on prior OOS records only",
+    "activation_rule": "correlation must be finite and > 0; otherwise the uncertainty modifier is neutral",
+    "high_threshold": "75th percentile of TimesFM interval width in the same prior OOS calibration records",
+    "fit_frequency": "once at each policy evaluation block boundary; frozen within the block"
+  },
+  "selection": {
+    "primary_objective": "median_yearly_standard_replay_net_pnl_usd",
+    "secondary_objectives": ["higher_worst_yearly_standard_replay_net_pnl_usd", "higher_total_standard_replay_net_pnl_usd", "lower_transaction_cost_usd", "lower_configuration_complexity", "config_id_lexicographic"],
+    "risk_policy": "phase1_standard_ng_v0 unchanged; standard replay determines selection score",
+    "continuous_replay_role": "mandatory diagnostic only, never a substitute selection target",
+    "search_budget": 36,
+    "failed_configuration_policy": "retain with reason and exclude from selection"
+  },
+  "required_diagnostics": [
+    "signal_abstention_vs_risk_shutdown",
+    "continuous_no_kill_replay",
+    "long_short_net_pnl",
+    "turnover_and_execution_sides",
+    "max_drawdown",
+    "cost_sensitivity_1x_1_5x_2x",
+    "year_and_profit_concentration",
+    "remove_one_specialist_ablations",
+    "target_horizon_alignment",
+    "prediction_to_fill_latency",
+    "adaptive_history_accounting",
+    "metric_reconciliation"
+  ],
+  "claim_boundary": "development_policy_selection_only_no_clean_confirmation_claim"
+}
