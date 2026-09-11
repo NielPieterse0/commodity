@@ -31,8 +31,9 @@
 
 - Canonical Phase-2 input reconstruction uses external runtime state at `C:/Projects/commodity/.work/runtime/359-stacking-policy/phase5-inputs` so checkpoints do not contaminate the governed worktree.
 - Global NG definition authority is checkpointed and reused.
-- Partition `20100606-20101231` is durably checkpointed: canonical 14,775 rows; OHLCV 5,131 rows; reconstruction reports 13 total partitions.
-- The run was deliberately stopped at the partition boundary. Next action: rerun `python scripts/research/prepare_phase5_inputs.py`; the run lock and checkpoint store should resume from the 2011 partition. After all inputs materialize, execute `python scripts/research/run_phase5_stacking_policy.py`.
+- Partitions `20100606-20101231` and `20110101-20111231` are durably checkpointed. The first contains 14,775 canonical / 5,131 OHLCV rows; the second contains 25,922 canonical / 8,418 OHLCV rows. Reconstruction reports 13 total partitions.
+- Duplicate pre-lock workers discovered in telemetry were explicitly terminated; the retained implementation now acquires `Phase2CheckpointStore.run_lock()` before reconstruction.
+- The run was deliberately stopped at the second partition boundary with no worker left running. Next action: rerun `python scripts/research/prepare_phase5_inputs.py`; the run lock and checkpoint store should resume from the 2012 partition. After all inputs materialize, execute `python scripts/research/run_phase5_stacking_policy.py`.
 
 ## Residual items
 
