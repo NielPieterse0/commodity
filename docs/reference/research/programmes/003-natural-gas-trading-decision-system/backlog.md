@@ -21,4 +21,4 @@ Source: `research/programmes/003-natural-gas-trading-decision-system/backlog.jso
 | `zoom_level` | str |
 | `programme_id` | str |
 | `generated_projection` | bool |
-| `items` | array (1 items) |
+| `items` | array (0 items) |
