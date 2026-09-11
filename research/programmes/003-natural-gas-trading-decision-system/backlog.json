@@ -53,38 +53,6 @@
       "work_ref": "issue-359"
     },
     {
-      "id": "phase5-information-to-policy-conversion",
-      "item": "Phase 5 priority: make the objective information-to-policy conversion, not another model leaderboard. Keep the unchanged market baseline; test a deliberately small preregistered set covering simple uncertainty/abstention, conditional confirmation/veto/weighting/sizing, and one regularized stack/gate. Separate forecast information, trade selection and risk sizing while keeping operator risk limits unchanged.",
-      "kind": "recommendation",
-      "status": "open",
-      "source_record": "research/programmes/003-natural-gas-trading-decision-system/lines/001-trading-system/line.json",
-      "work_ref": "issue-359"
-    },
-    {
-      "id": "phase5-risk-state-continuous-replay",
-      "item": "Phase 5 execution diagnostic: preserve the frozen per-block restarted benchmark, but add first-kill date/reason, active exposure, independent position episodes, flat-time attribution, and one explicitly specified continuous replay with governed restart semantics. Current baseline evidence shows 1,494 of 1,532 flat sessions were caused by risk-killed state; do not describe this as intelligent signal abstention. Loss limits are shutdown triggers after the interval move, not guaranteed intraday caps.",
-      "kind": "recommendation",
-      "status": "open",
-      "source_record": "research/programmes/003-natural-gas-trading-decision-system/lines/001-trading-system/line.json",
-      "work_ref": "issue-359"
-    },
-    {
-      "id": "phase5-target-matched-uncertainty",
-      "item": "Phase 5 uncertainty rule: TimesFM 80% interval coverage (83.02% empirical) is calibrated only on the next same-contract settlement return. Any veto/abstention/sizing use must evaluate uncertainty against the five-session executable target or declare the one-step quantity as a proxy and test that translation separately. Risk deployment should vary downward within existing operator limits; do not relax limits to rescue a candidate.",
-      "kind": "recommendation",
-      "status": "open",
-      "source_record": "research/programmes/003-natural-gas-trading-decision-system/lines/001-trading-system/line.json",
-      "work_ref": "issue-359"
-    },
-    {
-      "id": "phase5-metrics-timing-and-availability-reconciliation",
-      "item": "Before stronger economic claims, reconcile performance metric definitions and timing semantics. Current Phase-2 Calmar divides unannualized total return by drawdown and Sortino uses the standard deviation of negative daily returns; treat them as diagnostics, not selection gates, until a declared metric contract is frozen. Recheck the 23:59 UTC OHLCV availability convention against actual knowability/processing latency and distinguish simulated information cutoff from historical computation time/model availability.",
-      "kind": "recommendation",
-      "status": "open",
-      "source_record": "research/programmes/003-natural-gas-trading-decision-system/lines/001-trading-system/line.json",
-      "work_ref": "issue-359"
-    },
-    {
       "id": "source-calendar-repair-before-further-model-expansion",
       "item": "After the already-preregistered Phase-4 Chronos/Moirai budget, prioritize high-value temporal-source repairs before any further foundation-model family expansion: historical WNGSR release-calendar/source fidelity for weekly storage surprise and timestamped actually-issued weather/revision capture. The Phase-3 monthly log-level rejection does not retire these information families.",
       "kind": "recommendation",
@@ -94,7 +62,7 @@
     },
     {
       "id": "phase6-bounded-horizon-refit-investigation",
-      "item": "Phase 6 may admit one mechanism-justified horizon or refit-cadence investigation even if the five-session policy has not become profitable, because model staleness or horizon mismatch can masquerade as absent signal. Predeclare one bounded alternative and its rationale; do not open a horizon/refit sweep. Global-gas expansion remains conditional and should follow the higher-priority conversion/source questions unless a specific mechanism requires it.",
+      "item": "Phase 6 priority ? investigate exactly one mechanism-justified horizon or refit-cadence alternative against the frozen Phase-5 candidate. Justification is now explicit: the selected five-session policy wins the preregistered median-year objective but has lower aggregate P&L, worse worst-year P&L, and adverse remove-one specialist aggregate attribution versus simpler comparators. Freeze the alternative before scoring; do not open a horizon/refit sweep. Global-gas expansion remains gated behind this bounded robustness test unless a separately documented mechanism requires one compact external family.",
       "kind": "recommendation",
       "status": "open",
       "source_record": "research/programmes/003-natural-gas-trading-decision-system/lines/001-trading-system/line.json",

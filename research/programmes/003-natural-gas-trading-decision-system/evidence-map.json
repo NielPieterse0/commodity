@@ -2,7 +2,7 @@
   "schema_version": 2,
   "zoom_level": "L1",
   "programme_id": "003-natural-gas-trading-decision-system",
-  "current_scan_id": "phase4-foundation-specialists-second-line-extension-2026-09-11",
+  "current_scan_id": "phase5-stacking-policy-complete-2026-09-11",
   "refresh_triggers": [
     "A new programme phase changes the tested information family or evidence boundary."
   ],
@@ -45,6 +45,24 @@
       },
       "feasibility": "hold",
       "result_ref": "research/programmes/003-natural-gas-trading-decision-system/phase4-foundation-specialists-v1.json"
+    },
+    {
+      "target": "five-session exact-contract open-to-next-open net trading decision target",
+      "horizon": "5 executable intervals",
+      "information_family": "bounded specialist stacking and long/short/flat policy conversion",
+      "scientific_mepi": null,
+      "raw_information": 2865,
+      "effective_information_method": {
+        "method": "preregistered 36-configuration nested chronological policy selection on prior OOS evidence"
+      },
+      "detectable_effect": null,
+      "expected_snr": null,
+      "costs": {
+        "base_round_trip_usd": 30.0
+      },
+      "feasibility": "hold",
+      "result_ref": "research/programmes/003-natural-gas-trading-decision-system/phase5-stacking-policy-v1.json",
+      "reason": "A single candidate was selected under the frozen median-year objective, but aggregate/worst-year and remove-one attribution do not demonstrate robust incremental edge. Proceed only to the bounded Phase-6 gap investigation."
     }
   ],
   "semantics": {

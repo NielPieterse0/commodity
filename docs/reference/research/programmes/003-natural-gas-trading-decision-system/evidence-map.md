@@ -11,7 +11,7 @@ Source: `research/programmes/003-natural-gas-trading-decision-system/evidence-ma
 | `schema_version` | 2 |
 | `zoom_level` | L1 |
 | `programme_id` | 003-natural-gas-trading-decision-system |
-| `current_scan_id` | phase4-foundation-specialists-second-line-extension-2026-09-11 |
+| `current_scan_id` | phase5-stacking-policy-complete-2026-09-11 |
 
 ## Structure
 
@@ -23,5 +23,5 @@ Source: `research/programmes/003-natural-gas-trading-decision-system/evidence-ma
 | `current_scan_id` | str |
 | `refresh_triggers` | array (1 items) |
 | `research_line_refs` | array (1 items) |
-| `feasibility_map` | array (2 items) |
+| `feasibility_map` | array (3 items) |
 | `semantics` | object (2 keys) |

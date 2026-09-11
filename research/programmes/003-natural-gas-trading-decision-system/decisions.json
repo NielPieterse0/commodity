@@ -45,6 +45,12 @@
       "decision": "On the frozen 96-origin sample, Chronos-2 terminal direction was 44.79%; Moirai-2-small was 56.25% and non-negative in each outer block. Chronos and Moirai disagreed on 49 origins, with Moirai correct on 30 and Chronos on 19, but terminal forecast errors were 0.98 correlated. Preserve this as architectural/mechanism evidence, not as an ensemble or promotion result.",
       "status": "active",
       "source_record": "research/programmes/003-natural-gas-trading-decision-system/phase4-foundation-specialists-v1.json"
+    },
+    {
+      "id": "phase5-stacking-policy-disposition",
+      "decision": "Phase 5 selected s-veto__l-none__p-half__u-none under the frozen median-year objective. Treat it as the single development candidate, not evidence of confirmed edge: aggregate P&L and worst-year performance are weaker than the no-modifier comparator and remove-one specialist ablations improve aggregate P&L. Hand Phase 6 one bounded horizon/refit-cadence robustness investigation before broader expansion.",
+      "status": "active",
+      "source_record": "research/programmes/003-natural-gas-trading-decision-system/phase5-stacking-policy-v1.json"
     }
   ]
 }
