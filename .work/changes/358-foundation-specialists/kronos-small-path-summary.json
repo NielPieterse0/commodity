@@ -1,0 +1,91 @@
+{
+  "batch_size": 16,
+  "complete": true,
+  "deterministic_seed": 0,
+  "evidence_role": "development_native_sequence_path_diagnostic",
+  "excluded": {
+    "future_crosses_cutoff": 0,
+    "insufficient_future_path": 96,
+    "insufficient_history": 0
+  },
+  "inference_profile": {
+    "T": 1.0,
+    "sample_count": 1,
+    "source": "vendor/Kronos/README.md",
+    "top_p": 0.9
+  },
+  "inference_profile_name": "upstream_usage_defaults",
+  "metrics": {
+    "by_outer_block": {
+      "outer-2017-2018": {
+        "rows": 32,
+        "slope_sign_accuracy": 0.34375,
+        "terminal_direction_accuracy": 0.5
+      },
+      "outer-2019-2020": {
+        "rows": 32,
+        "slope_sign_accuracy": 0.53125,
+        "terminal_direction_accuracy": 0.59375
+      },
+      "outer-2021-2022": {
+        "rows": 32,
+        "slope_sign_accuracy": 0.46875,
+        "terminal_direction_accuracy": 0.5
+      }
+    },
+    "h1": {
+      "direction_accuracy": 0.53125,
+      "mae_return": 0.04086997492707794,
+      "rmse_return": 0.0540783173174619
+    },
+    "h2": {
+      "direction_accuracy": 0.5729166666666666,
+      "mae_return": 0.05249319694566359,
+      "rmse_return": 0.07077700807122198
+    },
+    "h3": {
+      "direction_accuracy": 0.5104166666666666,
+      "mae_return": 0.06479309738376017,
+      "rmse_return": 0.08774546103358999
+    },
+    "h4": {
+      "direction_accuracy": 0.5833333333333334,
+      "mae_return": 0.06788235695188909,
+      "rmse_return": 0.0953917914761732
+    },
+    "h5": {
+      "direction_accuracy": 0.53125,
+      "mae_return": 0.08530224323630364,
+      "rmse_return": 0.12116464714959797
+    },
+    "path": {
+      "dispersion_mae_pct": 0.014989020000215068,
+      "range_mae_pct": 0.050672974364960495,
+      "slope_mae": 0.017319112144017032,
+      "slope_sign_accuracy": 0.4479166666666667,
+      "terminal_direction_accuracy": 0.53125,
+      "turning_count_exact_rate": 0.3125,
+      "turning_count_mae": 1.0833333333333333
+    }
+  },
+  "model_checkpoint_sha256": "b082dfcbd8e8c142a725c8bbb99781802f38fec81210e13479effb32b3c3e020",
+  "model_id": "NeoQuasar/Kronos-small",
+  "model_key": "kronos_small",
+  "model_revision": "901c26c1332695a2a8f243eb2f37243a37bea320",
+  "new_origins": 96,
+  "output": ".work\\changes\\358-foundation-specialists\\kronos-small-path-features.csv",
+  "output_sha256": "f6c5d9f5a523378f0aaa07753207cbee53fcade21597ffefb5c57fb7d1207967",
+  "pred_len": 5,
+  "protected_confirmation_accessed": false,
+  "resumed_rows": 0,
+  "rows": 96,
+  "selected_origins": 96,
+  "selection": {
+    "max_per_block": 32,
+    "method": "outcome_blind_evenly_spaced_within_outer_block"
+  },
+  "source_revision": "67b630e67f6a18c9e9be918d9b4337c960db1e9a",
+  "tokenizer_checkpoint_sha256": "59d85f6af76a2c3b8240ea06cb21db4213b4eeca053f246b23e29cf832fc6bee",
+  "tokenizer_revision": "0e0117387f39004a9016484a186a908917e22426",
+  "total_eligible_origins": 1308
+}

@@ -6,21 +6,68 @@
   "legacy_research_line_ids": [],
   "status": "active",
   "big_picture": "Develop the strongest governed Henry Hub trading decision system in staged evidence layers before any protected confirmation opening.",
-  "why_zoomed_in": "Phase 2 establishes the market-only benchmark that later fundamentals and specialist models must beat incrementally.",
+  "why_zoomed_in": "Phase 4 first-line specialist qualification exposed side-conditional clues; a bounded second-line cross-family/capacity-control extension is now preregistered before final Phase-5 handoff.",
   "tested_role_target_horizon": "Market-only predictors for the frozen five-executable-interval exact-contract trading target.",
   "historical_facts": {
-    "observed": "Phase-2 development selected histgb-core-v1 with positive nested and aggregate net P&L under the inherited risk and cost engine.",
-    "rules_out": "It rules out treating more complex curve features as automatically superior within the frozen Phase-2 grid.",
-    "does_not_rule_out": "It does not establish confirmatory trading edge or rule out incremental value from PIT fundamentals or specialist models."
+    "observed": "Phase-2 development selected histgb-core-v1. Phase-3 PIT fundamentals did not survive. Phase-4 promoted no direct specialist: TimesFM had large raw uplift but failed nested robustness; Kronos was negative unconditionally. Mechanism diagnostics preserved a cross-block TimesFM baseline-short clue and a cross-block Kronos baseline-long clue. A preregistered 96-origin native Kronos five-step diagnostic achieved 54.17% terminal-direction accuracy but only 46.88% slope-sign accuracy.",
+    "rules_out": "It rules out direct standalone promotion of the tested Phase-4 TimesFM and Kronos variants. It does not rule out the preregistered conditional roles handed to Phase 5.",
+    "does_not_rule_out": "It does not establish confirmatory trading edge and does not rule out the preserved TimesFM/Kronos conditional roles, a deployment-compatible Chronos-2 specialist, Kronos capacity sensitivity, stacking, controlled expansion, or prospective paper evaluation. Moirai may inform research only under its current non-commercial weight license."
   },
-  "useful_secondary_observations": ["Short-side development contribution exceeded long-side contribution."],
-  "remaining_untested_roles": ["PIT fundamentals", "Kronos and TimesFM specialists", "stacked policy optimization"],
-  "revisit_trigger": "Revisit only when a later governed phase supplies new information or a material design change.",
-  "programme_interpretation": "Use histgb-core-v1 as the frozen market-only comparator for later phases; keep 2023+ protected confirmation unopened.",
+  "useful_secondary_observations": [
+    "TimesFM added +$14,365 on baseline-short development origins and was positive in all three outer blocks for that segment.",
+    "Kronos added +$9,655 on baseline-long development origins and was positive in all three outer blocks for that segment.",
+    "Kronos native five-step terminal direction was 54.17% on the preregistered 96-origin sample, while slope-sign accuracy was 46.88%; preserve sequence information cautiously rather than promoting a standalone path policy.",
+    "TimesFM q10/q90 development coverage was 83.02% versus 80% nominal, supporting a bounded uncertainty-role candidate.",
+    "The frozen Phase-2 baseline is risk-state dominated: 1,494 of 1,532 flat sessions (97.5%) were flat because the replay had already been killed, equal to about 80.0% of all 1,867 sessions. First kills occurred on 2018-01-11, 2019-01-25 and 2021-02-04, each on the daily-loss trigger.",
+    "Phase-2 $16,370 nested selected-path P&L and $26,040 frozen histgb-core-v1 aggregate answer different questions; the latter is not an independent future-performance estimate.",
+    "TimesFM q10/q90 83.02% coverage is a one-step same-contract settlement diagnostic, not five-session executable-target uncertainty calibration.",
+    "Kronos-small capacity control completed on the same 96 outcome-blind origins: terminal-direction accuracy was 53.13% versus 54.17% for Kronos-base, while path/return error and turning-count fit improved; this does not justify a new standalone role.",
+    "Chronos-2 fixed native five-step diagnostic completed on the same frozen 96 origins: terminal direction 44.79%, with 59.38%, 31.25% and 43.75% by outer block; no Phase-5 handoff from this tested role.",
+    "Moirai-2-small research-only comparator completed on the same frozen 96 origins: terminal direction 56.25%, with 62.5%, 50.0% and 56.25% by outer block; preserve as architectural evidence but not a deployable candidate under current licensing.",
+    "Chronos-2 and Moirai-2-small disagreed on 49/96 terminal directions; Moirai was correct on 30 disagreements versus Chronos on 19, while terminal forecast errors were 0.98 correlated. Architectural diversity is therefore not itself evidence for naive ensembling."
+  ],
+  "remaining_untested_roles": [
+    "Phase-5 information-to-policy conversion with uncertainty/abstention/sizing and bounded regularized combination",
+    "Phase-5 risk-state attribution and governed continuous replay",
+    "Phase-5 target/timing/metric reconciliation",
+    "Phase-6 bounded horizon/refit-cadence alternative plus gated global-gas expansion",
+    "Phase-7 frozen prospective paper evaluation under predeclared evidence requirements"
+  ],
+  "revisit_trigger": "Phase 4 closed its preregistered foundation-model budget. Revisit Chronos-2 only if a separately preregistered Phase-6 horizon/refit or role mechanism justifies it; revisit Moirai only if its deployment license changes or a separately justified deployable analogue becomes available. No additional foundation family precedes Phase-5 information-to-policy/risk-state work and higher-value storage/weather source-timing repair.",
+  "programme_interpretation": "Phase 4 is complete with no direct specialist promotion. Carry the four frozen TimesFM/Kronos retained-for-investigation roles into Phase 5, keep $16,370 nested Phase-2 selection evidence distinct from the $26,040 frozen-candidate aggregate, and preserve Phase-3 risk/filter hypotheses. Chronos-2 failed its tested native five-step handoff role but is not universally retired; Moirai adds research-only architectural evidence but is non-deployable. Phase 5 must test information-to-policy conversion, risk-state effects and target-matched uncertainty; Phase 6 gets at most one justified horizon/refit alternative before broad expansion; Phase 7 requires predeclared post-freeze prospective evidence; Phase 8 remains contingent on demonstrated edge. Keep 2023+ protected confirmation unopened.",
   "evidence_refs": [
     "research/programmes/003-natural-gas-trading-decision-system/phase2-market-only-baseline-v1.json",
-    "github-issue-356-comment-5625358200"
+    "github-issue-356-comment-5625358200",
+    "research/programmes/003-natural-gas-trading-decision-system/phase4-foundation-specialists-v1.json",
+    "github-issue-358-comment-5628520758",
+    "github-issue-358-comment-5632161050",
+    "github-issue-358-comment-5634786235"
   ],
   "experiment_history": [],
-  "experiment_refs": []
+  "experiment_refs": [],
+  "selection_basis": "Priority after the closed-budget Phase-4 extension: (1) explain the TimesFM selection gap and convert information to policy; (2) uncertainty-driven abstention/sizing inside unchanged operator limits; (3) physical-state risk filtering plus storage/weather timing-source repair; (4) one bounded horizon/refit-cadence alternative; only then consider broader model-family or global-gas expansion unless a specific preregistered mechanism requires it.",
+  "stopping_rules": {
+    "phase5": [
+      "Keep the frozen market-only baseline unchanged as comparator.",
+      "Use only preregistered retained-for-investigation inputs; no development-derived post-hoc rule may be promoted directly.",
+      "Separate information, direction/trade selection and sizing effects.",
+      "Require risk-kill/flat-state attribution and one governed continuous replay before stronger operational claims.",
+      "Treat current Calmar/Sortino as descriptive until metric definitions are reconciled.",
+      "Do not treat next-settlement interval calibration as five-session uncertainty calibration."
+    ],
+    "phase6": [
+      "Permit at most one mechanism-justified horizon/refit-cadence alternative under a new experiment identity.",
+      "Global-gas expansion remains gated; no broad feature/model sweep.",
+      "After current Phase-4 second-line budget, source/calendar repair outranks adding further foundation families."
+    ],
+    "phase7": [
+      "Freeze prospective evidence requirements before outcomes.",
+      "Only post-final-freeze observations qualify as prospective evidence for the frozen candidate.",
+      "Require elapsed time, independent episodes, exposure, execution fidelity, uncertainty and economic hurdle evidence."
+    ],
+    "phase8": [
+      "Demonstrated prospective edge remains mandatory.",
+      "Only minimum evidence-validity controls move earlier; broad production hardening remains deferred until the gate passes."
+    ]
+  }
 }

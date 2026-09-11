@@ -1,0 +1,80 @@
+{
+  "authority": "github-issue-358-comment-5634786235",
+  "interpretation": {
+    "chronos_2": "No Phase-5 handoff from the tested native five-step role: terminal direction 44.79% and block instability outweigh low return MAE. Preserve attempt history and revisit only under a separately justified horizon/refit or role change.",
+    "cross_family": "Chronos and Moirai have near-zero terminal forecast correlation but very high terminal error correlation; disagreement therefore shows architectural diversity without supporting naive ensembling.",
+    "moirai_2_small": "Research-only architectural clue: terminal direction 56.25%, non-negative across all three blocks, but current CC-BY-NC-4.0 model-weight license prohibits deployable promotion. Preserve for mechanism comparison/revisit if license or a deployable analogue changes."
+  },
+  "models": {
+    "chronos_2": {
+      "direction_accuracy": 0.4479166666666667,
+      "mae_terminal_return": 0.06158297092053122
+    },
+    "kronos_base": {
+      "direction_accuracy": 0.5416666666666666,
+      "mae_terminal_return": 0.1322224237445484
+    },
+    "kronos_small": {
+      "direction_accuracy": 0.53125,
+      "mae_terminal_return": 0.08530224323630364
+    },
+    "moirai_2_small": {
+      "direction_accuracy": 0.5625,
+      "mae_terminal_return": 0.06211265847594314
+    }
+  },
+  "pairwise": {
+    "chronos_2__moirai_2_small": {
+      "a_correct_on_disagreement": 19,
+      "b_correct_on_disagreement": 30,
+      "disagreement_rows": 49,
+      "error_correlation": 0.984461181208752,
+      "forecast_correlation": 0.037170623191350054,
+      "sign_agreement": 0.4895833333333333
+    },
+    "kronos_base__chronos_2": {
+      "a_correct_on_disagreement": 31,
+      "b_correct_on_disagreement": 22,
+      "disagreement_rows": 53,
+      "error_correlation": 0.5524945042365338,
+      "forecast_correlation": -0.20780883350285403,
+      "sign_agreement": 0.4479166666666667
+    },
+    "kronos_base__kronos_small": {
+      "a_correct_on_disagreement": 17,
+      "b_correct_on_disagreement": 16,
+      "disagreement_rows": 33,
+      "error_correlation": 0.7018090175531347,
+      "forecast_correlation": 0.5075270058358199,
+      "sign_agreement": 0.65625
+    },
+    "kronos_base__moirai_2_small": {
+      "a_correct_on_disagreement": 18,
+      "b_correct_on_disagreement": 20,
+      "disagreement_rows": 38,
+      "error_correlation": 0.5933162038296146,
+      "forecast_correlation": 0.23021696081954574,
+      "sign_agreement": 0.6041666666666666
+    },
+    "kronos_small__chronos_2": {
+      "a_correct_on_disagreement": 30,
+      "b_correct_on_disagreement": 22,
+      "disagreement_rows": 52,
+      "error_correlation": 0.7633599438373521,
+      "forecast_correlation": -0.20490944294489327,
+      "sign_agreement": 0.4583333333333333
+    },
+    "kronos_small__moirai_2_small": {
+      "a_correct_on_disagreement": 16,
+      "b_correct_on_disagreement": 19,
+      "disagreement_rows": 35,
+      "error_correlation": 0.7941515011748984,
+      "forecast_correlation": 0.2455093431152294,
+      "sign_agreement": 0.6354166666666666
+    }
+  },
+  "protected_confirmation_accessed": false,
+  "rows": 96,
+  "sample_keys_sha256": "b8558d19e8edc90937d46a17ea06a807fdac9548495e7e39e0552af9771100ba",
+  "schema_version": 1
+}

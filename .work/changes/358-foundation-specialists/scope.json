@@ -1,0 +1,50 @@
+{
+  "schema_version": 4,
+  "change_id": "358-foundation-specialists",
+  "status": "active",
+  "branch": "change/358-foundation-specialists",
+  "worktree": ".work/worktrees/358-foundation-specialists",
+  "base": "main",
+  "outcome": "Qualify the first-line Kronos/TimesFM specialists, then execute the explicitly closed-budget second-line Phase-4 extension: Chronos-2 as the only new deployment-compatible family, Kronos-small as a capacity control, and Moirai-2.0-R-small as a research-only non-commercial comparator before final Phase-5 handoff.",
+  "owned_paths": [
+    "config/models.json",
+    "config/third_party.json",
+    "src/commodity/foundation_specialists.py",
+    "scripts/research/run_phase4_foundation_specialists.py",
+    "tests/test_foundation_specialists.py",
+    "research/programmes/003-natural-gas-trading-decision-system/phase4-foundation-specialists-v1.json",
+    "research/programmes/003-natural-gas-trading-decision-system/decisions.json",
+    "research/programmes/003-natural-gas-trading-decision-system/evidence-map.json",
+    "research/programmes/003-natural-gas-trading-decision-system/lines/001-trading-system/line.json",
+    "research/programmes/003-natural-gas-trading-decision-system/backlog.json",
+    "research/programmes/003-natural-gas-trading-decision-system/revisit-triggers.json",
+    ".work/changes/358-foundation-specialists/**"
+  ],
+  "shared_paths": [],
+  "excluded_paths": [],
+  "dependencies": [],
+  "integration_owner": null,
+  "complexity": "large",
+  "risk_triggers": [
+    "external_action",
+    "public_contract"
+  ],
+  "base_evidence": {
+    "local_sha": "fa1841ac7877b25b868639abdcb4ec9928ecf8f6",
+    "local_tree": "da2833f0a8a4e75b8f788638c978578e1c774451",
+    "upstream_sha": "fa1841ac7877b25b868639abdcb4ec9928ecf8f6",
+    "upstream_tree": "da2833f0a8a4e75b8f788638c978578e1c774451",
+    "upstream_ref": "refs/remotes/origin/main",
+    "evidence_source": "local_remote_tracking_ref_after_verified_ff",
+    "relation": "same_sha"
+  },
+  "work_management": {
+    "project_id": "commodity",
+    "record_id": "WORK-358",
+    "source_repository": "NielPieterse0/commodity",
+    "source_number": 358,
+    "source_kind": "issue",
+    "documentation_impact": "planned",
+    "execution_owner": "chatgpt-scheduled-commodity"
+  }
+}

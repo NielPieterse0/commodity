@@ -1,0 +1,1608 @@
+{
+  "authority_clarification": "github-issue-358-comment-5632161050",
+  "evidence_role": "exploratory_mechanism_diagnostics_not_promotion_selection",
+  "kronos_one_step": {
+    "aggregate_incremental_net_pnl_usd": -9310.000000000047,
+    "attributed_incremental_net_pnl_usd": -9310.00000000004,
+    "candidate_id": "histgb-core-kronos-v1",
+    "concentration": {
+      "largest_origin_abs_increment_fraction": 0.09820117474302506,
+      "top10_origin_abs_increment_fraction": 0.4500734214390601,
+      "top5_origin_abs_increment_fraction": 0.2933186490455214
+    },
+    "cross_block_segments": {
+      "baseline_side": {
+        "outer-2017-2018": {
+          "long": {
+            "baseline_direction_accuracy": 0.4777777777777778,
+            "baseline_net_pnl_usd": 6095.00000000002,
+            "incremental_net_pnl_usd": 3994.9999999999836,
+            "origins": 90,
+            "specialist_direction_accuracy": 0.5,
+            "specialist_net_pnl_usd": 10090.000000000004
+          },
+          "short": {
+            "baseline_direction_accuracy": 0.516042780748663,
+            "baseline_net_pnl_usd": 24010.000000000033,
+            "incremental_net_pnl_usd": -14315.000000000022,
+            "origins": 374,
+            "specialist_direction_accuracy": 0.5240641711229946,
+            "specialist_net_pnl_usd": 9695.00000000001
+          }
+        },
+        "outer-2019-2020": {
+          "long": {
+            "baseline_direction_accuracy": 0.4540540540540541,
+            "baseline_net_pnl_usd": 1754.9999999999986,
+            "incremental_net_pnl_usd": 2665.0,
+            "origins": 185,
+            "specialist_direction_accuracy": 0.5351351351351351,
+            "specialist_net_pnl_usd": 4419.999999999999
+          },
+          "short": {
+            "baseline_direction_accuracy": 0.5525423728813559,
+            "baseline_net_pnl_usd": 1704.9999999999961,
+            "incremental_net_pnl_usd": -4004.999999999999,
+            "origins": 295,
+            "specialist_direction_accuracy": 0.559322033898305,
+            "specialist_net_pnl_usd": -2300.000000000003
+          }
+        },
+        "outer-2021-2022": {
+          "long": {
+            "baseline_direction_accuracy": 0.5286624203821656,
+            "baseline_net_pnl_usd": -2145.0000000000027,
+            "incremental_net_pnl_usd": 2994.9999999999936,
+            "origins": 157,
+            "specialist_direction_accuracy": 0.5159235668789809,
+            "specialist_net_pnl_usd": 849.9999999999909
+          },
+          "short": {
+            "baseline_direction_accuracy": 0.4,
+            "baseline_net_pnl_usd": -5335.000000000003,
+            "incremental_net_pnl_usd": -644.9999999999984,
+            "origins": 300,
+            "specialist_direction_accuracy": 0.4066666666666667,
+            "specialist_net_pnl_usd": -5980.000000000001
+          }
+        }
+      },
+      "magnitude_bucket": {
+        "outer-2017-2018": {
+          "high": {
+            "baseline_direction_accuracy": 0.5555555555555556,
+            "baseline_net_pnl_usd": 765.0000000000009,
+            "incremental_net_pnl_usd": -1184.9999999999968,
+            "origins": 72,
+            "specialist_direction_accuracy": 0.5833333333333334,
+            "specialist_net_pnl_usd": -419.9999999999958
+          },
+          "low": {
+            "baseline_direction_accuracy": 0.5,
+            "baseline_net_pnl_usd": 20850.00000000003,
+            "incremental_net_pnl_usd": -5415.00000000002,
+            "origins": 262,
+            "specialist_direction_accuracy": 0.49236641221374045,
+            "specialist_net_pnl_usd": 15435.000000000011
+          },
+          "mid": {
+            "baseline_direction_accuracy": 0.5,
+            "baseline_net_pnl_usd": 8490.00000000002,
+            "incremental_net_pnl_usd": -3720.000000000022,
+            "origins": 130,
+            "specialist_direction_accuracy": 0.5384615384615384,
+            "specialist_net_pnl_usd": 4769.999999999996
+          }
+        },
+        "outer-2019-2020": {
+          "high": {
+            "baseline_direction_accuracy": 0.45867768595041325,
+            "baseline_net_pnl_usd": 55.00000000000114,
+            "incremental_net_pnl_usd": -5055.000000000003,
+            "origins": 242,
+            "specialist_direction_accuracy": 0.5289256198347108,
+            "specialist_net_pnl_usd": -5000.000000000002
+          },
+          "low": {
+            "baseline_direction_accuracy": 0.6016949152542372,
+            "baseline_net_pnl_usd": 2484.9999999999927,
+            "incremental_net_pnl_usd": 3715.0000000000036,
+            "origins": 118,
+            "specialist_direction_accuracy": 0.576271186440678,
+            "specialist_net_pnl_usd": 6199.999999999996
+          },
+          "mid": {
+            "baseline_direction_accuracy": 0.5416666666666666,
+            "baseline_net_pnl_usd": 920.0000000000008,
+            "incremental_net_pnl_usd": 0.0,
+            "origins": 120,
+            "specialist_direction_accuracy": 0.5666666666666667,
+            "specialist_net_pnl_usd": 920.0000000000008
+          }
+        },
+        "outer-2021-2022": {
+          "high": {
+            "baseline_direction_accuracy": 0.43853820598006643,
+            "baseline_net_pnl_usd": 99.999999999999,
+            "incremental_net_pnl_usd": 40.000000000000036,
+            "origins": 301,
+            "specialist_direction_accuracy": 0.44518272425249167,
+            "specialist_net_pnl_usd": 139.99999999999903
+          },
+          "low": {
+            "baseline_direction_accuracy": 0.4716981132075472,
+            "baseline_net_pnl_usd": -2395.0000000000055,
+            "incremental_net_pnl_usd": -95.00000000000006,
+            "origins": 53,
+            "specialist_direction_accuracy": 0.4528301886792453,
+            "specialist_net_pnl_usd": -2490.0000000000055
+          },
+          "mid": {
+            "baseline_direction_accuracy": 0.44660194174757284,
+            "baseline_net_pnl_usd": -5184.999999999998,
+            "incremental_net_pnl_usd": 2404.9999999999955,
+            "origins": 103,
+            "specialist_direction_accuracy": 0.4368932038834951,
+            "specialist_net_pnl_usd": -2780.0000000000036
+          }
+        }
+      },
+      "raw_agreement": {
+        "outer-2017-2018": {
+          "agree": {
+            "baseline_direction_accuracy": 0.5340501792114696,
+            "baseline_net_pnl_usd": 20515.000000000036,
+            "incremental_net_pnl_usd": -1905.0000000000214,
+            "origins": 279,
+            "specialist_direction_accuracy": 0.5519713261648745,
+            "specialist_net_pnl_usd": 18610.000000000015
+          },
+          "disagree": {
+            "baseline_direction_accuracy": 0.4702702702702703,
+            "baseline_net_pnl_usd": 9590.000000000015,
+            "incremental_net_pnl_usd": -8415.000000000016,
+            "origins": 185,
+            "specialist_direction_accuracy": 0.4702702702702703,
+            "specialist_net_pnl_usd": 1174.9999999999977
+          }
+        },
+        "outer-2019-2020": {
+          "agree": {
+            "baseline_direction_accuracy": 0.5076142131979695,
+            "baseline_net_pnl_usd": 5914.999999999998,
+            "incremental_net_pnl_usd": -5335.000000000003,
+            "origins": 197,
+            "specialist_direction_accuracy": 0.5888324873096447,
+            "specialist_net_pnl_usd": 579.999999999995
+          },
+          "disagree": {
+            "baseline_direction_accuracy": 0.519434628975265,
+            "baseline_net_pnl_usd": -2455.000000000002,
+            "incremental_net_pnl_usd": 3995.0000000000036,
+            "origins": 283,
+            "specialist_direction_accuracy": 0.5229681978798587,
+            "specialist_net_pnl_usd": 1540.0000000000011
+          }
+        },
+        "outer-2021-2022": {
+          "agree": {
+            "baseline_direction_accuracy": 0.4119718309859155,
+            "baseline_net_pnl_usd": -3205.000000000001,
+            "incremental_net_pnl_usd": -769.9999999999984,
+            "origins": 284,
+            "specialist_direction_accuracy": 0.4154929577464789,
+            "specialist_net_pnl_usd": -3974.999999999999
+          },
+          "disagree": {
+            "baseline_direction_accuracy": 0.49710982658959535,
+            "baseline_net_pnl_usd": -4275.000000000005,
+            "incremental_net_pnl_usd": 3119.9999999999936,
+            "origins": 173,
+            "specialist_direction_accuracy": 0.4913294797687861,
+            "specialist_net_pnl_usd": -1155.0000000000111
+          }
+        }
+      },
+      "season_regime": {
+        "outer-2017-2018": {
+          "non_winter": {
+            "baseline_direction_accuracy": 0.4965034965034965,
+            "baseline_net_pnl_usd": 10445.000000000045,
+            "incremental_net_pnl_usd": 884.9999999999741,
+            "origins": 286,
+            "specialist_direction_accuracy": 0.513986013986014,
+            "specialist_net_pnl_usd": 11330.00000000002
+          },
+          "winter_nov_mar": {
+            "baseline_direction_accuracy": 0.5280898876404494,
+            "baseline_net_pnl_usd": 19660.000000000007,
+            "incremental_net_pnl_usd": -11205.000000000013,
+            "origins": 178,
+            "specialist_direction_accuracy": 0.5280898876404494,
+            "specialist_net_pnl_usd": 8454.999999999993
+          }
+        },
+        "outer-2019-2020": {
+          "non_winter": {
+            "baseline_direction_accuracy": 0.4808362369337979,
+            "baseline_net_pnl_usd": 0.0,
+            "incremental_net_pnl_usd": 0.0,
+            "origins": 287,
+            "specialist_direction_accuracy": 0.5156794425087108,
+            "specialist_net_pnl_usd": 0.0
+          },
+          "winter_nov_mar": {
+            "baseline_direction_accuracy": 0.5647668393782384,
+            "baseline_net_pnl_usd": 3459.9999999999945,
+            "incremental_net_pnl_usd": -1339.999999999999,
+            "origins": 193,
+            "specialist_direction_accuracy": 0.6010362694300518,
+            "specialist_net_pnl_usd": 2119.9999999999955
+          }
+        },
+        "outer-2021-2022": {
+          "non_winter": {
+            "baseline_direction_accuracy": 0.4280442804428044,
+            "baseline_net_pnl_usd": 0.0,
+            "incremental_net_pnl_usd": 0.0,
+            "origins": 271,
+            "specialist_direction_accuracy": 0.4059040590405904,
+            "specialist_net_pnl_usd": 0.0
+          },
+          "winter_nov_mar": {
+            "baseline_direction_accuracy": 0.46774193548387094,
+            "baseline_net_pnl_usd": -7480.0000000000055,
+            "incremental_net_pnl_usd": 2349.9999999999955,
+            "origins": 186,
+            "specialist_direction_accuracy": 0.5,
+            "specialist_net_pnl_usd": -5130.00000000001
+          }
+        }
+      },
+      "trend_regime": {
+        "outer-2017-2018": {
+          "negative_20d": {
+            "baseline_direction_accuracy": 0.524,
+            "baseline_net_pnl_usd": 14940.000000000044,
+            "incremental_net_pnl_usd": -8190.000000000023,
+            "origins": 250,
+            "specialist_direction_accuracy": 0.528,
+            "specialist_net_pnl_usd": 6750.0000000000255
+          },
+          "nonnegative_20d": {
+            "baseline_direction_accuracy": 0.49065420560747663,
+            "baseline_net_pnl_usd": 15165.000000000004,
+            "incremental_net_pnl_usd": -2130.000000000016,
+            "origins": 214,
+            "specialist_direction_accuracy": 0.5093457943925234,
+            "specialist_net_pnl_usd": 13034.999999999989
+          }
+        },
+        "outer-2019-2020": {
+          "negative_20d": {
+            "baseline_direction_accuracy": 0.47878787878787876,
+            "baseline_net_pnl_usd": 3459.9999999999945,
+            "incremental_net_pnl_usd": -1339.999999999999,
+            "origins": 330,
+            "specialist_direction_accuracy": 0.5212121212121212,
+            "specialist_net_pnl_usd": 2119.9999999999955
+          },
+          "nonnegative_20d": {
+            "baseline_direction_accuracy": 0.5933333333333334,
+            "baseline_net_pnl_usd": 0.0,
+            "incremental_net_pnl_usd": 0.0,
+            "origins": 150,
+            "specialist_direction_accuracy": 0.6133333333333333,
+            "specialist_net_pnl_usd": 0.0
+          }
+        },
+        "outer-2021-2022": {
+          "negative_20d": {
+            "baseline_direction_accuracy": 0.437125748502994,
+            "baseline_net_pnl_usd": -2885.0000000000073,
+            "incremental_net_pnl_usd": -95.00000000000006,
+            "origins": 167,
+            "specialist_direction_accuracy": 0.41317365269461076,
+            "specialist_net_pnl_usd": -2980.000000000007
+          },
+          "nonnegative_20d": {
+            "baseline_direction_accuracy": 0.4482758620689655,
+            "baseline_net_pnl_usd": -4594.999999999998,
+            "incremental_net_pnl_usd": 2444.9999999999955,
+            "origins": 290,
+            "specialist_direction_accuracy": 0.46206896551724136,
+            "specialist_net_pnl_usd": -2150.0000000000027
+          }
+        }
+      },
+      "uncertainty_bucket": {
+        "outer-2017-2018": {
+          "high": {
+            "baseline_direction_accuracy": 0.5454545454545454,
+            "baseline_net_pnl_usd": -799.9999999999952,
+            "incremental_net_pnl_usd": 0.0,
+            "origins": 33,
+            "specialist_direction_accuracy": 0.5757575757575758,
+            "specialist_net_pnl_usd": -799.9999999999952
+          },
+          "low": {
+            "baseline_direction_accuracy": 0.5064599483204134,
+            "baseline_net_pnl_usd": 24765.00000000004,
+            "incremental_net_pnl_usd": -9685.000000000033,
+            "origins": 387,
+            "specialist_direction_accuracy": 0.5116279069767442,
+            "specialist_net_pnl_usd": 15080.00000000001
+          },
+          "mid": {
+            "baseline_direction_accuracy": 0.5,
+            "baseline_net_pnl_usd": 6140.000000000004,
+            "incremental_net_pnl_usd": -635.000000000005,
+            "origins": 44,
+            "specialist_direction_accuracy": 0.5454545454545454,
+            "specialist_net_pnl_usd": 5504.999999999998
+          }
+        },
+        "outer-2019-2020": {
+          "high": {
+            "baseline_direction_accuracy": 0.4375,
+            "baseline_net_pnl_usd": 3040.0000000000005,
+            "incremental_net_pnl_usd": -5350.000000000003,
+            "origins": 160,
+            "specialist_direction_accuracy": 0.48125,
+            "specialist_net_pnl_usd": -2310.0000000000023
+          },
+          "low": {
+            "baseline_direction_accuracy": 0.594059405940594,
+            "baseline_net_pnl_usd": 2419.9999999999964,
+            "incremental_net_pnl_usd": 2370.0,
+            "origins": 202,
+            "specialist_direction_accuracy": 0.5891089108910891,
+            "specialist_net_pnl_usd": 4789.999999999996
+          },
+          "mid": {
+            "baseline_direction_accuracy": 0.4830508474576271,
+            "baseline_net_pnl_usd": -2000.0000000000018,
+            "incremental_net_pnl_usd": 1640.0000000000036,
+            "origins": 118,
+            "specialist_direction_accuracy": 0.576271186440678,
+            "specialist_net_pnl_usd": -359.9999999999982
+          }
+        },
+        "outer-2021-2022": {
+          "high": {
+            "baseline_direction_accuracy": 0.47530864197530864,
+            "baseline_net_pnl_usd": -1160.000000000001,
+            "incremental_net_pnl_usd": 0.0,
+            "origins": 324,
+            "specialist_direction_accuracy": 0.4722222222222222,
+            "specialist_net_pnl_usd": -1160.000000000001
+          },
+          "low": {
+            "baseline_direction_accuracy": 0.48,
+            "baseline_net_pnl_usd": -2605.000000000009,
+            "incremental_net_pnl_usd": 375.0000000000002,
+            "origins": 50,
+            "specialist_direction_accuracy": 0.4,
+            "specialist_net_pnl_usd": -2230.0000000000086
+          },
+          "mid": {
+            "baseline_direction_accuracy": 0.30120481927710846,
+            "baseline_net_pnl_usd": -3714.9999999999955,
+            "incremental_net_pnl_usd": 1974.999999999995,
+            "origins": 83,
+            "specialist_direction_accuracy": 0.3614457831325301,
+            "specialist_net_pnl_usd": -1740.0000000000005
+          }
+        }
+      },
+      "volatility_regime": {
+        "outer-2017-2018": {
+          "high": {
+            "baseline_direction_accuracy": 0.5089285714285714,
+            "baseline_net_pnl_usd": 10905.000000000002,
+            "incremental_net_pnl_usd": -5640.0000000000055,
+            "origins": 112,
+            "specialist_direction_accuracy": 0.5446428571428571,
+            "specialist_net_pnl_usd": 5264.999999999998
+          },
+          "low": {
+            "baseline_direction_accuracy": 0.5,
+            "baseline_net_pnl_usd": 14080.000000000011,
+            "incremental_net_pnl_usd": 129.99999999999102,
+            "origins": 268,
+            "specialist_direction_accuracy": 0.5,
+            "specialist_net_pnl_usd": 14210.0
+          },
+          "mid": {
+            "baseline_direction_accuracy": 0.5357142857142857,
+            "baseline_net_pnl_usd": 5120.000000000038,
+            "incremental_net_pnl_usd": -4810.000000000025,
+            "origins": 84,
+            "specialist_direction_accuracy": 0.5476190476190477,
+            "specialist_net_pnl_usd": 310.00000000001376
+          }
+        },
+        "outer-2019-2020": {
+          "high": {
+            "baseline_direction_accuracy": 0.5133079847908745,
+            "baseline_net_pnl_usd": 3459.9999999999945,
+            "incremental_net_pnl_usd": -1339.999999999999,
+            "origins": 263,
+            "specialist_direction_accuracy": 0.55893536121673,
+            "specialist_net_pnl_usd": 2119.9999999999955
+          },
+          "low": {
+            "baseline_direction_accuracy": 0.5471698113207547,
+            "baseline_net_pnl_usd": 0.0,
+            "incremental_net_pnl_usd": 0.0,
+            "origins": 106,
+            "specialist_direction_accuracy": 0.5283018867924528,
+            "specialist_net_pnl_usd": 0.0
+          },
+          "mid": {
+            "baseline_direction_accuracy": 0.4864864864864865,
+            "baseline_net_pnl_usd": 0.0,
+            "incremental_net_pnl_usd": 0.0,
+            "origins": 111,
+            "specialist_direction_accuracy": 0.5495495495495496,
+            "specialist_net_pnl_usd": 0.0
+          }
+        },
+        "outer-2021-2022": {
+          "high": {
+            "baseline_direction_accuracy": 0.46130952380952384,
+            "baseline_net_pnl_usd": -7480.0000000000055,
+            "incremental_net_pnl_usd": 2349.9999999999955,
+            "origins": 336,
+            "specialist_direction_accuracy": 0.46726190476190477,
+            "specialist_net_pnl_usd": -5130.00000000001
+          },
+          "low": {
+            "baseline_direction_accuracy": 0.3804347826086957,
+            "baseline_net_pnl_usd": 0.0,
+            "incremental_net_pnl_usd": 0.0,
+            "origins": 92,
+            "specialist_direction_accuracy": 0.3804347826086957,
+            "specialist_net_pnl_usd": 0.0
+          },
+          "mid": {
+            "baseline_direction_accuracy": 0.4482758620689655,
+            "baseline_net_pnl_usd": 0.0,
+            "incremental_net_pnl_usd": 0.0,
+            "origins": 29,
+            "specialist_direction_accuracy": 0.3793103448275862,
+            "specialist_net_pnl_usd": 0.0
+          }
+        }
+      }
+    },
+    "model_shift_help_rate": 0.5046395431834404,
+    "model_shift_vs_baseline_error_pearson": -0.04105408297447096,
+    "model_shift_vs_baseline_error_spearman": 0.016530382199835447,
+    "origins": 1401,
+    "segments": {
+      "baseline_side": {
+        "long": {
+          "baseline_direction_accuracy": 0.4861111111111111,
+          "baseline_net_pnl_usd": 5705.000000000015,
+          "incremental_net_pnl_usd": 9654.999999999978,
+          "origins": 432,
+          "specialist_direction_accuracy": 0.5208333333333334,
+          "specialist_net_pnl_usd": 15359.999999999993
+        },
+        "short": {
+          "baseline_direction_accuracy": 0.49122807017543857,
+          "baseline_net_pnl_usd": 20380.000000000022,
+          "incremental_net_pnl_usd": -18965.00000000002,
+          "origins": 969,
+          "specialist_direction_accuracy": 0.4984520123839009,
+          "specialist_net_pnl_usd": 1415.0000000000045
+        }
+      },
+      "direction_effect": {
+        "corrected": {
+          "baseline_direction_accuracy": 0.0,
+          "baseline_net_pnl_usd": -2414.9999999999864,
+          "incremental_net_pnl_usd": 4889.999999999975,
+          "origins": 120,
+          "specialist_direction_accuracy": 1.0,
+          "specialist_net_pnl_usd": 2474.999999999989
+        },
+        "harmed": {
+          "baseline_direction_accuracy": 1.0,
+          "baseline_net_pnl_usd": 9310.000000000015,
+          "incremental_net_pnl_usd": -18155.000000000025,
+          "origins": 98,
+          "specialist_direction_accuracy": 0.0,
+          "specialist_net_pnl_usd": -8845.000000000011
+        },
+        "unchanged": {
+          "baseline_direction_accuracy": 0.4970414201183432,
+          "baseline_net_pnl_usd": 19190.00000000001,
+          "incremental_net_pnl_usd": 3955.0000000000077,
+          "origins": 1183,
+          "specialist_direction_accuracy": 0.4970414201183432,
+          "specialist_net_pnl_usd": 23145.000000000015
+        }
+      },
+      "magnitude_bucket": {
+        "high": {
+          "baseline_direction_accuracy": 0.46016260162601624,
+          "baseline_net_pnl_usd": 920.000000000001,
+          "incremental_net_pnl_usd": -6200.0,
+          "origins": 615,
+          "specialist_direction_accuracy": 0.4943089430894309,
+          "specialist_net_pnl_usd": -5279.999999999998
+        },
+        "low": {
+          "baseline_direction_accuracy": 0.5242494226327945,
+          "baseline_net_pnl_usd": 20940.000000000015,
+          "incremental_net_pnl_usd": -1795.0000000000164,
+          "origins": 433,
+          "specialist_direction_accuracy": 0.5103926096997691,
+          "specialist_net_pnl_usd": 19145.0
+        },
+        "mid": {
+          "baseline_direction_accuracy": 0.4985835694050991,
+          "baseline_net_pnl_usd": 4225.000000000024,
+          "incremental_net_pnl_usd": -1315.0000000000264,
+          "origins": 353,
+          "specialist_direction_accuracy": 0.5184135977337111,
+          "specialist_net_pnl_usd": 2909.9999999999936
+        }
+      },
+      "outer_block_id": {
+        "outer-2017-2018": {
+          "baseline_direction_accuracy": 0.5086206896551724,
+          "baseline_net_pnl_usd": 30105.00000000006,
+          "incremental_net_pnl_usd": -10320.00000000004,
+          "origins": 464,
+          "specialist_direction_accuracy": 0.5193965517241379,
+          "specialist_net_pnl_usd": 19785.000000000015
+        },
+        "outer-2019-2020": {
+          "baseline_direction_accuracy": 0.5145833333333333,
+          "baseline_net_pnl_usd": 3459.9999999999945,
+          "incremental_net_pnl_usd": -1339.999999999999,
+          "origins": 480,
+          "specialist_direction_accuracy": 0.55,
+          "specialist_net_pnl_usd": 2119.9999999999955
+        },
+        "outer-2021-2022": {
+          "baseline_direction_accuracy": 0.4442013129102845,
+          "baseline_net_pnl_usd": -7480.0000000000055,
+          "incremental_net_pnl_usd": 2349.9999999999955,
+          "origins": 457,
+          "specialist_direction_accuracy": 0.4442013129102845,
+          "specialist_net_pnl_usd": -5130.00000000001
+        }
+      },
+      "raw_agreement": {
+        "agree": {
+          "baseline_direction_accuracy": 0.48157894736842105,
+          "baseline_net_pnl_usd": 23225.000000000033,
+          "incremental_net_pnl_usd": -8010.000000000022,
+          "origins": 760,
+          "specialist_direction_accuracy": 0.5105263157894737,
+          "specialist_net_pnl_usd": 15215.000000000011
+        },
+        "disagree": {
+          "baseline_direction_accuracy": 0.49921996879875197,
+          "baseline_net_pnl_usd": 2860.00000000001,
+          "incremental_net_pnl_usd": -1300.000000000019,
+          "origins": 641,
+          "specialist_direction_accuracy": 0.49921996879875197,
+          "specialist_net_pnl_usd": 1559.9999999999884
+        }
+      },
+      "raw_specialist_side": {
+        "long": {
+          "baseline_direction_accuracy": 0.47706422018348627,
+          "baseline_net_pnl_usd": 10155.000000000005,
+          "incremental_net_pnl_usd": -5395.000000000012,
+          "origins": 545,
+          "specialist_direction_accuracy": 0.5119266055045871,
+          "specialist_net_pnl_usd": 4759.999999999993
+        },
+        "short": {
+          "baseline_direction_accuracy": 0.4976635514018692,
+          "baseline_net_pnl_usd": 15930.000000000033,
+          "incremental_net_pnl_usd": -3915.000000000029,
+          "origins": 856,
+          "specialist_direction_accuracy": 0.5011682242990654,
+          "specialist_net_pnl_usd": 12015.000000000005
+        }
+      },
+      "season_regime": {
+        "non_winter": {
+          "baseline_direction_accuracy": 0.46919431279620855,
+          "baseline_net_pnl_usd": 10445.000000000045,
+          "incremental_net_pnl_usd": 884.9999999999741,
+          "origins": 844,
+          "specialist_direction_accuracy": 0.47985781990521326,
+          "specialist_net_pnl_usd": 11330.00000000002
+        },
+        "winter_nov_mar": {
+          "baseline_direction_accuracy": 0.5206463195691203,
+          "baseline_net_pnl_usd": 15639.999999999995,
+          "incremental_net_pnl_usd": -10195.000000000015,
+          "origins": 557,
+          "specialist_direction_accuracy": 0.5439856373429084,
+          "specialist_net_pnl_usd": 5444.999999999978
+        }
+      },
+      "trend_regime": {
+        "negative_20d": {
+          "baseline_direction_accuracy": 0.48460508701472554,
+          "baseline_net_pnl_usd": 15515.000000000033,
+          "incremental_net_pnl_usd": -9625.000000000022,
+          "origins": 747,
+          "specialist_direction_accuracy": 0.499330655957162,
+          "specialist_net_pnl_usd": 5890.000000000013
+        },
+        "nonnegative_20d": {
+          "baseline_direction_accuracy": 0.4954128440366973,
+          "baseline_net_pnl_usd": 10570.000000000005,
+          "incremental_net_pnl_usd": 314.99999999997954,
+          "origins": 654,
+          "specialist_direction_accuracy": 0.5122324159021406,
+          "specialist_net_pnl_usd": 10884.999999999985
+        }
+      },
+      "uncertainty_bucket": {
+        "high": {
+          "baseline_direction_accuracy": 0.46808510638297873,
+          "baseline_net_pnl_usd": 1080.0000000000045,
+          "incremental_net_pnl_usd": -5350.000000000003,
+          "origins": 517,
+          "specialist_direction_accuracy": 0.4816247582205029,
+          "specialist_net_pnl_usd": -4269.999999999998
+        },
+        "low": {
+          "baseline_direction_accuracy": 0.5320813771517997,
+          "baseline_net_pnl_usd": 24580.00000000003,
+          "incremental_net_pnl_usd": -6940.000000000033,
+          "origins": 639,
+          "specialist_direction_accuracy": 0.5273865414710485,
+          "specialist_net_pnl_usd": 17639.999999999996
+        },
+        "mid": {
+          "baseline_direction_accuracy": 0.42448979591836733,
+          "baseline_net_pnl_usd": 425.0000000000068,
+          "incremental_net_pnl_usd": 2979.9999999999936,
+          "origins": 245,
+          "specialist_direction_accuracy": 0.49795918367346936,
+          "specialist_net_pnl_usd": 3405.0
+        }
+      },
+      "volatility_regime": {
+        "high": {
+          "baseline_direction_accuracy": 0.4880450070323488,
+          "baseline_net_pnl_usd": 6884.999999999991,
+          "incremental_net_pnl_usd": -4630.000000000009,
+          "origins": 711,
+          "specialist_direction_accuracy": 0.5133614627285513,
+          "specialist_net_pnl_usd": 2254.9999999999827
+        },
+        "low": {
+          "baseline_direction_accuracy": 0.4871244635193133,
+          "baseline_net_pnl_usd": 14080.000000000011,
+          "incremental_net_pnl_usd": 129.99999999999102,
+          "origins": 466,
+          "specialist_direction_accuracy": 0.48283261802575106,
+          "specialist_net_pnl_usd": 14210.0
+        },
+        "mid": {
+          "baseline_direction_accuracy": 0.5,
+          "baseline_net_pnl_usd": 5120.000000000038,
+          "incremental_net_pnl_usd": -4810.000000000025,
+          "origins": 224,
+          "specialist_direction_accuracy": 0.5267857142857143,
+          "specialist_net_pnl_usd": 310.00000000001376
+        }
+      },
+      "year": {
+        "2017": {
+          "baseline_direction_accuracy": 0.6025641025641025,
+          "baseline_net_pnl_usd": 31045.00000000006,
+          "incremental_net_pnl_usd": -10320.00000000004,
+          "origins": 234,
+          "specialist_direction_accuracy": 0.6068376068376068,
+          "specialist_net_pnl_usd": 20725.000000000015
+        },
+        "2018": {
+          "baseline_direction_accuracy": 0.41304347826086957,
+          "baseline_net_pnl_usd": -940.000000000002,
+          "incremental_net_pnl_usd": 0.0,
+          "origins": 230,
+          "specialist_direction_accuracy": 0.43043478260869567,
+          "specialist_net_pnl_usd": -940.000000000002
+        },
+        "2019": {
+          "baseline_direction_accuracy": 0.6,
+          "baseline_net_pnl_usd": 3459.9999999999945,
+          "incremental_net_pnl_usd": -1339.999999999999,
+          "origins": 235,
+          "specialist_direction_accuracy": 0.5914893617021276,
+          "specialist_net_pnl_usd": 2119.9999999999955
+        },
+        "2020": {
+          "baseline_direction_accuracy": 0.4326530612244898,
+          "baseline_net_pnl_usd": 0.0,
+          "incremental_net_pnl_usd": 0.0,
+          "origins": 245,
+          "specialist_direction_accuracy": 0.5102040816326531,
+          "specialist_net_pnl_usd": 0.0
+        },
+        "2021": {
+          "baseline_direction_accuracy": 0.42616033755274263,
+          "baseline_net_pnl_usd": -7480.0000000000055,
+          "incremental_net_pnl_usd": 2349.9999999999955,
+          "origins": 237,
+          "specialist_direction_accuracy": 0.4388185654008439,
+          "specialist_net_pnl_usd": -5130.00000000001
+        },
+        "2022": {
+          "baseline_direction_accuracy": 0.4636363636363636,
+          "baseline_net_pnl_usd": 0.0,
+          "incremental_net_pnl_usd": 0.0,
+          "origins": 220,
+          "specialist_direction_accuracy": 0.45,
+          "specialist_net_pnl_usd": 0.0
+        }
+      }
+    },
+    "specialist": "kronos_base_one_step",
+    "thresholds": {
+      "outer-2017-2018": {
+        "magnitude_terciles": [
+          0.009553696147848366,
+          0.026254104832165198
+        ],
+        "uncertainty_terciles": [
+          0.03477444243703629,
+          0.05021881066584499
+        ],
+        "volatility_terciles": [
+          0.020309728652505715,
+          0.025276757094898673
+        ]
+      },
+      "outer-2019-2020": {
+        "magnitude_terciles": [
+          0.008221078602170398,
+          0.022703115927322694
+        ],
+        "uncertainty_terciles": [
+          0.028870716778717897,
+          0.0455418589412328
+        ],
+        "volatility_terciles": [
+          0.019612548432071768,
+          0.024934292424387387
+        ]
+      },
+      "outer-2021-2022": {
+        "magnitude_terciles": [
+          0.008620653114895134,
+          0.025388403255933136
+        ],
+        "uncertainty_terciles": [
+          0.027749309549800198,
+          0.045505011218888024
+        ],
+        "volatility_terciles": [
+          0.019934651857835526,
+          0.025935018509079547
+        ]
+      }
+    },
+    "unattributed_incremental_net_pnl_usd": -7.275957614183426e-12
+  },
+  "origin_canonicalization": {
+    "collapsed": 64,
+    "input_origins": 2929,
+    "output_origins": 2865
+  },
+  "policy_optimization_deferred_to": "github-issue-359",
+  "protected_confirmation_accessed": false,
+  "schema_version": 1,
+  "timesfm": {
+    "aggregate_incremental_net_pnl_usd": 17290.00000000001,
+    "attributed_incremental_net_pnl_usd": 17335.00000000001,
+    "candidate_id": "histgb-core-timesfm-v1",
+    "concentration": {
+      "largest_origin_abs_increment_fraction": 0.020410374190193488,
+      "top10_origin_abs_increment_fraction": 0.12131389075466387,
+      "top5_origin_abs_increment_fraction": 0.0735163477997097
+    },
+    "cross_block_segments": {
+      "baseline_side": {
+        "outer-2017-2018": {
+          "long": {
+            "baseline_direction_accuracy": 0.4777777777777778,
+            "baseline_net_pnl_usd": 6095.00000000002,
+            "incremental_net_pnl_usd": -6955.000000000011,
+            "origins": 90,
+            "specialist_direction_accuracy": 0.35555555555555557,
+            "specialist_net_pnl_usd": -859.9999999999918
+          },
+          "short": {
+            "baseline_direction_accuracy": 0.516042780748663,
+            "baseline_net_pnl_usd": 24010.000000000033,
+            "incremental_net_pnl_usd": 1334.9999999999955,
+            "origins": 374,
+            "specialist_direction_accuracy": 0.5401069518716578,
+            "specialist_net_pnl_usd": 25345.000000000025
+          }
+        },
+        "outer-2019-2020": {
+          "long": {
+            "baseline_direction_accuracy": 0.4540540540540541,
+            "baseline_net_pnl_usd": 1754.9999999999986,
+            "incremental_net_pnl_usd": 10920.000000000015,
+            "origins": 185,
+            "specialist_direction_accuracy": 0.5297297297297298,
+            "specialist_net_pnl_usd": 12675.000000000013
+          },
+          "short": {
+            "baseline_direction_accuracy": 0.5525423728813559,
+            "baseline_net_pnl_usd": 1704.9999999999961,
+            "incremental_net_pnl_usd": 12355.0,
+            "origins": 295,
+            "specialist_direction_accuracy": 0.5559322033898305,
+            "specialist_net_pnl_usd": 14059.999999999996
+          }
+        },
+        "outer-2021-2022": {
+          "long": {
+            "baseline_direction_accuracy": 0.5286624203821656,
+            "baseline_net_pnl_usd": -2145.0000000000027,
+            "incremental_net_pnl_usd": -994.9999999999862,
+            "origins": 157,
+            "specialist_direction_accuracy": 0.4585987261146497,
+            "specialist_net_pnl_usd": -3139.999999999989
+          },
+          "short": {
+            "baseline_direction_accuracy": 0.4,
+            "baseline_net_pnl_usd": -5335.000000000003,
+            "incremental_net_pnl_usd": 674.9999999999984,
+            "origins": 300,
+            "specialist_direction_accuracy": 0.41,
+            "specialist_net_pnl_usd": -4660.000000000005
+          }
+        }
+      },
+      "magnitude_bucket": {
+        "outer-2017-2018": {
+          "high": {
+            "baseline_direction_accuracy": 0.4527027027027027,
+            "baseline_net_pnl_usd": 2690.0000000000196,
+            "incremental_net_pnl_usd": 1020.0000000000059,
+            "origins": 148,
+            "specialist_direction_accuracy": 0.5,
+            "specialist_net_pnl_usd": 3710.000000000025
+          },
+          "low": {
+            "baseline_direction_accuracy": 0.5485714285714286,
+            "baseline_net_pnl_usd": 18195.0,
+            "incremental_net_pnl_usd": -3110.0000000000036,
+            "origins": 175,
+            "specialist_direction_accuracy": 0.5028571428571429,
+            "specialist_net_pnl_usd": 15085.0
+          },
+          "mid": {
+            "baseline_direction_accuracy": 0.5177304964539007,
+            "baseline_net_pnl_usd": 9220.000000000027,
+            "incremental_net_pnl_usd": -3530.0000000000164,
+            "origins": 141,
+            "specialist_direction_accuracy": 0.5106382978723404,
+            "specialist_net_pnl_usd": 5690.000000000013
+          }
+        },
+        "outer-2019-2020": {
+          "high": {
+            "baseline_direction_accuracy": 0.4873096446700508,
+            "baseline_net_pnl_usd": -3200.0000000000014,
+            "incremental_net_pnl_usd": 8979.999999999989,
+            "origins": 197,
+            "specialist_direction_accuracy": 0.5532994923857868,
+            "specialist_net_pnl_usd": 5779.999999999992
+          },
+          "low": {
+            "baseline_direction_accuracy": 0.5042735042735043,
+            "baseline_net_pnl_usd": 309.99999999999693,
+            "incremental_net_pnl_usd": 4234.999999999998,
+            "origins": 117,
+            "specialist_direction_accuracy": 0.49572649572649574,
+            "specialist_net_pnl_usd": 4544.999999999995
+          },
+          "mid": {
+            "baseline_direction_accuracy": 0.5542168674698795,
+            "baseline_net_pnl_usd": 6349.999999999999,
+            "incremental_net_pnl_usd": 10060.000000000027,
+            "origins": 166,
+            "specialist_direction_accuracy": 0.572289156626506,
+            "specialist_net_pnl_usd": 16410.000000000025
+          }
+        },
+        "outer-2021-2022": {
+          "high": {
+            "baseline_direction_accuracy": 0.44813278008298757,
+            "baseline_net_pnl_usd": -3780.000000000002,
+            "incremental_net_pnl_usd": -69.99999999999562,
+            "origins": 241,
+            "specialist_direction_accuracy": 0.4315352697095436,
+            "specialist_net_pnl_usd": -3849.9999999999973
+          },
+          "low": {
+            "baseline_direction_accuracy": 0.44339622641509435,
+            "baseline_net_pnl_usd": 39.99999999999787,
+            "incremental_net_pnl_usd": -1224.9999999999898,
+            "origins": 106,
+            "specialist_direction_accuracy": 0.41509433962264153,
+            "specialist_net_pnl_usd": -1184.9999999999918
+          },
+          "mid": {
+            "baseline_direction_accuracy": 0.43636363636363634,
+            "baseline_net_pnl_usd": -3740.000000000001,
+            "incremental_net_pnl_usd": 974.9999999999975,
+            "origins": 110,
+            "specialist_direction_accuracy": 0.42727272727272725,
+            "specialist_net_pnl_usd": -2765.0000000000036
+          }
+        }
+      },
+      "raw_agreement": {
+        "outer-2017-2018": {
+          "agree": {
+            "baseline_direction_accuracy": 0.5418502202643172,
+            "baseline_net_pnl_usd": 25555.000000000036,
+            "incremental_net_pnl_usd": -5345.000000000018,
+            "origins": 227,
+            "specialist_direction_accuracy": 0.5242290748898678,
+            "specialist_net_pnl_usd": 20210.000000000015
+          },
+          "disagree": {
+            "baseline_direction_accuracy": 0.4767932489451477,
+            "baseline_net_pnl_usd": 4550.0000000000155,
+            "incremental_net_pnl_usd": -274.99999999999704,
+            "origins": 237,
+            "specialist_direction_accuracy": 0.48523206751054854,
+            "specialist_net_pnl_usd": 4275.000000000018
+          }
+        },
+        "outer-2019-2020": {
+          "agree": {
+            "baseline_direction_accuracy": 0.5089285714285714,
+            "baseline_net_pnl_usd": -2599.999999999998,
+            "incremental_net_pnl_usd": 10034.999999999985,
+            "origins": 224,
+            "specialist_direction_accuracy": 0.5491071428571429,
+            "specialist_net_pnl_usd": 7434.999999999987
+          },
+          "disagree": {
+            "baseline_direction_accuracy": 0.51953125,
+            "baseline_net_pnl_usd": 6059.999999999993,
+            "incremental_net_pnl_usd": 13240.000000000027,
+            "origins": 256,
+            "specialist_direction_accuracy": 0.54296875,
+            "specialist_net_pnl_usd": 19300.000000000022
+          }
+        },
+        "outer-2021-2022": {
+          "agree": {
+            "baseline_direction_accuracy": 0.42201834862385323,
+            "baseline_net_pnl_usd": 565.0000000000006,
+            "incremental_net_pnl_usd": 500.0000000000027,
+            "origins": 218,
+            "specialist_direction_accuracy": 0.3944954128440367,
+            "specialist_net_pnl_usd": 1065.0000000000032
+          },
+          "disagree": {
+            "baseline_direction_accuracy": 0.46443514644351463,
+            "baseline_net_pnl_usd": -8045.0000000000055,
+            "incremental_net_pnl_usd": -819.9999999999905,
+            "origins": 239,
+            "specialist_direction_accuracy": 0.4560669456066946,
+            "specialist_net_pnl_usd": -8864.999999999996
+          }
+        }
+      },
+      "season_regime": {
+        "outer-2017-2018": {
+          "non_winter": {
+            "baseline_direction_accuracy": 0.4965034965034965,
+            "baseline_net_pnl_usd": 10445.000000000045,
+            "incremental_net_pnl_usd": -1280.0000000000123,
+            "origins": 286,
+            "specialist_direction_accuracy": 0.4825174825174825,
+            "specialist_net_pnl_usd": 9165.000000000035
+          },
+          "winter_nov_mar": {
+            "baseline_direction_accuracy": 0.5280898876404494,
+            "baseline_net_pnl_usd": 19660.000000000007,
+            "incremental_net_pnl_usd": -4340.000000000002,
+            "origins": 178,
+            "specialist_direction_accuracy": 0.5393258426966292,
+            "specialist_net_pnl_usd": 15320.000000000004
+          }
+        },
+        "outer-2019-2020": {
+          "non_winter": {
+            "baseline_direction_accuracy": 0.4808362369337979,
+            "baseline_net_pnl_usd": 0.0,
+            "incremental_net_pnl_usd": 6190.000000000016,
+            "origins": 287,
+            "specialist_direction_accuracy": 0.5156794425087108,
+            "specialist_net_pnl_usd": 6190.000000000016
+          },
+          "winter_nov_mar": {
+            "baseline_direction_accuracy": 0.5647668393782384,
+            "baseline_net_pnl_usd": 3459.9999999999945,
+            "incremental_net_pnl_usd": 17085.0,
+            "origins": 193,
+            "specialist_direction_accuracy": 0.5906735751295337,
+            "specialist_net_pnl_usd": 20545.0
+          }
+        },
+        "outer-2021-2022": {
+          "non_winter": {
+            "baseline_direction_accuracy": 0.4280442804428044,
+            "baseline_net_pnl_usd": 0.0,
+            "incremental_net_pnl_usd": 0.0,
+            "origins": 271,
+            "specialist_direction_accuracy": 0.41697416974169743,
+            "specialist_net_pnl_usd": 0.0
+          },
+          "winter_nov_mar": {
+            "baseline_direction_accuracy": 0.46774193548387094,
+            "baseline_net_pnl_usd": -7480.0000000000055,
+            "incremental_net_pnl_usd": -319.9999999999877,
+            "origins": 186,
+            "specialist_direction_accuracy": 0.44086021505376344,
+            "specialist_net_pnl_usd": -7799.999999999993
+          }
+        }
+      },
+      "trend_regime": {
+        "outer-2017-2018": {
+          "negative_20d": {
+            "baseline_direction_accuracy": 0.524,
+            "baseline_net_pnl_usd": 14940.000000000044,
+            "incremental_net_pnl_usd": -3400.000000000008,
+            "origins": 250,
+            "specialist_direction_accuracy": 0.516,
+            "specialist_net_pnl_usd": 11540.000000000038
+          },
+          "nonnegative_20d": {
+            "baseline_direction_accuracy": 0.49065420560747663,
+            "baseline_net_pnl_usd": 15165.000000000004,
+            "incremental_net_pnl_usd": -2220.0000000000064,
+            "origins": 214,
+            "specialist_direction_accuracy": 0.49065420560747663,
+            "specialist_net_pnl_usd": 12945.0
+          }
+        },
+        "outer-2019-2020": {
+          "negative_20d": {
+            "baseline_direction_accuracy": 0.47878787878787876,
+            "baseline_net_pnl_usd": 3459.9999999999945,
+            "incremental_net_pnl_usd": 8834.999999999998,
+            "origins": 330,
+            "specialist_direction_accuracy": 0.503030303030303,
+            "specialist_net_pnl_usd": 12294.999999999993
+          },
+          "nonnegative_20d": {
+            "baseline_direction_accuracy": 0.5933333333333334,
+            "baseline_net_pnl_usd": 0.0,
+            "incremental_net_pnl_usd": 14440.000000000018,
+            "origins": 150,
+            "specialist_direction_accuracy": 0.64,
+            "specialist_net_pnl_usd": 14440.000000000018
+          }
+        },
+        "outer-2021-2022": {
+          "negative_20d": {
+            "baseline_direction_accuracy": 0.437125748502994,
+            "baseline_net_pnl_usd": -2885.0000000000073,
+            "incremental_net_pnl_usd": -989.999999999992,
+            "origins": 167,
+            "specialist_direction_accuracy": 0.4491017964071856,
+            "specialist_net_pnl_usd": -3874.999999999999
+          },
+          "nonnegative_20d": {
+            "baseline_direction_accuracy": 0.4482758620689655,
+            "baseline_net_pnl_usd": -4594.999999999998,
+            "incremental_net_pnl_usd": 670.000000000004,
+            "origins": 290,
+            "specialist_direction_accuracy": 0.41379310344827586,
+            "specialist_net_pnl_usd": -3924.999999999994
+          }
+        }
+      },
+      "uncertainty_bucket": {
+        "outer-2017-2018": {
+          "high": {
+            "baseline_direction_accuracy": 0.47,
+            "baseline_net_pnl_usd": 3759.9999999999936,
+            "incremental_net_pnl_usd": 45.00000000000455,
+            "origins": 100,
+            "specialist_direction_accuracy": 0.56,
+            "specialist_net_pnl_usd": 3804.9999999999977
+          },
+          "low": {
+            "baseline_direction_accuracy": 0.5038461538461538,
+            "baseline_net_pnl_usd": 12900.000000000027,
+            "incremental_net_pnl_usd": -2000.0000000000123,
+            "origins": 260,
+            "specialist_direction_accuracy": 0.4653846153846154,
+            "specialist_net_pnl_usd": 10900.000000000015
+          },
+          "mid": {
+            "baseline_direction_accuracy": 0.5576923076923077,
+            "baseline_net_pnl_usd": 13445.00000000003,
+            "incremental_net_pnl_usd": -3665.0000000000073,
+            "origins": 104,
+            "specialist_direction_accuracy": 0.5480769230769231,
+            "specialist_net_pnl_usd": 9780.00000000002
+          }
+        },
+        "outer-2019-2020": {
+          "high": {
+            "baseline_direction_accuracy": 0.460431654676259,
+            "baseline_net_pnl_usd": -2980.0000000000014,
+            "incremental_net_pnl_usd": 7010.000000000022,
+            "origins": 278,
+            "specialist_direction_accuracy": 0.5179856115107914,
+            "specialist_net_pnl_usd": 4030.0000000000205
+          },
+          "low": {
+            "baseline_direction_accuracy": 0.5952380952380952,
+            "baseline_net_pnl_usd": 3249.999999999997,
+            "incremental_net_pnl_usd": 8764.999999999996,
+            "origins": 126,
+            "specialist_direction_accuracy": 0.5634920634920635,
+            "specialist_net_pnl_usd": 12014.999999999993
+          },
+          "mid": {
+            "baseline_direction_accuracy": 0.5789473684210527,
+            "baseline_net_pnl_usd": 3189.9999999999995,
+            "incremental_net_pnl_usd": 7499.999999999999,
+            "origins": 76,
+            "specialist_direction_accuracy": 0.618421052631579,
+            "specialist_net_pnl_usd": 10689.999999999998
+          }
+        },
+        "outer-2021-2022": {
+          "high": {
+            "baseline_direction_accuracy": 0.46319018404907975,
+            "baseline_net_pnl_usd": -1800.000000000006,
+            "incremental_net_pnl_usd": -2939.9999999999845,
+            "origins": 326,
+            "specialist_direction_accuracy": 0.44171779141104295,
+            "specialist_net_pnl_usd": -4739.999999999991
+          },
+          "low": {
+            "baseline_direction_accuracy": 0.2903225806451613,
+            "baseline_net_pnl_usd": -989.9999999999975,
+            "incremental_net_pnl_usd": 974.9999999999975,
+            "origins": 62,
+            "specialist_direction_accuracy": 0.27419354838709675,
+            "specialist_net_pnl_usd": -15.0
+          },
+          "mid": {
+            "baseline_direction_accuracy": 0.4927536231884058,
+            "baseline_net_pnl_usd": -4690.000000000002,
+            "incremental_net_pnl_usd": 1644.9999999999995,
+            "origins": 69,
+            "specialist_direction_accuracy": 0.4927536231884058,
+            "specialist_net_pnl_usd": -3045.0000000000023
+          }
+        }
+      },
+      "volatility_regime": {
+        "outer-2017-2018": {
+          "high": {
+            "baseline_direction_accuracy": 0.5089285714285714,
+            "baseline_net_pnl_usd": 10905.000000000002,
+            "incremental_net_pnl_usd": -3150.0000000000027,
+            "origins": 112,
+            "specialist_direction_accuracy": 0.5625,
+            "specialist_net_pnl_usd": 7755.000000000001
+          },
+          "low": {
+            "baseline_direction_accuracy": 0.5,
+            "baseline_net_pnl_usd": 14080.000000000011,
+            "incremental_net_pnl_usd": -4490.000000000007,
+            "origins": 268,
+            "specialist_direction_accuracy": 0.458955223880597,
+            "specialist_net_pnl_usd": 9590.000000000004
+          },
+          "mid": {
+            "baseline_direction_accuracy": 0.5357142857142857,
+            "baseline_net_pnl_usd": 5120.000000000038,
+            "incremental_net_pnl_usd": 2019.999999999994,
+            "origins": 84,
+            "specialist_direction_accuracy": 0.5714285714285714,
+            "specialist_net_pnl_usd": 7140.000000000033
+          }
+        },
+        "outer-2019-2020": {
+          "high": {
+            "baseline_direction_accuracy": 0.5133079847908745,
+            "baseline_net_pnl_usd": 3459.9999999999945,
+            "incremental_net_pnl_usd": 12790.000000000024,
+            "origins": 263,
+            "specialist_direction_accuracy": 0.55893536121673,
+            "specialist_net_pnl_usd": 16250.000000000018
+          },
+          "low": {
+            "baseline_direction_accuracy": 0.5471698113207547,
+            "baseline_net_pnl_usd": 0.0,
+            "incremental_net_pnl_usd": 8224.999999999985,
+            "origins": 106,
+            "specialist_direction_accuracy": 0.5,
+            "specialist_net_pnl_usd": 8224.999999999985
+          },
+          "mid": {
+            "baseline_direction_accuracy": 0.4864864864864865,
+            "baseline_net_pnl_usd": 0.0,
+            "incremental_net_pnl_usd": 2260.0000000000114,
+            "origins": 111,
+            "specialist_direction_accuracy": 0.5585585585585585,
+            "specialist_net_pnl_usd": 2260.0000000000114
+          }
+        },
+        "outer-2021-2022": {
+          "high": {
+            "baseline_direction_accuracy": 0.46130952380952384,
+            "baseline_net_pnl_usd": -7480.0000000000055,
+            "incremental_net_pnl_usd": -319.9999999999877,
+            "origins": 336,
+            "specialist_direction_accuracy": 0.44345238095238093,
+            "specialist_net_pnl_usd": -7799.999999999993
+          },
+          "low": {
+            "baseline_direction_accuracy": 0.3804347826086957,
+            "baseline_net_pnl_usd": 0.0,
+            "incremental_net_pnl_usd": 0.0,
+            "origins": 92,
+            "specialist_direction_accuracy": 0.32608695652173914,
+            "specialist_net_pnl_usd": 0.0
+          },
+          "mid": {
+            "baseline_direction_accuracy": 0.4482758620689655,
+            "baseline_net_pnl_usd": 0.0,
+            "incremental_net_pnl_usd": 0.0,
+            "origins": 29,
+            "specialist_direction_accuracy": 0.5517241379310345,
+            "specialist_net_pnl_usd": 0.0
+          }
+        }
+      }
+    },
+    "model_shift_help_rate": 0.4889364739471806,
+    "model_shift_vs_baseline_error_pearson": 0.004949187014866635,
+    "model_shift_vs_baseline_error_spearman": -0.017045157594561308,
+    "origins": 1401,
+    "segments": {
+      "baseline_side": {
+        "long": {
+          "baseline_direction_accuracy": 0.4861111111111111,
+          "baseline_net_pnl_usd": 5705.000000000015,
+          "incremental_net_pnl_usd": 2970.0000000000173,
+          "origins": 432,
+          "specialist_direction_accuracy": 0.4675925925925926,
+          "specialist_net_pnl_usd": 8675.00000000003
+        },
+        "short": {
+          "baseline_direction_accuracy": 0.49122807017543857,
+          "baseline_net_pnl_usd": 20380.000000000022,
+          "incremental_net_pnl_usd": 14364.999999999996,
+          "origins": 969,
+          "specialist_direction_accuracy": 0.5046439628482973,
+          "specialist_net_pnl_usd": 34745.00000000002
+        }
+      },
+      "direction_effect": {
+        "corrected": {
+          "baseline_direction_accuracy": 0.0,
+          "baseline_net_pnl_usd": -6250.0,
+          "incremental_net_pnl_usd": 20685.000000000004,
+          "origins": 86,
+          "specialist_direction_accuracy": 1.0,
+          "specialist_net_pnl_usd": 14435.000000000005
+        },
+        "harmed": {
+          "baseline_direction_accuracy": 1.0,
+          "baseline_net_pnl_usd": 3355.000000000007,
+          "incremental_net_pnl_usd": -13689.999999999993,
+          "origins": 81,
+          "specialist_direction_accuracy": 0.0,
+          "specialist_net_pnl_usd": -10334.999999999985
+        },
+        "unchanged": {
+          "baseline_direction_accuracy": 0.49027552674230146,
+          "baseline_net_pnl_usd": 28980.00000000004,
+          "incremental_net_pnl_usd": 10339.999999999998,
+          "origins": 1234,
+          "specialist_direction_accuracy": 0.49027552674230146,
+          "specialist_net_pnl_usd": 39320.00000000003
+        }
+      },
+      "magnitude_bucket": {
+        "high": {
+          "baseline_direction_accuracy": 0.46245733788395904,
+          "baseline_net_pnl_usd": -4289.999999999984,
+          "incremental_net_pnl_usd": 9930.0,
+          "origins": 586,
+          "specialist_direction_accuracy": 0.48976109215017066,
+          "specialist_net_pnl_usd": 5640.000000000016
+        },
+        "low": {
+          "baseline_direction_accuracy": 0.507537688442211,
+          "baseline_net_pnl_usd": 18544.999999999993,
+          "incremental_net_pnl_usd": -99.99999999999727,
+          "origins": 398,
+          "specialist_direction_accuracy": 0.47738693467336685,
+          "specialist_net_pnl_usd": 18445.0
+        },
+        "mid": {
+          "baseline_direction_accuracy": 0.5107913669064749,
+          "baseline_net_pnl_usd": 11830.000000000025,
+          "incremental_net_pnl_usd": 7505.000000000007,
+          "origins": 417,
+          "specialist_direction_accuracy": 0.513189448441247,
+          "specialist_net_pnl_usd": 19335.000000000033
+        }
+      },
+      "outer_block_id": {
+        "outer-2017-2018": {
+          "baseline_direction_accuracy": 0.5086206896551724,
+          "baseline_net_pnl_usd": 30105.00000000006,
+          "incremental_net_pnl_usd": -5620.000000000015,
+          "origins": 464,
+          "specialist_direction_accuracy": 0.5043103448275862,
+          "specialist_net_pnl_usd": 24485.00000000004
+        },
+        "outer-2019-2020": {
+          "baseline_direction_accuracy": 0.5145833333333333,
+          "baseline_net_pnl_usd": 3459.9999999999945,
+          "incremental_net_pnl_usd": 23275.00000000002,
+          "origins": 480,
+          "specialist_direction_accuracy": 0.5458333333333333,
+          "specialist_net_pnl_usd": 26735.000000000015
+        },
+        "outer-2021-2022": {
+          "baseline_direction_accuracy": 0.4442013129102845,
+          "baseline_net_pnl_usd": -7480.0000000000055,
+          "incremental_net_pnl_usd": -319.9999999999877,
+          "origins": 457,
+          "specialist_direction_accuracy": 0.42669584245076586,
+          "specialist_net_pnl_usd": -7799.999999999993
+        }
+      },
+      "raw_agreement": {
+        "agree": {
+          "baseline_direction_accuracy": 0.49177877428998507,
+          "baseline_net_pnl_usd": 23520.000000000036,
+          "incremental_net_pnl_usd": 5189.999999999971,
+          "origins": 669,
+          "specialist_direction_accuracy": 0.49028400597907323,
+          "specialist_net_pnl_usd": 28710.000000000007
+        },
+        "disagree": {
+          "baseline_direction_accuracy": 0.48770491803278687,
+          "baseline_net_pnl_usd": 2565.0000000000036,
+          "incremental_net_pnl_usd": 12145.000000000042,
+          "origins": 732,
+          "specialist_direction_accuracy": 0.4959016393442623,
+          "specialist_net_pnl_usd": 14710.000000000044
+        }
+      },
+      "raw_specialist_side": {
+        "long": {
+          "baseline_direction_accuracy": 0.4911616161616162,
+          "baseline_net_pnl_usd": 2000.0000000000282,
+          "incremental_net_pnl_usd": 18575.0,
+          "origins": 792,
+          "specialist_direction_accuracy": 0.5012626262626263,
+          "specialist_net_pnl_usd": 20575.000000000033
+        },
+        "short": {
+          "baseline_direction_accuracy": 0.4876847290640394,
+          "baseline_net_pnl_usd": 24085.000000000015,
+          "incremental_net_pnl_usd": -1239.9999999999864,
+          "origins": 609,
+          "specialist_direction_accuracy": 0.4827586206896552,
+          "specialist_net_pnl_usd": 22845.000000000022
+        }
+      },
+      "season_regime": {
+        "non_winter": {
+          "baseline_direction_accuracy": 0.46919431279620855,
+          "baseline_net_pnl_usd": 10445.000000000045,
+          "incremental_net_pnl_usd": 4910.000000000004,
+          "origins": 844,
+          "specialist_direction_accuracy": 0.4727488151658768,
+          "specialist_net_pnl_usd": 15355.000000000051
+        },
+        "winter_nov_mar": {
+          "baseline_direction_accuracy": 0.5206463195691203,
+          "baseline_net_pnl_usd": 15639.999999999995,
+          "incremental_net_pnl_usd": 12425.000000000011,
+          "origins": 557,
+          "specialist_direction_accuracy": 0.5242369838420108,
+          "specialist_net_pnl_usd": 28065.000000000007
+        }
+      },
+      "trend_regime": {
+        "negative_20d": {
+          "baseline_direction_accuracy": 0.48460508701472554,
+          "baseline_net_pnl_usd": 15515.000000000033,
+          "incremental_net_pnl_usd": 4444.999999999996,
+          "origins": 747,
+          "specialist_direction_accuracy": 0.49531459170013387,
+          "specialist_net_pnl_usd": 19960.00000000003
+        },
+        "nonnegative_20d": {
+          "baseline_direction_accuracy": 0.4954128440366973,
+          "baseline_net_pnl_usd": 10570.000000000005,
+          "incremental_net_pnl_usd": 12890.000000000018,
+          "origins": 654,
+          "specialist_direction_accuracy": 0.4908256880733945,
+          "specialist_net_pnl_usd": 23460.00000000003
+        }
+      },
+      "uncertainty_bucket": {
+        "high": {
+          "baseline_direction_accuracy": 0.4630681818181818,
+          "baseline_net_pnl_usd": -1020.0000000000136,
+          "incremental_net_pnl_usd": 4115.000000000039,
+          "origins": 704,
+          "specialist_direction_accuracy": 0.48863636363636365,
+          "specialist_net_pnl_usd": 3095.0000000000273
+        },
+        "low": {
+          "baseline_direction_accuracy": 0.5,
+          "baseline_net_pnl_usd": 15160.000000000025,
+          "incremental_net_pnl_usd": 7739.99999999998,
+          "origins": 448,
+          "specialist_direction_accuracy": 0.46651785714285715,
+          "specialist_net_pnl_usd": 22900.000000000007
+        },
+        "mid": {
+          "baseline_direction_accuracy": 0.5461847389558233,
+          "baseline_net_pnl_usd": 11945.000000000027,
+          "incremental_net_pnl_usd": 5479.999999999992,
+          "origins": 249,
+          "specialist_direction_accuracy": 0.5542168674698795,
+          "specialist_net_pnl_usd": 17425.00000000002
+        }
+      },
+      "volatility_regime": {
+        "high": {
+          "baseline_direction_accuracy": 0.4880450070323488,
+          "baseline_net_pnl_usd": 6884.999999999991,
+          "incremental_net_pnl_usd": 9320.000000000033,
+          "origins": 711,
+          "specialist_direction_accuracy": 0.5049226441631505,
+          "specialist_net_pnl_usd": 16205.000000000022
+        },
+        "low": {
+          "baseline_direction_accuracy": 0.4871244635193133,
+          "baseline_net_pnl_usd": 14080.000000000011,
+          "incremental_net_pnl_usd": 3734.999999999978,
+          "origins": 466,
+          "specialist_direction_accuracy": 0.44206008583690987,
+          "specialist_net_pnl_usd": 17814.99999999999
+        },
+        "mid": {
+          "baseline_direction_accuracy": 0.5,
+          "baseline_net_pnl_usd": 5120.000000000038,
+          "incremental_net_pnl_usd": 4280.0000000000055,
+          "origins": 224,
+          "specialist_direction_accuracy": 0.5625,
+          "specialist_net_pnl_usd": 9400.000000000044
+        }
+      },
+      "year": {
+        "2017": {
+          "baseline_direction_accuracy": 0.6025641025641025,
+          "baseline_net_pnl_usd": 31045.00000000006,
+          "incremental_net_pnl_usd": -5140.000000000019,
+          "origins": 234,
+          "specialist_direction_accuracy": 0.5854700854700855,
+          "specialist_net_pnl_usd": 25905.000000000036
+        },
+        "2018": {
+          "baseline_direction_accuracy": 0.41304347826086957,
+          "baseline_net_pnl_usd": -940.000000000002,
+          "incremental_net_pnl_usd": -479.9999999999959,
+          "origins": 230,
+          "specialist_direction_accuracy": 0.4217391304347826,
+          "specialist_net_pnl_usd": -1419.9999999999982
+        },
+        "2019": {
+          "baseline_direction_accuracy": 0.6,
+          "baseline_net_pnl_usd": 3459.9999999999945,
+          "incremental_net_pnl_usd": 22319.999999999993,
+          "origins": 235,
+          "specialist_direction_accuracy": 0.6,
+          "specialist_net_pnl_usd": 25779.99999999999
+        },
+        "2020": {
+          "baseline_direction_accuracy": 0.4326530612244898,
+          "baseline_net_pnl_usd": 0.0,
+          "incremental_net_pnl_usd": 955.0000000000236,
+          "origins": 245,
+          "specialist_direction_accuracy": 0.49387755102040815,
+          "specialist_net_pnl_usd": 955.0000000000236
+        },
+        "2021": {
+          "baseline_direction_accuracy": 0.42616033755274263,
+          "baseline_net_pnl_usd": -7480.0000000000055,
+          "incremental_net_pnl_usd": -319.9999999999877,
+          "origins": 237,
+          "specialist_direction_accuracy": 0.4177215189873418,
+          "specialist_net_pnl_usd": -7799.999999999993
+        },
+        "2022": {
+          "baseline_direction_accuracy": 0.4636363636363636,
+          "baseline_net_pnl_usd": 0.0,
+          "incremental_net_pnl_usd": 0.0,
+          "origins": 220,
+          "specialist_direction_accuracy": 0.43636363636363634,
+          "specialist_net_pnl_usd": 0.0
+        }
+      }
+    },
+    "specialist": "timesfm_2_5",
+    "thresholds": {
+      "outer-2017-2018": {
+        "magnitude_terciles": [
+          0.002403974533081033,
+          0.005731741587320933
+        ],
+        "uncertainty_terciles": [
+          0.0639570901791254,
+          0.07879474510749179
+        ],
+        "volatility_terciles": [
+          0.020309728652505715,
+          0.025276757094898673
+        ]
+      },
+      "outer-2019-2020": {
+        "magnitude_terciles": [
+          0.0023343563079833,
+          0.005730867385864198
+        ],
+        "uncertainty_terciles": [
+          0.06132871285080909,
+          0.0770163014531135
+        ],
+        "volatility_terciles": [
+          0.019612548432071768,
+          0.024934292424387387
+        ]
+      },
+      "outer-2021-2022": {
+        "magnitude_terciles": [
+          0.002473950386047333,
+          0.005905310312906866
+        ],
+        "uncertainty_terciles": [
+          0.06207667042811706,
+          0.08040706316630042
+        ],
+        "volatility_terciles": [
+          0.019934651857835526,
+          0.025935018509079547
+        ]
+      }
+    },
+    "unattributed_incremental_net_pnl_usd": -45.0
+  }
+}

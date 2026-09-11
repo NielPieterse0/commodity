@@ -1,0 +1,40 @@
+{
+  "all_ready": false,
+  "authority": "github-issue-358-comment-5634786235",
+  "models": [
+    {
+      "artifact_ready": false,
+      "artifacts": [
+        {
+          "expected_sha256": "ddcda3c7508bf2528087723e98a20707cc04b7f370ae275a9fd88078ddba4f42",
+          "filename": "model.safetensors",
+          "hash_match": false,
+          "kind": "model",
+          "observed_sha256": null,
+          "path": "C:\\Projects\\commodity\\.work\\chronos-cache\\models--amazon--chronos-2\\snapshots\\29ec3766d36d6f73f0696f85560a422f50e8498c\\model.safetensors",
+          "present": false,
+          "repo_id": "amazon/chronos-2",
+          "revision": "29ec3766d36d6f73f0696f85560a422f50e8498c"
+        }
+      ],
+      "cache_bound": true,
+      "cache_env": "COMMODITY_CHRONOS_CACHE_DIR",
+      "cache_path": "C:\\Projects\\commodity\\.work\\chronos-cache",
+      "license_status": "apache-2.0_verified_2026-09-11",
+      "model_id": "amazon/chronos-2",
+      "model_key": "chronos_2",
+      "model_revision": "29ec3766d36d6f73f0696f85560a422f50e8498c",
+      "pretraining_exposure": "not_proven_pre_target",
+      "promotion_eligibility": "deployment_candidate_or_capacity_control",
+      "ready": false,
+      "runtime_module": "chronos",
+      "runtime_package": "chronos-forecasting==2.2.2",
+      "runtime_present": false,
+      "runtime_source": null,
+      "source_release": "v2.2.2",
+      "source_revision": null
+    }
+  ],
+  "protected_confirmation_accessed": false,
+  "schema_version": 1
+}

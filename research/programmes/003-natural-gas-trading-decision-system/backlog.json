@@ -3,5 +3,142 @@
   "zoom_level": "L1",
   "programme_id": "003-natural-gas-trading-decision-system",
   "generated_projection": false,
-  "items": []
+  "items": [
+    {
+      "id": "priority-1-storage-specialist-revisit",
+      "item": "Priority 1 \u2014 Revisit storage before other deferred fundamentals. Phase 3 rejected only the direct monthly BHLR production+storage+consumption log-level bundle. Storage itself had a +$3,990 aggregate marginal contribution inside that bundle and was non-negative in every outer-block remove-one comparison (+$2,650, +$1,340, $0). Test storage state, seasonal deviation/scarcity state and, when its PIT source gate passes, storage surprise as conditional specialist, regime, filtering or risk information rather than assuming the same direct-return-feature role.",
+      "kind": "recommendation",
+      "status": "open",
+      "source_record": "research/programmes/003-natural-gas-trading-decision-system/phase3-pit-fundamentals-v1.json",
+      "work_ref": "issue-278"
+    },
+    {
+      "id": "priority-2-issued-weather-revisions",
+      "item": "Priority 2 \u2014 Revisit actually-issued weather forecast/revision information using the literature-derived replication path in #282 and source-fidelity constraints in #321. Phase 3 did not test this information family. Do not substitute realized/reanalysis weather for historical issued vintages or optimize source/horizon/geography after outcomes are seen.",
+      "kind": "recommendation",
+      "status": "open",
+      "source_record": "research/programmes/003-natural-gas-trading-decision-system/phase3-pit-fundamentals-v1.json",
+      "work_ref": "issue-282"
+    },
+    {
+      "id": "priority-3-lng-power-balance",
+      "item": "Priority 3 \u2014 Evaluate LNG/feedgas, power burn/load, pipeline/import-export and broader supply-demand balance variables from #297 when point-in-time reconstruction is defensible. Prefer event/state changes and economically motivated interactions over indiscriminate feature expansion; these families were not scored in Phase 3.",
+      "kind": "recommendation",
+      "status": "open",
+      "source_record": "research/programmes/003-natural-gas-trading-decision-system/phase3-pit-fundamentals-v1.json",
+      "work_ref": "issue-297"
+    },
+    {
+      "id": "priority-4-production-consumption-alternative-roles",
+      "item": "Priority 4 \u2014 Keep production and consumption available for later alternative representations and interactions, but do not simply rerun the rejected monthly log-level bundle. Candidate roles include changes/accelerations, deviations from seasonal state, disagreement with market forecasts, regime context, veto/filter inputs and risk modifiers under a new preregistered identity.",
+      "kind": "recommendation",
+      "status": "open",
+      "source_record": "research/programmes/003-natural-gas-trading-decision-system/phase3-pit-fundamentals-v1.json",
+      "work_ref": "issue-297"
+    },
+    {
+      "id": "phase3-risk-information-hypothesis",
+      "item": "Preserve the Phase-3 risk-information clue: the full fundamentals challenger reduced maximum drawdown from 7.66% to 5.05%, execution/turnover sides from 124 to 84, transaction costs from $1,860 to $1,260, and the 2021-2022 loss from about -$7,480 to -$3,770 even though aggregate P&L fell by $7,540. Treat this as a hypothesis for filtering/regime/risk roles, not as proof of a deployable rule.",
+      "kind": "recommendation",
+      "status": "open",
+      "source_record": "research/programmes/003-natural-gas-trading-decision-system/phase3-pit-fundamentals-v1.json",
+      "work_ref": "issue-367"
+    },
+    {
+      "id": "phase4-specialist-role-continuity",
+      "item": "Phase 4 final handoff: preserve the four ordered TimesFM/Kronos retained-for-investigation roles for Phase 5. Chronos-2 does not enter the Phase-5 candidate set from its tested native five-step role. Moirai-2-small is research-only architectural evidence and must not be promoted under the current CC-BY-NC-4.0 weight license. No further foundation-model sweep before policy-conversion/risk-state/source-timing work.",
+      "kind": "recommendation",
+      "status": "open",
+      "source_record": "research/programmes/003-natural-gas-trading-decision-system/phase4-foundation-specialists-v1.json",
+      "work_ref": "issue-359"
+    },
+    {
+      "id": "phase5-information-to-policy-conversion",
+      "item": "Phase 5 priority: make the objective information-to-policy conversion, not another model leaderboard. Keep the unchanged market baseline; test a deliberately small preregistered set covering simple uncertainty/abstention, conditional confirmation/veto/weighting/sizing, and one regularized stack/gate. Separate forecast information, trade selection and risk sizing while keeping operator risk limits unchanged.",
+      "kind": "recommendation",
+      "status": "open",
+      "source_record": "research/programmes/003-natural-gas-trading-decision-system/lines/001-trading-system/line.json",
+      "work_ref": "issue-359"
+    },
+    {
+      "id": "phase5-risk-state-continuous-replay",
+      "item": "Phase 5 execution diagnostic: preserve the frozen per-block restarted benchmark, but add first-kill date/reason, active exposure, independent position episodes, flat-time attribution, and one explicitly specified continuous replay with governed restart semantics. Current baseline evidence shows 1,494 of 1,532 flat sessions were caused by risk-killed state; do not describe this as intelligent signal abstention. Loss limits are shutdown triggers after the interval move, not guaranteed intraday caps.",
+      "kind": "recommendation",
+      "status": "open",
+      "source_record": "research/programmes/003-natural-gas-trading-decision-system/lines/001-trading-system/line.json",
+      "work_ref": "issue-359"
+    },
+    {
+      "id": "phase5-target-matched-uncertainty",
+      "item": "Phase 5 uncertainty rule: TimesFM 80% interval coverage (83.02% empirical) is calibrated only on the next same-contract settlement return. Any veto/abstention/sizing use must evaluate uncertainty against the five-session executable target or declare the one-step quantity as a proxy and test that translation separately. Risk deployment should vary downward within existing operator limits; do not relax limits to rescue a candidate.",
+      "kind": "recommendation",
+      "status": "open",
+      "source_record": "research/programmes/003-natural-gas-trading-decision-system/lines/001-trading-system/line.json",
+      "work_ref": "issue-359"
+    },
+    {
+      "id": "phase5-metrics-timing-and-availability-reconciliation",
+      "item": "Before stronger economic claims, reconcile performance metric definitions and timing semantics. Current Phase-2 Calmar divides unannualized total return by drawdown and Sortino uses the standard deviation of negative daily returns; treat them as diagnostics, not selection gates, until a declared metric contract is frozen. Recheck the 23:59 UTC OHLCV availability convention against actual knowability/processing latency and distinguish simulated information cutoff from historical computation time/model availability.",
+      "kind": "recommendation",
+      "status": "open",
+      "source_record": "research/programmes/003-natural-gas-trading-decision-system/lines/001-trading-system/line.json",
+      "work_ref": "issue-359"
+    },
+    {
+      "id": "source-calendar-repair-before-further-model-expansion",
+      "item": "After the already-preregistered Phase-4 Chronos/Moirai budget, prioritize high-value temporal-source repairs before any further foundation-model family expansion: historical WNGSR release-calendar/source fidelity for weekly storage surprise and timestamped actually-issued weather/revision capture. The Phase-3 monthly log-level rejection does not retire these information families.",
+      "kind": "recommendation",
+      "status": "open",
+      "source_record": "research/programmes/003-natural-gas-trading-decision-system/lines/001-trading-system/line.json",
+      "work_ref": "issue-360"
+    },
+    {
+      "id": "phase6-bounded-horizon-refit-investigation",
+      "item": "Phase 6 may admit one mechanism-justified horizon or refit-cadence investigation even if the five-session policy has not become profitable, because model staleness or horizon mismatch can masquerade as absent signal. Predeclare one bounded alternative and its rationale; do not open a horizon/refit sweep. Global-gas expansion remains conditional and should follow the higher-priority conversion/source questions unless a specific mechanism requires it.",
+      "kind": "recommendation",
+      "status": "open",
+      "source_record": "research/programmes/003-natural-gas-trading-decision-system/lines/001-trading-system/line.json",
+      "work_ref": "issue-360"
+    },
+    {
+      "id": "phase7-prospective-evidence-contract",
+      "item": "Before Phase 7 outcomes are observed, freeze prospective evidence requirements: minimum elapsed coverage, number of independent decisions/episodes, active exposure, execution fidelity, uncertainty/calibration diagnostics, economic hurdle after costs, and allowed restart semantics. Begin/verify append-only timestamped development logging as early as practical, but only observations generated after the final candidate freeze may count as prospective evidence for that candidate.",
+      "kind": "recommendation",
+      "status": "open",
+      "source_record": "research/programmes/003-natural-gas-trading-decision-system/lines/001-trading-system/line.json",
+      "work_ref": "issue-361"
+    },
+    {
+      "id": "phase8-validity-controls-before-broad-hardening",
+      "item": "Keep Phase 8 conditional on demonstrated prospective edge. Bring forward only the minimum controls needed to make Phase-7 evidence valid: timestamped decision/input/fill logging, source freshness/completeness checks, fail-closed behavior, immutable candidate identity and replayability. Defer broad production observability, drift/retraining automation and wider hardening until the edge gate is actually met.",
+      "kind": "recommendation",
+      "status": "open",
+      "source_record": "research/programmes/003-natural-gas-trading-decision-system/lines/001-trading-system/line.json",
+      "work_ref": "issue-362"
+    },
+    {
+      "id": "phase0-knowledge-map-reconciliation",
+      "item": "At the next scope that owns config/quantitative_research_knowledge.json, reconcile the Phase-0 methodology coverage map with controls implemented in Phases 1-4. Do not mark programme-specific controls as universal repository contracts; distinguish Programme-003 implementation from repository-wide reusable coverage.",
+      "kind": "recommendation",
+      "status": "open",
+      "source_record": "research/programmes/003-natural-gas-trading-decision-system/lines/001-trading-system/line.json",
+      "work_ref": "issue-359"
+    },
+    {
+      "id": "chronos-native-role-bounded-revisit",
+      "item": "Do not universally retire Chronos-2. The tested native five-step role was weak and unstable (44.79% terminal direction), so no Phase-5 handoff. Revisit only if Phase 6 identifies a preregistered horizon/refit mismatch or a materially different role justified independently of these outcomes; never reopen as a broad model sweep.",
+      "kind": "recommendation",
+      "status": "open",
+      "source_record": "research/programmes/003-natural-gas-trading-decision-system/phase4-foundation-specialists-v1.json",
+      "work_ref": "issue-360"
+    },
+    {
+      "id": "moirai-research-only-architectural-clue",
+      "item": "Preserve Moirai-2-small as research-only architectural evidence: 56.25% terminal direction on the frozen 96-origin sample and non-negative direction accuracy across all three outer blocks. It is not deployable under the current CC-BY-NC-4.0 weights. Revisit only if licensing becomes deployment-compatible or a separately justified deployable analogue can test the same mechanism under a new experiment identity.",
+      "kind": "recommendation",
+      "status": "open",
+      "source_record": "research/programmes/003-natural-gas-trading-decision-system/phase4-foundation-specialists-v1.json",
+      "work_ref": "issue-360"
+    }
+  ]
 }

@@ -1,0 +1,33 @@
+{
+  "schema_version": 1,
+  "record": "kronos_checkpoint_preflight",
+  "model_key": "kronos_base",
+  "empirical_execution": false,
+  "model_inference": false,
+  "cache_semantics": "preflight_only; measured execution must use local_files_only",
+  "runtime_lock": {
+    "path": "requirements.kronos-cpu.lock.txt",
+    "sha256": "74b6d2e9d855522837afb73728eb55f9a1eba4d7a77b5f90ee39285b5d8fc08a",
+    "python": "3.11",
+    "platform": "windows_x86_64",
+    "torch": "2.13.0+cpu"
+  },
+  "artifacts": {
+    "model": {
+      "repo_id": "NeoQuasar/Kronos-base",
+      "revision": "2b554741eca47781b64468546e77fef3e85130e6",
+      "filename": "model.safetensors",
+      "expected_sha256": "abff193acab6db1a0368e9773e75799d11403b6d054ee6d5f0a11aeabc5f4b83",
+      "observed_sha256": "abff193acab6db1a0368e9773e75799d11403b6d054ee6d5f0a11aeabc5f4b83",
+      "bytes": 409264008
+    },
+    "tokenizer": {
+      "repo_id": "NeoQuasar/Kronos-Tokenizer-base",
+      "revision": "0e0117387f39004a9016484a186a908917e22426",
+      "filename": "model.safetensors",
+      "expected_sha256": "59d85f6af76a2c3b8240ea06cb21db4213b4eeca053f246b23e29cf832fc6bee",
+      "observed_sha256": "59d85f6af76a2c3b8240ea06cb21db4213b4eeca053f246b23e29cf832fc6bee",
+      "bytes": 15842368
+    }
+  }
+}

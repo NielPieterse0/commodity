@@ -1,0 +1,31 @@
+{
+  "batch_size": 16,
+  "complete": false,
+  "deterministic_seed": 0,
+  "evidence_role": "development_native_sequence_path_diagnostic",
+  "excluded": {
+    "future_crosses_cutoff": 0,
+    "insufficient_future_path": 96,
+    "insufficient_history": 0
+  },
+  "inference_profile": {
+    "T": 0.6,
+    "sample_count": 5,
+    "source": "vendor/Kronos/finetune/config.py",
+    "top_p": 0.9
+  },
+  "model_checkpoint_sha256": "abff193acab6db1a0368e9773e75799d11403b6d054ee6d5f0a11aeabc5f4b83",
+  "model_id": "NeoQuasar/Kronos-base",
+  "model_revision": "2b554741eca47781b64468546e77fef3e85130e6",
+  "new_origins": 16,
+  "output": "C:\\Projects\\commodity\\.work\\worktrees\\358-foundation-specialists\\.work\\changes\\358-foundation-specialists\\kronos-path-features.csv",
+  "output_sha256": "a2746743c0dd7dc36b2eb7954c59c898130c945a7f81d1f758bbcfc04f45b46d",
+  "pred_len": 5,
+  "protected_confirmation_accessed": false,
+  "resumed_rows": 0,
+  "rows": 16,
+  "source_revision": "67b630e67f6a18c9e9be918d9b4337c960db1e9a",
+  "tokenizer_checkpoint_sha256": "59d85f6af76a2c3b8240ea06cb21db4213b4eeca053f246b23e29cf832fc6bee",
+  "tokenizer_revision": "0e0117387f39004a9016484a186a908917e22426",
+  "total_eligible_origins": 1308
+}

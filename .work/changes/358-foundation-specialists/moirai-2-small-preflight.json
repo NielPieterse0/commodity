@@ -1,0 +1,40 @@
+{
+  "all_ready": false,
+  "authority": "github-issue-358-comment-5634786235",
+  "models": [
+    {
+      "artifact_ready": false,
+      "artifacts": [
+        {
+          "expected_sha256": "fb5652a3db8ea572606221b7cb1e77bb8962b168e4d4cc752cf31ceb04074669",
+          "filename": "model.safetensors",
+          "hash_match": false,
+          "kind": "model",
+          "observed_sha256": null,
+          "path": "C:\\Projects\\commodity\\.work\\moirai-cache\\models--Salesforce--moirai-2.0-R-small\\snapshots\\30f43ff08c8494f4943ae1521e9d4e94a0fbb389\\model.safetensors",
+          "present": false,
+          "repo_id": "Salesforce/moirai-2.0-R-small",
+          "revision": "30f43ff08c8494f4943ae1521e9d4e94a0fbb389"
+        }
+      ],
+      "cache_bound": true,
+      "cache_env": "COMMODITY_MOIRAI_CACHE_DIR",
+      "cache_path": "C:\\Projects\\commodity\\.work\\moirai-cache",
+      "license_status": "cc-by-nc-4.0_research_only_noncommercial",
+      "model_id": "Salesforce/moirai-2.0-R-small",
+      "model_key": "moirai_2_small",
+      "model_revision": "30f43ff08c8494f4943ae1521e9d4e94a0fbb389",
+      "pretraining_exposure": "not_proven_pre_target",
+      "promotion_eligibility": "research_only_noncommercial_not_deployable",
+      "ready": false,
+      "runtime_module": "uni2ts",
+      "runtime_package": "uni2ts==2.0.0",
+      "runtime_present": false,
+      "runtime_source": null,
+      "source_release": "2.0.0",
+      "source_revision": null
+    }
+  ],
+  "protected_confirmation_accessed": false,
+  "schema_version": 1
+}

@@ -1,0 +1,22 @@
+# Tasks: Phase 4 Foundation Specialists
+
+- [x] Confirm live KIS authority, WORK-358 claim and dependency #357 landing.
+- [x] Fast-forward governed branch to exact merged Phase-3 base `fa1841ac7877b25b868639abdcb4ec9928ecf8f6`.
+- [x] Freeze issue #358 L3 implementation authority in comment `5628520758`; record role-specific clarification in comment `5632161050` after the first-line result so no specialist is retired from one narrow representation alone.
+- [x] Preserve #294/#295 failures as consumed background, not fresh confirmation.
+- [x] Select deployment-compatible TimesFM 2.5 and exclude TimesFM 3.0 under current weight license.
+- [x] Implement specialist identity/PIT/leakage/join/ablation controls.
+- [x] Add focused boundary tests, including probabilistic interval calibration diagnostics; current focused run: 7 passed.
+- [x] Verify exact pinned Kronos/TimesFM artifacts and establish a worktree-local governed runtime; both checkpoint hashes match the frozen identities.
+- [x] Add and prove an OS-backed single-writer guard after detecting two live runners targeting the same Kronos checkpoint; the duplicate was stopped, the 2,256-row checkpoint hash was unchanged across the controlled restart, and a deliberate second guarded invocation now fails immediately.
+- [x] Generate first-line fold-safe specialist features within the L3 development boundary. TimesFM and one-step Kronos outputs are complete at 3,088/3,088 origins; protected confirmation remains untouched.
+- [x] Evaluate market-only vs +Kronos vs +TimesFM vs +both and mandatory ablation. Preserve the raw TimesFM uplift and the negative Kronos/combined evidence without prematurely turning either into a universal promotion/retirement claim.
+- [x] Run bounded specialist-mechanism diagnostics on the already-generated development outputs: agreement/disagreement, side, magnitude/uncertainty, fold/year, volatility/trend/seasonal regime, disagreement/residual diagnostics, and P&L concentration.
+- [x] Run one checkpointed Kronos-base five-step native sequence/path diagnostic with exact pinned source/model identity and no protected-confirmation access.
+- [x] Run the preregistered Kronos-small capacity control on the exact same 96 outcome-blind origins and native five-step profile; directional accuracy did not improve, while path/return error and turning-count fit improved materially.
+- [x] Complete the preregistered Chronos-2 and Moirai-2-small cross-family checks using exact-hash governed exports from `NielPieterse0/import-isolate#26`; do not widen this into another model sweep. Chronos-2 completed 96/96 with 44.79% terminal direction and no Phase-5 handoff; Moirai-2-small completed 96/96 with 56.25% terminal direction but remains research-only/non-deployable under current licensing.
+- [x] Reconcile Programme-003 continuity so narrow negative results cannot silently retire broader information families: populate `backlog.json` with the Phase-3 fundamentals revisit order/evidence and `revisit-triggers.json` with source-gated storage/weather conditions plus an explicit #358→#359 specialist handoff trigger. Preserve Kronos/TimesFM as role-specific evidence until the bounded Phase-4 diagnostics finish.
+- [x] Reconcile the detailed Programme-003 audit against the current tree: record that the earlier one-row TimesFM mechanism snapshot is superseded by reconciled diagnostics; add `retained_for_investigation` semantics; distinguish Phase-2 nested-selection P&L from the frozen-candidate aggregate; and carry risk-state, uncertainty-target, source-timing, bounded horizon/refit, prospective-evidence and Phase-8 gating recommendations into the canonical Phase-5–8 backlog/line records.
+- [x] Finalize the survivor/hand-off disposition after the bounded second-line extension. No direct specialist is promoted; the four ordered TimesFM/Kronos retained-for-investigation roles are frozen for #359. Chronos-2 is preserved but not handed forward from its tested role; Moirai remains research-only context. Policy selection remains deferred to #359's independent two-boundary protocol.
+- [ ] Regenerate governed documentation on the final second-line tree, then execute the single final governed verification/review pass.
+- [ ] Commit, PR, exact-head CI, merge, reconcile WORK-358/#358 and clean worktree through KIS.
