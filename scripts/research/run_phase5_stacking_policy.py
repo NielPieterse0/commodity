@@ -163,6 +163,27 @@ def _score_one(
     return score, standard, continuous
 
 
+def _risk_adjusted_diagnostics(ledger: pd.DataFrame, capital_usd: float) -> dict[str, Any]:
+    returns = pd.to_numeric(ledger["net_pnl_usd"], errors="coerce").fillna(0.0) / float(capital_usd)
+    volatility = float(returns.std(ddof=1)) if len(returns) > 1 else 0.0
+    downside = returns.loc[returns < 0.0]
+    downside_volatility = float(downside.std(ddof=1)) if len(downside) > 1 else 0.0
+    annualizer = 252.0**0.5
+    sharpe = None if volatility <= 0 else float(returns.mean() / volatility * annualizer)
+    sortino = None if downside_volatility <= 0 else float(returns.mean() / downside_volatility * annualizer)
+    max_drawdown = float(pd.to_numeric(ledger["drawdown_fraction"], errors="coerce").max())
+    years = max(len(returns) / 252.0, 1.0 / 252.0)
+    annualized_return = float(returns.sum() / years)
+    calmar = None if max_drawdown <= 0 else float(annualized_return / max_drawdown)
+    return {
+        "sharpe": sharpe,
+        "sortino": sortino,
+        "calmar": calmar,
+        "annualized_simple_return": annualized_return,
+        "max_drawdown_fraction": max_drawdown,
+    }
+
+
 def _config_by_id(grid: list[PolicyConfig]) -> dict[str, PolicyConfig]:
     return {item.config_id: item for item in grid}
 
@@ -343,6 +364,19 @@ def main() -> None:
     signal_time = pd.to_datetime(all_forecasts["signal_timestamp"], utc=True)
     fill_time = pd.to_datetime(all_forecasts["fill_timestamp"], utc=True)
     latency_seconds = (fill_time - signal_time).dt.total_seconds()
+    forecast_error = (
+        pd.to_numeric(all_forecasts["predicted_path_move_per_mmbtu"], errors="coerce")
+        - pd.to_numeric(all_forecasts["actual_path_move_per_mmbtu"], errors="coerce")
+    )
+    forecast_rmse = float((forecast_error.pow(2).mean()) ** 0.5)
+    predicted_sign = pd.to_numeric(all_forecasts["predicted_path_move_per_mmbtu"], errors="coerce").apply(
+        lambda value: 1 if value > 0 else (-1 if value < 0 else 0)
+    )
+    actual_sign = pd.to_numeric(all_forecasts["actual_path_move_per_mmbtu"], errors="coerce").apply(
+        lambda value: 1 if value > 0 else (-1 if value < 0 else 0)
+    )
+    direction_accuracy = float((predicted_sign == actual_sign).mean())
+    risk_adjusted = _risk_adjusted_diagnostics(selected_standard, risk.capital_usd)
     metric_reconciliation = {
         "selected_year_score_sum_net_pnl_usd": float(final_scores["net_pnl_usd"].sum()),
         "selected_ledger_sum_net_pnl_usd": float(selected_standard["net_pnl_usd"].sum()),
@@ -399,6 +433,9 @@ def main() -> None:
                 "maximum": float(latency_seconds.max()),
             },
             "target_horizon_sessions": int(cfg["execution_contract"]["horizon_sessions"]),
+            "forecast_rmse_per_mmbtu": forecast_rmse,
+            "forecast_direction_accuracy": direction_accuracy,
+            "risk_adjusted_metrics": risk_adjusted,
             "uncertainty_state_by_year": uncertainty_by_year,
             "adaptive_history": "Phase-4 hypotheses and Phase-5 policy are development-adaptive; no clean confirmation claim.",
             "metric_reconciliation": metric_reconciliation,

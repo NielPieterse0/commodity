@@ -20,12 +20,13 @@ out.mkdir(parents=True, exist_ok=True)
 telemetry = Phase2Telemetry(out / "telemetry.jsonl", heartbeat_seconds=15, echo=True)
 checkpoint_store = Phase2CheckpointStore(out / "checkpoints", telemetry)
 
-canonical, market, bars, provenance = reconstruct_market_history(
-    raw_root,
-    cfg,
-    checkpoint_store=checkpoint_store,
-    telemetry=telemetry,
-)
+with checkpoint_store.run_lock():
+    canonical, market, bars, provenance = reconstruct_market_history(
+        raw_root,
+        cfg,
+        checkpoint_store=checkpoint_store,
+        telemetry=telemetry,
+    )
 session, features = build_phase2_inputs(canonical, market, bars, cfg, telemetry=telemetry)
 origins, feature_columns = _build_segmented_decision_origins(
     session,
