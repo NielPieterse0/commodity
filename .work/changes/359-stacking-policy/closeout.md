@@ -33,7 +33,8 @@
 - Global NG definition authority is checkpointed and reused.
 - Partitions `20100606-20101231` and `20110101-20111231` are durably checkpointed. The first contains 14,775 canonical / 5,131 OHLCV rows; the second contains 25,922 canonical / 8,418 OHLCV rows. Reconstruction reports 13 total partitions.
 - Duplicate pre-lock workers discovered in telemetry were explicitly terminated; the retained implementation now acquires `Phase2CheckpointStore.run_lock()` before reconstruction.
-- The run was deliberately stopped at the second partition boundary with no worker left running. Next action: rerun `python scripts/research/prepare_phase5_inputs.py`; the run lock and checkpoint store should resume from the 2012 partition. After all inputs materialize, execute `python scripts/research/run_phase5_stacking_policy.py`.
+- The worktree-local `pyarrow` wheel is present but cannot load because Windows Application Control blocks its native DLL. The current run verified this is an environment-policy defect rather than a repository/scientific defect, installed `fastparquet==2026.5.0` plus `cramjam==2.12.1` only inside the governed worktree `.venv`, and successfully resumed the existing Parquet checkpoints without changing repository dependency authority or scientific semantics.
+- Partition `20120101-20121231` is now durably checkpointed with 25,363 canonical / 8,664 OHLCV rows, advancing reconstruction to 3 of 13 partitions. The worker was stopped immediately after that checkpoint; no worker remains running. Next action: rerun `.venv/Scripts/python.exe scripts/research/prepare_phase5_inputs.py`; the run lock and checkpoint store should reuse 2010-2012 and resume from the 2013 partition. After all inputs materialize, execute `.venv/Scripts/python.exe scripts/research/run_phase5_stacking_policy.py`.
 
 ## Residual items
 
