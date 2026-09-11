@@ -13,8 +13,8 @@ from commodity.phase2_runtime import Phase2CheckpointStore, Phase2Telemetry
 
 repo = Path(__file__).resolve().parents[2]
 cfg = json.loads((repo / "config/phase2_market_only.json").read_text(encoding="utf-8"))
-raw_root = Path(r"C:\Projects\commodity\data\raw\snapshots\databento\ng-full-history-v1")
 runtime_repo = repo.parents[2] if repo.parent.name == "worktrees" else repo
+raw_root = runtime_repo / "data/raw/snapshots/databento/ng-full-history-v1"
 out = runtime_repo / ".work/runtime/359-stacking-policy/phase5-inputs"
 out.mkdir(parents=True, exist_ok=True)
 telemetry = Phase2Telemetry(out / "telemetry.jsonl", heartbeat_seconds=15, echo=True)

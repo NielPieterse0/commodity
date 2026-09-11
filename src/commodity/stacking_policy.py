@@ -504,7 +504,7 @@ def build_policy_decisions(
         raise Phase5PolicyError("Kronos feature contract is incomplete")
 
     base = forecasts.copy()
-    base["trade_date"] = pd.to_datetime(base["trade_date"], utc=True, errors="coerce")
+    base["trade_date"] = pd.to_datetime(base["trade_date"], utc=True, errors="coerce", format="mixed")
     validate_phase5_evidence_boundary(base)
     for frame in (timesfm, kronos):
         if frame["trade_date"].duplicated().any():
@@ -514,8 +514,8 @@ def build_policy_decisions(
         ["trade_date", "prediction_time", "timesfm_point_return", "timesfm_interval_width"]
     ].copy()
     k = kronos[["trade_date", "prediction_time", "kronos_close_return"]].copy()
-    t["trade_date"] = pd.to_datetime(t["trade_date"], utc=True, errors="coerce")
-    k["trade_date"] = pd.to_datetime(k["trade_date"], utc=True, errors="coerce")
+    t["trade_date"] = pd.to_datetime(t["trade_date"], utc=True, errors="coerce", format="mixed")
+    k["trade_date"] = pd.to_datetime(k["trade_date"], utc=True, errors="coerce", format="mixed")
     t = t.rename(columns={"prediction_time": "timesfm_prediction_time"})
     k = k.rename(columns={"prediction_time": "kronos_prediction_time"})
     merged = base.merge(t, on="trade_date", how="left", validate="many_to_one")
@@ -529,16 +529,16 @@ def build_policy_decisions(
         if missing_path:
             raise Phase5PolicyError(f"Kronos path feature contract missing columns: {missing_path}")
         p = kronos_path[path_columns].copy()
-        p["trade_date"] = pd.to_datetime(p["trade_date"], utc=True, errors="coerce")
+        p["trade_date"] = pd.to_datetime(p["trade_date"], utc=True, errors="coerce", format="mixed")
         if p["trade_date"].duplicated().any():
             raise Phase5PolicyError("Kronos path features must be unique by origin trade date")
         merged = merged.merge(p, on="trade_date", how="left", validate="many_to_one")
     else:
         merged["pred_terminal_return"] = np.nan
 
-    signal_time = pd.to_datetime(merged["signal_timestamp"], utc=True, errors="coerce")
-    timesfm_time = pd.to_datetime(merged["timesfm_prediction_time"], utc=True, errors="coerce")
-    kronos_time = pd.to_datetime(merged["kronos_prediction_time"], utc=True, errors="coerce")
+    signal_time = pd.to_datetime(merged["signal_timestamp"], utc=True, errors="coerce", format="mixed")
+    timesfm_time = pd.to_datetime(merged["timesfm_prediction_time"], utc=True, errors="coerce", format="mixed")
+    kronos_time = pd.to_datetime(merged["kronos_prediction_time"], utc=True, errors="coerce", format="mixed")
     if signal_time.isna().any() or timesfm_time.isna().any() or kronos_time.isna().any():
         raise Phase5PolicyError("policy join contains invalid prediction timestamps")
     if (timesfm_time.dt.floor("us") != signal_time.dt.floor("us")).any():

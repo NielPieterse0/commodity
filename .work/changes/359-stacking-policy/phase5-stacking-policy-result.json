@@ -1,0 +1,1208 @@
+{
+  "schema_version": 1,
+  "programme_id": "003-natural-gas-trading-decision-system",
+  "phase": 5,
+  "issue": 359,
+  "status": "development_policy_candidate_selected",
+  "protected_confirmation_accessed": false,
+  "evidence_boundary": {
+    "last_allowed_trade_date": "2022-12-31",
+    "role": "adaptive_development"
+  },
+  "preregistration_sha256": "98e59ccb64d8e6df995239686793ce05487a7b8c2d0773f6dc7e85b836f87fab",
+  "input_identity": {
+    "metadata": {
+      "provenance": {
+        "source_id": "databento_henry_hub_pre2023_phase2",
+        "source_root_role": "local_retained_nonredistributable_raw_snapshot",
+        "partitions": [
+          {
+            "partition": "20100606-20101231",
+            "definition": {
+              "file": "glbx-mdp3-20100606-20101231.definition.dbn.zst",
+              "sha256": "97351c1c515c4b3dfe7f977e1c8bec57aa547917a034e4b42da675820113fae7"
+            },
+            "statistics": {
+              "file": "glbx-mdp3-20100606-20101231.statistics.dbn.zst",
+              "sha256": "136bbbfba272a628747de2b018365c1aecb3c9d359f1148e9608af302e26a3e3"
+            },
+            "ohlcv_1d": {
+              "file": "glbx-mdp3-20100606-20101231.ohlcv-1d.dbn.zst",
+              "sha256": "2c0dd2b51d8cf34820e2190aa0d63eb208d712587886a87854e717bdb5ab9102"
+            }
+          },
+          {
+            "partition": "20110101-20111231",
+            "definition": {
+              "file": "glbx-mdp3-20110101-20111231.definition.dbn.zst",
+              "sha256": "4fb862bc0eadf0b2701621d5114619dcc62a110eafeec25fcc58e9899dca69b0"
+            },
+            "statistics": {
+              "file": "glbx-mdp3-20110101-20111231.statistics.dbn.zst",
+              "sha256": "efa10a3fa9aca32059d9ff28cd058b1e2c39ed9c0ac903bc0140b4e67c07001e"
+            },
+            "ohlcv_1d": {
+              "file": "glbx-mdp3-20110101-20111231.ohlcv-1d.dbn.zst",
+              "sha256": "8e69662600f73ddbed5d8229ee9341ffed186d6832b638cc227ff110eea9b665"
+            }
+          },
+          {
+            "partition": "20120101-20121231",
+            "definition": {
+              "file": "glbx-mdp3-20120101-20121231.definition.dbn.zst",
+              "sha256": "028510fda46f95ceb895b26eb5298ea3b9c6c811e3d0bac5d56e6827d2462600"
+            },
+            "statistics": {
+              "file": "glbx-mdp3-20120101-20121231.statistics.dbn.zst",
+              "sha256": "d1d532246b8f7a808e50cde680f2f0e33a5f9175415929c298d40e79b3552fd8"
+            },
+            "ohlcv_1d": {
+              "file": "glbx-mdp3-20120101-20121231.ohlcv-1d.dbn.zst",
+              "sha256": "49743821f87e130eaed32c2b42fad18afee7508fcb194bf039cdc96f1b440210"
+            }
+          },
+          {
+            "partition": "20130101-20131231",
+            "definition": {
+              "file": "glbx-mdp3-20130101-20131231.definition.dbn.zst",
+              "sha256": "ab435bf756a89072a8f19267d98299ba99370dcd6d91e797c822e7f7ff0983e9"
+            },
+            "statistics": {
+              "file": "glbx-mdp3-20130101-20131231.statistics.dbn.zst",
+              "sha256": "106797e93834f4a3f04e80560e92d5a32561c02b137d54c1150359c41b1b80a1"
+            },
+            "ohlcv_1d": {
+              "file": "glbx-mdp3-20130101-20131231.ohlcv-1d.dbn.zst",
+              "sha256": "6434d3b3aa09047d38ff569e694ac6892fa7a84fd77f6f8c27f8350d91f42c55"
+            }
+          },
+          {
+            "partition": "20140101-20141231",
+            "definition": {
+              "file": "glbx-mdp3-20140101-20141231.definition.dbn.zst",
+              "sha256": "452a51fdf0a7d83fda778d9af38066fa4f23852af7757a2fcec656b812ae8e37"
+            },
+            "statistics": {
+              "file": "glbx-mdp3-20140101-20141231.statistics.dbn.zst",
+              "sha256": "1cb27f4298019db3223cb9ace67e6dcb375f443f85a290d5e2642db14855e827"
+            },
+            "ohlcv_1d": {
+              "file": "glbx-mdp3-20140101-20141231.ohlcv-1d.dbn.zst",
+              "sha256": "8430bcc512f58cf557b7a0fb4eb7d555140dbdf9043d1151ba4ba1ab763be54e"
+            }
+          },
+          {
+            "partition": "20150101-20151231",
+            "definition": {
+              "file": "glbx-mdp3-20150101-20151231.definition.dbn.zst",
+              "sha256": "12f65c436294d0ab6ecd56817cebffcb5a8a0852023d86eefb9797e669778f8e"
+            },
+            "statistics": {
+              "file": "glbx-mdp3-20150101-20151231.statistics.dbn.zst",
+              "sha256": "cfedaf6a088aca49d2c2060c41bdcab6a13c302bd4f989ca64f0b841c6b7cd4d"
+            },
+            "ohlcv_1d": {
+              "file": "glbx-mdp3-20150101-20151231.ohlcv-1d.dbn.zst",
+              "sha256": "ef38122d33d1f9a183f82a3a9e1154e8c32df9acc76fdcbf1ff9cbb1323a2bb9"
+            }
+          },
+          {
+            "partition": "20160101-20161231",
+            "definition": {
+              "file": "glbx-mdp3-20160101-20161231.definition.dbn.zst",
+              "sha256": "607def22f1ba46735b1e13b02ce67d4fff3ac60ab1ba81e08b0f74f307d9c238"
+            },
+            "statistics": {
+              "file": "glbx-mdp3-20160101-20161231.statistics.dbn.zst",
+              "sha256": "fb0fc5f5b466c5d3d32a799e47e33b8bf700fa4dcb6487bb630cf28832957f6f"
+            },
+            "ohlcv_1d": {
+              "file": "glbx-mdp3-20160101-20161231.ohlcv-1d.dbn.zst",
+              "sha256": "5f98d139d2dbeab68d15eb5fa4efb45ee7c6c1c5164cedde3f35a6f8a30d55e0"
+            }
+          },
+          {
+            "partition": "20170101-20171231",
+            "definition": {
+              "file": "glbx-mdp3-20170101-20171231.definition.dbn.zst",
+              "sha256": "a8aac7cff22adbe257239fe9895b85d5f7421576194264d070f8fcda952cdada"
+            },
+            "statistics": {
+              "file": "glbx-mdp3-20170101-20171231.statistics.dbn.zst",
+              "sha256": "4f322f0e8a71ab4ec0cc9bede6ff54efe38dbed02b7f98564968caa4de6e6a2a"
+            },
+            "ohlcv_1d": {
+              "file": "glbx-mdp3-20170101-20171231.ohlcv-1d.dbn.zst",
+              "sha256": "12d9a1252688ecb487ac875e8cfe8cd0fb122cc5620d737071206c50960e96b7"
+            }
+          },
+          {
+            "partition": "20180101-20181231",
+            "definition": {
+              "file": "glbx-mdp3-20180101-20181231.definition.dbn.zst",
+              "sha256": "659f765860dbb67b4d431c72f986fe7a2db05455108271c4ddcfbb9dd47c4d7e"
+            },
+            "statistics": {
+              "file": "glbx-mdp3-20180101-20181231.statistics.dbn.zst",
+              "sha256": "7ac18dfe86872578a77df7b18ab23289baebb27710096082a612caee9e5de173"
+            },
+            "ohlcv_1d": {
+              "file": "glbx-mdp3-20180101-20181231.ohlcv-1d.dbn.zst",
+              "sha256": "570426ef62db1caf3c5006d13e78c9166ea9010a7e66338d1e0d4ee0cfc5d74f"
+            }
+          },
+          {
+            "partition": "20190101-20191231",
+            "definition": {
+              "file": "glbx-mdp3-20190101-20191231.definition.dbn.zst",
+              "sha256": "dc9cc6e7066e6737a6bce9a6c3edb5087624c386f4b8632984414248c7a7c455"
+            },
+            "statistics": {
+              "file": "glbx-mdp3-20190101-20191231.statistics.dbn.zst",
+              "sha256": "229ffa74450a636009f49c28e56443decc651f7121b9af19aed4443147b09e9b"
+            },
+            "ohlcv_1d": {
+              "file": "glbx-mdp3-20190101-20191231.ohlcv-1d.dbn.zst",
+              "sha256": "47e8842bdb23bf42566de84905f94de03c5450faf4f945532df00fb8b64a5e98"
+            }
+          },
+          {
+            "partition": "20200101-20201231",
+            "definition": {
+              "file": "glbx-mdp3-20200101-20201231.definition.dbn.zst",
+              "sha256": "efc11d56f7a5c91a4d8530abcaec75e2db16e70072fd5bd19439acfed0a1d1c9"
+            },
+            "statistics": {
+              "file": "glbx-mdp3-20200101-20201231.statistics.dbn.zst",
+              "sha256": "d6405bc717ab5de28e7f89e15e71232d391db5459e0f88eaba3b766cfade73fe"
+            },
+            "ohlcv_1d": {
+              "file": "glbx-mdp3-20200101-20201231.ohlcv-1d.dbn.zst",
+              "sha256": "44f7a24bedd42c6c9ecfa4e11dcf5c86c1fe322685515f84bd4e171858a62c11"
+            }
+          },
+          {
+            "partition": "20210101-20211231",
+            "definition": {
+              "file": "glbx-mdp3-20210101-20211231.definition.dbn.zst",
+              "sha256": "c3ed6f26b9ec0e2ac38daf1df44175c7192e6e1397b7092cd723447ed609f5d8"
+            },
+            "statistics": {
+              "file": "glbx-mdp3-20210101-20211231.statistics.dbn.zst",
+              "sha256": "7229645f94babbf3af77ee5d33460cd2d0cc7e00b95688d11aa998b40865b944"
+            },
+            "ohlcv_1d": {
+              "file": "glbx-mdp3-20210101-20211231.ohlcv-1d.dbn.zst",
+              "sha256": "56a80e4b4a190c0ba7e56a402c217a8b13ed7e47bb0213a95a8dcba139f3b8b1"
+            }
+          },
+          {
+            "partition": "20220101-20221231",
+            "definition": {
+              "file": "glbx-mdp3-20220101-20221231.definition.dbn.zst",
+              "sha256": "a0b8a22c8505970b8778912f530719d2ecab0f7246b4377ec7bd73dc8d6a6a4d"
+            },
+            "statistics": {
+              "file": "glbx-mdp3-20220101-20221231.statistics.dbn.zst",
+              "sha256": "0dec170fe11c238ce19a6bc5dfe7bf577fddb3540c6e30b6a7b2b172684e2579"
+            },
+            "ohlcv_1d": {
+              "file": "glbx-mdp3-20220101-20221231.ohlcv-1d.dbn.zst",
+              "sha256": "9a992dbe8ecd9a76d5488053ba9fe6f9b754845b4af695e6965427bebae4a2be"
+            }
+          }
+        ],
+        "canonical_rows": 418810,
+        "ohlcv_feature_join_rows": 94559,
+        "utc_day_execution_rows": 103793,
+        "start_trade_date": "2010-06-07",
+        "end_trade_date": "2022-12-29",
+        "canonical_content_sha256": "d3ffeab360493f6cc4183c05105bf5876867871143565f6155f8fd6d84c7884b",
+        "market_content_sha256": "01da6ae9e773e30c04a7b1ea4b99b7402eef5c311f3a025046a31200a70d9738",
+        "execution_bars_content_sha256": "42d4478e4d0a52e32ea4be28dd870d134d5f78f02649c05b912b766b74c63db4",
+        "execution_price_semantics": "databento_ohlcv_1d_utc_interval_open",
+        "ohlcv_semantics": "utc_day_bars; execution only at strictly later interval boundary; features after trade_date_2359_utc",
+        "provenance_sha256": "dca3bf0692e9f3ccc52ec6c6aae81ebf668e17176e2fedf7ee0086b483bcef23"
+      },
+      "session_rows": 3897,
+      "feature_rows": 3088,
+      "origin_rows": 2865,
+      "origin_canonicalization": {
+        "input_origins": 2929,
+        "output_origins": 2865,
+        "collapsed": 64
+      },
+      "feature_columns": [
+        "feature_curve_dte_m1",
+        "feature_curve_dte_m2",
+        "feature_curve_dte_m3",
+        "feature_curve_dte_m4",
+        "feature_curve_log_settle_m1",
+        "feature_curve_log_settle_m2",
+        "feature_curve_log_settle_m3",
+        "feature_curve_log_settle_m4",
+        "feature_curve_log_volume_m1",
+        "feature_curve_log_volume_m2",
+        "feature_curve_log_volume_m3",
+        "feature_curve_log_volume_m4",
+        "feature_curve_slope_m1_m4",
+        "feature_curve_spread_m1_m2",
+        "feature_curve_spread_m2_m3",
+        "feature_curve_spread_m3_m4",
+        "feature_curve_volume_ratio_m1_m2",
+        "feature_ma_gap_20",
+        "feature_ma_gap_5",
+        "feature_range_pct",
+        "feature_ret_1",
+        "feature_ret_20",
+        "feature_ret_5",
+        "feature_roll_event",
+        "feature_season_cos",
+        "feature_season_sin",
+        "feature_selected_dte",
+        "feature_vol_20",
+        "feature_vol_5"
+      ]
+    },
+    "session_path_sha256": "cb1b31ccf36550ecd836fcc82550b7a12a41ecf0168ef78ec03a00a26a92c2bb",
+    "origins_sha256": "388e5c8470f48008308880fbeebf52e2932a5b2c0849f37b4c067a9af10ee78f",
+    "specialist_artifacts": {
+      "timesfm": "692930439b863208b47dbeff246fd9790b4f2239f5434e72448538bc674aedc6",
+      "kronos": "98010ff7329c312cf04dbd4902d3fa6b3fe71ea562054c897eaf338e3f94df6c",
+      "kronos_path": "eb413512652532a641901613540001711f7bbbac59e2288aec3cd038d0b96b5b"
+    }
+  },
+  "search": {
+    "configuration_count": 36,
+    "score_years": [
+      2014,
+      2015,
+      2016,
+      2017,
+      2018,
+      2019,
+      2020,
+      2021,
+      2022
+    ],
+    "attempt_count": 324,
+    "primary_objective": "median_yearly_standard_replay_net_pnl_usd",
+    "failed_configuration_count": 0
+  },
+  "outer_selections": [
+    {
+      "block_id": "outer-2017-2018",
+      "selected_before_block": "s-veto__l-half__p-none__u-half_high",
+      "selection_years": [
+        2014,
+        2015,
+        2016
+      ],
+      "observed_years": [
+        2017,
+        2018
+      ],
+      "observed_net_pnl_usd": 21565.0,
+      "observed_continuous_net_pnl_usd": 22370.000000000015,
+      "observed_max_drawdown_fraction": 0.054550772680739046,
+      "observed_transaction_cost_usd": 2025.0
+    },
+    {
+      "block_id": "outer-2019-2020",
+      "selected_before_block": "s-veto__l-half__p-none__u-half_high",
+      "selection_years": [
+        2014,
+        2015,
+        2016,
+        2017,
+        2018
+      ],
+      "observed_years": [
+        2019,
+        2020
+      ],
+      "observed_net_pnl_usd": 4155.0,
+      "observed_continuous_net_pnl_usd": 4155.0,
+      "observed_max_drawdown_fraction": 0.04729830863643167,
+      "observed_transaction_cost_usd": 2340.0
+    },
+    {
+      "block_id": "outer-2021-2022",
+      "selected_before_block": "s-none__l-half__p-none__u-half_high",
+      "selection_years": [
+        2014,
+        2015,
+        2016,
+        2017,
+        2018,
+        2019,
+        2020
+      ],
+      "observed_years": [
+        2021,
+        2022
+      ],
+      "observed_net_pnl_usd": -11740.0,
+      "observed_continuous_net_pnl_usd": -14159.999999999985,
+      "observed_max_drawdown_fraction": 0.062364194909962783,
+      "observed_transaction_cost_usd": 165.0
+    }
+  ],
+  "selected_candidate": {
+    "config": {
+      "config_id": "s-veto__l-none__p-half__u-none",
+      "short_mode": "veto",
+      "long_mode": "none",
+      "path_mode": "half",
+      "uncertainty_mode": "none"
+    },
+    "selection_years": [
+      2014,
+      2015,
+      2016,
+      2017,
+      2018,
+      2019,
+      2020,
+      2021,
+      2022
+    ],
+    "ranking": [
+      {
+        "config_id": "s-veto__l-none__p-half__u-none",
+        "years": [
+          2014,
+          2015,
+          2016,
+          2017,
+          2018,
+          2019,
+          2020,
+          2021,
+          2022
+        ],
+        "median_yearly_net_pnl_usd": 895.0,
+        "worst_yearly_net_pnl_usd": -10510.0,
+        "total_net_pnl_usd": 16555.0,
+        "transaction_cost_usd": 7575.0,
+        "complexity": 2
+      },
+      {
+        "config_id": "s-half__l-half__p-none__u-half_high",
+        "years": [
+          2014,
+          2015,
+          2016,
+          2017,
+          2018,
+          2019,
+          2020,
+          2021,
+          2022
+        ],
+        "median_yearly_net_pnl_usd": 270.0,
+        "worst_yearly_net_pnl_usd": -10060.0,
+        "total_net_pnl_usd": 17815.0,
+        "transaction_cost_usd": 7380.0,
+        "complexity": 3
+      },
+      {
+        "config_id": "s-half__l-half__p-half__u-half_high",
+        "years": [
+          2014,
+          2015,
+          2016,
+          2017,
+          2018,
+          2019,
+          2020,
+          2021,
+          2022
+        ],
+        "median_yearly_net_pnl_usd": 270.0,
+        "worst_yearly_net_pnl_usd": -10060.0,
+        "total_net_pnl_usd": 16645.0,
+        "transaction_cost_usd": 7395.0,
+        "complexity": 4
+      },
+      {
+        "config_id": "s-veto__l-none__p-none__u-none",
+        "years": [
+          2014,
+          2015,
+          2016,
+          2017,
+          2018,
+          2019,
+          2020,
+          2021,
+          2022
+        ],
+        "median_yearly_net_pnl_usd": 260.0,
+        "worst_yearly_net_pnl_usd": -10510.0,
+        "total_net_pnl_usd": 18660.0,
+        "transaction_cost_usd": 6690.0,
+        "complexity": 1
+      },
+      {
+        "config_id": "s-veto__l-half__p-none__u-none",
+        "years": [
+          2014,
+          2015,
+          2016,
+          2017,
+          2018,
+          2019,
+          2020,
+          2021,
+          2022
+        ],
+        "median_yearly_net_pnl_usd": 255.0,
+        "worst_yearly_net_pnl_usd": -9725.0,
+        "total_net_pnl_usd": 20260.0,
+        "transaction_cost_usd": 7800.0,
+        "complexity": 2
+      },
+      {
+        "config_id": "s-veto__l-veto__p-none__u-none",
+        "years": [
+          2014,
+          2015,
+          2016,
+          2017,
+          2018,
+          2019,
+          2020,
+          2021,
+          2022
+        ],
+        "median_yearly_net_pnl_usd": 170.0,
+        "worst_yearly_net_pnl_usd": -9660.0,
+        "total_net_pnl_usd": 17980.0,
+        "transaction_cost_usd": 7560.0,
+        "complexity": 2
+      },
+      {
+        "config_id": "s-half__l-none__p-none__u-none",
+        "years": [
+          2014,
+          2015,
+          2016,
+          2017,
+          2018,
+          2019,
+          2020,
+          2021,
+          2022
+        ],
+        "median_yearly_net_pnl_usd": 5.0,
+        "worst_yearly_net_pnl_usd": -10245.0,
+        "total_net_pnl_usd": 23940.0,
+        "transaction_cost_usd": 6495.0,
+        "complexity": 1
+      },
+      {
+        "config_id": "s-half__l-none__p-half__u-none",
+        "years": [
+          2014,
+          2015,
+          2016,
+          2017,
+          2018,
+          2019,
+          2020,
+          2021,
+          2022
+        ],
+        "median_yearly_net_pnl_usd": 5.0,
+        "worst_yearly_net_pnl_usd": -10245.0,
+        "total_net_pnl_usd": 20665.0,
+        "transaction_cost_usd": 7215.0,
+        "complexity": 2
+      },
+      {
+        "config_id": "s-half__l-none__p-none__u-half_high",
+        "years": [
+          2014,
+          2015,
+          2016,
+          2017,
+          2018,
+          2019,
+          2020,
+          2021,
+          2022
+        ],
+        "median_yearly_net_pnl_usd": -65.0,
+        "worst_yearly_net_pnl_usd": -9995.0,
+        "total_net_pnl_usd": 21870.0,
+        "transaction_cost_usd": 7425.0,
+        "complexity": 2
+      },
+      {
+        "config_id": "s-half__l-none__p-half__u-half_high",
+        "years": [
+          2014,
+          2015,
+          2016,
+          2017,
+          2018,
+          2019,
+          2020,
+          2021,
+          2022
+        ],
+        "median_yearly_net_pnl_usd": -65.0,
+        "worst_yearly_net_pnl_usd": -9995.0,
+        "total_net_pnl_usd": 20315.0,
+        "transaction_cost_usd": 7470.0,
+        "complexity": 3
+      },
+      {
+        "config_id": "s-half__l-veto__p-none__u-half_high",
+        "years": [
+          2014,
+          2015,
+          2016,
+          2017,
+          2018,
+          2019,
+          2020,
+          2021,
+          2022
+        ],
+        "median_yearly_net_pnl_usd": -115.0,
+        "worst_yearly_net_pnl_usd": -9955.0,
+        "total_net_pnl_usd": 15295.0,
+        "transaction_cost_usd": 7185.0,
+        "complexity": 3
+      },
+      {
+        "config_id": "s-half__l-veto__p-half__u-half_high",
+        "years": [
+          2014,
+          2015,
+          2016,
+          2017,
+          2018,
+          2019,
+          2020,
+          2021,
+          2022
+        ],
+        "median_yearly_net_pnl_usd": -115.0,
+        "worst_yearly_net_pnl_usd": -9955.0,
+        "total_net_pnl_usd": 14125.0,
+        "transaction_cost_usd": 7200.0,
+        "complexity": 4
+      },
+      {
+        "config_id": "s-half__l-half__p-none__u-none",
+        "years": [
+          2014,
+          2015,
+          2016,
+          2017,
+          2018,
+          2019,
+          2020,
+          2021,
+          2022
+        ],
+        "median_yearly_net_pnl_usd": -380.0,
+        "worst_yearly_net_pnl_usd": -10160.0,
+        "total_net_pnl_usd": 27685.0,
+        "transaction_cost_usd": 7680.0,
+        "complexity": 2
+      },
+      {
+        "config_id": "s-half__l-half__p-half__u-none",
+        "years": [
+          2014,
+          2015,
+          2016,
+          2017,
+          2018,
+          2019,
+          2020,
+          2021,
+          2022
+        ],
+        "median_yearly_net_pnl_usd": -380.0,
+        "worst_yearly_net_pnl_usd": -10160.0,
+        "total_net_pnl_usd": 23215.0,
+        "transaction_cost_usd": 8445.0,
+        "complexity": 3
+      },
+      {
+        "config_id": "s-veto__l-half__p-half__u-none",
+        "years": [
+          2014,
+          2015,
+          2016,
+          2017,
+          2018,
+          2019,
+          2020,
+          2021,
+          2022
+        ],
+        "median_yearly_net_pnl_usd": -540.0,
+        "worst_yearly_net_pnl_usd": -9725.0,
+        "total_net_pnl_usd": 16960.0,
+        "transaction_cost_usd": 8730.0,
+        "complexity": 3
+      },
+      {
+        "config_id": "s-veto__l-veto__p-half__u-none",
+        "years": [
+          2014,
+          2015,
+          2016,
+          2017,
+          2018,
+          2019,
+          2020,
+          2021,
+          2022
+        ],
+        "median_yearly_net_pnl_usd": -625.0,
+        "worst_yearly_net_pnl_usd": -9660.0,
+        "total_net_pnl_usd": 14810.0,
+        "transaction_cost_usd": 8565.0,
+        "complexity": 3
+      },
+      {
+        "config_id": "s-half__l-veto__p-none__u-none",
+        "years": [
+          2014,
+          2015,
+          2016,
+          2017,
+          2018,
+          2019,
+          2020,
+          2021,
+          2022
+        ],
+        "median_yearly_net_pnl_usd": -765.0,
+        "worst_yearly_net_pnl_usd": -10255.0,
+        "total_net_pnl_usd": 24835.0,
+        "transaction_cost_usd": 7410.0,
+        "complexity": 2
+      },
+      {
+        "config_id": "s-half__l-veto__p-half__u-none",
+        "years": [
+          2014,
+          2015,
+          2016,
+          2017,
+          2018,
+          2019,
+          2020,
+          2021,
+          2022
+        ],
+        "median_yearly_net_pnl_usd": -765.0,
+        "worst_yearly_net_pnl_usd": -10255.0,
+        "total_net_pnl_usd": 20495.0,
+        "transaction_cost_usd": 8250.0,
+        "complexity": 3
+      },
+      {
+        "config_id": "s-none__l-veto__p-none__u-none",
+        "years": [
+          2014,
+          2015,
+          2016,
+          2017,
+          2018,
+          2019,
+          2020,
+          2021,
+          2022
+        ],
+        "median_yearly_net_pnl_usd": -940.0,
+        "worst_yearly_net_pnl_usd": -6360.0,
+        "total_net_pnl_usd": 32280.0,
+        "transaction_cost_usd": 5100.0,
+        "complexity": 1
+      },
+      {
+        "config_id": "s-none__l-half__p-none__u-none",
+        "years": [
+          2014,
+          2015,
+          2016,
+          2017,
+          2018,
+          2019,
+          2020,
+          2021,
+          2022
+        ],
+        "median_yearly_net_pnl_usd": -1030.0,
+        "worst_yearly_net_pnl_usd": -6920.0,
+        "total_net_pnl_usd": 33465.0,
+        "transaction_cost_usd": 5265.0,
+        "complexity": 1
+      },
+      {
+        "config_id": "s-none__l-none__p-none__u-half_high",
+        "years": [
+          2014,
+          2015,
+          2016,
+          2017,
+          2018,
+          2019,
+          2020,
+          2021,
+          2022
+        ],
+        "median_yearly_net_pnl_usd": -1290.0,
+        "worst_yearly_net_pnl_usd": -6675.0,
+        "total_net_pnl_usd": 34575.0,
+        "transaction_cost_usd": 6300.0,
+        "complexity": 1
+      },
+      {
+        "config_id": "s-none__l-none__p-half__u-half_high",
+        "years": [
+          2014,
+          2015,
+          2016,
+          2017,
+          2018,
+          2019,
+          2020,
+          2021,
+          2022
+        ],
+        "median_yearly_net_pnl_usd": -1290.0,
+        "worst_yearly_net_pnl_usd": -6675.0,
+        "total_net_pnl_usd": 32025.0,
+        "transaction_cost_usd": 6480.0,
+        "complexity": 2
+      },
+      {
+        "config_id": "s-none__l-none__p-none__u-none",
+        "years": [
+          2014,
+          2015,
+          2016,
+          2017,
+          2018,
+          2019,
+          2020,
+          2021,
+          2022
+        ],
+        "median_yearly_net_pnl_usd": -1290.0,
+        "worst_yearly_net_pnl_usd": -7480.0,
+        "total_net_pnl_usd": 25470.0,
+        "transaction_cost_usd": 3900.0,
+        "complexity": 0
+      },
+      {
+        "config_id": "s-veto__l-half__p-none__u-half_high",
+        "years": [
+          2014,
+          2015,
+          2016,
+          2017,
+          2018,
+          2019,
+          2020,
+          2021,
+          2022
+        ],
+        "median_yearly_net_pnl_usd": -1580.0,
+        "worst_yearly_net_pnl_usd": -10285.0,
+        "total_net_pnl_usd": 10900.0,
+        "transaction_cost_usd": 7665.0,
+        "complexity": 3
+      },
+      {
+        "config_id": "s-veto__l-veto__p-none__u-half_high",
+        "years": [
+          2014,
+          2015,
+          2016,
+          2017,
+          2018,
+          2019,
+          2020,
+          2021,
+          2022
+        ],
+        "median_yearly_net_pnl_usd": -1665.0,
+        "worst_yearly_net_pnl_usd": -10220.0,
+        "total_net_pnl_usd": 8340.0,
+        "transaction_cost_usd": 7470.0,
+        "complexity": 3
+      },
+      {
+        "config_id": "s-veto__l-none__p-none__u-half_high",
+        "years": [
+          2014,
+          2015,
+          2016,
+          2017,
+          2018,
+          2019,
+          2020,
+          2021,
+          2022
+        ],
+        "median_yearly_net_pnl_usd": -1745.0,
+        "worst_yearly_net_pnl_usd": -10270.0,
+        "total_net_pnl_usd": 14905.0,
+        "transaction_cost_usd": 7740.0,
+        "complexity": 2
+      },
+      {
+        "config_id": "s-veto__l-half__p-half__u-half_high",
+        "years": [
+          2014,
+          2015,
+          2016,
+          2017,
+          2018,
+          2019,
+          2020,
+          2021,
+          2022
+        ],
+        "median_yearly_net_pnl_usd": -1775.0,
+        "worst_yearly_net_pnl_usd": -10285.0,
+        "total_net_pnl_usd": 9730.0,
+        "transaction_cost_usd": 7680.0,
+        "complexity": 4
+      },
+      {
+        "config_id": "s-veto__l-veto__p-half__u-half_high",
+        "years": [
+          2014,
+          2015,
+          2016,
+          2017,
+          2018,
+          2019,
+          2020,
+          2021,
+          2022
+        ],
+        "median_yearly_net_pnl_usd": -1860.0,
+        "worst_yearly_net_pnl_usd": -10220.0,
+        "total_net_pnl_usd": 7170.0,
+        "transaction_cost_usd": 7485.0,
+        "complexity": 4
+      },
+      {
+        "config_id": "s-veto__l-none__p-half__u-half_high",
+        "years": [
+          2014,
+          2015,
+          2016,
+          2017,
+          2018,
+          2019,
+          2020,
+          2021,
+          2022
+        ],
+        "median_yearly_net_pnl_usd": -1940.0,
+        "worst_yearly_net_pnl_usd": -10270.0,
+        "total_net_pnl_usd": 13350.0,
+        "transaction_cost_usd": 7785.0,
+        "complexity": 3
+      },
+      {
+        "config_id": "s-none__l-none__p-half__u-none",
+        "years": [
+          2014,
+          2015,
+          2016,
+          2017,
+          2018,
+          2019,
+          2020,
+          2021,
+          2022
+        ],
+        "median_yearly_net_pnl_usd": -2130.0,
+        "worst_yearly_net_pnl_usd": -7585.0,
+        "total_net_pnl_usd": 19360.0,
+        "transaction_cost_usd": 4605.0,
+        "complexity": 1
+      },
+      {
+        "config_id": "s-none__l-veto__p-none__u-half_high",
+        "years": [
+          2014,
+          2015,
+          2016,
+          2017,
+          2018,
+          2019,
+          2020,
+          2021,
+          2022
+        ],
+        "median_yearly_net_pnl_usd": -2360.0,
+        "worst_yearly_net_pnl_usd": -5800.0,
+        "total_net_pnl_usd": 29100.0,
+        "transaction_cost_usd": 6060.0,
+        "complexity": 2
+      },
+      {
+        "config_id": "s-none__l-veto__p-half__u-half_high",
+        "years": [
+          2014,
+          2015,
+          2016,
+          2017,
+          2018,
+          2019,
+          2020,
+          2021,
+          2022
+        ],
+        "median_yearly_net_pnl_usd": -2360.0,
+        "worst_yearly_net_pnl_usd": -5800.0,
+        "total_net_pnl_usd": 26935.0,
+        "transaction_cost_usd": 6210.0,
+        "complexity": 3
+      },
+      {
+        "config_id": "s-none__l-half__p-none__u-half_high",
+        "years": [
+          2014,
+          2015,
+          2016,
+          2017,
+          2018,
+          2019,
+          2020,
+          2021,
+          2022
+        ],
+        "median_yearly_net_pnl_usd": -2360.0,
+        "worst_yearly_net_pnl_usd": -6145.0,
+        "total_net_pnl_usd": 30780.0,
+        "transaction_cost_usd": 6210.0,
+        "complexity": 2
+      },
+      {
+        "config_id": "s-none__l-half__p-half__u-half_high",
+        "years": [
+          2014,
+          2015,
+          2016,
+          2017,
+          2018,
+          2019,
+          2020,
+          2021,
+          2022
+        ],
+        "median_yearly_net_pnl_usd": -2360.0,
+        "worst_yearly_net_pnl_usd": -6145.0,
+        "total_net_pnl_usd": 28615.0,
+        "transaction_cost_usd": 6360.0,
+        "complexity": 3
+      },
+      {
+        "config_id": "s-none__l-veto__p-half__u-none",
+        "years": [
+          2014,
+          2015,
+          2016,
+          2017,
+          2018,
+          2019,
+          2020,
+          2021,
+          2022
+        ],
+        "median_yearly_net_pnl_usd": -2360.0,
+        "worst_yearly_net_pnl_usd": -6465.0,
+        "total_net_pnl_usd": 26200.0,
+        "transaction_cost_usd": 6015.0,
+        "complexity": 2
+      },
+      {
+        "config_id": "s-none__l-half__p-half__u-none",
+        "years": [
+          2014,
+          2015,
+          2016,
+          2017,
+          2018,
+          2019,
+          2020,
+          2021,
+          2022
+        ],
+        "median_yearly_net_pnl_usd": -2360.0,
+        "worst_yearly_net_pnl_usd": -7025.0,
+        "total_net_pnl_usd": 27255.0,
+        "transaction_cost_usd": 6105.0,
+        "complexity": 2
+      }
+    ],
+    "yearly_net_pnl_usd": {
+      "2014": -5150.0,
+      "2015": 1470.0,
+      "2016": 7980.0,
+      "2017": 25615.0,
+      "2018": -2625.0,
+      "2019": 1950.0,
+      "2020": 895.0,
+      "2021": -10510.0,
+      "2022": -3070.0
+    },
+    "total_net_pnl_usd": 16555.0,
+    "total_continuous_net_pnl_usd": 15585.000000000073,
+    "max_yearly_drawdown_fraction": 0.10594934811928668,
+    "transaction_cost_usd": 7575.0
+  },
+  "diagnostics": {
+    "long_short_flat_net_pnl_usd": {
+      "flat": -2797.5,
+      "long": 187.5000000000079,
+      "short": 19165.000000000036
+    },
+    "cost_sensitivity": {
+      "base": {
+        "net_pnl_usd": 16555.0,
+        "transaction_cost_usd": 7575.0,
+        "kill_years": 6
+      },
+      "higher_1_5x": {
+        "net_pnl_usd": 7155.0,
+        "transaction_cost_usd": 11205.0,
+        "kill_years": 6
+      },
+      "higher_2x": {
+        "net_pnl_usd": 2100.0,
+        "transaction_cost_usd": 14520.0,
+        "kill_years": 6
+      }
+    },
+    "remove_one_specialist_ablations": {
+      "timesfm_short": {
+        "ablated_config_id": "s-none__l-none__p-half__u-none",
+        "selected_total_net_pnl_usd": 16555.0,
+        "ablated_total_net_pnl_usd": 19360.0,
+        "incremental_net_pnl_usd": -2805.0
+      },
+      "kronos_path": {
+        "ablated_config_id": "s-veto__l-none__p-none__u-none",
+        "selected_total_net_pnl_usd": 16555.0,
+        "ablated_total_net_pnl_usd": 18660.0,
+        "incremental_net_pnl_usd": -2105.0
+      }
+    },
+    "signal_abstention_sessions": 1378,
+    "risk_shutdown_sessions": 1129,
+    "standard_kill_years": 6,
+    "execution_side_count": 505.0,
+    "profit_concentration_largest_positive_year_fraction": 0.6756792403059879,
+    "prediction_to_fill_latency_seconds": {
+      "minimum": 0.318,
+      "median": 36389.518470679,
+      "maximum": 211270.755549278
+    },
+    "target_horizon_sessions": 5,
+    "forecast_rmse_per_mmbtu": 0.290402902445852,
+    "forecast_direction_accuracy": 0.5194174757281553,
+    "risk_adjusted_metrics": {
+      "sharpe": 0.25106137940028234,
+      "sortino": 0.19819160626305468,
+      "calmar": 0.14113256467582277,
+      "annualized_simple_return": 0.014952903225806488,
+      "max_drawdown_fraction": 0.10594934811928668
+    },
+    "uncertainty_state_by_year": {
+      "2014": {
+        "calibration_rows": 0,
+        "minimum_rows": 50,
+        "active": false,
+        "association": null,
+        "high_threshold": null
+      },
+      "2015": {
+        "calibration_rows": 212,
+        "minimum_rows": 50,
+        "active": true,
+        "association": 0.2186958827092934,
+        "high_threshold": 0.07728997431695457
+      },
+      "2016": {
+        "calibration_rows": 444,
+        "minimum_rows": 50,
+        "active": true,
+        "association": 0.19010501103990332,
+        "high_threshold": 0.08774533867835997
+      },
+      "2017": {
+        "calibration_rows": 666,
+        "minimum_rows": 50,
+        "active": true,
+        "association": 0.08617343431515294,
+        "high_threshold": 0.08712858334183687
+      },
+      "2018": {
+        "calibration_rows": 900,
+        "minimum_rows": 50,
+        "active": true,
+        "association": 0.09306102023994269,
+        "high_threshold": 0.08310932479798788
+      },
+      "2019": {
+        "calibration_rows": 1130,
+        "minimum_rows": 50,
+        "active": true,
+        "association": 0.20261603077427892,
+        "high_threshold": 0.08275537937879554
+      },
+      "2020": {
+        "calibration_rows": 1362,
+        "minimum_rows": 50,
+        "active": true,
+        "association": 0.19901566075173238,
+        "high_threshold": 0.0828212536871433
+      },
+      "2021": {
+        "calibration_rows": 1607,
+        "minimum_rows": 50,
+        "active": true,
+        "association": 0.19804688567480855,
+        "high_threshold": 0.0903350487351417
+      },
+      "2022": {
+        "calibration_rows": 1840,
+        "minimum_rows": 50,
+        "active": true,
+        "association": 0.21465145950667014,
+        "high_threshold": 0.09180333837866775
+      }
+    },
+    "adaptive_history": "Phase-4 hypotheses and Phase-5 policy are development-adaptive; no clean confirmation claim.",
+    "metric_reconciliation": {
+      "selected_year_score_sum_net_pnl_usd": 16555.0,
+      "selected_ledger_sum_net_pnl_usd": 16555.000000000044,
+      "difference_usd": -4.3655745685100555e-11
+    }
+  },
+  "artifacts": {
+    "policy_year_scores": "phase5-results/policy-year-scores.csv",
+    "selected_standard_ledger": "phase5-results/selected-standard-ledger.csv",
+    "selected_continuous_ledger": "phase5-results/selected-continuous-ledger.csv"
+  },
+  "claim_boundary": "development_policy_selection_only_no_clean_confirmation_claim",
+  "next_evidence_stage": "Phase 6/7 may consume exactly this selected configuration under their own registered authority; protected 2023+ confirmation remains sealed until its explicit gate."
+}

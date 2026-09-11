@@ -69,10 +69,10 @@ def _load_inputs() -> tuple[pd.DataFrame, pd.DataFrame, dict[str, Any]]:
     metadata = _load_json(RUNTIME / "metadata.json")
     for column in ("trade_date", "session_open"):
         if column in session:
-            session[column] = pd.to_datetime(session[column], utc=True, errors="raise")
+            session[column] = pd.to_datetime(session[column], utc=True, errors="raise", format="mixed")
     for column in ("trade_date", "signal_timestamp", "fill_trade_date", "fill_timestamp", "target_end_timestamp"):
         if column in origins:
-            origins[column] = pd.to_datetime(origins[column], utc=True, errors="raise")
+            origins[column] = pd.to_datetime(origins[column], utc=True, errors="raise", format="mixed")
     validate_phase5_evidence_boundary(session)
     validate_phase5_evidence_boundary(origins)
     return session, origins, metadata
