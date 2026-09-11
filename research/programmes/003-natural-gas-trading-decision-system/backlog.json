@@ -3,14 +3,5 @@
   "zoom_level": "L1",
   "programme_id": "003-natural-gas-trading-decision-system",
   "generated_projection": false,
-  "items": [
-    {
-      "id": "phase3-pit-fundamentals",
-      "item": "Test the incremental contribution of point-in-time fundamentals against the frozen Phase-2 market-only baseline.",
-      "kind": "recommendation",
-      "status": "open",
-      "source_record": "github-issue:nielpieterse0/commodity#357",
-      "work_ref": "WORK-357"
-    }
-  ]
+  "items": []
 }

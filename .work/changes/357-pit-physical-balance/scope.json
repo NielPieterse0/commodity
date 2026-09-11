@@ -1,0 +1,50 @@
+{
+  "schema_version": 4,
+  "change_id": "357-pit-physical-balance",
+  "status": "active",
+  "branch": "change/357-pit-physical-balance",
+  "worktree": ".work/worktrees/357-pit-physical-balance",
+  "base": "main",
+  "outcome": "Implement and evaluate the frozen Phase-3 compact PIT BHLR production/storage/consumption block against the exact Phase-2 histgb-core-v1 trading-system baseline using only pre-2023 development outcomes, with no BHLR Henry Hub outcome access and no protected-confirmation access.",
+  "owned_paths": [
+    ".work/changes/357-pit-physical-balance/**",
+    "src/commodity/fundamentals_phase3.py",
+    "src/commodity/phase3_runtime.py",
+    "src/commodity/cli.py",
+    "config/phase3_fundamentals.json",
+    "tests/test_fundamentals_phase3.py",
+    "research/programmes/003-natural-gas-trading-decision-system/**",
+    "docs/reference/config/phase3_fundamentals.md",
+    "docs/reference/research/programmes/003-natural-gas-trading-decision-system/backlog.md",
+    "docs/reference/research/programmes/003-natural-gas-trading-decision-system/decisions.md",
+    "docs/reference/research/programmes/003-natural-gas-trading-decision-system/phase3-pit-fundamentals-v1.md"
+  ],
+  "shared_paths": [
+    "docs/reference/README.md"
+  ],
+  "excluded_paths": [],
+  "dependencies": [],
+  "integration_owner": "357-pit-physical-balance",
+  "complexity": "large",
+  "risk_triggers": [
+    "money"
+  ],
+  "base_evidence": {
+    "local_sha": "7226321d188a92e4b8ec81ff81b15ffbbed28a92",
+    "local_tree": "81990c70a845514195f8b4b720c9c28ac6e92a89",
+    "upstream_sha": "7226321d188a92e4b8ec81ff81b15ffbbed28a92",
+    "upstream_tree": "81990c70a845514195f8b4b720c9c28ac6e92a89",
+    "upstream_ref": "refs/remotes/origin/main",
+    "evidence_source": "local_remote_tracking_ref",
+    "relation": "same_sha"
+  },
+  "work_management": {
+    "project_id": "commodity",
+    "record_id": "WORK-357",
+    "source_repository": "NielPieterse0/commodity",
+    "source_number": 357,
+    "source_kind": "issue",
+    "documentation_impact": "planned",
+    "execution_owner": "chatgpt-scheduled-commodity"
+  }
+}

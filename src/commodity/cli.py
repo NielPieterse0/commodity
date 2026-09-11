@@ -27,6 +27,7 @@ from commodity.data import YFinanceMarketDataSource, save_raw
 from commodity.data_assurance import assert_preoutcome_freeze_ready
 from commodity.market_data import canonical_market_readiness, resolve_market_source
 from commodity.market_only_phase2 import Phase2MarketOnlyError, run_phase2_market_only
+from commodity.phase3_runtime import Phase3RuntimeError, run_phase3_fundamentals
 from commodity.policy import assert_model_cannot_submit_orders
 from commodity.provenance import sha256_file, utc_now, write_json
 from commodity.providers.canonical import load_canonical_provider
@@ -849,6 +850,27 @@ def _phase2_market_only(args: argparse.Namespace) -> None:
     )
 
 
+def _phase3_fundamentals(args: argparse.Namespace) -> None:
+    result = run_phase3_fundamentals(
+        config_path("phase3_fundamentals.json"),
+        config_path("phase2_market_only.json"),
+        REPO_ROOT / "research/programmes/003-natural-gas-trading-decision-system/phase2-market-only-baseline-v1.json",
+        Path(args.databento_root),
+        Path(args.bhlr_root),
+        checkpoint_dir=Path(args.checkpoint_dir),
+        heartbeat_seconds=float(args.heartbeat_seconds),
+    )
+    output = Path(args.output)
+    output.parent.mkdir(parents=True, exist_ok=True)
+    try:
+        with output.open("x", encoding="utf-8", newline="\n") as handle:
+            json.dump(result, handle, indent=2, sort_keys=True, allow_nan=False)
+            handle.write("\n")
+    except FileExistsError as exc:
+        raise Phase3RuntimeError("refusing to overwrite an existing Phase-3 result") from exc
+    print(json.dumps({"output": str(output), "disposition": result["disposition"]}, indent=2))
+
+
 def _doctor(_: argparse.Namespace) -> None:
     assert_model_cannot_submit_orders()
     data_cfg = data_config()
@@ -947,6 +969,26 @@ def build_parser() -> argparse.ArgumentParser:
         ),
     )
     phase2.set_defaults(func=_phase2_market_only)
+
+    phase3 = sub.add_parser(
+        "phase3-fundamentals",
+        help="Phase-3 pre-2023 PIT physical-balance contribution test",
+    )
+    phase3.add_argument("--databento-root", required=True)
+    phase3.add_argument("--bhlr-root", required=True)
+    phase3.add_argument(
+        "--checkpoint-dir",
+        default=str(REPO_ROOT / ".work/checkpoints/phase3-pit-fundamentals-v1"),
+    )
+    phase3.add_argument("--heartbeat-seconds", type=float, default=30.0)
+    phase3.add_argument(
+        "--output",
+        default=str(
+            REPO_ROOT
+            / "research/programmes/003-natural-gas-trading-decision-system/phase3-pit-fundamentals-v1.json"
+        ),
+    )
+    phase3.set_defaults(func=_phase3_fundamentals)
 
     saxo = sub.add_parser("probe-saxo-market")
     saxo.add_argument("--continuous-uic", type=int)

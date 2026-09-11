@@ -9,6 +9,12 @@
       "decision": "Freeze histgb-core-v1 as the Phase-2 market-only development baseline; do not interpret this as confirmatory evidence.",
       "status": "active",
       "source_record": "research/programmes/003-natural-gas-trading-decision-system/phase2-market-only-baseline-v1.json"
+    },
+    {
+      "id": "phase3-pit-fundamentals-disposition",
+      "decision": "Do not retain the compact BHLR PIT production/storage/consumption block: aggregate development net P&L fell by $7,540 versus the frozen Phase-2 baseline and neither predeclared survival route cleared.",
+      "status": "active",
+      "source_record": "research/programmes/003-natural-gas-trading-decision-system/phase3-pit-fundamentals-v1.json"
     }
   ]
 }

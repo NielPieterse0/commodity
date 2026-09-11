@@ -1,0 +1,75 @@
+{
+  "schema_version": 1,
+  "authority": "github-issue-357-comment-5626442162",
+  "programme_id": "003-natural-gas-trading-decision-system",
+  "phase": 3,
+  "evidence_boundary": {
+    "last_allowed_trade_date": "2022-12-31",
+    "protected_confirmation_accessed": false,
+    "outcome_role": "development"
+  },
+  "source": {
+    "source_id": "LIT-BHLR-RTDB",
+    "source_doi": "10.15456/jae.2025266.1900967125",
+    "database_sha256": "1878146b58bcbd368e362d6a33d8b7a909d3d2703ffd79094c2d1276ce211862",
+    "archive_sha256": "132834f9ebb56c3802df13a9f1ad5c4ed29ecdd3decfc45d704d8913d445235e",
+    "first_vintage_month": "1997-01",
+    "first_origin_row": 288,
+    "first_origin_column": 72,
+    "availability_rule": "origin_month_end_2359_utc",
+    "members": {
+      "production": {
+        "path": "BHLR_nowcasts/PROD_DRY.txt",
+        "sha256": "d6912cd27abf821faa32d4c012d18377e317ffd1bb5f0992b3440cfa89aaaaf3"
+      },      "storage": {
+        "path": "BHLR_nowcasts/STORE_WORK.txt",
+        "sha256": "dd567c1c2d955b7e00bb2dedf6cd8d987b1f72e2f47b24ad8886e11842d704b9"
+      },
+      "consumption": {
+        "path": "BHLR_nowcasts/CONS_TOT.txt",
+        "sha256": "fb5fe968e21d6741bf2c61626c75ca4b254a15c15ed1b0eb7edd217852cfdc74"
+      }
+    }
+  },
+  "baseline": {
+    "phase2_result": "research/programmes/003-natural-gas-trading-decision-system/phase2-market-only-baseline-v1.json",
+    "candidate_id": "histgb-core-v1",
+    "freeze_sha256": "38225498e910b9a1fa76093e043701b8cada4ed5e70fc40bc5aa890f914eec9d",
+    "expected_outer_net_pnl_usd": {
+      "outer-2017-2018": 30060.000000000047,
+      "outer-2019-2020": 3459.9999999999936,
+      "outer-2021-2022": -7480.000000000005
+    },
+    "expected_aggregate_net_pnl_usd": 26040.000000000036,
+    "volatility_regime_thresholds": {
+      "low_upper": 0.02022773757235469,
+      "mid_upper": 0.028401156157095642
+    }
+  },  "challenger": {
+    "candidate_id": "histgb-core-plus-pit-physical-v1",
+    "model": "hist_gb",
+    "parameters": {
+      "learning_rate": 0.05,
+      "max_iter": 20,
+      "max_leaf_nodes": 15,
+      "random_state": 0
+    },
+    "physical_features": [
+      "feature_fund_log_production",
+      "feature_fund_log_storage",
+      "feature_fund_log_consumption"
+    ]
+  },
+  "survival": {
+    "economic": {
+      "aggregate_net_pnl_strictly_greater_than_baseline": true,
+      "minimum_nonnegative_incremental_outer_blocks": 2
+    },
+    "risk": {
+      "minimum_baseline_pnl_fraction": 0.95,
+      "maximum_baseline_drawdown_fraction": 0.80,
+      "minimum_nonnegative_incremental_outer_blocks": 2
+    }
+  },
+  "claim_boundary": "development_fundamentals_increment_only_no_confirmatory_trading_edge_claim"
+}
