@@ -20,8 +20,11 @@
 - [x] Record the serving-readiness preflight: retained Databento ends 2026-08-12 and the exact specialist runtime/latency proof is not currently available, so prospective activation remains fail-closed.
 - [x] Identify and document the pre-first-observation Kronos path-availability freeze defect without opening protected 2023+ outcomes or fabricating a future eligibility rule.
 - [x] Remove supported-CLI backdating, manual outcome settlement, and caller-supplied session execution/source evidence; keep prospective operations fail-closed until internal derivation exists.
-- [ ] Prove the exact pinned TimesFM/Kronos serving runtime can generate and durably record the required decision before the frozen planned fill; skip missed origins without backfill.
-- [ ] Integrate internal Databento-derived session contract/open-price evidence and episode settlement before any prospective economic evidence is counted.
-- [ ] Freeze and land an L3 prospective Kronos path-availability/runtime rule; its landed identity becomes the new prospective evidence start boundary.
+- [x] Integrate internal Databento-derived session contract/open-price/source evidence with exact source manifests and actual write time.
+- [x] Machine-verify the retained pinned TimesFM/Kronos source/checkpoint identities, freeze the exact Phase-4 serving context/profile geometry, and implement the prewarmed CPU-only runtime wrapper without bypassing the blocked Torch runtime.
+- [x] Persist fresh serving-deadline misses as append-only cadence events so skipped origins advance the frozen 8/109 counter and cannot be retrospectively backfilled.
+- [ ] Prove the exact pinned TimesFM/Kronos serving runtime can execute under governed Linux Torch and durably record the required decision before the frozen planned fill.
+- [x] Preregister the episode-settlement rule at L3 before any outcome access, derive each episode only from one persisted decision plus exactly five gap-free verified session events, and keep episode window economics informational while the daily session ledger remains the sole economic/risk gate.
+- [ ] Freeze and land the L3 prospective Kronos path-availability/runtime/settlement rule; its landed identity becomes the new prospective evidence start boundary.
 - [ ] Accumulate the frozen minimum prospective evidence without tuning.
 - [ ] Evaluate Phase-7 exit gate and only then determine Phase-8 eligibility.
