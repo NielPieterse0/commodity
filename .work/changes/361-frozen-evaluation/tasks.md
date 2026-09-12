@@ -14,5 +14,14 @@
 - [x] Record the exact remote freeze landing identity and activate tamper-evident prospective logging without changing the frozen candidate.
 - [x] Repair the prospective chronology control so each decision is durably appended before its later outcome settlement; reject outcome-only retrospective records.
 - [x] Add a strict prospective operations entrypoint that binds exact input snapshot, forecast identity, target window, fill rule, cost profile and intended position before settlement; later outcomes must match those decision-time facts exactly.
+- [x] Remove caller-supplied forecast/position creation from the operational CLI and derive the frozen HistGB forecast/policy action from verified pre-2023 training state plus decision-time inputs.
+- [x] Add append-only daily held-contract accounting for execution sides, costs, P&L, equity, daily loss, drawdown and persistent kill state; keep this separate from overlapping five-session evidence episodes.
+- [x] Bind prospective market-source identity to exact on-disk Databento definition/statistics/OHLCV partition triples and persist the canonical manifest/input snapshot; reject caller-supplied source identity.
+- [x] Record the serving-readiness preflight: retained Databento ends 2026-08-12 and the exact specialist runtime/latency proof is not currently available, so prospective activation remains fail-closed.
+- [x] Identify and document the pre-first-observation Kronos path-availability freeze defect without opening protected 2023+ outcomes or fabricating a future eligibility rule.
+- [x] Remove supported-CLI backdating, manual outcome settlement, and caller-supplied session execution/source evidence; keep prospective operations fail-closed until internal derivation exists.
+- [ ] Prove the exact pinned TimesFM/Kronos serving runtime can generate and durably record the required decision before the frozen planned fill; skip missed origins without backfill.
+- [ ] Integrate internal Databento-derived session contract/open-price evidence and episode settlement before any prospective economic evidence is counted.
+- [ ] Freeze and land an L3 prospective Kronos path-availability/runtime rule; its landed identity becomes the new prospective evidence start boundary.
 - [ ] Accumulate the frozen minimum prospective evidence without tuning.
 - [ ] Evaluate Phase-7 exit gate and only then determine Phase-8 eligibility.
