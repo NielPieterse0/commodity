@@ -12,9 +12,9 @@ Source: `research/programmes/003-natural-gas-trading-decision-system/phase7-froz
 | `programme_id` | 003-natural-gas-trading-decision-system |
 | `phase` | 7 |
 | `issue` | 361 |
-| `status` | prospective_active |
+| `status` | prospective_refreeze_required |
 | `protected_confirmation_accessed` | false |
-| `claim_boundary` | historical development evidence remains non-confirmatory; only observations generated after the remotely landed freeze may count as prospective evidence |
+| `claim_boundary` | historical development evidence remains non-confirmatory; no prospective observation may count until the missing serving semantics are preregistered, landed on the default branch and activated as the new prospective freeze boundary |
 | `live_capital_authorized` | false |
 
 ## Structure
@@ -30,6 +30,7 @@ Source: `research/programmes/003-natural-gas-trading-decision-system/phase7-froz
 | `freeze_landing` | object (4 keys) |
 | `claim_boundary` | str |
 | `frozen_candidate` | object (7 keys) |
+| `prospective_serving_contract` | object (18 keys) |
 | `bound_configuration_sha256` | object (5 keys) |
 | `historical_evidence` | object (2 keys) |
 | `prospective_evidence_contract` | object (9 keys) |
