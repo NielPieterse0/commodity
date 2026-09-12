@@ -1,0 +1,56 @@
+{
+  "schema_version": 1,
+  "programme_id": "003-natural-gas-trading-decision-system",
+  "phase": 6,
+  "issue": 360,
+  "status": "preregistered_before_scoring",
+  "authority": ["github-issue-360", "phase5-stacking-policy-v1"],
+  "protected_confirmation_accessed": false,
+  "scientific_gap": "Phase-5 policy contribution is unstable across years and specialist ablations; test whether the two-year policy-refit cadence is a material source of that instability before adding external data families.",
+  "frozen_comparator": {
+    "cadence": "two_year_outer_blocks",
+    "evaluation_years": [2017, 2018, 2019, 2020, 2021, 2022],
+    "standard_net_pnl_usd": 13980.0,
+    "continuous_net_pnl_usd": 12365.0
+  },
+  "candidate": {
+    "id": "annual_policy_refit",
+    "mechanism": "Re-select the same bounded Phase-5 policy configuration once per calendar year using only earlier research-OOS yearly scores.",
+    "new_data_families": [],
+    "new_policy_configurations": false,
+    "specialist_refit": false,
+    "target_horizon_change": false
+  },
+  "input_contract": {
+    "score_file": ".work/changes/359-stacking-policy/phase5-results/policy-year-scores.csv",
+    "selection_function": "commodity.stacking_policy.select_policy_from_prior_oos",
+    "selection_years_start": 2014,
+    "evaluation_years": [2017, 2018, 2019, 2020, 2021, 2022]
+  },
+  "comparison_metrics": [
+    "standard_net_pnl_usd",
+    "median_yearly_net_pnl_usd",
+    "worst_yearly_net_pnl_usd",
+    "transaction_cost_usd",
+    "max_yearly_drawdown_fraction",
+    "selected_config_changes"
+  ],
+  "decision_rule": {
+    "advance_annual_cadence_only_if_all": [
+      "standard_net_pnl_usd >= frozen_two_year_standard_net_pnl_usd",
+      "median_yearly_net_pnl_usd >= frozen_two_year_median_yearly_net_pnl_usd",
+      "worst_yearly_net_pnl_usd >= frozen_two_year_worst_yearly_net_pnl_usd",
+      "transaction_cost_usd <= 1.25 * frozen_two_year_transaction_cost_usd",
+      "max_yearly_drawdown_fraction <= frozen_two_year_max_yearly_drawdown_fraction"
+    ],
+    "otherwise": "reject_annual_refit_as_incremental_contributor_and_retain_frozen_phase5_cadence"
+  },
+  "scope_boundary": {
+    "no_2023_plus": true,
+    "no_global_gas_acquisition": true,
+    "no_new_model_fit": true,
+    "no_threshold_search": true,
+    "no_post_hoc_metric_selection": true
+  },
+  "next_route": "If annual cadence passes all preregistered dominance conditions, carry it as the sole Phase-6 contributor. Otherwise preserve the frozen Phase-5 system and record the cadence hypothesis as rejected; do not add global-gas inputs in this same test."
+}
