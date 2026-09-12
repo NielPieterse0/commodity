@@ -1,9 +1,12 @@
 from __future__ import annotations
 
+from pathlib import Path
+
 import numpy as np
 import pandas as pd
 
-from commodity.phase7_prospective import Phase7ProspectiveError, forecast_frozen_market_baseline
+import commodity.phase7_prospective as prospective
+from commodity.phase7_prospective import Phase7ProspectiveError
 
 
 FEATURES = [
@@ -88,25 +91,36 @@ def _current() -> pd.DataFrame:
     )
 
 
-def _forecast(
-    training: pd.DataFrame | None = None,
-    current: pd.DataFrame | None = None,
-    features: list[str] | None = None,
-) -> pd.DataFrame:
-    return forecast_frozen_market_baseline(
-        _training() if training is None else training,
+def _frozen_file(
+    tmp_path: Path,
+    monkeypatch,
+    *,
+    frame: pd.DataFrame | None = None,
+) -> Path:
+    path = tmp_path / "origins.csv"
+    (_training() if frame is None else frame).to_csv(path, index=False, lineterminator="\n")
+    monkeypatch.setattr(prospective, "_FROZEN_ORIGINS_FILE_SHA256", prospective._sha256_file(path))
+    return path
+
+
+def _forecast(path: Path, current: pd.DataFrame | None = None, candidate=None) -> pd.DataFrame:
+    return prospective.forecast_frozen_market_baseline(
+        path,
         _current() if current is None else current,
-        CANDIDATE,
-        FEATURES if features is None else features,
+        CANDIDATE if candidate is None else candidate,
     )
 
 
-def test_prospective_baseline_is_outcome_blind_and_deterministic() -> None:
-    first = _forecast()
-    second = _forecast()
+def test_prospective_baseline_is_outcome_blind_and_deterministic(
+    tmp_path: Path, monkeypatch
+) -> None:
+    path = _frozen_file(tmp_path, monkeypatch)
+    first = _forecast(path)
+    second = _forecast(path)
     assert first["forecast_id"].iloc[0] == second["forecast_id"].iloc[0]
     assert first["input_snapshot_sha256"].iloc[0] == second["input_snapshot_sha256"].iloc[0]
     assert first["training_rows"].iloc[0] == 520
+    assert first["training_snapshot_sha256"].iloc[0] == prospective._sha256_file(path)
     assert pd.Timestamp(first["latest_training_target_end"].iloc[0]) < pd.Timestamp(
         "2023-01-01T00:00:00Z"
     )
@@ -115,73 +129,97 @@ def test_prospective_baseline_is_outcome_blind_and_deterministic() -> None:
     assert np.isfinite(first["predicted_gross_pnl_usd"].iloc[0])
 
 
-def test_reserved_2023_outcome_is_rejected_not_silently_filtered() -> None:
+def test_wrong_frozen_origins_bytes_are_rejected(tmp_path: Path, monkeypatch) -> None:
+    path = tmp_path / "origins.csv"
+    _training().to_csv(path, index=False, lineterminator="\n")
+    monkeypatch.setattr(prospective, "_FROZEN_ORIGINS_FILE_SHA256", "0" * 64)
+    try:
+        _forecast(path)
+    except Phase7ProspectiveError as exc:
+        assert "identity mismatch" in str(exc)
+    else:
+        raise AssertionError("modified frozen origins were accepted")
+
+
+def test_reserved_2023_outcome_is_rejected_not_silently_filtered(
+    tmp_path: Path, monkeypatch
+) -> None:
     training = _training()
     training.loc[training.index[-1], "target_end_timestamp"] = "2023-01-02T00:00:00Z"
+    path = _frozen_file(tmp_path, monkeypatch, frame=training)
     try:
-        _forecast(training=training)
+        _forecast(path)
     except Phase7ProspectiveError as exc:
         assert "reserved 2023+ outcomes" in str(exc)
     else:
         raise AssertionError("reserved historical outcome was accepted for prospective fitting")
 
 
-def test_current_origin_rejects_realized_outcome_columns() -> None:
+def test_current_origin_rejects_realized_outcome_columns(tmp_path: Path, monkeypatch) -> None:
+    path = _frozen_file(tmp_path, monkeypatch)
     current = _current()
     current["target_path_move_per_mmbtu"] = 0.25
     try:
-        _forecast(current=current)
+        _forecast(path, current=current)
     except Phase7ProspectiveError as exc:
         assert "outcome-blind" in str(exc)
     else:
         raise AssertionError("current realized target was accepted")
 
 
-def test_signal_must_be_strictly_post_freeze() -> None:
+def test_signal_must_be_strictly_post_freeze(tmp_path: Path, monkeypatch) -> None:
+    path = _frozen_file(tmp_path, monkeypatch)
     current = _current()
     current.loc[0, "signal_timestamp"] = "2026-09-12T04:30:20Z"
     current.loc[0, "fill_timestamp"] = "2026-09-12T05:00:00Z"
     try:
-        _forecast(current=current)
+        _forecast(path, current=current)
     except Phase7ProspectiveError as exc:
         assert "strictly after landed freeze" in str(exc)
     else:
         raise AssertionError("freeze-boundary signal was accepted")
 
 
-def test_current_feature_change_changes_bound_input_identity() -> None:
-    first = _forecast()
+def test_current_feature_change_changes_bound_input_identity(tmp_path: Path, monkeypatch) -> None:
+    path = _frozen_file(tmp_path, monkeypatch)
+    first = _forecast(path)
     changed = _current()
     changed.loc[0, "feature_ret_1"] = 0.02
-    second = _forecast(current=changed)
+    second = _forecast(path, current=changed)
     assert first["input_snapshot_sha256"].iloc[0] != second["input_snapshot_sha256"].iloc[0]
     assert first["forecast_id"].iloc[0] != second["forecast_id"].iloc[0]
 
 
-def test_phase7_candidate_parameters_are_immutable() -> None:
+def test_phase7_candidate_parameters_are_immutable(tmp_path: Path, monkeypatch) -> None:
+    path = _frozen_file(tmp_path, monkeypatch)
     changed = dict(CANDIDATE)
     changed["parameters"] = dict(CANDIDATE["parameters"])
     changed["parameters"]["max_iter"] = 21
     try:
-        forecast_frozen_market_baseline(_training(), _current(), changed, FEATURES)
+        _forecast(path, candidate=changed)
     except Phase7ProspectiveError as exc:
         assert "parameters drifted" in str(exc)
     else:
         raise AssertionError("mutated market baseline parameters were accepted")
 
 
-def test_phase7_feature_set_is_immutable() -> None:
+def test_phase7_candidate_parameter_keys_are_immutable(tmp_path: Path, monkeypatch) -> None:
+    path = _frozen_file(tmp_path, monkeypatch)
+    changed = dict(CANDIDATE)
+    changed["parameters"] = dict(CANDIDATE["parameters"])
+    del changed["parameters"]["random_state"]
     try:
-        _forecast(features=FEATURES[:-1])
+        _forecast(path, candidate=changed)
     except Phase7ProspectiveError as exc:
-        assert "feature set drifted" in str(exc)
+        assert "parameter keys drifted" in str(exc)
     else:
-        raise AssertionError("mutated feature set was accepted")
+        raise AssertionError("incomplete market baseline parameters were accepted")
 
 
-def test_phase7_training_minimum_cannot_be_relaxed() -> None:
+def test_phase7_training_minimum_cannot_be_relaxed(tmp_path: Path, monkeypatch) -> None:
+    path = _frozen_file(tmp_path, monkeypatch, frame=_training(503))
     try:
-        _forecast(training=_training(503))
+        _forecast(path)
     except Phase7ProspectiveError as exc:
         assert "requires 504" in str(exc)
     else:
