@@ -3,9 +3,15 @@
   "programme_id": "003-natural-gas-trading-decision-system",
   "phase": 7,
   "issue": 361,
-  "status": "freeze_contract_verified_pre_prospective",
-  "phase7_contract_sha256": "3a4eef480d6927fc6257d6e1264d030e8fc3eaedd2717871ed110b153c0d9e74",
+  "status": "freeze_contract_verified_prospective_active",
+  "phase7_contract_sha256": "5d297600c35c9c7c464eaf7a29b39796133eb8f138382716824586b72a35d28a",
   "protected_confirmation_accessed": false,
+  "freeze_landing": {
+    "pull_request": 372,
+    "head_sha": "616a47119398ee6a61110f43cad31fe943355086",
+    "merge_commit_sha": "74fe9eb182ab9f82bad0b5aa4bb99ade22f19886",
+    "merged_at": "2026-09-12T04:30:20Z"
+  },
   "bound_identity": {
     "phase5_authority_sha256": "0e4692393444284866624621bc052a752c6e50a5aa1a42cc4729393494517898",
     "phase6_authority_sha256": "bcf7e2abdab6e99529f6c79407aa6225b8234dd9aafcfe6c526e6d4b1df8b445",
@@ -25,6 +31,6 @@
     "selected_standard_ledger_sha256": "33605542dbc9c0973a000803c8c6f48069045357a958345bd7461973a7338d22"
   },
   "reserved_2023_plus_outcomes_accessed": false,
-  "prospective_status": "not_yet_started_until_exact_freeze_landing",
+  "prospective_status": "active_after_exact_freeze_landing",
   "phase8_entry_eligible": false
 }

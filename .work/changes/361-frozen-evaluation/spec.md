@@ -21,7 +21,7 @@ The canonical scientific requirements are owned by:
 This change record does not restate or extend those scientific requirements.
 ## Repository mapping
 
-- `scripts/research/run_phase7_frozen_evaluation.py` verifies frozen identities, reproduces the already-consumed development ledger, rejects protected-period leakage, and validates prospective-record timing/identity.
+- `scripts/research/run_phase7_frozen_evaluation.py` verifies frozen identities, reproduces the already-consumed development ledger, rejects protected-period leakage, and enforces a two-stage prospective ledger in which the frozen decision is hash-chained before its later outcome settlement.
 - `tests/test_phase7_frozen_evaluation.py` provides focused acceptance evidence.
 - `.work/changes/361-frozen-evaluation/phase7-freeze-audit.json` is generated machine evidence for the pre-prospective freeze audit.
 - `docs/reference/research/programmes/003-natural-gas-trading-decision-system/phase7-frozen-evaluation-v1.md` is the human projection.

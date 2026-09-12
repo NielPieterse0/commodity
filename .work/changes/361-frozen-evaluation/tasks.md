@@ -9,8 +9,9 @@
 - [x] Compile and execute the Phase-7 audit; focused checks pass.
 - [x] Generate/update the human reference projection.
 - [x] Obtain governed implementation verification and independent review evidence.
-- [ ] Resolve or legally route around the KIS checkout-recognition defect for WORK-361 binding.
-- [ ] Publish and land the exact freeze change through registered GitHub workflow.
-- [ ] Record the exact remote freeze landing identity and activate prospective logging.
+- [x] Resolve or legally route around the KIS checkout-recognition defect for WORK-361 binding via supported `exit_once_through` manual closeout; no lifecycle gate was bypassed.
+- [x] Publish and land the exact freeze change through registered GitHub workflow as PR #372.
+- [x] Record the exact remote freeze landing identity and activate tamper-evident prospective logging without changing the frozen candidate.
+- [x] Repair the prospective chronology control so each decision is durably appended before its later outcome settlement; reject outcome-only retrospective records.
 - [ ] Accumulate the frozen minimum prospective evidence without tuning.
 - [ ] Evaluate Phase-7 exit gate and only then determine Phase-8 eligibility.
