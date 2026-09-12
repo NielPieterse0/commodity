@@ -22,6 +22,7 @@ PHASE2_CONFIG = ROOT / "config" / "phase2_market_only.json"
 _ALLOWED_POSITIONS = {-1.0, -0.5, 0.0, 0.5, 1.0}
 _SHA256_RE = re.compile(r"^[0-9a-f]{64}$")
 _GIT_SHA_RE = re.compile(r"^[0-9a-f]{40}$")
+_SPECIALIST_RUNTIME_CACHE: dict[tuple[str, ...], Any] = {}
 
 
 def _utc_now() -> str:
@@ -447,20 +448,128 @@ def _reject_external_specialist_outputs(bundle: dict[str, Any]) -> None:
         )
 
 
+def _pinned_specialist_runtime(
+    derivation: Any,
+    *,
+    timesfm_runtime_root: Path,
+    timesfm_source_zip: Path,
+    timesfm_cache_dir: Path,
+    kronos_source_root: Path,
+    kronos_cache_dir: Path,
+) -> Any:
+    paths = tuple(
+        str(Path(path).resolve())
+        for path in (
+            timesfm_runtime_root,
+            timesfm_source_zip,
+            timesfm_cache_dir,
+            kronos_source_root,
+            kronos_cache_dir,
+        )
+    )
+    runtime = _SPECIALIST_RUNTIME_CACHE.get(paths)
+    if runtime is None:
+        runtime = derivation.PinnedSpecialistServingRuntime(
+            timesfm_runtime_root=Path(paths[0]),
+            timesfm_source_zip=Path(paths[1]),
+            timesfm_cache_dir=Path(paths[2]),
+            kronos_source_root=Path(paths[3]),
+            kronos_cache_dir=Path(paths[4]),
+        )
+        _SPECIALIST_RUNTIME_CACHE[paths] = runtime
+    return runtime
+
+
 def derive_and_append_decision(
-    bundle: dict[str, Any], *, checkpoint_root: Path, databento_root: Path,
+    bundle: dict[str, Any],
+    *,
+    checkpoint_root: Path,
+    databento_root: Path,
+    timesfm_runtime_root: Path,
+    timesfm_source_zip: Path,
+    timesfm_cache_dir: Path,
+    kronos_source_root: Path,
+    kronos_cache_dir: Path,
     ledger: Path = DEFAULT_LEDGER,
 ) -> dict[str, Any]:
-    """Fail closed until pinned specialist inference is integrated into this entrypoint."""
-    _ = checkpoint_root, databento_root, ledger
+    """Generate the frozen specialists internally, derive the action, and persist it."""
     _assert_prospective_serving_active()
     if "source_snapshot" in bundle:
         raise ValueError("operational prospective derivation forbids caller-supplied source_snapshot")
     _reject_external_specialist_outputs(bundle)
-    raise RuntimeError(
-        "internal pinned TimesFM/Kronos serving inference is not yet integrated; "
-        "prospective decision derivation remains blocked"
+    required = {
+        "decision_timestamp",
+        "planned_fill_timestamp",
+        "target_session_timestamps",
+        "current_origin",
+    }
+    missing = sorted(required.difference(bundle))
+    if missing:
+        raise ValueError(f"operational prospective derivation missing fields: {missing}")
+    current_origin = bundle["current_origin"]
+    if not isinstance(current_origin, dict):
+        raise TypeError("operational current_origin must be an object")
+    origin_required = {"trade_date", "available_at", "contract_id", "features"}
+    origin_missing = sorted(origin_required.difference(current_origin))
+    if origin_missing:
+        raise ValueError(f"operational current_origin missing fields: {origin_missing}")
+
+    phase7 = _phase7_module()
+    derivation = _derivation_module()
+    origin_index = _next_prospective_origin_index(phase7, ledger)
+    source_snapshot = derivation.verified_databento_source_snapshot(
+        databento_root,
+        required_trade_date=phase7._parse_utc(str(current_origin["trade_date"])),
     )
+    path_eligible = derivation.prospective_kronos_path_eligible(origin_index)
+    canonical_history, ohlcv_history = derivation.load_specialist_histories_from_databento(
+        databento_root,
+        source_snapshot=source_snapshot,
+        retrieved_at=current_origin["available_at"],
+    )
+    contexts = derivation.build_specialist_serving_contexts(
+        canonical_history,
+        ohlcv_history,
+        origin_trade_date=current_origin["trade_date"],
+        available_at=current_origin["available_at"],
+        contract_id=current_origin["contract_id"],
+        planned_fill_timestamp=bundle["planned_fill_timestamp"],
+        target_session_timestamps=bundle["target_session_timestamps"],
+        kronos_path_eligible=path_eligible,
+    )
+    runtime = _pinned_specialist_runtime(
+        derivation,
+        timesfm_runtime_root=timesfm_runtime_root,
+        timesfm_source_zip=timesfm_source_zip,
+        timesfm_cache_dir=timesfm_cache_dir,
+        kronos_source_root=kronos_source_root,
+        kronos_cache_dir=kronos_cache_dir,
+    )
+    specialists = runtime.generate(contexts)
+    internal_bundle = json.loads(json.dumps(bundle))
+    internal_bundle["source_snapshot"] = source_snapshot
+    internal_bundle["specialists"] = specialists
+    training_origins = derivation.load_verified_training_origins(checkpoint_root)
+    state = _runtime_state(phase7, ledger)
+    record = derivation.derive_decision(
+        internal_bundle,
+        training_origins=training_origins,
+        prior_position=float(state["prior_position"]),
+        risk_state=str(state["risk_state"]),
+        origin_sequence_index=origin_index,
+    )
+    written_at = _utc_now()
+    planned_fill = phase7._parse_utc(str(bundle["planned_fill_timestamp"]))
+    if phase7._parse_utc(written_at) >= planned_fill:
+        return record_origin_miss(
+            decision_timestamp=str(bundle["decision_timestamp"]),
+            planned_fill_timestamp=str(bundle["planned_fill_timestamp"]),
+            source_snapshot_sha256=str(source_snapshot["sha256"]),
+            miss_reason="serving_deadline_missed",
+            ledger=ledger,
+            recorded_at=written_at,
+        )
+    return append_decision(record, ledger=ledger, recorded_at=written_at)
 
 
 def _decision_for_fill(module: Any, ledger: Path, session_timestamp: str) -> dict[str, Any] | None:
@@ -1016,6 +1125,11 @@ def _parser() -> argparse.ArgumentParser:
     decision.add_argument("bundle", type=Path)
     decision.add_argument("--checkpoint-root", type=Path, required=True)
     decision.add_argument("--databento-root", type=Path, required=True)
+    decision.add_argument("--timesfm-runtime-root", type=Path, required=True)
+    decision.add_argument("--timesfm-source-zip", type=Path, required=True)
+    decision.add_argument("--timesfm-cache-dir", type=Path, required=True)
+    decision.add_argument("--kronos-source-root", type=Path, required=True)
+    decision.add_argument("--kronos-cache-dir", type=Path, required=True)
 
     session = sub.add_parser(
         "derive-session",
@@ -1035,6 +1149,11 @@ def main() -> None:
             _load_json(args.bundle),
             checkpoint_root=args.checkpoint_root,
             databento_root=args.databento_root,
+            timesfm_runtime_root=args.timesfm_runtime_root,
+            timesfm_source_zip=args.timesfm_source_zip,
+            timesfm_cache_dir=args.timesfm_cache_dir,
+            kronos_source_root=args.kronos_source_root,
+            kronos_cache_dir=args.kronos_cache_dir,
             ledger=args.ledger,
         )
     elif args.command == "derive-session":

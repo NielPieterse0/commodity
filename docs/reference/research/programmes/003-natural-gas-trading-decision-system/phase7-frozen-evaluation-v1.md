@@ -12,9 +12,9 @@ Source: `research/programmes/003-natural-gas-trading-decision-system/phase7-froz
 | `programme_id` | 003-natural-gas-trading-decision-system |
 | `phase` | 7 |
 | `issue` | 361 |
-| `status` | prospective_refreeze_required |
+| `status` | prospective_activation_blocked |
 | `protected_confirmation_accessed` | false |
-| `claim_boundary` | historical development evidence remains non-confirmatory; no prospective observation may count until the missing serving semantics are preregistered, landed on the default branch and activated as the new prospective freeze boundary |
+| `claim_boundary` | historical development evidence remains non-confirmatory; the serving-contract amendment is landed and frozen, but no prospective observation may count until the pinned specialist runtime proof is verified, fresh exact-source coverage is available and Phase 7 is explicitly activated for prospective evidence |
 | `live_capital_authorized` | false |
 
 ## Structure
