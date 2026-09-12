@@ -215,6 +215,7 @@ This directory is generated from current machine-readable repository artifacts.
 - [`research/programmes/003-natural-gas-trading-decision-system/phase2-market-only-baseline-v1.json`](research/programmes/003-natural-gas-trading-decision-system/phase2-market-only-baseline-v1.md)
 - [`research/programmes/003-natural-gas-trading-decision-system/phase3-pit-fundamentals-v1.json`](research/programmes/003-natural-gas-trading-decision-system/phase3-pit-fundamentals-v1.md)
 - [`research/programmes/003-natural-gas-trading-decision-system/phase4-foundation-specialists-v1.json`](research/programmes/003-natural-gas-trading-decision-system/phase4-foundation-specialists-v1.md)
+- [`research/programmes/003-natural-gas-trading-decision-system/phase5-stacking-policy-v1.json`](research/programmes/003-natural-gas-trading-decision-system/phase5-stacking-policy-v1.md)
 - [`research/programmes/003-natural-gas-trading-decision-system/programme.json`](research/programmes/003-natural-gas-trading-decision-system/programme.md)
 - [`research/programmes/003-natural-gas-trading-decision-system/revisit-triggers.json`](research/programmes/003-natural-gas-trading-decision-system/revisit-triggers.md)
 - [`research/programmes/003-natural-gas-trading-decision-system/sealed-windows.json`](research/programmes/003-natural-gas-trading-decision-system/sealed-windows.md)

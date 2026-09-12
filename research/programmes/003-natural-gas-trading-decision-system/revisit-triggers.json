@@ -59,6 +59,20 @@
         "kind": "create_successor",
         "trace_ref": "issue-360"
       }
+    },
+    {
+      "trigger_id": "phase5-policy-handoff-ready",
+      "source_record": "research/programmes/003-natural-gas-trading-decision-system/phase5-stacking-policy-v1.json",
+      "disposition": "defer",
+      "status": "satisfied",
+      "evidence_input": "research/programmes/003-natural-gas-trading-decision-system/phase5-stacking-policy-v1.json",
+      "metric": "programme_route",
+      "operator": "eq",
+      "threshold": "phase5_complete_handoff_to_phase6_bounded_gap_investigation",
+      "successor_action": {
+        "kind": "release_successor",
+        "trace_ref": "issue-360"
+      }
     }
   ],
   "evaluation_history": [
@@ -124,6 +138,15 @@
       "satisfied": false,
       "evidence_ref": "config/models.json",
       "successor_ref": null
+    },
+    {
+      "evaluation_id": "phase5-policy-handoff-ready:2026-09-11T23:44:27Z",
+      "evaluated_at": "2026-09-11T23:44:27Z",
+      "trigger_id": "phase5-policy-handoff-ready",
+      "observed": "phase5_complete_handoff_to_phase6_bounded_gap_investigation",
+      "satisfied": true,
+      "evidence_ref": "research/programmes/003-natural-gas-trading-decision-system/phase5-stacking-policy-v1.json",
+      "successor_ref": "issue-360"
     }
   ]
 }

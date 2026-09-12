@@ -1,0 +1,190 @@
+{
+  "schema_version": 1,
+  "programme_id": "003-natural-gas-trading-decision-system",
+  "phase": 5,
+  "issue": 359,
+  "status": "complete_development_candidate_selected",
+  "protected_confirmation_accessed": false,
+  "claim_boundary": "development_policy_selection_only_no_clean_confirmation_claim",
+  "authority": "github-issue-359",
+  "preregistration_sha256": "98e59ccb64d8e6df995239686793ce05487a7b8c2d0773f6dc7e85b836f87fab",
+  "result_sha256": "fc2dee42b86020bc36e1bcc9a2aaaadba84545e3c290ea30f1e5e4f49ad917c9",
+  "evidence_boundary": {
+    "last_allowed_trade_date": "2022-12-31",
+    "role": "adaptive_development"
+  },
+  "selection_contract": {
+    "configuration_count": 36,
+    "attempt_count": 324,
+    "primary_objective": "median_yearly_standard_replay_net_pnl_usd",
+    "score_years": [
+      2014,
+      2015,
+      2016,
+      2017,
+      2018,
+      2019,
+      2020,
+      2021,
+      2022
+    ],
+    "failed_configuration_count": 0
+  },
+  "nested_selection_path": {
+    "outer_blocks": [
+      {
+        "block_id": "outer-2017-2018",
+        "selected_before_block": "s-veto__l-half__p-none__u-half_high",
+        "selection_years": [
+          2014,
+          2015,
+          2016
+        ],
+        "observed_years": [
+          2017,
+          2018
+        ],
+        "observed_net_pnl_usd": 21565.0,
+        "observed_continuous_net_pnl_usd": 22370.000000000015,
+        "observed_max_drawdown_fraction": 0.054550772680739046,
+        "observed_transaction_cost_usd": 2025.0
+      },
+      {
+        "block_id": "outer-2019-2020",
+        "selected_before_block": "s-veto__l-half__p-none__u-half_high",
+        "selection_years": [
+          2014,
+          2015,
+          2016,
+          2017,
+          2018
+        ],
+        "observed_years": [
+          2019,
+          2020
+        ],
+        "observed_net_pnl_usd": 4155.0,
+        "observed_continuous_net_pnl_usd": 4155.0,
+        "observed_max_drawdown_fraction": 0.04729830863643167,
+        "observed_transaction_cost_usd": 2340.0
+      },
+      {
+        "block_id": "outer-2021-2022",
+        "selected_before_block": "s-none__l-half__p-none__u-half_high",
+        "selection_years": [
+          2014,
+          2015,
+          2016,
+          2017,
+          2018,
+          2019,
+          2020
+        ],
+        "observed_years": [
+          2021,
+          2022
+        ],
+        "observed_net_pnl_usd": -11740.0,
+        "observed_continuous_net_pnl_usd": -14159.999999999985,
+        "observed_max_drawdown_fraction": 0.062364194909962783,
+        "observed_transaction_cost_usd": 165.0
+      }
+    ],
+    "standard_net_pnl_usd": 13980.0,
+    "continuous_net_pnl_usd": 12365.00000000003
+  },
+  "selected_candidate": {
+    "config": {
+      "config_id": "s-veto__l-none__p-half__u-none",
+      "short_mode": "veto",
+      "long_mode": "none",
+      "path_mode": "half",
+      "uncertainty_mode": "none"
+    },
+    "selection_years": [
+      2014,
+      2015,
+      2016,
+      2017,
+      2018,
+      2019,
+      2020,
+      2021,
+      2022
+    ],
+    "median_yearly_net_pnl_usd": 895.0,
+    "worst_yearly_net_pnl_usd": -10510.0,
+    "total_net_pnl_usd": 16555.0,
+    "total_continuous_net_pnl_usd": 15585.000000000073,
+    "max_yearly_drawdown_fraction": 0.10594934811928668,
+    "transaction_cost_usd": 7575.0
+  },
+  "no_modifier_comparator": {
+    "config_id": "s-none__l-none__p-none__u-none",
+    "median_yearly_net_pnl_usd": -1290.0,
+    "worst_yearly_net_pnl_usd": -7480.0,
+    "total_net_pnl_usd": 25470.0,
+    "transaction_cost_usd": 3900.0
+  },
+  "diagnostics": {
+    "long_short_flat_net_pnl_usd": {
+      "flat": -2797.5,
+      "long": 187.5000000000079,
+      "short": 19165.000000000036
+    },
+    "cost_sensitivity": {
+      "base": {
+        "net_pnl_usd": 16555.0,
+        "transaction_cost_usd": 7575.0,
+        "kill_years": 6
+      },
+      "higher_1_5x": {
+        "net_pnl_usd": 7155.0,
+        "transaction_cost_usd": 11205.0,
+        "kill_years": 6
+      },
+      "higher_2x": {
+        "net_pnl_usd": 2100.0,
+        "transaction_cost_usd": 14520.0,
+        "kill_years": 6
+      }
+    },
+    "remove_one_specialist_ablations": {
+      "timesfm_short": {
+        "ablated_config_id": "s-none__l-none__p-half__u-none",
+        "selected_total_net_pnl_usd": 16555.0,
+        "ablated_total_net_pnl_usd": 19360.0,
+        "incremental_net_pnl_usd": -2805.0
+      },
+      "kronos_path": {
+        "ablated_config_id": "s-veto__l-none__p-none__u-none",
+        "selected_total_net_pnl_usd": 16555.0,
+        "ablated_total_net_pnl_usd": 18660.0,
+        "incremental_net_pnl_usd": -2105.0
+      }
+    },
+    "signal_abstention_sessions": 1378,
+    "risk_shutdown_sessions": 1129,
+    "standard_kill_years": 6,
+    "profit_concentration_largest_positive_year_fraction": 0.6756792403059879,
+    "risk_adjusted_metrics": {
+      "sharpe": 0.25106137940028234,
+      "sortino": 0.19819160626305468,
+      "calmar": 0.14113256467582277,
+      "annualized_simple_return": 0.014952903225806488,
+      "max_drawdown_fraction": 0.10594934811928668
+    },
+    "metric_reconciliation": {
+      "selected_year_score_sum_net_pnl_usd": 16555.0,
+      "selected_ledger_sum_net_pnl_usd": 16555.000000000044,
+      "difference_usd": -4.3655745685100555e-11
+    }
+  },
+  "interpretation": {
+    "selection_result": "The preregistered primary criterion selects s-veto__l-none__p-half__u-none as the single Phase-5 development candidate.",
+    "robustness_caveat": "Selection is adaptive-development evidence only. The candidate improves median yearly net P&L versus the no-modifier comparator but has lower aggregate net P&L and a worse worst year; both remove-one specialist ablations improve aggregate P&L. This does not establish incremental or confirmatory trading edge.",
+    "phase6_gap": "The remaining explicit gap is robustness/horizon/refit mismatch: the five-session policy can select a candidate under the frozen objective, but its economic contribution is unstable across years and specialists. Phase 6 may test one preregistered mechanism-justified horizon or refit-cadence alternative before any broader global-gas expansion."
+  },
+  "programme_route": "phase5_complete_handoff_to_phase6_bounded_gap_investigation",
+  "next_evidence_stage": "Phase 6 may consume exactly this candidate as its frozen comparator. Protected 2023+ confirmation remains sealed until its explicit gate."
+}
