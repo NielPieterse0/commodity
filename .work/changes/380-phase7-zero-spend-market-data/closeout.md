@@ -15,7 +15,7 @@
 - Full repository verification: `674 passed, 7 skipped`; all repository checks passed.
 - Focused Saxo/shadow verification after hygiene correction: `9 passed`.
 - Change workflow, generated-documentation, JSON parsing, public-hygiene and `git diff --check` checks passed.
-- Independent working-tree review attempt produced no findings but was evidence-incomplete and is not accepted as closure; exact-commit review is required before PR.
+- Independent exact-commit review of `b47ea87c92b462a7d48633c93af8dd9d748b4a70` completed with no findings; review evidence was complete.
 
 ## Provider and landing evidence
 
