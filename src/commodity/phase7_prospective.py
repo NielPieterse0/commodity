@@ -3,6 +3,7 @@ from __future__ import annotations
 import hashlib
 import json
 import math
+from pathlib import Path
 from typing import Any
 
 import numpy as np
@@ -20,6 +21,7 @@ _FROZEN_PHASE7_LANDING = pd.Timestamp("2026-09-12T04:30:20Z")
 _FROZEN_CONTRACT_MULTIPLIER = 10_000.0
 _FROZEN_MIN_TRAIN_ROWS = 504
 _FROZEN_HORIZON_SESSIONS = 5
+_FROZEN_ORIGINS_FILE_SHA256 = "388e5c8470f48008308880fbeebf52e2932a5b2c0849f37b4c067a9af10ee78f"
 _FROZEN_CORE_FEATURES = [
     "feature_ret_1",
     "feature_ret_5",
@@ -40,6 +42,14 @@ _FORBIDDEN_CURRENT_OUTCOMES = {
     "actual_gross_pnl_usd",
     "net_pnl_usd",
 }
+
+
+def _sha256_file(path: Path) -> str:
+    digest = hashlib.sha256()
+    with path.open("rb") as handle:
+        for chunk in iter(lambda: handle.read(1024 * 1024), b""):
+            digest.update(chunk)
+    return digest.hexdigest()
 
 
 def _utc_series(frame: pd.DataFrame, column: str, label: str) -> pd.Series:
@@ -87,37 +97,28 @@ def _candidate(candidate: dict[str, Any]) -> HistGradientBoostingReturnModel:
         "max_leaf_nodes": 15,
         "random_state": 0,
     }
+    if set(params) != set(expected):
+        raise Phase7ProspectiveError("Phase 7 histgb-core-v1 parameter keys drifted from the freeze")
     observed = {
-        "learning_rate": float(params.get("learning_rate", 0.05)),
-        "max_iter": int(params.get("max_iter", 20)),
-        "max_leaf_nodes": int(params.get("max_leaf_nodes", 15)),
-        "random_state": int(params.get("random_state", 0)),
+        "learning_rate": float(params["learning_rate"]),
+        "max_iter": int(params["max_iter"]),
+        "max_leaf_nodes": int(params["max_leaf_nodes"]),
+        "random_state": int(params["random_state"]),
     }
     if observed != expected:
         raise Phase7ProspectiveError("Phase 7 histgb-core-v1 parameters drifted from the freeze")
     return HistGradientBoostingReturnModel(**observed)
 
 
-def forecast_frozen_market_baseline(
-    training_origins: pd.DataFrame,
-    current_origin: pd.DataFrame,
-    candidate: dict[str, Any],
-    feature_columns: list[str],
-) -> pd.DataFrame:
-    """Fit only on frozen pre-2023 outcomes and forecast one outcome-blind live origin.
-
-    The Phase-7 landing timestamp, five-session horizon, 10,000 MMBtu multiplier,
-    504-row minimum, core feature set, candidate identity and model parameters are
-    fixed here rather than caller-controlled. `training_origins` must contain only
-    the already-consumed development sample. The current origin must not contain
-    any realized target/P&L value. Supplying any reserved 2023+ outcome fails closed.
-    """
-    if feature_columns != _FROZEN_CORE_FEATURES:
-        raise Phase7ProspectiveError("Phase 7 market feature set drifted from frozen core")
-    if len(current_origin) != 1:
-        raise Phase7ProspectiveError("prospective market forecast requires exactly one current origin")
-
-    training_identity = [
+def _load_frozen_training_origins(path: Path) -> pd.DataFrame:
+    path = Path(path)
+    if not path.is_file():
+        raise Phase7ProspectiveError(f"frozen Phase-5 origins file is unavailable: {path}")
+    observed_sha256 = _sha256_file(path)
+    if observed_sha256 != _FROZEN_ORIGINS_FILE_SHA256:
+        raise Phase7ProspectiveError("frozen Phase-5 origins file identity mismatch")
+    training = pd.read_csv(path)
+    required = {
         "trade_date",
         "signal_timestamp",
         "fill_trade_date",
@@ -125,12 +126,11 @@ def forecast_frozen_market_baseline(
         "fill_contract_id",
         "target_end_timestamp",
         "target_path_move_per_mmbtu",
-        *feature_columns,
-    ]
-    missing_training = sorted(set(training_identity) - set(training_origins.columns))
-    if missing_training:
-        raise Phase7ProspectiveError(f"training origins missing columns: {missing_training}")
-    training = training_origins.copy()
+        *_FROZEN_CORE_FEATURES,
+    }
+    missing = sorted(required - set(training.columns))
+    if missing:
+        raise Phase7ProspectiveError(f"frozen Phase-5 origins missing columns: {missing}")
     for column in (
         "trade_date",
         "signal_timestamp",
@@ -138,7 +138,7 @@ def forecast_frozen_market_baseline(
         "fill_timestamp",
         "target_end_timestamp",
     ):
-        training[column] = _utc_series(training, column, "training origins")
+        training[column] = _utc_series(training, column, "frozen Phase-5 origins")
     if (training["target_end_timestamp"] >= _FROZEN_DEVELOPMENT_CUTOFF).any():
         raise Phase7ProspectiveError(
             "reserved 2023+ outcomes are forbidden in prospective baseline fitting"
@@ -149,11 +149,32 @@ def forecast_frozen_market_baseline(
             f"requires {_FROZEN_MIN_TRAIN_ROWS}"
         )
     if training["fill_contract_id"].astype(str).str.strip().eq("").any():
-        raise Phase7ProspectiveError("training origins contain empty fill contract identity")
+        raise Phase7ProspectiveError("frozen Phase-5 origins contain empty fill contract identity")
+    identity = training[["fill_timestamp", "fill_contract_id"]].astype(str)
+    if identity.duplicated().any():
+        raise Phase7ProspectiveError("frozen Phase-5 origins are not unique by executable fill")
+    return training
+
+
+def forecast_frozen_market_baseline(
+    frozen_origins_path: Path,
+    current_origin: pd.DataFrame,
+    candidate: dict[str, Any],
+) -> pd.DataFrame:
+    """Fit the exact frozen pre-2023 market baseline and forecast one live origin.
+
+    The training file must byte-match the Phase-5 origins identity preserved by the
+    governed Phase-5 result. The Phase-7 landing timestamp, five-session horizon,
+    10,000 MMBtu multiplier, 504-row minimum, core feature set, candidate identity
+    and model parameters are fixed rather than caller-controlled. The current origin
+    must be outcome-blind; any realized target/P&L field fails closed.
+    """
+    training = _load_frozen_training_origins(Path(frozen_origins_path))
+    feature_columns = list(_FROZEN_CORE_FEATURES)
     y_train = pd.to_numeric(training["target_path_move_per_mmbtu"], errors="coerce")
     if not np.isfinite(y_train.to_numpy(dtype=float)).all():
-        raise Phase7ProspectiveError("training outcomes contain non-finite values")
-    x_train = _finite_features(training, feature_columns, "training origins")
+        raise Phase7ProspectiveError("frozen training outcomes contain non-finite values")
+    x_train = _finite_features(training, feature_columns, "frozen Phase-5 origins")
 
     current = current_origin.copy()
     current_identity = [
@@ -171,6 +192,8 @@ def forecast_frozen_market_baseline(
     for column in _FORBIDDEN_CURRENT_OUTCOMES.intersection(current.columns):
         if current[column].notna().any():
             raise Phase7ProspectiveError(f"current origin must be outcome-blind: {column}")
+    if len(current) != 1:
+        raise Phase7ProspectiveError("prospective market forecast requires exactly one current origin")
 
     for column in (
         "trade_date",
@@ -205,15 +228,11 @@ def forecast_frozen_market_baseline(
     if not math.isfinite(prediction) or not math.isfinite(uncertainty):
         raise Phase7ProspectiveError("prospective baseline produced a non-finite forecast")
 
-    training_ordered = training.sort_values(
-        ["target_end_timestamp", "fill_timestamp", "fill_contract_id"], kind="stable"
-    ).reset_index(drop=True)
-    training_sha256 = _frame_sha256(training_ordered, training_identity)
     current_sha256 = _frame_sha256(current, current_identity)
     input_payload = json.dumps(
         {
             "candidate_id": str(candidate["id"]),
-            "training_sha256": training_sha256,
+            "frozen_origins_file_sha256": _FROZEN_ORIGINS_FILE_SHA256,
             "current_origin_sha256": current_sha256,
             "horizon_sessions": _FROZEN_HORIZON_SESSIONS,
             "contract_multiplier": _FROZEN_CONTRACT_MULTIPLIER,
@@ -239,7 +258,7 @@ def forecast_frozen_market_baseline(
     output["uncertainty_usd"] = uncertainty * _FROZEN_CONTRACT_MULTIPLIER
     output["training_rows"] = len(training)
     output["latest_training_target_end"] = pd.Timestamp(training["target_end_timestamp"].max())
-    output["training_snapshot_sha256"] = training_sha256
+    output["training_snapshot_sha256"] = _FROZEN_ORIGINS_FILE_SHA256
     output["input_snapshot_sha256"] = input_snapshot_sha256
     output["forecast_id"] = forecast_id
     output["horizon_sessions"] = _FROZEN_HORIZON_SESSIONS
