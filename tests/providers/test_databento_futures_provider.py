@@ -97,6 +97,48 @@ def test_databento_metadata_probe_is_bounded_and_non_billable(monkeypatch) -> No
     assert cost_call["params"]["end"] == "2025-01-07"
 
 
+def test_databento_phase7_triple_quote_is_metadata_only(monkeypatch) -> None:
+    from commodity.providers.databento_futures import DatabentoFuturesClient
+
+    class Response:
+        status_code = 200
+        def __init__(self, payload):
+            self.payload = payload
+        def json(self):
+            return self.payload
+
+    class Session:
+        def __init__(self) -> None:
+            self.calls = []
+        def get(self, url, **kwargs):
+            self.calls.append((url, kwargs))
+            if url.endswith("metadata.list_schemas"):
+                return Response(["definition", "statistics", "ohlcv-1d"])
+            if url.endswith("metadata.get_dataset_range"):
+                return Response({"start": "2010-06-06T00:00:00Z", "end": "2026-09-12T03:39:57Z"})
+            if url.endswith("metadata.get_cost"):
+                return Response({"definition": 0.13, "statistics": 0.05, "ohlcv-1d": 0.06}[kwargs["params"]["schema"]])
+            if url.endswith("metadata.get_record_count"):
+                return Response({"definition": 158461, "statistics": 621221, "ohlcv-1d": 6147}[kwargs["params"]["schema"]])
+            raise AssertionError(url)
+
+    monkeypatch.setenv("DATABENTO_API_KEY", "db-test-secret")
+    session = Session()
+    report = DatabentoFuturesClient(session=session).quote_phase7_partition(
+        "GLBX.MDP3", "NG", "2026-08-13", "2026-09-11"
+    )
+    assert report["metadata_only"] is True
+    assert report["required_schemas"] == ["definition", "statistics", "ohlcv-1d"]
+    assert report["estimated_total_cost_usd"] == pytest.approx(0.24)
+    assert report["schemas"]["ohlcv-1d"]["record_count"] == 6147
+    assert all("timeseries.get_range" not in url for url, _ in session.calls)
+    assert {
+        kwargs["params"]["schema"]
+        for url, kwargs in session.calls
+        if url.endswith("metadata.get_cost")
+    } == {"definition", "statistics", "ohlcv-1d"}
+
+
 def test_databento_entitlement_errors_are_redacted(monkeypatch) -> None:
     from commodity.providers.databento_futures import (
         DatabentoApiError,
@@ -332,6 +374,20 @@ def test_databento_cost_cap_blocks_billable_fetch() -> None:
         )
 
 
+def test_databento_default_fetch_is_disabled_until_cost_is_explicitly_approved() -> None:
+    from commodity.providers.databento_futures import fetch_databento_canonical_history
+
+    class Client:
+        def probe_history(self, *args, **kwargs):
+            raise AssertionError("quote/fetch must not run with zero spend authority")
+
+    with pytest.raises(ValueError, match="max_cost_usd must be positive"):
+        fetch_databento_canonical_history(
+            Client(), _schema(), "NG", "2025-01-02", "2025-01-03",
+            "2026-08-13T12:00:00Z",
+        )
+
+
 def test_databento_record_cap_blocks_large_flat_rate_fetch() -> None:
     from commodity.providers.databento_futures import fetch_databento_canonical_history
 
@@ -407,7 +463,9 @@ def test_databento_capture_archive_is_rank_bounded_and_secret_free(tmp_path) -> 
                 {"symbol": "NGG25", "stat_type": 6, "stat_flags": 0, "ts_ref": "2025-01-02T00:00:00Z", "ts_event": "2025-01-03T01:00:00Z", "quantity": 90},
             ])
 
-    manifest_path = DatabentoFuturesProvider(client=Client()).capture_archive(
+    manifest_path = DatabentoFuturesProvider(
+        client=Client(), max_auto_cost_usd=0.02
+    ).capture_archive(
         _schema(), "NG", "2025-01-02", "2025-01-02", "2026-08-13T12:00:00Z",
         tmp_path, "bounded", max_contracts=1,
     )
@@ -434,7 +492,7 @@ def test_databento_factory_satisfies_provider_surface() -> None:
     assert callable(provider.fetch_contract_history)
     assert callable(provider.capture_archive)
     assert provider.dataset == "GLBX.MDP3"
-    assert provider.max_auto_cost_usd == pytest.approx(1.0)
+    assert provider.max_auto_cost_usd == pytest.approx(0.0)
     assert provider.max_auto_records == 50_000
     assert config["sources"]["databento_henry_hub"]["provider"] == "databento_futures"
     assert config["canonical_market_source_id"] == "databento_henry_hub"

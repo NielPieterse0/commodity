@@ -1,0 +1,110 @@
+{
+  "schema_version": 1,
+  "programme_id": "003-natural-gas-trading-decision-system",
+  "phase": 7,
+  "issue": 361,
+  "assessment_date": "2026-09-12",
+  "status": "zero_spend_assessment_complete_acquisition_unapproved",
+  "protected_confirmation_accessed": false,
+  "prospective_evidence_written": false,
+  "zero_spend_constraint": {
+    "billable_databento_request_executed": false,
+    "databento_automatic_cost_authority_usd": 0.0,
+    "paid_acquisition_approved": false
+  },
+  "frozen_market_contract": {
+    "canonical_source": "databento_henry_hub",
+    "dataset": "GLBX.MDP3",
+    "required_partition_schemas": ["definition", "statistics", "ohlcv-1d"],
+    "retained_archive_complete_through_trade_date": "2026-08-12",
+    "execution_open_price_source": "databento_ohlcv_1d_utc_interval_open",
+    "execution_open_rule": "first_retained_interval_open_strictly_after_all_inputs_available",
+    "source_substitution_authorized": false
+  },
+  "databento_metadata_observation": {
+    "metadata_only": true,
+    "dataset_observed_end_utc": "2026-09-12T03:39:57.208525000Z",
+    "ohlcv_1d_observed_end_utc": "2026-09-12T00:00:00.000000000Z",
+    "quote_start_trade_date": "2026-08-13",
+    "quote_end_trade_date": "2026-09-11",
+    "schemas": {
+      "definition": {
+        "estimated_cost_usd": 0.130459222943,
+        "record_count": 158461
+      },
+      "statistics": {
+        "estimated_cost_usd": 0.04628457129,
+        "record_count": 621221
+      },
+      "ohlcv-1d": {
+        "estimated_cost_usd": 0.060912296176,
+        "record_count": 6147
+      }
+    },
+    "estimated_total_cost_usd": 0.237656090409,
+    "representative_single_day_quote": {
+      "trade_date": "2026-09-10",
+      "estimated_total_cost_usd": 0.00948055461
+    }
+  },
+  "saxo_assessment": {
+    "intended_role": "execution_target_with_staged_promotion",
+    "actual_trading_account_target": true,
+    "execution_progression": {
+      "ordered_stages": ["paper", "saxo_sim", "saxo_live"],
+      "current_live_order_submission_allowed": false,
+      "live_is_final_stage": true,
+      "live_read_only_verification_may_precede_promotion": true,
+      "promotion_rule": "do_not_enable_saxo_live_order_submission_until_paper_and_saxo_sim_evidence_are_complete_and_separately_approved"
+    },
+    "live_account_entitlement_status": "unverified_no_current_live_openapi_token",
+    "stored_sim_token_status": "expired_http_401",
+    "live_probe_operations": [
+      "GET port/v1/users/me",
+      "GET port/v1/users/me/entitlements",
+      "GET port/v1/accounts/me",
+      "GET ref/v1/instruments",
+      "GET ref/v1/instruments/futuresspaces/{continuous_uic}",
+      "GET ref/v1/instruments/details/{uic}/ContractFutures",
+      "GET chart/v3/charts"
+    ],
+    "live_probe_read_only": true,
+    "openapi_market_data_terms_acceptance_required": true,
+    "orders_or_session_capability_changes_allowed": false,
+    "required_products": ["NG", "MNG"],
+    "required_exchange": "NYMEX",
+    "provides_contract_identity_candidate": true,
+    "provides_chart_ohlcv_candidate": true,
+    "provides_cme_final_settlement": false,
+    "canonical_market_source": false,
+    "phase7_scientific_source_allowed": false,
+    "phase7_settlement_source_allowed": false,
+    "shadow_ledger": {
+      "path": "data/raw/snapshots/saxo-live/phase7-saxo-shadow-ledger.jsonl",
+      "git_tracked": false,
+      "integrity": "sha256_hash_chain",
+      "decision_binding": "phase7_record_id_plus_phase7_decision_record_sha256"
+    },
+    "equivalence_blockers": [
+      "live_nymex_market_data_entitlement_unverified",
+      "live_ng_and_mng_contract_chart_access_unverified",
+      "chart_last_traded_ohlc_is_not_cme_final_settlement",
+      "saxo_daily_bucket_vs_databento_utc_day_equivalence_unverified",
+      "frozen_phase7_source_identity_is_databento"
+    ]
+  },
+  "decision": {
+    "current_canonical_source": "Databento",
+    "saxo_current_role": "shadow_only_before_execution_promotion",
+    "execution_progression": "paper_then_saxo_sim_then_saxo_live",
+    "historical_gap_recommendation": "retain_exact_databento_semantics_if_operator_later_approves_the_quoted_sub_dollar_cost",
+    "prospective_capture_recommendation": "paper_test_first_then_saxo_sim_execution_test; use_live_only_for_read_only_account_shadow_verification_until_both_prior_stages_are_complete",
+    "no_spend_action_now": "metadata_quote_only",
+    "source_amendment_required_before_saxo_can_count": true
+  },
+  "evidence_timing_note": {
+    "historical_market_data_gap_is_retrievable": true,
+    "missed_prospective_decisions_are_retroactively_recoverable": false,
+    "reason": "Prospective evidence requires a durable pre-outcome decision record; historical market data can be acquired later but cannot recreate a missed prospective decision."
+  }
+}

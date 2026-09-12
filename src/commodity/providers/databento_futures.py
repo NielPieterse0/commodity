@@ -33,7 +33,8 @@ SETTLEMENT_STAT_TYPE = 3
 CLEARED_VOLUME_STAT_TYPE = 6
 STATISTICS_CAPTURE_GRACE_DAYS = 3
 DEFAULT_MAX_AUTO_RECORDS = 50_000
-OFFLINE_DBN_SCHEMAS = frozenset({"definition", "statistics", "ohlcv-1d"})
+PHASE7_REQUIRED_SCHEMAS = ("definition", "statistics", "ohlcv-1d")
+OFFLINE_DBN_SCHEMAS = frozenset(PHASE7_REQUIRED_SCHEMAS)
 
 
 class DatabentoApiError(RuntimeError):
@@ -633,6 +634,63 @@ class DatabentoFuturesClient:
             "estimated_total_cost_usd": definition_cost + statistics_cost,
             "definition_record_count": definition_count,
             "statistics_record_count": statistics_count,
+            "metadata_only": True,
+        }
+
+    def quote_phase7_partition(
+        self,
+        dataset: str,
+        product_code: str,
+        start_trade_date: str,
+        end_trade_date: str,
+    ) -> dict[str, Any]:
+        available_schemas = self.list_schemas(dataset)
+        missing = sorted(set(PHASE7_REQUIRED_SCHEMAS) - set(available_schemas))
+        if missing:
+            raise DataContractViolation(
+                f"Databento dataset is missing Phase-7 required schemas: {missing}"
+            )
+        dataset_range = self.get_dataset_range(dataset)
+        parent = _parent_symbol(product_code)
+        schema_quotes: dict[str, dict[str, float | int]] = {}
+        for schema in PHASE7_REQUIRED_SCHEMAS:
+            schema_quotes[schema] = {
+                "cost_usd": float(
+                    self._request_estimate(
+                        "metadata.get_cost",
+                        dataset,
+                        parent,
+                        schema,
+                        start_trade_date,
+                        end_trade_date,
+                    )
+                ),
+                "record_count": int(
+                    self._request_estimate(
+                        "metadata.get_record_count",
+                        dataset,
+                        parent,
+                        schema,
+                        start_trade_date,
+                        end_trade_date,
+                    )
+                ),
+            }
+        return {
+            "dataset": dataset,
+            "product_code": product_code,
+            "parent_symbol": parent,
+            "start_trade_date": start_trade_date,
+            "end_trade_date": end_trade_date,
+            "required_schemas": list(PHASE7_REQUIRED_SCHEMAS),
+            "dataset_range": dataset_range,
+            "schemas": schema_quotes,
+            "estimated_total_cost_usd": sum(
+                float(item["cost_usd"]) for item in schema_quotes.values()
+            ),
+            "estimated_total_record_count": sum(
+                int(item["record_count"]) for item in schema_quotes.values()
+            ),
             "metadata_only": True,
         }
 
@@ -1797,7 +1855,7 @@ def fetch_databento_canonical_history(
     end_trade_date: str,
     retrieved_at: str,
     dataset: str = DATABENTO_DATASET,
-    max_cost_usd: float = 1.0,
+    max_cost_usd: float = 0.0,
     max_records: int = DEFAULT_MAX_AUTO_RECORDS,
 ) -> tuple[pd.DataFrame, dict[str, Any]]:
     definitions, statistics, probe = _fetch_bounded_databento_source(
@@ -1826,7 +1884,7 @@ def fetch_databento_canonical_history(
 class DatabentoFuturesProvider:
     client: DatabentoFuturesClient | None = None
     dataset: str = DATABENTO_DATASET
-    max_auto_cost_usd: float = 1.0
+    max_auto_cost_usd: float = 0.0
     max_auto_records: int = DEFAULT_MAX_AUTO_RECORDS
 
     def _client(self) -> DatabentoFuturesClient:
