@@ -5,7 +5,7 @@
 - Parent programme: #353; phase issue: #361; Work item: WORK-361.
 - Frozen candidate: `s-veto__l-none__p-half__u-none`, unchanged from the accepted Phase-5 selection after Phase 6 rejected annual refitting.
 - Protected 2023+ outcomes remain unopened and are not treated as pristine confirmation for the foundation-model-dependent candidate.
-- Prospective evidence may start only after the exact freeze change lands on the registered default branch.
+- Prospective evidence may start only after the exact freeze change lands on the registered default branch. That boundary is now fixed at PR #372 merge commit `74fe9eb182ab9f82bad0b5aa4bb99ade22f19886`, merged `2026-09-12T04:30:20Z`; only decisions strictly after that timestamp are eligible.
 
 ## Implementation evidence
 
@@ -21,17 +21,20 @@
 - The blocked prior environment was moved recoverably to the repository-local ignored `.work/quarantine/361-frozen-evaluation/` area; no scientific contract, data boundary, target, candidate, or execution assumption changed.
 ## Lifecycle state
 
-- WORK-361 handoff exists and is frozen, but its `change_id` is still null.
-- Supported `bind_task_handoff_change` against the valid governed worktree currently fails with `CANDIDATE_SOURCE_INVALID: source is not a KIS checkout`.
-- Repository-level `validate_change_claims` reports three active governed changes and zero orphaned change worktrees, so checkout recognition is inconsistent across KIS surfaces.
-- No raw Git/GitHub bypass is authorized; the next legal action is KIS lifecycle convergence/commit/PromotionReady using supported registered operations.
+- WORK-361 handoff was frozen with `change_id=null`; supported binding failed because the KIS binder incorrectly requires a `src/kis_mcp` directory even for a registered Commodity checkout.
+- The defect was routed through the supported `exit_once_through` recovery into `manual_closeout`; required change-governance, exact-PR, exact-head-CI and merge-readiness gates remained in force.
+- No raw Git/GitHub bypass was used. Publication, remediation and merge used registered KIS GitHub operations.
+- Phase 7 remains open for prospective evidence accumulation; the next scientific action is to generate and append eligible post-freeze paper-trading records without tuning.
 
 ## Provider and landing evidence
 
-- Pull request exact head: pending.
-- Provider-native GitHub Actions: pending.
-- Merge / landed revision: pending.
-- Exact freeze landing timestamp: pending; prospective evidence remains not started until this is known.
+- PR #372 frozen head after publication-hygiene remediation: `616a47119398ee6a61110f43cad31fe943355086`.
+- Provider-native GitHub Actions passed on that exact head after the only CI failure (machine-local paths in closeout text) was repaired; local canonical verification also passed `625 passed, 7 skipped`.
+- Merge / landed revision: `74fe9eb182ab9f82bad0b5aa4bb99ade22f19886`.
+- Exact freeze landing timestamp: `2026-09-12T04:30:20Z`.
+- Prospective logging is bound to the landed freeze and uses an append-only JSONL hash chain that rejects pre-freeze decisions, contract-identity drift and tampered prior rows.
+- A post-landing implementation audit found that the first logger revision only appended complete records after outcomes existed, which did not prove the forecast/action was recorded prospectively. This was treated as an implementation defect, not a scientific redesign.
+- The logger now persists a separate decision event before outcome availability and only permits later settlement against that exact pre-existing decision hash. No protected or post-freeze outcome was opened to make this repair.
 
 ## Research return
 

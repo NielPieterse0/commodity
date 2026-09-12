@@ -116,24 +116,152 @@ def validate_prospective_record(
     if record["phase7_contract_sha256"] != contract_sha256:
         raise ValueError("Phase-7 contract identity mismatch")
 
+
+def _canonical_event_bytes(event: dict[str, Any]) -> bytes:
+    return json.dumps(event, sort_keys=True, separators=(",", ":"), ensure_ascii=True).encode("utf-8")
+
+
+def _read_prospective_events(ledger: Path) -> tuple[str, list[dict[str, Any]]]:
+    previous_hash = "0" * 64
+    events: list[dict[str, Any]] = []
+    if not ledger.exists():
+        return previous_hash, events
+    with ledger.open("r", encoding="utf-8") as handle:
+        for line_number, line in enumerate(handle, start=1):
+            if not line.strip():
+                continue
+            envelope = json.loads(line)
+            event = envelope.get("event")
+            if not isinstance(event, dict):
+                raise TypeError(f"invalid prospective ledger row {line_number}")
+            if envelope.get("previous_record_sha256") != previous_hash:
+                raise ValueError(f"prospective ledger chain break at row {line_number}")
+            observed = hashlib.sha256(
+                bytes.fromhex(previous_hash) + _canonical_event_bytes(event)
+            ).hexdigest()
+            if envelope.get("record_sha256") != observed:
+                raise ValueError(f"prospective ledger hash mismatch at row {line_number}")
+            event = dict(event)
+            event["record_sha256"] = observed
+            events.append(event)
+            previous_hash = observed
+    return previous_hash, events
+
+
+def _append_prospective_event(event: dict[str, Any], *, ledger: Path) -> dict[str, Any]:
+    previous_hash, _ = _read_prospective_events(ledger)
+    record_hash = hashlib.sha256(
+        bytes.fromhex(previous_hash) + _canonical_event_bytes(event)
+    ).hexdigest()
+    envelope = {
+        "schema_version": 1,
+        "previous_record_sha256": previous_hash,
+        "record_sha256": record_hash,
+        "event": event,
+    }
+    ledger.parent.mkdir(parents=True, exist_ok=True)
+    with ledger.open("a", encoding="utf-8", newline="\n") as handle:
+        handle.write(json.dumps(envelope, sort_keys=True, separators=(",", ":")) + "\n")
+        handle.flush()
+    return {**envelope, **event}
+
+
+def append_prospective_decision(
+    record: dict[str, Any], *, ledger: Path, recorded_at: str | None = None
+) -> dict[str, Any]:
+    """Persist a frozen decision before its outcome can be known."""
+    contract = _read_contract()
+    landing = contract.get("freeze_landing")
+    if not isinstance(landing, dict) or not landing.get("merged_at"):
+        raise ValueError("prospective logging requires exact landed freeze identity")
+    required = {
+        "record_id", "decision_timestamp", "candidate_config_id", "phase7_contract_sha256",
+        "contract_id", "intended_position", "risk_state", "source_freshness_ok",
+        "source_completeness_ok",
+    }
+    missing = sorted(required.difference(record))
+    if missing:
+        raise ValueError(f"prospective decision missing fields: {missing}")
+    decision = _parse_utc(str(record["decision_timestamp"]))
+    freeze = _parse_utc(str(landing["merged_at"]))
+    written = _parse_utc(recorded_at or datetime.now(UTC).isoformat())
+    if decision <= freeze:
+        raise ValueError("prospective decision must occur strictly after landed freeze")
+    if written < decision:
+        raise ValueError("decision cannot be recorded before its decision timestamp")
+    if record["candidate_config_id"] != "s-veto__l-none__p-half__u-none":
+        raise ValueError("candidate identity mismatch")
+    if record["phase7_contract_sha256"] != _sha256(CONTRACT):
+        raise ValueError("Phase-7 contract identity mismatch")
+    _, events = _read_prospective_events(ledger)
+    record_id = str(record["record_id"])
+    if any(str(event.get("record_id")) == record_id for event in events):
+        raise ValueError("prospective record_id already exists")
+    event = {"event_type": "decision", "recorded_at": written.isoformat(), **record}
+    return _append_prospective_event(event, ledger=ledger)
+
+
+def append_prospective_outcome(
+    record: dict[str, Any], *, ledger: Path, recorded_at: str | None = None
+) -> dict[str, Any]:
+    """Settle a previously persisted decision without rewriting it."""
+    contract = _read_contract()
+    landing = contract.get("freeze_landing")
+    if not isinstance(landing, dict) or not landing.get("merged_at"):
+        raise ValueError("prospective logging requires exact landed freeze identity")
+    validate_prospective_record(
+        record,
+        freeze_landed_at=str(landing["merged_at"]),
+        contract_sha256=_sha256(CONTRACT),
+    )
+    written = _parse_utc(recorded_at or datetime.now(UTC).isoformat())
+    outcome = _parse_utc(str(record["outcome_timestamp"]))
+    if written < outcome:
+        raise ValueError("outcome cannot be recorded before its outcome timestamp")
+    _, events = _read_prospective_events(ledger)
+    record_id = str(record["record_id"])
+    decisions = [event for event in events if event.get("event_type") == "decision" and str(event.get("record_id")) == record_id]
+    if len(decisions) != 1:
+        raise ValueError("prospective outcome requires exactly one preexisting decision")
+    if any(event.get("event_type") == "outcome" and str(event.get("record_id")) == record_id for event in events):
+        raise ValueError("prospective outcome already exists")
+    decision = decisions[0]
+    if _parse_utc(str(decision["recorded_at"])) >= outcome:
+        raise ValueError("preexisting decision must be recorded before outcome timestamp")
+    for key in ("decision_timestamp", "candidate_config_id", "phase7_contract_sha256", "contract_id", "intended_position", "risk_state", "source_freshness_ok", "source_completeness_ok"):
+        if record[key] != decision[key]:
+            raise ValueError(f"prospective outcome decision identity mismatch: {key}")
+    event = {
+        "event_type": "outcome",
+        "recorded_at": written.isoformat(),
+        "decision_record_sha256": decision["record_sha256"],
+        **record,
+    }
+    return _append_prospective_event(event, ledger=ledger)
+
+
 def build_freeze_audit() -> dict[str, Any]:
     contract = _read_contract()
     if contract["protected_confirmation_accessed"] is not False:
         raise ValueError("Phase-7 freeze preparation must not claim protected outcome access")
     identity = verify_bound_identity(contract)
     development = audit_development_ledger(contract)
+    landing = contract.get("freeze_landing")
+    if not isinstance(landing, dict) or not landing.get("merge_commit_sha") or not landing.get("merged_at"):
+        raise ValueError("Phase-7 active audit requires exact freeze landing identity")
     return {
         "schema_version": 1,
         "programme_id": contract["programme_id"],
         "phase": 7,
         "issue": 361,
-        "status": "freeze_contract_verified_pre_prospective",
+        "status": "freeze_contract_verified_prospective_active",
         "phase7_contract_sha256": _sha256(CONTRACT),
         "protected_confirmation_accessed": False,
+        "freeze_landing": landing,
         "bound_identity": identity,
         "historical_development_replay": development,
         "reserved_2023_plus_outcomes_accessed": False,
-        "prospective_status": "not_yet_started_until_exact_freeze_landing",
+        "prospective_status": "active_after_exact_freeze_landing",
         "phase8_entry_eligible": False,
     }
 

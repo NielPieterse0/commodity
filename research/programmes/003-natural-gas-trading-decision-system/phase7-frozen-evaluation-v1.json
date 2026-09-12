@@ -3,8 +3,14 @@
   "programme_id": "003-natural-gas-trading-decision-system",
   "phase": 7,
   "issue": 361,
-  "status": "prospective_freeze_preparation",
+  "status": "prospective_active",
   "protected_confirmation_accessed": false,
+  "freeze_landing": {
+    "pull_request": 372,
+    "head_sha": "616a47119398ee6a61110f43cad31fe943355086",
+    "merge_commit_sha": "74fe9eb182ab9f82bad0b5aa4bb99ade22f19886",
+    "merged_at": "2026-09-12T04:30:20Z"
+  },
   "claim_boundary": "historical development evidence remains non-confirmatory; only observations generated after the remotely landed freeze may count as prospective evidence",
   "frozen_candidate": {
     "config_id": "s-veto__l-none__p-half__u-none",
