@@ -11,8 +11,7 @@
     "research/programmes/003-natural-gas-trading-decision-system/phase6-controlled-expansion-v1.json",
     "scripts/research/run_phase6_controlled_expansion.py",
     "tests/test_phase6_controlled_expansion.py",
-    "docs/reference/research/programmes/003-natural-gas-trading-decision-system/phase6-controlled-expansion-v1.md",
-    "docs/reference/README.md"
+    "docs/reference/research/programmes/003-natural-gas-trading-decision-system/phase6-controlled-expansion-v1.md"
   ],
   "shared_paths": [],
   "excluded_paths": [],
