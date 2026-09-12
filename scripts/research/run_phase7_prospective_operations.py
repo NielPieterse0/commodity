@@ -26,14 +26,17 @@ _DECISION_FIELDS = (
     "input_snapshot_sha256",
     "forecast_id",
     "predicted_gross_pnl_usd",
-    "contract_id",
+    "baseline_position",
+    "prior_position",
     "intended_position",
+    "policy_modifiers",
+    "contract_id",
     "fill_rule",
     "cost_profile_id",
     "risk_state",
     "source_freshness_ok",
     "source_completeness_ok",
-    "skip_or_miss_reason",
+    "skip_reason",
 )
 
 
@@ -57,6 +60,13 @@ def _finite_float(value: object, label: str) -> float:
     parsed = float(value)
     if not math.isfinite(parsed):
         raise ValueError(f"{label} must be finite")
+    return parsed
+
+
+def _position(value: object, label: str) -> float:
+    parsed = _finite_float(value, label)
+    if parsed not in _ALLOWED_POSITIONS:
+        raise ValueError(f"{label} is outside the frozen position levels")
     return parsed
 
 
@@ -87,9 +97,15 @@ def _validate_decision_payload(record: dict[str, Any], module: Any) -> None:
         raise ValueError("forecast_id must be non-empty")
     _finite_float(record["predicted_gross_pnl_usd"], "predicted_gross_pnl_usd")
 
-    intended = _finite_float(record["intended_position"], "intended_position")
-    if intended not in _ALLOWED_POSITIONS:
-        raise ValueError("intended_position is outside the frozen position levels")
+    _position(record["baseline_position"], "baseline_position")
+    _position(record["prior_position"], "prior_position")
+    intended = _position(record["intended_position"], "intended_position")
+    modifiers = record["policy_modifiers"]
+    if not isinstance(modifiers, list) or not all(
+        isinstance(value, str) and value.strip() for value in modifiers
+    ):
+        raise TypeError("policy_modifiers must be a list of non-empty strings")
+
     if not str(record["contract_id"]).strip():
         raise ValueError("contract_id must be non-empty")
     if not str(record["fill_rule"]).strip():
@@ -102,6 +118,15 @@ def _validate_decision_payload(record: dict[str, Any], module: Any) -> None:
         raise TypeError("source_freshness_ok must be boolean")
     if not isinstance(record["source_completeness_ok"], bool):
         raise TypeError("source_completeness_ok must be boolean")
+
+    sources_ok = bool(record["source_freshness_ok"] and record["source_completeness_ok"])
+    skip_reason = record["skip_reason"]
+    if not sources_ok and intended != 0.0:
+        raise ValueError("stale or incomplete sources must fail closed to a flat intended position")
+    if intended == 0.0 and (skip_reason is None or not str(skip_reason).strip()):
+        raise ValueError("flat intended position requires an explicit decision-time skip_reason")
+    if intended != 0.0 and skip_reason not in (None, ""):
+        raise ValueError("active intended position cannot carry a decision-time skip_reason")
 
 
 def append_decision(
@@ -133,10 +158,12 @@ def append_outcome(
     outcome_required = {
         *_DECISION_FIELDS,
         "outcome_timestamp",
+        "actual_contract_id",
         "actual_position",
         "fill_price",
         "transaction_cost_usd",
         "net_pnl_usd",
+        "miss_reason",
     }
     missing = sorted(outcome_required.difference(record))
     if missing:
@@ -153,19 +180,41 @@ def append_outcome(
     if outcome < target_end:
         raise ValueError("outcome_timestamp cannot precede target_end_timestamp")
 
-    actual = _finite_float(record["actual_position"], "actual_position")
-    if actual not in _ALLOWED_POSITIONS:
-        raise ValueError("actual_position is outside the frozen position levels")
+    prior = _position(record["prior_position"], "prior_position")
+    intended = _position(record["intended_position"], "intended_position")
+    actual = _position(record["actual_position"], "actual_position")
+    miss_reason = record["miss_reason"]
+    if actual != intended and (miss_reason is None or not str(miss_reason).strip()):
+        raise ValueError("actual_position drift from intended_position requires miss_reason")
+    if actual == intended and miss_reason not in (None, ""):
+        raise ValueError("matching actual/intended position cannot carry miss_reason")
+
+    actual_contract_id = record["actual_contract_id"]
+    if actual != 0.0 and (actual_contract_id is None or not str(actual_contract_id).strip()):
+        raise ValueError("non-flat actual_position requires actual_contract_id")
+
     transaction_cost = _finite_float(record["transaction_cost_usd"], "transaction_cost_usd")
     if transaction_cost < 0:
         raise ValueError("transaction_cost_usd must be non-negative")
     _finite_float(record["net_pnl_usd"], "net_pnl_usd")
+
+    position_change_completed = intended != prior and actual == intended
+    if position_change_completed and record["fill_price"] is None:
+        raise ValueError("completed position change requires fill_price")
     if record["fill_price"] is not None:
         fill_price = _finite_float(record["fill_price"], "fill_price")
         if fill_price <= 0:
             raise ValueError("fill_price must be positive when present")
 
-    return module.append_prospective_outcome(record, ledger=ledger, recorded_at=recorded_at)
+    settlement = dict(record)
+    settlement["skip_or_miss_reason"] = (
+        miss_reason if miss_reason not in (None, "") else decision["skip_reason"]
+    )
+    return module.append_prospective_outcome(
+        settlement,
+        ledger=ledger,
+        recorded_at=recorded_at,
+    )
 
 
 def ledger_status(ledger: Path = DEFAULT_LEDGER) -> dict[str, Any]:
