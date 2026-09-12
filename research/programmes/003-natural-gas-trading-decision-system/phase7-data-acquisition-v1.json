@@ -60,8 +60,8 @@
     "live_account_entitlement_status": "unverified_no_current_live_openapi_token",
     "stored_sim_token_status": "expired_http_401",
     "live_probe_operations": [
-      "GET port/v1/users/me",
-      "GET port/v1/users/me/entitlements",
+      "GET port/v1/{users-route}/{current-user}",
+      "GET port/v1/{users-route}/{current-user}/entitlements",
       "GET port/v1/accounts/me",
       "GET ref/v1/instruments",
       "GET ref/v1/instruments/futuresspaces/{continuous_uic}",
