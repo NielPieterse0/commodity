@@ -5,8 +5,8 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 
-import commodity.phase7_prospective as prospective
 from commodity.phase7_prospective import Phase7ProspectiveError
+import commodity.phase7_prospective as prospective
 
 
 FEATURES = [
