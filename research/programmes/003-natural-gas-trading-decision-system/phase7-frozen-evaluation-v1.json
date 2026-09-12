@@ -1,0 +1,97 @@
+{
+  "schema_version": 1,
+  "programme_id": "003-natural-gas-trading-decision-system",
+  "phase": 7,
+  "issue": 361,
+  "status": "prospective_freeze_preparation",
+  "protected_confirmation_accessed": false,
+  "claim_boundary": "historical development evidence remains non-confirmatory; only observations generated after the remotely landed freeze may count as prospective evidence",
+  "frozen_candidate": {
+    "config_id": "s-veto__l-none__p-half__u-none",
+    "policy_refit_cadence": "retain_phase5_two_year_outer_block_cadence_no_annual_refit",
+    "risk_policy_id": "phase1_standard_ng_v0",
+    "horizon_sessions": 5,
+    "phase5_authority_sha256": "0e4692393444284866624621bc052a752c6e50a5aa1a42cc4729393494517898",
+    "phase6_authority_sha256": "bcf7e2abdab6e99529f6c79407aa6225b8234dd9aafcfe6c526e6d4b1df8b445",
+    "phase4_specialist_authority_sha256": "d42d8763dde4c8593e235425c42bbb6f2b6c2226b80877688bd4b87eea59dc21"
+  },
+  "bound_configuration_sha256": {
+    "models": "41ca49066672105340bdc09f676739d9233f6e2c97ea641619586127fd4c99d0",
+    "research_dataset": "5fba33e4aff2c6408748e792fcdc9b607c6194183294ea47e7c9607066ad7a9d",
+    "simulation": "a9413697129d2232e43d5b5efbf52cbb9c2a17a7fa0455aa4cc228a6ca4aac80",
+    "trading_policy": "5eb84ad71d7dddffff06dc7efa0bdd8e2d7436122e92aeff2900a36590edc93e",
+    "assumptions": "1c234beb978db7f3125b5619e66ac19bd18f2c42bdce76d96c53b470ec598112"
+  },
+  "historical_evidence": {
+    "adaptive_development": {
+      "period_start": "2014-01-01",
+      "period_end": "2022-12-30",
+      "classification": "adaptive_development_prior_research_oos",
+      "selected_standard_ledger_sha256": "33605542dbc9c0973a000803c8c6f48069045357a958345bd7461973a7338d22",
+      "row_count": 2790,
+      "net_pnl_usd": 16555.0,
+      "transaction_cost_usd": 7575.0,
+      "confirmation_eligible": false,
+      "reason": "These outcomes were used for candidate selection, diagnostics and Phase-6 robustness work; repeated reuse cannot create fresh confirmation evidence."
+    },
+    "pre_freeze_reserved_history": {
+      "period_start": "2023-01-01",
+      "period_end": "remote_freeze_landing",
+      "classification": "reserved_historical_not_opened",
+      "outcomes_accessed": false,
+      "clean_confirmation_eligible": false,
+      "reason": "The frozen candidate depends on TimesFM/Kronos-derived roles. Foundation-model checkpoint pretraining exposure and historical checkpoint availability prevent a defensible pristine historical-confirmation claim for this candidate.",
+      "permitted_future_label_if_evaluated": "foundation_model_qualified_historical_evidence"
+    }
+  },
+  "prospective_evidence_contract": {
+    "start_boundary": "first decision timestamp strictly after the exact freeze change is landed on the registered default branch",
+    "minimum_elapsed_days": 365,
+    "minimum_independent_decision_episodes": 40,
+    "minimum_active_exposure_episodes": 20,
+    "minimum_long_exposure_episodes": 5,
+    "minimum_short_exposure_episodes": 5,
+    "independence_rule": "Count at most one decision episode per non-overlapping five-session target window.",
+    "required_logging": [
+      "decision_timestamp_before_outcome",
+      "input_and_candidate_identity",
+      "forecast_and_intended_action",
+      "actual_held_contract_and_fill_assumption",
+      "position_and_risk_state",
+      "costs_and_net_pnl",
+      "skipped_trades_and_missed_fills",
+      "source_freshness_and_completeness",
+      "append_only_record_identity"
+    ],
+    "economic_gate": {
+      "net_pnl_after_frozen_costs_usd": ">0",
+      "maximum_peak_drawdown_fraction": "<=0.10",
+      "daily_loss_fraction": "<=0.02",
+      "unauthorized_post_kill_restart_count": 0
+    }
+  },
+  "prospective_interpretation": {
+    "success": "All minimum coverage/logging requirements pass and the frozen economic gate passes without post-freeze tuning.",
+    "failure": "The frozen candidate breaches a hard economic/risk gate after minimum evidence is reached, or prospective logging proves the candidate cannot be reproduced under its frozen execution contract.",
+    "inconclusive": "Minimum elapsed, episode, directional-exposure or logging-fidelity requirements are not yet satisfied.",
+    "phase8_entry": "Allowed only after prospective success; Phase 8 hardening cannot rescue an inconclusive or failed edge."
+  },
+  "decisions_and_assumptions": [
+    {
+      "decision": "Retain the Phase-5 candidate unchanged after Phase 6 rejected annual policy refitting.",
+      "risk": "The selected candidate remains weak adaptive-development evidence and may fail prospectively.",
+      "revisit_trigger": "A new independently justified research identity or qualifying prospective evidence; never post-result tuning within this freeze."
+    },
+    {
+      "decision": "Do not consume pre-freeze 2023+ history as pristine confirmation for this foundation-model-dependent candidate.",
+      "risk": "This preserves independence at the cost of foregoing a potentially useful historical score.",
+      "revisit_trigger": "A defensible checkpoint-pretraining and historical-availability audit may permit a narrower qualified claim, but cannot retroactively create pristine independence."
+    },
+    {
+      "decision": "Require one full year and at least 40 non-overlapping five-session episodes before a Phase-8 edge claim.",
+      "risk": "Evidence accumulation is slower but reduces seasonal and overlapping-window overinterpretation.",
+      "revisit_trigger": "Only an outcome-independent feasibility defect may justify a new preregistered contract; observed P&L cannot relax this threshold."
+    }
+  ],
+  "live_capital_authorized": false
+}

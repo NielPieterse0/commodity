@@ -1,0 +1,43 @@
+{
+  "schema_version": 4,
+  "change_id": "361-frozen-evaluation",
+  "status": "active",
+  "branch": "change/361-frozen-evaluation",
+  "worktree": ".work/worktrees/361-frozen-evaluation",
+  "base": "main",
+  "outcome": "Execute Programme 003 Phase 7: freeze the complete surviving candidate, classify historical evidence exposure honestly, perform eligible historical paper-trade evaluation without adaptation, and establish reproducible prospective paper-trading evidence without authorizing live capital.",
+  "owned_paths": [
+    ".work/changes/361-frozen-evaluation/**",
+    "research/programmes/003-natural-gas-trading-decision-system/phase7-frozen-evaluation-v1.json",
+    "scripts/research/run_phase7_frozen_evaluation.py",
+    "tests/test_phase7_frozen_evaluation.py",
+    "docs/reference/research/programmes/003-natural-gas-trading-decision-system/phase7-frozen-evaluation-v1.md"
+  ],
+  "shared_paths": [],
+  "excluded_paths": [],
+  "dependencies": [],
+  "integration_owner": null,
+  "complexity": "large",
+  "risk_triggers": [
+    "money",
+    "persistent_state"
+  ],
+  "base_evidence": {
+    "local_sha": "9380d79764d5d7b9984bcc20150f6007dd92d1d6",
+    "local_tree": "3a13566c0d45252b9017784db54ab491c3dce3a2",
+    "upstream_sha": "3b652ab1f5b19977fe0d58d58c8e7a489d3f3f88",
+    "upstream_tree": "1d5a27c6f7aa06f19205337893b71cd665e3aae8",
+    "upstream_ref": "refs/remotes/origin/main",
+    "evidence_source": "local_remote_tracking_ref",
+    "relation": "content_divergence"
+  },
+  "work_management": {
+    "project_id": "commodity",
+    "record_id": "WORK-361",
+    "source_repository": "NielPieterse0/commodity",
+    "source_number": 361,
+    "source_kind": "issue",
+    "documentation_impact": "planned",
+    "execution_owner": "chatgpt-scheduled-commodity"
+  }
+}
