@@ -25,6 +25,12 @@
       "env_key": "SAXO_SIM_ACCESS_TOKEN",
       "read_only": true
     },
+    "saxo_openapi_live": {
+      "api_base": "https://gateway.saxobank.com/openapi",
+      "env_key": "SAXO_LIVE_ACCESS_TOKEN",
+      "read_only": true,
+      "role": "execution_target_shadow_only"
+    },
     "open_meteo_historical_forecast": {
       "api_base": "https://historical-forecast-api.open-meteo.com/v1/forecast",
       "single_runs_api_base": "https://single-runs-api.open-meteo.com/v1/forecast",
@@ -65,7 +71,7 @@
       "dataset": "GLBX.MDP3",
       "snapshot_store": "data/raw/snapshots/databento",
       "role": "canonical_futures_candidate",
-      "max_auto_cost_usd": 1.0,
+      "max_auto_cost_usd": 0.0,
       "max_auto_records": 50000,
       "account_probe_status": "full_history_acquired_integrity_verified_research_approved"
     },
@@ -143,6 +149,28 @@
       "price_semantics": "chart_last_traded_ohlc",
       "canonical_market_source": false,
       "backtest_evidence_allowed": false
+    },
+    "saxo_henry_hub_live_probe": {
+      "provider": "saxo_openapi_live",
+      "status": "live_authorization_required",
+      "purpose": "read-only execution-target verification and broker-native Phase-7 shadow observation",
+      "asset_type": "ContractFutures",
+      "chart_horizon_minutes": 1440,
+      "shadow_capture_horizon_minutes": 1,
+      "products": [
+        {"base_identifier": "NG", "search_keywords": "Henry Hub Natural Gas"},
+        {"base_identifier": "MNG", "search_keywords": "Micro Henry Hub Natural Gas"}
+      ],
+      "provides_contract_id": true,
+      "provides_expiration": true,
+      "provides_settlement": false,
+      "price_semantics": "broker_native_last_traded_ohlc_shadow_only",
+      "canonical_market_source": false,
+      "backtest_evidence_allowed": false,
+      "phase7_scientific_source_allowed": false,
+      "phase7_settlement_source_allowed": false,
+      "order_submission_allowed": false,
+      "phase7_role": "execution_target_shadow_only"
     },
     "eia_nymex_prompt_history": {
       "provider": "eia_api_v2",

@@ -217,6 +217,7 @@ This directory is generated from current machine-readable repository artifacts.
 - [`research/programmes/003-natural-gas-trading-decision-system/phase4-foundation-specialists-v1.json`](research/programmes/003-natural-gas-trading-decision-system/phase4-foundation-specialists-v1.md)
 - [`research/programmes/003-natural-gas-trading-decision-system/phase5-stacking-policy-v1.json`](research/programmes/003-natural-gas-trading-decision-system/phase5-stacking-policy-v1.md)
 - [`research/programmes/003-natural-gas-trading-decision-system/phase6-controlled-expansion-v1.json`](research/programmes/003-natural-gas-trading-decision-system/phase6-controlled-expansion-v1.md)
+- [`research/programmes/003-natural-gas-trading-decision-system/phase7-data-acquisition-v1.json`](research/programmes/003-natural-gas-trading-decision-system/phase7-data-acquisition-v1.md)
 - [`research/programmes/003-natural-gas-trading-decision-system/phase7-frozen-evaluation-v1.json`](research/programmes/003-natural-gas-trading-decision-system/phase7-frozen-evaluation-v1.md)
 - [`research/programmes/003-natural-gas-trading-decision-system/programme.json`](research/programmes/003-natural-gas-trading-decision-system/programme.md)
 - [`research/programmes/003-natural-gas-trading-decision-system/revisit-triggers.json`](research/programmes/003-natural-gas-trading-decision-system/revisit-triggers.md)

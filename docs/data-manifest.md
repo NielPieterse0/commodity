@@ -16,6 +16,7 @@ Required columns: `trade_date`, `contract_id`, `expiration`, `settle`
 | --- | --- | --- | --- |
 | `market_bootstrap` | yfinance | research_bootstrap | daily OHLCV proxy |
 | `saxo_henry_hub_probe` | saxo_openapi_sim | sim_verification_pending | verify Henry Hub futures-space identity and historical chart depth |
+| `saxo_henry_hub_live_probe` | saxo_openapi_live | live_authorization_required | read-only execution-target verification and broker-native Phase-7 shadow observation |
 | `eia_nymex_prompt_history` | eia_api_v2 | historical_term_structure_candidate | daily NYMEX prompt-contract closes for contract ranks 1-4 |
 | `eia_storage` | eia_wngsr | v1_research_evaluation_ready | null |
 | `eia_fundamentals` | eia_api_v2 | capture_ready_current_snapshot_only | production, balance, gas demand, LNG/pipeline trade and Henry Hub spot/reference price |

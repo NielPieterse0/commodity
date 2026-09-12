@@ -1,0 +1,48 @@
+{
+  "schema_version": 4,
+  "change_id": "380-phase7-zero-spend-market-data",
+  "status": "active",
+  "branch": "change/380-phase7-zero-spend-market-data",
+  "worktree": ".work/worktrees/380-phase7-zero-spend-market-data",
+  "base": "main",
+  "outcome": "Enforce quote-before-spend Databento acquisition and add a read-only Saxo LIVE market-data entitlement/capability probe without changing the frozen Phase-7 scientific source.",
+  "owned_paths": [
+    "config/data_sources.json",
+    ".env.example",
+    "src/commodity/providers/databento_futures.py",
+    "src/commodity/providers/saxo.py",
+    "tests/providers/test_databento_futures_provider.py",
+    "tests/providers/test_saxo.py",
+    "scripts/research/run_phase7_saxo_shadow.py",
+    "tests/test_phase7_saxo_shadow.py",
+    "research/programmes/003-natural-gas-trading-decision-system/phase7-data-acquisition-v1.json",
+    "docs/data-manifest.md",
+    "docs/reference/config/data_sources.md",
+    "docs/reference/research/programmes/003-natural-gas-trading-decision-system/phase7-data-acquisition-v1.md",
+    ".work/changes/380-phase7-zero-spend-market-data/**"
+  ],
+  "shared_paths": [
+    "docs/reference/README.md"
+  ],
+  "excluded_paths": [],
+  "dependencies": [
+    "351-target-matched-physical-bottleneck-feasibility"
+  ],
+  "integration_owner": null,
+  "complexity": "medium",
+  "risk_triggers": [
+    "external_action",
+    "money",
+    "public_contract",
+    "secrets"
+  ],
+  "base_evidence": {
+    "local_sha": "2d8d06b19fdeb1fdb361f373fd6f4eca016cf094",
+    "local_tree": "8fa8938539ffb28ad4d53711785923379d0617d6",
+    "upstream_sha": "2d8d06b19fdeb1fdb361f373fd6f4eca016cf094",
+    "upstream_tree": "8fa8938539ffb28ad4d53711785923379d0617d6",
+    "upstream_ref": "refs/remotes/origin/main",
+    "evidence_source": "local_remote_tracking_ref",
+    "relation": "same_sha"
+  }
+}
