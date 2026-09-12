@@ -1,0 +1,30 @@
+{
+  "schema_version": 1,
+  "programme_id": "003-natural-gas-trading-decision-system",
+  "phase": 7,
+  "issue": 361,
+  "status": "freeze_contract_verified_pre_prospective",
+  "phase7_contract_sha256": "3a4eef480d6927fc6257d6e1264d030e8fc3eaedd2717871ed110b153c0d9e74",
+  "protected_confirmation_accessed": false,
+  "bound_identity": {
+    "phase5_authority_sha256": "0e4692393444284866624621bc052a752c6e50a5aa1a42cc4729393494517898",
+    "phase6_authority_sha256": "bcf7e2abdab6e99529f6c79407aa6225b8234dd9aafcfe6c526e6d4b1df8b445",
+    "phase4_specialist_authority_sha256": "d42d8763dde4c8593e235425c42bbb6f2b6c2226b80877688bd4b87eea59dc21",
+    "models": "41ca49066672105340bdc09f676739d9233f6e2c97ea641619586127fd4c99d0",
+    "research_dataset": "5fba33e4aff2c6408748e792fcdc9b607c6194183294ea47e7c9607066ad7a9d",
+    "simulation": "a9413697129d2232e43d5b5efbf52cbb9c2a17a7fa0455aa4cc228a6ca4aac80",
+    "trading_policy": "5eb84ad71d7dddffff06dc7efa0bdd8e2d7436122e92aeff2900a36590edc93e",
+    "assumptions": "1c234beb978db7f3125b5619e66ac19bd18f2c42bdce76d96c53b470ec598112"
+  },
+  "historical_development_replay": {
+    "row_count": 2790,
+    "period_start": "2014-01-01",
+    "period_end": "2022-12-30",
+    "net_pnl_usd": 16555.00000000006,
+    "transaction_cost_usd": 7575.0,
+    "selected_standard_ledger_sha256": "33605542dbc9c0973a000803c8c6f48069045357a958345bd7461973a7338d22"
+  },
+  "reserved_2023_plus_outcomes_accessed": false,
+  "prospective_status": "not_yet_started_until_exact_freeze_landing",
+  "phase8_entry_eligible": false
+}
