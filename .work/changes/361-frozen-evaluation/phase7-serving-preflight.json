@@ -1,0 +1,30 @@
+{
+  "schema_version": 1,
+  "phase_issue": 361,
+  "checked_on": "2026-09-12",
+  "protected_confirmation_accessed": false,
+  "market_source": {
+    "source_id": "databento-ng-full-history-v1",
+    "required_trade_date_probe": "2026-09-13",
+    "latest_retained_trade_date": "2026-08-12",
+    "fresh": false,
+    "exact_covering_partition_triple": false,
+    "result": "blocked_stale_source"
+  },
+  "specialist_runtime": {
+    "phase7_worktree_torch_available": false,
+    "phase7_worktree_observation": "TimesFM import fails because torch is not installed in the Phase-7 worktree environment.",
+    "retained_phase4_worktree_runtime_executable": false,
+    "retained_phase4_observation": "The retained Phase-4 .venv cannot start because pyvenv.cfg is missing.",
+    "prewarmed_decision_latency_proven_before_frozen_fill": false,
+    "result": "runtime_proof_required_before_activation"
+  },
+  "operational_surface": {
+    "caller_recorded_at_override_exposed": false,
+    "manual_outcome_settlement_exposed": false,
+    "caller_execution_price_or_source_evidence_exposed": false,
+    "internal_session_price_derivation_integrated": false,
+    "result": "fail_closed_until_internal_decision_and_session_derivation"
+  },
+  "disposition": "Do not activate prospective serving or count observations. Acquire a fresh exact Databento partition triple, reconstruct the pinned specialist serving runtime, verify checkpoint/source identities, integrate internal Databento session-price and settlement derivation, and measure durable decision completion before the frozen planned fill. Missed origins must be skipped without retrospective backfill."
+}
