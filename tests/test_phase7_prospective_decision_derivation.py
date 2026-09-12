@@ -2,8 +2,12 @@ from __future__ import annotations
 
 import importlib.util
 import json
+import sys
+import types
+import zipfile
 from pathlib import Path
 
+import numpy as np
 import pandas as pd
 import pytest
 
@@ -242,3 +246,253 @@ def test_verified_databento_source_snapshot_rejects_incomplete_triple(tmp_path: 
             tmp_path,
             required_trade_date=pd.Timestamp("2026-09-13", tz="UTC"),
         )
+
+
+def test_specialist_runtime_asset_verifier_binds_frozen_local_identities(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    module = _module()
+    models = json.loads((ROOT / "config" / "models.json").read_text(encoding="utf-8"))["models"]
+    timesfm = models["timesfm_2_5"]
+    kronos = models["kronos_base"]
+    source_zip = tmp_path / "timesfm-source.zip"
+    with zipfile.ZipFile(source_zip, "w") as archive:
+        archive.writestr(f"timesfm-{timesfm['source_revision']}/README.md", "pinned")
+    timesfm_artifact = (
+        tmp_path / "timesfm-cache"
+        / "models--google--timesfm-2.5-200m-pytorch"
+        / "snapshots" / timesfm["model_revision"] / "model.safetensors"
+    )
+    kronos_model = (
+        tmp_path / "kronos-cache" / "models--NeoQuasar--Kronos-base"
+        / "snapshots" / kronos["model_revision"] / "model.safetensors"
+    )
+    kronos_tokenizer = (
+        tmp_path / "kronos-cache" / "models--NeoQuasar--Kronos-Tokenizer-base"
+        / "snapshots" / kronos["tokenizer_revision"] / "model.safetensors"
+    )
+    for path in (timesfm_artifact, kronos_model, kronos_tokenizer):
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_bytes(b"fixture")
+    source_root = tmp_path / "Kronos"
+    source_root.mkdir()
+
+    def fake_hash(path: Path) -> str:
+        text = str(path)
+        if "timesfm-cache" in text:
+            return timesfm["checkpoint_artifacts"]["model"]["sha256"]
+        if "Kronos-Tokenizer-base" in text:
+            return kronos["checkpoint_artifacts"]["tokenizer"]["sha256"]
+        if "Kronos-base" in text:
+            return kronos["checkpoint_artifacts"]["model"]["sha256"]
+        return "f" * 64
+
+    monkeypatch.setattr(module, "_file_sha256", fake_hash)
+    monkeypatch.setattr(
+        module,
+        "verify_kronos_source_checkout",
+        lambda path, revision: revision,
+        raising=False,
+    )
+    verified = module.verify_specialist_runtime_assets(
+        timesfm_source_zip=source_zip,
+        timesfm_cache_dir=tmp_path / "timesfm-cache",
+        kronos_source_root=source_root,
+        kronos_cache_dir=tmp_path / "kronos-cache",
+    )
+    assert verified["timesfm_source_revision"] == timesfm["source_revision"]
+    assert verified["timesfm_checkpoint_sha256"] == timesfm["checkpoint_artifacts"]["model"]["sha256"]
+    assert verified["kronos_source_revision"] == kronos["source_revision"]
+    assert verified["kronos_model_checkpoint_sha256"] == kronos["checkpoint_artifacts"]["model"]["sha256"]
+    assert verified["kronos_tokenizer_checkpoint_sha256"] == kronos["checkpoint_artifacts"]["tokenizer"]["sha256"]
+
+
+def test_pinned_specialist_runtime_uses_frozen_inference_profiles(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    module = _module()
+    models = json.loads((ROOT / "config" / "models.json").read_text(encoding="utf-8"))
+    identities = {
+        "timesfm_checkpoint_sha256": models["models"]["timesfm_2_5"]["checkpoint_artifacts"]["model"]["sha256"],
+        "kronos_model_checkpoint_sha256": models["models"]["kronos_base"]["checkpoint_artifacts"]["model"]["sha256"],
+        "kronos_tokenizer_checkpoint_sha256": models["models"]["kronos_base"]["checkpoint_artifacts"]["tokenizer"]["sha256"],
+    }
+    monkeypatch.setattr(module, "verify_specialist_runtime_assets", lambda **kwargs: identities)
+
+    class FakeTimesFM:
+        @classmethod
+        def from_pretrained(cls, *args, **kwargs):
+            assert kwargs["local_files_only"] is True
+            return cls()
+
+        def compile(self, config):
+            assert config["max_context"] == 128
+            assert config["max_horizon"] == 1
+
+        def forecast(self, *, horizon, inputs):
+            assert horizon == 1 and len(inputs) == 1
+            quantiles = np.zeros((1, 1, 11), dtype=float)
+            quantiles[0, 0, 1] = 3.0
+            quantiles[0, 0, 9] = 3.4
+            return np.array([[3.2]]), quantiles
+
+    fake_timesfm = types.SimpleNamespace(
+        TimesFM_2p5_200M_torch=FakeTimesFM,
+        ForecastConfig=lambda **kwargs: kwargs,
+    )
+    seeds: list[int] = []
+    fake_torch = types.SimpleNamespace(
+        manual_seed=lambda value: seeds.append(value),
+        cuda=types.SimpleNamespace(is_available=lambda: False),
+    )
+
+    class FakePredictor:
+        def __init__(self, *args, **kwargs):
+            pass
+
+        def predict(self, *, pred_len, **kwargs):
+            profile = kwargs["sample_count"]
+            if pred_len == 1:
+                assert profile == 5
+                return pd.DataFrame({"close": [3.15]})
+            assert pred_len == 5 and profile == 1
+            return pd.DataFrame({"close": [3.12, 3.18, 3.2, 3.25, 3.3]})
+
+    fake_model = types.SimpleNamespace(
+        KronosTokenizer=types.SimpleNamespace(from_pretrained=lambda path: object()),
+        Kronos=types.SimpleNamespace(from_pretrained=lambda path: object()),
+        KronosPredictor=FakePredictor,
+    )
+    monkeypatch.setitem(sys.modules, "timesfm", fake_timesfm)
+    monkeypatch.setitem(sys.modules, "torch", fake_torch)
+    monkeypatch.setitem(sys.modules, "model", fake_model)
+    runtime_root = tmp_path / "timesfm-runtime"
+    runtime_root.mkdir()
+    kronos_source = tmp_path / "Kronos"
+    kronos_source.mkdir()
+    runtime = module.PinnedSpecialistServingRuntime(
+        timesfm_runtime_root=runtime_root,
+        timesfm_source_zip=tmp_path / "timesfm-source.zip",
+        timesfm_cache_dir=tmp_path / "timesfm-cache",
+        kronos_source_root=kronos_source,
+        kronos_cache_dir=tmp_path / "kronos-cache",
+    )
+    index = pd.DatetimeIndex(pd.to_datetime(["2026-09-14"], utc=True))
+    contexts = {
+        "prediction_time": pd.Timestamp("2026-09-13T23:59:00Z"),
+        "timesfm_context": np.array([3.0, 3.1], dtype=np.float32),
+        "timesfm_current_settle": 3.1,
+        "kronos_history": pd.DataFrame(
+            {"open": [3.0], "high": [3.2], "low": [2.9], "close": [3.1], "volume": [1000.0]},
+            index=pd.DatetimeIndex(pd.to_datetime(["2026-09-13"], utc=True)),
+        ),
+        "kronos_current_close": 3.1,
+        "kronos_one_step_index": index,
+        "kronos_path_index": pd.date_range("2026-09-14", periods=5, tz="UTC"),
+    }
+    output = runtime.generate(contexts)
+    assert output["timesfm_point_return"] == pytest.approx(3.2 / 3.1 - 1.0)
+    assert output["timesfm_interval_width"] == pytest.approx((3.4 - 3.0) / 3.1)
+    assert output["kronos_close_return"] == pytest.approx(3.15 / 3.1 - 1.0)
+    assert output["kronos_terminal_return"] == pytest.approx(3.3 / 3.1 - 1.0)
+    assert output["kronos_path_generated"] is True
+    assert seeds == [0, 0]
+
+
+def test_specialist_serving_contexts_preserve_frozen_phase4_geometry() -> None:
+    module = _module()
+    dates = pd.bdate_range("2026-01-05", periods=130, tz="UTC")
+    canonical = pd.DataFrame(
+        {
+            "trade_date": dates,
+            "available_at": dates + pd.Timedelta(hours=23, minutes=59),
+            "contract_id": "NGX6",
+            "settle": [3.0 + index / 1000.0 for index in range(len(dates))],
+        }
+    )
+    ohlcv = pd.DataFrame(
+        {
+            "trade_date": dates,
+            "contract_id": "NGX6",
+            "open": [3.0 + index / 1000.0 for index in range(len(dates))],
+            "high": [3.1 + index / 1000.0 for index in range(len(dates))],
+            "low": [2.9 + index / 1000.0 for index in range(len(dates))],
+            "close": [3.05 + index / 1000.0 for index in range(len(dates))],
+            "volume": [1000.0 + index for index in range(len(dates))],
+        }
+    )
+    origin = dates[-1]
+    planned_fill = origin + pd.Timedelta(days=1)
+    target_sessions = [planned_fill + pd.Timedelta(days=index) for index in range(1, 6)]
+    contexts = module.build_specialist_serving_contexts(
+        canonical,
+        ohlcv,
+        origin_trade_date=origin,
+        available_at=origin + pd.Timedelta(hours=23, minutes=59),
+        contract_id="NGX6",
+        planned_fill_timestamp=planned_fill,
+        target_session_timestamps=target_sessions,
+        kronos_path_eligible=True,
+    )
+    assert len(contexts["timesfm_context"]) == 128
+    assert contexts["timesfm_current_settle"] == pytest.approx(float(canonical["settle"].iloc[-1]))
+    assert len(contexts["kronos_history"]) == 130
+    assert list(contexts["kronos_one_step_index"]) == [planned_fill]
+    assert list(contexts["kronos_path_index"]) == [planned_fill, *target_sessions[:4]]
+    assert contexts["kronos_current_close"] == pytest.approx(float(ohlcv["close"].iloc[-1]))
+
+
+def test_session_observation_is_derived_from_bound_databento_prices(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    module = _module()
+    snapshot = {
+        "sha256": "a" * 64,
+        "complete": True,
+        "manifest": {
+            "files": [
+                {"schema": "definition", "path": "definition/job/defs.dbn.zst"},
+                {"schema": "statistics", "path": "statistics/job/stats.dbn.zst"},
+                {"schema": "ohlcv-1d", "path": "ohlcv-1d/job/bars.dbn.zst"},
+            ]
+        },
+    }
+    monkeypatch.setattr(
+        module,
+        "verified_databento_source_snapshot",
+        lambda *args, **kwargs: snapshot,
+    )
+    monkeypatch.setattr(
+        module,
+        "decode_databento_dbn_file",
+        lambda *args, **kwargs: (pd.DataFrame({"instrument_id": [1]}), {}),
+        raising=False,
+    )
+    monkeypatch.setattr(
+        module,
+        "_target_ohlcv",
+        lambda definitions, bars: pd.DataFrame(
+            {
+                "trade_date": pd.to_datetime(["2026-09-14", "2026-09-15"], utc=True),
+                "contract_id": ["NGX6", "NGX6"],
+                "open": [3.0, 3.1],
+            }
+        ),
+        raising=False,
+    )
+
+    observed = module.derive_session_observation_from_databento(
+        tmp_path,
+        session_timestamp="2026-09-14T00:00:00Z",
+        next_session_timestamp="2026-09-15T00:00:00Z",
+        current_contract_id="NGX6",
+        next_selected_contract_id="NGZ6",
+    )
+
+    assert observed["open_price"] == pytest.approx(3.0)
+    assert observed["next_open_same_contract"] == pytest.approx(3.1)
+    assert observed["contract_id"] == "NGX6"
+    assert observed["next_selected_contract_id"] == "NGZ6"
+    assert observed["source_freshness_ok"] is True
+    assert observed["source_completeness_ok"] is True
+    assert len(observed["source_snapshot_sha256"]) == 64

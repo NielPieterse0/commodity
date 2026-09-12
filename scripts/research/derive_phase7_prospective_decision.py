@@ -4,19 +4,25 @@ import hashlib
 import json
 import math
 import re
+import sys
+import zipfile
 from itertools import pairwise
 from pathlib import Path
 from typing import Any
 
+import numpy as np
 import pandas as pd
 
+from commodity.kronos import verify_kronos_source_checkout
 from commodity.market_only_phase2 import (
     _build_segmented_decision_origins,
     _candidate_model,
     _canonicalize_one_origin_per_fill,
     _forecast_id,
     _frame_sha256,
+    _target_ohlcv,
 )
+from commodity.providers.databento_futures import decode_databento_dbn_file
 from commodity.stacking_policy import PolicyConfig, apply_specialist_modifiers
 from commodity.trading_decision_v0 import ExecutionCostAssumptions
 
@@ -58,6 +64,26 @@ def _file_sha256(path: Path) -> str:
 def _json_sha256(value: object) -> str:
     payload = json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=True)
     return hashlib.sha256(payload.encode("utf-8")).hexdigest()
+
+
+def _pinned_snapshot_artifact(
+    cache_dir: Path,
+    *,
+    repo_id: str,
+    revision: str,
+    filename: str,
+    expected_sha256: str,
+) -> tuple[Path, str]:
+    slug = "models--" + repo_id.replace("/", "--")
+    artifact = Path(cache_dir).resolve() / slug / "snapshots" / revision / filename
+    if not artifact.is_file():
+        raise DecisionDerivationError(f"pinned specialist artifact is missing: {artifact}")
+    observed = _file_sha256(artifact)
+    if observed != expected_sha256:
+        raise DecisionDerivationError(
+            f"pinned specialist artifact hash mismatch: expected {expected_sha256}, observed {observed}"
+        )
+    return artifact, observed
 
 
 def _utc(value: object, label: str) -> pd.Timestamp:
@@ -118,6 +144,71 @@ def _frozen_policy() -> PolicyConfig:
     )
 
 
+def _verify_timesfm_source_archive(path: Path, expected_revision: str) -> str:
+    source = Path(path).resolve()
+    if not source.is_file():
+        raise DecisionDerivationError(f"pinned TimesFM source archive is missing: {source}")
+    prefix = f"timesfm-{expected_revision}/"
+    try:
+        with zipfile.ZipFile(source) as archive:
+            names = archive.namelist()
+    except (OSError, zipfile.BadZipFile) as exc:
+        raise DecisionDerivationError("pinned TimesFM source archive is unreadable") from exc
+    if not names or any(not name.startswith(prefix) for name in names):
+        raise DecisionDerivationError("TimesFM source archive revision does not match the frozen source")
+    return _file_sha256(source)
+
+
+def verify_specialist_runtime_assets(
+    *,
+    timesfm_source_zip: Path,
+    timesfm_cache_dir: Path,
+    kronos_source_root: Path,
+    kronos_cache_dir: Path,
+) -> dict[str, Any]:
+    models = _load_json(MODELS_CONFIG)["models"]
+    timesfm = models["timesfm_2_5"]
+    kronos = models["kronos_base"]
+    timesfm_source_hash = _verify_timesfm_source_archive(
+        timesfm_source_zip, str(timesfm["source_revision"])
+    )
+    _, timesfm_hash = _pinned_snapshot_artifact(
+        timesfm_cache_dir,
+        repo_id=str(timesfm["model_id"]),
+        revision=str(timesfm["model_revision"]),
+        filename=str(timesfm["checkpoint_artifacts"]["model"]["filename"]),
+        expected_sha256=str(timesfm["checkpoint_artifacts"]["model"]["sha256"]),
+    )
+    kronos_revision = verify_kronos_source_checkout(
+        Path(kronos_source_root), str(kronos["source_revision"])
+    )
+    _, kronos_model_hash = _pinned_snapshot_artifact(
+        kronos_cache_dir,
+        repo_id=str(kronos["model_id"]),
+        revision=str(kronos["model_revision"]),
+        filename=str(kronos["checkpoint_artifacts"]["model"]["filename"]),
+        expected_sha256=str(kronos["checkpoint_artifacts"]["model"]["sha256"]),
+    )
+    _, kronos_tokenizer_hash = _pinned_snapshot_artifact(
+        kronos_cache_dir,
+        repo_id=str(kronos["tokenizer_id"]),
+        revision=str(kronos["tokenizer_revision"]),
+        filename=str(kronos["checkpoint_artifacts"]["tokenizer"]["filename"]),
+        expected_sha256=str(kronos["checkpoint_artifacts"]["tokenizer"]["sha256"]),
+    )
+    return {
+        "timesfm_source_revision": str(timesfm["source_revision"]),
+        "timesfm_source_zip_sha256": timesfm_source_hash,
+        "timesfm_model_revision": str(timesfm["model_revision"]),
+        "timesfm_checkpoint_sha256": timesfm_hash,
+        "kronos_source_revision": kronos_revision,
+        "kronos_model_revision": str(kronos["model_revision"]),
+        "kronos_model_checkpoint_sha256": kronos_model_hash,
+        "kronos_tokenizer_revision": str(kronos["tokenizer_revision"]),
+        "kronos_tokenizer_checkpoint_sha256": kronos_tokenizer_hash,
+    }
+
+
 def prospective_kronos_path_eligible(origin_sequence_index: int) -> bool:
     if origin_sequence_index < 0:
         raise DecisionDerivationError("prospective origin sequence index must be non-negative")
@@ -135,6 +226,249 @@ def prospective_kronos_path_eligible(origin_sequence_index: int) -> bool:
     if any(value < 0 or value >= cycle for value in active):
         raise DecisionDerivationError("prospective Kronos path residues are outside the cycle")
     return origin_sequence_index % cycle in active
+
+
+def _specialist_history_frames(
+    canonical_history: pd.DataFrame,
+    ohlcv_history: pd.DataFrame,
+    *,
+    origin: pd.Timestamp,
+    available: pd.Timestamp,
+    contract: str,
+) -> tuple[np.ndarray, pd.DataFrame]:
+    canonical_required = {"trade_date", "available_at", "contract_id", "settle"}
+    missing = sorted(canonical_required.difference(canonical_history.columns))
+    if missing:
+        raise DecisionDerivationError(f"specialist canonical history missing fields: {missing}")
+    canonical = canonical_history.copy()
+    canonical["trade_date"] = pd.to_datetime(canonical["trade_date"], utc=True, errors="coerce")
+    canonical["available_at"] = pd.to_datetime(canonical["available_at"], utc=True, errors="coerce")
+    canonical["settle"] = pd.to_numeric(canonical["settle"], errors="coerce")
+    canonical = canonical.loc[
+        canonical["contract_id"].astype(str).eq(contract)
+        & canonical["trade_date"].le(origin)
+        & canonical["available_at"].le(available)
+    ].sort_values("trade_date", kind="stable")
+    if canonical.duplicated("trade_date").any():
+        raise DecisionDerivationError("specialist canonical history is not unique by trade date")
+    settle = canonical.tail(128)["settle"].to_numpy(dtype="float64")
+    if not len(settle) or not np.isfinite(settle).all() or np.any(settle <= 0.0):
+        raise DecisionDerivationError("TimesFM serving settlement context is invalid")
+
+    required = {"trade_date", "contract_id", "open", "high", "low", "close", "volume"}
+    missing = sorted(required.difference(ohlcv_history.columns))
+    if missing:
+        raise DecisionDerivationError(f"specialist OHLCV history missing fields: {missing}")
+    ohlcv = ohlcv_history.copy()
+    ohlcv["trade_date"] = pd.to_datetime(ohlcv["trade_date"], utc=True, errors="coerce")
+    for column in ("open", "high", "low", "close", "volume"):
+        ohlcv[column] = pd.to_numeric(ohlcv[column], errors="coerce")
+    ohlcv = ohlcv.loc[
+        ohlcv["contract_id"].astype(str).eq(contract) & ohlcv["trade_date"].le(origin)
+    ].sort_values("trade_date", kind="stable").tail(512)
+    if ohlcv.duplicated("trade_date").any():
+        raise DecisionDerivationError("specialist OHLCV history is not unique by trade date")
+    values = ohlcv[["open", "high", "low", "close", "volume"]]
+    numeric = values.to_numpy(dtype="float64")
+    if len(ohlcv) < 20 or not np.isfinite(numeric).all():
+        raise DecisionDerivationError("Kronos serving context requires at least 20 finite rows")
+    if (values[["open", "high", "low", "close"]] <= 0.0).any().any() or (values["volume"] < 0.0).any():
+        raise DecisionDerivationError("Kronos serving context contains invalid prices or volume")
+    values = values.copy()
+    values.index = pd.DatetimeIndex(ohlcv["trade_date"])
+    return settle, values
+
+
+def build_specialist_serving_contexts(
+    canonical_history: pd.DataFrame,
+    ohlcv_history: pd.DataFrame,
+    *,
+    origin_trade_date: object,
+    available_at: object,
+    contract_id: str,
+    planned_fill_timestamp: object,
+    target_session_timestamps: list[object],
+    kronos_path_eligible: bool,
+) -> dict[str, Any]:
+    origin = _utc(origin_trade_date, "origin_trade_date").normalize()
+    available = _utc(available_at, "available_at")
+    planned_fill = _utc(planned_fill_timestamp, "planned_fill_timestamp").normalize()
+    targets = [_utc(value, "target_session_timestamp").normalize() for value in target_session_timestamps]
+    if len(targets) != 5:
+        raise DecisionDerivationError("specialist serving target requires five future sessions")
+    if planned_fill <= origin or targets[0] <= planned_fill:
+        raise DecisionDerivationError("specialist forecast timestamps must follow the origin and fill")
+    if any(right <= left for left, right in pairwise(targets)):
+        raise DecisionDerivationError("specialist target sessions must be strictly increasing")
+    contract = str(contract_id).strip()
+    if not contract:
+        raise DecisionDerivationError("specialist serving contract_id must be non-empty")
+    settle, ohlcv = _specialist_history_frames(
+        canonical_history,
+        ohlcv_history,
+        origin=origin,
+        available=available,
+        contract=contract,
+    )
+    return {
+        "prediction_time": available,
+        "contract_id": contract,
+        "timesfm_context": settle.astype(np.float32),
+        "timesfm_current_settle": float(settle[-1]),
+        "kronos_history": ohlcv,
+        "kronos_current_close": float(ohlcv["close"].iloc[-1]),
+        "kronos_one_step_index": pd.DatetimeIndex([planned_fill]),
+        "kronos_path_index": (
+            pd.DatetimeIndex([planned_fill, *targets[:4]]) if kronos_path_eligible else None
+        ),
+    }
+
+
+class PinnedSpecialistServingRuntime:
+    """Prewarmed CPU-only TimesFM/Kronos runtime bound to exact local assets."""
+
+    def __init__(
+        self,
+        *,
+        timesfm_runtime_root: Path,
+        timesfm_source_zip: Path,
+        timesfm_cache_dir: Path,
+        kronos_source_root: Path,
+        kronos_cache_dir: Path,
+    ) -> None:
+        self.models = _load_json(MODELS_CONFIG)
+        model_cfg = self.models["models"]
+        self.timesfm_cfg = model_cfg["timesfm_2_5"]
+        self.kronos_cfg = model_cfg["kronos_base"]
+        self.asset_identity = verify_specialist_runtime_assets(
+            timesfm_source_zip=timesfm_source_zip,
+            timesfm_cache_dir=timesfm_cache_dir,
+            kronos_source_root=kronos_source_root,
+            kronos_cache_dir=kronos_cache_dir,
+        )
+        for path in (Path(timesfm_runtime_root).resolve(), Path(kronos_source_root).resolve()):
+            if str(path) not in sys.path:
+                sys.path.insert(0, str(path))
+        import timesfm
+        import torch
+        from model import Kronos, KronosPredictor, KronosTokenizer
+
+        if torch.cuda.is_available():
+            raise DecisionDerivationError("Phase-7 specialist serving runtime must remain CPU-only")
+        self.torch = torch
+        self.timesfm = timesfm.TimesFM_2p5_200M_torch.from_pretrained(
+            self.timesfm_cfg["model_id"],
+            revision=self.timesfm_cfg["model_revision"],
+            cache_dir=Path(timesfm_cache_dir),
+            local_files_only=True,
+            torch_compile=False,
+        )
+        self.timesfm.compile(
+            timesfm.ForecastConfig(
+                max_context=128,
+                max_horizon=1,
+                per_core_batch_size=1,
+                use_continuous_quantile_head=True,
+                force_flip_invariance=False,
+                infer_is_positive=True,
+                fix_quantile_crossing=True,
+            )
+        )
+        model_snapshot = self._snapshot_dir(
+            kronos_cache_dir, self.kronos_cfg["model_id"], self.kronos_cfg["model_revision"]
+        )
+        tokenizer_snapshot = self._snapshot_dir(
+            kronos_cache_dir,
+            self.kronos_cfg["tokenizer_id"],
+            self.kronos_cfg["tokenizer_revision"],
+        )
+        tokenizer = KronosTokenizer.from_pretrained(tokenizer_snapshot)
+        kronos_model = Kronos.from_pretrained(model_snapshot)
+        self.kronos = KronosPredictor(
+            kronos_model,
+            tokenizer,
+            device="cpu",
+            max_context=int(self.kronos_cfg["max_context"]),
+        )
+
+    @staticmethod
+    def _snapshot_dir(cache_dir: Path, repo_id: str, revision: str) -> Path:
+        slug = "models--" + str(repo_id).replace("/", "--")
+        return Path(cache_dir).resolve() / slug / "snapshots" / str(revision)
+
+    def generate(self, contexts: dict[str, Any]) -> dict[str, Any]:
+        current_settle = _finite(contexts["timesfm_current_settle"], "TimesFM current settle")
+        point, quantiles = self.timesfm.forecast(
+            horizon=1,
+            inputs=[np.asarray(contexts["timesfm_context"], dtype=np.float32)],
+        )
+        point_value = _finite(np.asarray(point)[0, 0], "TimesFM point forecast")
+        quantile_values = np.asarray(quantiles)
+        if quantile_values.ndim != 3 or quantile_values.shape[2] <= 9:
+            raise DecisionDerivationError("TimesFM serving quantile output is malformed")
+        q10 = _finite(quantile_values[0, 0, 1], "TimesFM q10 forecast")
+        q90 = _finite(quantile_values[0, 0, 9], "TimesFM q90 forecast")
+        if q90 < q10:
+            raise DecisionDerivationError("TimesFM serving quantiles crossed after correction")
+
+        history = contexts["kronos_history"]
+        if not isinstance(history, pd.DataFrame) or history.empty:
+            raise DecisionDerivationError("Kronos serving history is unavailable")
+        current_close = _finite(contexts["kronos_current_close"], "Kronos current close")
+        one_step = self.models["kronos_confirmation_profile"]["paper_backtest_inference"]
+        self.torch.manual_seed(0)
+        one = self.kronos.predict(
+            df=history,
+            x_timestamp=pd.Series(history.index),
+            y_timestamp=pd.Series(contexts["kronos_one_step_index"]),
+            pred_len=1,
+            T=float(one_step["T"]),
+            top_p=float(one_step["top_p"]),
+            sample_count=int(one_step["sample_count"]),
+            verbose=False,
+        )
+        if not isinstance(one, pd.DataFrame) or len(one) != 1 or "close" not in one:
+            raise DecisionDerivationError("Kronos one-step serving output is malformed")
+        close_return = _finite(one["close"].iloc[0], "Kronos one-step close") / current_close - 1.0
+
+        path_index = contexts.get("kronos_path_index")
+        terminal_return: float | None = None
+        path_generated = path_index is not None
+        if path_generated:
+            path_profile = self.models["kronos_confirmation_profile"]["upstream_usage_defaults"]
+            self.torch.manual_seed(0)
+            path = self.kronos.predict(
+                df=history,
+                x_timestamp=pd.Series(history.index),
+                y_timestamp=pd.Series(path_index),
+                pred_len=5,
+                T=float(path_profile["T"]),
+                top_p=float(path_profile["top_p"]),
+                sample_count=int(path_profile["sample_count"]),
+                verbose=False,
+            )
+            if not isinstance(path, pd.DataFrame) or len(path) != 5 or "close" not in path:
+                raise DecisionDerivationError("Kronos five-step serving output is malformed")
+            terminal_close = _finite(path["close"].iloc[-1], "Kronos terminal close")
+            terminal_return = terminal_close / current_close - 1.0
+
+        return {
+            "prediction_time": _utc(contexts["prediction_time"], "prediction_time").isoformat(),
+            "timesfm_point_return": point_value / current_settle - 1.0,
+            "timesfm_interval_width": (q90 - q10) / current_settle,
+            "timesfm_model_id": self.timesfm_cfg["model_id"],
+            "timesfm_model_revision": self.timesfm_cfg["model_revision"],
+            "timesfm_checkpoint_sha256": self.asset_identity["timesfm_checkpoint_sha256"],
+            "kronos_close_return": close_return,
+            "kronos_terminal_return": terminal_return,
+            "kronos_path_generated": path_generated,
+            "kronos_model_id": self.kronos_cfg["model_id"],
+            "kronos_model_revision": self.kronos_cfg["model_revision"],
+            "kronos_model_checkpoint_sha256": self.asset_identity["kronos_model_checkpoint_sha256"],
+            "kronos_tokenizer_revision": self.kronos_cfg["tokenizer_revision"],
+            "kronos_tokenizer_checkpoint_sha256": self.asset_identity["kronos_tokenizer_checkpoint_sha256"],
+            "kronos_inference_profile": "upstream_usage_defaults",
+        }
 
 
 def _validate_specialist_identity(specialists: dict[str, Any]) -> None:
@@ -265,6 +599,119 @@ def verified_databento_source_snapshot(
         "latest_trade_date": latest.date().isoformat(),
         "complete": True,
         "manifest": manifest,
+    }
+
+
+def _snapshot_schema_path(
+    databento_root: Path, snapshot: dict[str, Any], schema: str
+) -> Path:
+    manifest = snapshot.get("manifest")
+    files = manifest.get("files") if isinstance(manifest, dict) else None
+    if not isinstance(files, list):
+        raise DecisionDerivationError("prospective Databento source manifest is invalid")
+    matches = [item for item in files if isinstance(item, dict) and item.get("schema") == schema]
+    if len(matches) != 1 or not isinstance(matches[0].get("path"), str):
+        raise DecisionDerivationError(f"prospective Databento {schema} manifest entry is invalid")
+    root = Path(databento_root).resolve()
+    path = (root / str(matches[0]["path"])).resolve()
+    try:
+        path.relative_to(root)
+    except ValueError as exc:
+        raise DecisionDerivationError("prospective Databento source path escapes its root") from exc
+    return path
+
+
+def derive_session_observation_from_databento(
+    databento_root: Path,
+    *,
+    session_timestamp: object,
+    next_session_timestamp: object,
+    current_contract_id: str,
+    next_selected_contract_id: str,
+) -> dict[str, Any]:
+    """Derive one exact-contract UTC-day session observation from verified local DBN evidence."""
+    session = _utc(session_timestamp, "session_timestamp")
+    nxt = _utc(next_session_timestamp, "next_session_timestamp")
+    if session != session.normalize() or nxt != nxt.normalize():
+        raise DecisionDerivationError("prospective session timestamps must be UTC-day interval opens")
+    if nxt <= session:
+        raise DecisionDerivationError("next_session_timestamp must follow session_timestamp")
+    current_contract = str(current_contract_id).strip()
+    next_contract = str(next_selected_contract_id).strip()
+    if not current_contract or not next_contract:
+        raise DecisionDerivationError("prospective session contract identities must be non-empty")
+
+    snapshots = [
+        verified_databento_source_snapshot(databento_root, required_trade_date=session),
+        verified_databento_source_snapshot(databento_root, required_trade_date=nxt),
+    ]
+    unique_snapshots: dict[str, dict[str, Any]] = {}
+    ohlcv_parts: list[pd.DataFrame] = []
+    for snapshot in snapshots:
+        digest = str(snapshot.get("sha256", ""))
+        if _SHA_RE.fullmatch(digest) is None or snapshot.get("complete") is not True:
+            raise DecisionDerivationError("prospective Databento source snapshot is incomplete")
+        if digest in unique_snapshots:
+            continue
+        unique_snapshots[digest] = snapshot
+        definitions, _ = decode_databento_dbn_file(
+            _snapshot_schema_path(databento_root, snapshot, "definition"),
+            expected_schema="definition",
+            definition_product_code="NG",
+        )
+        bars, _ = decode_databento_dbn_file(
+            _snapshot_schema_path(databento_root, snapshot, "ohlcv-1d"),
+            expected_schema="ohlcv-1d",
+        )
+        ohlcv_parts.append(_target_ohlcv(definitions, bars))
+
+    market = pd.concat(ohlcv_parts, ignore_index=True)
+    market["trade_date"] = pd.to_datetime(market["trade_date"], utc=True, errors="coerce")
+    market["contract_id"] = market["contract_id"].astype(str)
+    market["open"] = pd.to_numeric(market["open"], errors="coerce")
+    if market[["trade_date", "open"]].isna().any().any():
+        raise DecisionDerivationError("prospective Databento OHLCV contains invalid session prices")
+    grouped = market.groupby(["trade_date", "contract_id"], sort=False)["open"]
+    conflicts = grouped.nunique(dropna=False)
+    if (conflicts > 1).any():
+        raise DecisionDerivationError("prospective Databento OHLCV has conflicting exact-contract opens")
+    market = market.drop_duplicates(["trade_date", "contract_id"], keep="last")
+
+    def _open_at(timestamp: pd.Timestamp) -> float:
+        rows = market.loc[
+            market["trade_date"].eq(timestamp) & market["contract_id"].eq(current_contract),
+            "open",
+        ]
+        if len(rows) != 1:
+            label = "session open" if timestamp == session else "same-contract next open"
+            raise DecisionDerivationError(f"prospective Databento {label} is missing")
+        value = _finite(rows.iloc[0], "Databento execution open")
+        if value <= 0.0:
+            raise DecisionDerivationError("prospective Databento execution open must be positive")
+        return value
+
+    source_manifest = {
+        "schema_version": 1,
+        "provider": "databento",
+        "dataset": "GLBX.MDP3",
+        "session_timestamp": session.isoformat(),
+        "next_session_timestamp": nxt.isoformat(),
+        "snapshots": [
+            {"sha256": digest, "manifest": snapshot["manifest"]}
+            for digest, snapshot in sorted(unique_snapshots.items())
+        ],
+    }
+    return {
+        "session_timestamp": session.isoformat(),
+        "next_session_timestamp": nxt.isoformat(),
+        "contract_id": current_contract,
+        "next_selected_contract_id": next_contract,
+        "open_price": _open_at(session),
+        "next_open_same_contract": _open_at(nxt),
+        "source_snapshot_sha256": _json_sha256(source_manifest),
+        "source_snapshot_manifest": source_manifest,
+        "source_freshness_ok": True,
+        "source_completeness_ok": True,
     }
 
 
