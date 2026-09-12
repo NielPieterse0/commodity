@@ -25,15 +25,18 @@ def _decision(module, record_id: str = "prospective-1") -> dict[str, object]:
         "phase7_contract_sha256": phase7._sha256(module.CONTRACT),
         "input_snapshot_sha256": "a" * 64,
         "forecast_id": "forecast-2026-09-13",
-        "predicted_gross_pnl_usd": 250.0,
-        "contract_id": "NGX6",
+        "predicted_gross_pnl_usd": -250.0,
+        "baseline_position": -1.0,
+        "prior_position": 0.0,
         "intended_position": -0.5,
+        "policy_modifiers": ["kronos_path_half"],
+        "contract_id": "NGX6",
         "fill_rule": "first_retained_interval_open_strictly_after_all_inputs_available",
         "cost_profile_id": "base",
         "risk_state": "active",
         "source_freshness_ok": True,
         "source_completeness_ok": True,
-        "skip_or_miss_reason": None,
+        "skip_reason": None,
     }
 
 
@@ -42,10 +45,12 @@ def _outcome(module, record_id: str = "prospective-1") -> dict[str, object]:
     record.update(
         {
             "outcome_timestamp": "2026-09-18T12:00:00Z",
+            "actual_contract_id": "NGX6",
             "actual_position": -0.5,
             "fill_price": 3.25,
             "transaction_cost_usd": 15.0,
             "net_pnl_usd": 125.0,
+            "miss_reason": None,
         }
     )
     return record
@@ -80,6 +85,7 @@ def test_complete_decision_is_bound_before_later_settlement(tmp_path: Path) -> N
     assert appended["forecast_id"] == decision["forecast_id"]
     assert appended["input_snapshot_sha256"] == "a" * 64
     assert appended["target_end_timestamp"] == "2026-09-18T12:00:00Z"
+    assert appended["policy_modifiers"] == ["kronos_path_half"]
 
     settled = module.append_outcome(
         _outcome(module),
@@ -141,3 +147,45 @@ def test_outcome_cannot_precede_frozen_target_end(tmp_path: Path) -> None:
         assert "target_end_timestamp" in str(exc)
     else:
         raise AssertionError("outcome before target end was accepted")
+
+
+def test_stale_source_must_fail_closed_to_flat(tmp_path: Path) -> None:
+    module = _module()
+    record = _decision(module)
+    record["source_freshness_ok"] = False
+    try:
+        module.append_decision(
+            record,
+            ledger=tmp_path / "prospective.jsonl",
+            recorded_at="2026-09-13T12:00:01Z",
+        )
+    except ValueError as exc:
+        assert "fail closed" in str(exc)
+    else:
+        raise AssertionError("active decision with stale source was accepted")
+
+
+def test_later_missed_fill_is_not_frozen_at_decision_time(tmp_path: Path) -> None:
+    module = _module()
+    ledger = tmp_path / "prospective.jsonl"
+    module.append_decision(
+        _decision(module),
+        ledger=ledger,
+        recorded_at="2026-09-13T12:00:01Z",
+    )
+    outcome = _outcome(module)
+    outcome["actual_contract_id"] = None
+    outcome["actual_position"] = 0.0
+    outcome["fill_price"] = None
+    outcome["transaction_cost_usd"] = 0.0
+    outcome["net_pnl_usd"] = 0.0
+    outcome["miss_reason"] = "eligible_interval_missing"
+
+    settled = module.append_outcome(
+        outcome,
+        ledger=ledger,
+        recorded_at="2026-09-18T12:00:01Z",
+    )
+    assert settled["miss_reason"] == "eligible_interval_missing"
+    assert settled["skip_or_miss_reason"] == "eligible_interval_missing"
+    assert settled["actual_position"] == 0.0
