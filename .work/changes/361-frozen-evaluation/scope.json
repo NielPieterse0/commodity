@@ -11,6 +11,8 @@
     "research/programmes/003-natural-gas-trading-decision-system/phase7-frozen-evaluation-v1.json",
     "scripts/research/run_phase7_frozen_evaluation.py",
     "tests/test_phase7_frozen_evaluation.py",
+    "src/commodity/stacking_policy.py",
+    "tests/test_stacking_policy.py",
     "docs/reference/research/programmes/003-natural-gas-trading-decision-system/phase7-frozen-evaluation-v1.md"
   ],
   "shared_paths": [],
