@@ -9,6 +9,7 @@ from commodity.stacking_policy import (
     apply_specialist_modifiers,
     build_policy_decisions,
     build_policy_grid,
+    build_prospective_policy_decisions,
     fit_timesfm_uncertainty_state,
     replay_fractional_policy,
     select_policy_from_prior_oos,
@@ -79,6 +80,49 @@ def test_policy_join_accepts_mixed_iso_timestamp_precision() -> None:
     )
     assert len(result) == 1
     assert result.loc[0, "signal_requested_position"] == 1.0
+
+
+def test_policy_decision_can_be_built_before_realized_path_outcome_exists() -> None:
+    forecasts = pd.DataFrame(
+        [{
+            "trade_date": "2026-09-14T00:00:00+00:00",
+            "signal_timestamp": "2026-09-14 23:59:00+00:00",
+            "fill_trade_date": "2026-09-15T00:00:00+00:00",
+            "fill_timestamp": "2026-09-15 14:30:00+00:00",
+            "target_end_timestamp": "2026-09-22 14:30:00+00:00",
+            "forecast_id": "prospective-1",
+            "predicted_gross_pnl_usd": 1000.0,
+            "predicted_path_move_per_mmbtu": 0.01,
+        }]
+    )
+    timesfm = pd.DataFrame(
+        [{
+            "trade_date": "2026-09-14T00:00:00+00:00",
+            "prediction_time": "2026-09-14 23:59:00+00:00",
+            "timesfm_point_return": 0.01,
+            "timesfm_interval_width": 0.02,
+        }]
+    )
+    kronos = pd.DataFrame(
+        [{
+            "trade_date": "2026-09-14T00:00:00+00:00",
+            "prediction_time": "2026-09-14 23:59:00+00:00",
+            "kronos_close_return": 0.01,
+        }]
+    )
+
+    result = build_prospective_policy_decisions(
+        forecasts,
+        timesfm,
+        kronos,
+        pd.DataFrame(),
+        config=PolicyConfig("prospective", "none", "none", "none", "none"),
+        costs=_costs(),
+        uncertainty_state=None,
+    )
+
+    assert result.loc[0, "signal_requested_position"] == 1.0
+    assert pd.isna(result.loc[0, "baseline_abs_error"])
 
 
 def test_policy_grid_is_exactly_frozen_36_configurations() -> None:

@@ -467,7 +467,7 @@ def select_policy_from_prior_oos(
     return selected
 
 
-def build_policy_decisions(
+def _build_policy_decisions(
     forecasts: pd.DataFrame,
     timesfm: pd.DataFrame,
     kronos: pd.DataFrame,
@@ -476,6 +476,8 @@ def build_policy_decisions(
     config: PolicyConfig,
     costs: ExecutionCostAssumptions,
     uncertainty_state: dict[str, Any] | None,
+    enforce_phase5_boundary: bool,
+    require_realized_path: bool,
 ) -> pd.DataFrame:
     required_forecast = {
         "trade_date",
@@ -486,8 +488,9 @@ def build_policy_decisions(
         "forecast_id",
         "predicted_gross_pnl_usd",
         "predicted_path_move_per_mmbtu",
-        "actual_path_move_per_mmbtu",
     }
+    if require_realized_path:
+        required_forecast.add("actual_path_move_per_mmbtu")
     missing = sorted(required_forecast - set(forecasts.columns))
     if missing:
         raise Phase5PolicyError(f"baseline forecasts missing columns: {missing}")
@@ -505,7 +508,8 @@ def build_policy_decisions(
 
     base = forecasts.copy()
     base["trade_date"] = pd.to_datetime(base["trade_date"], utc=True, errors="coerce", format="mixed")
-    validate_phase5_evidence_boundary(base)
+    if enforce_phase5_boundary:
+        validate_phase5_evidence_boundary(base)
     for frame in (timesfm, kronos):
         if frame["trade_date"].duplicated().any():
             raise Phase5PolicyError("specialist features must be unique by origin trade date")
@@ -586,9 +590,13 @@ def build_policy_decisions(
                 "signal_reason": reason,
                 "modifiers": "+".join(modified.modifiers),
                 "timesfm_interval_width": float(row.timesfm_interval_width),
-                "baseline_abs_error": abs(
-                    float(row.actual_path_move_per_mmbtu)
-                    - float(row.predicted_path_move_per_mmbtu)
+                "baseline_abs_error": (
+                    abs(
+                        float(row.actual_path_move_per_mmbtu)
+                        - float(row.predicted_path_move_per_mmbtu)
+                    )
+                    if require_realized_path
+                    else float("nan")
                 ),
                 "kronos_path_available": terminal_value is not None,
             }
@@ -597,3 +605,57 @@ def build_policy_decisions(
     if result["trade_date"].duplicated().any():
         raise Phase5PolicyError("policy decisions are not unique by executable fill date")
     return result.sort_values("trade_date").reset_index(drop=True)
+
+
+def build_policy_decisions(
+    forecasts: pd.DataFrame,
+    timesfm: pd.DataFrame,
+    kronos: pd.DataFrame,
+    kronos_path: pd.DataFrame,
+    *,
+    config: PolicyConfig,
+    costs: ExecutionCostAssumptions,
+    uncertainty_state: dict[str, Any] | None,
+) -> pd.DataFrame:
+    """Build Phase-5 historical decisions with realized-path diagnostics."""
+    return _build_policy_decisions(
+        forecasts,
+        timesfm,
+        kronos,
+        kronos_path,
+        config=config,
+        costs=costs,
+        uncertainty_state=uncertainty_state,
+        enforce_phase5_boundary=True,
+        require_realized_path=True,
+    )
+
+
+def build_prospective_policy_decisions(
+    forecasts: pd.DataFrame,
+    timesfm: pd.DataFrame,
+    kronos: pd.DataFrame,
+    kronos_path: pd.DataFrame,
+    *,
+    config: PolicyConfig,
+    costs: ExecutionCostAssumptions,
+    uncertainty_state: dict[str, Any] | None,
+) -> pd.DataFrame:
+    """Build outcome-blind decisions for post-freeze prospective operation.
+
+    The policy logic is identical to Phase 5, but the decision-time path neither
+    consumes realized path movement nor applies the historical protected-period
+    boundary. Prospective callers remain responsible for the Phase-7 freeze and
+    input-availability contract.
+    """
+    return _build_policy_decisions(
+        forecasts,
+        timesfm,
+        kronos,
+        kronos_path,
+        config=config,
+        costs=costs,
+        uncertainty_state=uncertainty_state,
+        enforce_phase5_boundary=False,
+        require_realized_path=False,
+    )
