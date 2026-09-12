@@ -23,6 +23,11 @@ _ALLOWED_POSITIONS = {-1.0, -0.5, 0.0, 0.5, 1.0}
 _SHA256_RE = re.compile(r"^[0-9a-f]{64}$")
 _GIT_SHA_RE = re.compile(r"^[0-9a-f]{40}$")
 
+
+def _utc_now() -> str:
+    return datetime.now(UTC).isoformat()
+
+
 _DECISION_FIELDS = (
     "record_id",
     "decision_timestamp",
@@ -112,6 +117,27 @@ def _risk_contract() -> dict[str, Any]:
     if payload.get("live_trading_allowed") is not False:
         raise ValueError("Phase-7 risk policy must prohibit live trading")
     return payload
+
+
+def _episode_settlement_rule() -> dict[str, Any]:
+    contract = _load_json(CONTRACT)
+    serving = contract.get("prospective_serving_contract")
+    rule = serving.get("episode_settlement") if isinstance(serving, dict) else None
+    if not isinstance(rule, dict):
+        raise TypeError("prospective episode-settlement rule is unavailable")
+    expected = {
+        "rule_id": "phase7-episode-settlement-v1",
+        "authority_issue": 361,
+        "authority_comment_id": 5647276241,
+        "economic_gate_source": "daily_session_ledger_only",
+        "settlement_source": (
+            "persisted_decision_plus_exactly_five_gap_free_verified_session_events"
+        ),
+    }
+    for key, value in expected.items():
+        if rule.get(key) != value:
+            raise ValueError(f"prospective episode-settlement contract drift: {key}")
+    return rule
 
 
 def _cost_contract() -> tuple[float, float, float]:
@@ -316,12 +342,67 @@ def _next_prospective_origin_index(module: Any, ledger: Path) -> int:
     _, events = module._read_prospective_events(ledger)
     advanced = [
         event for event in events
-        if event.get("event_type") == "decision" and event.get("path_counter_advanced") is True
+        if event.get("event_type") in {"decision", "origin_miss"}
+        and event.get("path_counter_advanced") is True
     ]
     observed = [event.get("prospective_origin_index") for event in advanced]
     if observed != list(range(len(observed))):
         raise ValueError("prospective origin index history is not contiguous")
     return len(observed)
+
+
+def _origin_fill_exists(module: Any, ledger: Path, planned_fill: Any) -> bool:
+    _, events = module._read_prospective_events(ledger)
+    expected = module._parse_utc(str(planned_fill))
+    return any(
+        event.get("event_type") in {"decision", "origin_miss"}
+        and module._parse_utc(str(event.get("planned_fill_timestamp"))) == expected
+        for event in events
+    )
+
+
+def record_origin_miss(
+    *,
+    decision_timestamp: str,
+    planned_fill_timestamp: str,
+    source_snapshot_sha256: str,
+    miss_reason: str,
+    ledger: Path = DEFAULT_LEDGER,
+    recorded_at: str | None = None,
+) -> dict[str, Any]:
+    """Advance one fresh-origin cadence slot without permitting retrospective backfill."""
+    _assert_prospective_serving_active()
+    module = _phase7_module()
+    decision = module._parse_utc(decision_timestamp)
+    planned_fill = module._parse_utc(planned_fill_timestamp)
+    written = module._parse_utc(recorded_at or _utc_now())
+    if planned_fill <= decision:
+        raise ValueError("missed origin planned fill must follow its decision timestamp")
+    if written < decision:
+        raise ValueError("missed origin cannot be recorded before its decision timestamp")
+    if miss_reason == "serving_deadline_missed" and written < planned_fill:
+        raise ValueError("serving deadline miss cannot be recorded before the planned fill")
+    if _SHA256_RE.fullmatch(str(source_snapshot_sha256)) is None:
+        raise ValueError("missed origin source snapshot must be a lowercase SHA-256 digest")
+    if not str(miss_reason).strip():
+        raise ValueError("missed origin requires a non-empty reason")
+    if _origin_fill_exists(module, ledger, planned_fill):
+        raise ValueError("prospective planned fill already has an origin record")
+    origin_index = _next_prospective_origin_index(module, ledger)
+    path_eligible = _derivation_module().prospective_kronos_path_eligible(origin_index)
+    event = {
+        "event_type": "origin_miss",
+        "recorded_at": written.isoformat(),
+        "decision_timestamp": decision.isoformat(),
+        "planned_fill_timestamp": planned_fill.isoformat(),
+        "prospective_origin_index": origin_index,
+        "path_counter_advanced": True,
+        "kronos_path_eligible": bool(path_eligible),
+        "source_snapshot_sha256": str(source_snapshot_sha256),
+        "miss_reason": str(miss_reason),
+        "live_trading_allowed": False,
+    }
+    return module._append_prospective_event(event, ledger=ledger)
 
 
 def append_decision(
@@ -334,6 +415,8 @@ def append_decision(
     planned_fill = module._parse_utc(str(record["planned_fill_timestamp"]))
     if written >= planned_fill:
         raise ValueError("prospective decision must be durably recorded before its planned fill")
+    if _origin_fill_exists(module, ledger, planned_fill):
+        raise ValueError("prospective planned fill already has an origin record")
     state = _runtime_state(module, ledger)
     if float(record["prior_position"]) != float(state["prior_position"]):
         raise ValueError("decision prior_position does not match persisted prospective state")
@@ -343,14 +426,6 @@ def append_decision(
         expected_index = _next_prospective_origin_index(module, ledger)
         if int(record["prospective_origin_index"]) != expected_index:
             raise ValueError("prospective origin index does not match persisted cadence state")
-    _, events = module._read_prospective_events(ledger)
-    planned_fill = str(record["planned_fill_timestamp"])
-    if any(
-        event.get("event_type") == "decision"
-        and str(event.get("planned_fill_timestamp")) == planned_fill
-        for event in events
-    ):
-        raise ValueError("prospective planned_fill_timestamp already has a decision")
     return module.append_prospective_decision(record, ledger=ledger, recorded_at=recorded_at)
 
 
@@ -407,6 +482,7 @@ _SESSION_CALLER_EVIDENCE_FIELDS = {
     "open_price",
     "next_open_same_contract",
     "source_snapshot_sha256",
+    "source_snapshot_manifest",
     "source_freshness_ok",
     "source_completeness_ok",
 }
@@ -415,8 +491,7 @@ _SESSION_CALLER_EVIDENCE_FIELDS = {
 def derive_and_append_session_observation(
     bundle: dict[str, Any], *, databento_root: Path, ledger: Path = DEFAULT_LEDGER,
 ) -> dict[str, Any]:
-    """Fail closed until execution prices and source identity are internally derived."""
-    _ = databento_root, ledger
+    """Derive execution evidence internally from the frozen Databento source and persist it."""
     _assert_prospective_serving_active()
     forbidden = sorted(_SESSION_CALLER_EVIDENCE_FIELDS.intersection(bundle))
     if forbidden:
@@ -424,9 +499,42 @@ def derive_and_append_session_observation(
             "operational session derivation forbids caller-supplied execution evidence: "
             f"{forbidden}"
         )
-    raise RuntimeError(
-        "internal Databento session-price derivation is not yet integrated; "
-        "prospective session accounting remains blocked"
+    required = {"session_timestamp", "next_session_timestamp"}
+    missing = sorted(required.difference(bundle))
+    if missing:
+        raise ValueError(f"operational session derivation missing fields: {missing}")
+
+    module = _phase7_module()
+    session = module._parse_utc(str(bundle["session_timestamp"]))
+    nxt = module._parse_utc(str(bundle["next_session_timestamp"]))
+    state = _runtime_state(module, ledger)
+    fresh = _decision_for_fill(module, ledger, session.isoformat())
+    if fresh is not None:
+        current_contract = str(fresh["contract_id"])
+    elif state["prior_contract_id"] is not None:
+        current_contract = str(state["prior_contract_id"])
+    else:
+        raise RuntimeError(
+            "prospective session accounting has no internally established held contract"
+        )
+
+    next_decision = _decision_for_fill(module, ledger, nxt.isoformat())
+    next_contract = (
+        str(next_decision["contract_id"])
+        if next_decision is not None
+        else current_contract
+    )
+    observation = _derivation_module().derive_session_observation_from_databento(
+        databento_root,
+        session_timestamp=session.isoformat(),
+        next_session_timestamp=nxt.isoformat(),
+        current_contract_id=current_contract,
+        next_selected_contract_id=next_contract,
+    )
+    return append_session_observation(
+        observation,
+        ledger=ledger,
+        recorded_at=_utc_now(),
     )
 
 
@@ -459,6 +567,12 @@ def append_session_observation(
     source_hash = str(observation["source_snapshot_sha256"])
     if _SHA256_RE.fullmatch(source_hash) is None:
         raise ValueError("session source_snapshot_sha256 must be a lowercase SHA-256 hex digest")
+    source_manifest = observation.get("source_snapshot_manifest")
+    if source_manifest is not None:
+        if not isinstance(source_manifest, dict):
+            raise ValueError("session source_snapshot_manifest must be an object")
+        if _json_sha256(source_manifest) != source_hash:
+            raise ValueError("session source snapshot manifest hash mismatch")
     current_contract = str(observation["contract_id"]).strip()
     next_contract = str(observation["next_selected_contract_id"]).strip()
     if not current_contract or not next_contract:
@@ -548,6 +662,7 @@ def append_session_observation(
         "session_timestamp": session.isoformat(),
         "next_session_timestamp": nxt.isoformat(),
         "source_snapshot_sha256": source_hash,
+        "source_snapshot_manifest": source_manifest,
         "contract_id": current_contract,
         "next_selected_contract_id": next_contract,
         "open_price": open_price,
@@ -579,7 +694,130 @@ def append_session_observation(
         "source_completeness_ok": True,
         "live_trading_allowed": False,
     }
-    return module._append_prospective_event(event, ledger=ledger)
+    appended = module._append_prospective_event(event, ledger=ledger)
+    settle_due_episode_outcomes(ledger=ledger, recorded_at=written.isoformat())
+    return appended
+
+
+def _episode_session_window(
+    module: Any,
+    decision: dict[str, Any],
+    sessions: list[dict[str, Any]],
+) -> list[dict[str, Any]] | None:
+    """Return the exact five-session evidence chain for one decision, if complete."""
+    planned_fill = module._parse_utc(str(decision["planned_fill_timestamp"]))
+    target_end = module._parse_utc(str(decision["target_end_timestamp"]))
+    by_start: dict[Any, dict[str, Any]] = {}
+    for session in sessions:
+        start = module._parse_utc(str(session["session_timestamp"]))
+        if start in by_start:
+            raise ValueError("duplicate prospective session timestamp in episode evidence")
+        by_start[start] = session
+    current = planned_fill
+    window: list[dict[str, Any]] = []
+    while current < target_end:
+        session = by_start.get(current)
+        if session is None:
+            return None
+        window.append(session)
+        nxt = module._parse_utc(str(session["next_session_timestamp"]))
+        if nxt <= current:
+            raise ValueError("prospective episode session chain is not strictly increasing")
+        current = nxt
+        if len(window) > 5:
+            raise ValueError("prospective episode exceeds the frozen five-session horizon")
+    if current != target_end:
+        raise ValueError("prospective episode session chain does not end at frozen target_end")
+    if len(window) != 5:
+        raise ValueError("prospective episode does not contain exactly five sessions")
+    return window
+
+
+def settle_due_episode_outcomes(
+    *, ledger: Path = DEFAULT_LEDGER, recorded_at: str | None = None
+) -> list[dict[str, Any]]:
+    """Derive due five-session episode outcomes only from persisted ledger evidence."""
+    module = _phase7_module()
+    _episode_settlement_rule()
+    _, events = module._read_prospective_events(ledger)
+    decisions = [event for event in events if event.get("event_type") == "decision"]
+    sessions = [event for event in events if event.get("event_type") == "session"]
+    settled_ids = {
+        str(event["record_id"])
+        for event in events
+        if event.get("event_type") == "outcome"
+    }
+    appended: list[dict[str, Any]] = []
+    for decision in sorted(
+        decisions,
+        key=lambda event: (
+            module._parse_utc(str(event["planned_fill_timestamp"])),
+            str(event["record_id"]),
+        ),
+    ):
+        record_id = str(decision["record_id"])
+        if record_id in settled_ids:
+            continue
+        window = _episode_session_window(module, decision, sessions)
+        if window is None:
+            continue
+        first = window[0]
+        actual_position = _position(first["target_position"], "target_position")
+        intended_position = _position(decision["intended_position"], "intended_position")
+        miss_reason = None
+        if actual_position != intended_position:
+            no_trade_reason = first.get("no_trade_reason")
+            if no_trade_reason is None or not str(no_trade_reason).strip():
+                raise ValueError(
+                    "derived prospective episode position drift requires persisted first-session reason"
+                )
+            miss_reason = str(no_trade_reason)
+        settlement = {
+            key: decision[key]
+            for key in _DECISION_FIELDS
+        }
+        settlement.update(
+            {
+                "outcome_timestamp": module._parse_utc(
+                    str(decision["target_end_timestamp"])
+                ).isoformat(),
+                "actual_contract_id": (
+                    str(first["contract_id"]) if actual_position != 0.0 else None
+                ),
+                "actual_position": actual_position,
+                "fill_price": _finite_float(first["open_price"], "open_price"),
+                "transaction_cost_usd": sum(
+                    _finite_float(event["transaction_cost_usd"], "transaction_cost_usd")
+                    for event in window
+                ),
+                "gross_pnl_usd": sum(
+                    _finite_float(event["gross_pnl_usd"], "gross_pnl_usd")
+                    for event in window
+                ),
+                "net_pnl_usd": sum(
+                    _finite_float(event["net_pnl_usd"], "net_pnl_usd")
+                    for event in window
+                ),
+                "actual_path_move_per_mmbtu": sum(
+                    _finite_float(event["path_move_per_mmbtu"], "path_move_per_mmbtu")
+                    for event in window
+                ),
+                "miss_reason": miss_reason,
+                "economic_role": (
+                    "informational_five_session_system_window_not_economic_gate"
+                ),
+                "daily_session_ledger_is_economic_gate": True,
+                "session_record_sha256s": [str(event["record_sha256"]) for event in window],
+            }
+        )
+        outcome = _append_derived_outcome(
+            settlement,
+            ledger=ledger,
+            recorded_at=recorded_at or _utc_now(),
+        )
+        appended.append(outcome)
+        settled_ids.add(record_id)
+    return appended
 
 
 def _decision_for_record(module: Any, ledger: Path, record_id: str) -> dict[str, Any]:
@@ -594,10 +832,10 @@ def _decision_for_record(module: Any, ledger: Path, record_id: str) -> dict[str,
     return decisions[0]
 
 
-def append_outcome(
+def _append_derived_outcome(
     record: dict[str, Any], *, ledger: Path = DEFAULT_LEDGER, recorded_at: str | None = None
 ) -> dict[str, Any]:
-    """Settle a complete prospective decision while binding all decision-time facts."""
+    """Append one internally derived settlement while binding all decision-time facts."""
     module = _phase7_module()
     outcome_required = {
         *_DECISION_FIELDS,
@@ -661,18 +899,50 @@ def append_outcome(
     )
 
 
+def _independent_episode_outcomes(
+    module: Any, outcomes: list[dict[str, Any]]
+) -> list[dict[str, Any]]:
+    """Select the earliest deterministic non-overlapping settled episode windows."""
+    selected: list[dict[str, Any]] = []
+    prior_target_end = None
+    for outcome in sorted(
+        outcomes,
+        key=lambda event: (
+            module._parse_utc(str(event["planned_fill_timestamp"])),
+            str(event["record_id"]),
+        ),
+    ):
+        planned_fill = module._parse_utc(str(outcome["planned_fill_timestamp"]))
+        if prior_target_end is not None and planned_fill < prior_target_end:
+            continue
+        selected.append(outcome)
+        prior_target_end = module._parse_utc(str(outcome["target_end_timestamp"]))
+    return selected
+
+
 def ledger_status(ledger: Path = DEFAULT_LEDGER) -> dict[str, Any]:
     module = _phase7_module()
     tail_hash, events = module._read_prospective_events(ledger)
     decisions = [event for event in events if event.get("event_type") == "decision"]
     outcomes = [event for event in events if event.get("event_type") == "outcome"]
     sessions = [event for event in events if event.get("event_type") == "session"]
+    origin_misses = [event for event in events if event.get("event_type") == "origin_miss"]
     settled_ids = {str(event["record_id"]) for event in outcomes}
     pending = [event for event in decisions if str(event["record_id"]) not in settled_ids]
 
     active = [event for event in outcomes if abs(float(event["actual_position"])) > 0.0]
     long_count = sum(float(event["actual_position"]) > 0.0 for event in active)
     short_count = sum(float(event["actual_position"]) < 0.0 for event in active)
+    independent = _independent_episode_outcomes(module, outcomes)
+    independent_active = [
+        event for event in independent if abs(float(event["actual_position"])) > 0.0
+    ]
+    independent_long_count = sum(
+        float(event["actual_position"]) > 0.0 for event in independent_active
+    )
+    independent_short_count = sum(
+        float(event["actual_position"]) < 0.0 for event in independent_active
+    )
     episode_net_pnl = sum(float(event["net_pnl_usd"]) for event in outcomes)
     session_net_pnl = sum(float(event["net_pnl_usd"]) for event in sessions)
     transaction_cost = sum(float(event["transaction_cost_usd"]) for event in sessions)
@@ -699,13 +969,21 @@ def ledger_status(ledger: Path = DEFAULT_LEDGER) -> dict[str, Any]:
         "prospective_serving_status": serving.get("status") if isinstance(serving, dict) else None,
         "tail_record_sha256": tail_hash,
         "decision_events": len(decisions),
+        "missed_origins": len(origin_misses),
         "settled_outcomes": len(outcomes),
         "pending_decisions": len(pending),
         "session_events": len(sessions),
         "active_exposure_outcomes": len(active),
         "long_exposure_outcomes": int(long_count),
         "short_exposure_outcomes": int(short_count),
+        "independent_episode_count": len(independent),
+        "independent_active_exposure_count": len(independent_active),
+        "independent_long_exposure_count": int(independent_long_count),
+        "independent_short_exposure_count": int(independent_short_count),
         "episode_outcome_net_pnl_usd": float(episode_net_pnl),
+        "episode_outcome_economic_role": (
+            "informational_five_session_system_window_not_economic_gate"
+        ),
         "net_pnl_usd": float(session_net_pnl),
         "transaction_cost_usd": float(transaction_cost),
         "ending_equity_usd": ending_equity,

@@ -135,7 +135,7 @@ def test_complete_decision_is_bound_before_later_settlement(tmp_path: Path) -> N
     assert appended["target_end_timestamp"] == "2026-09-19T00:00:00Z"
     assert appended["policy_modifiers"] == ["kronos_path_half"]
 
-    settled = module.append_outcome(
+    settled = module._append_derived_outcome(
         _outcome(module),
         ledger=ledger,
         recorded_at="2026-09-19T00:00:01Z",
@@ -168,7 +168,7 @@ def test_settlement_rejects_decision_time_identity_drift(tmp_path: Path) -> None
     outcome["decision_input_snapshot"] = {"fixture": "drifted-input"}
     outcome["input_snapshot_sha256"] = module._json_sha256(outcome["decision_input_snapshot"])
     try:
-        module.append_outcome(
+        module._append_derived_outcome(
             outcome,
             ledger=ledger,
             recorded_at="2026-09-19T00:00:01Z",
@@ -191,7 +191,7 @@ def test_outcome_cannot_precede_frozen_target_end(tmp_path: Path) -> None:
     outcome = _outcome(module)
     outcome["outcome_timestamp"] = "2026-09-18T11:59:59Z"
     try:
-        module.append_outcome(
+        module._append_derived_outcome(
             outcome,
             ledger=ledger,
             recorded_at="2026-09-19T00:00:01Z",
@@ -241,7 +241,7 @@ def test_later_missed_fill_is_not_frozen_at_decision_time(tmp_path: Path) -> Non
     outcome["net_pnl_usd"] = 0.0
     outcome["miss_reason"] = "eligible_interval_missing"
 
-    settled = module.append_outcome(
+    settled = module._append_derived_outcome(
         outcome,
         ledger=ledger,
         recorded_at="2026-09-19T00:00:01Z",
@@ -271,6 +271,139 @@ def _session(
         "source_freshness_ok": True,
         "source_completeness_ok": True,
     }
+
+
+def test_fifth_gap_free_session_auto_settles_episode_from_persisted_evidence(tmp_path: Path) -> None:
+    module = _module()
+    _activate_contract(module, tmp_path)
+    ledger = tmp_path / "prospective.jsonl"
+    decision = module.append_decision(
+        _decision(module), ledger=ledger, recorded_at="2026-09-13T12:00:01Z"
+    )
+    prices = [3.0, 3.1, 3.2, 3.3, 3.4, 3.5]
+    dates = [
+        "2026-09-14T00:00:00Z",
+        "2026-09-15T00:00:00Z",
+        "2026-09-16T00:00:00Z",
+        "2026-09-17T00:00:00Z",
+        "2026-09-18T00:00:00Z",
+        "2026-09-19T00:00:00Z",
+    ]
+    appended_sessions = []
+    for index in range(5):
+        appended_sessions.append(
+            module.append_session_observation(
+                _session(
+                    dates[index],
+                    dates[index + 1],
+                    open_price=prices[index],
+                    next_open=prices[index + 1],
+                ),
+                ledger=ledger,
+                recorded_at=f"2026-09-{15 + index:02d}T00:00:01Z",
+            )
+        )
+        if index < 4:
+            assert module.ledger_status(ledger)["settled_outcomes"] == 0
+
+    _, events = module._phase7_module()._read_prospective_events(ledger)
+    outcomes = [event for event in events if event.get("event_type") == "outcome"]
+    assert len(outcomes) == 1
+    outcome = outcomes[0]
+    assert outcome["record_id"] == decision["record_id"]
+    assert outcome["outcome_timestamp"] == "2026-09-19T00:00:00+00:00"
+    assert outcome["actual_position"] == -0.5
+    assert outcome["actual_contract_id"] == "NGX6"
+    assert outcome["fill_price"] == pytest.approx(3.0)
+    assert outcome["actual_path_move_per_mmbtu"] == pytest.approx(0.5)
+    assert outcome["gross_pnl_usd"] == pytest.approx(-2500.0)
+    assert outcome["transaction_cost_usd"] == pytest.approx(7.5)
+    assert outcome["net_pnl_usd"] == pytest.approx(-2507.5)
+    assert outcome["economic_role"] == "informational_five_session_system_window_not_economic_gate"
+    assert outcome["daily_session_ledger_is_economic_gate"] is True
+    assert outcome["session_record_sha256s"] == [
+        event["record_sha256"] for event in appended_sessions
+    ]
+    status = module.ledger_status(ledger)
+    assert status["settled_outcomes"] == 1
+    assert status["pending_decisions"] == 0
+    assert status["net_pnl_usd"] == pytest.approx(-2507.5)
+    assert status["episode_outcome_net_pnl_usd"] == pytest.approx(-2507.5)
+    assert status["episode_outcome_economic_role"] == (
+        "informational_five_session_system_window_not_economic_gate"
+    )
+
+
+def test_independent_episode_counts_are_deterministic_and_non_overlapping(tmp_path: Path) -> None:
+    module = _module()
+    _activate_contract(module, tmp_path)
+    ledger = tmp_path / "prospective.jsonl"
+
+    first = _decision(module, "prospective-1")
+    module.append_decision(first, ledger=ledger, recorded_at="2026-09-13T12:00:01Z")
+    second = _decision(module, "prospective-2")
+    second.update({
+        "decision_timestamp": "2026-09-15T23:59:00Z",
+        "planned_fill_timestamp": "2026-09-16T00:00:00Z",
+        "target_end_timestamp": "2026-09-21T00:00:00Z",
+        "prospective_origin_index": 1,
+        "kronos_path_eligible": False,
+        "policy_modifiers": [],
+    })
+    second["derivation"]["origin_sequence_index"] = 1
+    second["derivation"]["kronos_path_eligible"] = False
+    second["forecast_id"] = "forecast-2026-09-15"
+    third = _decision(module, "prospective-3")
+    third.update({
+        "decision_timestamp": "2026-09-18T23:59:00Z",
+        "planned_fill_timestamp": "2026-09-19T00:00:00Z",
+        "target_end_timestamp": "2026-09-24T00:00:00Z",
+        "prospective_origin_index": 2,
+        "kronos_path_eligible": False,
+        "policy_modifiers": [],
+    })
+    third["derivation"]["origin_sequence_index"] = 2
+    third["derivation"]["kronos_path_eligible"] = False
+    third["forecast_id"] = "forecast-2026-09-18"
+
+    module._append_derived_outcome(
+        _outcome(module), ledger=ledger, recorded_at="2026-09-19T00:00:01Z"
+    )
+    module.append_decision(second, ledger=ledger, recorded_at="2026-09-15T23:59:01Z")
+    second_outcome = dict(second)
+    second_outcome.update({
+        "outcome_timestamp": "2026-09-21T00:00:00Z",
+        "actual_contract_id": "NGX6",
+        "actual_position": -0.5,
+        "fill_price": 3.2,
+        "transaction_cost_usd": 0.0,
+        "net_pnl_usd": 50.0,
+        "miss_reason": None,
+    })
+    module._append_derived_outcome(
+        second_outcome, ledger=ledger, recorded_at="2026-09-21T00:00:01Z"
+    )
+    module.append_decision(third, ledger=ledger, recorded_at="2026-09-18T23:59:01Z")
+    third_outcome = dict(third)
+    third_outcome.update({
+        "outcome_timestamp": "2026-09-24T00:00:00Z",
+        "actual_contract_id": "NGX6",
+        "actual_position": -0.5,
+        "fill_price": 3.4,
+        "transaction_cost_usd": 0.0,
+        "net_pnl_usd": 75.0,
+        "miss_reason": None,
+    })
+    module._append_derived_outcome(
+        third_outcome, ledger=ledger, recorded_at="2026-09-24T00:00:01Z"
+    )
+
+    status = module.ledger_status(ledger)
+    assert status["settled_outcomes"] == 3
+    assert status["independent_episode_count"] == 2
+    assert status["independent_active_exposure_count"] == 2
+    assert status["independent_long_exposure_count"] == 0
+    assert status["independent_short_exposure_count"] == 2
 
 
 def test_session_accounting_derives_cost_pnl_and_risk_kill(tmp_path: Path) -> None:
@@ -485,6 +618,51 @@ def test_operational_derivation_stays_blocked_until_internal_specialists_exist(t
         )
 
 
+def test_missed_fresh_origin_advances_cadence_and_cannot_be_backfilled(tmp_path: Path) -> None:
+    module = _module()
+    _activate_contract(module, tmp_path)
+    ledger = tmp_path / "prospective.jsonl"
+    missed = module.record_origin_miss(
+        decision_timestamp="2026-09-13T23:59:00Z",
+        planned_fill_timestamp="2026-09-14T00:00:00Z",
+        source_snapshot_sha256="a" * 64,
+        miss_reason="serving_deadline_missed",
+        ledger=ledger,
+        recorded_at="2026-09-14T00:00:01Z",
+    )
+    assert missed["event_type"] == "origin_miss"
+    assert missed["prospective_origin_index"] == 0
+    assert missed["path_counter_advanced"] is True
+    assert missed["kronos_path_eligible"] is True
+
+    decision = _decision(module, "prospective-2")
+    decision["decision_timestamp"] = "2026-09-14T23:59:00Z"
+    decision["planned_fill_timestamp"] = "2026-09-15T00:00:00Z"
+    decision["target_end_timestamp"] = "2026-09-22T00:00:00Z"
+    decision["prospective_origin_index"] = 1
+    decision["kronos_path_eligible"] = False
+    decision["policy_modifiers"] = []
+    decision["intended_position"] = -1.0
+    decision["derivation"]["origin_sequence_index"] = 1
+    decision["derivation"]["kronos_path_eligible"] = False
+    appended = module.append_decision(
+        decision,
+        ledger=ledger,
+        recorded_at="2026-09-14T23:59:01Z",
+    )
+    assert appended["prospective_origin_index"] == 1
+
+    with pytest.raises(ValueError, match="already has an origin record"):
+        module.append_decision(
+            _decision(module, "late-backfill"),
+            ledger=ledger,
+            recorded_at="2026-09-13T23:59:30Z",
+        )
+    status = module.ledger_status(ledger)
+    assert status["missed_origins"] == 1
+    assert status["decision_events"] == 1
+
+
 def test_session_append_is_blocked_while_serving_refreeze_is_pending(tmp_path: Path) -> None:
     module = _module()
     with pytest.raises(ValueError, match="serving-contract refreeze"):
@@ -532,19 +710,63 @@ def test_operational_session_rejects_caller_execution_evidence(tmp_path: Path) -
         )
 
 
-def test_operational_session_stays_blocked_until_internal_prices_exist(tmp_path: Path) -> None:
+def test_operational_session_requires_internal_contract_identity(tmp_path: Path) -> None:
     module = _module()
     _activate_contract(module, tmp_path)
-    with pytest.raises(RuntimeError, match="internal Databento session-price derivation"):
+    with pytest.raises(RuntimeError, match="internally established held contract"):
         module.derive_and_append_session_observation(
-            {},
+            {
+                "session_timestamp": "2026-09-14T00:00:00Z",
+                "next_session_timestamp": "2026-09-15T00:00:00Z",
+            },
             databento_root=tmp_path,
             ledger=tmp_path / "prospective.jsonl",
         )
 
 
+def test_operational_session_derives_internal_prices_and_records_actual_time(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    module = _module()
+    _activate_contract(module, tmp_path)
+    ledger = tmp_path / "prospective.jsonl"
+    module.append_decision(
+        _decision(module),
+        ledger=ledger,
+        recorded_at="2026-09-13T12:00:01Z",
+    )
+    monkeypatch.setattr(module, "_utc_now", lambda: "2026-09-15T00:00:01Z", raising=False)
+
+    class _Derivation:
+        @staticmethod
+        def derive_session_observation_from_databento(*args, **kwargs):
+            assert kwargs["current_contract_id"] == "NGX6"
+            assert kwargs["next_selected_contract_id"] == "NGX6"
+            return _session(
+                "2026-09-14T00:00:00Z",
+                "2026-09-15T00:00:00Z",
+                open_price=3.0,
+                next_open=3.1,
+            )
+
+    monkeypatch.setattr(module, "_derivation_module", lambda: _Derivation)
+    result = module.derive_and_append_session_observation(
+        {
+            "session_timestamp": "2026-09-14T00:00:00Z",
+            "next_session_timestamp": "2026-09-15T00:00:00Z",
+        },
+        databento_root=tmp_path,
+        ledger=ledger,
+    )
+    assert result["recorded_at"] == "2026-09-15T00:00:01+00:00"
+    assert result["contract_id"] == "NGX6"
+    assert result["open_price"] == pytest.approx(3.0)
+    assert result["next_open_same_contract"] == pytest.approx(3.1)
+
+
 def test_operational_cli_forbids_recorded_at_and_manual_outcome() -> None:
     module = _module()
+    assert not hasattr(module, "append_outcome")
     parser = module._parser()
     with pytest.raises(SystemExit):
         parser.parse_args([
