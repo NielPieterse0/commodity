@@ -13,5 +13,6 @@
 - [x] Publish and land the exact freeze change through registered GitHub workflow as PR #372.
 - [x] Record the exact remote freeze landing identity and activate tamper-evident prospective logging without changing the frozen candidate.
 - [x] Repair the prospective chronology control so each decision is durably appended before its later outcome settlement; reject outcome-only retrospective records.
+- [x] Add a strict prospective operations entrypoint that binds exact input snapshot, forecast identity, target window, fill rule, cost profile and intended position before settlement; later outcomes must match those decision-time facts exactly.
 - [ ] Accumulate the frozen minimum prospective evidence without tuning.
 - [ ] Evaluate Phase-7 exit gate and only then determine Phase-8 eligibility.
