@@ -5,6 +5,13 @@
   "protected_confirmation_accessed": false,
   "billable_acquisition_performed": false,
   "external_model_or_runtime_download_performed": false,
+  "serving_refreeze_landing": {
+    "pull_request": 381,
+    "head_sha": "a8dfeb67614945f3e764d8ade39ac9f7eeb63095",
+    "merge_commit_sha": "969c2ec957e249d8b405a4b73d851e6321c5639b",
+    "merged_at": "2026-09-12T18:07:04Z",
+    "registered_default_tracking_verified": true
+  },
   "market_source": {
     "source_id": "databento-ng-full-history-v1",
     "required_trade_date_probe": "2026-09-13",
@@ -65,10 +72,11 @@
     "manual_outcome_settlement_exposed": false,
     "caller_specialist_outputs_exposed": false,
     "caller_execution_price_or_source_evidence_exposed": false,
-    "internal_specialist_inference_integrated": false,
+    "internal_specialist_inference_integrated": true,
     "internal_specialist_runtime_wrapper_implemented": true,
     "specialist_runtime_asset_identity_machine_verified": true,
     "specialist_context_geometry_machine_verified": true,
+    "databento_manifest_file_hash_reverified_before_decode": true,
     "fresh_origin_miss_cadence_persisted": true,
     "missed_origin_backfill_prohibited": true,
     "internal_session_price_derivation_integrated": true,
@@ -80,8 +88,8 @@
     "episode_window_economics_informational_only": true,
     "independent_episode_counting_integrated": true,
     "daily_session_ledger_remains_sole_economic_gate": true,
-    "focused_verification": "50 focused Phase-7 tests passed; focused Ruff passed; git diff --check passed; canonical repository verification then passed with 674 passed and 7 skipped plus all repository checks",
-    "result": "fail_closed_until_real_linux_torch_execution_operational_specialist_wiring_fresh_source_and_refreeze_landing"
+    "focused_verification": "The landed refreeze tree passed canonical repository verification with 682 passed and 7 skipped plus all repository checks; GitHub CI also passed on the exact PR #381 head before merge. The current post-landing authority and operational-wiring change passes 55 focused Phase-7 tests, focused Ruff, deterministic documentation generation, and git diff --check.",
+    "result": "fail_closed_until_real_linux_torch_execution_latency_proof_and_fresh_source"
   },
-  "disposition": "Do not activate prospective serving or count observations. Exact retained TimesFM/Kronos source/checkpoint identities are machine-verified, the exact Phase-4 specialist context/profile geometry is encoded, a prewarmed CPU-only serving wrapper is implemented, Databento exact-contract session-price/source derivation is integrated, fresh serving-deadline misses advance the frozen 8/109 cadence without backfill, and the L3-preregistered episode-settlement rule is implemented from exactly five persisted gap-free session events with deterministic non-overlap counting. Episode-window PnL remains informational; the daily session ledger is the sole economic/risk gate. Remaining blockers are landing this refreeze, governed Linux PyTorch execution with measured durable decision-write latency inside the frozen one-minute window, operational specialist wiring, and fresh Databento prospective coverage. No protected 2023+ outcomes were opened and no billable acquisition or live trading occurred."
+  "disposition": "The L3 serving refreeze is landed and its exact identity is recorded as the frozen prospective boundary, but do not activate prospective evidence collection yet. Exact retained TimesFM/Kronos source/checkpoint identities are machine-verified, the exact Phase-4 specialist context/profile geometry is encoded, the operational decision path now decodes exact-source Databento histories internally, re-verifies each bound source-file hash before decode, generates specialist outputs through the pinned prewarmed CPU-only runtime, derives the frozen pre-2023 market decision, and records a cadence-consuming serving_deadline_missed event instead of a late decision. Databento exact-contract session-price/source derivation and five-session episode settlement are also integrated. Episode-window PnL remains informational; the daily session ledger is the sole economic/risk gate. Remaining activation blockers are governed Linux PyTorch execution with measured durable decision-write latency inside the frozen one-minute window and fresh exact-source Databento prospective coverage. No protected 2023+ outcomes were opened and no billable acquisition, SIM order, or live trading occurred."
 }

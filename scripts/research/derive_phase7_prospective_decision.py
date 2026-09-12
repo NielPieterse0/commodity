@@ -22,7 +22,10 @@ from commodity.market_only_phase2 import (
     _frame_sha256,
     _target_ohlcv,
 )
-from commodity.providers.databento_futures import decode_databento_dbn_file
+from commodity.providers.databento_futures import (
+    decode_databento_dbn_file,
+    normalize_databento_contract_history,
+)
 from commodity.stacking_policy import PolicyConfig, apply_specialist_modifiers
 from commodity.trading_decision_v0 import ExecutionCostAssumptions
 
@@ -612,13 +615,50 @@ def _snapshot_schema_path(
     matches = [item for item in files if isinstance(item, dict) and item.get("schema") == schema]
     if len(matches) != 1 or not isinstance(matches[0].get("path"), str):
         raise DecisionDerivationError(f"prospective Databento {schema} manifest entry is invalid")
+    expected_sha = str(matches[0].get("sha256", ""))
+    if _SHA_RE.fullmatch(expected_sha) is None:
+        raise DecisionDerivationError(f"prospective Databento {schema} manifest hash is invalid")
     root = Path(databento_root).resolve()
     path = (root / str(matches[0]["path"])).resolve()
     try:
         path.relative_to(root)
     except ValueError as exc:
         raise DecisionDerivationError("prospective Databento source path escapes its root") from exc
+    if not path.is_file() or _file_sha256(path) != expected_sha:
+        raise DecisionDerivationError(f"prospective Databento {schema} source hash mismatch")
     return path
+
+
+def load_specialist_histories_from_databento(
+    databento_root: Path,
+    *,
+    source_snapshot: dict[str, Any],
+    retrieved_at: object,
+) -> tuple[pd.DataFrame, pd.DataFrame]:
+    """Decode the verified exact-source partition into TimesFM/Kronos serving history."""
+    definitions, _ = decode_databento_dbn_file(
+        _snapshot_schema_path(databento_root, source_snapshot, "definition"),
+        expected_schema="definition",
+        definition_product_code="NG",
+    )
+    statistics, _ = decode_databento_dbn_file(
+        _snapshot_schema_path(databento_root, source_snapshot, "statistics"),
+        expected_schema="statistics",
+    )
+    bars, _ = decode_databento_dbn_file(
+        _snapshot_schema_path(databento_root, source_snapshot, "ohlcv-1d"),
+        expected_schema="ohlcv-1d",
+    )
+    canonical, _ = normalize_databento_contract_history(
+        definitions,
+        statistics,
+        _utc(retrieved_at, "specialist history retrieved_at").isoformat(),
+        "NG",
+    )
+    ohlcv = _target_ohlcv(definitions, bars)
+    if canonical.empty or ohlcv.empty:
+        raise DecisionDerivationError("specialist Databento serving history is empty")
+    return canonical, ohlcv
 
 
 def derive_session_observation_from_databento(

@@ -22,9 +22,10 @@
 - [x] Remove supported-CLI backdating, manual outcome settlement, and caller-supplied session execution/source evidence; keep prospective operations fail-closed until internal derivation exists.
 - [x] Integrate internal Databento-derived session contract/open-price/source evidence with exact source manifests and actual write time.
 - [x] Machine-verify the retained pinned TimesFM/Kronos source/checkpoint identities, freeze the exact Phase-4 serving context/profile geometry, and implement the prewarmed CPU-only runtime wrapper without bypassing the blocked Torch runtime.
+- [x] Wire the operational decision path to exact-source Databento histories, the pinned specialist runtime, the frozen pre-2023 market model, persisted risk/position state, and fail-safe deadline-miss recording; re-verify bound source-file hashes before decode.
 - [x] Persist fresh serving-deadline misses as append-only cadence events so skipped origins advance the frozen 8/109 counter and cannot be retrospectively backfilled.
 - [ ] Prove the exact pinned TimesFM/Kronos serving runtime can execute under governed Linux Torch and durably record the required decision before the frozen planned fill.
 - [x] Preregister the episode-settlement rule at L3 before any outcome access, derive each episode only from one persisted decision plus exactly five gap-free verified session events, and keep episode window economics informational while the daily session ledger remains the sole economic/risk gate.
-- [ ] Freeze and land the L3 prospective Kronos path-availability/runtime/settlement rule; its landed identity becomes the new prospective evidence start boundary.
+- [x] Freeze and land the L3 prospective Kronos path-availability/runtime/settlement rule; PR #381 merged as `969c2ec957e249d8b405a4b73d851e6321c5639b`, and that exact landing identity is the prospective serving-contract boundary.
 - [ ] Accumulate the frozen minimum prospective evidence without tuning.
 - [ ] Evaluate Phase-7 exit gate and only then determine Phase-8 eligibility.

@@ -37,6 +37,38 @@ def _activate_contract(module, tmp_path: Path, *, merged_at: str = "2026-09-12T0
     module.CONTRACT = contract
 
 
+def _runtime_args(tmp_path: Path) -> dict[str, Path]:
+    return {
+        "timesfm_runtime_root": tmp_path / "timesfm-runtime",
+        "timesfm_source_zip": tmp_path / "timesfm-source.zip",
+        "timesfm_cache_dir": tmp_path / "timesfm-cache",
+        "kronos_source_root": tmp_path / "kronos-source",
+        "kronos_cache_dir": tmp_path / "kronos-cache",
+    }
+
+
+def test_pinned_specialist_runtime_cache_is_path_sensitive(tmp_path: Path) -> None:
+    module = _module()
+    created: list[dict[str, Path]] = []
+
+    class _Runtime:
+        def __init__(self, **kwargs):
+            created.append(kwargs)
+
+    class _Derivation:
+        PinnedSpecialistServingRuntime = _Runtime
+
+    first_args = _runtime_args(tmp_path)
+    first = module._pinned_specialist_runtime(_Derivation, **first_args)
+    assert module._pinned_specialist_runtime(_Derivation, **first_args) is first
+
+    second_args = dict(first_args)
+    second_args["timesfm_cache_dir"] = tmp_path / "timesfm-cache-2"
+    second = module._pinned_specialist_runtime(_Derivation, **second_args)
+    assert second is not first
+    assert len(created) == 2
+
+
 def _decision(module, record_id: str = "prospective-1") -> dict[str, object]:
     phase7 = module._phase7_module()
     input_snapshot = {"fixture": "prospective-decision-input"}
@@ -509,25 +541,220 @@ def test_new_decision_cannot_ignore_persisted_kill_state(tmp_path: Path) -> None
         )
 
 
-def test_operational_derivation_is_blocked_until_serving_refreeze_lands(tmp_path: Path) -> None:
+def test_landed_refreeze_still_blocks_operational_derivation_until_phase_activation(
+    tmp_path: Path,
+) -> None:
     module = _module()
-    with pytest.raises(ValueError, match="serving-contract refreeze"):
+    contract = json.loads(module.CONTRACT.read_text(encoding="utf-8"))
+    serving = contract["prospective_serving_contract"]
+    assert serving["status"] == "frozen_active"
+    assert serving["landing"] == {
+        "pull_request": 381,
+        "head_sha": "a8dfeb67614945f3e764d8ade39ac9f7eeb63095",
+        "merge_commit_sha": "969c2ec957e249d8b405a4b73d851e6321c5639b",
+        "merged_at": "2026-09-12T18:07:04Z",
+    }
+    with pytest.raises(ValueError, match="active prospective-evidence state"):
         module.derive_and_append_decision(
             {},
             checkpoint_root=tmp_path,
             databento_root=tmp_path,
+            **_runtime_args(tmp_path),
             ledger=tmp_path / "prospective.jsonl",
         )
 
 
-def test_direct_decision_append_is_blocked_while_serving_refreeze_is_pending(tmp_path: Path) -> None:
+def test_direct_decision_append_is_blocked_until_phase_activation(tmp_path: Path) -> None:
     module = _module()
-    with pytest.raises(ValueError, match="serving-contract refreeze"):
+    with pytest.raises(ValueError, match="active prospective-evidence state"):
         module.append_decision(
             _decision(module),
             ledger=tmp_path / "prospective.jsonl",
             recorded_at="2026-09-13T12:00:01Z",
         )
+
+
+def test_operational_decision_wires_internal_source_and_specialist_generation(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    module = _module()
+    _activate_contract(module, tmp_path)
+    ledger = tmp_path / "prospective.jsonl"
+    observed: dict[str, object] = {}
+
+    class _Runtime:
+        def __init__(self, **kwargs):
+            observed["runtime_kwargs"] = kwargs
+
+        def generate(self, contexts):
+            observed["contexts"] = contexts
+            return {"generated_specialists": True}
+
+    class _Derivation:
+        PinnedSpecialistServingRuntime = _Runtime
+
+        @staticmethod
+        def prospective_kronos_path_eligible(index):
+            observed["origin_index"] = index
+            return True
+
+        @staticmethod
+        def verified_databento_source_snapshot(root, *, required_trade_date):
+            observed["source_root"] = root
+            observed["source_date"] = required_trade_date
+            return {
+                "sha256": "b" * 64,
+                "latest_trade_date": "2026-09-13",
+                "complete": True,
+                "manifest": {"files": []},
+            }
+
+        @staticmethod
+        def load_specialist_histories_from_databento(root, *, source_snapshot, retrieved_at):
+            observed["history_args"] = (root, source_snapshot, retrieved_at)
+            return "canonical-history", "ohlcv-history"
+
+        @staticmethod
+        def build_specialist_serving_contexts(canonical, ohlcv, **kwargs):
+            observed["context_args"] = (canonical, ohlcv, kwargs)
+            return {"serving_context": True}
+
+        @staticmethod
+        def load_verified_training_origins(root):
+            observed["training_root"] = root
+            return "training-origins"
+
+        @staticmethod
+        def derive_decision(bundle, **kwargs):
+            observed["derived_bundle"] = bundle
+            observed["derive_kwargs"] = kwargs
+            return _decision(module)
+
+    monkeypatch.setattr(module, "_derivation_module", lambda: _Derivation)
+    monkeypatch.setattr(module, "_utc_now", lambda: "2026-09-13T12:00:01+00:00")
+    bundle = {
+        "decision_timestamp": "2026-09-13T12:00:00Z",
+        "planned_fill_timestamp": "2026-09-14T00:00:00Z",
+        "target_session_timestamps": [
+            "2026-09-15T00:00:00Z",
+            "2026-09-16T00:00:00Z",
+            "2026-09-17T00:00:00Z",
+            "2026-09-18T00:00:00Z",
+            "2026-09-19T00:00:00Z",
+        ],
+        "current_origin": {
+            "trade_date": "2026-09-13T00:00:00Z",
+            "available_at": "2026-09-13T11:59:00Z",
+            "contract_id": "NGX6",
+            "features": {},
+        },
+    }
+    result = module.derive_and_append_decision(
+        bundle,
+        checkpoint_root=tmp_path / "checkpoint",
+        databento_root=tmp_path / "databento",
+        timesfm_runtime_root=tmp_path / "timesfm-runtime",
+        timesfm_source_zip=tmp_path / "timesfm-source.zip",
+        timesfm_cache_dir=tmp_path / "timesfm-cache",
+        kronos_source_root=tmp_path / "kronos-source",
+        kronos_cache_dir=tmp_path / "kronos-cache",
+        ledger=ledger,
+    )
+
+    assert result["event_type"] == "decision"
+    derived = observed["derived_bundle"]
+    assert isinstance(derived, dict)
+    assert derived["source_snapshot"]["sha256"] == "b" * 64
+    assert derived["specialists"] == {"generated_specialists": True}
+    assert observed["contexts"] == {"serving_context": True}
+    assert observed["derive_kwargs"] == {
+        "training_origins": "training-origins",
+        "prior_position": 0.0,
+        "risk_state": "active",
+        "origin_sequence_index": 0,
+    }
+
+
+def test_operational_decision_records_deadline_miss_instead_of_late_decision(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    module = _module()
+    _activate_contract(module, tmp_path)
+    ledger = tmp_path / "prospective.jsonl"
+
+    class _Runtime:
+        def __init__(self, **kwargs):
+            pass
+
+        def generate(self, contexts):
+            return {"generated_specialists": True}
+
+    class _Derivation:
+        PinnedSpecialistServingRuntime = _Runtime
+
+        @staticmethod
+        def prospective_kronos_path_eligible(index):
+            return True
+
+        @staticmethod
+        def verified_databento_source_snapshot(root, *, required_trade_date):
+            return {
+                "sha256": "b" * 64,
+                "latest_trade_date": "2026-09-13",
+                "complete": True,
+                "manifest": {"files": []},
+            }
+
+        @staticmethod
+        def load_specialist_histories_from_databento(root, *, source_snapshot, retrieved_at):
+            return "canonical-history", "ohlcv-history"
+
+        @staticmethod
+        def build_specialist_serving_contexts(canonical, ohlcv, **kwargs):
+            return {"serving_context": True}
+
+        @staticmethod
+        def load_verified_training_origins(root):
+            return "training-origins"
+
+        @staticmethod
+        def derive_decision(bundle, **kwargs):
+            return _decision(module)
+
+    monkeypatch.setattr(module, "_derivation_module", lambda: _Derivation)
+    monkeypatch.setattr(module, "_utc_now", lambda: "2026-09-14T00:00:01+00:00")
+    result = module.derive_and_append_decision(
+        {
+            "decision_timestamp": "2026-09-13T12:00:00Z",
+            "planned_fill_timestamp": "2026-09-14T00:00:00Z",
+            "target_session_timestamps": [
+                "2026-09-15T00:00:00Z",
+                "2026-09-16T00:00:00Z",
+                "2026-09-17T00:00:00Z",
+                "2026-09-18T00:00:00Z",
+                "2026-09-19T00:00:00Z",
+            ],
+            "current_origin": {
+                "trade_date": "2026-09-13T00:00:00Z",
+                "available_at": "2026-09-13T11:59:00Z",
+                "contract_id": "NGX6",
+                "features": {},
+            },
+        },
+        checkpoint_root=tmp_path / "checkpoint",
+        databento_root=tmp_path / "databento",
+        timesfm_runtime_root=tmp_path / "timesfm-runtime",
+        timesfm_source_zip=tmp_path / "timesfm-source.zip",
+        timesfm_cache_dir=tmp_path / "timesfm-cache",
+        kronos_source_root=tmp_path / "kronos-source",
+        kronos_cache_dir=tmp_path / "kronos-cache",
+        ledger=ledger,
+    )
+
+    assert result["event_type"] == "origin_miss"
+    assert result["miss_reason"] == "serving_deadline_missed"
+    assert module.ledger_status(ledger)["decision_events"] == 0
+    assert module.ledger_status(ledger)["missed_origins"] == 1
 
 
 def test_active_serving_contract_rejects_decision_before_its_landing(tmp_path: Path) -> None:
@@ -574,6 +801,7 @@ def test_operational_derivation_rejects_caller_source_snapshot(tmp_path: Path) -
             {"source_snapshot": {}},
             checkpoint_root=tmp_path,
             databento_root=tmp_path,
+            **_runtime_args(tmp_path),
             ledger=tmp_path / "prospective.jsonl",
         )
 
@@ -602,18 +830,20 @@ def test_operational_derivation_rejects_caller_specialist_outputs(tmp_path: Path
             {"specialists": {"timesfm_point_return": -0.01}},
             checkpoint_root=tmp_path,
             databento_root=tmp_path,
+            **_runtime_args(tmp_path),
             ledger=tmp_path / "prospective.jsonl",
         )
 
 
-def test_operational_derivation_stays_blocked_until_internal_specialists_exist(tmp_path: Path) -> None:
+def test_operational_derivation_requires_decision_time_inputs(tmp_path: Path) -> None:
     module = _module()
     _activate_contract(module, tmp_path)
-    with pytest.raises(RuntimeError, match="internal pinned TimesFM/Kronos"):
+    with pytest.raises(ValueError, match="operational prospective derivation missing fields"):
         module.derive_and_append_decision(
             {},
             checkpoint_root=tmp_path,
             databento_root=tmp_path,
+            **_runtime_args(tmp_path),
             ledger=tmp_path / "prospective.jsonl",
         )
 
@@ -663,9 +893,9 @@ def test_missed_fresh_origin_advances_cadence_and_cannot_be_backfilled(tmp_path:
     assert status["decision_events"] == 1
 
 
-def test_session_append_is_blocked_while_serving_refreeze_is_pending(tmp_path: Path) -> None:
+def test_session_append_is_blocked_until_phase_activation(tmp_path: Path) -> None:
     module = _module()
-    with pytest.raises(ValueError, match="serving-contract refreeze"):
+    with pytest.raises(ValueError, match="active prospective-evidence state"):
         module.append_session_observation(
             _session(
                 "2026-09-14T00:00:00Z",

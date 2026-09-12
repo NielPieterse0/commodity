@@ -3,7 +3,7 @@
   "programme_id": "003-natural-gas-trading-decision-system",
   "phase": 7,
   "issue": 361,
-  "status": "prospective_refreeze_required",
+  "status": "prospective_activation_blocked",
   "protected_confirmation_accessed": false,
   "freeze_landing": {
     "pull_request": 372,
@@ -11,7 +11,7 @@
     "merge_commit_sha": "74fe9eb182ab9f82bad0b5aa4bb99ade22f19886",
     "merged_at": "2026-09-12T04:30:20Z"
   },
-  "claim_boundary": "historical development evidence remains non-confirmatory; no prospective observation may count until the missing serving semantics are preregistered, landed on the default branch and activated as the new prospective freeze boundary",
+  "claim_boundary": "historical development evidence remains non-confirmatory; the serving-contract amendment is landed and frozen, but no prospective observation may count until the pinned specialist runtime proof is verified, fresh exact-source coverage is available and Phase 7 is explicitly activated for prospective evidence",
   "frozen_candidate": {
     "config_id": "s-veto__l-none__p-half__u-none",
     "policy_refit_cadence": "retain_phase5_two_year_outer_block_cadence_no_annual_refit",
@@ -22,20 +22,25 @@
     "phase4_specialist_authority_sha256": "d42d8763dde4c8593e235425c42bbb6f2b6c2226b80877688bd4b87eea59dc21"
   },
   "prospective_serving_contract": {
-    "status": "preregistered_pending_landing",
+    "status": "frozen_active",
     "defect_class": "outcome_independent_pre_first_observation_feasibility_defect",
     "deployment_identity": "phase7-prospective-serving-v2",
-    "landing": null,
+    "landing": {
+      "pull_request": 381,
+      "head_sha": "a8dfeb67614945f3e764d8ade39ac9f7eeb63095",
+      "merge_commit_sha": "969c2ec957e249d8b405a4b73d851e6321c5639b",
+      "merged_at": "2026-09-12T18:07:04Z"
+    },
     "reason": "Phase 5 applied the Kronos five-step half-size modifier only on the frozen 96-of-1308 development diagnostic sample and treated absent path rows as neutral. The prospective rule below preserves that exact 8/109 activation density with future-only deterministic spacing instead of broadening Kronos to every origin.",
     "market_model_training": "fit the frozen histgb-core-v1 once from verified target-complete origins ending no later than 2022-12-31; never add 2023+ or prospective outcomes to this fit during this freeze",
     "market_source_binding": "the operational decision path must derive source identity from exact on-disk Databento definition/statistics/OHLCV partition triples covering the origin trade date, persist per-file SHA-256 plus a canonical manifest hash, and reject caller-supplied source-snapshot identity",
     "decision_frequency": "derive and log every otherwise eligible fresh decision-time origin; evidence independence is enforced only when counting non-overlapping five-session episodes",
     "timesfm_short_veto": "require the pinned TimesFM 2.5 point-return feature at every otherwise eligible prospective origin using PIT-known same-contract history and the frozen model identity",
-    "specialist_generation": "operational prospective decisions must generate TimesFM/Kronos outputs inside the pinned serving path; caller-supplied specialist numeric outputs or provenance are forbidden, and the current entrypoint remains fail-closed until that internal inference path is integrated",
-    "session_generation": "operational daily session accounting must derive held-contract identity, execution prices and source identity inside the verified Databento serving path; caller-supplied execution prices or source identity are forbidden, and the current entrypoint remains fail-closed until that derivation is integrated",
+    "specialist_generation": "operational prospective decisions generate TimesFM/Kronos outputs inside the pinned serving path from internally decoded exact-source Databento histories; caller-supplied specialist numeric outputs or provenance are forbidden, and activation remains fail-closed until the exact runtime proof and fresh-source gates pass",
+    "session_generation": "operational daily session accounting derives held-contract identity, execution prices and source identity inside the verified Databento serving path; caller-supplied execution prices or source identity are forbidden, and activation remains fail-closed until the exact runtime proof and fresh-source gates pass",
     "episode_settlement": {
       "rule_id": "phase7-episode-settlement-v1",
-      "status": "preregistered_pending_landing",
+      "status": "frozen_active",
       "authority_issue": 361,
       "authority_comment_id": 5647276241,
       "economic_gate_source": "daily_session_ledger_only",
