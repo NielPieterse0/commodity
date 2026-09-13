@@ -241,7 +241,23 @@ def _prospective_start_boundary(module: Any, contract: dict[str, Any]) -> Any:
     serving_landed = module._parse_utc(str(landing["merged_at"]))
     if serving_landed < original:
         raise ValueError("prospective serving-contract landing cannot precede the original freeze")
-    return serving_landed
+
+    activation = contract.get("prospective_activation")
+    if not isinstance(activation, dict) or activation.get("status") != "active":
+        raise ValueError("Phase 7 prospective activation record is not active")
+    if activation.get("historical_backfill_allowed") is not False:
+        raise ValueError("Phase 7 prospective activation must prohibit historical backfill")
+    source_hash = str(activation.get("source_snapshot_sha256", ""))
+    if _SHA256_RE.fullmatch(source_hash) is None:
+        raise ValueError("Phase 7 prospective activation requires exact source SHA-256")
+    cost = _finite_float(activation.get("acquisition_actual_cost_usd"), "acquisition_actual_cost_usd")
+    cap = _finite_float(activation.get("acquisition_hard_cap_usd"), "acquisition_hard_cap_usd")
+    if cost < 0.0 or cap < 0.0 or cost > cap:
+        raise ValueError("Phase 7 prospective activation acquisition cost exceeds its approved cap")
+    activated_at = module._parse_utc(str(activation.get("activated_at")))
+    if activated_at < serving_landed:
+        raise ValueError("Phase 7 prospective activation cannot precede the landed serving freeze")
+    return activated_at
 
 
 def _validate_decision_payload(record: dict[str, Any], module: Any) -> None:
@@ -256,7 +272,7 @@ def _validate_decision_payload(record: dict[str, Any], module: Any) -> None:
     target_end = module._parse_utc(str(record["target_end_timestamp"]))
     start_boundary = _prospective_start_boundary(module, contract)
     if decision <= start_boundary:
-        raise ValueError("prospective decision must occur strictly after the landed serving freeze")
+        raise ValueError("prospective decision must occur strictly after the prospective activation boundary")
     if planned_fill <= decision:
         raise ValueError("planned_fill_timestamp must follow decision_timestamp")
     if target_end <= planned_fill:
@@ -741,7 +757,7 @@ def append_session_observation(
     session = module._parse_utc(str(observation["session_timestamp"]))
     nxt = module._parse_utc(str(observation["next_session_timestamp"]))
     if session <= serving_boundary:
-        raise ValueError("prospective session accounting must start after the landed serving freeze")
+        raise ValueError("prospective session accounting must start after the prospective activation boundary")
     if nxt <= session:
         raise ValueError("next_session_timestamp must follow session_timestamp")
     written = module._parse_utc(recorded_at or str(observation["next_session_timestamp"]))

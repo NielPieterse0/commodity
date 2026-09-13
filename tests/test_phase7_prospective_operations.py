@@ -32,6 +32,14 @@ def _activate_contract(module, tmp_path: Path, *, merged_at: str = "2026-09-12T0
         "merge_commit_sha": "2" * 40,
         "merged_at": merged_at,
     }
+    payload["prospective_activation"] = {
+        "status": "active",
+        "activated_at": merged_at,
+        "source_snapshot_sha256": "4" * 64,
+        "acquisition_actual_cost_usd": 0.20,
+        "acquisition_hard_cap_usd": 0.30,
+        "historical_backfill_allowed": False,
+    }
     contract = tmp_path / "phase7-active.json"
     contract.write_text(json.dumps(payload, indent=2), encoding="utf-8")
     module.CONTRACT = contract
@@ -805,33 +813,26 @@ def test_new_decision_cannot_ignore_persisted_kill_state(tmp_path: Path) -> None
         )
 
 
-def test_landed_refreeze_still_blocks_operational_derivation_until_phase_activation(
-    tmp_path: Path,
-) -> None:
+def test_canonical_contract_activates_only_after_verified_catchup() -> None:
     module = _module()
     contract = json.loads(module.CONTRACT.read_text(encoding="utf-8"))
-    serving = contract["prospective_serving_contract"]
-    assert serving["status"] == "frozen_active"
-    assert serving["landing"] == {
-        "pull_request": 381,
-        "head_sha": "a8dfeb67614945f3e764d8ade39ac9f7eeb63095",
-        "merge_commit_sha": "969c2ec957e249d8b405a4b73d851e6321c5639b",
-        "merged_at": "2026-09-12T18:07:04Z",
-    }
-    with pytest.raises(ValueError, match="active prospective-evidence state"):
-        module.derive_and_append_decision(
-            {},
-            checkpoint_root=tmp_path,
-            databento_root=tmp_path,
-            specialist_history_cache_root=tmp_path / "history-cache",
-            **_runtime_args(tmp_path),
-            ledger=tmp_path / "prospective.jsonl",
-        )
+    activation = contract["prospective_activation"]
+    assert contract["status"] == "prospective_active"
+    assert activation["status"] == "active"
+    assert activation["source_snapshot_sha256"] == (
+        "54db4357e87d11ebf59510e6149a7dab8a6357d90bff8c7fe6343382ad7edfd0"
+    )
+    assert activation["latest_trade_date"] == "2026-09-11"
+    assert activation["historical_backfill_allowed"] is False
+    assert activation["acquisition_actual_cost_usd"] < activation["acquisition_hard_cap_usd"]
+    assert module._prospective_start_boundary(module._phase7_module(), contract) == (
+        module._phase7_module()._parse_utc(activation["activated_at"])
+    )
 
 
-def test_direct_decision_append_is_blocked_until_phase_activation(tmp_path: Path) -> None:
+def test_direct_decision_append_is_blocked_at_activation_boundary(tmp_path: Path) -> None:
     module = _module()
-    with pytest.raises(ValueError, match="active prospective-evidence state"):
+    with pytest.raises(ValueError, match="prospective activation boundary"):
         module.append_decision(
             _decision(module),
             ledger=tmp_path / "prospective.jsonl",
@@ -1083,10 +1084,10 @@ def test_operational_decision_records_deadline_miss_instead_of_late_decision(
     assert module.ledger_status(ledger)["missed_origins"] == 1
 
 
-def test_active_serving_contract_rejects_decision_before_its_landing(tmp_path: Path) -> None:
+def test_active_contract_rejects_decision_at_activation_boundary(tmp_path: Path) -> None:
     module = _module()
     _activate_contract(module, tmp_path, merged_at="2026-09-13T13:00:00Z")
-    with pytest.raises(ValueError, match="landed serving freeze"):
+    with pytest.raises(ValueError, match="prospective activation boundary"):
         module.append_decision(
             _decision(module),
             ledger=tmp_path / "prospective.jsonl",
@@ -1222,8 +1223,13 @@ def test_missed_fresh_origin_advances_cadence_and_cannot_be_backfilled(tmp_path:
     assert status["decision_events"] == 1
 
 
-def test_session_append_is_blocked_until_phase_activation(tmp_path: Path) -> None:
+def test_session_append_is_blocked_when_phase_is_deactivated(tmp_path: Path) -> None:
     module = _module()
+    payload = json.loads(module.CONTRACT.read_text(encoding="utf-8"))
+    payload["status"] = "prospective_activation_blocked"
+    contract = tmp_path / "phase7-blocked.json"
+    contract.write_text(json.dumps(payload, indent=2), encoding="utf-8")
+    module.CONTRACT = contract
     with pytest.raises(ValueError, match="active prospective-evidence state"):
         module.append_session_observation(
             _session(
@@ -1237,10 +1243,10 @@ def test_session_append_is_blocked_until_phase_activation(tmp_path: Path) -> Non
         )
 
 
-def test_session_append_cannot_precede_serving_landing(tmp_path: Path) -> None:
+def test_session_append_cannot_precede_activation_boundary(tmp_path: Path) -> None:
     module = _module()
     _activate_contract(module, tmp_path, merged_at="2026-09-14T01:00:00Z")
-    with pytest.raises(ValueError, match="after the landed serving freeze"):
+    with pytest.raises(ValueError, match="prospective activation boundary"):
         module.append_session_observation(
             _session(
                 "2026-09-14T00:00:00Z",

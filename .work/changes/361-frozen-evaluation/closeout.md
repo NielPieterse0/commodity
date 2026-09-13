@@ -43,10 +43,12 @@
 - Phase 7 is now explicitly paper-only. Saxo SIM and Saxo LIVE order submission remain prohibited and require a future explicit operator promotion decision; generic repository simulation does not authorize broker submission.
 - The operational `run-day` path performs any due prior-session accounting, automatic five-session settlement, canonical source freshness, exact-source specialist prewarm, the next frozen decision, and status reporting. Stale canonical source records an append-only origin miss against the exact latest available source snapshot and never backfills the missed cadence slot.
 - The simple market-only/no-modifier comparator is frozen to the persisted pre-specialist `baseline_position`, and v1 remains a permanent append-only paper control when later challengers are introduced.
-- Prospective activation is still blocked because retained canonical Databento coverage ends on 2026-08-12. The recorded quote for the 2026-08-13 through 2026-09-11 definition/statistics/OHLCV gap is `$0.237656090409`; automatic Databento spend authority remains `$0.00`, so no billable acquisition has been made.
+- The operator approved a one-time `$0.30` Databento catch-up cap. The exact 2026-08-13 through 2026-09-11 definition/statistics/OHLCV partition triple was acquired for `$0.23765609040857` actual billed cost, all provider-manifest hashes verified, and the Phase-7 verifier accepted aligned source snapshot `54db4357e87d11ebf59510e6149a7dab8a6357d90bff8c7fe6343382ad7edfd0` with latest trade date 2026-09-11.
+- The new source decoded and prewarmed successfully into 2,950 canonical rows and 760 OHLCV rows. This one-time approval does not change the standing automatic Databento spend authority from `$0.00`.
+- Prospective activation is prepared at `2026-09-13T13:27:47.972406+00:00` and machine-enforces no historical backfill, exact source identity and the approved acquisition cap. It does not become evidence authority until this activation change lands on the registered default branch.
 
 ## Research return
 
 - Phase-7 exit remains intentionally gated by the preregistered prospective contract: at least 365 elapsed days, 40 independent five-session episodes, 20 active exposures, including at least 5 long and 5 short, plus the frozen economic/risk gates.
 - Phase 8 / #362 is not eligible unless that prospective gate succeeds; Phase 8 cannot be used to rescue failed or inconclusive evidence.
-- The next valid action is to establish fresh exact canonical market-data coverage, then explicitly activate prospective paper evidence from that forward timestamp. No historical backfill may substitute for missed prospective decisions.
+- The next valid action is to land the explicit activation change, then create the first untouched forward paper decision from fresh exact-source inputs. No historical backfill may substitute for missed prospective decisions.

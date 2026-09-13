@@ -31,6 +31,7 @@
 - [x] Freeze Phase 7 to paper-only broker execution: Saxo SIM and LIVE submissions are explicitly prohibited until a future operator promotion decision, while generic repository simulation remains offline/internal only.
 - [x] Add one fail-closed `run-day` paper operations command covering due session accounting, automatic five-session settlement, canonical source freshness, specialist prewarm, next decision, and status; stale source consumes/logs the cadence slot without retrospective backfill.
 - [x] Freeze the market-only/no-modifier comparator and permanent v1 append-only control before the first prospective observation.
-- [ ] Acquire or otherwise authorize fresh exact canonical Databento coverage; automatic spend authority remains $0 and activation must remain blocked while the retained source is stale.
+- [x] Acquire the one-time operator-approved exact Databento catch-up for 2026-08-13 through 2026-09-11 under a $0.30 hard cap; actual billed cost was $0.23765609040857, all three provider manifests/hashes verified, and Phase-7 exact-source decode/prewarm passed.
+- [ ] Land the explicit prospective activation change on the registered default branch; the activation timestamp is fixed, historical decision backfill is prohibited, and no evidence may be written from the unlanded change.
 - [ ] Accumulate the frozen minimum prospective evidence without tuning.
 - [ ] Evaluate Phase-7 exit gate and only then determine Phase-8 eligibility.

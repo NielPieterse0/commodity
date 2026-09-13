@@ -1,0 +1,61 @@
+{
+  "schema_version": 1,
+  "phase_issue": 361,
+  "purpose": "initial prospective paper-v1 canonical market-data catch-up",
+  "operator_approval": {
+    "hard_cost_cap_usd": 0.3,
+    "scope": "one-time catch-up only; no standing Databento spend authority"
+  },
+  "request": {
+    "dataset": "GLBX.MDP3",
+    "symbol": "NG.FUT",
+    "stype_in": "parent",
+    "start_trade_date": "2026-08-13",
+    "end_trade_date": "2026-09-11",
+    "schemas": ["definition", "statistics", "ohlcv-1d"]
+  },
+  "live_preflight_quote_usd": {
+    "definition": 0.130459222943,
+    "statistics": 0.04628457129,
+    "ohlcv-1d": 0.060912296176,
+    "total": 0.237656090409
+  },
+  "actual_billed_usd": {
+    "definition": 0.13045922294259,
+    "statistics": 0.04628457129002,
+    "ohlcv-1d": 0.06091229617596,
+    "total": 0.23765609040857
+  },
+  "jobs": {
+    "definition": "GLBX-20260913-SBW3QH4LHX",
+    "statistics": "GLBX-20260913-VRYGRLTE6X",
+    "ohlcv-1d": "GLBX-20260913-NAV9EAYLWL"
+  },
+  "dbn_sha256": {
+    "definition": "25883cf0ce8d59a5141818c8d1449eedd1f5c37391ee30156e29a5234489ed47",
+    "statistics": "1ed4afafbc973afa91b12658bacf89bb0cc2322e95a27ee37ce21c0b9e6f0190",
+    "ohlcv-1d": "3db2fc93265ddab20ef64ddddf1392a3a2ba3d478eae9f7e1510ff65b35abec7"
+  },
+  "phase7_source_snapshot": {
+    "sha256": "54db4357e87d11ebf59510e6149a7dab8a6357d90bff8c7fe6343382ad7edfd0",
+    "latest_trade_date": "2026-09-11",
+    "complete": true
+  },
+  "specialist_history_cache": {
+    "canonical_rows": 2950,
+    "canonical_sha256": "669908608124979acaf6d41a49cf80e8ea6166103fbb3f205e0eeb4f3a6e136f",
+    "ohlcv_rows": 760,
+    "ohlcv_sha256": "3892a2b2ecce52525899b9a55fcecf279c90a634b4cc653009de88535049363b"
+  },
+  "verification": {
+    "provider_manifest_hashes_verified": true,
+    "aligned_exact_partition_triple_verified": true,
+    "phase7_offline_decode_and_prewarm_verified": true,
+    "protected_confirmation_accessed": false,
+    "historical_decision_backfill_allowed": false
+  },
+  "activation": {
+    "activated_at": "2026-09-13T13:27:47.972406+00:00",
+    "rule": "only prospective decisions created after this timestamp and after the activation change is landed on the registered default branch may count"
+  }
+}
