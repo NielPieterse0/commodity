@@ -1,7 +1,7 @@
 {
   "schema_version": 3,
   "phase_issue": 361,
-  "checked_on": "2026-09-12",
+  "checked_on": "2026-09-13",
   "protected_confirmation_accessed": false,
   "billable_acquisition_performed": false,
   "external_model_or_runtime_download_performed": false,
@@ -45,27 +45,26 @@
     "result": "exact_pinned_specialist_identity_machine_verified_locally"
   },
   "specialist_runtime": {
-    "windows_phase7_torch_available": false,
-    "windows_legacy_runtime_blocked_by_application_control": true,
-    "wsl_python_version": "3.12.3",
-    "wsl_torch_available": false,
-    "local_linux_python311_image": "ghcr.io/astral-sh/uv:python3.11-bookworm-slim",
-    "local_linux_python311_image_python_version": "3.11.14",
-    "local_linux_python311_image_torch_available": false,
-    "local_linux_torch_wheel_found": false,
-    "local_docker_image_with_torch_found": false,
-    "governed_external_acquisition_profiles_checked": [
-      "firecrawl-web",
-      "public-http-dataset"
-    ],
-    "public_http_dataset_content_class": "data-evidence",
-    "public_http_dataset_pytorch_host_authorized": false,
-    "governed_external_pytorch_acquisition_recipe_available": false,
+    "prior_legacy_windows_runtime_blocked_by_application_control": true,
+    "worktree_local_python_version": "3.11.9",
+    "worktree_local_torch_version": "2.13.0+cpu",
+    "worktree_local_cuda_available": false,
     "frozen_context_geometry_implemented": true,
     "prewarmed_cpu_runtime_wrapper_implemented": true,
-    "prewarmed_runtime_wrapper_real_torch_execution_verified": false,
-    "prewarmed_decision_latency_proven_before_frozen_fill": false,
-    "result": "blocked_on_governed_linux_torch_runtime_dependency"
+    "prewarmed_runtime_wrapper_real_torch_execution_verified": true,
+    "prewarmed_decision_latency_proven_before_frozen_fill": true,
+    "runtime_evidence_sha256": "460a71be1d81f2427ed55d6232881708bf72bf0a634ff946294ee701a329e48c",
+    "source_snapshot_sha256": "1e09c02ec5d355431a83b6b3739a4260849c60bee972bc1fd3a374680cff93ba",
+    "prewarmed_end_to_end_seconds": 19.56265,
+    "frozen_budget_seconds": 60.0,
+    "budget_margin_seconds": 40.43735,
+    "durable_temporary_decision_recorded": true,
+    "protected_confirmation_outcomes_accessed": false,
+    "billable_acquisition_performed": false,
+    "external_model_or_runtime_download_performed": false,
+    "saxo_order_submitted": false,
+    "prospective_activation_performed": false,
+    "result": "verified_runtime_proof"
   },
   "operational_surface": {
     "caller_recorded_at_override_exposed": false,
@@ -88,8 +87,8 @@
     "episode_window_economics_informational_only": true,
     "independent_episode_counting_integrated": true,
     "daily_session_ledger_remains_sole_economic_gate": true,
-    "focused_verification": "The landed refreeze tree passed canonical repository verification with 682 passed and 7 skipped plus all repository checks; GitHub CI also passed on the exact PR #381 head before merge. The current post-landing authority and operational-wiring change passes 55 focused Phase-7 tests, focused Ruff, deterministic documentation generation, and git diff --check.",
-    "result": "fail_closed_until_real_linux_torch_execution_latency_proof_and_fresh_source"
+    "focused_verification": "The landed refreeze tree passed canonical repository verification with 682 passed and 7 skipped plus all repository checks; GitHub CI also passed on the exact PR #381 head before merge. The current runtime-proof tree passes 54 focused Phase-7 tests, focused Ruff, deterministic documentation generation and git diff --check. Canonical verification exposed one explicit-newline-policy defect in the new cache-manifest write; that single source line was corrected and the targeted repository line-ending policy test passes.",
+    "result": "fail_closed_until_fresh_exact_source_prospective_coverage"
   },
-  "disposition": "The L3 serving refreeze is landed and its exact identity is recorded as the frozen prospective boundary, but do not activate prospective evidence collection yet. Exact retained TimesFM/Kronos source/checkpoint identities are machine-verified, the exact Phase-4 specialist context/profile geometry is encoded, the operational decision path now decodes exact-source Databento histories internally, re-verifies each bound source-file hash before decode, generates specialist outputs through the pinned prewarmed CPU-only runtime, derives the frozen pre-2023 market decision, and records a cadence-consuming serving_deadline_missed event instead of a late decision. Databento exact-contract session-price/source derivation and five-session episode settlement are also integrated. Episode-window PnL remains informational; the daily session ledger is the sole economic/risk gate. Remaining activation blockers are governed Linux PyTorch execution with measured durable decision-write latency inside the frozen one-minute window and fresh exact-source Databento prospective coverage. No protected 2023+ outcomes were opened and no billable acquisition, SIM order, or live trading occurred."
+  "disposition": "The L3 serving refreeze is landed and its exact identity is recorded as the frozen prospective boundary, but do not activate prospective evidence collection yet. Exact retained TimesFM/Kronos source/checkpoint identities are machine-verified, the exact Phase-4 specialist context/profile geometry is encoded, and the operational decision path decodes exact-source Databento histories internally, re-verifies each bound source-file hash before decode, generates specialist outputs through the pinned prewarmed CPU-only runtime, derives the frozen pre-2023 market decision, and records cadence-consuming misses instead of late or retrospectively backfilled decisions. The exact worktree-local CPU Torch runtime now has a durable dry-run proof at 19.56265 seconds inside the unchanged 60-second serving budget. Databento exact-contract session-price/source derivation and five-session episode settlement are integrated. Episode-window PnL remains informational; the daily session ledger is the sole economic/risk gate. The remaining activation blocker is fresh exact-source Databento prospective coverage followed by explicit activation after all frozen gates pass. No protected 2023+ outcomes were opened and no billable acquisition, Saxo SIM/LIVE order, or prospective activation occurred."
 }

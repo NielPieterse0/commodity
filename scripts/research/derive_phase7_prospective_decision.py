@@ -13,6 +13,7 @@ from typing import Any
 import numpy as np
 import pandas as pd
 
+from commodity.config import data_config
 from commodity.kronos import verify_kronos_source_checkout
 from commodity.market_only_phase2 import (
     _build_segmented_decision_origins,
@@ -23,8 +24,8 @@ from commodity.market_only_phase2 import (
     _target_ohlcv,
 )
 from commodity.providers.databento_futures import (
+    canonicalize_databento_dbn_archive,
     decode_databento_dbn_file,
-    normalize_databento_contract_history,
 )
 from commodity.stacking_policy import PolicyConfig, apply_specialist_modifiers
 from commodity.trading_decision_v0 import ExecutionCostAssumptions
@@ -636,28 +637,118 @@ def load_specialist_histories_from_databento(
     retrieved_at: object,
 ) -> tuple[pd.DataFrame, pd.DataFrame]:
     """Decode the verified exact-source partition into TimesFM/Kronos serving history."""
+    definition_path = _snapshot_schema_path(databento_root, source_snapshot, "definition")
+    statistics_path = _snapshot_schema_path(databento_root, source_snapshot, "statistics")
+    ohlcv_path = _snapshot_schema_path(databento_root, source_snapshot, "ohlcv-1d")
+    retrieved = _utc(retrieved_at, "specialist history retrieved_at").isoformat()
+    canonical, _ = canonicalize_databento_dbn_archive(
+        [definition_path],
+        [statistics_path],
+        schema=data_config()["canonical_contract_schema"],
+        product_code="NG",
+        retrieved_at=retrieved,
+    )
     definitions, _ = decode_databento_dbn_file(
-        _snapshot_schema_path(databento_root, source_snapshot, "definition"),
+        definition_path,
         expected_schema="definition",
         definition_product_code="NG",
     )
-    statistics, _ = decode_databento_dbn_file(
-        _snapshot_schema_path(databento_root, source_snapshot, "statistics"),
-        expected_schema="statistics",
-    )
     bars, _ = decode_databento_dbn_file(
-        _snapshot_schema_path(databento_root, source_snapshot, "ohlcv-1d"),
+        ohlcv_path,
         expected_schema="ohlcv-1d",
-    )
-    canonical, _ = normalize_databento_contract_history(
-        definitions,
-        statistics,
-        _utc(retrieved_at, "specialist history retrieved_at").isoformat(),
-        "NG",
     )
     ohlcv = _target_ohlcv(definitions, bars)
     if canonical.empty or ohlcv.empty:
         raise DecisionDerivationError("specialist Databento serving history is empty")
+    return canonical, ohlcv
+
+
+def _specialist_history_cache_dir(cache_root: Path, source_snapshot: dict[str, Any]) -> Path:
+    digest = str(source_snapshot.get("sha256", ""))
+    if _SHA_RE.fullmatch(digest) is None or source_snapshot.get("complete") is not True:
+        raise DecisionDerivationError("specialist history cache requires a complete source snapshot")
+    return Path(cache_root).resolve() / digest
+
+
+def prewarm_specialist_history_cache(
+    databento_root: Path,
+    *,
+    source_snapshot: dict[str, Any],
+    retrieved_at: object,
+    cache_root: Path,
+) -> dict[str, Any]:
+    """Decode once before the serving deadline and bind cached frames to the exact source."""
+    canonical, ohlcv = load_specialist_histories_from_databento(
+        databento_root,
+        source_snapshot=source_snapshot,
+        retrieved_at=retrieved_at,
+    )
+    cache_dir = _specialist_history_cache_dir(cache_root, source_snapshot)
+    cache_dir.mkdir(parents=True, exist_ok=True)
+    canonical_path = cache_dir / "canonical.parquet"
+    ohlcv_path = cache_dir / "ohlcv.parquet"
+    canonical_tmp = cache_dir / "canonical.parquet.tmp"
+    ohlcv_tmp = cache_dir / "ohlcv.parquet.tmp"
+    manifest_tmp = cache_dir / "manifest.json.tmp"
+    manifest_path = cache_dir / "manifest.json"
+    canonical.to_parquet(canonical_tmp, index=False)
+    ohlcv.to_parquet(ohlcv_tmp, index=False)
+    manifest = {
+        "schema_version": 1,
+        "source_snapshot_sha256": str(source_snapshot["sha256"]),
+        "canonical_sha256": _file_sha256(canonical_tmp),
+        "canonical_rows": len(canonical),
+        "ohlcv_sha256": _file_sha256(ohlcv_tmp),
+        "ohlcv_rows": len(ohlcv),
+    }
+    manifest_tmp.write_text(
+        json.dumps(manifest, indent=2, sort_keys=True) + "\n",
+        encoding="utf-8",
+        newline="\n",
+    )
+    canonical_tmp.replace(canonical_path)
+    ohlcv_tmp.replace(ohlcv_path)
+    manifest_tmp.replace(manifest_path)
+    return manifest
+
+
+def load_prewarmed_specialist_histories(
+    cache_root: Path,
+    *,
+    source_snapshot: dict[str, Any],
+) -> tuple[pd.DataFrame, pd.DataFrame]:
+    """Load only a cache whose manifest and frame hashes bind to the verified source snapshot."""
+    cache_dir = _specialist_history_cache_dir(cache_root, source_snapshot)
+    manifest_path = cache_dir / "manifest.json"
+    if not manifest_path.is_file():
+        raise DecisionDerivationError("prewarmed specialist history cache is unavailable")
+    try:
+        manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError) as exc:
+        raise DecisionDerivationError("prewarmed specialist history cache manifest is invalid") from exc
+    if not isinstance(manifest, dict) or manifest.get("schema_version") != 1:
+        raise DecisionDerivationError("prewarmed specialist history cache manifest is invalid")
+    if manifest.get("source_snapshot_sha256") != source_snapshot.get("sha256"):
+        raise DecisionDerivationError("prewarmed specialist history cache source mismatch")
+
+    canonical_path = cache_dir / "canonical.parquet"
+    ohlcv_path = cache_dir / "ohlcv.parquet"
+    expected_canonical = str(manifest.get("canonical_sha256", ""))
+    expected_ohlcv = str(manifest.get("ohlcv_sha256", ""))
+    if _SHA_RE.fullmatch(expected_canonical) is None or not canonical_path.is_file():
+        raise DecisionDerivationError("cached canonical history is unavailable")
+    if _file_sha256(canonical_path) != expected_canonical:
+        raise DecisionDerivationError("cached canonical history hash mismatch")
+    if _SHA_RE.fullmatch(expected_ohlcv) is None or not ohlcv_path.is_file():
+        raise DecisionDerivationError("cached OHLCV history is unavailable")
+    if _file_sha256(ohlcv_path) != expected_ohlcv:
+        raise DecisionDerivationError("cached OHLCV history hash mismatch")
+    canonical = pd.read_parquet(canonical_path)
+    ohlcv = pd.read_parquet(ohlcv_path)
+    if canonical.empty or len(canonical) != manifest.get("canonical_rows"):
+        raise DecisionDerivationError("cached canonical history row count mismatch")
+    if ohlcv.empty or len(ohlcv) != manifest.get("ohlcv_rows"):
+        raise DecisionDerivationError("cached OHLCV history row count mismatch")
     return canonical, ohlcv
 
 

@@ -1,0 +1,70 @@
+{
+  "schema_version": 1,
+  "phase_issue": 361,
+  "checked_on": "2026-09-13",
+  "benchmark_role": "non_prospective_runtime_latency_dry_run",
+  "conclusion": "verified",
+  "protected_confirmation_outcomes_accessed": false,
+  "billable_acquisition_performed": false,
+  "external_model_or_runtime_download_performed": false,
+  "saxo_order_submitted": false,
+  "prospective_activation_performed": false,
+  "environment": {
+    "execution_environment": "worktree_local_venv",
+    "python_version": "3.11.9",
+    "platform": "Windows-10-10.0.26200-SP0",
+    "torch_version": "2.13.0+cpu",
+    "cuda_available": false
+  },
+  "timing": {
+    "frozen_budget_seconds": 60.0,
+    "prewarmed_end_to_end_seconds": 19.56265,
+    "budget_margin_seconds": 40.43735,
+    "cache_load_seconds": 0.028513,
+    "model_load_seconds_excluded_from_prewarmed_budget": 15.939907,
+    "warmup_inference_seconds": 10.214703
+  },
+  "durable_dry_run": {
+    "event_type": "decision",
+    "planned_fill_timestamp": "2026-09-14T00:00:00+00:00",
+    "recorded_at": "2026-09-13T11:30:42.860462+00:00",
+    "ledger_sha256": "ec3f83d737149d304e3e7a97900eb94864261666b5e5097472fdca1f7f9c3298"
+  },
+  "market_source": {
+    "source_snapshot_sha256": "1e09c02ec5d355431a83b6b3739a4260849c60bee972bc1fd3a374680cff93ba",
+    "source_latest_trade_date": "2026-08-12",
+    "canonical_rows": 23348,
+    "canonical_sha256": "5acbc70572f78c69f2839c985591e3bac665ed7824f841519f946d558f303c2f",
+    "ohlcv_rows": 5678,
+    "ohlcv_sha256": "25a41700f271acbebff3cdcd8b290a732eea214fd885dab0f2cedf5e7a15b152"
+  },
+  "source_file_sha256": {
+    "derive_phase7_prospective_decision.py": "3472f6b91b076c1e98f1ff08deb962af1fe0c4d4d330925c1fc3fbe29553becf",
+    "run_phase7_prospective_operations.py": "63adfd53b2451f38ccc8ef86964723d476a897ab50b9143066037e55b4b484cd"
+  },
+  "asset_identity": {
+    "timesfm_source_revision": "3dae50b20d7a724981e8ea36cda75578f80dd2dc",
+    "timesfm_model_revision": "1d952420fba87f3c6dee4f240de0f1a0fbc790e3",
+    "timesfm_checkpoint_sha256": "2f776efe6245e42b24bc4153ffdf61810140210e4bd3b01fb21f7aa779ab6ce8",
+    "timesfm_source_zip_sha256": "95a024fff8e5f2adb3ec6245de1a76322d68d4c09f7c7bd60a5251102af8dfb6",
+    "kronos_source_revision": "67b630e67f6a18c9e9be918d9b4337c960db1e9a",
+    "kronos_model_revision": "2b554741eca47781b64468546e77fef3e85130e6",
+    "kronos_model_checkpoint_sha256": "abff193acab6db1a0368e9773e75799d11403b6d054ee6d5f0a11aeabc5f4b83",
+    "kronos_tokenizer_revision": "0e0117387f39004a9016484a186a908917e22426",
+    "kronos_tokenizer_checkpoint_sha256": "59d85f6af76a2c3b8240ea06cb21db4213b4eeca053f246b23e29cf832fc6bee"
+  },
+  "verification": {
+    "focused_test_files": [
+      "tests/test_phase7_prospective_decision_derivation.py",
+      "tests/test_phase7_prospective_operations.py"
+    ],
+    "focused_tests_passed": 54,
+    "focused_tests_failed": 0,
+    "focused_tests_duration_seconds": 5.0
+  },
+  "activation_blockers_remaining": [
+    "fresh_exact_source_prospective_coverage",
+    "explicit_prospective_activation_after_all_gates_pass"
+  ],
+  "interpretation": "The exact pinned prewarmed CPU serving path completed source revalidation, cache verification/load, TimesFM/Kronos inference, frozen pre-2023 market-model reconstruction/fit, decision derivation and durable temporary ledger append in 19.56265 seconds inside the unchanged 60-second budget, leaving 40.43735 seconds margin. Model loading and warmup occurred before the serving window as required by the prewarm design. This dry run does not activate prospective evidence or authorize live capital."
+}
