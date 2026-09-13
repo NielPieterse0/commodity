@@ -120,6 +120,23 @@ def _risk_contract() -> dict[str, Any]:
     return payload
 
 
+def _paper_execution_contract() -> dict[str, Any]:
+    execution = _load_json(CONTRACT).get("prospective_execution")
+    if not isinstance(execution, dict):
+        raise TypeError("Phase-7 prospective execution contract is unavailable")
+    if execution.get("active_stage") != "paper":
+        raise ValueError("Phase-7 prospective execution stage must remain paper")
+    if execution.get("saxo_sim_order_submission_allowed") is not False:
+        raise ValueError("Phase-7 Saxo SIM order submission must remain prohibited")
+    if execution.get("saxo_live_order_submission_allowed") is not False:
+        raise ValueError("Phase-7 Saxo LIVE order submission must remain prohibited")
+    if execution.get("promotion_requires_explicit_operator_decision") is not True:
+        raise ValueError("Phase-7 broker promotion requires an explicit operator decision")
+    if execution.get("promotion_sequence") != ["paper", "saxo_sim", "saxo_live"]:
+        raise ValueError("Phase-7 broker promotion sequence has drifted")
+    return execution
+
+
 def _episode_settlement_rule() -> dict[str, Any]:
     contract = _load_json(CONTRACT)
     serving = contract.get("prospective_serving_contract")
@@ -352,14 +369,36 @@ def _next_prospective_origin_index(module: Any, ledger: Path) -> int:
     return len(observed)
 
 
-def _origin_fill_exists(module: Any, ledger: Path, planned_fill: Any) -> bool:
+def _origin_for_fill(module: Any, ledger: Path, planned_fill: Any) -> dict[str, Any] | None:
     _, events = module._read_prospective_events(ledger)
     expected = module._parse_utc(str(planned_fill))
-    return any(
-        event.get("event_type") in {"decision", "origin_miss"}
-        and module._parse_utc(str(event.get("planned_fill_timestamp"))) == expected
+    matches = [
+        event
         for event in events
-    )
+        if event.get("event_type") in {"decision", "origin_miss"}
+        and module._parse_utc(str(event.get("planned_fill_timestamp"))) == expected
+    ]
+    if len(matches) > 1:
+        raise ValueError("multiple prospective origin records target the same planned fill")
+    return None if not matches else matches[0]
+
+
+def _origin_fill_exists(module: Any, ledger: Path, planned_fill: Any) -> bool:
+    return _origin_for_fill(module, ledger, planned_fill) is not None
+
+
+def _session_for_start(module: Any, ledger: Path, session_timestamp: Any) -> dict[str, Any] | None:
+    _, events = module._read_prospective_events(ledger)
+    expected = module._parse_utc(str(session_timestamp))
+    matches = [
+        event
+        for event in events
+        if event.get("event_type") == "session"
+        and module._parse_utc(str(event.get("session_timestamp"))) == expected
+    ]
+    if len(matches) > 1:
+        raise ValueError("multiple prospective session records share the same start timestamp")
+    return None if not matches else matches[0]
 
 
 def record_origin_miss(
@@ -434,6 +473,7 @@ def _assert_prospective_serving_active() -> Any:
     module = _phase7_module()
     contract = _load_json(CONTRACT)
     module.verify_bound_identity(contract)
+    _paper_execution_contract()
     return _prospective_start_boundary(module, contract)
 
 
@@ -1149,6 +1189,125 @@ def ledger_status(ledger: Path = DEFAULT_LEDGER) -> dict[str, Any]:
     }
 
 
+def run_daily_paper_cycle(
+    decision_bundle: dict[str, Any],
+    *,
+    session_bundle: dict[str, Any] | None,
+    checkpoint_root: Path,
+    databento_root: Path,
+    specialist_history_cache_root: Path,
+    timesfm_runtime_root: Path,
+    timesfm_source_zip: Path,
+    timesfm_cache_dir: Path,
+    kronos_source_root: Path,
+    kronos_cache_dir: Path,
+    ledger: Path = DEFAULT_LEDGER,
+) -> dict[str, Any]:
+    """Run one fail-closed paper-only operational cycle over the frozen Phase-7 path."""
+    _assert_prospective_serving_active()
+    execution = _paper_execution_contract()
+    origin = decision_bundle.get("current_origin")
+    if not isinstance(origin, dict) or not origin.get("trade_date"):
+        raise ValueError("daily paper cycle requires current_origin.trade_date")
+
+    module = _phase7_module()
+    session_result = None
+    if session_bundle is not None:
+        session_timestamp = session_bundle.get("session_timestamp")
+        if session_timestamp is None:
+            raise ValueError("daily paper session bundle requires session_timestamp")
+        existing_session = _session_for_start(module, ledger, session_timestamp)
+        if existing_session is not None:
+            requested_next = module._parse_utc(str(session_bundle.get("next_session_timestamp")))
+            existing_next = module._parse_utc(str(existing_session["next_session_timestamp"]))
+            if requested_next != existing_next:
+                raise ValueError("daily paper retry session boundary does not match persisted session")
+            session_result = existing_session
+        else:
+            session_result = derive_and_append_session_observation(
+                session_bundle,
+                databento_root=databento_root,
+                ledger=ledger,
+            )
+
+    existing_origin = _origin_for_fill(module, ledger, decision_bundle["planned_fill_timestamp"])
+    if existing_origin is not None:
+        requested_decision = module._parse_utc(str(decision_bundle["decision_timestamp"]))
+        persisted_decision = module._parse_utc(str(existing_origin["decision_timestamp"]))
+        if requested_decision != persisted_decision:
+            raise ValueError("daily paper retry decision timestamp does not match persisted origin")
+        return {
+            "execution_stage": str(execution["active_stage"]),
+            "session": session_result,
+            "prewarm": None,
+            "decision": existing_origin,
+            "source_freshness": {"fresh": None, "reason": "origin_already_persisted"},
+            "status": ledger_status(ledger),
+        }
+
+    derivation = _derivation_module()
+    freshness = derivation.preflight_databento_freshness(
+        databento_root,
+        required_trade_date=origin["trade_date"],
+    )
+    if freshness.get("fresh") is not True:
+        latest_trade_date = freshness.get("latest_trade_date")
+        if not latest_trade_date:
+            raise RuntimeError("prospective Databento source is missing; paper cycle failed closed")
+        miss_reason = freshness.get("reason")
+        if miss_reason != "prospective_market_source_stale":
+            raise RuntimeError(
+                "unexpected prospective source-freshness failure; paper cycle failed closed"
+            )
+        stale_snapshot = derivation.verified_databento_source_snapshot(
+            databento_root,
+            required_trade_date=latest_trade_date,
+        )
+        miss = record_origin_miss(
+            decision_timestamp=str(decision_bundle["decision_timestamp"]),
+            planned_fill_timestamp=str(decision_bundle["planned_fill_timestamp"]),
+            source_snapshot_sha256=str(stale_snapshot["sha256"]),
+            miss_reason=miss_reason,
+            ledger=ledger,
+            recorded_at=_utc_now(),
+        )
+        return {
+            "execution_stage": str(execution["active_stage"]),
+            "session": session_result,
+            "prewarm": None,
+            "decision": miss,
+            "source_freshness": freshness,
+            "status": ledger_status(ledger),
+        }
+
+    prewarm = prewarm_specialist_history_cache(
+        databento_root=databento_root,
+        required_trade_date=origin["trade_date"],
+        retrieved_at=_utc_now(),
+        cache_root=specialist_history_cache_root,
+    )
+    decision = derive_and_append_decision(
+        decision_bundle,
+        checkpoint_root=checkpoint_root,
+        databento_root=databento_root,
+        specialist_history_cache_root=specialist_history_cache_root,
+        timesfm_runtime_root=timesfm_runtime_root,
+        timesfm_source_zip=timesfm_source_zip,
+        timesfm_cache_dir=timesfm_cache_dir,
+        kronos_source_root=kronos_source_root,
+        kronos_cache_dir=kronos_cache_dir,
+        ledger=ledger,
+    )
+    return {
+        "execution_stage": str(execution["active_stage"]),
+        "session": session_result,
+        "prewarm": prewarm,
+        "decision": decision,
+        "source_freshness": freshness,
+        "status": ledger_status(ledger),
+    }
+
+
 def _parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(description="Operate the frozen Phase-7 prospective evidence ledger")
     parser.add_argument("--ledger", type=Path, default=DEFAULT_LEDGER)
@@ -1184,6 +1343,21 @@ def _parser() -> argparse.ArgumentParser:
     session.add_argument("bundle", type=Path)
     session.add_argument("--databento-root", type=Path, required=True)
 
+    daily = sub.add_parser(
+        "run-day",
+        help="run one paper-only daily session/prewarm/decision/settlement cycle",
+    )
+    daily.add_argument("decision_bundle", type=Path)
+    daily.add_argument("--session-bundle", type=Path)
+    daily.add_argument("--checkpoint-root", type=Path, required=True)
+    daily.add_argument("--databento-root", type=Path, required=True)
+    daily.add_argument("--specialist-history-cache-root", type=Path, required=True)
+    daily.add_argument("--timesfm-runtime-root", type=Path, required=True)
+    daily.add_argument("--timesfm-source-zip", type=Path, required=True)
+    daily.add_argument("--timesfm-cache-dir", type=Path, required=True)
+    daily.add_argument("--kronos-source-root", type=Path, required=True)
+    daily.add_argument("--kronos-cache-dir", type=Path, required=True)
+
     sub.add_parser("status", help="validate the hash chain and report operational counters")
     return parser
 
@@ -1214,6 +1388,22 @@ def main() -> None:
         result = derive_and_append_session_observation(
             _load_json(args.bundle),
             databento_root=args.databento_root,
+            ledger=args.ledger,
+        )
+    elif args.command == "run-day":
+        result = run_daily_paper_cycle(
+            _load_json(args.decision_bundle),
+            session_bundle=(
+                None if args.session_bundle is None else _load_json(args.session_bundle)
+            ),
+            checkpoint_root=args.checkpoint_root,
+            databento_root=args.databento_root,
+            specialist_history_cache_root=args.specialist_history_cache_root,
+            timesfm_runtime_root=args.timesfm_runtime_root,
+            timesfm_source_zip=args.timesfm_source_zip,
+            timesfm_cache_dir=args.timesfm_cache_dir,
+            kronos_source_root=args.kronos_source_root,
+            kronos_cache_dir=args.kronos_cache_dir,
             ledger=args.ledger,
         )
     else:

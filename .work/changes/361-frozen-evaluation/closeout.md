@@ -36,7 +36,17 @@
 - A post-landing implementation audit found that the first logger revision only appended complete records after outcomes existed, which did not prove the forecast/action was recorded prospectively. This was treated as an implementation defect, not a scientific redesign.
 - The logger now persists a separate decision event before outcome availability and only permits later settlement against that exact pre-existing decision hash. No protected or post-freeze outcome was opened to make this repair.
 
+## Current operational closeout
+
+- The prospective serving-contract amendment landed in PR #381 as `969c2ec957e249d8b405a4b73d851e6321c5639b`.
+- The exact prewarmed TimesFM/Kronos serving proof then landed in PR #383 as `15a2e93d39e1ceb663fe998c5ffa562632ef96fc`; exact-head CI passed and measured prewarmed end-to-end decision latency remains 19.56265 seconds inside the frozen 60-second budget.
+- Phase 7 is now explicitly paper-only. Saxo SIM and Saxo LIVE order submission remain prohibited and require a future explicit operator promotion decision; generic repository simulation does not authorize broker submission.
+- The operational `run-day` path performs any due prior-session accounting, automatic five-session settlement, canonical source freshness, exact-source specialist prewarm, the next frozen decision, and status reporting. Stale canonical source records an append-only origin miss against the exact latest available source snapshot and never backfills the missed cadence slot.
+- The simple market-only/no-modifier comparator is frozen to the persisted pre-specialist `baseline_position`, and v1 remains a permanent append-only paper control when later challengers are introduced.
+- Prospective activation is still blocked because retained canonical Databento coverage ends on 2026-08-12. The recorded quote for the 2026-08-13 through 2026-09-11 definition/statistics/OHLCV gap is `$0.237656090409`; automatic Databento spend authority remains `$0.00`, so no billable acquisition has been made.
+
 ## Research return
 
 - Phase-7 exit remains intentionally gated by the preregistered prospective contract: at least 365 elapsed days, 40 independent five-session episodes, 20 active exposures, including at least 5 long and 5 short, plus the frozen economic/risk gates.
 - Phase 8 / #362 is not eligible unless that prospective gate succeeds; Phase 8 cannot be used to rescue failed or inconclusive evidence.
+- The next valid action is to establish fresh exact canonical market-data coverage, then explicitly activate prospective paper evidence from that forward timestamp. No historical backfill may substitute for missed prospective decisions.

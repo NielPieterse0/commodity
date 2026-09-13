@@ -27,5 +27,10 @@
 - [x] Prove the exact pinned TimesFM/Kronos serving runtime can execute in the governed worktree-local CPU Torch runtime and durably record the required decision inside the frozen 60-second planned-fill budget; measured prewarmed end-to-end latency is 19.56265 seconds with 40.43735 seconds margin.
 - [x] Preregister the episode-settlement rule at L3 before any outcome access, derive each episode only from one persisted decision plus exactly five gap-free verified session events, and keep episode window economics informational while the daily session ledger remains the sole economic/risk gate.
 - [x] Freeze and land the L3 prospective Kronos path-availability/runtime/settlement rule; PR #381 merged as `969c2ec957e249d8b405a4b73d851e6321c5639b`, and that exact landing identity is the prospective serving-contract boundary.
+- [x] Land the exact prewarmed serving-runtime proof through PR #383 as merge `15a2e93d39e1ceb663fe998c5ffa562632ef96fc`; exact-head CI passed and the runtime proof remains outcome-blind and non-activating.
+- [x] Freeze Phase 7 to paper-only broker execution: Saxo SIM and LIVE submissions are explicitly prohibited until a future operator promotion decision, while generic repository simulation remains offline/internal only.
+- [x] Add one fail-closed `run-day` paper operations command covering due session accounting, automatic five-session settlement, canonical source freshness, specialist prewarm, next decision, and status; stale source consumes/logs the cadence slot without retrospective backfill.
+- [x] Freeze the market-only/no-modifier comparator and permanent v1 append-only control before the first prospective observation.
+- [ ] Acquire or otherwise authorize fresh exact canonical Databento coverage; automatic spend authority remains $0 and activation must remain blocked while the retained source is stale.
 - [ ] Accumulate the frozen minimum prospective evidence without tuning.
 - [ ] Evaluate Phase-7 exit gate and only then determine Phase-8 eligibility.
