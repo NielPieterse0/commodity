@@ -51,6 +51,12 @@
       "decision": "Phase 5 selected s-veto__l-none__p-half__u-none under the frozen median-year objective. Treat it as the single development candidate, not evidence of confirmed edge: aggregate P&L and worst-year performance are weaker than the no-modifier comparator and remove-one specialist ablations improve aggregate P&L. Hand Phase 6 one bounded horizon/refit-cadence robustness investigation before broader expansion.",
       "status": "active",
       "source_record": "research/programmes/003-natural-gas-trading-decision-system/phase5-stacking-policy-v1.json"
+    },
+    {
+      "id": "phase7-databento-subscription-cost-gate",
+      "decision": "Do not purchase the $199/month Databento CME Standard subscription for v1 at present. Reconsider recurring data spend of about $200/month only after the trading system demonstrates about $600/month of trading profit, providing approximately 3x monthly profit coverage of that cost. Until then, frozen v1 remains fail-closed when exact Databento inputs are unavailable; Saxo or another source must not silently replace the frozen v1 scientific source.",
+      "status": "active",
+      "source_record": "research/programmes/003-natural-gas-trading-decision-system/phase7-frozen-evaluation-v1.json"
     }
   ]
 }
