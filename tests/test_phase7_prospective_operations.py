@@ -63,7 +63,7 @@ def test_prewarm_specialist_history_cache_binds_verified_source(
 
     class _Derivation:
         @staticmethod
-        def verified_databento_source_snapshot(root, *, required_trade_date):
+        def verified_databento_serving_history_snapshot(root, *, required_trade_date):
             observed["source_args"] = (root, required_trade_date)
             return {
                 "sha256": "a" * 64,
@@ -136,6 +136,24 @@ def test_daily_paper_cycle_orchestrates_session_prewarm_decision_and_status(
                 "reason": None,
             }
 
+        @staticmethod
+        def verified_databento_serving_history_snapshot(root, *, required_trade_date):
+            return {"sha256": "a" * 64, "complete": True, "latest_trade_date": "2026-09-13"}
+
+        @staticmethod
+        def load_prewarmed_specialist_histories(cache_root, *, source_snapshot):
+            return "canonical-history", "ohlcv-history"
+
+        @staticmethod
+        def derive_current_market_origin(canonical, ohlcv, *, trade_date, decision_timestamp):
+            calls.append(("origin", str(trade_date)))
+            return {
+                "trade_date": "2026-09-13T00:00:00+00:00",
+                "available_at": "2026-09-13T11:59:00+00:00",
+                "contract_id": "NGX6",
+                "features": {},
+            }
+
     monkeypatch.setattr(module, "_derivation_module", lambda: _FreshDerivation)
     monkeypatch.setattr(
         module,
@@ -163,12 +181,7 @@ def test_daily_paper_cycle_orchestrates_session_prewarm_decision_and_status(
         "decision_timestamp": "2026-09-13T12:00:00Z",
         "planned_fill_timestamp": "2026-09-14T00:00:00Z",
         "target_session_timestamps": ["2026-09-15T00:00:00Z"],
-        "current_origin": {
-            "trade_date": "2026-09-13T00:00:00Z",
-            "available_at": "2026-09-13T11:59:00Z",
-            "contract_id": "NGX6",
-            "features": {},
-        },
+        "origin_trade_date": "2026-09-13T00:00:00Z",
     }
     session_bundle = {
         "session_timestamp": "2026-09-12T00:00:00Z",
@@ -183,7 +196,10 @@ def test_daily_paper_cycle_orchestrates_session_prewarm_decision_and_status(
         ledger=tmp_path / "ledger.jsonl",
         **_runtime_args(tmp_path),
     )
-    assert [name for name, _ in calls] == ["session", "prewarm", "decision", "status"]
+    assert [name for name, _ in calls] == ["session", "prewarm", "origin", "decision", "status"]
+    decision_call = next(value for name, value in calls if name == "decision")
+    assert "current_origin" in decision_call
+    assert "origin_trade_date" not in decision_call
     assert result["execution_stage"] == "paper"
     assert result["status"]["hash_chain_valid"] is True
 
@@ -234,12 +250,7 @@ def test_daily_paper_cycle_logs_stale_source_as_consumed_origin(
         "decision_timestamp": "2026-09-13T12:00:00Z",
         "planned_fill_timestamp": "2026-09-14T00:00:00Z",
         "target_session_timestamps": ["2026-09-15T00:00:00Z"],
-        "current_origin": {
-            "trade_date": "2026-09-13T00:00:00Z",
-            "available_at": "2026-09-13T11:59:00Z",
-            "contract_id": "NGX6",
-            "features": {},
-        },
+        "origin_trade_date": "2026-09-13T00:00:00Z",
     }
     result = module.run_daily_paper_cycle(
         decision_bundle,
@@ -254,6 +265,76 @@ def test_daily_paper_cycle_logs_stale_source_as_consumed_origin(
     assert result["decision"]["event_type"] == "origin_miss"
     assert result["decision"]["miss_reason"] == "prospective_market_source_stale"
     assert result["prewarm"] is None
+
+
+def test_daily_paper_cycle_logs_unusable_current_origin_after_prewarm(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    module = _module()
+    _activate_contract(module, tmp_path)
+    calls: list[str] = []
+
+    class _UnusableDerivation:
+        class DecisionDerivationError(RuntimeError):
+            pass
+
+        @staticmethod
+        def preflight_databento_freshness(root, *, required_trade_date):
+            return {"fresh": True, "latest_trade_date": "2026-09-13", "reason": None}
+
+        @staticmethod
+        def verified_databento_serving_history_snapshot(root, *, required_trade_date):
+            return {"sha256": "c" * 64, "complete": True}
+
+        @staticmethod
+        def load_prewarmed_specialist_histories(cache_root, *, source_snapshot):
+            return "canonical-history", "ohlcv-history"
+
+        @staticmethod
+        def derive_current_market_origin(canonical, ohlcv, *, trade_date, decision_timestamp):
+            raise _UnusableDerivation.DecisionDerivationError("final settlement unavailable")
+
+    monkeypatch.setattr(module, "_derivation_module", lambda: _UnusableDerivation)
+    monkeypatch.setattr(
+        module,
+        "prewarm_specialist_history_cache",
+        lambda **kwargs: calls.append("prewarm") or {"source_snapshot_sha256": "c" * 64},
+    )
+    monkeypatch.setattr(
+        module,
+        "record_origin_miss",
+        lambda **kwargs: calls.append("miss") or {
+            "event_type": "origin_miss",
+            "miss_reason": kwargs["miss_reason"],
+            "source_snapshot_sha256": kwargs["source_snapshot_sha256"],
+        },
+    )
+    monkeypatch.setattr(
+        module,
+        "derive_and_append_decision",
+        lambda *args, **kwargs: pytest.fail("unusable origin must not derive a decision"),
+    )
+    monkeypatch.setattr(module, "ledger_status", lambda ledger: {"origin_misses": 1})
+
+    result = module.run_daily_paper_cycle(
+        {
+            "decision_timestamp": "2026-09-13T12:00:00Z",
+            "planned_fill_timestamp": "2026-09-14T00:00:00Z",
+            "target_session_timestamps": ["2026-09-15T00:00:00Z"],
+            "origin_trade_date": "2026-09-13T00:00:00Z",
+        },
+        session_bundle=None,
+        checkpoint_root=tmp_path / "checkpoint",
+        databento_root=tmp_path / "databento",
+        specialist_history_cache_root=tmp_path / "history-cache",
+        ledger=tmp_path / "ledger.jsonl",
+        **_runtime_args(tmp_path),
+    )
+    assert calls == ["prewarm", "miss"]
+    assert result["decision"]["miss_reason"] == "prospective_market_origin_unavailable"
+    assert result["decision"]["source_snapshot_sha256"] == "c" * 64
+    assert result["source_freshness"]["fresh"] is False
+    assert result["source_freshness"]["reason"] == "prospective_market_origin_unavailable"
 
 
 def test_daily_paper_cycle_retry_reuses_persisted_origin_without_recomputing(
@@ -280,12 +361,7 @@ def test_daily_paper_cycle_retry_reuses_persisted_origin_without_recomputing(
             "decision_timestamp": "2026-09-13T12:00:00Z",
             "planned_fill_timestamp": "2026-09-14T00:00:00Z",
             "target_session_timestamps": ["2026-09-15T00:00:00Z"],
-            "current_origin": {
-                "trade_date": "2026-09-13T00:00:00Z",
-                "available_at": "2026-09-13T11:59:00Z",
-                "contract_id": "NGX6",
-                "features": {},
-            },
+            "origin_trade_date": "2026-09-13T00:00:00Z",
         },
         session_bundle=None,
         checkpoint_root=tmp_path / "checkpoint",
@@ -865,7 +941,7 @@ def test_operational_decision_wires_internal_source_and_specialist_generation(
             return True
 
         @staticmethod
-        def verified_databento_source_snapshot(root, *, required_trade_date):
+        def verified_databento_serving_history_snapshot(root, *, required_trade_date):
             observed["source_root"] = root
             observed["source_date"] = required_trade_date
             return {
@@ -960,7 +1036,7 @@ def test_operational_decision_consumes_origin_when_prewarm_cache_is_unavailable(
             return True
 
         @staticmethod
-        def verified_databento_source_snapshot(root, *, required_trade_date):
+        def verified_databento_serving_history_snapshot(root, *, required_trade_date):
             return {
                 "sha256": "b" * 64,
                 "latest_trade_date": "2026-09-13",
@@ -1023,7 +1099,7 @@ def test_operational_decision_records_deadline_miss_instead_of_late_decision(
             return True
 
         @staticmethod
-        def verified_databento_source_snapshot(root, *, required_trade_date):
+        def verified_databento_serving_history_snapshot(root, *, required_trade_date):
             return {
                 "sha256": "b" * 64,
                 "latest_trade_date": "2026-09-13",

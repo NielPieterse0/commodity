@@ -545,7 +545,7 @@ def prewarm_specialist_history_cache(
 ) -> dict[str, Any]:
     """Prepare exact-source specialist history before the decision-time serving window."""
     derivation = _derivation_module()
-    source_snapshot = derivation.verified_databento_source_snapshot(
+    source_snapshot = derivation.verified_databento_serving_history_snapshot(
         databento_root,
         required_trade_date=required_trade_date,
     )
@@ -600,7 +600,7 @@ def derive_and_append_decision(
     phase7 = _phase7_module()
     derivation = _derivation_module()
     origin_index = _next_prospective_origin_index(phase7, ledger)
-    source_snapshot = derivation.verified_databento_source_snapshot(
+    source_snapshot = derivation.verified_databento_serving_history_snapshot(
         databento_root,
         required_trade_date=phase7._parse_utc(str(current_origin["trade_date"])),
     )
@@ -1222,9 +1222,11 @@ def run_daily_paper_cycle(
     """Run one fail-closed paper-only operational cycle over the frozen Phase-7 path."""
     _assert_prospective_serving_active()
     execution = _paper_execution_contract()
-    origin = decision_bundle.get("current_origin")
-    if not isinstance(origin, dict) or not origin.get("trade_date"):
-        raise ValueError("daily paper cycle requires current_origin.trade_date")
+    if "current_origin" in decision_bundle:
+        raise ValueError("daily paper cycle forbids caller-supplied current_origin")
+    origin_trade_date = decision_bundle.get("origin_trade_date")
+    if origin_trade_date is None:
+        raise ValueError("daily paper cycle requires origin_trade_date")
 
     module = _phase7_module()
     session_result = None
@@ -1264,7 +1266,7 @@ def run_daily_paper_cycle(
     derivation = _derivation_module()
     freshness = derivation.preflight_databento_freshness(
         databento_root,
-        required_trade_date=origin["trade_date"],
+        required_trade_date=origin_trade_date,
     )
     if freshness.get("fresh") is not True:
         latest_trade_date = freshness.get("latest_trade_date")
@@ -1298,12 +1300,51 @@ def run_daily_paper_cycle(
 
     prewarm = prewarm_specialist_history_cache(
         databento_root=databento_root,
-        required_trade_date=origin["trade_date"],
+        required_trade_date=origin_trade_date,
         retrieved_at=_utc_now(),
         cache_root=specialist_history_cache_root,
     )
+    serving_snapshot = derivation.verified_databento_serving_history_snapshot(
+        databento_root,
+        required_trade_date=origin_trade_date,
+    )
+    canonical_history, ohlcv_history = derivation.load_prewarmed_specialist_histories(
+        specialist_history_cache_root,
+        source_snapshot=serving_snapshot,
+    )
+    try:
+        current_origin = derivation.derive_current_market_origin(
+            canonical_history,
+            ohlcv_history,
+            trade_date=origin_trade_date,
+            decision_timestamp=decision_bundle["decision_timestamp"],
+        )
+    except derivation.DecisionDerivationError:
+        miss_reason = "prospective_market_origin_unavailable"
+        miss = record_origin_miss(
+            decision_timestamp=str(decision_bundle["decision_timestamp"]),
+            planned_fill_timestamp=str(decision_bundle["planned_fill_timestamp"]),
+            source_snapshot_sha256=str(serving_snapshot["sha256"]),
+            miss_reason=miss_reason,
+            ledger=ledger,
+            recorded_at=_utc_now(),
+        )
+        unusable = dict(freshness)
+        unusable["fresh"] = False
+        unusable["reason"] = miss_reason
+        return {
+            "execution_stage": str(execution["active_stage"]),
+            "session": session_result,
+            "prewarm": prewarm,
+            "decision": miss,
+            "source_freshness": unusable,
+            "status": ledger_status(ledger),
+        }
+    operational_bundle = dict(decision_bundle)
+    operational_bundle.pop("origin_trade_date", None)
+    operational_bundle["current_origin"] = current_origin
     decision = derive_and_append_decision(
-        decision_bundle,
+        operational_bundle,
         checkpoint_root=checkpoint_root,
         databento_root=databento_root,
         specialist_history_cache_root=specialist_history_cache_root,
