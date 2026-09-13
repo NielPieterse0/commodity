@@ -1,0 +1,71 @@
+{
+  "schema_version": 1,
+  "programme_id": "003-natural-gas-trading-decision-system",
+  "phase": 7,
+  "issue": 361,
+  "benchmark_id": "v1-qualified-historical-2023plus-v1",
+  "status": "authorized_pending_execution",
+  "operator_authorized_date": "2026-09-13",
+  "purpose": "Record frozen v1 performance on the reserved post-2022 historical block before v2 development starts.",
+  "evidence_class": "foundation_model_qualified_historical_evidence",
+  "clean_confirmation_eligible": false,
+  "qualification_reason": "TimesFM and Kronos checkpoint pretraining exposure prevents a pristine historical-confirmation claim, but the block remained unused for v1 selection and is valid as a one-shot frozen historical benchmark.",
+  "window": {
+    "start_trade_date": "2023-01-01",
+    "latest_source_trade_date": "2026-09-11",
+    "origin_rule": "include only origins with fill on or after 2023-01-01 whose complete five-session target is present inside retained exact-source data"
+  },
+  "frozen_candidate": {
+    "policy_config_id": "s-veto__l-none__p-half__u-none",
+    "market_model_id": "histgb-core-v1",
+    "training_rule": "fit once using verified target-complete origins ending no later than 2022-12-31; never refit on benchmark outcomes",
+    "horizon_sessions": 5,
+    "risk_policy_id": "phase1_standard_ng_v0",
+    "cost_profile_id": "base"
+  },
+  "specialist_contract": {
+    "timesfm": "exact pinned TimesFM 2.5 point return and interval width at the frozen information cutoff",
+    "kronos_one_step": "exact pinned Kronos-base close return at the frozen information cutoff",
+    "kronos_path": {
+      "model": "exact pinned Kronos-base",
+      "pred_len": 5,
+      "inference_profile": "upstream_usage_defaults",
+      "cycle_length": 109,
+      "active_residues_zero_based": [0, 13, 27, 40, 54, 68, 81, 95],
+      "benchmark_counter_start": "zero at the first otherwise eligible benchmark origin",
+      "inactive_semantics": "terminal path return unavailable and no path modifier may fire"
+    }
+  },
+  "replay_contract": {
+    "starting_capital_usd": 100000.0,
+    "initial_position": 0.0,
+    "initial_risk_state": "active",
+    "risk_state_persistence": "continuous across the full benchmark window; no calendar-year reset",
+    "execution_source": "frozen Databento-derived session path and execution-open semantics",
+    "source_substitution": "forbidden",
+    "historical_backfill_tuning": "forbidden",
+    "policy_reselection": "forbidden",
+    "post_result_parameter_change": "forbidden"
+  },
+  "reported_metrics": [
+    "net_pnl_usd_after_frozen_trading_costs",
+    "ending_equity_usd",
+    "total_transaction_cost_usd",
+    "maximum_peak_drawdown_fraction",
+    "annualized_simple_return",
+    "average_calendar_month_net_pnl_usd",
+    "positive_and_negative_calendar_month_counts",
+    "execution_side_count",
+    "active_long_short_flat_session_counts",
+    "long_short_flat_net_pnl_usd",
+    "risk_kill_triggered_and_reason"
+  ],
+  "informational_comparator": {
+    "id": "market_only_no_modifier",
+    "policy_config_id": "s-none__l-none__p-none__u-none",
+    "role": "fixed informational comparator only; may not change v1 after the result"
+  },
+  "interpretation_rule": "The result becomes v1's immutable historical benchmark for v2 comparisons. It may inform v2 design only after it is durably recorded; it must never trigger tuning or rewriting of v1.",
+  "prospective_evidence_rule": "This historical benchmark does not replace or upgrade the separate true-forward Phase-7 prospective evidence contract.",
+  "live_capital_authorized": false
+}
