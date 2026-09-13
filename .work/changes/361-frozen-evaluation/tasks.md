@@ -34,5 +34,7 @@
 - [x] Acquire the one-time operator-approved exact Databento catch-up for 2026-08-13 through 2026-09-11 under a $0.30 hard cap; actual billed cost was $0.23765609040857, all three provider manifests/hashes verified, and Phase-7 exact-source decode/prewarm passed.
 - [x] Land the explicit prospective activation change on the registered default branch; PR #385 merged as `febaa4ab9b549211a42887eb8839764a3c839a5b`, the activation timestamp is fixed, and historical decision backfill remains prohibited.
 - [x] Before the first prospective observation, remove caller-supplied market-origin inputs, stitch the exact 807-calendar-day serving history, reuse its hash-bound prewarm cache, and fail closed with a consumed origin miss when a physical partition lacks the frozen final-settlement inputs required to reconstruct the Phase-2 origin.
+- [x] Land the pre-first-observation hardening through PR #386 as merge `04874a7b15635b392a76dc98172e7f7cd562609a`; exact-head CI passed.
+- [x] Record the first untouched post-activation cadence event: origin index 0 for the 2026-09-14 planned fill failed closed as `prospective_market_origin_unavailable`, then land that hash-chained ledger record through PR #387 as merge `5cb95dd83e53e2c959f10d5b235d2adffc788681`.
 - [ ] Accumulate the frozen minimum prospective evidence without tuning.
 - [ ] Evaluate Phase-7 exit gate and only then determine Phase-8 eligibility.
