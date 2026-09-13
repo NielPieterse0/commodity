@@ -3,7 +3,7 @@
   "programme_id": "003-natural-gas-trading-decision-system",
   "phase": 7,
   "issue": 361,
-  "status": "prospective_activation_blocked",
+  "status": "prospective_active",
   "protected_confirmation_accessed": false,
   "freeze_landing": {
     "pull_request": 372,
@@ -11,7 +11,7 @@
     "merge_commit_sha": "74fe9eb182ab9f82bad0b5aa4bb99ade22f19886",
     "merged_at": "2026-09-12T04:30:20Z"
   },
-  "claim_boundary": "historical development evidence remains non-confirmatory; the serving-contract amendment is landed and the pinned specialist runtime proof is verified, but no prospective observation may count until fresh exact-source coverage is available and Phase 7 is explicitly activated for prospective evidence",
+  "claim_boundary": "historical development evidence remains non-confirmatory; fresh exact-source coverage and the pinned specialist runtime are verified, and only untouched decisions created strictly after the recorded activation timestamp and after this activation change lands on the registered default branch may count as prospective evidence",
   "frozen_candidate": {
     "config_id": "s-veto__l-none__p-half__u-none",
     "policy_refit_cadence": "retain_phase5_two_year_outer_block_cadence_no_annual_refit",
@@ -32,6 +32,20 @@
     "saxo_live_promotion_status": "not_approved",
     "promotion_gate": "material positive untouched prospective paper return after frozen costs, acceptable drawdown, seasonal/regime stability, sufficient independent trades, demonstrable improvement versus frozen simple comparators, and no dependence on one lucky period or fragile signal",
     "simulation_mode_semantics": "generic repository simulation remains offline/internal only; it does not authorize Saxo SIM order submission"
+  },
+  "prospective_activation": {
+    "status": "active",
+    "activated_at": "2026-09-13T13:27:47.972406+00:00",
+    "source_snapshot_sha256": "54db4357e87d11ebf59510e6149a7dab8a6357d90bff8c7fe6343382ad7edfd0",
+    "latest_trade_date": "2026-09-11",
+    "source_partition_start": "2026-08-13",
+    "source_partition_end": "2026-09-11",
+    "acquisition_actual_cost_usd": 0.23765609040857,
+    "acquisition_hard_cap_usd": 0.3,
+    "acquisition_receipt": ".work/changes/361-frozen-evaluation/phase7-data-acquisition-receipt.json",
+    "historical_backfill_allowed": false,
+    "authority": "operator-approved bounded Databento catch-up followed by exact-source hash and decode verification",
+    "first_evidence_rule": "decision_timestamp must be strictly after activated_at and the activation change must already be landed on the registered default branch"
   },
   "prospective_serving_contract": {
     "status": "frozen_active",
@@ -124,7 +138,7 @@
     }
   },
   "prospective_evidence_contract": {
-    "start_boundary": "first decision timestamp strictly after the prospective serving-contract refreeze is landed and activated on the registered default branch",
+    "start_boundary": "first decision timestamp strictly after prospective_activation.activated_at, with the activation change already landed on the registered default branch; no earlier historical origin may be backfilled",
     "minimum_elapsed_days": 365,
     "minimum_independent_decision_episodes": 40,
     "minimum_active_exposure_episodes": 20,

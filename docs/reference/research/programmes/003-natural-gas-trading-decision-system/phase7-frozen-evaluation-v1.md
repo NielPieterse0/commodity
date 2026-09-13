@@ -12,9 +12,9 @@ Source: `research/programmes/003-natural-gas-trading-decision-system/phase7-froz
 | `programme_id` | 003-natural-gas-trading-decision-system |
 | `phase` | 7 |
 | `issue` | 361 |
-| `status` | prospective_activation_blocked |
+| `status` | prospective_active |
 | `protected_confirmation_accessed` | false |
-| `claim_boundary` | historical development evidence remains non-confirmatory; the serving-contract amendment is landed and the pinned specialist runtime proof is verified, but no prospective observation may count until fresh exact-source coverage is available and Phase 7 is explicitly activated for prospective evidence |
+| `claim_boundary` | historical development evidence remains non-confirmatory; fresh exact-source coverage and the pinned specialist runtime are verified, and only untouched decisions created strictly after the recorded activation timestamp and after this activation change lands on the registered default branch may count as prospective evidence |
 | `live_capital_authorized` | false |
 
 ## Structure
@@ -31,6 +31,7 @@ Source: `research/programmes/003-natural-gas-trading-decision-system/phase7-froz
 | `claim_boundary` | str |
 | `frozen_candidate` | object (7 keys) |
 | `prospective_execution` | object (10 keys) |
+| `prospective_activation` | object (12 keys) |
 | `prospective_serving_contract` | object (19 keys) |
 | `bound_configuration_sha256` | object (5 keys) |
 | `historical_evidence` | object (2 keys) |
