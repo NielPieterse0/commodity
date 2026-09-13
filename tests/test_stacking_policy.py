@@ -12,6 +12,7 @@ from commodity.stacking_policy import (
     build_prospective_policy_decisions,
     fit_timesfm_uncertainty_state,
     replay_fractional_policy,
+    replay_post_freeze_policy,
     select_policy_from_prior_oos,
     validate_phase5_evidence_boundary,
 )
@@ -331,6 +332,25 @@ def test_replay_expires_a_signal_at_its_target_end() -> None:
     assert ledger.loc[1, "target_position"] == 1.0
     assert ledger.loc[2, "target_position"] == 0.0
     assert ledger.loc[2, "no_trade_reason"] == "forecast_horizon_expired"
+
+
+def test_post_freeze_replay_preserves_accounting_without_opening_phase5_boundary() -> None:
+    path = _path_for_replay().copy()
+    decisions = _decisions(0.5).copy()
+    dates = pd.date_range("2023-01-03", periods=4, freq="D", tz="UTC")
+    path["trade_date"] = dates
+    path["session_open"] = dates
+    decisions["trade_date"] = dates
+    with pytest.raises(Phase5PolicyError):
+        replay_fractional_policy(
+            path, decisions, _risk(), _costs(), contract_multiplier=10000.0, enforce_risk=False
+        )
+    ledger, summary = replay_post_freeze_policy(
+        path, decisions, _risk(), _costs(), contract_multiplier=10000.0, enforce_risk=False
+    )
+    assert summary["live_trading_allowed"] is False
+    assert ledger.loc[0, "execution_side_count"] == pytest.approx(0.5)
+    assert ledger.loc[0, "transaction_cost_usd"] == pytest.approx(0.5 * _costs().per_side_usd)
 
 
 def test_selection_uses_only_years_before_outer_boundary() -> None:

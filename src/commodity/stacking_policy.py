@@ -225,7 +225,7 @@ def apply_specialist_modifiers(
     return PolicyDecision(position=position, modifiers=tuple(modifiers))
 
 
-def replay_fractional_policy(
+def _replay_fractional_policy(
     path: pd.DataFrame,
     decisions: pd.DataFrame,
     risk: PaperRiskPolicy,
@@ -233,6 +233,7 @@ def replay_fractional_policy(
     *,
     contract_multiplier: float,
     enforce_risk: bool,
+    enforce_phase5_boundary: bool,
 ) -> tuple[pd.DataFrame, dict[str, Any]]:
     required_path = {
         "trade_date",
@@ -248,8 +249,9 @@ def replay_fractional_policy(
     missing = sorted(required_decisions - set(decisions.columns))
     if missing:
         raise Phase5PolicyError(f"policy decisions missing columns: {missing}")
-    validate_phase5_evidence_boundary(path)
-    validate_phase5_evidence_boundary(decisions)
+    if enforce_phase5_boundary:
+        validate_phase5_evidence_boundary(path)
+        validate_phase5_evidence_boundary(decisions)
     multiplier = _finite_float(contract_multiplier, "contract multiplier")
     if multiplier <= 0:
         raise Phase5PolicyError("contract multiplier must be positive")
@@ -400,6 +402,42 @@ def replay_fractional_policy(
         "live_trading_allowed": False,
     }
     return ledger, summary
+
+
+def replay_fractional_policy(
+    path: pd.DataFrame,
+    decisions: pd.DataFrame,
+    risk: PaperRiskPolicy,
+    costs: ExecutionCostAssumptions,
+    *,
+    contract_multiplier: float,
+    enforce_risk: bool,
+) -> tuple[pd.DataFrame, dict[str, Any]]:
+    """Replay Phase-5 historical evidence while retaining its protected-period guard."""
+    return _replay_fractional_policy(
+        path, decisions, risk, costs,
+        contract_multiplier=contract_multiplier,
+        enforce_risk=enforce_risk,
+        enforce_phase5_boundary=True,
+    )
+
+
+def replay_post_freeze_policy(
+    path: pd.DataFrame,
+    decisions: pd.DataFrame,
+    risk: PaperRiskPolicy,
+    costs: ExecutionCostAssumptions,
+    *,
+    contract_multiplier: float,
+    enforce_risk: bool,
+) -> tuple[pd.DataFrame, dict[str, Any]]:
+    """Replay an explicitly authorized post-freeze window with identical accounting semantics."""
+    return _replay_fractional_policy(
+        path, decisions, risk, costs,
+        contract_multiplier=contract_multiplier,
+        enforce_risk=enforce_risk,
+        enforce_phase5_boundary=False,
+    )
 
 
 def select_policy_from_prior_oos(

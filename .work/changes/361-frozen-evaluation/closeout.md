@@ -58,6 +58,14 @@
 - PR #389 recorded the live-source feasibility boundary and merged as `c09d8e5d62da5621a1f4097932eeaec34d5aef74` after exact-head CI passed.
 - With that merge and the operator cost decision recorded, v1 implementation/development closeout is complete and the benchmark is frozen. Its prospective evidence ledger may continue accumulating untouched observations, but that ongoing observation does not authorize tuning v1 and does not block starting v2 as a separately versioned challenger.
 
+## Qualified historical benchmark authorization
+
+- On 2026-09-13 the operator authorized one final frozen-v1 historical benchmark before v2 begins: consume the reserved 2023+ block exactly once, without tuning or reselection, and preserve the result as the immutable v2 comparison baseline.
+- The benchmark is preregistered in `phase7-v1-qualified-historical-benchmark-prereg-v1.json` before any reserved-window P&L is scored. It uses the final frozen v1 candidate, one pre-2023 market-model fit, exact pinned TimesFM/Kronos identities, the frozen 8/109 Kronos-path cadence, continuous paper-risk state, frozen costs and exact Databento source semantics.
+- Because TimesFM/Kronos checkpoint pretraining exposure cannot be excluded, this result must be labelled `foundation_model_qualified_historical_evidence`, not pristine confirmation. It remains separate from the stronger true-forward Phase-7 prospective evidence contract.
+- At this authorization stage no 2023+ benchmark P&L, drawdown or outcome metric has been calculated or inspected.
+- The pre-result benchmark implementation passed canonical verification (`701 passed, 7 skipped`, all repository checks and git-whitespace passed) and one bounded independent code-quality review with no findings or unknowns; review source fingerprint `3d32600da8f44b3214aba8e4b60d0225a1700b1d2530db9937b35ccd4ee00b99`.
+
 ## Research return
 
 - Phase-7 exit remains intentionally gated by the preregistered prospective contract: at least 365 elapsed days, 40 independent five-session episodes, 20 active exposures, including at least 5 long and 5 short, plus the frozen economic/risk gates.
