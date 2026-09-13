@@ -9,6 +9,11 @@
   "owned_paths": [
     ".work/changes/361-frozen-evaluation/**",
     "research/programmes/003-natural-gas-trading-decision-system/phase7-frozen-evaluation-v1.json",
+    "research/programmes/003-natural-gas-trading-decision-system/phase7-v1-qualified-historical-benchmark-prereg-v1.json",
+    "research/programmes/003-natural-gas-trading-decision-system/phase7-v1-qualified-historical-benchmark-result-v1.json",
+    "research/programmes/003-natural-gas-trading-decision-system/phase7-v1-qualified-historical-benchmark-*.csv",
+    "research/programmes/003-natural-gas-trading-decision-system/decisions.json",
+    "scripts/research/run_phase7_v1_qualified_historical_benchmark.py",
     "scripts/research/run_phase7_frozen_evaluation.py",
     "scripts/research/run_phase7_prospective_operations.py",
     "scripts/research/derive_phase7_prospective_decision.py",

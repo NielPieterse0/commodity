@@ -37,6 +37,6 @@
 - [x] Land the pre-first-observation hardening through PR #386 as merge `04874a7b15635b392a76dc98172e7f7cd562609a`; exact-head CI passed.
 - [x] Record the first untouched post-activation cadence event: origin index 0 for the 2026-09-14 planned fill failed closed as `prospective_market_origin_unavailable`, then land that hash-chained ledger record through PR #387 as merge `5cb95dd83e53e2c959f10d5b235d2adffc788681`.
 - [x] Resolve the v1 same-day Databento operating decision: operator declined the $199/month live subscription for now and set a reconsideration gate at about $600/month demonstrated trading profit for roughly 3x coverage of a ~$200/month recurring data cost. Frozen v1 therefore continues fail-closed on unavailable exact-source inputs; Saxo may not silently replace its scientific source.
-- [ ] Land the operator-authorized one-shot v1 qualified historical benchmark preregistration before any 2023+ scoring, then execute it exactly once and record the result as the immutable v2 comparison benchmark without tuning v1.
+- [x] Land the operator-authorized one-shot v1 qualified historical benchmark preregistration before any 2023+ scoring, execute it exactly once without tuning v1, and record the completed result plus hash-bound audit evidence as the immutable v2 comparison benchmark.
 - [ ] Accumulate the frozen minimum prospective evidence without tuning; this ongoing observation does not block closing v1 development or starting a separately versioned v2 challenger.
 - [ ] Evaluate Phase-7 exit gate and only then determine Phase-8 eligibility.

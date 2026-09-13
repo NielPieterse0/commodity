@@ -1,0 +1,119 @@
+{
+  "benchmark_id": "v1-qualified-historical-2023plus-v1",
+  "clean_confirmation_eligible": false,
+  "comparison": {
+    "ending_equity_delta_usd": 0.0,
+    "net_pnl_delta_usd": 0.0,
+    "same_risk_kill_reason": true
+  },
+  "completed_at_utc": "2026-09-13T20:13:47Z",
+  "coverage": {
+    "benchmark_origin_count": 805,
+    "first_trade_date": "2023-01-02",
+    "kronos_path_origin_count": 60,
+    "last_trade_date": "2026-09-11"
+  },
+  "evidence_class": "foundation_model_qualified_historical_evidence",
+  "evidence_files": {
+    "kronos_one_step_features": {
+      "path": "research/programmes/003-natural-gas-trading-decision-system/phase7-v1-qualified-historical-benchmark-kronos-one-step-features.csv",
+      "rows": 805,
+      "sha256": "6470839d0ad1317bb94e0543140ea3d4629f09be2be6b8158fd3b96f96eefd95"
+    },
+    "kronos_path_features": {
+      "path": "research/programmes/003-natural-gas-trading-decision-system/phase7-v1-qualified-historical-benchmark-kronos-path-features.csv",
+      "rows": 60,
+      "sha256": "706cecd4ef23a53f0b91475072159ad07ac261cd363e5393818bc169aff02809"
+    },
+    "market_only_comparator_ledger": {
+      "path": "research/programmes/003-natural-gas-trading-decision-system/phase7-v1-qualified-historical-benchmark-market-only-ledger.csv",
+      "rows": 996,
+      "sha256": "e591a2bea03a91469bc7e56e1086e5d0ba153adfdcc9a907f030483c580d782f"
+    },
+    "timesfm_features": {
+      "path": "research/programmes/003-natural-gas-trading-decision-system/phase7-v1-qualified-historical-benchmark-timesfm-features.csv",
+      "rows": 805,
+      "sha256": "79540ad65a74fd1a0369c8ab54815c54e30bd0ac86236d5e851596867b86c575"
+    },
+    "v1_ledger": {
+      "path": "research/programmes/003-natural-gas-trading-decision-system/phase7-v1-qualified-historical-benchmark-v1-ledger.csv",
+      "rows": 996,
+      "sha256": "c72d1203f19b3a38ae53cf1260c7949af7550054ff8f41921f605be56369d0cc"
+    }
+  },
+  "execution_boundary": {
+    "live_capital_authorized": false,
+    "post_result_v1_tuning_allowed": false,
+    "protected_historical_outcomes_accessed": true,
+    "v1_frozen_unchanged": true
+  },
+  "interpretation_boundary": "The result becomes v1's immutable historical benchmark for v2 comparisons. It may inform v2 design only after it is durably recorded; it must never trigger tuning or rewriting of v1.",
+  "issue": 361,
+  "market_only_no_modifier_comparator": {
+    "active_session_counts": {
+      "flat": 995,
+      "long": 1,
+      "short": 0
+    },
+    "annualized_simple_return": -0.006823054114158636,
+    "average_calendar_month_net_pnl_usd": -55.99999999999993,
+    "calendar_month_count": 45,
+    "ending_equity_usd": 97480.0,
+    "execution_side_count": 2.0,
+    "first_trade_date": "2023-01-02",
+    "last_trade_date": "2026-09-11",
+    "maximum_peak_drawdown_fraction": 0.0252,
+    "negative_calendar_month_count": 1,
+    "net_pnl_usd_after_frozen_trading_costs": -2520.0,
+    "net_pnl_usd_by_position_side": {
+      "flat": -15.0,
+      "long": -2504.999999999997,
+      "short": 0.0
+    },
+    "positive_calendar_month_count": 0,
+    "risk_kill_reason": "daily_loss_limit",
+    "risk_kill_triggered": true,
+    "risk_shutdown_sessions": 995,
+    "total_transaction_cost_usd": 30.0,
+    "zero_calendar_month_count": 44
+  },
+  "phase": 7,
+  "preregistration": {
+    "path": "research/programmes/003-natural-gas-trading-decision-system/phase7-v1-qualified-historical-benchmark-prereg-v1.json",
+    "sha256": "d41b5c84d3187baeb9575fbd8c18037e0711a2e5e73163bf71401b79821b1d1d"
+  },
+  "programme_id": "003-natural-gas-trading-decision-system",
+  "prospective_evidence_rule": "This historical benchmark does not replace or upgrade the separate true-forward Phase-7 prospective evidence contract.",
+  "raw_runtime_result_sha256": "631c32d1ccfa0d73f469ade1b72538bf5ed154b172bb7e81259544527f241026",
+  "runtime_path_policy": "Machine-specific runtime paths from the execution result are intentionally not persisted; all retained evidence is repository-relative and hash-bound.",
+  "schema_version": 1,
+  "status": "complete",
+  "v1": {
+    "active_session_counts": {
+      "flat": 995,
+      "long": 1,
+      "short": 0
+    },
+    "annualized_simple_return": -0.006823054114158636,
+    "average_calendar_month_net_pnl_usd": -55.99999999999993,
+    "calendar_month_count": 45,
+    "ending_equity_usd": 97480.0,
+    "execution_side_count": 2.0,
+    "first_trade_date": "2023-01-02",
+    "last_trade_date": "2026-09-11",
+    "maximum_peak_drawdown_fraction": 0.0252,
+    "negative_calendar_month_count": 1,
+    "net_pnl_usd_after_frozen_trading_costs": -2520.0,
+    "net_pnl_usd_by_position_side": {
+      "flat": -15.0,
+      "long": -2504.999999999997,
+      "short": 0.0
+    },
+    "positive_calendar_month_count": 0,
+    "risk_kill_reason": "daily_loss_limit",
+    "risk_kill_triggered": true,
+    "risk_shutdown_sessions": 995,
+    "total_transaction_cost_usd": 30.0,
+    "zero_calendar_month_count": 44
+  }
+}

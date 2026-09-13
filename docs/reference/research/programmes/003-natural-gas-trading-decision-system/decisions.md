@@ -21,4 +21,4 @@ Source: `research/programmes/003-natural-gas-trading-decision-system/decisions.j
 | `zoom_level` | str |
 | `programme_id` | str |
 | `generated_projection` | bool |
-| `decisions` | array (10 items) |
+| `decisions` | array (11 items) |

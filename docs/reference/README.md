@@ -220,6 +220,7 @@ This directory is generated from current machine-readable repository artifacts.
 - [`research/programmes/003-natural-gas-trading-decision-system/phase7-data-acquisition-v1.json`](research/programmes/003-natural-gas-trading-decision-system/phase7-data-acquisition-v1.md)
 - [`research/programmes/003-natural-gas-trading-decision-system/phase7-frozen-evaluation-v1.json`](research/programmes/003-natural-gas-trading-decision-system/phase7-frozen-evaluation-v1.md)
 - [`research/programmes/003-natural-gas-trading-decision-system/phase7-v1-qualified-historical-benchmark-prereg-v1.json`](research/programmes/003-natural-gas-trading-decision-system/phase7-v1-qualified-historical-benchmark-prereg-v1.md)
+- [`research/programmes/003-natural-gas-trading-decision-system/phase7-v1-qualified-historical-benchmark-result-v1.json`](research/programmes/003-natural-gas-trading-decision-system/phase7-v1-qualified-historical-benchmark-result-v1.md)
 - [`research/programmes/003-natural-gas-trading-decision-system/programme.json`](research/programmes/003-natural-gas-trading-decision-system/programme.md)
 - [`research/programmes/003-natural-gas-trading-decision-system/revisit-triggers.json`](research/programmes/003-natural-gas-trading-decision-system/revisit-triggers.md)
 - [`research/programmes/003-natural-gas-trading-decision-system/sealed-windows.json`](research/programmes/003-natural-gas-trading-decision-system/sealed-windows.md)
