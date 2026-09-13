@@ -14,7 +14,7 @@ Source: `research/programmes/003-natural-gas-trading-decision-system/phase7-froz
 | `issue` | 361 |
 | `status` | prospective_activation_blocked |
 | `protected_confirmation_accessed` | false |
-| `claim_boundary` | historical development evidence remains non-confirmatory; the serving-contract amendment is landed and frozen, but no prospective observation may count until the pinned specialist runtime proof is verified, fresh exact-source coverage is available and Phase 7 is explicitly activated for prospective evidence |
+| `claim_boundary` | historical development evidence remains non-confirmatory; the serving-contract amendment is landed and the pinned specialist runtime proof is verified, but no prospective observation may count until fresh exact-source coverage is available and Phase 7 is explicitly activated for prospective evidence |
 | `live_capital_authorized` | false |
 
 ## Structure

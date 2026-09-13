@@ -464,7 +464,6 @@ def test_specialist_histories_are_decoded_from_bound_databento_source(
     snapshot = {"manifest": {"files": []}}
     observed: list[str] = []
     definitions = pd.DataFrame({"definition": [1]})
-    statistics = pd.DataFrame({"statistics": [1]})
     bars = pd.DataFrame({"bars": [1]})
     canonical = pd.DataFrame(
         {
@@ -497,19 +496,19 @@ def test_specialist_histories_are_decoded_from_bound_databento_source(
         if expected_schema == "definition":
             assert kwargs["definition_product_code"] == "NG"
             return definitions, {}
-        if expected_schema == "statistics":
-            return statistics, {}
+        assert expected_schema == "ohlcv-1d"
         return bars, {}
 
+    canonicalized: dict[str, object] = {}
+
+    def _canonicalize(definition_paths, statistics_paths, **kwargs):
+        canonicalized["definition_paths"] = definition_paths
+        canonicalized["statistics_paths"] = statistics_paths
+        canonicalized["kwargs"] = kwargs
+        return canonical, {}
+
     monkeypatch.setattr(module, "decode_databento_dbn_file", _decode)
-    monkeypatch.setattr(
-        module,
-        "normalize_databento_contract_history",
-        lambda defs, stats, retrieved_at, product_code: (
-            canonical,
-            {"retrieved_at": retrieved_at, "product_code": product_code},
-        ),
-    )
+    monkeypatch.setattr(module, "canonicalize_databento_dbn_archive", _canonicalize)
     monkeypatch.setattr(module, "_target_ohlcv", lambda defs, raw_bars: ohlcv)
 
     actual_canonical, actual_ohlcv = module.load_specialist_histories_from_databento(
@@ -517,9 +516,90 @@ def test_specialist_histories_are_decoded_from_bound_databento_source(
         source_snapshot=snapshot,
         retrieved_at="2026-09-13T11:59:00Z",
     )
-    assert observed == ["definition", "statistics", "ohlcv-1d"]
+    assert observed == ["definition", "ohlcv-1d"]
+    assert canonicalized["definition_paths"] == [tmp_path / "definition"]
+    assert canonicalized["statistics_paths"] == [tmp_path / "statistics"]
+    assert canonicalized["kwargs"]["product_code"] == "NG"
+    assert canonicalized["kwargs"]["retrieved_at"] == "2026-09-13T11:59:00+00:00"
     pd.testing.assert_frame_equal(actual_canonical, canonical)
     pd.testing.assert_frame_equal(actual_ohlcv, ohlcv)
+
+
+def test_specialist_history_cache_is_bound_to_exact_source_snapshot(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    module = _module()
+    snapshot = {
+        "sha256": "a" * 64,
+        "latest_trade_date": "2026-09-13",
+        "complete": True,
+        "manifest": {"files": []},
+    }
+    canonical = pd.DataFrame(
+        {
+            "trade_date": [pd.Timestamp("2026-09-13", tz="UTC")],
+            "available_at": [pd.Timestamp("2026-09-13T11:59:00Z")],
+            "contract_id": ["NGX6"],
+            "settle": [3.0],
+        }
+    )
+    ohlcv = pd.DataFrame(
+        {
+            "trade_date": [pd.Timestamp("2026-09-13", tz="UTC")],
+            "contract_id": ["NGX6"],
+            "open": [3.0], "high": [3.1], "low": [2.9], "close": [3.05], "volume": [100.0],
+        }
+    )
+    monkeypatch.setattr(
+        module,
+        "load_specialist_histories_from_databento",
+        lambda root, *, source_snapshot, retrieved_at: (canonical, ohlcv),
+    )
+    cache_root = tmp_path / "history-cache"
+    manifest = module.prewarm_specialist_history_cache(
+        tmp_path / "databento",
+        source_snapshot=snapshot,
+        retrieved_at="2026-09-13T11:30:00Z",
+        cache_root=cache_root,
+    )
+    assert manifest["source_snapshot_sha256"] == "a" * 64
+    monkeypatch.setattr(
+        module,
+        "load_specialist_histories_from_databento",
+        lambda *args, **kwargs: pytest.fail("decision path must not decode DBN after prewarm"),
+    )
+    actual_canonical, actual_ohlcv = module.load_prewarmed_specialist_histories(
+        cache_root, source_snapshot=snapshot
+    )
+    pd.testing.assert_frame_equal(actual_canonical, canonical)
+    pd.testing.assert_frame_equal(actual_ohlcv, ohlcv)
+
+    drifted = dict(snapshot)
+    drifted["sha256"] = "b" * 64
+    with pytest.raises(module.DecisionDerivationError, match="prewarmed specialist history cache"):
+        module.load_prewarmed_specialist_histories(cache_root, source_snapshot=drifted)
+
+
+def test_specialist_history_cache_rejects_tampered_cached_frame(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    module = _module()
+    snapshot = {"sha256": "c" * 64, "complete": True, "manifest": {"files": []}}
+    canonical = pd.DataFrame({"trade_date": [pd.Timestamp("2026-09-13", tz="UTC")], "contract_id": ["NGX6"], "settle": [3.0]})
+    ohlcv = pd.DataFrame({"trade_date": [pd.Timestamp("2026-09-13", tz="UTC")], "contract_id": ["NGX6"], "open": [3.0], "high": [3.1], "low": [2.9], "close": [3.05], "volume": [100.0]})
+    monkeypatch.setattr(
+        module,
+        "load_specialist_histories_from_databento",
+        lambda root, *, source_snapshot, retrieved_at: (canonical, ohlcv),
+    )
+    cache_root = tmp_path / "history-cache"
+    module.prewarm_specialist_history_cache(
+        tmp_path / "databento", source_snapshot=snapshot, retrieved_at="2026-09-13T11:30:00Z", cache_root=cache_root
+    )
+    cache_dir = cache_root / ("c" * 64)
+    (cache_dir / "canonical.parquet").write_bytes(b"tampered")
+    with pytest.raises(module.DecisionDerivationError, match="cached canonical history hash mismatch"):
+        module.load_prewarmed_specialist_histories(cache_root, source_snapshot=snapshot)
 
 
 def test_session_observation_is_derived_from_bound_databento_prices(

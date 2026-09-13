@@ -480,11 +480,38 @@ def _pinned_specialist_runtime(
     return runtime
 
 
+def prewarm_specialist_history_cache(
+    *,
+    databento_root: Path,
+    required_trade_date: object,
+    retrieved_at: object,
+    cache_root: Path,
+) -> dict[str, Any]:
+    """Prepare exact-source specialist history before the decision-time serving window."""
+    derivation = _derivation_module()
+    source_snapshot = derivation.verified_databento_source_snapshot(
+        databento_root,
+        required_trade_date=required_trade_date,
+    )
+    cache_manifest = derivation.prewarm_specialist_history_cache(
+        databento_root,
+        source_snapshot=source_snapshot,
+        retrieved_at=retrieved_at,
+        cache_root=cache_root,
+    )
+    return {
+        "source_snapshot_sha256": str(source_snapshot["sha256"]),
+        "latest_trade_date": source_snapshot["latest_trade_date"],
+        "cache_manifest": cache_manifest,
+    }
+
+
 def derive_and_append_decision(
     bundle: dict[str, Any],
     *,
     checkpoint_root: Path,
     databento_root: Path,
+    specialist_history_cache_root: Path,
     timesfm_runtime_root: Path,
     timesfm_source_zip: Path,
     timesfm_cache_dir: Path,
@@ -522,11 +549,20 @@ def derive_and_append_decision(
         required_trade_date=phase7._parse_utc(str(current_origin["trade_date"])),
     )
     path_eligible = derivation.prospective_kronos_path_eligible(origin_index)
-    canonical_history, ohlcv_history = derivation.load_specialist_histories_from_databento(
-        databento_root,
-        source_snapshot=source_snapshot,
-        retrieved_at=current_origin["available_at"],
-    )
+    try:
+        canonical_history, ohlcv_history = derivation.load_prewarmed_specialist_histories(
+            specialist_history_cache_root,
+            source_snapshot=source_snapshot,
+        )
+    except derivation.DecisionDerivationError:
+        return record_origin_miss(
+            decision_timestamp=str(bundle["decision_timestamp"]),
+            planned_fill_timestamp=str(bundle["planned_fill_timestamp"]),
+            source_snapshot_sha256=str(source_snapshot["sha256"]),
+            miss_reason="specialist_history_cache_unavailable",
+            ledger=ledger,
+            recorded_at=_utc_now(),
+        )
     contexts = derivation.build_specialist_serving_contexts(
         canonical_history,
         ohlcv_history,
@@ -1118,6 +1154,15 @@ def _parser() -> argparse.ArgumentParser:
     parser.add_argument("--ledger", type=Path, default=DEFAULT_LEDGER)
     sub = parser.add_subparsers(dest="command", required=True)
 
+    prewarm = sub.add_parser(
+        "prewarm-specialist-history",
+        help="decode and cache exact-source specialist history before the serving window",
+    )
+    prewarm.add_argument("--databento-root", type=Path, required=True)
+    prewarm.add_argument("--required-trade-date", required=True)
+    prewarm.add_argument("--retrieved-at", required=True)
+    prewarm.add_argument("--specialist-history-cache-root", type=Path, required=True)
+
     decision = sub.add_parser(
         "derive-decision",
         help="derive the frozen candidate from verified decision-time inputs and persist it",
@@ -1125,6 +1170,7 @@ def _parser() -> argparse.ArgumentParser:
     decision.add_argument("bundle", type=Path)
     decision.add_argument("--checkpoint-root", type=Path, required=True)
     decision.add_argument("--databento-root", type=Path, required=True)
+    decision.add_argument("--specialist-history-cache-root", type=Path, required=True)
     decision.add_argument("--timesfm-runtime-root", type=Path, required=True)
     decision.add_argument("--timesfm-source-zip", type=Path, required=True)
     decision.add_argument("--timesfm-cache-dir", type=Path, required=True)
@@ -1144,11 +1190,19 @@ def _parser() -> argparse.ArgumentParser:
 
 def main() -> None:
     args = _parser().parse_args()
-    if args.command == "derive-decision":
+    if args.command == "prewarm-specialist-history":
+        result = prewarm_specialist_history_cache(
+            databento_root=args.databento_root,
+            required_trade_date=args.required_trade_date,
+            retrieved_at=args.retrieved_at,
+            cache_root=args.specialist_history_cache_root,
+        )
+    elif args.command == "derive-decision":
         result = derive_and_append_decision(
             _load_json(args.bundle),
             checkpoint_root=args.checkpoint_root,
             databento_root=args.databento_root,
+            specialist_history_cache_root=args.specialist_history_cache_root,
             timesfm_runtime_root=args.timesfm_runtime_root,
             timesfm_source_zip=args.timesfm_source_zip,
             timesfm_cache_dir=args.timesfm_cache_dir,

@@ -47,6 +47,56 @@ def _runtime_args(tmp_path: Path) -> dict[str, Path]:
     }
 
 
+def test_prewarm_specialist_history_cache_binds_verified_source(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    module = _module()
+    observed: dict[str, object] = {}
+
+    class _Derivation:
+        @staticmethod
+        def verified_databento_source_snapshot(root, *, required_trade_date):
+            observed["source_args"] = (root, required_trade_date)
+            return {
+                "sha256": "a" * 64,
+                "latest_trade_date": "2026-09-13",
+                "complete": True,
+                "manifest": {"files": []},
+            }
+
+        @staticmethod
+        def prewarm_specialist_history_cache(root, *, source_snapshot, retrieved_at, cache_root):
+            observed["prewarm_args"] = (root, source_snapshot, retrieved_at, cache_root)
+            return {"source_snapshot_sha256": source_snapshot["sha256"], "canonical_rows": 10, "ohlcv_rows": 20}
+
+    monkeypatch.setattr(module, "_derivation_module", lambda: _Derivation)
+    result = module.prewarm_specialist_history_cache(
+        databento_root=tmp_path / "databento",
+        required_trade_date="2026-09-13T00:00:00Z",
+        retrieved_at="2026-09-13T11:30:00Z",
+        cache_root=tmp_path / "history-cache",
+    )
+    assert result["source_snapshot_sha256"] == "a" * 64
+    assert result["latest_trade_date"] == "2026-09-13"
+    assert result["cache_manifest"]["canonical_rows"] == 10
+    assert observed["prewarm_args"][3] == tmp_path / "history-cache"
+
+
+def test_cli_exposes_explicit_specialist_history_prewarm_command(tmp_path: Path) -> None:
+    module = _module()
+    args = module._parser().parse_args(
+        [
+            "prewarm-specialist-history",
+            "--databento-root", str(tmp_path / "databento"),
+            "--required-trade-date", "2026-09-13T00:00:00Z",
+            "--retrieved-at", "2026-09-13T11:30:00Z",
+            "--specialist-history-cache-root", str(tmp_path / "history-cache"),
+        ]
+    )
+    assert args.command == "prewarm-specialist-history"
+    assert args.specialist_history_cache_root == tmp_path / "history-cache"
+
+
 def test_pinned_specialist_runtime_cache_is_path_sensitive(tmp_path: Path) -> None:
     module = _module()
     created: list[dict[str, Path]] = []
@@ -559,6 +609,7 @@ def test_landed_refreeze_still_blocks_operational_derivation_until_phase_activat
             {},
             checkpoint_root=tmp_path,
             databento_root=tmp_path,
+            specialist_history_cache_root=tmp_path / "history-cache",
             **_runtime_args(tmp_path),
             ledger=tmp_path / "prospective.jsonl",
         )
@@ -610,8 +661,8 @@ def test_operational_decision_wires_internal_source_and_specialist_generation(
             }
 
         @staticmethod
-        def load_specialist_histories_from_databento(root, *, source_snapshot, retrieved_at):
-            observed["history_args"] = (root, source_snapshot, retrieved_at)
+        def load_prewarmed_specialist_histories(cache_root, *, source_snapshot):
+            observed["history_args"] = (cache_root, source_snapshot)
             return "canonical-history", "ohlcv-history"
 
         @staticmethod
@@ -653,6 +704,7 @@ def test_operational_decision_wires_internal_source_and_specialist_generation(
         bundle,
         checkpoint_root=tmp_path / "checkpoint",
         databento_root=tmp_path / "databento",
+        specialist_history_cache_root=tmp_path / "history-cache",
         timesfm_runtime_root=tmp_path / "timesfm-runtime",
         timesfm_source_zip=tmp_path / "timesfm-source.zip",
         timesfm_cache_dir=tmp_path / "timesfm-cache",
@@ -666,6 +718,8 @@ def test_operational_decision_wires_internal_source_and_specialist_generation(
     assert isinstance(derived, dict)
     assert derived["source_snapshot"]["sha256"] == "b" * 64
     assert derived["specialists"] == {"generated_specialists": True}
+    assert observed["history_args"][0] == tmp_path / "history-cache"
+    assert observed["history_args"][1]["sha256"] == "b" * 64
     assert observed["contexts"] == {"serving_context": True}
     assert observed["derive_kwargs"] == {
         "training_origins": "training-origins",
@@ -673,6 +727,63 @@ def test_operational_decision_wires_internal_source_and_specialist_generation(
         "risk_state": "active",
         "origin_sequence_index": 0,
     }
+
+
+def test_operational_decision_consumes_origin_when_prewarm_cache_is_unavailable(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    module = _module()
+    _activate_contract(module, tmp_path)
+    ledger = tmp_path / "prospective.jsonl"
+
+    class _Derivation:
+        class DecisionDerivationError(ValueError):
+            pass
+
+        @staticmethod
+        def prospective_kronos_path_eligible(index):
+            return True
+
+        @staticmethod
+        def verified_databento_source_snapshot(root, *, required_trade_date):
+            return {
+                "sha256": "b" * 64,
+                "latest_trade_date": "2026-09-13",
+                "complete": True,
+                "manifest": {"files": []},
+            }
+
+        @staticmethod
+        def load_prewarmed_specialist_histories(cache_root, *, source_snapshot):
+            raise _Derivation.DecisionDerivationError("prewarmed specialist history cache is unavailable")
+
+    monkeypatch.setattr(module, "_derivation_module", lambda: _Derivation)
+    monkeypatch.setattr(module, "_utc_now", lambda: "2026-09-13T12:00:01+00:00")
+    result = module.derive_and_append_decision(
+        {
+            "decision_timestamp": "2026-09-13T12:00:00Z",
+            "planned_fill_timestamp": "2026-09-14T00:00:00Z",
+            "target_session_timestamps": [
+                "2026-09-15T00:00:00Z", "2026-09-16T00:00:00Z", "2026-09-17T00:00:00Z",
+                "2026-09-18T00:00:00Z", "2026-09-19T00:00:00Z",
+            ],
+            "current_origin": {
+                "trade_date": "2026-09-13T00:00:00Z",
+                "available_at": "2026-09-13T11:59:00Z",
+                "contract_id": "NGX6",
+                "features": {},
+            },
+        },
+        checkpoint_root=tmp_path / "checkpoint",
+        databento_root=tmp_path / "databento",
+        specialist_history_cache_root=tmp_path / "history-cache",
+        **_runtime_args(tmp_path),
+        ledger=ledger,
+    )
+    assert result["event_type"] == "origin_miss"
+    assert result["miss_reason"] == "specialist_history_cache_unavailable"
+    assert result["prospective_origin_index"] == 0
+    assert module.ledger_status(ledger)["missed_origins"] == 1
 
 
 def test_operational_decision_records_deadline_miss_instead_of_late_decision(
@@ -706,7 +817,7 @@ def test_operational_decision_records_deadline_miss_instead_of_late_decision(
             }
 
         @staticmethod
-        def load_specialist_histories_from_databento(root, *, source_snapshot, retrieved_at):
+        def load_prewarmed_specialist_histories(cache_root, *, source_snapshot):
             return "canonical-history", "ohlcv-history"
 
         @staticmethod
@@ -743,6 +854,7 @@ def test_operational_decision_records_deadline_miss_instead_of_late_decision(
         },
         checkpoint_root=tmp_path / "checkpoint",
         databento_root=tmp_path / "databento",
+        specialist_history_cache_root=tmp_path / "history-cache",
         timesfm_runtime_root=tmp_path / "timesfm-runtime",
         timesfm_source_zip=tmp_path / "timesfm-source.zip",
         timesfm_cache_dir=tmp_path / "timesfm-cache",
@@ -801,6 +913,7 @@ def test_operational_derivation_rejects_caller_source_snapshot(tmp_path: Path) -
             {"source_snapshot": {}},
             checkpoint_root=tmp_path,
             databento_root=tmp_path,
+            specialist_history_cache_root=tmp_path / "history-cache",
             **_runtime_args(tmp_path),
             ledger=tmp_path / "prospective.jsonl",
         )
@@ -830,6 +943,7 @@ def test_operational_derivation_rejects_caller_specialist_outputs(tmp_path: Path
             {"specialists": {"timesfm_point_return": -0.01}},
             checkpoint_root=tmp_path,
             databento_root=tmp_path,
+            specialist_history_cache_root=tmp_path / "history-cache",
             **_runtime_args(tmp_path),
             ledger=tmp_path / "prospective.jsonl",
         )
@@ -843,6 +957,7 @@ def test_operational_derivation_requires_decision_time_inputs(tmp_path: Path) ->
             {},
             checkpoint_root=tmp_path,
             databento_root=tmp_path,
+            specialist_history_cache_root=tmp_path / "history-cache",
             **_runtime_args(tmp_path),
             ledger=tmp_path / "prospective.jsonl",
         )
