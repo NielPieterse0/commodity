@@ -237,6 +237,104 @@ def test_verified_databento_source_snapshot_binds_exact_complete_triple(tmp_path
     assert all(len(item["sha256"]) == 64 for item in snapshot["manifest"]["files"])
 
 
+def test_serving_history_snapshot_stitches_prior_aligned_partitions(tmp_path: Path) -> None:
+    module = _module()
+    partitions = [
+        ("20240101", "20241231"),
+        ("20250101", "20251231"),
+        ("20260101", "20260812"),
+        ("20260813", "20260930"),
+    ]
+    for schema in ("definition", "statistics", "ohlcv-1d"):
+        for start, end in partitions:
+            _write_databento_partition(tmp_path, schema, start=start, end=end)
+
+    snapshot = module.verified_databento_serving_history_snapshot(
+        tmp_path,
+        required_trade_date=pd.Timestamp("2026-09-13", tz="UTC"),
+    )
+
+    assert snapshot["complete"] is True
+    assert snapshot["latest_trade_date"] == "2026-09-30"
+    assert snapshot["sha256"] == module._json_sha256(snapshot["manifest"])
+    keys = snapshot["manifest"]["partition_keys"]
+    assert ["2026-08-13", "2026-09-30"] in keys
+    assert ["2026-01-01", "2026-08-12"] in keys
+    assert len(keys) >= 3
+    for key in keys:
+        matching = [
+            item for item in snapshot["manifest"]["files"]
+            if [item["start_trade_date"], item["end_trade_date"]] == key
+        ]
+        assert [item["schema"] for item in matching] == [
+            "definition", "statistics", "ohlcv-1d"
+        ]
+
+
+def test_current_market_origin_reproduces_frozen_core_features() -> None:
+    module = _module()
+    dates = pd.bdate_range("2026-08-10", periods=25, tz="UTC")
+    settle = pd.Series(np.linspace(3.0, 3.48, len(dates)))
+    canonical = pd.DataFrame(
+        {
+            "trade_date": dates,
+            "contract_id": ["NGX6@2026-10-27"] * len(dates),
+            "expiration": [pd.Timestamp("2026-10-27T18:30:00Z")] * len(dates),
+            "settle": settle,
+            "available_at": dates + pd.Timedelta(hours=20),
+            "volume": [1000.0] * len(dates),
+        }
+    )
+    ohlcv = pd.DataFrame(
+        {
+            "trade_date": dates,
+            "contract_id": ["NGX6@2026-10-27"] * len(dates),
+            "expiration": [pd.Timestamp("2026-10-27T18:30:00Z")] * len(dates),
+            "open": settle - 0.01,
+            "high": settle + 0.03,
+            "low": settle - 0.04,
+            "close": settle + 0.01,
+            "volume": [1200.0] * len(dates),
+        }
+    )
+    trade_date = dates[-1]
+    origin = module.derive_current_market_origin(
+        canonical,
+        ohlcv,
+        trade_date=trade_date,
+        decision_timestamp=trade_date + pd.Timedelta(days=1, hours=12),
+    )
+
+    log_settle = np.log(settle)
+    ret1 = log_settle.diff(1)
+    expected = {
+        "feature_ret_1": ret1.iloc[-1],
+        "feature_ret_5": log_settle.diff(5).iloc[-1],
+        "feature_ret_20": log_settle.diff(20).iloc[-1],
+        "feature_vol_5": ret1.rolling(5).std().iloc[-1],
+        "feature_vol_20": ret1.rolling(20).std().iloc[-1],
+        "feature_range_pct": (0.03 + 0.04) / float((settle + 0.01).iloc[-1]),
+        "feature_ma_gap_5": settle.iloc[-1] / settle.rolling(5).mean().iloc[-1] - 1.0,
+        "feature_ma_gap_20": settle.iloc[-1] / settle.rolling(20).mean().iloc[-1] - 1.0,
+        "feature_selected_dte": float(
+            (pd.Timestamp("2026-10-27", tz="UTC") - trade_date.normalize()).days
+        ),
+        "feature_roll_event": 0.0,
+    }
+    angle = 2.0 * np.pi * float(trade_date.dayofyear) / 365.25
+    expected["feature_season_sin"] = np.sin(angle)
+    expected["feature_season_cos"] = np.cos(angle)
+
+    assert origin["trade_date"] == trade_date.isoformat()
+    assert origin["available_at"] == (
+        trade_date.normalize() + pd.Timedelta(hours=23, minutes=59)
+    ).isoformat()
+    assert origin["contract_id"] == "NGX6@2026-10-27"
+    assert set(origin["features"]) == set(module.frozen_feature_columns())
+    for name, value in expected.items():
+        assert origin["features"][name] == pytest.approx(float(value))
+
+
 def test_snapshot_schema_path_rejects_file_mutation_after_identity_binding(tmp_path: Path) -> None:
     module = _module()
     paths = {
@@ -487,8 +585,8 @@ def test_specialist_histories_are_decoded_from_bound_databento_source(
 
     monkeypatch.setattr(
         module,
-        "_snapshot_schema_path",
-        lambda root, source_snapshot, schema: tmp_path / schema,
+        "_snapshot_schema_paths",
+        lambda root, source_snapshot, schema: [tmp_path / schema],
     )
 
     def _decode(path, *, expected_schema, **kwargs):
@@ -566,8 +664,15 @@ def test_specialist_history_cache_is_bound_to_exact_source_snapshot(
     monkeypatch.setattr(
         module,
         "load_specialist_histories_from_databento",
-        lambda *args, **kwargs: pytest.fail("decision path must not decode DBN after prewarm"),
+        lambda *args, **kwargs: pytest.fail("valid cache must not decode DBN again"),
     )
+    reused = module.prewarm_specialist_history_cache(
+        tmp_path / "databento",
+        source_snapshot=snapshot,
+        retrieved_at="2026-09-13T11:45:00Z",
+        cache_root=cache_root,
+    )
+    assert reused == manifest
     actual_canonical, actual_ohlcv = module.load_prewarmed_specialist_histories(
         cache_root, source_snapshot=snapshot
     )
