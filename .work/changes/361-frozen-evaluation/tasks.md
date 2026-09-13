@@ -36,5 +36,6 @@
 - [x] Before the first prospective observation, remove caller-supplied market-origin inputs, stitch the exact 807-calendar-day serving history, reuse its hash-bound prewarm cache, and fail closed with a consumed origin miss when a physical partition lacks the frozen final-settlement inputs required to reconstruct the Phase-2 origin.
 - [x] Land the pre-first-observation hardening through PR #386 as merge `04874a7b15635b392a76dc98172e7f7cd562609a`; exact-head CI passed.
 - [x] Record the first untouched post-activation cadence event: origin index 0 for the 2026-09-14 planned fill failed closed as `prospective_market_origin_unavailable`, then land that hash-chained ledger record through PR #387 as merge `5cb95dd83e53e2c959f10d5b235d2adffc788681`.
+- [ ] Resolve same-day exact-source Databento availability before relying on the next-fill paper loop: observed final-settlement records arrive only shortly before the frozen 00:00Z fill, while the current no-subscription usage-based account exposes recent historical data too late. Preserving frozen v1 therefore requires an operator-approved Databento live subscription or continued fail-closed misses; Saxo may not silently replace the v1 scientific source.
 - [ ] Accumulate the frozen minimum prospective evidence without tuning.
 - [ ] Evaluate Phase-7 exit gate and only then determine Phase-8 eligibility.
