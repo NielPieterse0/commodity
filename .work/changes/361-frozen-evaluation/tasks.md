@@ -32,6 +32,7 @@
 - [x] Add one fail-closed `run-day` paper operations command covering due session accounting, automatic five-session settlement, canonical source freshness, specialist prewarm, next decision, and status; stale source consumes/logs the cadence slot without retrospective backfill.
 - [x] Freeze the market-only/no-modifier comparator and permanent v1 append-only control before the first prospective observation.
 - [x] Acquire the one-time operator-approved exact Databento catch-up for 2026-08-13 through 2026-09-11 under a $0.30 hard cap; actual billed cost was $0.23765609040857, all three provider manifests/hashes verified, and Phase-7 exact-source decode/prewarm passed.
-- [ ] Land the explicit prospective activation change on the registered default branch; the activation timestamp is fixed, historical decision backfill is prohibited, and no evidence may be written from the unlanded change.
+- [x] Land the explicit prospective activation change on the registered default branch; PR #385 merged as `febaa4ab9b549211a42887eb8839764a3c839a5b`, the activation timestamp is fixed, and historical decision backfill remains prohibited.
+- [x] Before the first prospective observation, remove caller-supplied market-origin inputs, stitch the exact 807-calendar-day serving history, reuse its hash-bound prewarm cache, and fail closed with a consumed origin miss when a physical partition lacks the frozen final-settlement inputs required to reconstruct the Phase-2 origin.
 - [ ] Accumulate the frozen minimum prospective evidence without tuning.
 - [ ] Evaluate Phase-7 exit gate and only then determine Phase-8 eligibility.

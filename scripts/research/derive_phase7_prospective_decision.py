@@ -13,7 +13,7 @@ from typing import Any
 import numpy as np
 import pandas as pd
 
-from commodity.config import data_config
+from commodity.config import assumptions_config, data_config
 from commodity.kronos import verify_kronos_source_checkout
 from commodity.market_only_phase2 import (
     _build_segmented_decision_origins,
@@ -27,6 +27,7 @@ from commodity.providers.databento_futures import (
     canonicalize_databento_dbn_archive,
     decode_databento_dbn_file,
 )
+from commodity.rolls import build_derived_continuous_series
 from commodity.stacking_policy import PolicyConfig, apply_specialist_modifiers
 from commodity.trading_decision_v0 import ExecutionCostAssumptions
 
@@ -606,6 +607,139 @@ def verified_databento_source_snapshot(
     }
 
 
+def _serving_history_lookback_days() -> int:
+    models = _load_json(MODELS_CONFIG)["models"]
+    kronos_context = int(models["kronos_base"]["max_context"])
+    max_context = max(128, kronos_context)
+    return int(math.ceil(max_context * 7.0 / 5.0) + 90)
+
+
+def verified_databento_serving_history_snapshot(
+    databento_root: Path, *, required_trade_date: object
+) -> dict[str, Any]:
+    """Bind the aligned exact-source history needed by frozen Phase-7 serving contexts."""
+    root = Path(databento_root).resolve()
+    required = _utc(required_trade_date, "required_trade_date").normalize()
+    history_start = required - pd.Timedelta(days=_serving_history_lookback_days())
+    catalogs: dict[str, dict[tuple[pd.Timestamp, pd.Timestamp], Path]] = {}
+    latest_dates: list[pd.Timestamp] = []
+
+    for schema in _DATABENTO_SCHEMAS:
+        catalog: dict[tuple[pd.Timestamp, pd.Timestamp], Path] = {}
+        for path in sorted((root / schema).glob("*/*.dbn.zst")):
+            match = _ARCHIVE_RE.fullmatch(path.name)
+            if match is None or match.group(3) != schema:
+                continue
+            key = (
+                pd.Timestamp(match.group(1), tz="UTC"),
+                pd.Timestamp(match.group(2), tz="UTC"),
+            )
+            if key in catalog:
+                raise DecisionDerivationError(
+                    f"prospective Databento {schema} history has duplicate partition {key}"
+                )
+            catalog[key] = path.resolve()
+        if not catalog:
+            raise DecisionDerivationError(f"prospective Databento {schema} source is missing")
+        catalogs[schema] = catalog
+        latest_dates.append(max(end for _, end in catalog))
+
+    reference_keys = sorted(
+        key for key in catalogs["ohlcv-1d"]
+        if key[1] >= history_start and key[0] <= required
+    )
+    covering = [key for key in reference_keys if key[0] <= required <= key[1]]
+    if len(covering) != 1:
+        raise DecisionDerivationError(
+            "prospective Databento serving history must have exactly one OHLCV partition "
+            f"covering {required.date().isoformat()}"
+        )
+    if not reference_keys:
+        raise DecisionDerivationError("prospective Databento serving history is empty")
+    for key in reference_keys:
+        for schema in _DATABENTO_SCHEMAS:
+            if key not in catalogs[schema]:
+                raise DecisionDerivationError(
+                    "prospective Databento serving-history partitions are not aligned"
+                )
+    for left, right in pairwise(reference_keys):
+        if right[0] > left[1] + pd.Timedelta(days=1):
+            raise DecisionDerivationError(
+                "prospective Databento serving history has a partition gap"
+            )
+
+    files: list[dict[str, str]] = []
+    partition_keys: list[list[str]] = []
+    for start, end in reference_keys:
+        key = [start.date().isoformat(), end.date().isoformat()]
+        partition_keys.append(key)
+        for schema in _DATABENTO_SCHEMAS:
+            path = catalogs[schema][(start, end)]
+            files.append(
+                {
+                    "schema": schema,
+                    "path": path.relative_to(root).as_posix(),
+                    "sha256": _file_sha256(path),
+                    "start_trade_date": key[0],
+                    "end_trade_date": key[1],
+                }
+            )
+
+    latest = min(latest_dates)
+    if latest < required:
+        raise DecisionDerivationError("prospective Databento serving history is stale")
+    manifest = {
+        "schema_version": 1,
+        "provider": "databento",
+        "dataset": "GLBX.MDP3",
+        "snapshot_role": "phase7_serving_history",
+        "required_trade_date": required.date().isoformat(),
+        "history_start_target": history_start.date().isoformat(),
+        "lookback_calendar_days": _serving_history_lookback_days(),
+        "partition_keys": partition_keys,
+        "files": files,
+    }
+    return {
+        "sha256": _json_sha256(manifest),
+        "latest_trade_date": latest.date().isoformat(),
+        "complete": True,
+        "manifest": manifest,
+    }
+
+
+def _snapshot_schema_paths(
+    databento_root: Path, snapshot: dict[str, Any], schema: str
+) -> list[Path]:
+    manifest = snapshot.get("manifest")
+    files = manifest.get("files") if isinstance(manifest, dict) else None
+    if not isinstance(files, list):
+        raise DecisionDerivationError("prospective Databento source manifest is invalid")
+    matches = [
+        item for item in files
+        if isinstance(item, dict) and item.get("schema") == schema
+    ]
+    if not matches:
+        raise DecisionDerivationError(f"prospective Databento {schema} manifest entry is invalid")
+    matches.sort(key=lambda item: (str(item.get("start_trade_date", "")), str(item.get("path", ""))))
+    root = Path(databento_root).resolve()
+    paths: list[Path] = []
+    for item in matches:
+        if not isinstance(item.get("path"), str):
+            raise DecisionDerivationError(f"prospective Databento {schema} manifest entry is invalid")
+        expected_sha = str(item.get("sha256", ""))
+        if _SHA_RE.fullmatch(expected_sha) is None:
+            raise DecisionDerivationError(f"prospective Databento {schema} manifest hash is invalid")
+        path = (root / str(item["path"])).resolve()
+        try:
+            path.relative_to(root)
+        except ValueError as exc:
+            raise DecisionDerivationError("prospective Databento source path escapes its root") from exc
+        if not path.is_file() or _file_sha256(path) != expected_sha:
+            raise DecisionDerivationError(f"prospective Databento {schema} source hash mismatch")
+        paths.append(path)
+    return paths
+
+
 def _snapshot_schema_path(
     databento_root: Path, snapshot: dict[str, Any], schema: str
 ) -> Path:
@@ -637,30 +771,163 @@ def load_specialist_histories_from_databento(
     retrieved_at: object,
 ) -> tuple[pd.DataFrame, pd.DataFrame]:
     """Decode the verified exact-source partition into TimesFM/Kronos serving history."""
-    definition_path = _snapshot_schema_path(databento_root, source_snapshot, "definition")
-    statistics_path = _snapshot_schema_path(databento_root, source_snapshot, "statistics")
-    ohlcv_path = _snapshot_schema_path(databento_root, source_snapshot, "ohlcv-1d")
+    definition_paths = _snapshot_schema_paths(databento_root, source_snapshot, "definition")
+    statistics_paths = _snapshot_schema_paths(databento_root, source_snapshot, "statistics")
+    ohlcv_paths = _snapshot_schema_paths(databento_root, source_snapshot, "ohlcv-1d")
     retrieved = _utc(retrieved_at, "specialist history retrieved_at").isoformat()
     canonical, _ = canonicalize_databento_dbn_archive(
-        [definition_path],
-        [statistics_path],
+        definition_paths,
+        statistics_paths,
         schema=data_config()["canonical_contract_schema"],
         product_code="NG",
         retrieved_at=retrieved,
     )
-    definitions, _ = decode_databento_dbn_file(
-        definition_path,
-        expected_schema="definition",
-        definition_product_code="NG",
-    )
-    bars, _ = decode_databento_dbn_file(
-        ohlcv_path,
-        expected_schema="ohlcv-1d",
-    )
+    definition_frames = [
+        decode_databento_dbn_file(
+            path,
+            expected_schema="definition",
+            definition_product_code="NG",
+        )[0]
+        for path in definition_paths
+    ]
+    bar_frames = [
+        decode_databento_dbn_file(path, expected_schema="ohlcv-1d")[0]
+        for path in ohlcv_paths
+    ]
+    definitions = pd.concat(definition_frames, ignore_index=True)
+    bars = pd.concat(bar_frames, ignore_index=True)
     ohlcv = _target_ohlcv(definitions, bars)
     if canonical.empty or ohlcv.empty:
         raise DecisionDerivationError("specialist Databento serving history is empty")
     return canonical, ohlcv
+
+
+def derive_current_market_origin(
+    canonical_history: pd.DataFrame,
+    ohlcv_history: pd.DataFrame,
+    *,
+    trade_date: object,
+    decision_timestamp: object,
+) -> dict[str, Any]:
+    """Reconstruct the frozen Phase-2 core market origin from PIT-known exact-source history."""
+    origin_date = _utc(trade_date, "current origin trade_date").normalize()
+    decision = _utc(decision_timestamp, "decision_timestamp")
+    canonical = canonical_history.copy()
+    ohlcv = ohlcv_history.copy()
+    required_canonical = {"trade_date", "contract_id", "expiration", "settle", "available_at", "volume"}
+    required_ohlcv = {"trade_date", "contract_id", "expiration", "high", "low", "close"}
+    missing = sorted(required_canonical.difference(canonical.columns))
+    if missing:
+        raise DecisionDerivationError(f"current-origin canonical history missing fields: {missing}")
+    missing = sorted(required_ohlcv.difference(ohlcv.columns))
+    if missing:
+        raise DecisionDerivationError(f"current-origin OHLCV history missing fields: {missing}")
+
+    for frame in (canonical, ohlcv):
+        frame["trade_date"] = pd.to_datetime(frame["trade_date"], utc=True, errors="coerce")
+        frame["expiration"] = pd.to_datetime(frame["expiration"], utc=True, errors="coerce")
+    canonical["available_at"] = pd.to_datetime(canonical["available_at"], utc=True, errors="coerce")
+    canonical["settle"] = pd.to_numeric(canonical["settle"], errors="coerce")
+    canonical["volume"] = pd.to_numeric(canonical["volume"], errors="coerce")
+    for column in ("high", "low", "close"):
+        ohlcv[column] = pd.to_numeric(ohlcv[column], errors="coerce")
+    canonical = canonical.loc[canonical["trade_date"].le(origin_date)].copy()
+    ohlcv = ohlcv.loc[ohlcv["trade_date"].le(origin_date)].copy()
+    if canonical.empty or ohlcv.empty:
+        raise DecisionDerivationError("current-origin exact-source history is empty")
+    if canonical[["trade_date", "expiration", "settle", "available_at"]].isna().any().any():
+        raise DecisionDerivationError("current-origin canonical history contains invalid values")
+    if ohlcv[["trade_date", "expiration", "high", "low", "close"]].isna().any().any():
+        raise DecisionDerivationError("current-origin OHLCV history contains invalid values")
+
+    policy = assumptions_config()["assumptions"]["continuous_series_policy"]["policy"]
+    selected, _ = build_derived_continuous_series(
+        canonical,
+        data_config()["canonical_contract_schema"],
+        policy,
+        price_col="settle",
+    )
+    selected_row = selected.loc[selected["trade_date"].eq(origin_date)]
+    if len(selected_row) != 1:
+        raise DecisionDerivationError("current origin must map to exactly one frozen selected contract")
+    selected_row = selected_row.iloc[0]
+    contract_id = str(selected_row["contract_id"])
+    expiration = pd.Timestamp(selected_row["expiration"])
+
+    technical = canonical[["trade_date", "contract_id", "expiration", "settle"]].merge(
+        ohlcv[["trade_date", "contract_id", "expiration", "high", "low", "close"]],
+        on=["trade_date", "contract_id", "expiration"],
+        how="inner",
+        validate="one_to_one",
+    )
+    technical = technical.sort_values(["contract_id", "trade_date"], kind="stable").copy()
+    technical["log_settle"] = np.log(technical["settle"].astype(float))
+    grouped = technical.groupby("contract_id", group_keys=False)
+    technical["feature_ret_1"] = grouped["log_settle"].diff(1)
+    technical["feature_ret_5"] = grouped["log_settle"].diff(5)
+    technical["feature_ret_20"] = grouped["log_settle"].diff(20)
+    technical["feature_vol_5"] = (
+        grouped["feature_ret_1"].rolling(5).std().reset_index(level=0, drop=True)
+    )
+    technical["feature_vol_20"] = (
+        grouped["feature_ret_1"].rolling(20).std().reset_index(level=0, drop=True)
+    )
+    technical["feature_ma_gap_5"] = (
+        technical["settle"]
+        / grouped["settle"].rolling(5).mean().reset_index(level=0, drop=True)
+        - 1.0
+    )
+    technical["feature_ma_gap_20"] = (
+        technical["settle"]
+        / grouped["settle"].rolling(20).mean().reset_index(level=0, drop=True)
+        - 1.0
+    )
+    technical["feature_range_pct"] = (
+        technical["high"].astype(float) - technical["low"].astype(float)
+    ) / technical["close"].astype(float)
+    row = technical.loc[
+        technical["trade_date"].eq(origin_date)
+        & technical["contract_id"].astype(str).eq(contract_id)
+    ]
+    if len(row) != 1:
+        raise DecisionDerivationError("current selected contract lacks exact frozen feature inputs")
+    row = row.iloc[0]
+
+    day_available = canonical.loc[
+        canonical["trade_date"].eq(origin_date), "available_at"
+    ].max()
+    if pd.isna(day_available):
+        raise DecisionDerivationError("current origin has no canonical availability timestamp")
+    ohlcv_available = origin_date + pd.Timedelta(hours=23, minutes=59)
+    available = max(pd.Timestamp(day_available), ohlcv_available)
+    if available > decision:
+        raise DecisionDerivationError("current origin is not fully available at decision time")
+
+    angle = 2.0 * np.pi * float(origin_date.dayofyear) / 365.25
+    feature_values: dict[str, float] = {
+        "feature_ret_1": _finite(row["feature_ret_1"], "feature_ret_1"),
+        "feature_ret_5": _finite(row["feature_ret_5"], "feature_ret_5"),
+        "feature_ret_20": _finite(row["feature_ret_20"], "feature_ret_20"),
+        "feature_vol_5": _finite(row["feature_vol_5"], "feature_vol_5"),
+        "feature_vol_20": _finite(row["feature_vol_20"], "feature_vol_20"),
+        "feature_range_pct": _finite(row["feature_range_pct"], "feature_range_pct"),
+        "feature_ma_gap_5": _finite(row["feature_ma_gap_5"], "feature_ma_gap_5"),
+        "feature_ma_gap_20": _finite(row["feature_ma_gap_20"], "feature_ma_gap_20"),
+        "feature_season_sin": float(np.sin(angle)),
+        "feature_season_cos": float(np.cos(angle)),
+        "feature_selected_dte": float((expiration.normalize() - origin_date).days),
+        "feature_roll_event": float(str(selected_row["roll_reason"]) not in {"hold", "initial"}),
+    }
+    if set(feature_values) != set(frozen_feature_columns()):
+        raise DecisionDerivationError("internally derived current origin drifted from frozen feature set")
+    if not all(math.isfinite(value) for value in feature_values.values()):
+        raise DecisionDerivationError("internally derived current origin contains non-finite features")
+    return {
+        "trade_date": origin_date.isoformat(),
+        "available_at": available.isoformat(),
+        "contract_id": contract_id,
+        "features": feature_values,
+    }
 
 
 def _specialist_history_cache_dir(cache_root: Path, source_snapshot: dict[str, Any]) -> Path:
@@ -678,12 +945,23 @@ def prewarm_specialist_history_cache(
     cache_root: Path,
 ) -> dict[str, Any]:
     """Decode once before the serving deadline and bind cached frames to the exact source."""
+    cache_dir = _specialist_history_cache_dir(cache_root, source_snapshot)
+    manifest_path = cache_dir / "manifest.json"
+    if manifest_path.is_file():
+        load_prewarmed_specialist_histories(cache_root, source_snapshot=source_snapshot)
+        try:
+            manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+        except (OSError, json.JSONDecodeError) as exc:
+            raise DecisionDerivationError("prewarmed specialist history cache manifest is invalid") from exc
+        if not isinstance(manifest, dict):
+            raise DecisionDerivationError("prewarmed specialist history cache manifest is invalid")
+        return manifest
+
     canonical, ohlcv = load_specialist_histories_from_databento(
         databento_root,
         source_snapshot=source_snapshot,
         retrieved_at=retrieved_at,
     )
-    cache_dir = _specialist_history_cache_dir(cache_root, source_snapshot)
     cache_dir.mkdir(parents=True, exist_ok=True)
     canonical_path = cache_dir / "canonical.parquet"
     ohlcv_path = cache_dir / "ohlcv.parquet"
