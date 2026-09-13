@@ -30,10 +30,11 @@ Source: `research/programmes/003-natural-gas-trading-decision-system/phase7-froz
 | `freeze_landing` | object (4 keys) |
 | `claim_boundary` | str |
 | `frozen_candidate` | object (7 keys) |
-| `prospective_serving_contract` | object (18 keys) |
+| `prospective_execution` | object (10 keys) |
+| `prospective_serving_contract` | object (19 keys) |
 | `bound_configuration_sha256` | object (5 keys) |
 | `historical_evidence` | object (2 keys) |
-| `prospective_evidence_contract` | object (9 keys) |
+| `prospective_evidence_contract` | object (11 keys) |
 | `prospective_interpretation` | object (4 keys) |
 | `decisions_and_assumptions` | array (3 items) |
 | `live_capital_authorized` | bool |

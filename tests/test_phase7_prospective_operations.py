@@ -97,6 +97,220 @@ def test_cli_exposes_explicit_specialist_history_prewarm_command(tmp_path: Path)
     assert args.specialist_history_cache_root == tmp_path / "history-cache"
 
 
+def test_phase7_execution_contract_is_paper_only(tmp_path: Path) -> None:
+    module = _module()
+    _activate_contract(module, tmp_path)
+    execution = module._paper_execution_contract()
+    assert execution["active_stage"] == "paper"
+    assert execution["saxo_sim_order_submission_allowed"] is False
+    assert execution["saxo_live_order_submission_allowed"] is False
+
+    payload = json.loads(module.CONTRACT.read_text(encoding="utf-8"))
+    payload["prospective_execution"]["saxo_sim_order_submission_allowed"] = True
+    module.CONTRACT.write_text(json.dumps(payload, indent=2), encoding="utf-8")
+    with pytest.raises(ValueError, match="Saxo SIM"):
+        module._paper_execution_contract()
+
+
+def test_daily_paper_cycle_orchestrates_session_prewarm_decision_and_status(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    module = _module()
+    _activate_contract(module, tmp_path)
+    calls: list[tuple[str, object]] = []
+
+    class _FreshDerivation:
+        @staticmethod
+        def preflight_databento_freshness(root, *, required_trade_date):
+            return {
+                "fresh": True,
+                "latest_trade_date": "2026-09-13",
+                "reason": None,
+            }
+
+    monkeypatch.setattr(module, "_derivation_module", lambda: _FreshDerivation)
+    monkeypatch.setattr(
+        module,
+        "derive_and_append_session_observation",
+        lambda bundle, **kwargs: calls.append(("session", bundle)) or {"event_type": "session"},
+    )
+    monkeypatch.setattr(
+        module,
+        "prewarm_specialist_history_cache",
+        lambda **kwargs: calls.append(("prewarm", kwargs["required_trade_date"]))
+        or {"source_snapshot_sha256": "a" * 64},
+    )
+    monkeypatch.setattr(
+        module,
+        "derive_and_append_decision",
+        lambda bundle, **kwargs: calls.append(("decision", bundle)) or {"event_type": "decision"},
+    )
+    monkeypatch.setattr(
+        module,
+        "ledger_status",
+        lambda ledger: calls.append(("status", ledger)) or {"hash_chain_valid": True},
+    )
+
+    decision_bundle = {
+        "decision_timestamp": "2026-09-13T12:00:00Z",
+        "planned_fill_timestamp": "2026-09-14T00:00:00Z",
+        "target_session_timestamps": ["2026-09-15T00:00:00Z"],
+        "current_origin": {
+            "trade_date": "2026-09-13T00:00:00Z",
+            "available_at": "2026-09-13T11:59:00Z",
+            "contract_id": "NGX6",
+            "features": {},
+        },
+    }
+    session_bundle = {
+        "session_timestamp": "2026-09-12T00:00:00Z",
+        "next_session_timestamp": "2026-09-13T00:00:00Z",
+    }
+    result = module.run_daily_paper_cycle(
+        decision_bundle,
+        session_bundle=session_bundle,
+        checkpoint_root=tmp_path / "checkpoint",
+        databento_root=tmp_path / "databento",
+        specialist_history_cache_root=tmp_path / "history-cache",
+        ledger=tmp_path / "ledger.jsonl",
+        **_runtime_args(tmp_path),
+    )
+    assert [name for name, _ in calls] == ["session", "prewarm", "decision", "status"]
+    assert result["execution_stage"] == "paper"
+    assert result["status"]["hash_chain_valid"] is True
+
+
+def test_daily_paper_cycle_logs_stale_source_as_consumed_origin(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    module = _module()
+    _activate_contract(module, tmp_path)
+    calls: list[str] = []
+
+    class _StaleDerivation:
+        @staticmethod
+        def preflight_databento_freshness(root, *, required_trade_date):
+            return {
+                "fresh": False,
+                "latest_trade_date": "2026-08-12",
+                "reason": "prospective_market_source_stale",
+            }
+
+        @staticmethod
+        def verified_databento_source_snapshot(root, *, required_trade_date):
+            assert str(required_trade_date) == "2026-08-12"
+            return {"sha256": "b" * 64}
+
+    monkeypatch.setattr(module, "_derivation_module", lambda: _StaleDerivation)
+    monkeypatch.setattr(
+        module,
+        "record_origin_miss",
+        lambda **kwargs: calls.append("miss") or {
+            "event_type": "origin_miss",
+            "miss_reason": kwargs["miss_reason"],
+        },
+    )
+    monkeypatch.setattr(
+        module,
+        "prewarm_specialist_history_cache",
+        lambda **kwargs: pytest.fail("stale source must not prewarm"),
+    )
+    monkeypatch.setattr(
+        module,
+        "derive_and_append_decision",
+        lambda *args, **kwargs: pytest.fail("stale source must not derive a decision"),
+    )
+    monkeypatch.setattr(module, "ledger_status", lambda ledger: {"origin_misses": 1})
+
+    decision_bundle = {
+        "decision_timestamp": "2026-09-13T12:00:00Z",
+        "planned_fill_timestamp": "2026-09-14T00:00:00Z",
+        "target_session_timestamps": ["2026-09-15T00:00:00Z"],
+        "current_origin": {
+            "trade_date": "2026-09-13T00:00:00Z",
+            "available_at": "2026-09-13T11:59:00Z",
+            "contract_id": "NGX6",
+            "features": {},
+        },
+    }
+    result = module.run_daily_paper_cycle(
+        decision_bundle,
+        session_bundle=None,
+        checkpoint_root=tmp_path / "checkpoint",
+        databento_root=tmp_path / "databento",
+        specialist_history_cache_root=tmp_path / "history-cache",
+        ledger=tmp_path / "ledger.jsonl",
+        **_runtime_args(tmp_path),
+    )
+    assert calls == ["miss"]
+    assert result["decision"]["event_type"] == "origin_miss"
+    assert result["decision"]["miss_reason"] == "prospective_market_source_stale"
+    assert result["prewarm"] is None
+
+
+def test_daily_paper_cycle_retry_reuses_persisted_origin_without_recomputing(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    module = _module()
+    _activate_contract(module, tmp_path)
+    existing = {
+        "event_type": "origin_miss",
+        "decision_timestamp": "2026-09-13T12:00:00+00:00",
+        "planned_fill_timestamp": "2026-09-14T00:00:00+00:00",
+        "miss_reason": "prospective_market_source_stale",
+    }
+    monkeypatch.setattr(module, "_origin_for_fill", lambda *args, **kwargs: existing)
+    monkeypatch.setattr(
+        module,
+        "_derivation_module",
+        lambda: pytest.fail("retry must not touch source/model derivation"),
+    )
+    monkeypatch.setattr(module, "ledger_status", lambda ledger: {"origin_misses": 1})
+
+    result = module.run_daily_paper_cycle(
+        {
+            "decision_timestamp": "2026-09-13T12:00:00Z",
+            "planned_fill_timestamp": "2026-09-14T00:00:00Z",
+            "target_session_timestamps": ["2026-09-15T00:00:00Z"],
+            "current_origin": {
+                "trade_date": "2026-09-13T00:00:00Z",
+                "available_at": "2026-09-13T11:59:00Z",
+                "contract_id": "NGX6",
+                "features": {},
+            },
+        },
+        session_bundle=None,
+        checkpoint_root=tmp_path / "checkpoint",
+        databento_root=tmp_path / "databento",
+        specialist_history_cache_root=tmp_path / "history-cache",
+        ledger=tmp_path / "ledger.jsonl",
+        **_runtime_args(tmp_path),
+    )
+    assert result["decision"] is existing
+    assert result["source_freshness"]["reason"] == "origin_already_persisted"
+
+
+def test_cli_exposes_daily_paper_cycle(tmp_path: Path) -> None:
+    module = _module()
+    args = module._parser().parse_args(
+        [
+            "run-day",
+            str(tmp_path / "decision.json"),
+            "--session-bundle", str(tmp_path / "session.json"),
+            "--checkpoint-root", str(tmp_path / "checkpoint"),
+            "--databento-root", str(tmp_path / "databento"),
+            "--specialist-history-cache-root", str(tmp_path / "history-cache"),
+            "--timesfm-runtime-root", str(tmp_path / "timesfm-runtime"),
+            "--timesfm-source-zip", str(tmp_path / "timesfm-source.zip"),
+            "--timesfm-cache-dir", str(tmp_path / "timesfm-cache"),
+            "--kronos-source-root", str(tmp_path / "kronos-source"),
+            "--kronos-cache-dir", str(tmp_path / "kronos-cache"),
+        ]
+    )
+    assert args.command == "run-day"
+    assert args.session_bundle == tmp_path / "session.json"
+
+
 def test_pinned_specialist_runtime_cache_is_path_sensitive(tmp_path: Path) -> None:
     module = _module()
     created: list[dict[str, Path]] = []

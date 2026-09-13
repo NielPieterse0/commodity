@@ -21,6 +21,18 @@
     "phase6_authority_sha256": "bcf7e2abdab6e99529f6c79407aa6225b8234dd9aafcfe6c526e6d4b1df8b445",
     "phase4_specialist_authority_sha256": "d42d8763dde4c8593e235425c42bbb6f2b6c2226b80877688bd4b87eea59dc21"
   },
+  "prospective_execution": {
+    "active_stage": "paper",
+    "broker_order_submission_allowed": false,
+    "saxo_sim_order_submission_allowed": false,
+    "saxo_live_order_submission_allowed": false,
+    "promotion_requires_explicit_operator_decision": true,
+    "promotion_sequence": ["paper", "saxo_sim", "saxo_live"],
+    "saxo_sim_promotion_status": "not_approved",
+    "saxo_live_promotion_status": "not_approved",
+    "promotion_gate": "material positive untouched prospective paper return after frozen costs, acceptable drawdown, seasonal/regime stability, sufficient independent trades, demonstrable improvement versus frozen simple comparators, and no dependence on one lucky period or fragile signal",
+    "simulation_mode_semantics": "generic repository simulation remains offline/internal only; it does not authorize Saxo SIM order submission"
+  },
   "prospective_serving_contract": {
     "status": "frozen_active",
     "defect_class": "outcome_independent_pre_first_observation_feasibility_defect",
@@ -38,6 +50,7 @@
     "timesfm_short_veto": "require the pinned TimesFM 2.5 point-return feature at every otherwise eligible prospective origin using PIT-known same-contract history and the frozen model identity",
     "specialist_generation": "operational prospective decisions generate TimesFM/Kronos outputs inside the pinned serving path from internally decoded exact-source Databento histories; caller-supplied specialist numeric outputs or provenance are forbidden, and activation remains fail-closed until the exact runtime proof and fresh-source gates pass",
     "session_generation": "operational daily session accounting derives held-contract identity, execution prices and source identity inside the verified Databento serving path; caller-supplied execution prices or source identity are forbidden, and activation remains fail-closed until the exact runtime proof and fresh-source gates pass",
+    "daily_operation": "run-day performs any due prior-session accounting first, automatically settles newly complete five-session outcomes, checks canonical Databento freshness, records a stale-source origin miss against the exact latest available source snapshot without backfill, prewarms exact-source specialist history, derives the next frozen decision, and reports the hash-chain/risk scorecard; a missing source or invalid evidence fails closed",
     "episode_settlement": {
       "rule_id": "phase7-episode-settlement-v1",
       "status": "frozen_active",
@@ -134,7 +147,18 @@
       "maximum_peak_drawdown_fraction": "<=0.10",
       "daily_loss_fraction": "<=0.02",
       "unauthorized_post_kill_restart_count": 0
-    }
+    },
+    "frozen_simple_comparators": {
+      "market_only_no_modifier": {
+        "model_id": "histgb-core-v1",
+        "decision_field": "baseline_position",
+        "rule": "use the pre-specialist baseline_position already persisted before every complete v1 decision; never choose or tune the comparator from prospective outcomes",
+        "evaluation_population": "same complete prospective decision origins and exact observed session-price evidence as v1",
+        "economics": "replay the frozen Phase-1 position/cost/risk accounting deterministically from the persisted baseline_position and exact session observations",
+        "purpose": "test whether TimesFM/Kronos policy complexity earns incremental prospective value over the simpler frozen market-only decision"
+      }
+    },
+    "permanent_control": "v1 remains frozen and continues generating its own append-only paper ledger when later challenger systems are researched or paper-traded; challengers may not rewrite, retune or backfill the v1 ledger"
   },
   "prospective_interpretation": {
     "success": "All minimum coverage/logging requirements pass and the frozen economic gate passes without post-freeze tuning.",
