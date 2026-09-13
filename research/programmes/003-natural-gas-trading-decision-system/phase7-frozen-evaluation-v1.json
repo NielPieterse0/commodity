@@ -129,12 +129,19 @@
     },
     "pre_freeze_reserved_history": {
       "period_start": "2023-01-01",
-      "period_end": "remote_freeze_landing",
-      "classification": "reserved_historical_not_opened",
-      "outcomes_accessed": false,
+      "period_end": "2026-09-11",
+      "classification": "foundation_model_qualified_historical_evidence",
+      "outcomes_accessed": true,
       "clean_confirmation_eligible": false,
-      "reason": "The frozen candidate depends on TimesFM/Kronos-derived roles. Foundation-model checkpoint pretraining exposure and historical checkpoint availability prevent a defensible pristine historical-confirmation claim for this candidate.",
-      "permitted_future_label_if_evaluated": "foundation_model_qualified_historical_evidence"
+      "benchmark_id": "v1-qualified-historical-2023plus-v1",
+      "result_ref": "research/programmes/003-natural-gas-trading-decision-system/phase7-v1-qualified-historical-benchmark-result-v1.json",
+      "benchmark_origin_count": 805,
+      "v1_net_pnl_usd": -2520.0,
+      "v1_ending_equity_usd": 97480.0,
+      "v1_maximum_peak_drawdown_fraction": 0.0252,
+      "v1_risk_kill_reason": "daily_loss_limit",
+      "market_only_comparator_net_pnl_usd": -2520.0,
+      "reason": "The operator-authorized one-shot frozen-v1 benchmark was executed without tuning or reselection. TimesFM/Kronos checkpoint pretraining exposure prevents a pristine historical-confirmation claim, so this score is permanently qualified historical evidence and an immutable v2 comparison baseline."
     }
   },
   "prospective_evidence_contract": {

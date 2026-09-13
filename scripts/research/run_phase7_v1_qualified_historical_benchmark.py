@@ -5,7 +5,6 @@ import hashlib
 import importlib.util
 import json
 import os
-import shutil
 import sys
 from pathlib import Path
 from typing import Any
@@ -37,7 +36,6 @@ TRADING_POLICY = ROOT / "config/trading-policy.json"
 MODELS_CONFIG = ROOT / "config/models.json"
 PHASE4_SCRIPT = ROOT / "scripts/research/run_phase4_foundation_specialists.py"
 DERIVATION_SCRIPT = ROOT / "scripts/research/derive_phase7_prospective_decision.py"
-DEV_SPECIALISTS = ROOT / ".work/changes/358-foundation-specialists"
 POLICY_ID = "s-veto__l-none__p-half__u-none"
 COMPARATOR_ID = "s-none__l-none__p-none__u-none"
 
@@ -156,14 +154,26 @@ def benchmark_origins(
     return selected.reset_index(drop=True)
 
 
-def _initialise_feature_checkpoint(destination: Path, source: Path) -> None:
-    if destination.exists():
-        return
-    destination.parent.mkdir(parents=True, exist_ok=True)
-    shutil.copy2(source, destination)
+def _narrow_specialist_inputs(
+    checkpoint_root: Path,
+    session: pd.DataFrame,
+    features: pd.DataFrame,
+    origins: pd.DataFrame,
+) -> None:
+    origin_dates = set(pd.to_datetime(origins["trade_date"], utc=True))
+    feature_dates = pd.to_datetime(features["trade_date"], utc=True)
+    session_dates = pd.to_datetime(session["trade_date"], utc=True)
+    specialist_features = features.loc[feature_dates.isin(origin_dates)].copy()
+    specialist_session = session.loc[session_dates.isin(origin_dates)].copy()
+    if len(specialist_features) != len(origins) or len(specialist_session) != len(origins):
+        raise RuntimeError("benchmark specialist inputs do not cover exactly the frozen origins")
+    inputs = checkpoint_root / "inputs"
+    specialist_features.to_parquet(inputs / "features.parquet", index=False)
+    specialist_session.to_parquet(inputs / "session-path.parquet", index=False)
 
 
-def generate_one_step_specialists(    checkpoint_root: Path,
+def generate_one_step_specialists(
+    checkpoint_root: Path,
     runtime_root: Path,
     *,
     timesfm_runtime_root: Path,
@@ -172,10 +182,8 @@ def generate_one_step_specialists(    checkpoint_root: Path,
     kronos_cache_dir: Path,
 ) -> tuple[Path, Path]:
     phase4 = _load_script(PHASE4_SCRIPT, "phase4_specialists_for_v1_benchmark")
-    timesfm_output = runtime_root / "timesfm-features.csv"
-    kronos_output = runtime_root / "kronos-features.csv"
-    _initialise_feature_checkpoint(timesfm_output, DEV_SPECIALISTS / "timesfm-features.csv")
-    _initialise_feature_checkpoint(kronos_output, DEV_SPECIALISTS / "kronos-features.csv")
+    timesfm_output = runtime_root / "benchmark-timesfm-features.csv"
+    kronos_output = runtime_root / "benchmark-kronos-features.csv"
     phase4._generate_timesfm_features(
         checkpoint_root,
         timesfm_runtime_root,
@@ -439,6 +447,7 @@ def execute_benchmark(args: argparse.Namespace) -> dict[str, Any]:
         raise RuntimeError("qualified historical benchmark result already exists; one-shot rerun refused")
     session, features = prepare_full_checkpoint(args.raw_root, args.runtime_root / "checkpoint", prereg)
     origins = benchmark_origins(session, features, prereg)
+    _narrow_specialist_inputs(args.runtime_root / "checkpoint", session, features, origins)
     timesfm, kronos = generate_one_step_specialists(
         args.runtime_root / "checkpoint",
         args.runtime_root,

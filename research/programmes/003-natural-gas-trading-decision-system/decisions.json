@@ -63,6 +63,12 @@
       "decision": "Before v2 begins, consume the reserved 2023+ historical block exactly once to record frozen v1 performance. Keep v1 unchanged and label the result foundation-model-qualified historical evidence rather than pristine confirmation because TimesFM/Kronos checkpoint pretraining exposure cannot be excluded.",
       "status": "active",
       "source_record": "research/programmes/003-natural-gas-trading-decision-system/phase7-v1-qualified-historical-benchmark-prereg-v1.json"
+    },
+    {
+      "id": "phase7-v1-qualified-historical-benchmark-result",
+      "decision": "Record the completed one-shot 2023+ frozen-v1 benchmark as the immutable v2 comparison baseline: net P&L -$2,520 after frozen costs, ending equity $97,480, maximum peak drawdown 2.52%, and a persistent daily-loss kill after the first active long session. The frozen market-only comparator produced the same economics. Do not tune, rewrite or rerun v1 in response to this result.",
+      "status": "active",
+      "source_record": "research/programmes/003-natural-gas-trading-decision-system/phase7-v1-qualified-historical-benchmark-result-v1.json"
     }
   ]
 }
