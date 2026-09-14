@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "zoom_level": "L1",
+  "programme_id": "004-v2-maximum-reproducible-one-month-return",
+  "generated_projection": false,
+  "items": [
+    {
+      "id": "issue-425-family-optimization",
+      "item": "After the issue-424 harness is landed, execute the first bounded V2 family optimization using only admissible development and rolling-research-OOS evidence under the registered search budget.",
+      "kind": "recommendation",
+      "status": "open",
+      "source_record": "research/programmes/004-v2-maximum-reproducible-one-month-return/lines/001-v2-optimization-execution/line.json",
+      "work_ref": "issue-425"
+    }
+  ]
+}

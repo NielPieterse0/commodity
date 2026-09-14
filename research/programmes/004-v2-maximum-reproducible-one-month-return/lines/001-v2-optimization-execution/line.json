@@ -1,0 +1,58 @@
+{
+  "schema_version": 1,
+  "zoom_level": "L2",
+  "programme_id": "004-v2-maximum-reproducible-one-month-return",
+  "research_line_id": "001-v2-optimization-execution",
+  "legacy_research_line_ids": [],
+  "status": "active",
+  "big_picture": "Execute Programme #393 as an auditable optimization campaign for reproducible one-month net trading return while preserving V1 and later evidence boundaries.",
+  "why_zoomed_in": "Programme setup registered the variable/search design but did not execute optimization; issue #424 establishes the shared execution, scoring, and trial-accounting layer needed before family searches.",
+  "tested_role_target_horizon": "Issue #424 tests the optimization harness itself on bounded pre-2023 development evidence; it does not select a V2 champion.",
+  "historical_facts": {
+    "observed": "Programme-003 provides reusable pre-2023 exact-source reconstruction and execution primitives plus frozen V1 development evidence. Issue #424 then completed a bounded 2022 development-only smoke pilot with three fully scored candidates and an idempotent rerun that skipped all three completed trial identities.",
+    "rules_out": "Design-only closures cannot be treated as V2 optimization evidence or champion-selection evidence. The #424 smoke pilot also does not establish a V2 trading edge: all three pilot candidates lost money in the bounded 2022 window.",
+    "does_not_rule_out": "Any registered V2 variable family, interaction, model role, lifecycle, sizing, risk, execution, or adaptation choice remains eligible for later bounded optimization. The three #424 candidates were execution probes, not an exhaustive family search."
+  },
+  "useful_secondary_observations": [
+    "The #424 smoke pilot scored expanding-mean-v1 and ridge-core-a10 at -$4,450 net and histgb-core-v1 at -$4,400 net over the bounded 2022 development window; histgb-core-v1 was only least negative, not a promoted champion."
+  ],
+  "remaining_untested_roles": [
+    "Target/horizon and market-state optimization",
+    "Fundamental/weather/cross-market optimization",
+    "Model/foundation-specialist optimization",
+    "Regime/fusion/decision optimization",
+    "Lifecycle, sizing, risk, execution and adaptation optimization",
+    "Cross-family robustness and champion assembly"
+  ],
+  "revisit_trigger": "Revisit the harness contract if a registered variable cannot be represented without weakening PIT, chronological-selection, trial-accounting, or executable-cost semantics.",
+  "programme_interpretation": "Issue #424 is infrastructure and bounded development pilot evidence only; later V2 execution slices must consume it without opening protected confirmation or prospective evidence.",
+  "evidence_refs": [
+    "config/v2_variable_registry.json",
+    "config/phase2_market_only.json",
+    "research/programmes/003-natural-gas-trading-decision-system/phase2-market-only-baseline-v1.json",
+    "research/programmes/004-v2-maximum-reproducible-one-month-return/issue424-pilot-trials-v1.jsonl",
+    "research/programmes/004-v2-maximum-reproducible-one-month-return/issue424-pilot-result-v1.json"
+  ],
+  "experiment_history": [
+    {
+      "run_id": "issue424-bounded-smoke-pilot-v1",
+      "kind": "execution_harness_smoke_pilot",
+      "evidence_class": "development",
+      "window": "2022-01-01/2022-12-31",
+      "status": "complete",
+      "candidate_count": 3,
+      "champion_selection_permitted": false,
+      "result_ref": "research/programmes/004-v2-maximum-reproducible-one-month-return/issue424-pilot-result-v1.json"
+    }
+  ],
+  "experiment_refs": [],
+  "selection_basis": "Primary optimization objective is reproducible monthly net return after costs with mandatory risk, stability, concentration, and execution diagnostics.",
+  "stopping_rules": {
+    "issue_424": [
+      "Use only development or rolling_research_oos evidence.",
+      "Stop before any reserved_confirmation or true_forward outcome is accessed.",
+      "Do not modify V1.",
+      "Pilot only enough candidates to prove deterministic scoring, accounting, and resume behavior."
+    ]
+  }
+}

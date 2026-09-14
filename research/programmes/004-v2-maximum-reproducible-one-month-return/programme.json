@@ -1,0 +1,15 @@
+{
+  "schema_version": 1,
+  "zoom_level": "L1",
+  "programme_id": "004-v2-maximum-reproducible-one-month-return",
+  "legacy_programme_ids": [],
+  "name": "V2 maximum reproducible one-month return",
+  "mission": "Optimize the complete governed Henry Hub trading system for reproducible net one-month return using only point-in-time development evidence before protected confirmation, prospective paper, Saxo SIM, or LIVE stages.",
+  "status": "active",
+  "line_refs": [
+    {
+      "research_line_id": "001-v2-optimization-execution",
+      "path": "research/programmes/004-v2-maximum-reproducible-one-month-return/lines/001-v2-optimization-execution/line.json"
+    }
+  ]
+}
