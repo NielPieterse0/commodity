@@ -1,0 +1,39 @@
+{
+  "schema_version": 2,
+  "zoom_level": "L1",
+  "programme_id": "004-v2-maximum-reproducible-one-month-return",
+  "current_scan_id": "issue-424-harness-readiness-2026-09-14",
+  "refresh_triggers": [
+    "A V2 execution slice produces new development evidence or changes the admissible search boundary."
+  ],
+  "research_line_refs": [
+    {
+      "research_line_id": "001-v2-optimization-execution",
+      "path": "research/programmes/004-v2-maximum-reproducible-one-month-return/lines/001-v2-optimization-execution/line.json"
+    }
+  ],
+  "feasibility_map": [
+    {
+      "target": "maximum reproducible one-month net trading return under the registered V2 search contract",
+      "horizon": "development-only pre-2023 pilot before family optimization",
+      "information_family": "common V2 optimization harness and market-only pilot",
+      "scientific_mepi": null,
+      "raw_information": 2865,
+      "effective_information_method": {
+        "method": "reuse of PIT exact-contract Phase-2 development origins with a new monthly economic score and immutable trial ledger"
+      },
+      "detectable_effect": null,
+      "expected_snr": null,
+      "costs": {
+        "base_round_trip_usd": 30.0
+      },
+      "feasibility": "go"
+    }
+  ],
+  "semantics": {
+    "protected_confirmation_accessed": false,
+    "development_only": true,
+    "v1_immutable": true,
+    "issue": 424
+  }
+}

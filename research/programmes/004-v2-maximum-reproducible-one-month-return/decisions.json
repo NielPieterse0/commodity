@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "zoom_level": "L1",
+  "programme_id": "004-v2-maximum-reproducible-one-month-return",
+  "generated_projection": false,
+  "decisions": [
+    {
+      "id": "issue-424-development-only-harness",
+      "decision": "Build and prove the common V2 optimization harness on pre-2023 development evidence only; preserve V1 unchanged and prohibit reserved-confirmation, true-forward, paper, SIM and LIVE evidence from search.",
+      "status": "active",
+      "source_record": "config/v2_variable_registry.json"
+    }
+  ]
+}

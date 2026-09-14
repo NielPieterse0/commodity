@@ -1,0 +1,104 @@
+{
+  "schema_version": 1,
+  "artifact_type": "v2_optimization_harness_smoke_pilot",
+  "programme_id": "004-v2-maximum-reproducible-one-month-return",
+  "research_line_id": "001-v2-optimization-execution",
+  "issue": 424,
+  "status": "complete",
+  "claim_scope": "harness_execution_proof_only",
+  "champion_selection_permitted": false,
+  "evidence": {
+    "class": "development",
+    "window_start": "2022-01-01",
+    "window_end": "2022-12-31",
+    "latest_allowed_trade_date": "2022-12-31",
+    "protected_confirmation_accessed": false,
+    "prospective_paper_accessed": false,
+    "saxo_sim_accessed": false,
+    "saxo_live_accessed": false
+  },
+  "identities": {
+    "registry_id": "programme-393-v2-variable-registry-v1",
+    "source_provenance_sha256": "dca3bf0692e9f3ccc52ec6c6aae81ebf668e17176e2fedf7ee0086b483bcef23",
+    "code_id": "8325726abb3100840017b77b3f5e0a4b08067f18323eeda946ec692ffffc8780",
+    "trial_ledger_path": "research/programmes/004-v2-maximum-reproducible-one-month-return/issue424-pilot-trials-v1.jsonl",
+    "trial_ledger_sha256": "27a232e1244584a4acce8e05d78d1db4a27f310e04eb63a74271d7aa604885e6"
+  },
+  "search_budget": {
+    "mode": "bounded_smoke_pilot",
+    "maximum_trials": 3,
+    "planned_trials": 3,
+    "seed": 0,
+    "candidate_ids": [
+      "expanding-mean-v1",
+      "ridge-core-a10",
+      "histgb-core-v1"
+    ],
+    "pruning_policy": "none",
+    "reason": "The smoke pilot fully scores every declared candidate so execution, scoring, ledger identity, checkpointing and resume behavior are exercised without adaptive pruning."
+  },
+  "execution_accounting": {
+    "trial_record_count": 3,
+    "initial_completed_trials": 3,
+    "initial_pruned_trials": 0,
+    "initial_failed_trials_recorded": 0,
+    "identical_rerun_executed_trials": 0,
+    "identical_rerun_skipped_completed_trials": 3,
+    "identical_rerun_trial_count_after_run": 3,
+    "resumability_proven": true,
+    "origin_canonicalization": {
+      "input_origins": 2929,
+      "output_origins": 2865,
+      "collapsed": 64
+    },
+    "source_reconstruction_partitions": {
+      "completed": 13,
+      "total": 13,
+      "latest_partition_end": "2022-12-31",
+      "durable_checkpointing_used": true
+    }
+  },
+  "trial_dispositions": [
+    {
+      "trial_id": "19563a167ebe9bb3386e382aef70b6b771990207ab90f1d76866ce8975331d64",
+      "candidate_id": "expanding-mean-v1",
+      "status": "complete",
+      "pruning_disposition": "not_pruned",
+      "total_net_pnl_usd": -4450.000000000002,
+      "mean_monthly_net_return": -0.0037083333333333347,
+      "worst_monthly_net_return": -0.04450000000000002,
+      "max_drawdown_fraction": 0.04588346896999351,
+      "transaction_cost_usd": 30.0
+    },
+    {
+      "trial_id": "6b18e4000fd2ded9fb37bbb2259780b6d9cf8114bc776234f21e03e2eac39f3e",
+      "candidate_id": "ridge-core-a10",
+      "status": "complete",
+      "pruning_disposition": "not_pruned",
+      "total_net_pnl_usd": -4450.000000000002,
+      "mean_monthly_net_return": -0.0037083333333333347,
+      "worst_monthly_net_return": -0.04450000000000002,
+      "max_drawdown_fraction": 0.04588346896999351,
+      "transaction_cost_usd": 30.0
+    },
+    {
+      "trial_id": "48cd1be0c9c417315d4d40184d87e1e3dcee6626771b5a7b9e406df81d7dc87c",
+      "candidate_id": "histgb-core-v1",
+      "status": "complete",
+      "pruning_disposition": "not_pruned",
+      "total_net_pnl_usd": -4400.000000000002,
+      "mean_monthly_net_return": -0.0036666666666666683,
+      "worst_monthly_net_return": -0.04400000000000002,
+      "max_drawdown_fraction": 0.04538419292026562,
+      "transaction_cost_usd": 60.0
+    }
+  ],
+  "result": {
+    "harness_status": "proven_on_bounded_development_pilot",
+    "all_pilot_candidates_profitable": false,
+    "least_negative_candidate_id": "histgb-core-v1",
+    "least_negative_total_net_pnl_usd": -4400.000000000002,
+    "scientific_interpretation": "The bounded 2022 smoke pilot proves execution/accounting behavior only. All three pilot candidates were negative, so the pilot does not establish a V2 trading edge and cannot select or promote a champion.",
+    "next_step": "Use the landed harness for separately governed V2 family optimization under issue 425 and later champion assembly; keep protected confirmation and forward stages closed."
+  }
+}
