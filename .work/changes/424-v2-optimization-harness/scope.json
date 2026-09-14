@@ -1,7 +1,7 @@
 {
   "schema_version": 4,
   "change_id": "424-v2-optimization-harness",
-  "status": "active",
+  "status": "closed",
   "branch": "change/424-v2-optimization-harness",
   "worktree": ".work/worktrees/424-v2-optimization-harness",
   "base": "main",
