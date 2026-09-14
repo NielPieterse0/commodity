@@ -1,0 +1,31 @@
+{
+  "schema_version": 4,
+  "change_id": "396-v2-variable-registry",
+  "status": "active",
+  "branch": "change/396-v2-variable-registry",
+  "worktree": ".work/worktrees/396-v2-variable-registry",
+  "base": "main",
+  "outcome": "Register the authoritative V2 variable search space for Programme #393, restore deterministic generated documentation required by CI, and land issue #396 without starting optimization or opening any protected evidence boundary.",
+  "owned_paths": [
+    ".work/changes/396-v2-variable-registry/**",
+    "config/v2_variable_registry.json",
+    "docs/reference/config/v2_variable_registry.md"
+  ],
+  "shared_paths": [
+    "docs/reference/README.md"
+  ],
+  "excluded_paths": [],
+  "dependencies": [],
+  "integration_owner": null,
+  "complexity": "medium",
+  "risk_triggers": [],
+  "base_evidence": {
+    "local_sha": "3a6ebbdb64f5653a7ed2539870d4127324693f4e",
+    "local_tree": "62ad34ea9aa2edecbbb8c790d6a5f13c11d0edf8",
+    "upstream_sha": "26a363baf6262b6be9823c01a0d14dd0507c0675",
+    "upstream_tree": "49dafea3ad57c67e9fc3d5fc882ceb8d5010b273",
+    "upstream_ref": "refs/remotes/origin/main",
+    "evidence_source": "local_remote_tracking_ref",
+    "relation": "content_divergence"
+  }
+}

@@ -24,6 +24,7 @@ This directory is generated from current machine-readable repository artifacts.
 - [`config/third_party.json`](config/third_party.md)
 - [`config/tools.json`](config/tools.md)
 - [`config/trading-policy.json`](config/trading-policy.md)
+- [`config/v2_variable_registry.json`](config/v2_variable_registry.md)
 - [`contracts/experiment_record.schema.json`](contracts/experiment_record.schema.md)
 - [`contracts/exploratory_run.schema.json`](contracts/exploratory_run.schema.md)
 - [`contracts/interpretation_metadata.schema.json`](contracts/interpretation_metadata.schema.md)
