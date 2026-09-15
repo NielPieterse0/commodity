@@ -100,7 +100,12 @@ def test_windows_move_file_uses_write_through_flags(monkeypatch: pytest.MonkeyPa
     class FakeKernel32:
         MoveFileExW = FakeMoveFile()
 
-    monkeypatch.setattr(v2_parallel.ctypes, "WinDLL", lambda *_args, **_kwargs: FakeKernel32())
+    monkeypatch.setattr(
+        v2_parallel.ctypes,
+        "WinDLL",
+        lambda *_args, **_kwargs: FakeKernel32(),
+        raising=False,
+    )
     v2_parallel._windows_move_file(Path("source-a"), Path("dest-a"), replace_existing=True)
     v2_parallel._windows_move_file(Path("source-b"), Path("dest-b"), replace_existing=False)
 
@@ -121,8 +126,13 @@ def test_windows_move_file_propagates_api_failure(monkeypatch: pytest.MonkeyPatc
     class FakeKernel32:
         MoveFileExW = FailingMoveFile()
 
-    monkeypatch.setattr(v2_parallel.ctypes, "WinDLL", lambda *_args, **_kwargs: FakeKernel32())
-    monkeypatch.setattr(v2_parallel.ctypes, "get_last_error", lambda: 5)
+    monkeypatch.setattr(
+        v2_parallel.ctypes,
+        "WinDLL",
+        lambda *_args, **_kwargs: FakeKernel32(),
+        raising=False,
+    )
+    monkeypatch.setattr(v2_parallel.ctypes, "get_last_error", lambda: 5, raising=False)
     with pytest.raises(OSError, match="failed durable move"):
         v2_parallel._windows_move_file(Path("source"), Path("dest"), replace_existing=True)
 
