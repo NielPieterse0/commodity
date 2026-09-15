@@ -101,6 +101,20 @@
         "kind": "release_successor",
         "trace_ref": "research-line:004-volatility/rep-010-synthesis"
       }
+    },
+    {
+      "trigger_id": "feas022-target-pit-and-capacity-ready",
+      "source_record": "research/programmes/002-henry-hub-fresh/evidence-map.json",
+      "disposition": "hold",
+      "status": "active",
+      "evidence_input": "research/programmes/002-henry-hub-fresh/feasibility-readiness.json",
+      "metric": "holds.feas022.ready",
+      "operator": "eq",
+      "threshold": true,
+      "successor_action": {
+        "kind": "create_successor",
+        "trace_ref": "research-line:005-fundamental-balance/target-matched-physical-bottleneck-successor"
+      }
     }
   ],
   "evaluation_history": [
@@ -162,6 +176,15 @@
       "evaluation_id": "rep010-components-complete:2026-09-03T16:45:00+02:00",
       "evaluated_at": "2026-09-03T16:45:00+02:00",
       "trigger_id": "rep010-components-complete",
+      "observed": false,
+      "satisfied": false,
+      "evidence_ref": "research/programmes/002-henry-hub-fresh/feasibility-readiness.json",
+      "successor_ref": null
+    },
+    {
+      "evaluation_id": "feas022-target-pit-and-capacity-ready:2026-09-09T18:57:22+02:00",
+      "evaluated_at": "2026-09-09T18:57:22+02:00",
+      "trigger_id": "feas022-target-pit-and-capacity-ready",
       "observed": false,
       "satisfied": false,
       "evidence_ref": "research/programmes/002-henry-hub-fresh/feasibility-readiness.json",
