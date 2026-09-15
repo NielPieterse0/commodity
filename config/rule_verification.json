@@ -192,6 +192,11 @@
       "reason": "requires external Work/GitHub lifecycle state; enforced by KIS rather than repository pre-CI"
     },
     {
+      "id": "multi-agent-work-coordination",
+      "source": "AGENTS.md",
+      "reason": "requires live KIS claims, reservation/lease fencing, governed worktree identity, Work fields, and linked-issue comment state; enforced by KIS/Work Management rather than repository bytes alone"
+    },
+    {
       "id": "exact-head-merge-policy",
       "source": "CONTRIBUTING.md",
       "reason": "requires provider-native pull-request and Actions state; enforced by KIS closeout workflow"

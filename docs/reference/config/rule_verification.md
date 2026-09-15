@@ -22,4 +22,4 @@ Source: `config/rule_verification.json`
 | `pre_ci_entrypoint` | str |
 | `ci_workflow` | str |
 | `rules` | array (18 items) |
-| `non_local_rules` | array (4 items) |
+| `non_local_rules` | array (5 items) |

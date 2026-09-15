@@ -91,6 +91,9 @@ The linked GitHub Project issue is the human-facing research-slice document. New
 - Operate repository changes through the live `kis-mcp` workflow and use its current lifecycle state, legal next actions, evidence, review, verification, Git/GitHub, recovery, and closeout rules.
 - Do not reproduce or substitute the evolving KIS lifecycle with remembered steps, manual lifecycle actions, or historical commands.
 - Work Management owns configured operational tracking such as priority, readiness, hold/defer state, scheduling, and claims; it does not own repository, scientific, policy, or KIS workflow truth.
+- Scheduled or multi-agent repository work MUST coordinate through live KIS Work Management plus the linked source issue. Work fields own current operational state; append-only issue comments carry coordinator assignments, worker start/progress/completion/blocker handoffs, and reconciliation notes. Chat/session memory is never a coordination authority.
+- Concurrent mutating agents MUST hold distinct KIS Work/change identities and isolated governed worktrees with non-conflicting owned paths. One governed change/worktree has at most one active mutating agent generation; reassignment must use KIS reservation/lease fencing rather than starting a second writer.
+- Single-agent operation remains valid and uses the same Work/issue protocol with one active worker lane. Multi-agent scheduling may increase independent lane capacity, but a blocker applies only to its owning change unless live KIS dependencies or a protected evidence/policy boundary make it programme-wide.
 
 ## Skills
 
