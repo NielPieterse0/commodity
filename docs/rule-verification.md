@@ -31,5 +31,6 @@ These rules cannot be decided from repository bytes alone and remain under live 
 
 - `kis-runtime-governance` (`AGENTS.md`): requires live external KIS runtime state and workflow evidence; not decidable from repository bytes alone
 - `work-management-state` (`AGENTS.md`): requires external Work/GitHub lifecycle state; enforced by KIS rather than repository pre-CI
+- `multi-agent-work-coordination` (`AGENTS.md`): requires live KIS claims, reservation/lease fencing, governed worktree identity, Work fields, and linked-issue comment state; enforced by KIS/Work Management rather than repository bytes alone
 - `exact-head-merge-policy` (`CONTRIBUTING.md`): requires provider-native pull-request and Actions state; enforced by KIS closeout workflow
 - `secret-history-review` (`SECURITY.md`): publication-wide history/ref review is provider/lifecycle scoped; current-tree hygiene remains pre-CI verified

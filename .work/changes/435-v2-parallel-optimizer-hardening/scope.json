@@ -1,0 +1,43 @@
+{
+  "schema_version": 4,
+  "change_id": "435-v2-parallel-optimizer-hardening",
+  "status": "active",
+  "branch": "change/435-v2-parallel-optimizer-hardening",
+  "worktree": ".work/worktrees/435-v2-parallel-optimizer-hardening",
+  "base": "main",
+  "outcome": "Harden Programme #393 optimization execution for identity-safe deterministic single/parallel worker runs and align repository multi-agent operation with KIS Work Management/issue coordination without modifying scored #425 evidence.",
+  "owned_paths": [
+    "AGENTS.md",
+    "config/rule_verification.json",
+    "docs/rule-verification.md",
+    "docs/reference/config/rule_verification.md",
+    "src/commodity/v2_parallel.py",
+    "tests/test_v2_parallel.py",
+    ".work/changes/435-v2-parallel-optimizer-hardening/**"
+  ],
+  "shared_paths": [],
+  "excluded_paths": [],
+  "dependencies": [],
+  "integration_owner": null,
+  "complexity": "large",
+  "risk_triggers": [
+    "persistent_state"
+  ],
+  "work_management": {
+    "project_id": "commodity",
+    "record_id": "WORK-435",
+    "source_repository": "NielPieterse0/commodity",
+    "source_number": 435,
+    "source_kind": "issue",
+    "documentation_impact": "planned"
+  },
+  "base_evidence": {
+    "local_sha": "891549f7de4b83413cc953152930525ecd461f3f",
+    "local_tree": "ed8f14d9601c247e37513972851998a3d9f02de7",
+    "upstream_sha": "891549f7de4b83413cc953152930525ecd461f3f",
+    "upstream_tree": "ed8f14d9601c247e37513972851998a3d9f02de7",
+    "upstream_ref": "refs/remotes/origin/main",
+    "evidence_source": "local_remote_tracking_ref",
+    "relation": "same_sha"
+  }
+}
