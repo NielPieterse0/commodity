@@ -1,0 +1,50 @@
+{
+  "schema_version": 1,
+  "review_id": "REV-43802",
+  "review_type": "architecture",
+  "status": "completed",
+  "reviewed_source": {
+    "source": "range",
+    "base_ref": "a717c6293618b0b98b90a554ea0e818ef7c0e17a",
+    "head_ref": "a1473ca54c64e2443b5c3761a62840c69c4ab3b6",
+    "source_fingerprint": "133b2fe1e316c4795e631535edc55c33847a6f3f6f11a6f9b2287e1242a7dc87"
+  },
+  "evidence": {
+    "changed_files": [
+      ".work/changes/436-438-exact-input-assurance-binding/closeout.md",
+      ".work/changes/436-438-exact-input-assurance-binding/plan.md",
+      ".work/changes/436-438-exact-input-assurance-binding/scope.json",
+      ".work/changes/436-438-exact-input-assurance-binding/spec.md",
+      ".work/changes/436-438-exact-input-assurance-binding/tasks.md",
+      "src/commodity/cli.py",
+      "src/commodity/trading_decision_v0.py",
+      "tests/test_trading_decision_v0.py"
+    ],
+    "included_files": [
+      ".work/changes/436-438-exact-input-assurance-binding/closeout.md",
+      ".work/changes/436-438-exact-input-assurance-binding/plan.md",
+      ".work/changes/436-438-exact-input-assurance-binding/spec.md",
+      ".work/changes/436-438-exact-input-assurance-binding/tasks.md",
+      "src/commodity/cli.py",
+      "src/commodity/trading_decision_v0.py"
+    ],
+    "omitted_files": [],
+    "ignored_files": [
+      ".work/changes/436-438-exact-input-assurance-binding/scope.json",
+      "tests/test_trading_decision_v0.py"
+    ],
+    "evidence_projector": "architecture-boundary",
+    "evidence_complete": true
+  },
+  "result": {
+    "findings": [],
+    "unknowns": [],
+    "diagnostics": [],
+    "summary": "Exact-diff architecture review found no violations; the change stays within the existing input-boundary seam and preserves module boundaries."
+  },
+  "model": {
+    "backend": "nvidia-nim",
+    "profile": "super",
+    "name": "nvidia/nemotron-3-super-120b-a12b"
+  }
+}

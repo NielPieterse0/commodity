@@ -739,6 +739,7 @@ def _trading_decision_v0(args: argparse.Namespace) -> None:
         "input_authority_git_commit": authority_identity["git_commit"],
         "input_authority_git_blob": authority_identity["git_blob"],
         "data_assurance_sha256": boundary.data_assurance_sha256,
+        "decision_input_binding_sha256": boundary.decision_input_binding_sha256,
         "models_config_sha256": models_hash,
         "simulation_config_sha256": simulation_hash,
         "trading_policy_config_sha256": trading_policy_hash,
