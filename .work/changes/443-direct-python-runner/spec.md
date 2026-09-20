@@ -1,33 +1,29 @@
 # Change Specification: Direct Python Runner
 
 - **Change ID**: `443-direct-python-runner`
-- **Status**: Draft
-- **Complexity**: use live KIS schema-v4 classification
+- **Status**: Active; implementation complete, delivery pending
+- **Complexity**: Medium (`scope.json`)
+- **Authority**: GitHub issue #443, `AGENTS.md`, and `scope.json`
 
 ## Outcome
 
-Add a Commodity-only direct Python execution runner that launches the active worktree .venv interpreter without PowerShell, enforces Projects-local execution/cache/runtime boundaries, supports routine test/lint/research/optimization commands, and records concrete run identity/status while leaving scripts/verify.ps1 unchanged.
+Provide a Commodity-owned launcher that invokes the active worktree `.venv\Scripts\python.exe` directly without PowerShell for routine Python execution.
 
-## Authority and scope
+## Requirements
 
-- Authoritative sources:
-- Owned/shared/excluded paths: `scope.json`
-- Dependencies/integration ownership: `scope.json`
+1. Resolve only the active checkout/worktree interpreter and fail closed on any other interpreter or repository root.
+2. Keep launcher-managed cache, temp, run records, and runtime state beneath `C:\Projects\commodity`.
+3. Force child Python resolution to the active worktree via `VIRTUAL_ENV`, `PYTHONPATH`, `PYTHONNOUSERSITE`, and PATH while removing inherited `PYTHONHOME`.
+4. Support pytest, Ruff, modules, repository scripts, and arbitrary Python arguments while preserving child exit codes.
+5. Record concrete child/launcher process identity and classify vanished running processes as interrupted without signalling live processes.
+6. Keep `scripts\verify.ps1` unchanged.
 
-## Requirements mapping
+## Acceptance evidence
 
-- Ordinary engineering change: record the bounded software/design requirements that are not owned elsewhere.
-- Research-originated change: reference the exact L3 research authority/fingerprint and map it to repository owners/interfaces only. Do not restate, reinterpret, or extend the scientific design.
-
-## Acceptance
-
-1. **Given** the authoritative requirements, **When** the bounded change is implemented, **Then** the mapped acceptance evidence passes.
-
-## Risks and recovery
-
-- Risk:
-- Recovery:
+- `tests/test_run_python.py` covers interpreter/root boundaries, environment containment, command/argument forwarding, relative script resolution, run state, and non-destructive PID reconciliation.
+- `scripts\run.cmd` directly launches the worktree venv Python and forwards the child exit code.
+- Canonical `scripts\verify.ps1` must pass on the final exact review head before publication.
 
 ## Out of scope
 
--
+No kis-mcp, Defender, host shell-policy, global Python, or canonical verification-orchestration changes.

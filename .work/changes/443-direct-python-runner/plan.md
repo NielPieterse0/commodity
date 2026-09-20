@@ -1,26 +1,25 @@
 # Direct Python Runner Implementation Plan
 
-> Execute through the live KIS lifecycle and keep `scope.json` current.
+**Goal:** Satisfy issue #443 with a repository-only direct Python runner while preserving the existing canonical verification contract.
 
-**Goal:** Add a Commodity-only direct Python execution runner that launches the active worktree .venv interpreter without PowerShell, enforces Projects-local execution/cache/runtime boundaries, supports routine test/lint/research/optimization commands, and records concrete run identity/status while leaving scripts/verify.ps1 unchanged.
+## Implementation
 
-**Architecture:** Describe only the smallest repository implementation needed. For research-originated work, reference the L3 authority instead of reproducing scientific reasoning.
+- Add `scripts/environment/run_python.py` as the bounded execution authority.
+- Add `scripts/run.cmd` as the non-PowerShell Windows entry point.
+- Enforce exact active-worktree `.venv\Scripts\python.exe` identity.
+- Redirect launcher-managed cache/temp/runtime state beneath Commodity.
+- Sanitize child Python environment so inherited host Python variables cannot override the active worktree.
+- Support pytest, Ruff, module, script, and raw Python modes with exact argument/exit-code forwarding.
+- Track child PID, launcher PID, run state, timestamps, and command hash without persisting raw command arguments.
+- Reconcile vanished processes as interrupted with a non-destructive Windows process query.
 
-## Global constraints
+## Verification and delivery
 
-- Stay inside `scope.json`.
-- Preserve upstream scientific/requirements authority; implementation planning cannot redefine it.
-- Use focused tests/verification during development and let the live KIS lifecycle decide what evidence is missing or stale.
-- Do not rerun valid implementation evidence merely because the workflow was interrupted.
+- Run focused runner tests and Ruff after each behavioral correction.
+- Prove a real direct launch from outside the worktree uses the exact worktree interpreter/environment and preserves a non-zero exit code.
+- Run `scripts\verify.ps1` on the final exact head.
+- Complete KIS review/promotion, exact-head PR, provider-native CI, merge, Work reconciliation, and safe worktree cleanup.
 
-### Task 1: Map authority to implementation
+## Recovery
 
-**Files:**
-- Modify:
-- Test:
-
-- [ ] Identify the exact authoritative requirement/research references.
-- [ ] Write failing acceptance evidence for the repository behavior.
-- [ ] Implement the smallest complete change.
-- [ ] Run affected checks and resolve review findings.
-- [ ] Return to upstream research/design authority if implementation exposes a material scientific/design change.
+All changes are isolated on `change/443-direct-python-runner`; rollback is branch/PR scoped and does not alter host configuration.
