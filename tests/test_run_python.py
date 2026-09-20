@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import importlib.util
 import json
+import subprocess
 import sys
 from pathlib import Path
 
@@ -118,6 +119,17 @@ def test_build_command_uses_active_venv_python(
     for token in expected_prefix:
         assert token in joined
 
+
+def test_python_command_preserves_argument_vector_exactly(tmp_path: Path):
+    commodity_root, _worktree, script, python = _layout(tmp_path)
+    context = runner.resolve_context(script, python, commodity_root)
+    arguments = ["-c", "import sys; print(sys.argv[1:])", "a b", 'quote"value', "", "Δ"]
+
+    command = runner.build_command(context, ["python", *arguments])
+
+    assert command == [str(python.resolve()), *arguments]
+
+
 def test_pytest_command_forces_repository_local_cache(tmp_path: Path):
     commodity_root, _worktree, script, python = _layout(tmp_path)
     context = runner.resolve_context(script, python, commodity_root)
@@ -170,6 +182,32 @@ def test_reconcile_marks_missing_running_pid_interrupted(tmp_path: Path):
     assert record["state"] == "interrupted"
     persisted = json.loads(record_path.read_text(encoding="utf-8"))
     assert persisted["state"] == "interrupted"
+
+
+def test_pid_probe_does_not_signal_live_child(tmp_path: Path):
+    commodity_root, _worktree, script, python = _layout(tmp_path)
+    context = runner.resolve_context(script, python, commodity_root)
+    command = runner.build_command(context, ["python", "-c", "print(1)"])
+    creationflags = getattr(subprocess, "CREATE_NEW_PROCESS_GROUP", 0)
+    child = subprocess.Popen(
+        [sys.executable, "-c", "import time; time.sleep(30)"],
+        creationflags=creationflags,
+    )
+    try:
+        record_path = runner.write_running_record(
+            context, "python", command, child_pid=child.pid, launcher_pid=3131
+        )
+        running = runner.reconcile_run_record(record_path)
+        assert running["state"] == "running"
+        assert child.poll() is None
+    finally:
+        if child.poll() is None:
+            child.terminate()
+        child.wait(timeout=5)
+
+    interrupted = runner.reconcile_run_record(record_path)
+    assert interrupted["state"] == "interrupted"
+
 
 def test_cmd_shim_launches_venv_python_without_powershell():
     shim = (REPO_ROOT / "scripts" / "run.cmd").read_text(encoding="utf-8").lower()
