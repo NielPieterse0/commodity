@@ -43,11 +43,22 @@ def test_resolve_context_accepts_active_worktree_venv(tmp_path: Path):
     assert context.python == python.resolve()
     assert context.runtime_root.is_relative_to(commodity_root.resolve())
 
-def test_resolve_context_rejects_interpreter_outside_active_worktree(tmp_path: Path):
-    commodity_root, _worktree, script, _python = _layout(tmp_path)
-    wrong_python = commodity_root / ".venv" / "Scripts" / "python.exe"
+@pytest.mark.parametrize(
+    "wrong_python_factory",
+    [
+        lambda root: root / ".venv" / "Scripts" / "python.exe",
+        lambda root: root / ".work" / "worktrees" / "sibling" / ".venv" / "Scripts" / "python.exe",
+        lambda root: root.parent / "external" / ".venv" / "Scripts" / "python.exe",
+    ],
+)
+def test_resolve_context_rejects_interpreters_outside_active_worktree(
+    tmp_path: Path, wrong_python_factory
+):
+    commodity_root, worktree, script, _python = _layout(tmp_path)
+    wrong_python = wrong_python_factory(commodity_root)
     wrong_python.parent.mkdir(parents=True)
     wrong_python.write_bytes(b"")
+    assert not wrong_python.resolve().is_relative_to(worktree.resolve())
 
     with pytest.raises(runner.RunnerError, match="RUNNER_PYTHON_MISMATCH"):
         runner.resolve_context(script, wrong_python, commodity_root)
