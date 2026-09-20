@@ -113,7 +113,11 @@ def _record_dir(context: RunnerContext) -> Path:
 
 def _write_json(path: Path, payload: dict[str, object]) -> None:
     temp = path.with_suffix(path.suffix + ".tmp")
-    temp.write_text(json.dumps(payload, sort_keys=True, indent=2), encoding="utf-8")
+    temp.write_text(
+        json.dumps(payload, sort_keys=True, indent=2),
+        encoding="utf-8",
+        newline="\n",
+    )
     temp.replace(path)
 
 
