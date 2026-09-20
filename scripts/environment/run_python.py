@@ -77,6 +77,15 @@ def build_environment(context: RunnerContext, base: dict[str, str] | None = None
     for key, value in managed.items():
         value.mkdir(parents=True, exist_ok=True)
         env[key] = str(value)
+
+    venv_root = context.repo_root / ".venv"
+    venv_scripts = venv_root / "Scripts"
+    env["VIRTUAL_ENV"] = str(venv_root)
+    env["PYTHONNOUSERSITE"] = "1"
+    env["PYTHONPATH"] = str(context.repo_root / "src")
+    env.pop("PYTHONHOME", None)
+    inherited_path = env.get("PATH", "")
+    env["PATH"] = str(venv_scripts) + (os.pathsep + inherited_path if inherited_path else "")
     return env
 
 
@@ -96,7 +105,8 @@ def build_command(context: RunnerContext, argv: list[str]) -> list[str]:
     if mode == "script":
         if not rest:
             raise RunnerError("RUNNER_SCRIPT_REQUIRED")
-        script = _resolve(Path(rest[0]))
+        requested = Path(rest[0])
+        script = _resolve(requested if requested.is_absolute() else context.repo_root / requested)
         if not script.is_relative_to(context.repo_root):
             raise RunnerError("RUNNER_SCRIPT_OUTSIDE_WORKTREE")
         return [str(context.python), str(script), *rest[1:]]
@@ -170,27 +180,24 @@ def _pid_exists(pid: int) -> bool:
         import ctypes
         from ctypes import wintypes
 
-        process_query_limited_information = 0x1000
-        still_active = 259
+        synchronize = 0x00100000
+        wait_timeout = 0x00000102
         kernel32 = ctypes.WinDLL("kernel32", use_last_error=True)
         open_process = kernel32.OpenProcess
         open_process.argtypes = [wintypes.DWORD, wintypes.BOOL, wintypes.DWORD]
         open_process.restype = wintypes.HANDLE
-        get_exit_code = kernel32.GetExitCodeProcess
-        get_exit_code.argtypes = [wintypes.HANDLE, ctypes.POINTER(wintypes.DWORD)]
-        get_exit_code.restype = wintypes.BOOL
+        wait_for_single_object = kernel32.WaitForSingleObject
+        wait_for_single_object.argtypes = [wintypes.HANDLE, wintypes.DWORD]
+        wait_for_single_object.restype = wintypes.DWORD
         close_handle = kernel32.CloseHandle
         close_handle.argtypes = [wintypes.HANDLE]
         close_handle.restype = wintypes.BOOL
 
-        handle = open_process(process_query_limited_information, False, pid)
+        handle = open_process(synchronize, False, pid)
         if not handle:
             return False
         try:
-            exit_code = wintypes.DWORD()
-            if not get_exit_code(handle, ctypes.byref(exit_code)):
-                return False
-            return exit_code.value == still_active
+            return wait_for_single_object(handle, 0) == wait_timeout
         finally:
             close_handle(handle)
 

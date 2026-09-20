@@ -79,10 +79,18 @@ def test_resolve_context_rejects_repo_outside_commodity_root(tmp_path: Path):
         runner.resolve_context(script, python, commodity_root)
 
 def test_build_environment_keeps_managed_paths_inside_commodity(tmp_path: Path):
-    commodity_root, _worktree, script, python = _layout(tmp_path)
+    commodity_root, worktree, script, python = _layout(tmp_path)
     context = runner.resolve_context(script, python, commodity_root)
 
-    env = runner.build_environment(context, {"PATH": "existing"})
+    env = runner.build_environment(
+        context,
+        {
+            "PATH": "existing",
+            "PYTHONHOME": str(tmp_path / "outside-home"),
+            "PYTHONPATH": str(tmp_path / "outside-pythonpath"),
+            "VIRTUAL_ENV": str(tmp_path / "outside-venv"),
+        },
+    )
 
     for key in (
         "TMP",
@@ -95,7 +103,11 @@ def test_build_environment_keeps_managed_paths_inside_commodity(tmp_path: Path):
         "COMMODITY_RUNNER_ROOT",
     ):
         assert Path(env[key]).resolve().is_relative_to(commodity_root.resolve())
-    assert env["PATH"] == "existing"
+    assert env["VIRTUAL_ENV"] == str(worktree / ".venv")
+    assert env["PYTHONPATH"] == str(worktree / "src")
+    assert env["PYTHONNOUSERSITE"] == "1"
+    assert "PYTHONHOME" not in env
+    assert env["PATH"].split(runner.os.pathsep, 1)[0] == str(worktree / ".venv" / "Scripts")
 
 @pytest.mark.parametrize(
     ("argv", "expected_prefix"),
@@ -149,6 +161,19 @@ def test_script_command_rejects_path_outside_worktree(tmp_path: Path):
 
     with pytest.raises(runner.RunnerError, match="RUNNER_SCRIPT_OUTSIDE_WORKTREE"):
         runner.build_command(context, ["script", str(outside)])
+
+
+def test_script_command_resolves_relative_path_from_worktree(tmp_path: Path):
+    commodity_root, worktree, script, python = _layout(tmp_path)
+    context = runner.resolve_context(script, python, commodity_root)
+    job = worktree / "jobs" / "sample.py"
+    job.parent.mkdir(parents=True)
+    job.write_text("pass\n", encoding="utf-8")
+
+    command = runner.build_command(context, ["script", "jobs/sample.py", "a b"])
+
+    assert command == [str(python.resolve()), str(job.resolve()), "a b"]
+
 
 def test_run_record_tracks_child_pid_and_terminal_exit(tmp_path: Path):
     commodity_root, _worktree, script, python = _layout(tmp_path)
