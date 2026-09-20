@@ -1,0 +1,30 @@
+{
+  "schema_version": 4,
+  "change_id": "443-direct-python-runner",
+  "status": "active",
+  "branch": "change/443-direct-python-runner",
+  "worktree": ".work/worktrees/443-direct-python-runner",
+  "base": "main",
+  "outcome": "Add a Commodity-only direct Python execution runner that launches the active worktree .venv interpreter without PowerShell, enforces Projects-local execution/cache/runtime boundaries, supports routine test/lint/research/optimization commands, and records concrete run identity/status while leaving scripts/verify.ps1 unchanged.",
+  "owned_paths": [
+    "scripts/environment/run_python.py",
+    "scripts/run.cmd",
+    "tests/test_run_python.py",
+    ".work/changes/443-direct-python-runner/**"
+  ],
+  "shared_paths": [],
+  "excluded_paths": [],
+  "dependencies": [],
+  "integration_owner": null,
+  "complexity": "medium",
+  "risk_triggers": [],
+  "base_evidence": {
+    "local_sha": "e270b69df5999ed1362ea77dfcb7acc641bace92",
+    "local_tree": "ef6647dfe159513810b15156d921bd611c25cbc8",
+    "upstream_sha": "e270b69df5999ed1362ea77dfcb7acc641bace92",
+    "upstream_tree": "ef6647dfe159513810b15156d921bd611c25cbc8",
+    "upstream_ref": "refs/remotes/origin/main",
+    "evidence_source": "local_remote_tracking_ref",
+    "relation": "same_sha"
+  }
+}
