@@ -12,7 +12,7 @@ Provide a Commodity-owned launcher that invokes the active worktree `.venv\Scrip
 ## Requirements
 
 1. Resolve only the active checkout/worktree interpreter and fail closed on any other interpreter or repository root.
-2. Keep launcher-managed cache, temp, run records, and runtime state beneath `C:\Projects\commodity`.
+2. Keep launcher-managed cache, temp, run records, and runtime state beneath the configured Commodity repository root.
 3. Force child Python resolution to the active worktree via `VIRTUAL_ENV`, `PYTHONPATH`, `PYTHONNOUSERSITE`, and PATH while removing inherited `PYTHONHOME`.
 4. Support pytest, Ruff, modules, repository scripts, and arbitrary Python arguments while preserving child exit codes.
 5. Record concrete child/launcher process identity and classify vanished running processes as interrupted without signalling live processes.
