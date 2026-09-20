@@ -109,25 +109,48 @@ def _policy_forecast(
     }
 
 
-def _research_ready_assurance() -> dict[str, object]:
+_RUNTIME_COVERAGE = {
+    "market": ("market_sha256", "decision_input_market", "e" * 64),
+    "selected_path": ("selected_path_sha256", "decision_input_selected_path", "f" * 64),
+    "features": ("features_sha256", "decision_input_features", "9" * 64),
+}
+
+
+def _research_ready_assurance(
+    runtime_hashes: dict[str, str] | None = None,
+) -> dict[str, object]:
     semantic_evidence = {
         "method": "explicit_dataset_semantics_v1",
         "verifier_ref": "tests.synthetic_semantic_verifier",
         "verifier_source_sha256": "a" * 64,
         "checks": {"point_in_time_semantics": True},
     }
+    layers: list[dict[str, object]] = [
+        {"name": "reconstruction", "status": "verified", "sha256": "c" * 64},
+        {
+            "name": "semantic_validation",
+            "status": "verified",
+            "sha256": canonical_json_sha256(semantic_evidence),
+        },
+    ]
+    transformations = {"synthetic": "d" * 64}
+    if runtime_hashes is not None:
+        for hash_key, coverage_id, transformation_sha256 in _RUNTIME_COVERAGE.values():
+            if hash_key not in runtime_hashes:
+                continue
+            layers.append(
+                {
+                    "name": coverage_id,
+                    "status": "verified",
+                    "sha256": runtime_hashes[hash_key],
+                }
+            )
+            transformations[coverage_id] = transformation_sha256
     assurance: dict[str, object] = {
         "schema_version": 1,
         "source_inputs": [{"id": "synthetic", "sha256": "b" * 64}],
-        "layers": [
-            {"name": "reconstruction", "status": "verified", "sha256": "c" * 64},
-            {
-                "name": "semantic_validation",
-                "status": "verified",
-                "sha256": canonical_json_sha256(semantic_evidence),
-            },
-        ],
-        "transformation_sha256": {"synthetic": "d" * 64},
+        "layers": layers,
+        "transformation_sha256": transformations,
         "reconstruction_status": "verified",
         "semantic_status": "verified",
         "verification_method": "deterministic_rebuild_exact_comparison",
@@ -138,6 +161,34 @@ def _research_ready_assurance() -> dict[str, object]:
     }
     assurance["assurance_sha256"] = canonical_json_sha256(assurance)
     return assurance
+
+
+def _decision_input_binding(
+    assurance: dict[str, object],
+    runtime_hashes: dict[str, str],
+    *,
+    instrument: str = "CME_NYMEX_NG",
+    roll_policy: str = "volume_crossover_dte_v1",
+    evidence_partition: str = "development",
+) -> dict[str, object]:
+    inputs = {
+        role: {
+            "sha256": runtime_hashes[hash_key],
+            "assurance_layer": coverage_id,
+            "transformation_id": coverage_id,
+        }
+        for role, (hash_key, coverage_id, _) in _RUNTIME_COVERAGE.items()
+    }
+    binding: dict[str, object] = {
+        "schema_version": 1,
+        "data_assurance_sha256": assurance["assurance_sha256"],
+        "instrument": instrument,
+        "roll_policy": roll_policy,
+        "evidence_partition": evidence_partition,
+        "inputs": inputs,
+    }
+    binding["binding_sha256"] = canonical_json_sha256(binding)
+    return binding
 
 
 def test_roll_safe_path_excludes_cross_contract_gap() -> None:
@@ -532,6 +583,178 @@ def test_input_boundary_requires_research_ready_assurance() -> None:
         )
 
 
+def test_input_boundary_accepts_assurance_bound_to_exact_runtime_inputs() -> None:
+    hashes = {
+        "market_sha256": "1" * 64,
+        "selected_path_sha256": "2" * 64,
+        "features_sha256": "3" * 64,
+    }
+    assurance = _research_ready_assurance(hashes)
+    binding = _decision_input_binding(assurance, hashes)
+    payload: dict[str, object] = {
+        "schema_version": 2,
+        "instrument": "CME_NYMEX_NG",
+        "roll_policy": "volume_crossover_dte_v1",
+        "evidence_partition": "development",
+        "protected_confirmation_accessed": False,
+        **hashes,
+        "data_assurance": assurance,
+        "decision_input_binding": binding,
+    }
+
+    boundary = parse_input_boundary(
+        payload,
+        allowed_partitions={"development", "rolling_research_oos"},
+        observed_hashes=hashes,
+    )
+
+    assert boundary.data_assurance_sha256 == assurance["assurance_sha256"]
+    assert boundary.decision_input_binding_sha256 == binding["binding_sha256"]
+
+
+def test_input_boundary_rejects_unrelated_research_ready_assurance() -> None:
+    hashes = {
+        "market_sha256": "1" * 64,
+        "selected_path_sha256": "2" * 64,
+        "features_sha256": "3" * 64,
+    }
+    unrelated = {
+        "market_sha256": "a" * 64,
+        "selected_path_sha256": "b" * 64,
+        "features_sha256": "c" * 64,
+    }
+    assurance = _research_ready_assurance(unrelated)
+    payload: dict[str, object] = {
+        "schema_version": 2,
+        "instrument": "CME_NYMEX_NG",
+        "roll_policy": "volume_crossover_dte_v1",
+        "evidence_partition": "development",
+        "protected_confirmation_accessed": False,
+        **hashes,
+        "data_assurance": assurance,
+        "decision_input_binding": _decision_input_binding(assurance, hashes),
+    }
+
+    with pytest.raises(
+        DecisionSystemError,
+        match="research-ready data assurance does not cover runtime input",
+    ):
+        parse_input_boundary(
+            payload,
+            allowed_partitions={"development", "rolling_research_oos"},
+            observed_hashes=hashes,
+        )
+
+
+def test_input_boundary_rejects_partial_runtime_input_assurance() -> None:
+    hashes = {
+        "market_sha256": "1" * 64,
+        "selected_path_sha256": "2" * 64,
+        "features_sha256": "3" * 64,
+    }
+    partial = {
+        "market_sha256": hashes["market_sha256"],
+        "selected_path_sha256": hashes["selected_path_sha256"],
+    }
+    assurance = _research_ready_assurance(partial)
+    payload: dict[str, object] = {
+        "schema_version": 2,
+        "instrument": "CME_NYMEX_NG",
+        "roll_policy": "volume_crossover_dte_v1",
+        "evidence_partition": "development",
+        "protected_confirmation_accessed": False,
+        **hashes,
+        "data_assurance": assurance,
+        "decision_input_binding": _decision_input_binding(assurance, hashes),
+    }
+
+    with pytest.raises(
+        DecisionSystemError,
+        match="research-ready data assurance must cover runtime input",
+    ):
+        parse_input_boundary(
+            payload,
+            allowed_partitions={"development", "rolling_research_oos"},
+            observed_hashes=hashes,
+        )
+
+
+def test_input_boundary_rejects_runtime_input_without_transformation_identity() -> None:
+    hashes = {
+        "market_sha256": "1" * 64,
+        "selected_path_sha256": "2" * 64,
+        "features_sha256": "3" * 64,
+    }
+    assurance = _research_ready_assurance(hashes)
+    transformations = dict(assurance["transformation_sha256"])
+    transformations.pop("decision_input_features")
+    assurance["transformation_sha256"] = transformations
+    assurance.pop("assurance_sha256")
+    assurance["assurance_sha256"] = canonical_json_sha256(assurance)
+    payload: dict[str, object] = {
+        "schema_version": 2,
+        "instrument": "CME_NYMEX_NG",
+        "roll_policy": "volume_crossover_dte_v1",
+        "evidence_partition": "development",
+        "protected_confirmation_accessed": False,
+        **hashes,
+        "data_assurance": assurance,
+        "decision_input_binding": _decision_input_binding(assurance, hashes),
+    }
+
+    with pytest.raises(
+        DecisionSystemError,
+        match="research-ready runtime transformation features",
+    ):
+        parse_input_boundary(
+            payload,
+            allowed_partitions={"development", "rolling_research_oos"},
+            observed_hashes=hashes,
+        )
+
+
+@pytest.mark.parametrize(
+    ("binding_field", "binding_value", "message"),
+    [
+        ("instrument", "OTHER_INSTRUMENT", "instrument mismatch"),
+        ("roll_policy", "other_roll_policy", "roll-policy mismatch"),
+        ("evidence_partition", "rolling_research_oos", "evidence-partition mismatch"),
+    ],
+)
+def test_input_boundary_rejects_binding_for_different_semantic_context(
+    binding_field: str,
+    binding_value: str,
+    message: str,
+) -> None:
+    hashes = {
+        "market_sha256": "1" * 64,
+        "selected_path_sha256": "2" * 64,
+        "features_sha256": "3" * 64,
+    }
+    assurance = _research_ready_assurance(hashes)
+    binding = _decision_input_binding(assurance, hashes)
+    binding[binding_field] = binding_value
+    binding.pop("binding_sha256")
+    binding["binding_sha256"] = canonical_json_sha256(binding)
+    payload: dict[str, object] = {
+        "schema_version": 2,
+        "instrument": "CME_NYMEX_NG",
+        "roll_policy": "volume_crossover_dte_v1",
+        "evidence_partition": "development",
+        "protected_confirmation_accessed": False,
+        **hashes,
+        "data_assurance": assurance,
+        "decision_input_binding": binding,
+    }
+
+    with pytest.raises(DecisionSystemError, match=message):
+        parse_input_boundary(
+            payload,
+            allowed_partitions={"development", "rolling_research_oos"},
+            observed_hashes=hashes,
+        )
+
+
 def test_input_boundary_rejects_tampered_research_ready_assurance() -> None:
     hashes = {
         "market_sha256": "1" * 64,
@@ -673,6 +896,12 @@ def _write_cli_inputs(root: Path) -> tuple[Path, Path, Path, Path, Path]:
     pd.DataFrame(selected_rows).to_csv(selected, index=False)
     pd.DataFrame(feature_rows).to_csv(features, index=False)
     costs.write_text(json.dumps(_costs(), sort_keys=True), encoding="utf-8")
+    runtime_hashes = {
+        "market_sha256": sha256_file(market),
+        "selected_path_sha256": sha256_file(selected),
+        "features_sha256": sha256_file(features),
+    }
+    assurance = _research_ready_assurance(runtime_hashes)
     boundary.write_text(
         json.dumps({
             "schema_version": 2,
@@ -680,10 +909,9 @@ def _write_cli_inputs(root: Path) -> tuple[Path, Path, Path, Path, Path]:
             "roll_policy": "volume_crossover_dte_v1",
             "evidence_partition": "development",
             "protected_confirmation_accessed": False,
-            "market_sha256": sha256_file(market),
-            "selected_path_sha256": sha256_file(selected),
-            "features_sha256": sha256_file(features),
-            "data_assurance": _research_ready_assurance(),
+            **runtime_hashes,
+            "data_assurance": assurance,
+            "decision_input_binding": _decision_input_binding(assurance, runtime_hashes),
         }, sort_keys=True),
         encoding="utf-8",
     )
@@ -783,7 +1011,15 @@ def test_cli_decision_loop_is_deterministic_and_reconstructable(
     assert manifest_a["input_authority_git_commit"] == "e" * 40
     assert manifest_a["input_authority_git_blob"] == "f" * 40
     assert manifest_a["input_authority_path"] == "tests/synthetic-input-authority.json"
-    assert manifest_a["data_assurance_sha256"] == _research_ready_assurance()["assurance_sha256"]
+    runtime_hashes = {
+        "market_sha256": sha256_file(market),
+        "selected_path_sha256": sha256_file(selected),
+        "features_sha256": sha256_file(features),
+    }
+    assurance = _research_ready_assurance(runtime_hashes)
+    binding = _decision_input_binding(assurance, runtime_hashes)
+    assert manifest_a["data_assurance_sha256"] == assurance["assurance_sha256"]
+    assert manifest_a["decision_input_binding_sha256"] == binding["binding_sha256"]
     assert len(manifest_a["decision_engine_sha256"]) == 64
     assert len(manifest_a["requirements_lock_sha256"]) == 64
     assert manifest_a["canonical_execution_evidence"] is False

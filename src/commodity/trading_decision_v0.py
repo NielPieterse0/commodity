@@ -11,7 +11,11 @@ from typing import Any
 import numpy as np
 import pandas as pd
 
-from commodity.data_assurance import DataAssuranceError, assert_research_ready
+from commodity.data_assurance import (
+    DataAssuranceError,
+    assert_research_ready,
+    canonical_json_sha256,
+)
 from commodity.models.baselines import baseline_factory
 
 
@@ -59,10 +63,25 @@ class InputBoundary:
     evidence_partition: str
     protected_confirmation_accessed: bool
     data_assurance_sha256: str
+    decision_input_binding_sha256: str
 
 
 _COST_STATUS = "declared_research_assumption_unverified_broker_terms"
 _AFTER_KILL = "remain_flat_until_explicit_operator_restart"
+_RUNTIME_INPUT_ROLES = {
+    "market": ("market_sha256", "decision_input_market"),
+    "selected_path": ("selected_path_sha256", "decision_input_selected_path"),
+    "features": ("features_sha256", "decision_input_features"),
+}
+
+
+def _canonical_sha256(value: object, label: str) -> str:
+    digest = str(value).strip().lower()
+    if len(digest) != 64 or any(
+        character not in "0123456789abcdef" for character in digest
+    ):
+        raise DecisionSystemError(f"{label} must be a canonical SHA-256 identity")
+    return digest
 
 
 def _finite_nonnegative(value: object, label: str) -> float:
@@ -120,6 +139,125 @@ def governed_input_authority_identity(
     }
 
 
+def _decision_input_binding_sha256(
+    payload: dict[str, object],
+    *,
+    ready_assurance: dict[str, Any],
+    instrument: str,
+    roll_policy: str,
+    partition: str,
+    observed_hashes: dict[str, str],
+) -> str:
+    binding = payload.get("decision_input_binding")
+    if not isinstance(binding, dict):
+        raise DecisionSystemError("input authority requires a decision-input binding")
+
+    required_fields = {
+        "schema_version",
+        "data_assurance_sha256",
+        "instrument",
+        "roll_policy",
+        "evidence_partition",
+        "inputs",
+        "binding_sha256",
+    }
+    if set(binding) != required_fields or binding.get("schema_version") != 1:
+        raise DecisionSystemError("decision-input binding contract is invalid")
+
+    binding_sha256 = _canonical_sha256(
+        binding.get("binding_sha256"), "decision-input binding"
+    )
+    binding_payload = {
+        key: value for key, value in binding.items() if key != "binding_sha256"
+    }
+    if canonical_json_sha256(binding_payload) != binding_sha256:
+        raise DecisionSystemError("decision-input binding identity is invalid")
+
+    assurance_sha256 = _canonical_sha256(
+        ready_assurance.get("assurance_sha256"), "research-ready data assurance"
+    )
+    if _canonical_sha256(
+        binding.get("data_assurance_sha256"), "decision-input assurance"
+    ) != assurance_sha256:
+        raise DecisionSystemError(
+            "decision-input binding does not match research-ready data assurance"
+        )
+    if binding.get("instrument") != instrument:
+        raise DecisionSystemError("decision-input binding instrument mismatch")
+    if binding.get("roll_policy") != roll_policy:
+        raise DecisionSystemError("decision-input binding roll-policy mismatch")
+    if binding.get("evidence_partition") != partition:
+        raise DecisionSystemError("decision-input binding evidence-partition mismatch")
+
+    inputs = binding.get("inputs")
+    if not isinstance(inputs, dict) or set(inputs) != set(_RUNTIME_INPUT_ROLES):
+        raise DecisionSystemError(
+            "decision-input binding must cover the exact runtime input roles"
+        )
+    layers = ready_assurance.get("layers")
+    transformations = ready_assurance.get("transformation_sha256")
+    if not isinstance(layers, list) or not isinstance(transformations, dict):
+        raise DecisionSystemError(
+            "research-ready data assurance lacks runtime coverage identities"
+        )
+
+    for role, (hash_key, coverage_id) in _RUNTIME_INPUT_ROLES.items():
+        record = inputs.get(role)
+        if not isinstance(record, dict) or set(record) != {
+            "sha256",
+            "assurance_layer",
+            "transformation_id",
+        }:
+            raise DecisionSystemError(
+                f"decision-input binding has invalid role contract: {role}"
+            )
+        if record.get("assurance_layer") != coverage_id:
+            raise DecisionSystemError(
+                f"decision-input binding assurance layer mismatch: {role}"
+            )
+        if record.get("transformation_id") != coverage_id:
+            raise DecisionSystemError(
+                f"decision-input binding transformation mismatch: {role}"
+            )
+
+        observed = _canonical_sha256(
+            observed_hashes.get(hash_key, ""), f"observed runtime input {role}"
+        )
+        if _canonical_sha256(
+            record.get("sha256"), f"decision-input binding {role}"
+        ) != observed:
+            raise DecisionSystemError(
+                f"decision-input binding does not cover runtime input: {role}"
+            )
+
+        matching_layers = [
+            item
+            for item in layers
+            if isinstance(item, dict) and item.get("name") == coverage_id
+        ]
+        if len(matching_layers) != 1:
+            raise DecisionSystemError(
+                f"research-ready data assurance must cover runtime input: {role}"
+            )
+        layer = matching_layers[0]
+        if layer.get("status") != "verified":
+            raise DecisionSystemError(
+                f"research-ready data assurance runtime layer is not verified: {role}"
+            )
+        if _canonical_sha256(
+            layer.get("sha256"), f"research-ready runtime layer {role}"
+        ) != observed:
+            raise DecisionSystemError(
+                f"research-ready data assurance does not cover runtime input: {role}"
+            )
+        _canonical_sha256(
+            transformations.get(coverage_id, ""),
+            f"research-ready runtime transformation {role}",
+        )
+
+    return binding_sha256
+
+
 def parse_input_boundary(
     payload: dict[str, object],
     *,
@@ -163,16 +301,28 @@ def parse_input_boundary(
     if missing:
         raise DecisionSystemError(f"input boundary missing source hashes: {missing}")
     for key in required_hashes:
-        expected = str(payload[key]).strip().lower()
-        observed = str(observed_hashes.get(key, "")).strip().lower()
+        expected = _canonical_sha256(payload[key], f"input boundary {key}")
+        observed = _canonical_sha256(
+            observed_hashes.get(key, ""), f"observed runtime {key}"
+        )
         if expected != observed:
             raise DecisionSystemError(f"input boundary hash mismatch: {key}")
+
+    binding_sha256 = _decision_input_binding_sha256(
+        payload,
+        ready_assurance=ready_assurance,
+        instrument=instrument,
+        roll_policy=roll_policy,
+        partition=partition,
+        observed_hashes=observed_hashes,
+    )
     return InputBoundary(
         instrument=instrument,
         roll_policy=roll_policy,
         evidence_partition=partition,
         protected_confirmation_accessed=False,
         data_assurance_sha256=str(ready_assurance["assurance_sha256"]),
+        decision_input_binding_sha256=binding_sha256,
     )
 
 

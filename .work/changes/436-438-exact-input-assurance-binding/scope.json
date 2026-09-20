@@ -1,0 +1,32 @@
+{
+  "schema_version": 4,
+  "change_id": "436-438-exact-input-assurance-binding",
+  "status": "active",
+  "branch": "change/436-438-exact-input-assurance-binding",
+  "worktree": ".work/worktrees/436-438-exact-input-assurance-binding",
+  "base": "main",
+  "outcome": "Bind #355 research-ready assurance to the exact runtime market, selected-path, and features SHA-256 identities; reject unrelated or partial coverage while preserving legitimate governed runs.",
+  "owned_paths": [
+    "src/commodity/trading_decision_v0.py",
+    "src/commodity/cli.py",
+    "tests/test_trading_decision_v0.py",
+    ".work/changes/436-438-exact-input-assurance-binding/**"
+  ],
+  "shared_paths": [],
+  "excluded_paths": [],
+  "dependencies": [],
+  "integration_owner": null,
+  "complexity": "medium",
+  "risk_triggers": [
+    "public_contract"
+  ],
+  "base_evidence": {
+    "local_sha": "a717c6293618b0b98b90a554ea0e818ef7c0e17a",
+    "local_tree": "1b23c07964f5f0d90115ecc9da9bf89fdd5e4671",
+    "upstream_sha": "a717c6293618b0b98b90a554ea0e818ef7c0e17a",
+    "upstream_tree": "1b23c07964f5f0d90115ecc9da9bf89fdd5e4671",
+    "upstream_ref": "refs/remotes/origin/main",
+    "evidence_source": "local_remote_tracking_ref",
+    "relation": "same_sha"
+  }
+}
