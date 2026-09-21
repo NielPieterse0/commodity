@@ -1,0 +1,42 @@
+{
+  "schema_version": 4,
+  "change_id": "425-v2-target-horizon-market-state",
+  "status": "active",
+  "branch": "change/425-v2-target-horizon-market-state",
+  "worktree": ".work/worktrees/425-v2-target-horizon-market-state",
+  "base": "main",
+  "outcome": "Execute V2.28 development-only optimization for target/horizon choices and market-state feature/transform families for Programme #393 from the frozen WORK-425 handoff, without opening protected 2023+ confirmation, prospective paper, Saxo SIM, or LIVE evidence.",
+  "owned_paths": [
+    "src/commodity/v2_optimization.py",
+    "tests/test_v2_optimization.py",
+    "research/programmes/004-v2-maximum-reproducible-one-month-return/**",
+    "docs/reference/research/programmes/004-v2-maximum-reproducible-one-month-return/**",
+    ".work/changes/425-v2-target-horizon-market-state/**"
+  ],
+  "shared_paths": [],
+  "excluded_paths": [],
+  "dependencies": [],
+  "integration_owner": null,
+  "complexity": "large",
+  "risk_triggers": [
+    "money",
+    "persistent_state"
+  ],
+  "work_management": {
+    "project_id": "commodity",
+    "record_id": "WORK-425",
+    "source_repository": "NielPieterse0/commodity",
+    "source_number": 425,
+    "source_kind": "issue",
+    "documentation_impact": "planned"
+  },
+  "base_evidence": {
+    "local_sha": "4be04238e6407f187edab25909b057166f68e906",
+    "local_tree": "ed8f14d9601c247e37513972851998a3d9f02de7",
+    "upstream_sha": "4be04238e6407f187edab25909b057166f68e906",
+    "upstream_tree": "ed8f14d9601c247e37513972851998a3d9f02de7",
+    "upstream_ref": "refs/remotes/origin/main",
+    "evidence_source": "local_remote_tracking_ref",
+    "relation": "same_sha"
+  }
+}
