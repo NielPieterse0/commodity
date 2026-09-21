@@ -230,6 +230,8 @@ This directory is generated from current machine-readable repository artifacts.
 - [`research/programmes/004-v2-maximum-reproducible-one-month-return/evidence-map.json`](research/programmes/004-v2-maximum-reproducible-one-month-return/evidence-map.md)
 - [`research/programmes/004-v2-maximum-reproducible-one-month-return/inference-ledger.json`](research/programmes/004-v2-maximum-reproducible-one-month-return/inference-ledger.md)
 - [`research/programmes/004-v2-maximum-reproducible-one-month-return/issue424-pilot-result-v1.json`](research/programmes/004-v2-maximum-reproducible-one-month-return/issue424-pilot-result-v1.md)
+- [`research/programmes/004-v2-maximum-reproducible-one-month-return/issue425-result-v1.json`](research/programmes/004-v2-maximum-reproducible-one-month-return/issue425-result-v1.md)
+- [`research/programmes/004-v2-maximum-reproducible-one-month-return/issue425-search-plan-v1.json`](research/programmes/004-v2-maximum-reproducible-one-month-return/issue425-search-plan-v1.md)
 - [`research/programmes/004-v2-maximum-reproducible-one-month-return/lines/001-v2-optimization-execution/line.json`](research/programmes/004-v2-maximum-reproducible-one-month-return/lines/001-v2-optimization-execution/line.md)
 - [`research/programmes/004-v2-maximum-reproducible-one-month-return/programme.json`](research/programmes/004-v2-maximum-reproducible-one-month-return/programme.md)
 - [`research/programmes/004-v2-maximum-reproducible-one-month-return/revisit-triggers.json`](research/programmes/004-v2-maximum-reproducible-one-month-return/revisit-triggers.md)

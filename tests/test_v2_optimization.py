@@ -11,10 +11,15 @@ from commodity.v2_optimization import (
     V2OptimizationError,
     _phase2_ledger_for_monthly_score,
     bind_frozen_v1,
+    build_issue425_target,
     build_trial_id,
     expand_search_axes,
+    load_issue425_search_plan,
     load_v2_registry,
+    prepare_issue425_features,
     score_monthly_path,
+    select_issue425_candidate,
+    validate_issue425_search_plan,
 )
 
 
@@ -171,3 +176,132 @@ def test_frozen_v1_binding_is_content_addressed(tmp_path: Path) -> None:
     path.write_text(json.dumps(payload), encoding="utf-8")
     with pytest.raises(V2OptimizationError, match="not frozen"):
         bind_frozen_v1(path)
+
+
+def test_issue425_search_plan_covers_registered_axes() -> None:
+    root = Path(__file__).resolve().parents[1]
+    registry = load_v2_registry(root / "config" / "v2_variable_registry.json")
+    plan = load_issue425_search_plan(
+        root
+        / "research"
+        / "programmes"
+        / "004-v2-maximum-reproducible-one-month-return"
+        / "issue425-search-plan-v1.json"
+    )
+    summary = validate_issue425_search_plan(registry, plan)
+    assert summary["latest_allowed_trade_date"] == "2022-12-31"
+    assert summary["axis_count"] >= 12
+    assert summary["required_interactions"] == {
+        "target.target_role×target.horizon_sessions",
+        "model.model_id×data.feature_family_subset",
+        "decision.entry_threshold_quantile×target.horizon_sessions",
+    }
+    assert plan["search_stages"][0]["axes"]["target.horizon_sessions"] == list(range(1, 21))
+
+
+def _issue425_feature_fixture(rows: int = 320) -> pd.DataFrame:
+    dates = pd.date_range("2020-01-01", periods=rows, freq="D", tz="UTC")
+    values = pd.Series(range(rows), dtype=float)
+    return pd.DataFrame(
+        {
+            "trade_date": dates,
+            "available_at": dates + pd.Timedelta(hours=23),
+            "feature_ret_1": values / 10000.0,
+            "feature_ret_5": values / 5000.0,
+            "feature_ret_20": values / 2000.0,
+            "feature_vol_5": 0.01 + values / 100000.0,
+            "feature_vol_20": 0.02 + values / 100000.0,
+            "feature_range_pct": 0.03 + values / 100000.0,
+            "feature_ma_gap_5": values / 20000.0,
+            "feature_ma_gap_20": values / 30000.0,
+            "feature_selected_dte": 30.0 - (values % 20),
+            "feature_roll_event": (values % 30 == 0).astype(float),
+            "feature_season_sin": 0.0,
+            "feature_season_cos": 1.0,
+            "feature_curve_log_settle_m1": 1.0 + values / 10000.0,
+            "feature_curve_spread_m1_m2": values / 1000.0,
+        }
+    )
+
+
+def test_issue425_feature_transforms_are_pit_and_family_bounded() -> None:
+    features = _issue425_feature_fixture()
+    config = {
+        "feature_family_subset": "market",
+        "lookback_sessions": 60,
+        "return_transform": "simple_return",
+        "scaling": "zscore_rolling",
+        "normalization_window_sessions": 20,
+        "winsor_quantile": 0.01,
+        "lag_sessions": 1,
+        "rolling_stat_window_sessions": 5,
+    }
+    first, columns = prepare_issue425_features(features, config)
+    mutated = features.copy()
+    mutated.loc[mutated.index[-1], "feature_ret_1"] = 9.0
+    second, second_columns = prepare_issue425_features(mutated, config)
+    assert columns == second_columns
+    assert columns
+    assert all("curve" not in column for column in columns)
+    common = first.index.intersection(second.index)
+    prior = common[common < common.max()]
+    pd.testing.assert_frame_equal(first.loc[prior, columns], second.loc[prior, columns])
+    assert first[columns].notna().all().all()
+
+
+def test_issue425_target_roles_have_explicit_economic_translation() -> None:
+    moves = [0.01, -0.005, 0.02]
+    returned = build_issue425_target(
+        moves,
+        role="return",
+        aggregation="cumulative",
+        round_trip_per_mmbtu=0.002,
+    )
+    assert returned["target_value"] == pytest.approx(0.025)
+    assert returned["champion_eligible"] is True
+
+    direction = build_issue425_target(
+        moves,
+        role="direction",
+        aggregation="terminal",
+        round_trip_per_mmbtu=0.002,
+    )
+    assert direction["target_value"] == 1.0
+    assert direction["champion_eligible"] is True
+
+    volatility = build_issue425_target(
+        moves,
+        role="volatility",
+        aggregation="path_summary",
+        round_trip_per_mmbtu=0.002,
+    )
+    assert volatility["target_value"] > 0.0
+    assert volatility["champion_eligible"] is False
+    assert volatility["economic_translation"] == "diagnostic_only_flat"
+
+
+def test_issue425_selection_excludes_diagnostic_only_specialists() -> None:
+    rows = [
+        {
+            "candidate_id": "volatility-flat",
+            "champion_eligible": False,
+            "complexity_rank": 0,
+            "monthly_score": {
+                "mean_monthly_net_return": 0.0,
+                "max_drawdown_fraction": 0.0,
+                "transaction_cost_usd": 0.0,
+            },
+        },
+        {
+            "candidate_id": "return-edge",
+            "champion_eligible": True,
+            "complexity_rank": 2,
+            "monthly_score": {
+                "mean_monthly_net_return": -0.001,
+                "max_drawdown_fraction": 0.02,
+                "transaction_cost_usd": 50.0,
+            },
+        },
+    ]
+    winner = select_issue425_candidate(rows)
+    assert winner["candidate_id"] == "return-edge"

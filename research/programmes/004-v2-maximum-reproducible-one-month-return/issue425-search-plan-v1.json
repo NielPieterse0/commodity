@@ -1,0 +1,96 @@
+{
+  "schema_version": 1,
+  "issue": 425,
+  "programme_issue": 393,
+  "status": "preregistered_before_issue425_scoring",
+  "evidence_class": "development",
+  "latest_allowed_trade_date": "2022-12-31",
+  "protected_evidence": ["reserved_confirmation", "true_forward", "prospective_paper", "saxo_sim", "saxo_live"],
+  "objective": {
+    "primary": "mean_monthly_net_return_after_costs",
+    "mandatory_diagnostics": ["median_monthly_net_return", "worst_monthly_net_return", "profitable_month_rate", "max_drawdown_fraction", "transaction_cost_usd", "turnover", "long_short_pnl", "period_concentration"],
+    "tie_breakers": ["lower_max_drawdown_fraction", "lower_transaction_cost_usd", "lower_complexity", "config_id_lexicographic"]
+  },
+  "validation": {
+    "outer_blocks": ["2017-01-01/2018-12-31", "2019-01-01/2020-12-31", "2021-01-01/2022-12-31"],
+    "inner_block_months": 12,
+    "earliest_inner_start": "2014-01-01",
+    "minimum_training_rows": 252,
+    "selection_rule": "outer_block_configuration_selected_only_from_strictly_prior_inner_blocks",
+    "purge_rule": "training_target_end_strictly_before_validation_start"
+  },
+  "v1_comparator": "research/programmes/003-natural-gas-trading-decision-system/phase6-controlled-expansion-v1.json#frozen_two_year_cadence.yearly_path",
+  "v1_comparator_evidence_class": "development_pre_2023_only",
+  "sealed_v1_phase7_result_accessed": false,
+  "trial_ledger": "research/programmes/004-v2-maximum-reproducible-one-month-return/issue425-trials-v1.jsonl",
+  "search_stages": [
+    {
+      "id": "structural_target_horizon",
+      "axes": {
+        "target.target_role": ["return", "direction", "volatility", "direction_plus_volatility", "cost_aware_utility"],
+        "target.horizon_sessions": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20],
+        "target.dead_band_quantile": [0.0, 0.05, 0.1, 0.15, 0.2, 0.25, 0.3, 0.35, 0.4],
+        "target.aggregation": ["terminal", "cumulative", "path_summary"]
+      },
+      "control_configuration": {"model.model_id": "ridge", "data.feature_family_subset": "market", "transforms.return_transform": "log_return", "transforms.scaling": "none", "decision.entry_threshold_quantile": 0.5}
+    },
+    {
+      "id": "model_feature_interaction",
+      "axes": {
+        "model.model_id": ["expanding_mean", "ridge", "hist_gb"],
+        "model.training_window": ["expanding", "rolling_252", "rolling_504", "rolling_756"],
+        "data.feature_family_subset": ["market", "market_structure", "calendar_seasonality"]
+      },
+      "depends_on": "structural_target_horizon"
+    },
+    {
+      "id": "transform_coordinate_search",
+      "axes": {
+        "data.lookback_sessions": [20, 60, 126, 252, 504, 756],
+        "transforms.return_transform": ["simple_return", "log_return", "level_difference"],
+        "transforms.scaling": ["none", "zscore_rolling", "robust_rolling"],
+        "transforms.normalization_window_sessions": [20, 60, 126, 252],
+        "transforms.winsor_quantile": [0.0, 0.001, 0.005, 0.01, 0.025],
+        "transforms.lag_sessions": [1, 2, 5, 10, 20],
+        "transforms.rolling_stat_window_sessions": [5, 10, 20, 60, 126],
+        "decision.entry_threshold_quantile": [0.5, 0.55, 0.6, 0.65, 0.7, 0.75, 0.8, 0.85, 0.9, 0.95]
+      },
+      "depends_on": "model_feature_interaction",
+      "method": "deterministic_coordinate_search_with_full_axis_coverage"
+    },
+    {
+      "id": "interaction_confirmation",
+      "required_interactions": [
+        "target.target_role×target.horizon_sessions",
+        "model.model_id×data.feature_family_subset",
+        "decision.entry_threshold_quantile×target.horizon_sessions",
+        "transform_top_pair_interactions"
+      ],
+      "shortlist_rule": "top_two_values_per_transform_axis_by_prior_inner_score_then_bounded_cartesian_confirmation"
+    }
+  ],
+  "specialist_rules": {
+    "volatility": "forecast_diagnostic_only_not_economic_champion_eligible_without_directional_translation",
+    "path_summary": "directional_specialist_signal_with_economic_scoring_from_realized_execution_path",
+    "preserve_nonchampion_specialists": true
+  },
+  "pruning": {
+    "allowed_reasons": ["invalid_or_leaky", "deterministically_dominated", "repeated_material_underperformance_across_chronological_development_blocks", "preregistered_family_budget_exhausted"],
+    "single_bad_month_is_insufficient": true,
+    "all_failures_and_prunes_recorded": true
+  },
+  "stopping_rules": [
+    "No result may be used to alter the registered search after scoring begins.",
+    "Do not access data later than 2022-12-31.",
+    "Do not modify frozen V1.",
+    "Do not promote a development winner as confirmed edge.",
+    "Stop and record invalid configurations rather than silently repairing them after observing results."
+  ],
+  "revisit_triggers": [
+    "new_admissible_data",
+    "material_cost_or_execution_change",
+    "new_interaction_evidence",
+    "regime_distribution_shift",
+    "known_pruning_metric_failure_mode"
+  ]
+}

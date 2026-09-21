@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "issue": 425,
+  "canonical_runner_started_local": "2026-09-14T19:57:45+02:00",
+  "search_plan_last_write_local": "2026-09-14T19:50:28+02:00",
+  "optimizer_last_write_local": "2026-09-14T19:55:22+02:00",
+  "recording_commit": "70ee549fd7cd23b46f35503f176fd2b1c534cf9e",
+  "recording_commit_time_local": "2026-09-14T20:32:29+02:00",
+  "optimizer_sha256": "20f8ae2b2d86feb9525c9989640ccc520462a19e91dba6253b06ef624311ff89",
+  "search_plan_sha256": "1ad4ce75d0c52c936e4d3135a0349deeb1ffde19c0c6bafbc99a05cb88b79e85",
+  "dataset_id": "dca3bf0692e9f3ccc52ec6c6aae81ebf668e17176e2fedf7ee0086b483bcef23",
+  "pre_score_content_frozen": true,
+  "pre_score_commit_claim_permitted": false,
+  "duplicate_runner_detected": true,
+  "duplicate_runner_stopped": true,
+  "duplicate_trial_ids": [
+    "15632c3cdc3e4f3217769587809e34130b7709541f459f4f4861deb47150e58b",
+    "2108d7debbd0044d1073aba328c52a74a63951522487582a4a37a069bb8bae20"
+  ],
+  "duplicate_records_identical": true,
+  "selection_effect": "none; TrialLedger indexes by trial_id and both duplicate records are byte-equivalent JSON objects",
+  "required_follow_up": "Prevent concurrent issue runner execution before issue 426 optimization starts."
+}
