@@ -1,0 +1,34 @@
+{
+  "schema_version": 1,
+  "issue": 426,
+  "programme_issue": 393,
+  "contract_id": "issue426-interaction-contract-v1",
+  "status": "preregistered_before_combined_interaction_scoring",
+  "evidence_class": "development",
+  "latest_allowed_trade_date": "2022-12-31",
+  "protected_confirmation_accessed": false,
+  "required_interaction": "storage×weather×season×volatility",
+  "activation_rule": "score_only_when_storage_and_weather_both_pass_the_registered_historical_source_gate",
+  "selection_rule": "select_on_the_chronological_intersection_of_strictly_prior_inner_blocks_supporting_both_selected_family_representations_then_score_the_outer_block_once",
+  "family_representation_rule": "use_each_outer_blocks_storage_and_weather_representations_selected_without_outer_evidence",
+  "candidate_increment": "pure_four_way_interaction_features_added_to_the_exact_outer_matched_issue425_market_control",
+  "formula": "storage_value * weather_value * season_component * feature_vol_20",
+  "season_components": [
+    "feature_season_sin",
+    "feature_season_cos"
+  ],
+  "lower_order_family_main_effects_in_combined_candidate": false,
+  "transform_basis_candidates": [
+    "storage_selected_transform",
+    "weather_selected_transform"
+  ],
+  "transform_basis_retain": 1,
+  "matched_control": "same_origins_same_transform_basis_exact_outer_issue425_market_features_without_combined_interaction_columns",
+  "power_weather_disposition": "HOLD_WHILE_POWER_SOURCE_GATE_IS_HOLD",
+  "rules": [
+    "Do not score this interaction before both family source gates pass.",
+    "Do not select its transform basis using outer-block results.",
+    "Do not add post-2022 evidence or observed weather verification outcomes.",
+    "Preserve both attempted transform-basis candidates and any failed attempt."
+  ]
+}

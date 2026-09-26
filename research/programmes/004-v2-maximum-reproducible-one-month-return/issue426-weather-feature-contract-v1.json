@@ -1,0 +1,93 @@
+{
+  "schema_version": 1,
+  "issue": 426,
+  "programme_issue": 393,
+  "contract_id": "issue426-weather-feature-contract-v1",
+  "status": "preregistered_before_weather_scoring",
+  "evidence_class": "development",
+  "latest_allowed_trade_date": "2022-12-31",
+  "source_id": "ncar_gdex_d084001_gfs_0p25_issued_00utc",
+  "source_dataset_doi": "10.5065/D65D8PWK",
+  "cycle_utc_hour": 0,
+  "availability_delay_minutes": 370,
+  "degree_day_base_c": 18.3333333333,
+  "anchor_aggregation": "unweighted_anchor_mean",
+  "anchors": [
+    "midwest_chicago",
+    "northeast_new_york",
+    "southeast_atlanta",
+    "south_central_houston"
+  ],
+  "requested_lead_hours": {
+    "start": 24,
+    "end": 168,
+    "step": 3
+  },
+  "archive_omission_rule": {
+    "interpolate_missing_leads": false,
+    "forward_fill_missing_leads": false,
+    "feature_aggregation": "use_only_actually_issued_available_lead_points",
+    "coverage_diagnostic": "lead_coverage_fraction_not_scored",
+    "allowed_archive_omission_reasons": [
+      "required 2m temperature variable absent from archived lead",
+      "archived forecast lead file absent"
+    ],
+    "modern_manifest_rule": "requested_and_actual_lead_inventory_must_match_manifest_fields",
+    "legacy_manifest_rule": "requested_field_may_be_inferred_only_as_the_fixed_24_to_168_by_3_hour_grid_when_declared_and_actual_leads_are_the_full_49_lead_grid"
+  },
+  "representations": {
+    "level": {
+      "features": ["temp_mean_c"],
+      "definition": "unweighted mean temperature_c across all available anchors and requested lead points"
+    },
+    "hdd_cdd": {
+      "features": ["hdd65_mean_c", "cdd65_mean_c"],
+      "definition": "pointwise max(base-temperature,0) and max(temperature-base,0), then unweighted mean across available anchor/lead points"
+    },
+    "anomaly": {
+      "features": ["temp_seasonal_anomaly_c", "hdd65_seasonal_anomaly_c"],
+      "definition": "current level minus strictly-prior expanding ISO-week mean for the same feature; current and future issue dates never enter the seasonal reference"
+    },
+    "revision": {
+      "features": ["revision_temp_mean_c", "revision_hdd65_mean_c"],
+      "definition": "current issued run minus the immediately previous calendar-day issued run on exact overlapping anchor_id and forecast_valid_at keys; missing when the prior issue is unavailable"
+    },
+    "geography": {
+      "features": [
+        "midwest_chicago_temp_mean_c",
+        "northeast_new_york_temp_mean_c",
+        "southeast_atlanta_temp_mean_c",
+        "south_central_houston_temp_mean_c"
+      ],
+      "definition": "per-anchor unweighted temperature mean over available lead points"
+    },
+    "horizon": {
+      "features": [
+        "near_temp_mean_c",
+        "far_temp_mean_c",
+        "near_minus_far_temp_c",
+        "near_hdd65_mean_c",
+        "far_hdd65_mean_c"
+      ],
+      "near_lead_hours": [24, 72],
+      "far_lead_hours": [120, 168],
+      "definition": "near and far lead-band means over available anchor/lead points plus near-minus-far temperature"
+    },
+    "dispersion": {
+      "features": [
+        "temp_dispersion_c",
+        "anchor_temp_dispersion_c"
+      ],
+      "definition": "population standard deviation across all temperature points and population standard deviation of per-anchor mean temperatures; lead_coverage_fraction is retained only as an archive-integrity diagnostic and is never scored"
+    },
+    "forecast_error_history": {
+      "features": ["revision_error_proxy_mae_30d_c"],
+      "definition": "strictly-prior 30-issue rolling mean absolute issued-run temperature revision, shifted one issue before rolling with minimum 10 prior revisions",
+      "semantic_boundary": "revision_error_proxy_not_observed_realized_forecast_error"
+    }
+  },
+  "missingness_rule": "do_not_impute_or_silently_fill_unavailable_representation_values_across_information_boundaries",
+  "lineage_rule": "verify_each_daily_manifest_source_id_and_anchor_temperature_csv_sha256_before_feature_construction",
+  "selection_support_rule": "determine purge-safe minimum-training support per representation first, HOLD representations with no eligible prior inner block, then compare remaining representations only on the chronological intersection of their eligible inner blocks",
+  "protected_confirmation_accessed": false
+}

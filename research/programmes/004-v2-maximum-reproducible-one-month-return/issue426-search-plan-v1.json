@@ -1,0 +1,88 @@
+{
+  "schema_version": 1,
+  "issue": 426,
+  "programme_issue": 393,
+  "status": "preregistered_before_issue426_scoring",
+  "evidence_class": "development",
+  "latest_allowed_trade_date": "2022-12-31",
+  "protected_evidence": [
+    "reserved_confirmation",
+    "true_forward",
+    "prospective_paper",
+    "saxo_sim",
+    "saxo_live"
+  ],
+  "market_only_control": "research/programmes/004-v2-maximum-reproducible-one-month-return/issue425-result-v1.json",
+  "source_gate": {
+    "rule": "score_only_preserved_point_in_time_evidence_available_on_or_before_the_development_cutoff",
+    "unavailable_disposition": "HOLD",
+    "search_budget_consumed_when_held": false
+  },
+  "families": [
+    {
+      "family": "storage",
+      "source": "eia_storage",
+      "max_staleness": "14D",
+      "roles": ["direct", "regime", "filter_veto", "sizing", "risk_modifier"],
+      "representations": ["level", "seasonal_deviation", "change", "release_surprise", "revision", "event_timing"]
+    },
+    {
+      "family": "weather",
+      "source": "weather",
+      "max_staleness": "24H",
+      "roles": ["direct", "regime", "filter_veto", "confidence", "sizing", "risk_modifier"],
+      "representations": ["level", "hdd_cdd", "anomaly", "revision", "geography", "horizon", "dispersion", "forecast_error_history"]
+    },
+    {
+      "family": "power",
+      "source": "nyiso_load_forecast",
+      "max_staleness": "25H",
+      "roles": ["direct", "interaction", "regime", "filter_veto", "confidence"],
+      "representations": ["issued_load_level", "issued_load_anomaly", "issued_revision"]
+    },
+    {
+      "family": "positioning",
+      "source": "cftc_cot",
+      "max_staleness": "14D",
+      "roles": ["direct", "interaction", "regime", "filter_veto", "confidence"],
+      "representations": ["managed_money_net", "managed_money_pct_oi", "producer_merchant_net", "swap_dealer_net", "change", "zscore"]
+    }
+  ],
+  "segregated_families": {
+    "screening_only": ["eia_fundamentals", "eia_power"],
+    "prospective_or_hold": ["lng_pipeline_operational", "european_global_gas", "oil", "fx_rates_macro", "licensed_cross_market"],
+    "rule": "do_not_score_until_config_data_sources_promotes_the_exact_source_to_point_in_time_research_use"
+  },
+  "matched_ablation": {
+    "control": "issue425_market_only_handoff_configuration",
+    "required": true,
+    "credit_rule": "family_must_add_marginal_value_against_the_same_market_only_control_and_chronological_blocks"
+  },
+  "required_interactions": [
+    "storage×weather×season×volatility",
+    "storage×season",
+    "weather×season",
+    "positioning×volatility",
+    "power×weather"
+  ],
+  "reporting": {
+    "primary": "mean_monthly_net_return_after_costs",
+    "mandatory": ["median_monthly_net_return", "worst_monthly_net_return", "profitable_month_rate", "max_drawdown_fraction", "transaction_cost_usd", "turnover", "long_short_pnl", "period_concentration"],
+    "attempt_history_required": true,
+    "explicit_revisit_disposition_required": true
+  },
+  "stopping_rules": [
+    "Do not access data later than 2022-12-31 for candidate scoring or selection.",
+    "Do not substitute revised final history for missing point-in-time evidence.",
+    "Do not use 2023+ reserved confirmation, prospective paper, SIM, or LIVE evidence.",
+    "Do not consume search budget for a family that fails the source gate.",
+    "Preserve every scored, failed, pruned, and source-gated attempt."
+  ],
+  "revisit_triggers": [
+    "new_admissible_pre2023_point_in_time_data",
+    "verified_historical_issue_or_release_timing",
+    "new_interaction_evidence",
+    "material_cost_or_execution_change",
+    "regime_distribution_shift"
+  ]
+}

@@ -1,0 +1,21 @@
+# Tasks: V2 Storage Weather Fundamentals Cross Market
+
+- [x] Confirm live KIS authority, Active Work claim, schema-v4 classification and isolated worktree.
+- [x] Bind `WORK-426` identity into the local change scope and sync classification to Work Management.
+- [x] Consult quantitative-research routing plus data-engineering/model-tuning skills.
+- [x] Freeze the #426 development-only search/source-gate plan before scoring.
+- [x] Add failing tests for #426 source gating, PIT joins, family transforms and snapshot inventory.
+- [x] Implement the smallest #426 optimizer/source-gate extension on the existing V2 harness.
+- [x] Execute the real source gate against Commodity-local preserved snapshots and acquire admissible pre-2023 storage, positioning and issued-weather evidence where the initial snapshot inventory was insufficient.
+- [x] Harden storage/positioning cadence and availability integrity, weather daily manifest integrity, representation-fair inner-fold selection, distinct modifier-role semantics, and matched ablations.
+- [x] Supersede diagnostic optimization plan v2 with authoritative plan v3 before authoritative scoring, freezing distinct confidence semantics and zero-budget HOLD treatment for unidentifiable sizing/risk roles.
+- [x] Freeze weather-feature and combined interaction contracts before weather scoring.
+- [x] Complete the 2,908-day GFS issued-run archive and pass the complete weather source gate.
+- [x] Complete the clean authoritative storage/positioning/weather/interaction optimization ledger, persist the 667-trial durable ledger, and replace the stale HOLD-only result artifact.
+- [x] Regenerate generated reference documentation from the final scientific records.
+- [x] Codify the proven isolated-worktree KIS review pattern in `AGENTS.md`, including staged/range review, large-diff exact-diff fallback, and separation of implementation review from PR preparation.
+- [x] Execute KIS-selected verification.
+- [x] Complete independent code-quality review and resolve material findings.
+- [x] Commit the verified change.
+- [ ] Prepare and merge the reviewable PR through KIS exact-head GitHub workflow.
+- [ ] Reconcile documentation/Work state and clean the merged worktree.

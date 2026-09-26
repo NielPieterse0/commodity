@@ -1,0 +1,65 @@
+{
+  "schema_version": 1,
+  "issue": 426,
+  "programme_issue": 393,
+  "plan_id": "issue426-optimization-plan-v2",
+  "status": "registered_before_historical_family_scoring",
+  "evidence_class": "development",
+  "latest_allowed_trade_date": "2022-12-31",
+  "base_configuration": "issue425-result-v1.nested_outer[].search.selected_config matched by outer_block_id",
+  "selection_rule": "select_only_on_strictly_prior_inner_blocks_then_score_outer_block_once",
+  "matched_control": "same_outer_matched_issue425_configuration_without_added_family",
+  "family_source_gate": "issue426-source-plan-v2",
+  "roles": {
+    "direct": "family_representation_as_model_input",
+    "regime": "family_representation_plus_market_season_and_volatility_interactions",
+    "interaction": "family_representation_plus_registered_cross_feature_interactions",
+    "filter_veto": "training_quantile_binary_exposure_gate",
+    "confidence": "training_quantile_binary_exposure_gate_under_one_contract_cap",
+    "sizing": "training_quantile_binary_exposure_gate_under_one_contract_cap",
+    "risk_modifier": "training_quantile_binary_exposure_gate_under_one_contract_cap"
+  },
+  "stages": [
+    {
+      "id": "representation_role",
+      "axes": ["registered_family_representation", "registered_family_role"],
+      "gate_quantiles": [0.25, 0.5, 0.75],
+      "retain": 1
+    },
+    {
+      "id": "lag_and_rolling_window",
+      "axes": {
+        "transforms.lag_sessions": [1, 2, 5, 10, 20],
+        "transforms.rolling_stat_window_sessions": [5, 10, 20, 60, 126]
+      },
+      "retain": 1
+    },
+    {
+      "id": "scaling_and_normalization",
+      "axes": {
+        "transforms.scaling": ["none", "zscore_rolling", "robust_rolling"],
+        "transforms.normalization_window_sessions": [20, 60, 126, 252]
+      },
+      "retain": 1
+    },
+    {
+      "id": "lookback_and_winsor",
+      "axes": {
+        "data.lookback_sessions": [20, 60, 126, 252, 504, 756],
+        "transforms.winsor_quantile": [0.0, 0.001, 0.005, 0.01, 0.025]
+      },
+      "retain": 1
+    },
+    {
+      "id": "registered_interactions",
+      "axes": ["issue426-search-plan-v1.required_interactions"],
+      "retain": 1
+    }
+  ],
+  "rules": [
+    "Held families consume zero search budget.",
+    "Failed candidates remain in the trial ledger.",
+    "Every family is compared against the same issue425 market-only configuration.",
+    "Post-2022 evidence remains outside candidate scoring and selection."
+  ]
+}
