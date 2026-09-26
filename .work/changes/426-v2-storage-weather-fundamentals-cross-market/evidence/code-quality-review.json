@@ -1,0 +1,26 @@
+{
+  "schema_version": 1,
+  "review_id": "REV-42601",
+  "review_type": "code-quality",
+  "status": "completed",
+  "worktree": ".work/worktrees/426-v2-storage-weather-fundamentals-cross-market",
+  "reviewed_source": {
+    "source": "staged",
+    "source_fingerprint": "3d40f151797938600bc147dfeb065b24bf4d220ab841f5969278f7bcdaa5e242",
+    "path": "src/commodity/v2_optimization.py",
+    "exact_diff_sha256": "7ac3796f35a764d95c14e03086cd2ceb9473197e673db85cc754b29200391252",
+    "exact_diff_bytes": 152207
+  },
+  "kis_fallback": {
+    "required": true,
+    "mode": "exact-diff",
+    "reason": "review_evidence_incomplete",
+    "diagnostics": ["AGENT_EVIDENCE_FILES_OMITTED", "AGENT_EVIDENCE_INCOMPLETE"]
+  },
+  "review": {
+    "method": "manual exact-diff review with independent KIS slice reviews",
+    "result": "no blocking findings",
+    "completed_clean_slices": ["slice-01", "slice-03", "slice-05"],
+    "provider_contract_failures_without_findings": ["slice-02", "slice-04"]
+  }
+}

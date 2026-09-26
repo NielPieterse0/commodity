@@ -11,7 +11,7 @@ Source: `config/v2_variable_registry.json`
 | `schema_version` | 1 |
 | `registry_id` | programme-393-v2-variable-registry-v1 |
 | `parent_issue` | 396 |
-| `status` | registration_only_no_optimization_started |
+| `status` | optimization_execution_in_progress |
 
 ## Structure
 

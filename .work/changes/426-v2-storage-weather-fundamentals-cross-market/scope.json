@@ -1,0 +1,46 @@
+{
+  "schema_version": 4,
+  "change_id": "426-v2-storage-weather-fundamentals-cross-market",
+  "status": "active",
+  "branch": "change/426-v2-storage-weather-fundamentals-cross-market",
+  "worktree": ".work/worktrees/426-v2-storage-weather-fundamentals-cross-market",
+  "base": "main",
+  "outcome": "Execute V2.29 development-only PIT optimization for the already-admissible storage, issued-weather, positioning, issued-power, and eligible cross-market/fundamental families; require market-only matched controls, family ablations, registered interactions, monthly net-return/risk reporting, full attempt history and explicit revisit dispositions, while never opening reserved confirmation, prospective paper, SIM, or LIVE evidence; also codify the proven isolated-worktree KIS implementation-review pattern so later Commodity changes do not repeat the same review failure mode.",
+  "owned_paths": [
+    "AGENTS.md",
+    "src/commodity/v2_optimization.py",
+    "tests/test_v2_optimization.py",
+    "config/v2_variable_registry.json",
+    "research/programmes/004-v2-maximum-reproducible-one-month-return/**",
+    "docs/reference/config/v2_variable_registry.md",
+    "docs/reference/README.md",
+    "docs/reference/research/programmes/004-v2-maximum-reproducible-one-month-return/**",
+    ".work/changes/426-v2-storage-weather-fundamentals-cross-market/**"
+  ],
+  "shared_paths": [],
+  "excluded_paths": [],
+  "dependencies": [],
+  "integration_owner": null,
+  "complexity": "large",
+  "risk_triggers": [
+    "money",
+    "persistent_state"
+  ],
+  "work_management": {
+    "project_id": "commodity",
+    "record_id": "WORK-426",
+    "source_repository": "NielPieterse0/commodity",
+    "source_number": 426,
+    "source_kind": "issue",
+    "documentation_impact": "planned"
+  },
+  "base_evidence": {
+    "local_sha": "aa6ca1bd7f8862c1948a9ebcd075f01d227fe78a",
+    "local_tree": "18ce6921e58e6ac8fdb4f73d80e0e056fd748b43",
+    "upstream_sha": "aa6ca1bd7f8862c1948a9ebcd075f01d227fe78a",
+    "upstream_tree": "18ce6921e58e6ac8fdb4f73d80e0e056fd748b43",
+    "upstream_ref": "refs/remotes/origin/main",
+    "evidence_source": "local_remote_tracking_ref",
+    "relation": "same_sha"
+  }
+}

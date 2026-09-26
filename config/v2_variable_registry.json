@@ -2,7 +2,7 @@
   "schema_version": 1,
   "registry_id": "programme-393-v2-variable-registry-v1",
   "parent_issue": 396,
-  "status": "registration_only_no_optimization_started",
+  "status": "optimization_execution_in_progress",
   "authority_basis": ["config/research_dataset.json","config/models.json","config/simulation.json","config/trading-policy.json","config/assumptions.json","src/commodity/trading_decision_v0.py"],
   "evidence_boundary": {"allowed_for_search":["development","rolling_research_oos"],"prohibited_for_search":["reserved_confirmation","true_forward"],"v1_immutable":true},
   "hard_constraints": {"instrument":"CME_NYMEX_NG","canonical_market_provider":"Databento_GLBX_MDP3_private_research_batch","continuous_series_policy":"volume_crossover_dte_v1","point_in_time_required":true,"cross_contract_returns_prohibited":true,"live_trading_allowed":false,"model_may_submit_orders":false,"paper_max_standard_contracts":1,"paper_risk_policy_model_tunable":false},

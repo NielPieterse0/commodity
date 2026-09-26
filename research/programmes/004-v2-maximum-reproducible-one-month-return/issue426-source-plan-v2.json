@@ -1,0 +1,77 @@
+{
+  "schema_version": 1,
+  "issue": 426,
+  "programme_issue": 393,
+  "plan_id": "issue426-source-plan-v2",
+  "status": "registered_before_historical_family_scoring",
+  "evidence_class": "development",
+  "latest_allowed_trade_date": "2022-12-31",
+  "purpose": "Promote exact newly acquired historical PIT evidence without weakening global source policy.",
+  "protected_evidence_accessed": false,
+  "families": {
+    "storage": {
+      "disposition": "SCORE_IF_INTEGRITY_VERIFIED",
+      "source_id": "eia_wngsr_original_first_published_vintages",
+      "manifest": "eia_wngsr/original_first_published_2015_2022.manifest.json",
+      "normalized_file": "eia_wngsr/original_first_published_2015_2022.csv",
+      "support_start": "2015-06-19",
+      "support_end": "2022-12-30",
+      "availability_status": "reconstructed_conservative",
+      "availability_basis": "week_end_plus_10_calendar_days_2359_america_new_york"
+    },
+    "positioning": {
+      "disposition": "SCORE_IF_INTEGRITY_VERIFIED",
+      "source_id": "cftc_disaggregated_futures_only_023651_historical",
+      "manifest": "cftc/henry_hub_disaggregated_futures_only_2010_2022.manifest.json",
+      "normalized_file": "cftc/henry_hub_disaggregated_futures_only_2010_2022.csv",
+      "support_start": "2010-01-05",
+      "support_end": "2022-12-27",
+      "availability_status": "reconstructed_conservative",
+      "availability_basis": "report_date_plus_7_calendar_days_2359_america_new_york"
+    },
+    "weather": {
+      "disposition": "SCORE_IF_COMPLETE_AND_INTEGRITY_VERIFIED",
+      "source_id": "ncar_gdex_d084001_gfs_0p25_issued_00utc",
+      "manifest_glob": "weather/gfs_rda_025/*/*/manifest.json",
+      "support_start": "2015-01-15",
+      "support_end": "2022-12-31",
+      "expected_issue_days": 2908,
+      "cycle_utc_hour": 0,
+      "availability_status": "reconstructed_conservative",
+      "availability_basis": "issued_at_plus_370_minutes_global_model_delay_and_consistency_margin"
+    },
+    "power": {
+      "disposition": "HOLD",
+      "source_id": "pjm_load_frcstd_hist_rto",
+      "manifest": "pjm/normalized/manifest.json",
+      "support_start": "2011-01-01",
+      "support_end": "2022-12-31",
+      "hold_reason": "source_creation_timestamp_present_publication_lag_not_promoted",
+      "search_budget_consumed": false
+    }
+  },
+  "supporting_sources": {
+    "bhlr": {
+      "registered_feature_family": false,
+      "manifest": "bhlr/normalized/manifest.json",
+      "use": "supporting_real_time_vintage_evidence_only"
+    },
+    "norway_cross_market": {
+      "registered_feature_family": false,
+      "use": "preserved_for_future_registered_cross_market_work"
+    }
+  },
+  "rules": [
+    "No family scoring begins before this plan is registered.",
+    "Every scored source must match its declared source_id and preserved manifest identity.",
+    "Weather requires complete checksum-verified daily coverage before scoring.",
+    "Weather availability is reconstructed as issued_at plus 370 minutes before PIT joins.",
+    "PJM power remains HOLD until historical public availability timing is defensibly promoted.",
+    "The existing protected development-evidence boundary remains unchanged."
+  ],
+  "revisit_triggers": {
+    "power": "verified_historical_publication_availability_semantics",
+    "weather": "complete_checksum_verified_archive",
+    "supporting_cross_market": "future_registered_feature_family"
+  }
+}
