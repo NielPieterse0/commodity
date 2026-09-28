@@ -1,0 +1,95 @@
+{
+  "evidence_class": "development",
+  "frozen_commit": "7ce3876",
+  "frozen_module_sha256": "1a08c1066be3f9f4bc1f844ca3a0114472987b2dd58a0099423a5aef5397199b",
+  "interaction_disposition": "HOLD_WEATHER_RECONSTRUCTION_NOT_REPRODUCED",
+  "issue": 452,
+  "programme_issue": 393,
+  "protected_confirmation_accessed": false,
+  "replays": [
+    {
+      "all_equal": false,
+      "comparison": {
+        "max_drawdown_fraction": {
+          "actual": 0.08100160808637706,
+          "equal": false,
+          "expected": 0.10937428999863653
+        },
+        "mean_monthly_net_return": {
+          "actual": 4.00000000000858e-06,
+          "equal": false,
+          "expected": -0.0007999999999999903
+        },
+        "month_count": {
+          "actual": 25,
+          "equal": true,
+          "expected": 25
+        },
+        "total_net_pnl_usd": {
+          "actual": 10.000000000020918,
+          "equal": false,
+          "expected": -1999.9999999999782
+        },
+        "trade_count": {
+          "actual": 157,
+          "equal": false,
+          "expected": 165
+        },
+        "transaction_cost_usd": {
+          "actual": 2730.0,
+          "equal": false,
+          "expected": 2910.0
+        }
+      },
+      "outer": "outer-2019-2020",
+      "representation": "horizon",
+      "role": "regime",
+      "status": "complete"
+    },
+    {
+      "all_equal": false,
+      "comparison": {
+        "max_drawdown_fraction": {
+          "actual": 0.06144513477814197,
+          "equal": false,
+          "expected": 0.056308399784746346
+        },
+        "mean_monthly_net_return": {
+          "actual": 0.006429166666666667,
+          "equal": false,
+          "expected": -0.0014791666666666662
+        },
+        "month_count": {
+          "actual": 24,
+          "equal": true,
+          "expected": 24
+        },
+        "total_net_pnl_usd": {
+          "actual": 15430.0,
+          "equal": false,
+          "expected": -3549.9999999999995
+        },
+        "trade_count": {
+          "actual": 39,
+          "equal": false,
+          "expected": 6
+        },
+        "transaction_cost_usd": {
+          "actual": 690.0,
+          "equal": false,
+          "expected": 120.0
+        }
+      },
+      "outer": "outer-2021-2022",
+      "representation": "anomaly",
+      "role": "filter_veto",
+      "status": "complete"
+    }
+  ],
+  "reproduces_frozen_issue426": false,
+  "schema_version": 1,
+  "validation_id": "issue452-weather-reconstruction-validation-v1",
+  "weather_end": "2022-12-31T00:00:00+00:00",
+  "weather_rows": 2908,
+  "weather_start": "2015-01-15T00:00:00+00:00"
+}

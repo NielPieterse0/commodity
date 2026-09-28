@@ -1,0 +1,74 @@
+{
+  "schema_version": 1,
+  "issue": 452,
+  "programme_issue": 393,
+  "contract_id": "issue452-pjm-publication-contract-v1",
+  "status": "preregistered_before_pjm_power_scoring",
+  "evidence_class": "development",
+  "latest_allowed_trade_date": "2022-12-31",
+  "protected_confirmation_accessed": false,
+  "source_id": "pjm_load_frcstd_hist_rto_vintage_pit_v1",
+  "archive_feed": "load_frcstd_hist",
+  "publication_feed": "load_frcstd_7_day",
+  "forecast_area": "RTO",
+  "archive_fields": [
+    "evaluated_at_utc",
+    "evaluated_at_ept",
+    "forecast_hour_beginning_utc",
+    "forecast_hour_beginning_ept",
+    "forecast_area",
+    "forecast_load_mw"
+  ],
+  "time_semantics": {
+    "evaluated_at": "forecast_vintage_identity_not_assumed_publication_timestamp",
+    "forecast_hour_beginning": "forecast_target_hour",
+    "public_availability_authority": "publication_feed_update_availability_metadata"
+  },  "availability_rule": {
+    "schedule_timezone": "America/New_York",
+    "documented_update_minutes": [15, 45],
+    "ingestion_buffer_minutes": 15,
+    "rule": "next_documented_update_slot_at_or_after_evaluated_at_then_add_fixed_ingestion_buffer",
+    "performance_optimized": false,
+    "sensitivity_buffer_minutes": [15, 30, 60],
+    "sensitivity_use": "timing_and_coverage_audit_only_never_model_performance"
+  },
+  "revision_gate": {
+    "preserve_distinct_vintages": true,
+    "key": ["forecast_area", "forecast_hour_beginning_utc", "evaluated_at_utc"],
+    "conflicting_duplicate_key": "FAIL",
+    "require_multiple_vintages_when_present": true,
+    "retroactive_overwrite_ambiguity": "FAIL"
+  },
+  "pit_gate": {
+    "join_rule": "available_at_lte_decision_time",
+    "future_vintage_behavior": "exclude",
+    "source_hash_required": true,
+    "development_cutoff_enforced": true
+  },
+  "authority": [
+    {
+      "kind": "pjm_api_guide",
+      "url": "https://www.pjm.com/-/media/DotCom/etools/data-miner-2/data-miner-2-api-guide.ashx",
+      "claim": "Historical feed exposes evaluated-at, target-hour, area and load fields."
+    },    {
+      "kind": "pjm_data_directory",
+      "url": "https://www.pjm.com/markets-and-operations/data-dictionary.aspx?p=1",
+      "claim": "Historical Load Forecasts preserve eight forecasts per operating day: four prior-day and four operating-day vintages."
+    },
+    {
+      "kind": "pjm_publication_feed_definition",
+      "url": "https://dataminer2.pjm.com/feed/load_frcstd_7_day/definition",
+      "claim": "Seven-Day Load Forecast is the contemporaneous public feed; update availability is every half hour on the quarter."
+    },
+    {
+      "kind": "pjm_data_miner_release_notes",
+      "url": "https://www.pjm.com/markets-and-operations/etools/data-miner-2/data-miner-2-release-notes",
+      "claim": "PJM states Update Availability metadata reflects actual posting time."
+    }
+  ],
+  "corroboration_only": [
+    "GridStatus historical catalog describes all published vintages and maps evaluated-at to Publish Time; this cannot independently pass the gate."
+  ],
+  "scoring_rule": "PJM power may enter #426-matched development scoring only after archive integrity, revision preservation and publication-time reconstruction all pass.",
+  "fallback": "If historical archive acquisition or vintage integrity cannot be established, retain HOLD or replace with a separately preregistered PIT-safe power source; do not weaken this contract."
+}

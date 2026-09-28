@@ -1,0 +1,19 @@
+{
+  "content_class": "data-evidence",
+  "parameters": {
+    "yyyymm": {
+      "allowed_start": "201101",
+      "allowed_end": "202212",
+      "format": "YYYYMM"
+    }
+  },
+  "recipe_id": "commodity-miso-rf-al-v1",
+  "request": {
+    "headers": {},
+    "method": "GET",
+    "query": {},
+    "url_template": "https://docs.misoenergy.org/marketreports/{yyyymm}_rf_al_xls.zip"
+  },
+  "schema_version": 1,
+  "source_identity": "MISO Daily Regional Forecast and Actual Load monthly XLS archives, 2011-01 through 2022-12"
+}

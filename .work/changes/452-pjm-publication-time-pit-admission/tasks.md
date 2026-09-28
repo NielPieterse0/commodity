@@ -1,0 +1,21 @@
+# Tasks: Power Publication Time PIT Admission
+
+- [x] Confirm live KIS authority, classification, isolated worktree, issue #452 acceptance criteria, and exact #426 source/search contracts.
+- [x] Preserve the PJM publication-time proof and fail-closed archive/vintage gate.
+- [x] Preregister source ladder v1 and keep Norway/Europe segregated from the U.S. power hypothesis.
+- [x] Audit NYISO historical P-7 and retain it as a source-level HOLD after the 2015-04-24 retroactive overwrite finding.
+- [x] Exhaust ISO-NE enough to establish it as a viable backup while identifying product-stitching limitations.
+- [x] Discover and audit MISO as the continuous U.S.-ISO candidate: 144 monthly archives, 4,383 daily files, full 2011-2022 coverage, 24 current-day MTLF hours per file, and no current-day actual-load leakage.
+- [x] Supersede the source ladder before scoring to bind MISO ahead of ISO-NE, with the conservative publication-day availability rule and malformed-publication-date exclusions.
+- [x] Implement the bounded MISO adapter, acquisition recipe, hashes/manifests, loader, and audit helpers.
+- [x] Acquire/hash the full MISO 2011-01 through 2022-12 archive and persist a durable 144-month lineage/hash index.
+- [x] Promote MISO V2 research PIT status only after the implemented archive/timing/lineage audit passes.
+- [x] Re-enter only source-identifiable #426 power representations into development-only matched-control scoring; keep `issued_revision` held with zero search budget.
+- [x] Complete supported outer scoring: 166 trials total; 2019-2020 marginal delta -0.00076 and 2021-2022 effectively zero.
+- [x] Reconstruct 2,908/2,908 weather days and replay with frozen #426 code; record reproduction failure rather than substituting approximate weather evidence.
+- [x] Add the fail-closed power×weather orchestration gate and regression test; interaction remains unexecuted when frozen weather reproduction fails.
+- [x] Persist #452 result, full power trial ledger, MISO capture audit/hash index, power replay validation, and weather reconstruction validation in governed research artifacts.
+- [x] Preserve the 2022-12-31 development cutoff and keep protected confirmation, forward, paper, SIM, and LIVE evidence closed.
+- [x] Run fresh affected tests and canonical repository verification: focused 90 passed; canonical 852 passed, 7 skipped, all repository checks and Git whitespace passed.
+- [x] Run exact-worktree KIS implementation review and close findings through bounded source/test slice reviews and the registered exact-diff fallback for the oversized V2 optimization surface.
+- [ ] Prepare the reviewable PR, require exact-head GitHub Actions, merge, reconcile Work/documentation state, refresh local main, and clean the worktree through KIS.

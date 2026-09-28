@@ -1,0 +1,161 @@
+{
+  "all_outer_replays_equal": true,
+  "current_miso_adapter_sha256": "b579846a88497ef1e297155a590f79df9c032e49108020bdd99ca53c68c0ffa0",
+  "current_v2_optimization_sha256": "9be38560f287b1879b28a0e206ab307a0fec40d67aa0927d9a284aecfdc79c9a",
+  "dataset_id": "34af4f41fc46e996258ea24f566a98f0c613641ca95e3cbd88beba51473b6131",
+  "evidence_class": "development",
+  "issue": 452,
+  "ledger_execution_code_id": "01b2221973a4a801c576772217bf3537a7de2fbdc9eb1ee6f098d13feb74d812",
+  "market_features_sha256": "b14ae69bd6ec2910f0cf56fe62f481016801308cebc6ef69e536aa7e593d072e",
+  "market_session_path_sha256": "0fe87ea79a56f98fb9d445e89e3d65b48ae7bb1175e06ba9b97da68ebe6b01e8",
+  "outer_replays": [
+    {
+      "all_equal": true,
+      "comparison": {
+        "candidate": {
+          "max_drawdown_fraction": {
+            "actual": 0.08473107094872794,
+            "equal": true,
+            "expected": 0.08473107094872794
+          },
+          "mean_monthly_net_return": {
+            "actual": 0.0022360000000000036,
+            "equal": true,
+            "expected": 0.0022360000000000036
+          },
+          "month_count": {
+            "actual": 25,
+            "equal": true,
+            "expected": 25
+          },
+          "total_net_pnl_usd": {
+            "actual": 5590.000000000007,
+            "equal": true,
+            "expected": 5590.000000000007
+          },
+          "trade_count": {
+            "actual": 182,
+            "equal": true,
+            "expected": 182
+          },
+          "transaction_cost_usd": {
+            "actual": 3150.0,
+            "equal": true,
+            "expected": 3150.0
+          }
+        },
+        "matched_control": {
+          "max_drawdown_fraction": {
+            "actual": 0.06826160447276036,
+            "equal": true,
+            "expected": 0.06826160447276036
+          },
+          "mean_monthly_net_return": {
+            "actual": 0.002996000000000004,
+            "equal": true,
+            "expected": 0.002996000000000004
+          },
+          "month_count": {
+            "actual": 25,
+            "equal": true,
+            "expected": 25
+          },
+          "total_net_pnl_usd": {
+            "actual": 7490.000000000007,
+            "equal": true,
+            "expected": 7490.000000000007
+          },
+          "trade_count": {
+            "actual": 197,
+            "equal": true,
+            "expected": 197
+          },
+          "transaction_cost_usd": {
+            "actual": 3450.0,
+            "equal": true,
+            "expected": 3450.0
+          }
+        }
+      },
+      "outer_block_id": "outer-2019-2020",
+      "representation": "issued_load_level",
+      "role": "filter_veto"
+    },
+    {
+      "all_equal": true,
+      "comparison": {
+        "candidate": {
+          "max_drawdown_fraction": {
+            "actual": 0.05051103540216264,
+            "equal": true,
+            "expected": 0.05051103540216264
+          },
+          "mean_monthly_net_return": {
+            "actual": -0.0016041666666666663,
+            "equal": true,
+            "expected": -0.0016041666666666663
+          },
+          "month_count": {
+            "actual": 24,
+            "equal": true,
+            "expected": 24
+          },
+          "total_net_pnl_usd": {
+            "actual": -3849.999999999999,
+            "equal": true,
+            "expected": -3849.999999999999
+          },
+          "trade_count": {
+            "actual": 4,
+            "equal": true,
+            "expected": 4
+          },
+          "transaction_cost_usd": {
+            "actual": 90.0,
+            "equal": true,
+            "expected": 90.0
+          }
+        },
+        "matched_control": {
+          "max_drawdown_fraction": {
+            "actual": 0.05051103540216264,
+            "equal": true,
+            "expected": 0.05051103540216264
+          },
+          "mean_monthly_net_return": {
+            "actual": -0.0016041666666666659,
+            "equal": true,
+            "expected": -0.0016041666666666659
+          },
+          "month_count": {
+            "actual": 24,
+            "equal": true,
+            "expected": 24
+          },
+          "total_net_pnl_usd": {
+            "actual": -3849.999999999998,
+            "equal": true,
+            "expected": -3849.999999999998
+          },
+          "trade_count": {
+            "actual": 6,
+            "equal": true,
+            "expected": 6
+          },
+          "transaction_cost_usd": {
+            "actual": 120.0,
+            "equal": true,
+            "expected": 120.0
+          }
+        }
+      },
+      "outer_block_id": "outer-2021-2022",
+      "representation": "issued_load_level",
+      "role": "regime"
+    }
+  ],
+  "programme_issue": 393,
+  "protected_confirmation_accessed": false,
+  "schema_version": 1,
+  "validation_id": "issue452-power-current-code-validation-v1"
+}

@@ -1,0 +1,91 @@
+{
+  "schema_version": 1,
+  "issue": 452,
+  "programme_issue": 393,
+  "contract_id": "issue452-power-source-ladder-v2",
+  "status": "preregistered_before_power_rescoring",
+  "supersedes": "issue452-power-source-ladder-v1",
+  "supersession_reason": "Pre-scoring source-feasibility work found a continuous MISO issued-load-forecast archive spanning the full development interval; adding it before ISO-NE avoids stitching different ISO-NE products while preserving the same U.S.-ISO power-demand hypothesis.",
+  "evidence_class": "development",
+  "latest_allowed_trade_date": "2022-12-31",
+  "protected_confirmation_accessed": false,
+  "power_performance_scored_before_supersession": false,
+  "family": "power",
+  "economic_hypothesis": "issued_us_iso_electricity_load_forecasts_as_power_burn_demand_information",
+  "source_ladder": [
+    {
+      "order": 1,
+      "source": "nyiso_load_forecast",
+      "source_id": "nyiso_p7_iso_load_forecast",
+      "role": "audited_primary_candidate",
+      "disposition": "HOLD",
+      "hold_reason": "historical_archive_retroactively_overwrote_2015_04_24_member",
+      "search_budget_consumed": false
+    },
+    {
+      "order": 2,
+      "source": "miso_load_forecast",
+      "source_id": "miso_daily_regional_forecast_actual_load_miso_mtlf_v1",
+      "role": "primary_active_replacement_candidate",
+      "required_start": "2011-01-01",
+      "required_end": "2022-12-31",
+      "admission": "score_only_after_archive_publication_day_lineage_leakage_and_coverage_audits_pass"
+    },
+    {
+      "order": 3,
+      "source": "iso_ne_load_forecast",
+      "role": "backup_if_miso_fails",
+      "admission": "separately_bind_exact_issued_product_and_publication_semantics_before_scoring"
+    },
+    {
+      "order": 4,
+      "source": "pjm_load_forecast",
+      "source_id": "pjm_load_frcstd_hist_rto_vintage_pit_v1",
+      "role": "opportunistic_replication_source",
+      "admission": "score_only_after_authorized_archive_reacquisition_and_revision_audit_pass"
+    }
+  ],
+  "equivalence_rule": "A replacement must remain a U.S. ISO actually-issued electricity-load forecast and preserve the original power-demand mechanism; Norway/Europe must not be relabeled as this family.",
+  "miso_gate": {
+    "archive": "monthly_YYYYMM_rf_al_xls_zip_with_daily_YYYYMMDD_rf_al_xls_members",
+    "report": "Daily Regional Forecast and Actual Load",
+    "forecast_field": "MISO_or_Midwest_ISO_MTLF_MWh",
+    "report_day_identity": "member_filename_equals_reporting_period_end_equals_current_market_day_rows",
+    "publication_day_source": "internal_Published_Date_cell",
+    "availability_rule": "00:00_fixed_EST_on_calendar_day_after_valid_internal_publication_date",
+    "availability_rule_rationale": "The day-level bound intentionally waits until the declared publication day has fully ended and therefore does not depend on assuming the surviving 2014 12:30 AM EST schedule applied unchanged in 2011-2013.",
+    "malformed_publication_date_rule": "exclude_member_from_PIT_scoring_without_repair",
+    "raw_archive_sha256_required": true,
+    "member_sha256_required": true,
+    "daily_archive_coverage_required": true,
+    "current_day_actual_load_must_be_absent": true,
+    "performance_optimized_timing": false,
+    "development_window": ["2011-01-01", "2022-12-31"]
+  },
+  "representation_rule": {
+    "issued_load_level": "eligible_if_miso_gate_passes",
+    "issued_load_anomaly": "prior_only_expanding_baseline_from_eligible_issued_load_levels",
+    "issued_revision": "HOLD_if_same_target_revision_not_identifiable_from_one_current_day_issue_per_report",
+    "held_representation_search_budget_consumed": false
+  },
+  "family_hold_rule": "Do not declare the power information family unavailable while a higher-priority equivalent source remains unaudited.",
+  "scoring_rule": "Reuse the existing issue426 power roles, matched market-only controls, chronological blocks, 25-hour max staleness, search budget, and development cutoff unchanged for source-identifiable representations only.",
+  "segregated_follow_on": {
+    "family": "norway_europe_global_gas",
+    "status": "separate_research_family_not_issue452_power_substitute",
+    "preferred_starting_sources": [
+      "norwegian_gas_transport",
+      "norwegian_maintenance_outages",
+      "ncs_gas_production",
+      "european_electricity_system"
+    ]
+  },
+  "failure_ladder": [
+    "exact_source",
+    "equivalent_source",
+    "equivalent_market_or_iso",
+    "independent_replication_source",
+    "economically_related_proxy",
+    "licensed_or_commercial_option"
+  ]
+}

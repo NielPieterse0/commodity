@@ -305,6 +305,19 @@
       "point_in_time_required": true,
       "v1_required_window": "2024-08-13 through 2026-08-12",
       "v1_archive_validation": "730_of_730_prediction_dates_have_eligible_next_day_forecast",
+      "v2_issue452_role": "hold_us_iso_candidate_after_retroactive_overwrite_ambiguity",
+      "v2_required_window": "2011-01-01 through 2022-12-31",
+      "v2_archive_status": "hold_retroactive_overwrite_ambiguity_2015_04_24",
+      "v2_public_archive_probe": "2011-01_through_2015-03_captured_before_fail_closed_2015-04_member_audit",
+      "v2_historical_audit": "research/programmes/004-v2-maximum-reproducible-one-month-return/issue452-nyiso-historical-audit-v1.json",
+      "v2_admission_contract": "research/programmes/004-v2-maximum-reproducible-one-month-return/issue452-power-source-ladder-v2.json",
+      "v2_admission_requires": [
+        "complete_daily_coverage_2011_2022",
+        "all_member_timestamps_before_conservative_availability_bound",
+        "raw_archive_and_member_hash_lineage",
+        "issued_run_immutability_audit",
+        "issue452_source_ladder_bound"
+      ],
       "accepted_source_ids": [
         "nyiso_p7_iso_load_forecast"
       ],
@@ -319,6 +332,76 @@
         "revision_status": "issued_run_immutable",
         "research_pit_allowed": true,
         "basis": "Noon America/New_York on the member operating date is later than every observed P-7 archive member update in the validated V1 window and before the experiment after-close cutoff"
+      }
+    },
+    "miso_load_forecast": {
+      "provider": "miso_market_reports",
+      "product": "Daily Regional Forecast and Actual Load",
+      "status": "v2_research_pit_ready",
+      "purpose": "PIT-admissible issued MISO current-day MTLF load forecasts for the V2 power family",
+      "point_in_time_required": true,
+      "v2_issue452_role": "primary_us_iso_replacement_source",
+      "v2_required_window": "2011-01-01 through 2022-12-31",
+      "v2_archive_status": "complete_144_months_4383_daily_members",
+      "v2_historical_audit": "research/programmes/004-v2-maximum-reproducible-one-month-return/issue452-miso-historical-audit-v1.json",
+      "v2_admission_contract": "research/programmes/004-v2-maximum-reproducible-one-month-return/issue452-power-source-ladder-v2.json",
+      "accepted_source_ids": [
+        "miso_daily_regional_forecast_actual_load_miso_mtlf_v1"
+      ],
+      "max_staleness_hours": 25,
+      "availability_reconstruction_status": "conservative_end_of_internal_published_day",
+      "availability_policy": {
+        "timezone": "fixed_EST_UTC_minus_05",
+        "reconstructed_availability_status": "reconstructed_conservative",
+        "availability_rule": "00:00 fixed EST on the calendar day after a valid internal Published Date",
+        "revision_status": "single_daily_issue_same_target_revision_not_identifiable",
+        "research_pit_allowed": true,
+        "basis": "The bound is later than the documented 2014 12:30 AM EST schedule and does not assume that intraday schedule held before 2014"
+      }
+    },
+    "pjm_load_forecast": {
+      "provider": "pjm_data_miner_2",
+      "archive_feed": "load_frcstd_hist",
+      "publication_feed": "load_frcstd_7_day",
+      "forecast_area": "RTO",
+      "status": "publication_semantics_ready_archive_reacquisition_required",
+      "purpose": "PIT-admissible historical PJM RTO issued load-forecast vintages for the V2 power follow-up",
+      "point_in_time_required": true,
+      "accepted_source_ids": [
+        "pjm_load_frcstd_hist_rto_vintage_pit_v1"
+      ],
+      "max_staleness_hours": 25,
+      "archive_acquisition_status": "authorized_access_required",
+      "acquisition_methods": [
+        {
+          "method": "data_miner_api",
+          "authorization": "pjm_account_api_key",
+          "credential_env": "PJM_API_KEY"
+        },
+        {
+          "method": "data_miner_ui_csv_export",
+          "authorization": "public_ui_manual_export",
+          "maximum_rows_per_export": 1000000
+        }
+      ],
+      "availability_reconstruction_status": "publication_semantics_ready_archive_reacquisition_required",
+      "availability_policy": {
+        "timezone": "America/New_York",
+        "publication_semantics_ready": true,
+        "evaluated_at_semantics": "forecast_vintage_identity_not_assumed_publication_timestamp",
+        "publication_authority": "load_frcstd_7_day_update_availability_metadata",
+        "documented_update_minutes": [15, 45],
+        "ingestion_buffer_minutes": 15,
+        "sensitivity_buffer_minutes": [15, 30, 60],
+        "sensitivity_performance_optimization_allowed": false,
+        "revision_status": "historical_vintage_preservation_pending_reacquisition_audit",
+        "research_pit_allowed": false,
+        "activation_requires": [
+          "authorized_or_public_ui_archive_acquired",
+          "normalized_archive_hash_bound",
+          "distinct_vintage_revision_audit_passed",
+          "issue452_publication_contract_bound"
+        ]
       }
     },
     "cftc_cot": {

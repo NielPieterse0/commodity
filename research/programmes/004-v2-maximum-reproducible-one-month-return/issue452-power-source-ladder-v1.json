@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "issue": 452,
+  "programme_issue": 393,
+  "contract_id": "issue452-power-source-ladder-v1",
+  "status": "preregistered_before_power_rescoring",
+  "evidence_class": "development",
+  "latest_allowed_trade_date": "2022-12-31",
+  "protected_confirmation_accessed": false,
+  "family": "power",
+  "economic_hypothesis": "issued_us_iso_electricity_load_forecasts_as_power_burn_demand_information",
+  "source_ladder": [
+    {
+      "order": 1,
+      "source": "nyiso_load_forecast",
+      "source_id": "nyiso_p7_iso_load_forecast",
+      "role": "primary_replacement",
+      "required_start": "2011-01-01",
+      "required_end": "2022-12-31",
+      "admission": "score_only_after_archive_timing_lineage_coverage_and_immutability_audits_pass"
+    },
+    {
+      "order": 2,
+      "source": "iso_ne_load_forecast",
+      "role": "backup_if_nyiso_fails",
+      "admission": "separately_bind_exact_issued_product_and_publication_semantics_before_scoring"
+    },    {
+      "order": 3,
+      "source": "pjm_load_forecast",
+      "source_id": "pjm_load_frcstd_hist_rto_vintage_pit_v1",
+      "role": "opportunistic_replication_source",
+      "admission": "score_only_after_authorized_archive_reacquisition_and_revision_audit_pass"
+    }
+  ],
+  "equivalence_rule": "A replacement must remain a U.S. ISO actually-issued electricity-load forecast and preserve the original power-demand mechanism; Norway/Europe must not be relabeled as this family.",
+  "nyiso_gate": {
+    "archive": "monthly_P7_isolf_zip_with_daily_issued_members",
+    "availability_rule": "noon_America_New_York_on_operating_day_conservative_bound",
+    "source_time": "zip_member_timestamp",
+    "revision_status_required": "issued_run_immutable",
+    "raw_archive_hash_required": true,
+    "member_sha256_required": true,
+    "daily_coverage_required": true,
+    "no_member_after_availability_bound": true,
+    "development_window": ["2011-01-01", "2022-12-31"]
+  },
+  "family_hold_rule": "Do not declare the power information family unavailable while a higher-priority equivalent source remains unaudited.",
+  "scoring_rule": "Use the existing issue426 power representations, roles, matched market-only control, chronological blocks, search budget, and development cutoff unchanged after one source passes the PIT gate.",  "segregated_follow_on": {
+    "family": "norway_europe_global_gas",
+    "status": "separate_research_family_not_issue452_power_substitute",
+    "preferred_starting_sources": [
+      "norwegian_gas_transport",
+      "norwegian_maintenance_outages",
+      "ncs_gas_production",
+      "european_electricity_system"
+    ]
+  },
+  "failure_ladder": [
+    "exact_source",
+    "equivalent_source",
+    "equivalent_market_or_iso",
+    "independent_replication_source",
+    "economically_related_proxy",
+    "licensed_or_commercial_option"
+  ]
+}
