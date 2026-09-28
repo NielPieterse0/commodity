@@ -22,6 +22,8 @@ Required columns: `trade_date`, `contract_id`, `expiration`, `settle`
 | `eia_fundamentals` | eia_api_v2 | capture_ready_current_snapshot_only | production, balance, gas demand, LNG/pipeline trade and Henry Hub spot/reference price |
 | `eia_power` | eia_api_v2 | targeted_snapshot_ready | Lower-48 hourly demand/day-ahead demand forecast and natural-gas generation |
 | `nyiso_load_forecast` | nyiso_mis | v1_research_evaluation_ready | PIT-admissible issued NYISO load forecasts for the V1 power feature family |
+| `miso_load_forecast` | miso_market_reports | v2_research_pit_ready | PIT-admissible issued MISO current-day MTLF load forecasts for the V2 power family |
+| `pjm_load_forecast` | pjm_data_miner_2 | publication_semantics_ready_archive_reacquisition_required | PIT-admissible historical PJM RTO issued load-forecast vintages for the V2 power follow-up |
 | `cftc_cot` | cftc_public_reporting | v1_release_reconstruction_ready | weekly PIT Henry Hub positioning; Managed Money is the preferred research slice |
 | `weather` | open_meteo_historical_forecast | v1_research_evaluation_ready_with_declared_gaps | forecast-vintage temperatures and HDD/CDD surprises by gas-demand region |
 | `noaa_gfs_weather_revision` | noaa_gfs_archive | feasibility_hold_source_audit_required | PIT issued 00 UTC GFS 2-m-temperature forecast revisions for a mechanism-led Henry Hub response experiment |

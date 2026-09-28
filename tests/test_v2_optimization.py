@@ -7,6 +7,7 @@ from pathlib import Path
 import pandas as pd
 import pytest
 
+from commodity import v2_optimization
 from commodity.v2_optimization import (
     TrialLedger,
     V2OptimizationError,
@@ -17,6 +18,8 @@ from commodity.v2_optimization import (
     _phase2_ledger_for_monthly_score,
     _rank_issue426_rows,
     _search_issue426_outer,
+    audit_issue452_pjm_availability_sensitivity,
+    audit_issue452_pjm_vintage_preservation,
     bind_frozen_v1,
     build_issue425_target,
     build_issue426_historical_source_gate,
@@ -24,10 +27,16 @@ from commodity.v2_optimization import (
     build_issue426_source_gate,
     build_issue426_storage_family_frame,
     build_issue426_weather_family_frame,
+    build_issue452_miso_power_family_frame,
+    build_issue452_miso_source_gate,
+    build_issue452_pjm_power_family_frame,
+    build_issue452_pjm_source_gate,
     build_trial_id,
+    derive_issue452_pjm_available_at,
     expand_search_axes,
     inventory_issue426_historical_coverage,
     inventory_issue426_snapshot_coverage,
+    inventory_issue452_pjm_archive,
     load_issue425_search_plan,
     load_issue426_interaction_contract,
     load_issue426_optimization_plan,
@@ -35,11 +44,15 @@ from commodity.v2_optimization import (
     load_issue426_search_plan,
     load_issue426_source_plan,
     load_issue426_weather_feature_contract,
+    load_issue452_pjm_publication_contract,
+    load_issue452_power_source_ladder,
     load_v2_registry,
     merge_issue426_pit_family,
     prepare_issue425_features,
     prepare_issue426_features,
     prepare_issue426_storage_weather_interaction_features,
+    prepare_issue452_power_weather_interaction_features,
+    reconstruct_issue452_pjm_vintages,
     run_issue426_development_source_gate,
     score_monthly_path,
     select_issue425_candidate,
@@ -510,6 +523,615 @@ def test_issue426_source_plan_registers_historical_promotions_before_scoring() -
     assert plan["families"]["weather"]["expected_issue_days"] == 2908
     assert plan["families"]["power"]["disposition"] == "HOLD"
     assert plan["protected_evidence_accessed"] is False
+
+
+def test_issue452_miso_ladder_is_bound_before_scoring() -> None:
+    root = Path(__file__).resolve().parents[1]
+    ladder = load_issue452_power_source_ladder(
+        root
+        / "research"
+        / "programmes"
+        / "004-v2-maximum-reproducible-one-month-return"
+        / "issue452-power-source-ladder-v2.json"
+    )
+    miso = ladder["source_ladder"][1]
+    assert miso["source"] == "miso_load_forecast"
+    assert miso["order"] == 2
+    assert ladder["miso_gate"]["malformed_publication_date_rule"] == (
+        "exclude_member_from_PIT_scoring_without_repair"
+    )
+    assert ladder["representation_rule"]["issued_revision"].startswith("HOLD")
+    assert ladder["protected_confirmation_accessed"] is False
+
+
+def test_issue452_miso_source_gate_requires_exact_capture_audit() -> None:
+    root = Path(__file__).resolve().parents[1]
+    programme = root / "research" / "programmes" / "004-v2-maximum-reproducible-one-month-return"
+    data_cfg = json.loads((root / "config" / "data_sources.json").read_text(encoding="utf-8"))
+    ladder = load_issue452_power_source_ladder(programme / "issue452-power-source-ladder-v2.json")
+    historical = json.loads((programme / "issue452-miso-historical-audit-v1.json").read_text(encoding="utf-8"))
+    expected_exclusions = historical["publication_date_audit"]["excluded_members"]
+    capture = {
+        "source_id": historical["source_id"],
+        "archive_month_count": 144,
+        "archive_member_count": 4383,
+        "calendar_day_count": 4383,
+        "usable_day_count": 4374,
+        "excluded_member_count": 9,
+        "excluded_members": [
+            {
+                "source_member": item["member"],
+                "report_day": item["report_day"],
+                "published_date": item["published_date"],
+                "source_member_sha256": "a" * 64,
+                "reason": "invalid_or_mismatched_internal_published_date",
+            }
+            for item in expected_exclusions
+        ],
+        "all_member_hashes_valid": True,
+        "forecast_hours_per_accepted_day": 24,
+        "actual_load_current_day_forbidden": True,
+        "availability_basis": "miso_internal_published_date_plus_one_day_0000_fixed_est",
+        "revision_status": "single_daily_issue_same_target_revision_not_identifiable",
+        "research_pit_ready": True,
+    }
+    report = build_issue452_miso_source_gate(data_cfg, ladder, historical, capture)
+    assert report["disposition"] == "SCORE"
+    assert report["eligible_representations"] == [
+        "issued_load_level", "issued_load_anomaly"
+    ]
+    assert report["held_representations"] == ["issued_revision"]
+    assert report["search_budget_consumed"] is False
+
+    broken = dict(capture)
+    broken["all_member_hashes_valid"] = False
+    held = build_issue452_miso_source_gate(data_cfg, ladder, historical, broken)
+    assert held["disposition"] == "HOLD"
+    assert "miso_member_hash_lineage_invalid" in held["reasons"]
+
+
+def test_issue452_miso_source_gate_fails_closed_for_each_capture_boundary() -> None:
+    root = Path(__file__).resolve().parents[1]
+    programme = root / "research" / "programmes" / "004-v2-maximum-reproducible-one-month-return"
+    data_cfg = json.loads((root / "config" / "data_sources.json").read_text(encoding="utf-8"))
+    ladder = load_issue452_power_source_ladder(programme / "issue452-power-source-ladder-v2.json")
+    historical = json.loads((programme / "issue452-miso-historical-audit-v1.json").read_text(encoding="utf-8"))
+    expected_exclusions = historical["publication_date_audit"]["excluded_members"]
+    base = {
+        "source_id": historical["source_id"],
+        "archive_month_count": 144,
+        "archive_member_count": 4383,
+        "calendar_day_count": 4383,
+        "usable_day_count": 4374,
+        "excluded_member_count": 9,
+        "excluded_members": [
+            {
+                "source_member": item["member"],
+                "report_day": item["report_day"],
+                "published_date": item["published_date"],
+                "source_member_sha256": "a" * 64,
+                "reason": "invalid_or_mismatched_internal_published_date",
+            }
+            for item in expected_exclusions
+        ],
+        "all_member_hashes_valid": True,
+        "forecast_hours_per_accepted_day": 24,
+        "actual_load_current_day_forbidden": True,
+        "availability_basis": "miso_internal_published_date_plus_one_day_0000_fixed_est",
+        "revision_status": "single_daily_issue_same_target_revision_not_identifiable",
+        "research_pit_ready": True,
+    }
+    cases = [
+        ("research_pit_ready", False, "miso_capture_not_research_pit_ready"),
+        ("actual_load_current_day_forbidden", False, "miso_current_day_actual_load_boundary_invalid"),
+        ("forecast_hours_per_accepted_day", 23, "miso_forecast_hour_coverage_invalid"),
+        ("availability_basis", "wrong", "miso_capture_availability_basis_mismatch"),
+        ("revision_status", "wrong", "miso_revision_semantics_mismatch"),
+        ("usable_day_count", 4373, "miso_capture_counts_do_not_reproduce_source_audit"),
+        ("excluded_members", [], "miso_publication_exclusions_do_not_reproduce_source_audit"),
+    ]
+    for field, value, reason in cases:
+        capture = dict(base)
+        capture[field] = value
+        report = build_issue452_miso_source_gate(data_cfg, ladder, historical, capture)
+        assert report["disposition"] == "HOLD", field
+        assert reason in report["reasons"], field
+        assert report["search_budget_consumed"] is False
+        assert report["held_representations"] == ["issued_revision"]
+        assert report["protected_confirmation_accessed"] is False
+
+
+def test_issue452_miso_source_gate_fails_closed_for_binding_mutations() -> None:
+    root = Path(__file__).resolve().parents[1]
+    programme = root / "research" / "programmes" / "004-v2-maximum-reproducible-one-month-return"
+    base_cfg = json.loads((root / "config" / "data_sources.json").read_text(encoding="utf-8"))
+    base_ladder = load_issue452_power_source_ladder(programme / "issue452-power-source-ladder-v2.json")
+    historical = json.loads((programme / "issue452-miso-historical-audit-v1.json").read_text(encoding="utf-8"))
+    expected_exclusions = historical["publication_date_audit"]["excluded_members"]
+    capture = {
+        "source_id": historical["source_id"],
+        "archive_month_count": 144,
+        "archive_member_count": 4383,
+        "calendar_day_count": 4383,
+        "usable_day_count": 4374,
+        "excluded_member_count": 9,
+        "excluded_members": [
+            {
+                "source_member": item["member"],
+                "report_day": item["report_day"],
+                "published_date": item["published_date"],
+                "source_member_sha256": "a" * 64,
+                "reason": "invalid_or_mismatched_internal_published_date",
+            }
+            for item in expected_exclusions
+        ],
+        "all_member_hashes_valid": True,
+        "forecast_hours_per_accepted_day": 24,
+        "actual_load_current_day_forbidden": True,
+        "availability_basis": "miso_internal_published_date_plus_one_day_0000_fixed_est",
+        "revision_status": "single_daily_issue_same_target_revision_not_identifiable",
+        "research_pit_ready": True,
+    }
+    mutations = [
+        ("source_identity", "miso_source_identity_not_bound"),
+        ("source_status", "miso_source_not_research_pit_admissible"),
+        ("availability_rule", "miso_availability_rule_mismatch"),
+        ("source_ladder", "miso_source_ladder_not_bound"),
+    ]
+    for mutation, reason in mutations:
+        data_cfg = json.loads(json.dumps(base_cfg))
+        ladder = json.loads(json.dumps(base_ladder))
+        source = data_cfg["sources"]["miso_load_forecast"]
+        if mutation == "source_identity":
+            source["provider"] = "wrong"
+        elif mutation == "source_status":
+            source["status"] = "hold"
+        elif mutation == "availability_rule":
+            source["availability_policy"]["availability_rule"] = "wrong"
+        else:
+            ladder["source_ladder"][1]["source_id"] = "wrong"
+        report = build_issue452_miso_source_gate(data_cfg, ladder, historical, capture)
+        assert report["disposition"] == "HOLD", mutation
+        assert reason in report["reasons"], mutation
+        assert report["search_budget_consumed"] is False
+        assert report["protected_confirmation_accessed"] is False
+
+
+def test_issue452_miso_power_frame_uses_prior_only_anomaly_and_no_revision() -> None:
+    levels = pd.Series([100.0 + value for value in range(10)])
+    frame = pd.DataFrame(
+        {
+            "observed_for": pd.date_range("2020-01-01T05:00:00Z", periods=10, freq="D"),
+            "available_at": pd.date_range("2020-01-02T05:00:00Z", periods=10, freq="D"),
+            "issued_load_level": levels,
+            "forecast_hour_count": [24] * 10,
+            "source_id": ["miso_daily_regional_forecast_actual_load_miso_mtlf_v1"] * 10,
+            "source_member_sha256": ["b" * 64] * 10,
+            "revision_status": ["single_daily_issue_same_target_revision_not_identifiable"] * 10,
+        }
+    )
+    family = build_issue452_miso_power_family_frame(frame)
+    assert "issued_revision" not in family.columns
+    assert family.loc[8, "issued_load_anomaly"] == pytest.approx(4.5)
+    assert pd.isna(family.loc[7, "issued_load_anomaly"])
+
+    mutated = frame.copy()
+    mutated.loc[9, "issued_load_level"] = 9999.0
+    second = build_issue452_miso_power_family_frame(mutated)
+    pd.testing.assert_series_equal(
+        family.loc[:8, "issued_load_anomaly"],
+        second.loc[:8, "issued_load_anomaly"],
+    )
+
+
+def _issue452_pjm_eight_vintage_fixture() -> pd.DataFrame:
+    evaluated = pd.to_datetime(
+        [
+            "2020-01-02T08:45:00Z",
+            "2020-01-02T14:45:00Z",
+            "2020-01-02T20:45:00Z",
+            "2020-01-03T02:45:00Z",
+            "2020-01-03T08:45:00Z",
+            "2020-01-03T14:45:00Z",
+            "2020-01-03T20:45:00Z",
+            "2020-01-04T02:45:00Z",
+        ],
+        utc=True,
+    )
+    rows: list[dict[str, object]] = []
+    target_hours = pd.date_range(
+        "2020-01-03T00:00:00-05:00",
+        "2020-01-04T00:00:00-05:00",
+        freq="h",
+        inclusive="left",
+    ).tz_convert("UTC")
+    for vintage_number, evaluated_at in enumerate(evaluated):
+        for hour_number, forecast_for in enumerate(target_hours):
+            rows.append(
+                {
+                    "evaluated_at_utc": evaluated_at.isoformat(),
+                    "evaluated_at_ept": evaluated_at.tz_convert("America/New_York").strftime(
+                        "%Y-%m-%d %H:%M"
+                    ),
+                    "forecast_hour_beginning_utc": forecast_for.isoformat(),
+                    "forecast_hour_beginning_ept": forecast_for.tz_convert(
+                        "America/New_York"
+                    ).strftime("%Y-%m-%d %H:%M"),
+                    "forecast_area": "RTO",
+                    "forecast_load_mw": 90000 + vintage_number * 100 + hour_number * 1000,
+                    "source_hash": hashlib.sha256(
+                        f"pjm-vintage-{vintage_number + 1}".encode()
+                    ).hexdigest(),
+                }
+            )
+    return pd.DataFrame(rows)
+
+
+def test_issue452_pjm_contract_freezes_publication_rule_before_scoring() -> None:
+    root = Path(__file__).resolve().parents[1]
+    contract = load_issue452_pjm_publication_contract(
+        root
+        / "research"
+        / "programmes"
+        / "004-v2-maximum-reproducible-one-month-return"
+        / "issue452-pjm-publication-contract-v1.json"
+    )
+    assert contract["status"] == "preregistered_before_pjm_power_scoring"
+    assert contract["archive_feed"] == "load_frcstd_hist"
+    assert contract["publication_feed"] == "load_frcstd_7_day"
+    assert contract["forecast_area"] == "RTO"
+    assert contract["availability_rule"]["documented_update_minutes"] == [15, 45]
+    assert contract["availability_rule"]["ingestion_buffer_minutes"] == 15
+    assert contract["availability_rule"]["performance_optimized"] is False
+    assert contract["availability_rule"]["sensitivity_buffer_minutes"] == [15, 30, 60]
+    assert contract["protected_confirmation_accessed"] is False
+
+
+def test_issue452_pjm_available_at_uses_next_public_update_slot_plus_buffer() -> None:
+    root = Path(__file__).resolve().parents[1]
+    contract = load_issue452_pjm_publication_contract(
+        root / "research" / "programmes" / "004-v2-maximum-reproducible-one-month-return"
+        / "issue452-pjm-publication-contract-v1.json"
+    )
+    assert derive_issue452_pjm_available_at("2020-01-02T14:45:00Z", contract) == pd.Timestamp(
+        "2020-01-02T15:00:00Z"
+    )
+    assert derive_issue452_pjm_available_at("2020-01-02T14:46:00Z", contract) == pd.Timestamp(
+        "2020-01-02T15:30:00Z"
+    )
+
+
+def test_issue452_pjm_reconstruction_preserves_distinct_vintages_and_hashes(tmp_path: Path) -> None:
+    root = Path(__file__).resolve().parents[1]
+    contract = load_issue452_pjm_publication_contract(
+        root / "research" / "programmes" / "004-v2-maximum-reproducible-one-month-return"
+        / "issue452-pjm-publication-contract-v1.json"
+    )
+    path = tmp_path / "pjm.csv"
+    pd.DataFrame({
+        "evaluated_at_utc": ["2020-01-02T14:45:00Z"] * 2 + ["2020-01-02T20:45:00Z"] * 2,
+        "evaluated_at_ept": ["2020-01-02 09:45"] * 2 + ["2020-01-02 15:45"] * 2,
+        "forecast_hour_beginning_utc": ["2020-01-03T05:00:00Z", "2020-01-03T06:00:00Z"] * 2,
+        "forecast_hour_beginning_ept": ["2020-01-03 00:00", "2020-01-03 01:00"] * 2,
+        "forecast_area": ["RTO"] * 4,
+        "forecast_load_mw": [90000, 91000, 90500, 91500],
+        "source_hash": ["a" * 64] * 2 + ["b" * 64] * 2,
+    }).to_csv(path, index=False)
+    vintages = reconstruct_issue452_pjm_vintages(path, contract)
+    assert len(vintages) == 4
+    assert vintages["evaluated_at"].nunique() == 2
+    assert vintages["forecast_for"].nunique() == 2
+    assert vintages.groupby("forecast_for")["evaluated_at"].nunique().eq(2).all()
+    assert set(vintages["source_hash"]) == {"a" * 64, "b" * 64}
+    assert vintages["available_at"].min() == pd.Timestamp("2020-01-02T15:00:00Z")
+
+
+def test_issue452_pjm_vintage_audit_requires_eight_preserved_vintages_per_day(tmp_path: Path) -> None:
+    root = Path(__file__).resolve().parents[1]
+    contract = load_issue452_pjm_publication_contract(
+        root / "research" / "programmes" / "004-v2-maximum-reproducible-one-month-return"
+        / "issue452-pjm-publication-contract-v1.json"
+    )
+    path = tmp_path / "pjm.csv"
+    _issue452_pjm_eight_vintage_fixture().to_csv(path, index=False)
+    audit = audit_issue452_pjm_vintage_preservation(path, contract)
+    assert audit["operating_day_count"] == 1
+    assert audit["min_vintages_per_day"] == 8
+    assert audit["max_vintages_per_day"] == 8
+    assert audit["all_days_have_eight_vintages"] is True
+    assert audit["multiple_vintages_preserved"] is True
+    assert audit["value_revision_count"] > 0
+    assert audit["revision_preservation_verified"] is True
+
+    incomplete = _issue452_pjm_eight_vintage_fixture()
+    incomplete = incomplete.loc[incomplete["evaluated_at_utc"] != "2020-01-04T02:45:00+00:00"]
+    incomplete.to_csv(path, index=False)
+    broken = audit_issue452_pjm_vintage_preservation(path, contract)
+    assert broken["min_vintages_per_day"] == 7
+    assert broken["revision_preservation_verified"] is False
+
+    partial = _issue452_pjm_eight_vintage_fixture()
+    first_vintage = partial["evaluated_at_utc"].iloc[0]
+    first_hour = partial.loc[
+        partial["evaluated_at_utc"].eq(first_vintage), "forecast_hour_beginning_utc"
+    ].iloc[0]
+    partial = partial.loc[
+        ~(
+            partial["evaluated_at_utc"].eq(first_vintage)
+            & partial["forecast_hour_beginning_utc"].eq(first_hour)
+        )
+    ]
+    partial.to_csv(path, index=False)
+    incomplete_hours = audit_issue452_pjm_vintage_preservation(path, contract)
+    assert incomplete_hours["all_vintages_have_complete_hourly_coverage"] is False
+    assert incomplete_hours["revision_preservation_verified"] is False
+
+
+def test_issue452_pjm_archive_inventory_binds_manifest_hash_and_revision_audit(tmp_path: Path) -> None:
+    root = Path(__file__).resolve().parents[1]
+    contract = load_issue452_pjm_publication_contract(
+        root / "research" / "programmes" / "004-v2-maximum-reproducible-one-month-return"
+        / "issue452-pjm-publication-contract-v1.json"
+    )
+    archive_root = tmp_path / "pjm" / "normalized"
+    archive_root.mkdir(parents=True)
+    normalized = archive_root / "rto.csv"
+    frame = _issue452_pjm_eight_vintage_fixture()
+    frame.to_csv(normalized, index=False)
+    manifest = {
+        "schema_version": 1,
+        "source_id": contract["source_id"],
+        "archive_feed": contract["archive_feed"],
+        "forecast_area": "RTO",
+        "publication_contract_id": contract["contract_id"],
+        "normalized_file": "rto.csv",
+        "normalized_sha256": hashlib.sha256(normalized.read_bytes()).hexdigest(),
+        "rows": len(frame),
+    }
+    (archive_root / "manifest.json").write_text(json.dumps(manifest), encoding="utf-8")
+    coverage = inventory_issue452_pjm_archive(archive_root, contract)
+    assert coverage["source_id"] == contract["source_id"]
+    assert coverage["integrity_verified"] is True
+    assert coverage["revision_preservation_verified"] is True
+    assert coverage["snapshot_count"] == len(frame)
+    assert coverage["latest_preserved"] == "2020-01-03"
+
+    manifest["normalized_sha256"] = "0" * 64
+    (archive_root / "manifest.json").write_text(json.dumps(manifest), encoding="utf-8")
+    broken = inventory_issue452_pjm_archive(archive_root, contract)
+    assert broken["integrity_verified"] is False
+    assert broken["revision_preservation_verified"] is False
+
+
+def test_issue452_pjm_reconstruction_rejects_conflicting_duplicate_key(tmp_path: Path) -> None:
+    root = Path(__file__).resolve().parents[1]
+    contract = load_issue452_pjm_publication_contract(
+        root / "research" / "programmes" / "004-v2-maximum-reproducible-one-month-return"
+        / "issue452-pjm-publication-contract-v1.json"
+    )
+    path = tmp_path / "pjm.csv"
+    pd.DataFrame({
+        "evaluated_at_utc": ["2020-01-02T14:45:00Z"] * 2,
+        "evaluated_at_ept": ["2020-01-02 09:45"] * 2,
+        "forecast_hour_beginning_utc": ["2020-01-03T05:00:00Z"] * 2,
+        "forecast_hour_beginning_ept": ["2020-01-03 00:00"] * 2,
+        "forecast_area": ["RTO"] * 2,
+        "forecast_load_mw": [90000, 91000],
+        "source_hash": ["a" * 64] * 2,
+    }).to_csv(path, index=False)
+    with pytest.raises(V2OptimizationError, match="conflicting duplicate"):
+        reconstruct_issue452_pjm_vintages(path, contract)
+
+
+def test_issue452_pjm_power_frame_preserves_vintage_revision_and_pit_join(tmp_path: Path) -> None:
+    root = Path(__file__).resolve().parents[1]
+    contract = load_issue452_pjm_publication_contract(
+        root / "research" / "programmes" / "004-v2-maximum-reproducible-one-month-return"
+        / "issue452-pjm-publication-contract-v1.json"
+    )
+    path = tmp_path / "pjm.csv"
+    source = _issue452_pjm_eight_vintage_fixture()
+    evaluations = source["evaluated_at_utc"].drop_duplicates().iloc[:2]
+    source.loc[source["evaluated_at_utc"].isin(evaluations)].to_csv(path, index=False)
+    family = build_issue452_pjm_power_family_frame(path, contract)
+    assert family["available_at"].tolist() == [
+        pd.Timestamp("2020-01-02T09:00:00Z"), pd.Timestamp("2020-01-02T15:00:00Z")
+    ]
+    assert family["issued_load_level"].tolist() == [101500.0, 101600.0]
+    assert pd.isna(family.loc[0, "issued_revision"])
+    assert family.loc[1, "issued_revision"] == 100.0
+    market = pd.DataFrame({
+        "trade_date": pd.to_datetime(["2020-01-02", "2020-01-02"], utc=True),
+        "available_at": pd.to_datetime(["2020-01-02T14:59:59Z", "2020-01-02T15:00:00Z"], utc=True),
+        "feature_ret_1": [0.0, 0.0],
+    })
+    merged = merge_issue426_pit_family(
+        market, family, family="power", value_columns=["issued_load_level"],
+        max_staleness=pd.Timedelta("25h"), latest_allowed_trade_date="2022-12-31"
+    )
+    assert merged["feature_power_issued_load_level"].tolist() == [101500.0, 101600.0]
+
+
+def test_issue452_pjm_sensitivity_audit_changes_timing_only_not_performance(tmp_path: Path) -> None:
+    root = Path(__file__).resolve().parents[1]
+    contract = load_issue452_pjm_publication_contract(
+        root / "research" / "programmes" / "004-v2-maximum-reproducible-one-month-return"
+        / "issue452-pjm-publication-contract-v1.json"
+    )
+    path = tmp_path / "pjm.csv"
+    pd.DataFrame({
+        "evaluated_at_utc": ["2020-01-02T14:45:00Z", "2020-01-02T20:45:00Z"],
+        "evaluated_at_ept": ["2020-01-02 09:45", "2020-01-02 15:45"],
+        "forecast_hour_beginning_utc": ["2020-01-03T05:00:00Z"] * 2,
+        "forecast_hour_beginning_ept": ["2020-01-03 00:00"] * 2,
+        "forecast_area": ["RTO"] * 2,
+        "forecast_load_mw": [90000, 90500],
+        "source_hash": ["a" * 64, "b" * 64],
+    }).to_csv(path, index=False)
+    report = audit_issue452_pjm_availability_sensitivity(
+        path,
+        contract,
+        decision_times=["2020-01-02T15:10:00Z", "2020-01-02T21:20:00Z"],
+    )
+    assert report["performance_metrics_included"] is False
+    assert [item["buffer_minutes"] for item in report["buffers"]] == [15, 30, 60]
+    assert report["buffers"][0]["eligible_vintage_counts"] == [1, 2]
+    assert report["buffers"][1]["eligible_vintage_counts"] == [0, 2]
+    assert report["buffers"][2]["eligible_vintage_counts"] == [0, 1]
+
+
+def test_issue452_pjm_source_gate_resolves_semantics_but_holds_without_archive() -> None:
+    root = Path(__file__).resolve().parents[1]
+    contract = load_issue452_pjm_publication_contract(
+        root / "research" / "programmes" / "004-v2-maximum-reproducible-one-month-return"
+        / "issue452-pjm-publication-contract-v1.json"
+    )
+    data_cfg = json.loads((root / "config" / "data_sources.json").read_text(encoding="utf-8"))
+    source = data_cfg["sources"]["pjm_load_forecast"]
+    assert source["provider"] == "pjm_data_miner_2"
+    assert source["archive_feed"] == "load_frcstd_hist"
+    assert source["publication_feed"] == "load_frcstd_7_day"
+    assert source["availability_policy"]["publication_semantics_ready"] is True
+    assert source["availability_policy"]["research_pit_allowed"] is False
+    report = build_issue452_pjm_source_gate(
+        data_cfg,
+        contract,
+        coverage={"integrity_verified": False, "revision_preservation_verified": False, "snapshot_count": 0},
+    )
+    assert report["publication_semantics"] == "PASS"
+    assert report["disposition"] == "HOLD"
+    assert "authorized_pjm_archive_reacquisition_required" in report["reasons"]
+    assert report["search_budget_consumed"] is False
+
+
+def test_issue452_pjm_source_gate_can_promote_only_after_all_archive_gates_pass() -> None:
+    root = Path(__file__).resolve().parents[1]
+    contract = load_issue452_pjm_publication_contract(
+        root / "research" / "programmes" / "004-v2-maximum-reproducible-one-month-return"
+        / "issue452-pjm-publication-contract-v1.json"
+    )
+    data_cfg = {"sources": {"pjm_load_forecast": {
+        "provider": "pjm_data_miner_2",
+        "archive_feed": "load_frcstd_hist",
+        "publication_feed": "load_frcstd_7_day",
+        "accepted_source_ids": [contract["source_id"]],
+        "archive_acquisition_status": "complete",
+        "availability_policy": {"publication_semantics_ready": True, "research_pit_allowed": True},
+    }}}
+    report = build_issue452_pjm_source_gate(
+        data_cfg,
+        contract,
+        coverage={
+            "source_id": contract["source_id"],
+            "integrity_verified": True,
+            "revision_preservation_verified": True,
+            "snapshot_count": 1000,
+            "latest_preserved": "2022-12-31",
+        },
+    )
+    assert report["disposition"] == "SCORE"
+    assert report["reasons"] == []
+    assert report["protected_evidence_accessed"] is False
+
+
+def test_issue452_pjm_source_gate_rejects_archive_after_development_cutoff() -> None:
+    root = Path(__file__).resolve().parents[1]
+    contract = load_issue452_pjm_publication_contract(
+        root / "research" / "programmes" / "004-v2-maximum-reproducible-one-month-return"
+        / "issue452-pjm-publication-contract-v1.json"
+    )
+    data_cfg = {"sources": {"pjm_load_forecast": {
+        "provider": "pjm_data_miner_2",
+        "archive_feed": "load_frcstd_hist",
+        "publication_feed": "load_frcstd_7_day",
+        "accepted_source_ids": [contract["source_id"]],
+        "archive_acquisition_status": "complete",
+        "availability_policy": {"publication_semantics_ready": True, "research_pit_allowed": True},
+    }}}
+    report = build_issue452_pjm_source_gate(
+        data_cfg,
+        contract,
+        coverage={
+            "source_id": contract["source_id"],
+            "integrity_verified": True,
+            "revision_preservation_verified": True,
+            "snapshot_count": 1000,
+            "latest_preserved": "2023-01-01",
+        },
+    )
+    assert report["disposition"] == "HOLD"
+    assert "pjm_archive_crosses_development_cutoff" in report["reasons"]
+    assert report["protected_evidence_accessed"] is True
+
+
+def test_issue452_pjm_source_gate_fails_closed_for_each_admission_boundary() -> None:
+    root = Path(__file__).resolve().parents[1]
+    contract = load_issue452_pjm_publication_contract(
+        root / "research" / "programmes" / "004-v2-maximum-reproducible-one-month-return"
+        / "issue452-pjm-publication-contract-v1.json"
+    )
+    base_cfg = {"sources": {"pjm_load_forecast": {
+        "provider": "pjm_data_miner_2",
+        "archive_feed": contract["archive_feed"],
+        "publication_feed": contract["publication_feed"],
+        "accepted_source_ids": [contract["source_id"]],
+        "archive_acquisition_status": "complete",
+        "availability_policy": {"publication_semantics_ready": True, "research_pit_allowed": True},
+    }}}
+    base_coverage = {
+        "source_id": contract["source_id"],
+        "integrity_verified": True,
+        "revision_preservation_verified": True,
+        "snapshot_count": 1000,
+        "latest_preserved": "2022-12-31",
+    }
+    cases = [
+        ("provider", "pjm_publication_semantics_not_bound"),
+        ("archive_feed", "pjm_publication_semantics_not_bound"),
+        ("publication_feed", "pjm_publication_semantics_not_bound"),
+        ("publication_semantics_ready", "pjm_publication_semantics_not_bound"),
+        ("accepted_source_ids", "pjm_source_identity_not_accepted"),
+        ("archive_acquisition_status", "authorized_pjm_archive_reacquisition_required"),
+        ("research_pit_allowed", "source_not_research_pit_admissible"),
+        ("coverage_source_id", "pjm_archive_source_identity_mismatch"),
+        ("integrity_verified", "pjm_archive_integrity_unverified"),
+        ("revision_preservation_verified", "pjm_revision_preservation_unverified"),
+        ("snapshot_count", "pjm_archive_empty"),
+        ("latest_preserved", "pjm_development_coverage_end_unverified"),
+    ]
+    for mutation, reason in cases:
+        data_cfg = json.loads(json.dumps(base_cfg))
+        coverage = dict(base_coverage)
+        source = data_cfg["sources"]["pjm_load_forecast"]
+        if mutation == "provider":
+            source["provider"] = "wrong"
+        elif mutation == "archive_feed":
+            source["archive_feed"] = "wrong"
+        elif mutation == "publication_feed":
+            source["publication_feed"] = "wrong"
+        elif mutation == "publication_semantics_ready":
+            source["availability_policy"]["publication_semantics_ready"] = False
+        elif mutation == "accepted_source_ids":
+            source["accepted_source_ids"] = []
+        elif mutation == "archive_acquisition_status":
+            source["archive_acquisition_status"] = "incomplete"
+        elif mutation == "research_pit_allowed":
+            source["availability_policy"]["research_pit_allowed"] = False
+        elif mutation == "coverage_source_id":
+            coverage["source_id"] = "wrong"
+        elif mutation == "integrity_verified":
+            coverage["integrity_verified"] = False
+        elif mutation == "revision_preservation_verified":
+            coverage["revision_preservation_verified"] = False
+        elif mutation == "snapshot_count":
+            coverage["snapshot_count"] = 0
+        else:
+            coverage["latest_preserved"] = None
+        report = build_issue452_pjm_source_gate(data_cfg, contract, coverage=coverage)
+        assert report["disposition"] == "HOLD", mutation
+        assert reason in report["reasons"], mutation
+        assert report["search_budget_consumed"] is False
+        assert report["protected_evidence_accessed"] is False
 
 
 def test_issue426_historical_gate_promotes_only_verified_ready_families() -> None:
@@ -1162,6 +1784,363 @@ def test_issue426_combined_interaction_is_pure_four_way_market_increment() -> No
     assert not any(column.startswith("feature_storage_") for column in columns)
     assert not any(column.startswith("feature_weather_") for column in columns)
     assert any(column.startswith("feature_ret_") for column in columns)
+
+
+def test_issue452_power_weather_interaction_is_pure_market_increment() -> None:
+    features = _issue425_feature_fixture()
+    values = pd.Series(range(len(features)), dtype=float)
+    features["feature_power_issued_load_level"] = 10000.0 + values
+    features["feature_weather_temp_mean_c"] = 10.0 + values / 100.0
+    features["feature_power_available_at"] = features["available_at"]
+    features["feature_weather_available_at"] = features["available_at"]
+    config = {
+        "data.feature_family_subset": "market",
+        "data.lookback_sessions": 60,
+        "transforms.return_transform": "log_return",
+        "transforms.scaling": "none",
+        "transforms.normalization_window_sessions": 20,
+        "transforms.winsor_quantile": 0.0,
+        "transforms.lag_sessions": 1,
+        "transforms.rolling_stat_window_sessions": 5,
+    }
+    transformed, columns = prepare_issue452_power_weather_interaction_features(
+        features,
+        config,
+        power_representation="issued_load_level",
+        weather_representation="level",
+    )
+    interaction_columns = [
+        column for column in columns if column.startswith("feature_issue452_power_weather_")
+    ]
+    assert transformed[columns].notna().all().all()
+    assert interaction_columns
+    assert not any(column.startswith("feature_power_") for column in columns)
+    assert not any(column.startswith("feature_weather_") for column in columns)
+    assert any(column.startswith("feature_ret_") for column in columns)
+
+
+def test_issue452_power_weather_interaction_rejects_future_family_evidence() -> None:
+    features = _issue425_feature_fixture()
+    features["feature_power_issued_load_level"] = 10000.0
+    features["feature_weather_temp_mean_c"] = 10.0
+    features["feature_power_available_at"] = features["available_at"]
+    features["feature_weather_available_at"] = features["available_at"]
+    features.loc[features.index[-1], "feature_weather_available_at"] = (
+        features.loc[features.index[-1], "available_at"] + pd.Timedelta(minutes=1)
+    )
+    config = {
+        "data.feature_family_subset": "market",
+        "data.lookback_sessions": 60,
+        "transforms.return_transform": "log_return",
+        "transforms.scaling": "none",
+        "transforms.normalization_window_sessions": 20,
+        "transforms.winsor_quantile": 0.0,
+        "transforms.lag_sessions": 1,
+        "transforms.rolling_stat_window_sessions": 5,
+    }
+    with pytest.raises(V2OptimizationError, match="future family evidence"):
+        prepare_issue452_power_weather_interaction_features(
+            features,
+            config,
+            power_representation="issued_load_level",
+            weather_representation="level",
+        )
+
+
+def test_issue452_power_weather_interaction_rejects_missing_family_availability() -> None:
+    features = _issue425_feature_fixture()
+    features["feature_power_issued_load_level"] = 10000.0
+    features["feature_weather_temp_mean_c"] = 10.0
+    features["feature_power_available_at"] = features["available_at"]
+    features["feature_weather_available_at"] = features["available_at"]
+    features.loc[features.index[-1], "feature_power_available_at"] = pd.NaT
+    config = {
+        "data.feature_family_subset": "market",
+        "data.lookback_sessions": 60,
+        "transforms.return_transform": "log_return",
+        "transforms.scaling": "none",
+        "transforms.normalization_window_sessions": 20,
+        "transforms.winsor_quantile": 0.0,
+        "transforms.lag_sessions": 1,
+        "transforms.rolling_stat_window_sessions": 5,
+    }
+    with pytest.raises(V2OptimizationError, match="unknown family availability"):
+        prepare_issue452_power_weather_interaction_features(
+            features,
+            config,
+            power_representation="issued_load_level",
+            weather_representation="level",
+        )
+
+
+def test_issue452_power_outer_orchestration_holds_unsupported_and_scores_supported(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    outer_blocks = [
+        {"id": "outer-a", "start": "2017-01-01", "end": "2018-12-31"},
+        {"id": "outer-b", "start": "2019-01-01", "end": "2020-12-31"},
+    ]
+    inner_blocks = [{"id": "inner-a", "start": "2016-01-01", "end": "2016-12-31"}]
+    controls = {
+        "outer-a": {"config": {"target.horizon_sessions": 2}},
+        "outer-b": {"config": {"target.horizon_sessions": 2}},
+    }
+    monkeypatch.setattr(
+        v2_optimization,
+        "_issue426_valid_inner_blocks",
+        lambda *args, outer_start, **kwargs: [] if outer_start == "2017-01-01" else inner_blocks,
+    )
+    monkeypatch.setattr(
+        v2_optimization,
+        "_issue426_representation_selection_support",
+        lambda *args, **kwargs: {
+            "block_ids": {"issued_load_level": ["inner-a"], "issued_load_anomaly": ["inner-a"]},
+            "diagnostics": {},
+        },
+    )
+    monkeypatch.setattr(
+        v2_optimization,
+        "_issue426_common_selection_blocks",
+        lambda blocks, support: {
+            "common_blocks": list(blocks),
+            "available_representations": ["issued_load_level", "issued_load_anomaly"],
+            "held_representations": [],
+        },
+    )
+    monkeypatch.setattr(
+        v2_optimization,
+        "_search_issue426_outer",
+        lambda *args, outer_block, **kwargs: {
+            "selected_config": {
+                "issue426.representation": "issued_load_level",
+                "issue426.role": "direct",
+            },
+            "selected_candidate_id": "candidate",
+            "trial_count": 1,
+        },
+    )
+    result = v2_optimization.run_issue452_power_outer_orchestration(
+        search_plan={"families": []},
+        optimization_plan={},
+        session_path=pd.DataFrame(),
+        merged_features=pd.DataFrame(),
+        outer_blocks=outer_blocks,
+        inner_blocks=inner_blocks,
+        outer_controls=controls,
+        minimum_training_rows=504,
+        round_trip_per_mmbtu=0.001,
+        evaluator=lambda stage, outer_id, blocks, config: {
+            "status": "complete",
+            "monthly_score": {"month_count": 1, "mean_monthly_net_return": 0.002},
+            "matched_control": {"monthly_score": {"month_count": 1, "mean_monthly_net_return": 0.001}},
+        },
+        feature_cache={},
+        origin_cache={},
+    )
+    assert [item["outer_block"]["id"] for item in result["nested_outer"]] == ["outer-b"]
+    assert result["skipped_outer"][0]["disposition"] == "HOLD_INSUFFICIENT_PRIOR_POWER_TRAINING"
+
+
+def test_issue452_power_weather_outer_orchestration_uses_common_prior_blocks(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    power = [{
+        "outer_block": {"id": "outer-b"},
+        "common_selection_block_ids": ["inner-a", "inner-b"],
+        "search": {"selected_config": {"issue426.representation": "issued_load_level"}},
+    }]
+    weather = [{
+        "outer_block": {"id": "outer-b"},
+        "common_selection_block_ids": ["inner-b", "inner-c"],
+        "search": {"selected_config": {"issue426.representation": "anomaly"}},
+    }]
+    outer_blocks = [{"id": "outer-b", "start": "2019-01-01", "end": "2020-12-31"}]
+    inner_blocks = [
+        {"id": "inner-a", "start": "2017-01-01", "end": "2017-12-31"},
+        {"id": "inner-b", "start": "2018-01-01", "end": "2018-12-31"},
+        {"id": "inner-c", "start": "2019-01-01", "end": "2019-12-31"},
+    ]
+    seen: list[list[str]] = []
+    monkeypatch.setattr(
+        v2_optimization,
+        "_search_issue452_power_weather_outer",
+        lambda *, inner_blocks, **kwargs: (
+            seen.append([str(block["id"]) for block in inner_blocks])
+            or {
+                "selected_config": {"issue452.interaction": "power×weather"},
+                "selected_candidate_id": "interaction",
+                "trial_count": 2,
+            }
+        ),
+    )
+    result = v2_optimization.run_issue452_power_weather_outer_orchestration(
+        outer_blocks=outer_blocks,
+        inner_blocks=inner_blocks,
+        power_nested_outer=power,
+        weather_nested_outer=weather,
+        weather_reproduction_validation={
+            "reproduces_frozen_issue426": True,
+            "protected_confirmation_accessed": False,
+        },
+        evaluator=lambda stage, outer_id, blocks, config: {
+            "status": "complete",
+            "monthly_score": {
+                "month_count": 1,
+                "total_net_pnl_usd": 100.0,
+                "mean_monthly_net_return": 0.001,
+                "median_monthly_net_return": 0.001,
+                "worst_monthly_net_return": 0.001,
+                "best_monthly_net_return": 0.001,
+                "profitable_month_rate": 1.0,
+                "max_drawdown_fraction": 0.01,
+                "transaction_cost_usd": 10.0,
+                "turnover": 1.0,
+                "trade_count": 1,
+                "long_net_pnl_usd": 100.0,
+                "short_net_pnl_usd": 0.0,
+            },
+            "matched_control": {"monthly_score": {
+                "month_count": 1,
+                "total_net_pnl_usd": 200.0,
+                "mean_monthly_net_return": 0.002,
+                "median_monthly_net_return": 0.002,
+                "worst_monthly_net_return": 0.002,
+                "best_monthly_net_return": 0.002,
+                "profitable_month_rate": 1.0,
+                "max_drawdown_fraction": 0.01,
+                "transaction_cost_usd": 10.0,
+                "turnover": 1.0,
+                "trade_count": 1,
+                "long_net_pnl_usd": 200.0,
+                "short_net_pnl_usd": 0.0,
+            }},
+        },
+    )
+    assert seen == [["inner-b"]]
+    assert result["disposition"] == "HOLD_NO_MATCHED_MARGINAL_VALUE"
+    assert result["mean_monthly_net_return_delta"] == pytest.approx(-0.001)
+
+
+def test_issue452_power_weather_orchestration_holds_when_weather_not_reproduced() -> None:
+    outer = [{"id": "outer-b", "start": "2019-01-01", "end": "2020-12-31"}]
+    result = v2_optimization.run_issue452_power_weather_outer_orchestration(
+        outer_blocks=outer,
+        inner_blocks=[],
+        power_nested_outer=[],
+        weather_nested_outer=[],
+        weather_reproduction_validation={
+            "reproduces_frozen_issue426": False,
+            "protected_confirmation_accessed": False,
+            "validation_artifact": "issue452-weather-reconstruction-validation-v1.json",
+        },
+        evaluator=lambda *args, **kwargs: pytest.fail("interaction evaluator must not run"),
+    )
+    assert result["disposition"] == "HOLD_WEATHER_RECONSTRUCTION_NOT_REPRODUCED"
+    assert result["nested_outer"] == []
+    assert result["mean_monthly_net_return_delta"] is None
+    assert result["skipped_outer"][0]["outer_block"]["id"] == "outer-b"
+
+
+def test_issue452_power_weather_orchestration_rejects_protected_weather_evidence() -> None:
+    with pytest.raises(V2OptimizationError, match="crossed protected evidence"):
+        v2_optimization.run_issue452_power_weather_outer_orchestration(
+            outer_blocks=[],
+            inner_blocks=[],
+            power_nested_outer=[],
+            weather_nested_outer=[],
+            weather_reproduction_validation={
+                "reproduces_frozen_issue426": True,
+                "protected_confirmation_accessed": True,
+            },
+            evaluator=lambda *args, **kwargs: pytest.fail("interaction evaluator must not run"),
+        )
+
+
+def test_issue452_power_weather_orchestration_requires_explicit_replay_authority() -> None:
+    with pytest.raises(V2OptimizationError, match="crossed protected evidence"):
+        v2_optimization.run_issue452_power_weather_outer_orchestration(
+            outer_blocks=[],
+            inner_blocks=[],
+            power_nested_outer=[],
+            weather_nested_outer=[],
+            weather_reproduction_validation={"reproduces_frozen_issue426": True},
+            evaluator=lambda *args, **kwargs: pytest.fail("interaction evaluator must not run"),
+        )
+    result = v2_optimization.run_issue452_power_weather_outer_orchestration(
+        outer_blocks=[],
+        inner_blocks=[],
+        power_nested_outer=[],
+        weather_nested_outer=[],
+        weather_reproduction_validation={"protected_confirmation_accessed": False},
+        evaluator=lambda *args, **kwargs: pytest.fail("interaction evaluator must not run"),
+    )
+    assert result["disposition"] == "HOLD_WEATHER_RECONSTRUCTION_NOT_REPRODUCED"
+
+
+def test_issue452_power_weather_orchestration_skips_missing_family_outer() -> None:
+    outer = [{"id": "outer-b", "start": "2019-01-01", "end": "2020-12-31"}]
+    power_item = {
+        "outer_block": {"id": "outer-b"},
+        "common_selection_block_ids": [],
+        "search": {"selected_config": {"issue426.representation": "issued_load_level"}},
+    }
+    weather_item = {
+        "outer_block": {"id": "outer-b"},
+        "common_selection_block_ids": [],
+        "search": {"selected_config": {"issue426.representation": "anomaly"}},
+    }
+    for power, weather in (([power_item], []), ([], [weather_item])):
+        result = v2_optimization.run_issue452_power_weather_outer_orchestration(
+            outer_blocks=outer,
+            inner_blocks=[],
+            power_nested_outer=power,
+            weather_nested_outer=weather,
+            weather_reproduction_validation={
+                "reproduces_frozen_issue426": True,
+                "protected_confirmation_accessed": False,
+            },
+            evaluator=lambda *args, **kwargs: pytest.fail("interaction evaluator must not run"),
+        )
+        assert result["nested_outer"] == []
+        assert result["disposition"] == "HOLD_NO_SCORABLE_OUTER_BLOCK"
+        assert result["skipped_outer"] == [{
+            "outer_block": outer[0],
+            "disposition": "HOLD_FAMILY_OUTER_UNAVAILABLE",
+        }]
+
+
+def test_issue452_power_dispositions_are_outer_scored_and_revision_stays_held() -> None:
+    nested_outer = [
+        {
+            "outer_block": {"id": "outer-2019-2020"},
+            "search": {"selected_config": {"issue426.representation": "issued_load_level", "issue426.role": "direct"}},
+            "selected_outer_result": {
+                "monthly_score": {"month_count": 25, "mean_monthly_net_return": 0.003},
+                "matched_control": {"monthly_score": {"month_count": 25, "mean_monthly_net_return": 0.001}},
+            },
+        },
+        {
+            "outer_block": {"id": "outer-2021-2022"},
+            "search": {"selected_config": {"issue426.representation": "issued_load_anomaly", "issue426.role": "regime"}},
+            "selected_outer_result": {
+                "monthly_score": {"month_count": 24, "mean_monthly_net_return": -0.002},
+                "matched_control": {"monthly_score": {"month_count": 24, "mean_monthly_net_return": -0.001}},
+            },
+        },
+    ]
+    summary = v2_optimization.summarize_issue452_power_dispositions(
+        nested_outer,
+        eligible_representations=["issued_load_level", "issued_load_anomaly"],
+        held_representations=["issued_revision"],
+        declared_roles=["direct", "interaction", "regime", "filter_veto", "confidence"],
+    )
+    assert summary["representation_dispositions"]["issued_load_level"]["disposition"] == "RETAIN_MATCHED_MARGINAL_VALUE"
+    assert summary["representation_dispositions"]["issued_load_anomaly"]["disposition"] == "HOLD_NO_MATCHED_MARGINAL_VALUE"
+    assert summary["representation_dispositions"]["issued_revision"]["disposition"] == "HOLD_SOURCE_UNIDENTIFIABLE"
+    assert summary["representation_dispositions"]["issued_revision"]["search_budget_consumed"] is False
+    assert summary["role_dispositions"]["direct"]["disposition"] == "RETAIN_MATCHED_MARGINAL_VALUE"
+    assert summary["role_dispositions"]["regime"]["disposition"] == "HOLD_NO_MATCHED_MARGINAL_VALUE"
+    assert summary["role_dispositions"]["interaction"]["disposition"] == "HOLD_NOT_SELECTED_ON_PRIOR_INNER_EVIDENCE"
 
 
 def test_issue426_weather_inventory_rejects_undeclared_archive_omission(tmp_path: Path) -> None:

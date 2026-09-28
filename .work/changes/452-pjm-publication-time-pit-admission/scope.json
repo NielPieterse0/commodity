@@ -1,0 +1,43 @@
+{
+  "schema_version": 4,
+  "change_id": "452-pjm-publication-time-pit-admission",
+  "status": "active",
+  "branch": "change/452-pjm-publication-time-pit-admission",
+  "worktree": ".work/worktrees/452-pjm-publication-time-pit-admission",
+  "base": "main",
+  "outcome": "Resolve the V2.29 power-family HOLD without weakening point-in-time controls by exhausting a preregistered U.S.-ISO source ladder: preserve the PJM publication-time proof; retain NYISO P-7 as a source-level HOLD after its historical overwrite audit; admit MISO Daily Regional Forecast and Actual Load only after archive, publication-day, lineage, and leakage audits pass; retain ISO-NE as the next fallback and PJM as replication; keep Norway/Europe separate from the U.S. power hypothesis; and re-enter power into development-only matched-control scoring only after one PIT-safe source passes while preserving all protected confirmation, forward, paper, SIM, and LIVE evidence boundaries.",
+  "owned_paths": [
+    "src/commodity/v2_optimization.py",
+    "src/commodity/nyiso.py",
+    "src/commodity/miso.py",
+    "tests/test_v2_optimization.py",
+    "tests/providers/test_nyiso.py",
+    "tests/providers/test_miso.py",
+    "config/data_sources.json",
+    "data/acquisition-recipes/**",
+    "data/raw/issue452/miso/**",
+    "research/programmes/004-v2-maximum-reproducible-one-month-return/**",
+    "docs/reference/config/data_sources.md",
+    "docs/reference/README.md",
+    "docs/reference/research/programmes/004-v2-maximum-reproducible-one-month-return/**",
+    ".work/changes/452-pjm-publication-time-pit-admission/**"
+  ],
+  "shared_paths": [],
+  "excluded_paths": [],
+  "dependencies": [],
+  "integration_owner": null,
+  "complexity": "large",
+  "risk_triggers": [
+    "money",
+    "persistent_state"
+  ],
+  "base_evidence": {
+    "local_sha": "f963532dd0ab3c06c5ccd8cff359009b929b9366",
+    "local_tree": "c8f572740dc1cd75f9f3e5ac043fb47fbe7dabee",
+    "upstream_sha": "f963532dd0ab3c06c5ccd8cff359009b929b9366",
+    "upstream_tree": "c8f572740dc1cd75f9f3e5ac043fb47fbe7dabee",
+    "upstream_ref": "refs/remotes/origin/main",
+    "evidence_source": "local_remote_tracking_ref",
+    "relation": "same_sha"
+  }
+}

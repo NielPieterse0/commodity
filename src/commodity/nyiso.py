@@ -57,6 +57,25 @@ def _member_sha256(content: bytes) -> str:
     return hashlib.sha256(content).hexdigest()
 
 
+def _archive_member_hashes(path: Path) -> dict[str, str]:
+    try:
+        archive = zipfile.ZipFile(path)
+    except zipfile.BadZipFile as exc:
+        raise ValueError("NYISO preserved archive is not a valid ZIP") from exc
+    hashes: dict[str, str] = {}
+    with archive:
+        for info in archive.infolist():
+            if info.is_dir() or _MEMBER_RE.match(Path(info.filename).name) is None:
+                continue
+            name = Path(info.filename).name
+            if name in hashes:
+                raise ValueError(f"duplicate NYISO member identity in preserved archive: {name}")
+            hashes[name] = _member_sha256(archive.read(info))
+    if not hashes:
+        raise ValueError("NYISO preserved archive contains no isolf CSV members")
+    return hashes
+
+
 def _conservative_available_at(operating_day: dt.date) -> pd.Timestamp:
     local_noon = dt.datetime.combine(
         operating_day,
@@ -194,7 +213,7 @@ def _month_starts(
     start_ts = pd.Timestamp(start)
     end_ts = pd.Timestamp(end)
     if end_ts < start_ts:
-        raise ValueError("NYISO V1 end must not precede start")
+        raise ValueError("NYISO window end must not precede start")
     if start_ts.tzinfo is not None:
         start_ts = start_ts.tz_localize(None)
     if end_ts.tzinfo is not None:
@@ -208,7 +227,7 @@ def _month_snapshot_id(year: int, month: int) -> str:
     return f"{year:04d}{month:02d}-p7"
 
 
-def capture_nyiso_v1_window(
+def capture_nyiso_window(
     client: NyisoLoadForecastClient,
     start: str | pd.Timestamp,
     end: str | pd.Timestamp,
@@ -239,7 +258,7 @@ def capture_nyiso_v1_window(
     return manifests
 
 
-def load_nyiso_v1_window(
+def load_nyiso_window(
     snapshot_root: Path,
     start: str | pd.Timestamp,
     end: str | pd.Timestamp,
@@ -259,19 +278,31 @@ def load_nyiso_v1_window(
         snapshot_id = _month_snapshot_id(year, month)
         manifest = root / "nyiso_p7" / snapshot_id / "manifest.json"
         if not manifest.is_file():
-            raise ValueError(f"NYISO V1 missing monthly snapshot: {year:04d}-{month:02d}")
+            raise ValueError(f"NYISO missing monthly snapshot: {year:04d}-{month:02d}")
         verify_snapshot(manifest)
         metadata = json.loads(manifest.read_text(encoding="utf-8"))
         if metadata.get("source_id") != _SOURCE_ID:
-            raise ValueError(f"NYISO V1 snapshot source identity mismatch: {snapshot_id}")
+            raise ValueError(f"NYISO snapshot source identity mismatch: {snapshot_id}")
         if metadata.get("point_in_time_backtest_ready") is not True:
-            raise ValueError(f"NYISO V1 snapshot is not research-PIT ready: {snapshot_id}")
+            raise ValueError(f"NYISO snapshot is not research-PIT ready: {snapshot_id}")
         frame = pd.read_csv(
             manifest.parent / "power_features.csv",
             parse_dates=parse_dates,
         )
         if frame.empty:
-            raise ValueError(f"NYISO V1 monthly snapshot has no rows: {snapshot_id}")
+            raise ValueError(f"NYISO monthly snapshot has no rows: {snapshot_id}")
+        archive_hashes = _archive_member_hashes(manifest.parent / "archive.zip")
+        recorded_hashes = dict(
+            zip(
+                frame["source_member"].astype(str),
+                frame["source_member_sha256"].astype(str),
+                strict=True,
+            )
+        )
+        if len(recorded_hashes) != len(frame) or set(recorded_hashes) != set(archive_hashes):
+            raise ValueError("NYISO source-member hash lineage mismatch")
+        if any(recorded_hashes[name] != digest for name, digest in archive_hashes.items()):
+            raise ValueError("NYISO source-member hash lineage mismatch")
         frames.append(frame)
     result = pd.concat(frames, ignore_index=True)
     local_dates = result["observed_for"].dt.tz_convert(_TIMEZONE).dt.date
@@ -280,15 +311,71 @@ def load_nyiso_v1_window(
     result = result.loc[(local_dates >= start_date) & (local_dates <= end_date)].copy()
     result = result.sort_values("available_at", kind="mergesort").reset_index(drop=True)
     if result.empty:
-        raise ValueError("NYISO V1 window contains no normalized power evidence")
+        raise ValueError("NYISO window contains no normalized power evidence")
     if not result["source_id"].astype(str).eq(_SOURCE_ID).all():
-        raise ValueError("NYISO V1 normalized source identity mismatch")
+        raise ValueError("NYISO normalized source identity mismatch")
     if not result["source_member_sha256"].astype(str).str.fullmatch(r"[0-9a-f]{64}").all():
-        raise ValueError("NYISO V1 normalized source-member lineage is invalid")
+        raise ValueError("NYISO normalized source-member lineage is invalid")
     observed_dates = result["observed_for"].dt.tz_convert(_TIMEZONE).dt.normalize().dt.date
     expected_dates = pd.date_range(start_date, end_date, freq="D").date
     if list(observed_dates) != list(expected_dates):
-        raise ValueError("NYISO V1 daily operating-date coverage is incomplete or duplicated")
+        raise ValueError("NYISO daily operating-date coverage is incomplete or duplicated")
     if result["available_at"].duplicated().any():
-        raise ValueError("NYISO V1 window contains duplicate availability timestamps")
+        raise ValueError("NYISO window contains duplicate availability timestamps")
     return result
+
+
+
+def audit_nyiso_window(
+    snapshot_root: Path,
+    start: str | pd.Timestamp,
+    end: str | pd.Timestamp,
+) -> dict[str, object]:
+    frame = load_nyiso_window(snapshot_root, start, end)
+    margins = (
+        frame["available_at"] - frame["source_updated_at"]
+    ).dt.total_seconds() / 3600.0
+    months = _month_starts(start, end)
+    all_members_before_bound = bool(margins.ge(0.0).all())
+    all_member_hashes_valid = bool(
+        frame["source_member_sha256"].astype(str).str.fullmatch(r"[0-9a-f]{64}").all()
+    )
+    issued_runs_immutable = bool(
+        all_members_before_bound
+        and frame["revision_status"].astype(str).eq("issued_run_immutable").all()
+    )
+    return {
+        "source_id": _SOURCE_ID,
+        "required_start": str(pd.Timestamp(start).date()),
+        "required_end": str(pd.Timestamp(end).date()),
+        "archive_month_count": len(months),
+        "day_count": len(frame),
+        "earliest_observed_for": str(frame["observed_for"].min()),
+        "latest_observed_for": str(frame["observed_for"].max()),
+        "minimum_availability_margin_hours": float(margins.min()),
+        "maximum_availability_margin_hours": float(margins.max()),
+        "all_members_before_availability_bound": all_members_before_bound,
+        "all_member_hashes_valid": all_member_hashes_valid,
+        "issued_runs_immutable": issued_runs_immutable,
+        "research_pit_ready": bool(
+            all_members_before_bound and all_member_hashes_valid and issued_runs_immutable
+        ),
+    }
+
+
+def capture_nyiso_v1_window(
+    client: NyisoLoadForecastClient,
+    start: str | pd.Timestamp,
+    end: str | pd.Timestamp,
+    snapshot_root: Path,
+    retrieved_at: str,
+) -> list[Path]:
+    return capture_nyiso_window(client, start, end, snapshot_root, retrieved_at)
+
+
+def load_nyiso_v1_window(
+    snapshot_root: Path,
+    start: str | pd.Timestamp,
+    end: str | pd.Timestamp,
+) -> pd.DataFrame:
+    return load_nyiso_window(snapshot_root, start, end)

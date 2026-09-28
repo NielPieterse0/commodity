@@ -660,7 +660,11 @@ _ISSUE426_REPRESENTATION_SUFFIXES = {
         ),
         "forecast_error_history": ("revision_error_proxy_mae_30d_c",),
     },
-    "power": {},
+    "power": {
+        "issued_load_level": ("issued_load_level",),
+        "issued_load_anomaly": ("issued_load_anomaly",),
+        "issued_revision": ("issued_revision",),
+    },
 }
 
 
@@ -822,6 +826,669 @@ def load_issue426_interaction_contract(path: Path) -> dict[str, Any]:
     if payload.get("lower_order_family_main_effects_in_combined_candidate") is not False:
         raise V2OptimizationError("issue-426 combined interaction ablation is not isolated")
     return payload
+
+
+def load_issue452_power_source_ladder(path: Path) -> dict[str, Any]:
+    payload = json.loads(Path(path).read_text(encoding="utf-8"))
+    if payload.get("schema_version") != 1 or payload.get("issue") != 452:
+        raise V2OptimizationError("unsupported issue-452 power source ladder")
+    if payload.get("contract_id") != "issue452-power-source-ladder-v2":
+        raise V2OptimizationError("issue-452 power source ladder identity is invalid")
+    if payload.get("status") != "preregistered_before_power_rescoring":
+        raise V2OptimizationError("issue-452 power source ladder was not preregistered")
+    if payload.get("evidence_class") != "development":
+        raise V2OptimizationError("issue-452 power source ladder must use development evidence")
+    if payload.get("protected_confirmation_accessed") is not False:
+        raise V2OptimizationError("issue-452 power source ladder crossed protected evidence")
+    if payload.get("power_performance_scored_before_supersession") is not False:
+        raise V2OptimizationError("issue-452 source ladder was superseded after power scoring")
+    cutoff = pd.Timestamp(str(payload.get("latest_allowed_trade_date")), tz="UTC")
+    if cutoff > pd.Timestamp("2022-12-31", tz="UTC"):
+        raise V2OptimizationError("issue-452 power source ladder crosses protected evidence")
+    ladder = payload.get("source_ladder")
+    if not isinstance(ladder, list) or [item.get("order") for item in ladder] != [1, 2, 3, 4]:
+        raise V2OptimizationError("issue-452 power source ladder order is invalid")
+    miso = ladder[1]
+    if (
+        miso.get("source") != "miso_load_forecast"
+        or miso.get("source_id") != "miso_daily_regional_forecast_actual_load_miso_mtlf_v1"
+        or miso.get("required_start") != "2011-01-01"
+        or miso.get("required_end") != "2022-12-31"
+    ):
+        raise V2OptimizationError("issue-452 MISO ladder entry is invalid")
+    gate = payload.get("miso_gate")
+    if not isinstance(gate, Mapping) or (
+        gate.get("availability_rule")
+        != "00:00_fixed_EST_on_calendar_day_after_valid_internal_publication_date"
+        or gate.get("malformed_publication_date_rule")
+        != "exclude_member_from_PIT_scoring_without_repair"
+        or gate.get("raw_archive_sha256_required") is not True
+        or gate.get("member_sha256_required") is not True
+        or gate.get("daily_archive_coverage_required") is not True
+        or gate.get("current_day_actual_load_must_be_absent") is not True
+        or gate.get("performance_optimized_timing") is not False
+    ):
+        raise V2OptimizationError("issue-452 MISO admission gate differs from preregistration")
+    representations = payload.get("representation_rule")
+    if not isinstance(representations, Mapping):
+        raise V2OptimizationError("issue-452 MISO representation rule is missing")
+    if representations.get("issued_load_level") != "eligible_if_miso_gate_passes":
+        raise V2OptimizationError("issue-452 MISO load-level representation is invalid")
+    if representations.get("issued_load_anomaly") != (
+        "prior_only_expanding_baseline_from_eligible_issued_load_levels"
+    ):
+        raise V2OptimizationError("issue-452 MISO anomaly representation is invalid")
+    if not str(representations.get("issued_revision", "")).startswith("HOLD"):
+        raise V2OptimizationError("issue-452 MISO revision representation must remain held")
+    if representations.get("held_representation_search_budget_consumed") is not False:
+        raise V2OptimizationError("issue-452 held representation must consume zero search budget")
+    return payload
+
+
+def build_issue452_miso_source_gate(
+    data_cfg: Mapping[str, Any],
+    ladder: Mapping[str, Any],
+    historical_audit: Mapping[str, Any],
+    capture_audit: Mapping[str, Any],
+) -> dict[str, object]:
+    sources = data_cfg.get("sources")
+    source = sources.get("miso_load_forecast") if isinstance(sources, Mapping) else None
+    if not isinstance(source, Mapping):
+        raise V2OptimizationError("issue-452 MISO source configuration is missing")
+    policy = source.get("availability_policy")
+    if not isinstance(policy, Mapping):
+        raise V2OptimizationError("issue-452 MISO availability policy is missing")
+    reasons: list[str] = []
+    source_id = "miso_daily_regional_forecast_actual_load_miso_mtlf_v1"
+    accepted = {str(value) for value in source.get("accepted_source_ids", [])}
+    if (
+        source.get("provider") != "miso_market_reports"
+        or source_id not in accepted
+        or source.get("v2_issue452_role") != "primary_us_iso_replacement_source"
+    ):
+        reasons.append("miso_source_identity_not_bound")
+    if source.get("status") != "v2_research_pit_ready" or policy.get("research_pit_allowed") is not True:
+        reasons.append("miso_source_not_research_pit_admissible")
+    if policy.get("availability_rule") != (
+        "00:00 fixed EST on the calendar day after a valid internal Published Date"
+    ):
+        reasons.append("miso_availability_rule_mismatch")
+
+    source_ladder = ladder.get("source_ladder")
+    miso_entry = source_ladder[1] if isinstance(source_ladder, list) and len(source_ladder) > 1 else {}
+    if not isinstance(miso_entry, Mapping) or (
+        miso_entry.get("order") != 2
+        or miso_entry.get("source_id") != source_id
+        or miso_entry.get("admission")
+        != "score_only_after_archive_publication_day_lineage_leakage_and_coverage_audits_pass"
+    ):
+        reasons.append("miso_source_ladder_not_bound")
+
+    publication = historical_audit.get("publication_date_audit")
+    archive_probe = historical_audit.get("archive_probe")
+    if not isinstance(publication, Mapping) or not isinstance(archive_probe, Mapping):
+        raise V2OptimizationError("issue-452 MISO historical audit is incomplete")
+    expected_exclusions = {
+        (str(item.get("member")), str(item.get("report_day")), item.get("published_date"))
+        for item in publication.get("excluded_members", [])
+        if isinstance(item, Mapping)
+    }
+    observed_exclusions = {
+        (str(item.get("source_member")), str(item.get("report_day")), item.get("published_date"))
+        for item in capture_audit.get("excluded_members", [])
+        if isinstance(item, Mapping)
+    }
+    expected_counts = (
+        int(archive_probe.get("required_month_count", -1)),
+        int(archive_probe.get("required_daily_members_present", -1)),
+        int(publication.get("published_date_matches_report_day", -1)),
+        int(publication.get("excluded_member_count", -1)),
+    )
+    observed_counts = (
+        int(capture_audit.get("archive_month_count", -1)),
+        int(capture_audit.get("archive_member_count", -1)),
+        int(capture_audit.get("usable_day_count", -1)),
+        int(capture_audit.get("excluded_member_count", -1)),
+    )
+    if expected_counts != (144, 4383, 4374, 9) or observed_counts != expected_counts:
+        reasons.append("miso_capture_counts_do_not_reproduce_source_audit")
+    if observed_exclusions != expected_exclusions or len(expected_exclusions) != 9:
+        reasons.append("miso_publication_exclusions_do_not_reproduce_source_audit")
+    if capture_audit.get("all_member_hashes_valid") is not True:
+        reasons.append("miso_member_hash_lineage_invalid")
+    if capture_audit.get("research_pit_ready") is not True:
+        reasons.append("miso_capture_not_research_pit_ready")
+    if capture_audit.get("actual_load_current_day_forbidden") is not True:
+        reasons.append("miso_current_day_actual_load_boundary_invalid")
+    if int(capture_audit.get("forecast_hours_per_accepted_day", -1)) != 24:
+        reasons.append("miso_forecast_hour_coverage_invalid")
+    if capture_audit.get("availability_basis") != (
+        "miso_internal_published_date_plus_one_day_0000_fixed_est"
+    ):
+        reasons.append("miso_capture_availability_basis_mismatch")
+    if capture_audit.get("revision_status") != (
+        "single_daily_issue_same_target_revision_not_identifiable"
+    ):
+        reasons.append("miso_revision_semantics_mismatch")
+    reasons = list(dict.fromkeys(reasons))
+    return {
+        "disposition": "HOLD" if reasons else "SCORE",
+        "reasons": reasons,
+        "eligible_representations": ["issued_load_level", "issued_load_anomaly"],
+        "held_representations": ["issued_revision"],
+        "search_budget_consumed": False,
+        "protected_confirmation_accessed": False,
+    }
+
+
+def build_issue452_miso_power_family_frame(frame: pd.DataFrame) -> pd.DataFrame:
+    required = {
+        "observed_for",
+        "available_at",
+        "issued_load_level",
+        "forecast_hour_count",
+        "source_id",
+        "source_member_sha256",
+        "revision_status",
+    }
+    missing = sorted(required - set(frame.columns))
+    if missing:
+        raise V2OptimizationError(f"issue-452 MISO family frame lacks columns: {missing}")
+    out = frame.loc[:, sorted(required)].copy()
+    out["observed_for"] = pd.to_datetime(out["observed_for"], utc=True, errors="raise")
+    out["available_at"] = pd.to_datetime(out["available_at"], utc=True, errors="raise")
+    out["issued_load_level"] = pd.to_numeric(out["issued_load_level"], errors="raise").astype(float)
+    if out.empty:
+        return pd.DataFrame(
+            columns=[
+                "observed_for", "available_at", "issued_load_level",
+                "issued_load_anomaly", "source_row_count", "source_member_sha256",
+            ]
+        )
+    if not np.isfinite(out["issued_load_level"]).all() or out["issued_load_level"].le(0.0).any():
+        raise V2OptimizationError("issue-452 MISO issued load levels must be positive and finite")
+    if not out["source_id"].astype(str).eq(
+        "miso_daily_regional_forecast_actual_load_miso_mtlf_v1"
+    ).all():
+        raise V2OptimizationError("issue-452 MISO family source identity mismatch")
+    if not out["source_member_sha256"].astype(str).str.fullmatch(r"[0-9a-f]{64}").all():
+        raise V2OptimizationError("issue-452 MISO family member lineage is invalid")
+    if not pd.to_numeric(out["forecast_hour_count"], errors="raise").eq(24).all():
+        raise V2OptimizationError("issue-452 MISO family forecast-hour coverage is invalid")
+    if not out["revision_status"].astype(str).eq(
+        "single_daily_issue_same_target_revision_not_identifiable"
+    ).all():
+        raise V2OptimizationError("issue-452 MISO family revision semantics mismatch")
+    out = out.sort_values("available_at", kind="stable").reset_index(drop=True)
+    if out["observed_for"].duplicated().any() or out["available_at"].duplicated().any():
+        raise V2OptimizationError("issue-452 MISO family contains duplicate daily identities")
+    if out["available_at"].le(out["observed_for"]).any():
+        raise V2OptimizationError("issue-452 MISO family availability must follow forecast day start")
+    prior = out["issued_load_level"].shift(1).expanding(min_periods=8).mean()
+    out["issued_load_anomaly"] = out["issued_load_level"] - prior
+    out["source_row_count"] = pd.to_numeric(out["forecast_hour_count"], errors="raise").astype(int)
+    return out[
+        [
+            "observed_for",
+            "available_at",
+            "issued_load_level",
+            "issued_load_anomaly",
+            "source_row_count",
+            "source_member_sha256",
+        ]
+    ]
+
+
+def summarize_issue452_power_dispositions(
+    nested_outer: Sequence[Mapping[str, object]],
+    *,
+    eligible_representations: Sequence[str],
+    held_representations: Sequence[str],
+    declared_roles: Sequence[str],
+) -> dict[str, object]:
+    eligible = [str(value) for value in eligible_representations]
+    held = [str(value) for value in held_representations]
+    if set(eligible) & set(held):
+        raise V2OptimizationError("issue-452 power representation disposition sets overlap")
+
+    def summarize_selected(axis: str, value: str) -> dict[str, object]:
+        selected = [
+            item
+            for item in nested_outer
+            if str(item["search"]["selected_config"].get(axis)) == value
+        ]
+        if not selected:
+            return {
+                "disposition": "HOLD_NOT_SELECTED_ON_PRIOR_INNER_EVIDENCE",
+                "outer_block_ids": [],
+                "search_budget_consumed": True,
+            }
+        rows = []
+        for item in selected:
+            result = item["selected_outer_result"]
+            candidate = result["monthly_score"]
+            control = result["matched_control"]["monthly_score"]
+            months = int(candidate["month_count"])
+            if months < 1 or int(control["month_count"]) != months:
+                raise V2OptimizationError("issue-452 matched outer scores have incompatible months")
+            rows.append(
+                {
+                    "outer_block_id": str(item["outer_block"]["id"]),
+                    "month_count": months,
+                    "candidate_mean_monthly_net_return": float(candidate["mean_monthly_net_return"]),
+                    "matched_control_mean_monthly_net_return": float(control["mean_monthly_net_return"]),
+                }
+            )
+        months = sum(int(row["month_count"]) for row in rows)
+        candidate_mean = sum(
+            float(row["candidate_mean_monthly_net_return"]) * int(row["month_count"])
+            for row in rows
+        ) / months
+        control_mean = sum(
+            float(row["matched_control_mean_monthly_net_return"]) * int(row["month_count"])
+            for row in rows
+        ) / months
+        delta = candidate_mean - control_mean
+        return {
+            "disposition": (
+                "RETAIN_MATCHED_MARGINAL_VALUE" if delta > 0.0 else "HOLD_NO_MATCHED_MARGINAL_VALUE"
+            ),
+            "outer_block_ids": [str(row["outer_block_id"]) for row in rows],
+            "month_count": months,
+            "candidate_mean_monthly_net_return": candidate_mean,
+            "matched_control_mean_monthly_net_return": control_mean,
+            "mean_monthly_net_return_delta": delta,
+            "search_budget_consumed": True,
+        }
+
+    representation_dispositions = {
+        representation: summarize_selected("issue426.representation", representation)
+        for representation in eligible
+    }
+    for representation in held:
+        representation_dispositions[representation] = {
+            "disposition": "HOLD_SOURCE_UNIDENTIFIABLE",
+            "reason": "same-target revision is not identifiable from one current-day issue per MISO daily report",
+            "outer_block_ids": [],
+            "search_budget_consumed": False,
+        }
+    role_dispositions = {
+        role: summarize_selected("issue426.role", role) for role in map(str, declared_roles)
+    }
+    return {
+        "representation_dispositions": representation_dispositions,
+        "role_dispositions": role_dispositions,
+    }
+
+
+def load_issue452_pjm_publication_contract(path: Path) -> dict[str, Any]:
+    payload = json.loads(Path(path).read_text(encoding="utf-8"))
+    if payload.get("schema_version") != 1 or payload.get("issue") != 452:
+        raise V2OptimizationError("unsupported issue-452 PJM publication contract")
+    if payload.get("contract_id") != "issue452-pjm-publication-contract-v1":
+        raise V2OptimizationError("issue-452 PJM publication contract identity is invalid")
+    if payload.get("status") != "preregistered_before_pjm_power_scoring":
+        raise V2OptimizationError("issue-452 PJM publication contract is not preregistered")
+    if payload.get("evidence_class") != "development":
+        raise V2OptimizationError("issue-452 PJM work must use development evidence")
+    if payload.get("protected_confirmation_accessed") is not False:
+        raise V2OptimizationError("issue-452 PJM contract crossed protected evidence")
+    cutoff = pd.Timestamp(str(payload.get("latest_allowed_trade_date")), tz="UTC")
+    if cutoff > pd.Timestamp("2022-12-31", tz="UTC"):
+        raise V2OptimizationError("issue-452 PJM contract crosses protected evidence")
+    if (payload.get("archive_feed"), payload.get("publication_feed"), payload.get("forecast_area")) != (
+        "load_frcstd_hist", "load_frcstd_7_day", "RTO"
+    ):
+        raise V2OptimizationError("issue-452 PJM source contract is invalid")
+    rule = payload.get("availability_rule")
+    if not isinstance(rule, Mapping):
+        raise V2OptimizationError("issue-452 PJM availability rule is missing")
+    if (
+        rule.get("schedule_timezone") != "America/New_York"
+        or list(rule.get("documented_update_minutes", [])) != [15, 45]
+        or int(rule.get("ingestion_buffer_minutes", -1)) != 15
+        or rule.get("performance_optimized") is not False
+        or list(rule.get("sensitivity_buffer_minutes", [])) != [15, 30, 60]
+    ):
+        raise V2OptimizationError("issue-452 PJM availability rule differs from preregistration")
+    return payload
+
+
+def derive_issue452_pjm_available_at(
+    evaluated_at: object,
+    contract: Mapping[str, Any],
+    *,
+    buffer_minutes: int | None = None,
+) -> pd.Timestamp:
+    rule = contract.get("availability_rule")
+    if not isinstance(rule, Mapping):
+        raise V2OptimizationError("issue-452 PJM availability rule is missing")
+    timestamp = pd.Timestamp(evaluated_at)
+    if timestamp.tzinfo is None:
+        raise V2OptimizationError("issue-452 PJM evaluated_at must be timezone aware")
+    timestamp = timestamp.tz_convert("UTC")
+    local = timestamp.tz_convert(str(rule["schedule_timezone"]))
+    hour = local.floor("h")
+    candidates = [
+        hour + pd.Timedelta(minutes=15),
+        hour + pd.Timedelta(minutes=45),
+        hour + pd.Timedelta(hours=1, minutes=15),
+    ]
+    slot = next(candidate for candidate in candidates if candidate >= local)
+    delay = int(rule["ingestion_buffer_minutes"] if buffer_minutes is None else buffer_minutes)
+    allowed = {int(value) for value in rule.get("sensitivity_buffer_minutes", [])}
+    if delay not in allowed:
+        raise V2OptimizationError("issue-452 PJM availability buffer is outside preregistration")
+    return (slot + pd.Timedelta(minutes=delay)).tz_convert("UTC")
+
+
+def reconstruct_issue452_pjm_vintages(
+    path: Path, contract: Mapping[str, Any]
+) -> pd.DataFrame:
+    frame = pd.read_csv(Path(path))
+    required = {*map(str, contract.get("archive_fields", [])), "source_hash"}
+    if not required.issubset(frame.columns):
+        missing = sorted(required - set(frame.columns))
+        raise V2OptimizationError(f"issue-452 PJM evidence lacks columns: {missing}")
+    area = str(contract.get("forecast_area", ""))
+    if not frame["forecast_area"].astype(str).eq(area).all():
+        raise V2OptimizationError("issue-452 PJM normalized evidence must contain RTO only")
+    frame["evaluated_at_utc"] = pd.to_datetime(frame["evaluated_at_utc"], utc=True, errors="raise")
+    frame["forecast_hour_beginning_utc"] = pd.to_datetime(
+        frame["forecast_hour_beginning_utc"], utc=True, errors="raise"
+    )
+    frame["forecast_load_mw"] = pd.to_numeric(frame["forecast_load_mw"], errors="raise").astype(float)
+    if frame["forecast_load_mw"].le(0.0).any() or not np.isfinite(frame["forecast_load_mw"]).all():
+        raise V2OptimizationError("issue-452 PJM forecast load values must be positive and finite")
+    hashes = frame["source_hash"].astype(str)
+    if not hashes.str.fullmatch(r"[0-9a-fA-F]{64}").all():
+        raise V2OptimizationError("issue-452 PJM source hashes must be SHA-256 values")
+    key = ["forecast_area", "forecast_hour_beginning_utc", "evaluated_at_utc"]
+    duplicated = frame.duplicated(key, keep=False)
+    if duplicated.any():
+        for _, group in frame.loc[duplicated].groupby(key, sort=False, dropna=False):
+            if group[["forecast_load_mw", "source_hash"]].drop_duplicates().shape[0] > 1:
+                raise V2OptimizationError("issue-452 PJM conflicting duplicate vintage key")
+        frame = frame.drop_duplicates(key, keep="first")
+    frame["available_at"] = frame["evaluated_at_utc"].map(
+        lambda value: derive_issue452_pjm_available_at(value, contract)
+    )
+    out = frame.rename(
+        columns={
+            "forecast_hour_beginning_utc": "forecast_for",
+            "evaluated_at_utc": "evaluated_at",
+            "forecast_load_mw": "value",
+        }
+    )[["forecast_for", "evaluated_at", "available_at", "value", "source_hash", "forecast_area"]]
+    if out["available_at"].lt(out["evaluated_at"]).any():
+        raise V2OptimizationError("issue-452 PJM availability precedes forecast evaluation")
+    return out.sort_values(["evaluated_at", "forecast_for"], kind="stable").reset_index(drop=True)
+
+
+def _issue452_pjm_complete_hourly_coverage(vintages: pd.DataFrame) -> bool:
+    if vintages.empty:
+        return False
+    frame = vintages.copy()
+    frame["forecast_day"] = (
+        frame["forecast_for"].dt.tz_convert("America/New_York").dt.date.astype(str)
+    )
+    for (forecast_day, _), group in frame.groupby(
+        ["forecast_day", "evaluated_at"], sort=False, dropna=False
+    ):
+        start = pd.Timestamp(str(forecast_day), tz="America/New_York")
+        end = start + pd.DateOffset(days=1)
+        expected = pd.date_range(start, end, freq="h", inclusive="left").tz_convert("UTC")
+        actual = pd.DatetimeIndex(group["forecast_for"]).sort_values()
+        if len(actual) != len(expected) or not actual.equals(expected):
+            return False
+    return True
+
+
+def audit_issue452_pjm_vintage_preservation(
+    path: Path, contract: Mapping[str, Any]
+) -> dict[str, object]:
+    vintages = reconstruct_issue452_pjm_vintages(path, contract)
+    if vintages.empty:
+        return {
+            "operating_day_count": 0,
+            "min_vintages_per_day": 0,
+            "max_vintages_per_day": 0,
+            "all_days_have_eight_vintages": False,
+            "multiple_vintages_preserved": False,
+            "all_vintages_have_complete_hourly_coverage": False,
+            "value_revision_count": 0,
+            "revision_preservation_verified": False,
+        }
+    frame = vintages.copy()
+    frame["forecast_day"] = (
+        frame["forecast_for"].dt.tz_convert("America/New_York").dt.date.astype(str)
+    )
+    counts = frame.groupby("forecast_day", sort=True)["evaluated_at"].nunique()
+    ordered = frame.sort_values(["forecast_for", "evaluated_at"], kind="stable")
+    revision = ordered.groupby("forecast_for", sort=False)["value"].diff()
+    revision_count = int(revision.fillna(0.0).ne(0.0).sum())
+    all_eight = bool(len(counts) and counts.eq(8).all())
+    multiple = bool(len(counts) and counts.ge(2).all())
+    complete_hourly = _issue452_pjm_complete_hourly_coverage(vintages)
+    return {
+        "operating_day_count": len(counts),
+        "min_vintages_per_day": int(counts.min()),
+        "max_vintages_per_day": int(counts.max()),
+        "all_days_have_eight_vintages": all_eight,
+        "multiple_vintages_preserved": multiple,
+        "all_vintages_have_complete_hourly_coverage": complete_hourly,
+        "value_revision_count": revision_count,
+        "revision_preservation_verified": bool(all_eight and multiple and complete_hourly),
+    }
+
+
+def inventory_issue452_pjm_archive(
+    archive_root: Path, contract: Mapping[str, Any]
+) -> dict[str, object]:
+    root = Path(archive_root)
+    empty: dict[str, object] = {
+        "source_id": str(contract.get("source_id", "")),
+        "integrity_verified": False,
+        "revision_preservation_verified": False,
+        "snapshot_count": 0,
+        "earliest_preserved": None,
+        "latest_preserved": None,
+    }
+    manifest_path = root / "manifest.json"
+    if not manifest_path.is_file():
+        return empty
+    try:
+        manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError):
+        return empty
+    expected = (
+        manifest.get("schema_version") == 1
+        and manifest.get("source_id") == contract.get("source_id")
+        and manifest.get("archive_feed") == contract.get("archive_feed")
+        and manifest.get("forecast_area") == contract.get("forecast_area")
+        and manifest.get("publication_contract_id") == contract.get("contract_id")
+    )
+    relative = manifest.get("normalized_file")
+    if not expected or not isinstance(relative, str) or not relative:
+        return empty
+    normalized = (root / relative).resolve()
+    try:
+        normalized.relative_to(root.resolve())
+    except ValueError:
+        return empty
+    if not normalized.is_file():
+        return empty
+    expected_hash = str(manifest.get("normalized_sha256", ""))
+    if not re.fullmatch(r"[0-9a-fA-F]{64}", expected_hash):
+        return empty
+    if _sha256_file(normalized).lower() != expected_hash.lower():
+        return empty
+    try:
+        vintages = reconstruct_issue452_pjm_vintages(normalized, contract)
+    except (OSError, V2OptimizationError, pd.errors.ParserError):
+        return empty
+    if int(manifest.get("rows", -1)) != len(vintages):
+        return empty
+    audit = audit_issue452_pjm_vintage_preservation(normalized, contract)
+    forecast_days = (
+        vintages["forecast_for"].dt.tz_convert("America/New_York").dt.date.astype(str)
+    )
+    return {
+        "source_id": str(contract["source_id"]),
+        "integrity_verified": True,
+        "revision_preservation_verified": bool(audit["revision_preservation_verified"]),
+        "snapshot_count": len(vintages),
+        "earliest_preserved": str(forecast_days.min()),
+        "latest_preserved": str(forecast_days.max()),
+        "manifest_sha256": _sha256_file(manifest_path),
+        "normalized_sha256": expected_hash.lower(),
+        "vintage_audit": audit,
+    }
+
+
+def build_issue452_pjm_source_gate(
+    data_cfg: Mapping[str, Any],
+    contract: Mapping[str, Any],
+    *,
+    coverage: Mapping[str, object],
+) -> dict[str, object]:
+    sources = data_cfg.get("sources")
+    if not isinstance(sources, Mapping):
+        raise V2OptimizationError("issue-452 PJM source gate requires data source configuration")
+    source = sources.get("pjm_load_forecast")
+    if not isinstance(source, Mapping):
+        raise V2OptimizationError("issue-452 PJM source configuration is missing")
+    policy = source.get("availability_policy")
+    if not isinstance(policy, Mapping):
+        raise V2OptimizationError("issue-452 PJM availability policy is missing")
+    semantic_match = (
+        source.get("provider") == "pjm_data_miner_2"
+        and source.get("archive_feed") == contract.get("archive_feed")
+        and source.get("publication_feed") == contract.get("publication_feed")
+        and policy.get("publication_semantics_ready") is True
+    )
+    reasons: list[str] = []
+    if not semantic_match:
+        reasons.append("pjm_publication_semantics_not_bound")
+    accepted = {str(value) for value in source.get("accepted_source_ids", [])}
+    if str(contract.get("source_id", "")) not in accepted:
+        reasons.append("pjm_source_identity_not_accepted")
+    if source.get("archive_acquisition_status") != "complete":
+        reasons.append("authorized_pjm_archive_reacquisition_required")
+    if policy.get("research_pit_allowed") is not True:
+        reasons.append("source_not_research_pit_admissible")
+    observed_source_id = coverage.get("source_id")
+    if observed_source_id is not None and str(observed_source_id) != str(contract.get("source_id")):
+        reasons.append("pjm_archive_source_identity_mismatch")
+    if coverage.get("integrity_verified") is not True:
+        reasons.append("pjm_archive_integrity_unverified")
+    if coverage.get("revision_preservation_verified") is not True:
+        reasons.append("pjm_revision_preservation_unverified")
+    if int(coverage.get("snapshot_count", 0) or 0) < 1:
+        reasons.append("pjm_archive_empty")
+    latest = coverage.get("latest_preserved")
+    cutoff = pd.Timestamp(str(contract["latest_allowed_trade_date"])).date()
+    protected_evidence_accessed = False
+    if latest is None:
+        reasons.append("pjm_development_coverage_end_unverified")
+    else:
+        latest_date = pd.Timestamp(str(latest)).date()
+        if latest_date < cutoff:
+            reasons.append("pjm_development_coverage_incomplete")
+        elif latest_date > cutoff:
+            reasons.append("pjm_archive_crosses_development_cutoff")
+            protected_evidence_accessed = True
+    reasons = list(dict.fromkeys(reasons))
+    return {
+        "publication_semantics": "PASS" if semantic_match else "FAIL",
+        "disposition": "HOLD" if reasons else "SCORE",
+        "reasons": reasons,
+        "search_budget_consumed": False,
+        "protected_evidence_accessed": protected_evidence_accessed,
+    }
+
+
+def audit_issue452_pjm_availability_sensitivity(
+    path: Path,
+    contract: Mapping[str, Any],
+    *,
+    decision_times: Sequence[object],
+) -> dict[str, object]:
+    vintages = reconstruct_issue452_pjm_vintages(path, contract)
+    evaluations = pd.DatetimeIndex(vintages["evaluated_at"].drop_duplicates().sort_values())
+    decisions: list[pd.Timestamp] = []
+    for raw in decision_times:
+        value = pd.Timestamp(raw)
+        if value.tzinfo is None:
+            raise V2OptimizationError("issue-452 PJM sensitivity decisions must be timezone aware")
+        decisions.append(value.tz_convert("UTC"))
+    if decisions != sorted(decisions):
+        raise V2OptimizationError("issue-452 PJM sensitivity decisions must be chronological")
+    rule = contract.get("availability_rule")
+    if not isinstance(rule, Mapping):
+        raise V2OptimizationError("issue-452 PJM availability rule is missing")
+    rows: list[dict[str, object]] = []
+    for buffer_minutes in map(int, rule.get("sensitivity_buffer_minutes", [])):
+        available = pd.DatetimeIndex(
+            [
+                derive_issue452_pjm_available_at(
+                    evaluated_at, contract, buffer_minutes=buffer_minutes
+                )
+                for evaluated_at in evaluations
+            ]
+        )
+        counts = [int((available <= decision).sum()) for decision in decisions]
+        rows.append(
+            {
+                "buffer_minutes": buffer_minutes,
+                "eligible_vintage_counts": counts,
+                "decisions_with_any_vintage": int(sum(count > 0 for count in counts)),
+            }
+        )
+    return {
+        "decision_count": len(decisions),
+        "unique_vintage_count": len(evaluations),
+        "buffers": rows,
+        "performance_metrics_included": False,
+        "selection_permitted": False,
+    }
+
+
+def build_issue452_pjm_power_family_frame(
+    path: Path, contract: Mapping[str, Any]
+) -> pd.DataFrame:
+    vintages = reconstruct_issue452_pjm_vintages(path, contract)
+    if not _issue452_pjm_complete_hourly_coverage(vintages):
+        raise V2OptimizationError("issue-452 PJM historical vintage has incomplete hourly coverage")
+    local_target = vintages["forecast_for"].dt.tz_convert("America/New_York")
+    vintages = vintages.copy()
+    vintages["forecast_day"] = local_target.dt.date.astype(str)
+    day_counts = vintages.groupby("evaluated_at")["forecast_day"].nunique()
+    if not day_counts.eq(1).all():
+        raise V2OptimizationError("issue-452 PJM historical vintage spans multiple operating days")
+    grouped = (
+        vintages.groupby(["evaluated_at", "available_at", "forecast_day"], sort=True, as_index=False)
+        .agg(issued_load_level=("value", "mean"), source_row_count=("value", "size"))
+        .sort_values("available_at", kind="stable")
+        .reset_index(drop=True)
+    )
+    target_local = pd.to_datetime(grouped["forecast_day"]).dt.tz_localize("America/New_York")
+    grouped["observed_for"] = target_local.dt.tz_convert("UTC")
+    grouped["issued_revision"] = grouped.groupby("forecast_day", sort=False)["issued_load_level"].diff()
+    prior = grouped["issued_load_level"].shift(1).expanding(min_periods=8).mean()
+    grouped["issued_load_anomaly"] = grouped["issued_load_level"] - prior
+    if grouped["available_at"].duplicated().any():
+        raise V2OptimizationError("issue-452 PJM reconstructed availability timestamps are not unique")
+    return grouped[
+        [
+            "observed_for",
+            "available_at",
+            "issued_load_level",
+            "issued_load_anomaly",
+            "issued_revision",
+            "source_row_count",
+        ]
+    ]
 
 
 def validate_issue426_optimization_plan(
@@ -2139,6 +2806,123 @@ def prepare_issue426_storage_weather_interaction_features(
     return output, output_columns
 
 
+def prepare_issue452_power_weather_interaction_features(
+    features: pd.DataFrame,
+    config: Mapping[str, object],
+    *,
+    power_representation: str,
+    weather_representation: str,
+) -> tuple[pd.DataFrame, list[str]]:
+    required = {"trade_date", "available_at"}
+    if not required.issubset(features.columns):
+        missing = sorted(required - set(features.columns))
+        raise V2OptimizationError(
+            f"issue-452 power-weather interaction lacks time columns: {missing}"
+        )
+    frame = features.copy().sort_values("trade_date", kind="stable")
+    frame["trade_date"] = pd.to_datetime(frame["trade_date"], utc=True, errors="raise")
+    frame["available_at"] = pd.to_datetime(frame["available_at"], utc=True, errors="raise")
+    family_time_columns = ["feature_power_available_at", "feature_weather_available_at"]
+    missing_family_times = [column for column in family_time_columns if column not in frame.columns]
+    if missing_family_times:
+        raise V2OptimizationError(
+            f"issue-452 power-weather interaction lacks family availability columns: {missing_family_times}"
+        )
+    for family, column in (("power", "feature_power_available_at"), ("weather", "feature_weather_available_at")):
+        frame[column] = pd.to_datetime(frame[column], utc=True, errors="raise")
+        family_values = [
+            name
+            for name in frame.columns
+            if name.startswith(f"feature_{family}_") and not name.endswith("available_at")
+        ]
+        populated = frame[family_values].notna().any(axis=1) if family_values else pd.Series(False, index=frame.index)
+        if (populated & frame[column].isna()).any():
+            raise V2OptimizationError("issue-452 power-weather interaction has unknown family availability")
+        matched = frame[column].notna()
+        if frame.loc[matched, column].gt(frame.loc[matched, "available_at"]).any():
+            raise V2OptimizationError("issue-452 power-weather interaction used future family evidence")
+    _issue425_return_transform(frame, str(config["transforms.return_transform"]))
+    market_columns = _issue425_family_columns(
+        frame, str(config["data.feature_family_subset"])
+    )
+
+    def representation_columns(family: str, representation: str) -> list[str]:
+        suffixes = _ISSUE426_REPRESENTATION_SUFFIXES.get(family, {}).get(representation)
+        if not suffixes:
+            raise V2OptimizationError(
+                f"unsupported issue-452 representation: {family}/{representation}"
+            )
+        columns = [
+            column
+            for column in frame.columns
+            if column.startswith(f"feature_{family}_")
+            and not column.endswith("available_at")
+            and any(column.endswith(suffix) for suffix in suffixes)
+        ]
+        if not columns:
+            raise V2OptimizationError(
+                f"issue-452 power-weather interaction lacks {family}/{representation} features"
+            )
+        return columns
+
+    power_columns = representation_columns("power", power_representation)
+    weather_columns = representation_columns("weather", weather_representation)
+    interactions: dict[str, pd.Series] = {}
+    for power_column, weather_column in itertools.product(power_columns, weather_columns):
+        power = pd.to_numeric(frame[power_column], errors="raise").astype(float)
+        weather = pd.to_numeric(frame[weather_column], errors="raise").astype(float)
+        name = (
+            "feature_issue452_power_weather_"
+            f"{power_column.removeprefix('feature_power_')}__x_"
+            f"{weather_column.removeprefix('feature_weather_')}"
+        )
+        interactions[name] = power * weather
+    numeric = pd.concat(
+        [
+            frame[market_columns].apply(pd.to_numeric, errors="raise").astype(float),
+            pd.DataFrame(interactions, index=frame.index),
+        ],
+        axis=1,
+    )
+    lookback = int(config["data.lookback_sessions"])
+    lag = int(config["transforms.lag_sessions"])
+    stat_window = int(config["transforms.rolling_stat_window_sessions"])
+    norm_window = int(config["transforms.normalization_window_sessions"])
+    winsor = float(config["transforms.winsor_quantile"])
+    if min(lookback, lag, stat_window, norm_window) < 1:
+        raise V2OptimizationError("issue-452 power-weather transform windows must be positive")
+    if not 0.0 <= winsor < 0.5:
+        raise V2OptimizationError("issue-452 power-weather winsor quantile is invalid")
+    if winsor > 0.0:
+        shifted = numeric.shift(1)
+        history = shifted.rolling(window=lookback, min_periods=min(20, lookback))
+        lower = history.quantile(winsor)
+        upper = history.quantile(1.0 - winsor)
+        numeric = numeric.clip(lower=lower, upper=upper, axis=1)
+    lagged = numeric.shift(lag)
+    history = numeric.shift(1).rolling(window=stat_window, min_periods=stat_window)
+    rolling_mean = history.mean().add_suffix(f"__mean{stat_window}")
+    rolling_std = history.std(ddof=0).add_suffix(f"__std{stat_window}")
+    derived = pd.concat([lagged, rolling_mean, rolling_std], axis=1)
+    scaled = _issue425_rolling_scale(
+        derived, str(config["transforms.scaling"]), norm_window
+    )
+    output_columns = list(scaled.columns)
+    output = pd.concat(
+        [frame[["trade_date", "available_at"]], scaled], axis=1
+    ).replace([np.inf, -np.inf], np.nan)
+    output = output.dropna(subset=output_columns).copy()
+    if output.empty:
+        raise V2OptimizationError("issue-452 power-weather transforms produced no complete rows")
+    if not np.isfinite(output[output_columns].to_numpy(dtype=float)).all():
+        raise V2OptimizationError("issue-452 power-weather transformed features are non-finite")
+    if not any(
+        column.startswith("feature_issue452_power_weather_") for column in output_columns
+    ):
+        raise V2OptimizationError("issue-452 power-weather produced no interaction columns")
+    return output, output_columns
+
+
 def prepare_issue425_features(
     features: pd.DataFrame, config: Mapping[str, object]
 ) -> tuple[pd.DataFrame, list[str]]:
@@ -2718,6 +3502,77 @@ def _issue426_prepare_combined_origins(
     return attached, feature_columns
 
 
+def _issue452_prepare_power_weather_origins(
+    session_path: pd.DataFrame,
+    features: pd.DataFrame,
+    config: Mapping[str, object],
+    *,
+    round_trip_per_mmbtu: float,
+    feature_cache: dict[str, tuple[pd.DataFrame, list[str]]],
+    origin_cache: dict[str, tuple[pd.DataFrame, list[str]]],
+) -> tuple[pd.DataFrame, list[str]]:
+    from commodity.market_only_phase2 import (
+        _build_segmented_decision_origins,
+        _canonicalize_one_origin_per_fill,
+    )
+
+    power_representation = str(config["issue452.power_representation"])
+    weather_representation = str(config["issue452.weather_representation"])
+    transform_key = _sha256_payload(
+        {
+            "interaction": "power×weather",
+            "power_representation": power_representation,
+            "weather_representation": weather_representation,
+            "lookback": config["data.lookback_sessions"],
+            "return_transform": config["transforms.return_transform"],
+            "scaling": config["transforms.scaling"],
+            "normalization": config["transforms.normalization_window_sessions"],
+            "winsor": config["transforms.winsor_quantile"],
+            "lag": config["transforms.lag_sessions"],
+            "rolling": config["transforms.rolling_stat_window_sessions"],
+            "market_family": config["data.feature_family_subset"],
+        }
+    )
+    prepared = feature_cache.get(transform_key)
+    if prepared is None:
+        prepared = prepare_issue452_power_weather_interaction_features(
+            features,
+            config,
+            power_representation=power_representation,
+            weather_representation=weather_representation,
+        )
+        feature_cache[transform_key] = prepared
+    prepared_features, _ = prepared
+    base_key = _sha256_payload(
+        {
+            "power_weather_transform": transform_key,
+            "horizon": int(config["target.horizon_sessions"]),
+        }
+    )
+    base = origin_cache.get(base_key)
+    if base is None:
+        origins, feature_columns = _build_segmented_decision_origins(
+            session_path,
+            prepared_features,
+            horizon_sessions=int(config["target.horizon_sessions"]),
+        )
+        if origins.empty:
+            raise V2OptimizationError("issue-452 power-weather target reconstruction produced no origins")
+        origins, _ = _canonicalize_one_origin_per_fill(origins)
+        base = (origins, feature_columns)
+        origin_cache[base_key] = base
+    base_origins, feature_columns = base
+    attached = _attach_issue425_targets(
+        base_origins,
+        session_path,
+        horizon_sessions=int(config["target.horizon_sessions"]),
+        role=str(config["target.target_role"]),
+        aggregation=str(config["target.aggregation"]),
+        round_trip_per_mmbtu=round_trip_per_mmbtu,
+    )
+    return attached, feature_columns
+
+
 def _issue426_apply_exposure_gate(
     origins: pd.DataFrame,
     forecasts: pd.DataFrame,
@@ -3240,6 +4095,107 @@ def _evaluate_issue426_combined_config(
         }
 
 
+def _evaluate_issue452_power_weather_config(
+    session_path: pd.DataFrame,
+    features: pd.DataFrame,
+    phase2_cfg: Mapping[str, Any],
+    risk: object,
+    costs: object,
+    config: Mapping[str, object],
+    blocks: Sequence[Mapping[str, str]],
+    *,
+    minimum_training_rows: int,
+    feature_cache: dict[str, tuple[pd.DataFrame, list[str]]],
+    origin_cache: dict[str, tuple[pd.DataFrame, list[str]]],
+) -> dict[str, object]:
+    try:
+        round_trip_per_mmbtu = float(costs.round_trip_usd) / float(
+            phase2_cfg["execution_contract"]["contract_multiplier_mmbtu"]
+        )
+        origins, feature_columns = _issue452_prepare_power_weather_origins(
+            session_path,
+            features,
+            config,
+            round_trip_per_mmbtu=round_trip_per_mmbtu,
+            feature_cache=feature_cache,
+            origin_cache=origin_cache,
+        )
+        interaction_columns = [
+            column
+            for column in feature_columns
+            if column.startswith("feature_issue452_power_weather_")
+        ]
+        control_columns = [
+            column
+            for column in feature_columns
+            if not column.startswith("feature_issue452_power_weather_")
+        ]
+        if not interaction_columns or not control_columns:
+            raise V2OptimizationError("issue-452 power-weather matched feature sets are invalid")
+        candidate_rows = [
+            _score_issue426_block(
+                origins,
+                feature_columns,
+                session_path,
+                config,
+                phase2_cfg,
+                risk,
+                costs,
+                block_id=str(block["id"]),
+                start_date=str(block["start"]),
+                end_date=str(block["end"]),
+                minimum_training_rows=minimum_training_rows,
+            )
+            for block in blocks
+        ]
+        control_rows = [
+            _score_issue425_block(
+                origins,
+                control_columns,
+                session_path,
+                config,
+                phase2_cfg,
+                risk,
+                costs,
+                block_id=str(block["id"]),
+                start_date=str(block["start"]),
+                end_date=str(block["end"]),
+                minimum_training_rows=minimum_training_rows,
+            )
+            for block in blocks
+        ]
+        candidate = _aggregate_issue425_blocks(candidate_rows)
+        control = _aggregate_issue425_blocks(control_rows)
+        candidate_score = candidate["monthly_score"]
+        control_score = control["monthly_score"]
+        if not isinstance(candidate_score, Mapping) or not isinstance(control_score, Mapping):
+            raise V2OptimizationError("issue-452 power-weather matched ablation score is invalid")
+        candidate["status"] = "complete"
+        candidate["matched_control"] = control
+        candidate["ablation"] = {
+            "mean_monthly_net_return_delta": float(candidate_score["mean_monthly_net_return"])
+            - float(control_score["mean_monthly_net_return"]),
+            "total_net_pnl_usd_delta": float(candidate_score["total_net_pnl_usd"])
+            - float(control_score["total_net_pnl_usd"]),
+            "max_drawdown_fraction_delta": float(candidate_score["max_drawdown_fraction"])
+            - float(control_score["max_drawdown_fraction"]),
+            "transaction_cost_usd_delta": float(candidate_score["transaction_cost_usd"])
+            - float(control_score["transaction_cost_usd"]),
+            "trade_count_delta": int(candidate_score["trade_count"])
+            - int(control_score["trade_count"]),
+        }
+        candidate["interaction_feature_count"] = len(interaction_columns)
+        return candidate
+    except (V2OptimizationError, ValueError, KeyError) as exc:
+        return {
+            "candidate_id": _sha256_payload(dict(config))[:20],
+            "status": "failed",
+            "champion_eligible": True,
+            "config": dict(config),
+            "reason": str(exc),
+        }
+
+
 def _evaluate_issue425_config(
     session_path: pd.DataFrame,
     features: pd.DataFrame,
@@ -3553,6 +4509,134 @@ def _issue426_evaluate_combined_trial(
     return result
 
 
+def _issue452_evaluate_power_weather_trial(
+    *,
+    stage: str,
+    outer_block_id: str,
+    blocks: Sequence[Mapping[str, str]],
+    config: Mapping[str, object],
+    session_path: pd.DataFrame,
+    features: pd.DataFrame,
+    phase2_cfg: Mapping[str, Any],
+    risk: object,
+    costs: object,
+    minimum_training_rows: int,
+    ledger: TrialLedger,
+    trial_cache: dict[str, dict[str, object]],
+    dataset_id: str,
+    code_id: str,
+    feature_cache: dict[str, tuple[pd.DataFrame, list[str]]],
+    origin_cache: dict[str, tuple[pd.DataFrame, list[str]]],
+) -> dict[str, object]:
+    trial_config = {
+        "issue": 452,
+        "interaction": "power×weather",
+        "stage": stage,
+        "outer_block_id": outer_block_id,
+        "selection_blocks": [str(block["id"]) for block in blocks],
+        "config": dict(config),
+    }
+    trial_id = build_trial_id(
+        trial_config,
+        seed=0,
+        dataset_id=dataset_id,
+        code_id=code_id,
+        evidence_class="development",
+    )
+    existing = trial_cache.get(trial_id)
+    if existing is not None:
+        return dict(existing["result"])
+    result = _evaluate_issue452_power_weather_config(
+        session_path,
+        features,
+        phase2_cfg,
+        risk,
+        costs,
+        config,
+        blocks,
+        minimum_training_rows=minimum_training_rows,
+        feature_cache=feature_cache,
+        origin_cache=origin_cache,
+    )
+    status = "complete" if result.get("status", "complete") == "complete" else "failed"
+    record: dict[str, object] = {
+        "trial_id": trial_id,
+        "status": status,
+        "evidence_class": "development",
+        "dataset_id": dataset_id,
+        "code_id": code_id,
+        "seed": 0,
+        "stage": stage,
+        "outer_block_id": outer_block_id,
+        "selection_blocks": [str(block["id"]) for block in blocks],
+        "interaction": "power×weather",
+        "config": dict(config),
+        "result": result,
+    }
+    ledger.append(record)
+    trial_cache[trial_id] = record
+    return result
+
+
+def _search_issue452_power_weather_outer(
+    *,
+    outer_block: Mapping[str, str],
+    inner_blocks: Sequence[Mapping[str, str]],
+    power_selected_config: Mapping[str, object],
+    weather_selected_config: Mapping[str, object],
+    evaluator: Any,
+) -> dict[str, object]:
+    if not inner_blocks:
+        raise V2OptimizationError("issue-452 power-weather interaction has no common prior evidence")
+    power_representation = str(power_selected_config["issue426.representation"])
+    weather_representation = str(weather_selected_config["issue426.representation"])
+    configs: list[dict[str, object]] = []
+    for basis, selected in (
+        ("power_selected_transform", power_selected_config),
+        ("weather_selected_transform", weather_selected_config),
+    ):
+        config = dict(selected)
+        config.update(
+            {
+                "issue426.family": "power",
+                "issue426.representation": power_representation,
+                "issue426.role": "direct",
+                "issue426.gate_quantile": None,
+                "issue452.interaction": "power×weather",
+                "issue452.power_representation": power_representation,
+                "issue452.weather_representation": weather_representation,
+                "issue452.interaction_transform_basis": basis,
+            }
+        )
+        configs.append(config)
+    outer_id = str(outer_block["id"])
+    rows = _issue425_sweep(
+        configs,
+        stage="power_weather_transform_basis",
+        outer_block_id=outer_id,
+        blocks=inner_blocks,
+        evaluator=evaluator,
+    )
+    ranked = _rank_issue426_rows(rows)
+    if not ranked:
+        raise V2OptimizationError("issue-452 power-weather interaction has no valid transform basis")
+    selected_config = dict(ranked[0]["config"])
+    return {
+        "outer_block_id": outer_id,
+        "selection_block_ids": [str(block["id"]) for block in inner_blocks],
+        "selected_config": selected_config,
+        "selected_candidate_id": _sha256_payload(selected_config)[:20],
+        "stage_summaries": [
+            {
+                "stage": "power_weather_transform_basis",
+                "trials": len(rows),
+                "winner": ranked[0],
+            }
+        ],
+        "trial_count": len(rows),
+    }
+
+
 def _search_issue426_combined_outer(
     *,
     outer_block: Mapping[str, str],
@@ -3621,6 +4705,7 @@ def _search_issue426_outer(
     inner_blocks: Sequence[Mapping[str, str]],
     evaluator: Any,
     representations_override: Sequence[str] | None = None,
+    roles_override: Sequence[str] | None = None,
 ) -> dict[str, object]:
     if not inner_blocks:
         raise V2OptimizationError("issue-426 outer block has no prior inner evidence")
@@ -3654,6 +4739,13 @@ def _search_issue426_outer(
     declared_roles = [str(value) for value in family_plan.get("roles", [])]
     if not declared_roles:
         raise V2OptimizationError(f"issue-426 {family} search plan has no roles")
+    role_candidates = (
+        declared_roles
+        if roles_override is None
+        else [str(value) for value in roles_override]
+    )
+    if not role_candidates or not set(role_candidates).issubset(set(declared_roles)):
+        raise V2OptimizationError(f"issue-426 {family} role override is invalid")
     held_roles = [
         {
             "role": role,
@@ -3664,7 +4756,7 @@ def _search_issue426_outer(
         for role in declared_roles
         if role in _ISSUE426_UNIDENTIFIABLE_ROLES
     ]
-    roles = [role for role in declared_roles if role not in _ISSUE426_UNIDENTIFIABLE_ROLES]
+    roles = [role for role in role_candidates if role not in _ISSUE426_UNIDENTIFIABLE_ROLES]
     if not roles:
         raise V2OptimizationError(f"issue-426 {family} has no identifiable roles")
     stages = {
@@ -4465,6 +5557,264 @@ def _issue426_representation_selection_support(
         block_ids[str(representation)] = valid_ids
         diagnostics[str(representation)] = rows
     return {"block_ids": block_ids, "diagnostics": diagnostics}
+
+
+def run_issue452_power_outer_orchestration(
+    *,
+    search_plan: Mapping[str, Any],
+    optimization_plan: Mapping[str, Any],
+    session_path: pd.DataFrame,
+    merged_features: pd.DataFrame,
+    outer_blocks: Sequence[Mapping[str, str]],
+    inner_blocks: Sequence[Mapping[str, str]],
+    outer_controls: Mapping[str, Mapping[str, object]],
+    minimum_training_rows: int,
+    round_trip_per_mmbtu: float,
+    evaluator: Any,
+    feature_cache: dict[str, tuple[pd.DataFrame, list[str]]],
+    origin_cache: dict[str, tuple[pd.DataFrame, list[str]]],
+) -> dict[str, object]:
+    nested_outer: list[dict[str, object]] = []
+    skipped_outer: list[dict[str, object]] = []
+    representations = ["issued_load_level", "issued_load_anomaly"]
+    for outer in outer_blocks:
+        outer_id = str(outer["id"])
+        control = outer_controls.get(outer_id)
+        if not isinstance(control, Mapping) or not isinstance(control.get("config"), Mapping):
+            raise V2OptimizationError(f"issue-452 missing outer control: {outer_id}")
+        eligible_inner = _issue426_valid_inner_blocks(
+            merged_features,
+            family="power",
+            inner_blocks=inner_blocks,
+            outer_start=str(outer["start"]),
+            minimum_training_rows=minimum_training_rows,
+        )
+        if not eligible_inner:
+            skipped_outer.append(
+                {
+                    "outer_block": dict(outer),
+                    "disposition": "HOLD_INSUFFICIENT_PRIOR_POWER_TRAINING",
+                    "minimum_training_rows": minimum_training_rows,
+                }
+            )
+            continue
+        support = _issue426_representation_selection_support(
+            session_path,
+            merged_features,
+            family="power",
+            representations=representations,
+            base_config=control["config"],
+            inner_blocks=eligible_inner,
+            minimum_training_rows=minimum_training_rows,
+            round_trip_per_mmbtu=round_trip_per_mmbtu,
+            feature_cache=feature_cache,
+            origin_cache=origin_cache,
+        )
+        common = _issue426_common_selection_blocks(eligible_inner, support["block_ids"])
+        common_blocks = common["common_blocks"]
+        available_representations = common["available_representations"]
+        if not common_blocks or not available_representations:
+            skipped_outer.append(
+                {
+                    "outer_block": dict(outer),
+                    "disposition": "HOLD_NO_COMMON_REPRESENTATION_SELECTION_EVIDENCE",
+                    "representation_support": support,
+                    "available_representations": available_representations,
+                    "held_representations": common["held_representations"],
+                }
+            )
+            continue
+        try:
+            search = _search_issue426_outer(
+                search_plan,
+                optimization_plan,
+                family="power",
+                outer_block=outer,
+                base_config=control["config"],
+                inner_blocks=common_blocks,
+                evaluator=evaluator,
+                representations_override=available_representations,
+            )
+        except V2OptimizationError as exc:
+            skipped_outer.append(
+                {
+                    "outer_block": dict(outer),
+                    "disposition": "HOLD_SEARCH_FAILED",
+                    "reason": str(exc),
+                    "representation_support": support,
+                    "common_selection_block_ids": [str(block["id"]) for block in common_blocks],
+                }
+            )
+            continue
+        outer_result = evaluator("outer_evaluation", outer_id, [outer], search["selected_config"])
+        if outer_result.get("status", "complete") != "complete":
+            skipped_outer.append(
+                {
+                    "outer_block": dict(outer),
+                    "disposition": "HOLD_SELECTED_OUTER_FAILED",
+                    "reason": outer_result.get("reason"),
+                    "representation_support": support,
+                    "common_selection_block_ids": [str(block["id"]) for block in common_blocks],
+                }
+            )
+            continue
+        nested_outer.append(
+            {
+                "outer_block": dict(outer),
+                "representation_support": support,
+                "available_representations": available_representations,
+                "held_representations": common["held_representations"],
+                "common_selection_block_ids": [str(block["id"]) for block in common_blocks],
+                "search": search,
+                "selected_outer_result": outer_result,
+                "issue425_outer_control": dict(control),
+            }
+        )
+    return {"nested_outer": nested_outer, "skipped_outer": skipped_outer}
+
+
+def run_issue452_power_weather_outer_orchestration(
+    *,
+    outer_blocks: Sequence[Mapping[str, str]],
+    inner_blocks: Sequence[Mapping[str, str]],
+    power_nested_outer: Sequence[Mapping[str, object]],
+    weather_nested_outer: Sequence[Mapping[str, object]],
+    weather_reproduction_validation: Mapping[str, object],
+    evaluator: Any,
+) -> dict[str, object]:
+    if weather_reproduction_validation.get("protected_confirmation_accessed") is not False:
+        raise V2OptimizationError("issue-452 weather reproduction validation crossed protected evidence")
+    if weather_reproduction_validation.get("reproduces_frozen_issue426") is not True:
+        return {
+            "interaction": "power×weather",
+            "disposition": "HOLD_WEATHER_RECONSTRUCTION_NOT_REPRODUCED",
+            "nested_outer": [],
+            "skipped_outer": [
+                {
+                    "outer_block": dict(outer),
+                    "disposition": "HOLD_WEATHER_RECONSTRUCTION_NOT_REPRODUCED",
+                }
+                for outer in outer_blocks
+            ],
+            "nested_selection_score": None,
+            "matched_control_score": None,
+            "mean_monthly_net_return_delta": None,
+            "weather_reproduction_validation": dict(weather_reproduction_validation),
+        }
+    power_by_outer = {
+        str(item["outer_block"]["id"]): item for item in power_nested_outer
+    }
+    weather_by_outer = {
+        str(item["outer_block"]["id"]): item for item in weather_nested_outer
+    }
+    nested_outer: list[dict[str, object]] = []
+    skipped_outer: list[dict[str, object]] = []
+    for outer in outer_blocks:
+        outer_id = str(outer["id"])
+        power_item = power_by_outer.get(outer_id)
+        weather_item = weather_by_outer.get(outer_id)
+        if power_item is None or weather_item is None:
+            skipped_outer.append(
+                {
+                    "outer_block": dict(outer),
+                    "disposition": "HOLD_FAMILY_OUTER_UNAVAILABLE",
+                }
+            )
+            continue
+        common_ids = set(map(str, power_item["common_selection_block_ids"])) & set(
+            map(str, weather_item["common_selection_block_ids"])
+        )
+        common_blocks = [
+            block for block in inner_blocks if str(block["id"]) in common_ids
+        ]
+        if not common_blocks:
+            skipped_outer.append(
+                {
+                    "outer_block": dict(outer),
+                    "disposition": "HOLD_NO_COMMON_PRIOR_INTERACTION_EVIDENCE",
+                }
+            )
+            continue
+        try:
+            search = _search_issue452_power_weather_outer(
+                outer_block=outer,
+                inner_blocks=common_blocks,
+                power_selected_config=power_item["search"]["selected_config"],
+                weather_selected_config=weather_item["search"]["selected_config"],
+                evaluator=evaluator,
+            )
+        except V2OptimizationError as exc:
+            skipped_outer.append(
+                {
+                    "outer_block": dict(outer),
+                    "disposition": "HOLD_INTERACTION_SEARCH_FAILED",
+                    "reason": str(exc),
+                    "common_selection_block_ids": [str(block["id"]) for block in common_blocks],
+                }
+            )
+            continue
+        outer_result = evaluator(
+            "power_weather_outer_evaluation",
+            outer_id,
+            [outer],
+            search["selected_config"],
+        )
+        if outer_result.get("status", "complete") != "complete":
+            skipped_outer.append(
+                {
+                    "outer_block": dict(outer),
+                    "disposition": "HOLD_INTERACTION_OUTER_FAILED",
+                    "reason": outer_result.get("reason"),
+                    "common_selection_block_ids": [str(block["id"]) for block in common_blocks],
+                }
+            )
+            continue
+        nested_outer.append(
+            {
+                "outer_block": dict(outer),
+                "common_selection_block_ids": [str(block["id"]) for block in common_blocks],
+                "power_selected_representation": power_item["search"]["selected_config"][
+                    "issue426.representation"
+                ],
+                "weather_selected_representation": weather_item["search"]["selected_config"][
+                    "issue426.representation"
+                ],
+                "search": search,
+                "selected_outer_result": outer_result,
+            }
+        )
+    if nested_outer:
+        candidate = _combine_issue425_score_summaries(
+            [item["selected_outer_result"]["monthly_score"] for item in nested_outer]
+        )
+        control = _combine_issue425_score_summaries(
+            [
+                item["selected_outer_result"]["matched_control"]["monthly_score"]
+                for item in nested_outer
+            ]
+        )
+        delta = float(candidate["mean_monthly_net_return"]) - float(
+            control["mean_monthly_net_return"]
+        )
+        disposition = (
+            "RETAIN_MATCHED_MARGINAL_VALUE"
+            if delta > 0.0
+            else "HOLD_NO_MATCHED_MARGINAL_VALUE"
+        )
+    else:
+        candidate = None
+        control = None
+        delta = None
+        disposition = "HOLD_NO_SCORABLE_OUTER_BLOCK"
+    return {
+        "interaction": "power×weather",
+        "disposition": disposition,
+        "nested_outer": nested_outer,
+        "skipped_outer": skipped_outer,
+        "nested_selection_score": candidate,
+        "matched_control_score": control,
+        "mean_monthly_net_return_delta": delta,
+    }
 
 
 def run_issue426_development_optimization(

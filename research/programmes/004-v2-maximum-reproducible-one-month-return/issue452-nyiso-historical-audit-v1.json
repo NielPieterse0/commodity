@@ -1,0 +1,40 @@
+{
+  "schema_version": 1,
+  "issue": 452,
+  "audit_id": "issue452-nyiso-historical-audit-v1",
+  "evidence_class": "development",
+  "source": "nyiso_load_forecast",
+  "source_id": "nyiso_p7_iso_load_forecast",
+  "required_window": ["2011-01-01", "2022-12-31"],
+  "audit_disposition": "HOLD_RETROACTIVE_OVERWRITE_AMBIGUITY",
+  "family_disposition": "CONTINUE_SOURCE_LADDER",
+  "search_budget_consumed": false,
+  "protected_confirmation_accessed": false,
+  "successful_months_before_failure": 51,
+  "first_failed_archive": "2015-04",
+  "first_failed_member": "20150424isolf.csv",
+  "conservative_availability_basis": "noon_America_New_York_on_operating_day",
+  "failure": {
+    "member_operating_day": "2015-04-24",
+    "member_archive_timestamp": "2015-06-26T11:53:58 America/New_York",
+    "official_month_archive_last_updated": "2015-06-26T11:54:00 America/New_York",
+    "reason": "surviving_public_archive_member_was_replaced_or_modified_after_historical_decision_time"
+  },
+  "parallel_format_check": {
+    "csv_member_revised": true,
+    "html_member_revised": true,
+    "pdf_member_revised": true,
+    "independent_original_survives_in_current_nyiso_archives": false
+  },  "integrity_controls_preserved": [
+    "monthly_raw_archive_snapshot",
+    "snapshot_manifest_hashes",
+    "per_member_sha256",
+    "member_timestamp_audit",
+    "exact_daily_coverage_gate",
+    "fail_closed_late_member_detection"
+  ],
+  "partial_archive_note": "The already captured 2011-01 through 2015-03 snapshots remain useful source evidence but are not sufficient to admit the full development family.",
+  "next_source": "iso_ne_load_forecast",
+  "next_action": "bind_exact_iso_ne_issued_forecast_product_publication_semantics_and_historical_archive_before_any_power_scoring",
+  "no_post_hoc_relaxation": true
+}

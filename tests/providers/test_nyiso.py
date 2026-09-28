@@ -10,9 +10,12 @@ import pytest
 
 from commodity.nyiso import (
     NyisoLoadForecastClient,
+    audit_nyiso_window,
     capture_nyiso_v1_window,
+    capture_nyiso_window,
     capture_p7_month,
     load_nyiso_v1_window,
+    load_nyiso_window,
     normalize_p7_archive,
 )
 
@@ -169,3 +172,82 @@ def test_nyiso_v1_window_capture_is_resumable_and_loader_requires_daily_coverage
 
     with pytest.raises(ValueError, match="daily operating-date coverage"):
         load_nyiso_v1_window(tmp_path, "2024-08-13", "2024-08-15")
+
+
+
+def test_nyiso_generic_window_and_audit_preserve_v1_compatibility(tmp_path: Path) -> None:
+    class Client:
+        def fetch_month(self, year: int, month: int) -> tuple[bytes, str]:
+            assert (year, month) == (2024, 8)
+            return _archive_bytes(), "https://mis.nyiso.com/public/csv/isolf/20240801isolf_csv.zip"
+
+    manifests = capture_nyiso_window(
+        Client(), "2024-08-13", "2024-08-14", tmp_path, "2026-09-27T07:30:00Z"
+    )
+    assert len(manifests) == 1
+    generic = load_nyiso_window(tmp_path, "2024-08-13", "2024-08-14")
+    legacy = load_nyiso_v1_window(tmp_path, "2024-08-13", "2024-08-14")
+    pd.testing.assert_frame_equal(generic, legacy)
+    audit = audit_nyiso_window(tmp_path, "2024-08-13", "2024-08-14")
+    assert audit["source_id"] == "nyiso_p7_iso_load_forecast"
+    assert audit["archive_month_count"] == 1
+    assert audit["day_count"] == 2
+    assert audit["all_members_before_availability_bound"] is True
+    assert audit["all_member_hashes_valid"] is True
+    assert audit["issued_runs_immutable"] is True
+    assert audit["research_pit_ready"] is True
+
+
+def test_nyiso_audit_fails_closed_when_snapshot_margin_is_negative(tmp_path: Path) -> None:
+    class Client:
+        def fetch_month(self, year: int, month: int) -> tuple[bytes, str]:
+            return _archive_bytes(), "https://mis.nyiso.com/public/csv/isolf/20240801isolf_csv.zip"
+
+    manifest = capture_p7_month(
+        Client(), 2024, 8, tmp_path, "202408-p7", "2026-09-27T07:30:00Z"
+    )
+    features_path = manifest.parent / "power_features.csv"
+    frame = pd.read_csv(features_path)
+    frame["source_updated_at"] = [
+        "2024-08-13T17:00:00+00:00",
+        "2024-08-13T11:20:00+00:00",
+    ]
+    payload_bytes = frame.to_csv(index=False).encode()
+    features_path.write_bytes(payload_bytes)
+
+    metadata = json.loads(manifest.read_text(encoding="utf-8"))
+    artifact = next(item for item in metadata["artifacts"] if item["path"] == "power_features.csv")
+    artifact["bytes"] = len(payload_bytes)
+    import hashlib
+    artifact["sha256"] = hashlib.sha256(payload_bytes).hexdigest()
+    manifest.write_text(json.dumps(metadata, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+
+    audit = audit_nyiso_window(tmp_path, "2024-08-13", "2024-08-14")
+    assert audit["all_members_before_availability_bound"] is False
+    assert audit["issued_runs_immutable"] is False
+    assert audit["research_pit_ready"] is False
+
+
+def test_nyiso_load_rejects_well_formed_but_wrong_member_hash(tmp_path: Path) -> None:
+    class Client:
+        def fetch_month(self, year: int, month: int) -> tuple[bytes, str]:
+            return _archive_bytes(), "https://mis.nyiso.com/public/csv/isolf/20240801isolf_csv.zip"
+
+    manifest = capture_p7_month(
+        Client(), 2024, 8, tmp_path, "202408-p7", "2026-09-27T07:30:00Z"
+    )
+    features_path = manifest.parent / "power_features.csv"
+    frame = pd.read_csv(features_path)
+    frame.loc[0, "source_member_sha256"] = "0" * 64
+    payload_bytes = frame.to_csv(index=False).encode()
+    features_path.write_bytes(payload_bytes)
+
+    metadata = json.loads(manifest.read_text(encoding="utf-8"))
+    artifact = next(item for item in metadata["artifacts"] if item["path"] == "power_features.csv")
+    artifact["bytes"] = len(payload_bytes)
+    import hashlib
+    artifact["sha256"] = hashlib.sha256(payload_bytes).hexdigest()
+    manifest.write_text(json.dumps(metadata, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+
+    with pytest.raises(ValueError, match="source-member hash lineage mismatch"):
+        load_nyiso_window(tmp_path, "2024-08-13", "2024-08-14")

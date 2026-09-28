@@ -1,0 +1,102 @@
+{
+  "schema_version": 1,
+  "issue": 452,
+  "programme_issue": 393,
+  "audit_id": "issue452-miso-historical-audit-v1",
+  "status": "archive_and_semantics_audit_pass_with_explicit_member_exclusions",
+  "evidence_class": "development",
+  "protected_confirmation_accessed": false,
+  "power_performance_scored": false,
+  "source": "miso_load_forecast",
+  "source_id": "miso_daily_regional_forecast_actual_load_miso_mtlf_v1",
+  "provider": "Midcontinent Independent System Operator",
+  "product": "Daily Regional Forecast and Actual Load",
+  "archive_index": "MISO Market Reports archived Daily Regional Forecast and Actual Load monthly ZIPs",
+  "archive_url_template": "https://docs.misoenergy.org/marketreports/{YYYYMM}_rf_al_xls.zip",
+  "member_pattern": "YYYYMMDD_rf_al.xls",
+  "required_window": ["2011-01-01", "2022-12-31"],
+  "archive_probe": {
+    "indexed_archive_first_month": "2009-07",
+    "indexed_archive_last_month": "2022-12",
+    "indexed_month_count": 162,
+    "required_month_count": 144,
+    "required_months_present": 144,
+    "required_calendar_day_count": 4383,
+    "required_daily_members_present": 4383,
+    "first_daily_member": "20110101_rf_al.xls",
+    "last_daily_member": "20221231_rf_al.xls",
+    "streamed_required_archive_bytes": 38251877
+  },
+  "content_audit": {
+    "daily_workbooks_parsed": 4383,
+    "current_day_miso_mtlf_hour_count": {
+      "24": 4383
+    },
+    "current_day_actual_load_nonzero_members": 0,
+    "header_variant_count": 3,
+    "header_variants": [
+      {
+        "days": 1076,
+        "miso_field": "Midwest ISO MTLF (MWh)",
+        "regional_layout": "East_Central_West"
+      },
+      {
+        "days": 3306,
+        "miso_field": "MISO MTLF (MWh)",
+        "regional_layout": "North_Central_South"
+      },
+      {
+        "days": 1,
+        "miso_field": "MISO ISO MTLF (MWh)",
+        "regional_layout": "North_Central_South_typo_variant"
+      }
+    ]
+  },
+  "publication_semantics": {
+    "surviving_reader_guide_version": "1.0",
+    "surviving_reader_guide_date": "2014-01-27",
+    "reader_guide_report_id": "3031",
+    "reader_guide_sha256": "b6ccbbf41ac0d0ca05c2632e5ced41af356d2099a57bd638aad4fb70652515b6",
+    "reader_guide_description": "prior Market Day MTLF and Actual Load plus current Market Day regional and MISO-level MTLF",
+    "reader_guide_documented_availability": "daily by 12:30 AM EST",
+    "reader_guide_clock": "EST_24_hour_clock",
+    "pre_2014_intraday_schedule_separately_proven": false,
+    "chosen_research_availability_rule": "00:00_fixed_EST_on_calendar_day_after_valid_internal_Published_Date",
+    "chosen_rule_is_later_than_documented_2014_schedule": true,
+    "chosen_rule_depends_on_pre_2014_intraday_schedule": false,
+    "performance_optimized_timing": false
+  },
+  "publication_date_audit": {
+    "published_date_matches_report_day": 4374,
+    "excluded_member_count": 9,
+    "exclusion_rule": "exclude_from_PIT_scoring_when_internal_Published_Date_is_blank_or_not_equal_to_report_day",
+    "excluded_members": [
+      {"member": "20110504_rf_al.xls", "published_date": null, "report_day": "2011-05-04"},
+      {"member": "20110601_rf_al.xls", "published_date": "2011-06-03", "report_day": "2011-06-01"},
+      {"member": "20110804_rf_al.xls", "published_date": "2011-08-05", "report_day": "2011-08-04"},
+      {"member": "20110921_rf_al.xls", "published_date": "2011-10-20", "report_day": "2011-09-21"},
+      {"member": "20200526_rf_al.xls", "published_date": "2020-05-28", "report_day": "2020-05-26"},
+      {"member": "20200527_rf_al.xls", "published_date": "2020-05-28", "report_day": "2020-05-27"},
+      {"member": "20210306_rf_al.xls", "published_date": "2021-03-08", "report_day": "2021-03-06"},
+      {"member": "20211209_rf_al.xls", "published_date": "2021-12-16", "report_day": "2021-12-09"},
+      {"member": "20211210_rf_al.xls", "published_date": "2021-12-16", "report_day": "2021-12-10"}
+    ],
+    "excluded_member_identity_cross_check": "for_all_nine_filename_report_day_equals_reporting_period_end_equals_current_market_day_rows"
+  },
+  "pit_disposition": {
+    "archive_coverage": "PASS",
+    "source_identity": "PASS",
+    "forecast_only_current_day_slice": "PASS",
+    "publication_day_semantics": "PASS_WITH_9_EXCLUSIONS",
+    "intraday_schedule_required_for_chosen_rule": false,
+    "lineage_hashing": "REQUIRED_IN_IMPLEMENTED_CAPTURE",
+    "research_pit_status": "PROMOTE_AFTER_IMPLEMENTED_CAPTURE_REPRODUCES_AUDIT_AND_HASHES",
+    "search_budget_consumed": false
+  },
+  "representation_disposition": {
+    "issued_load_level": "candidate_after_capture_gate",
+    "issued_load_anomaly": "candidate_after_capture_gate_using_prior_only_baseline",
+    "issued_revision": "HOLD_same_target_revision_not_identifiable_from_one_current_day_issue_per_daily_report"
+  },
+  "next_step": "Implement the bounded MISO capture/normalization path, persist monthly archive/member hashes, rerun this audit from the governed raw archive, and only then score source-identifiable power representations under the superseding source ladder."
+}
