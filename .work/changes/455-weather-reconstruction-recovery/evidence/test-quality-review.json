@@ -1,0 +1,34 @@
+{
+  "schema_version": 1,
+  "change_id": "455-weather-reconstruction-recovery",
+  "review_type": "test-quality",
+  "status": "closed_no_open_material_findings",
+  "source": "isolated_governed_worktree",
+  "kis_review_attempt": {
+    "source_fingerprint": "01915077a7181bc607d75f3c28267e615b0947508974fb366c0fdf02151f28c7",
+    "evidence_complete": true,
+    "status": "provider_routes_failed",
+    "manual_fallback": "exact-diff"
+  },
+  "final_test_exact_diff": {
+    "sha256": "e0df0dadd12f0c4ee43d5166060c2a894269e2208340c4ee1835ec7b13528c35",
+    "bytes": 21542,
+    "lines": 519
+  },
+  "resolved_findings": [
+    {
+      "id": "MISSING-CURRENT-MISO-IDENTITY-BOUNDARY",
+      "severity": "material",
+      "resolution": "added regression coverage that corrupts a current normalized MISO file and requires fail-closed rejection"
+    },
+    {
+      "id": "MISSING-PREREG-AUTHORITY-DRIFT-BOUNDARY",
+      "severity": "material",
+      "resolution": "added regression coverage that mutates the frozen #452 power authority and requires fail-closed rejection"
+    }
+  ],
+  "final_review": {
+    "open_findings": [],
+    "regression_boundaries_verified": true
+  }
+}

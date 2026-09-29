@@ -2077,6 +2077,168 @@ def test_issue452_power_weather_orchestration_requires_explicit_replay_authority
     assert result["disposition"] == "HOLD_WEATHER_RECONSTRUCTION_NOT_REPRODUCED"
 
 
+def test_issue455_power_weather_orchestration_requires_frozen_successor_baseline() -> None:
+    outer = [{"id": "outer-b", "start": "2019-01-01", "end": "2020-12-31"}]
+    result = v2_optimization.run_issue455_power_weather_outer_orchestration(
+        outer_blocks=outer,
+        inner_blocks=[],
+        power_nested_outer=[],
+        weather_nested_outer=[],
+        successor_weather_validation={
+            "dataset_frozen": False,
+            "complete": True,
+            "pit_safe": True,
+            "protected_confirmation_accessed": False,
+        },
+        evaluator=lambda *args, **kwargs: pytest.fail("interaction evaluator must not run"),
+    )
+    assert result["disposition"] == "HOLD_SUCCESSOR_WEATHER_BASELINE_NOT_FROZEN"
+    assert result["skipped_outer"][0]["failed_successor_gates"] == ["dataset_frozen"]
+
+
+def test_issue455_power_weather_orchestration_does_not_require_exact_issue426_replay(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    outer = {"id": "outer-b", "start": "2019-01-01", "end": "2020-12-31"}
+    inner = {"id": "inner-a", "start": "2018-01-01", "end": "2018-12-31"}
+    power = [{
+        "outer_block": {"id": "outer-b"},
+        "common_selection_block_ids": ["inner-a"],
+        "search": {"selected_config": {"issue426.representation": "issued_load_level"}},
+    }]
+    weather = [{
+        "outer_block": {"id": "outer-b"},
+        "common_selection_block_ids": ["inner-a"],
+        "search": {"selected_config": {
+            "issue426.representation": "anomaly",
+            "issue426.role": "filter_veto",
+        }},
+    }]
+    seen: list[dict[str, object]] = []
+    monkeypatch.setattr(
+        v2_optimization,
+        "_search_issue455_power_weather_outer",
+        lambda **kwargs: seen.append(kwargs) or {
+            "selected_config": {
+                "issue426.representation": "anomaly",
+                "issue426.role": "filter_veto",
+            },
+            "selected_candidate_id": "successor",
+            "trial_count": 1,
+        },
+    )
+    score = {
+        "month_count": 1,
+        "total_net_pnl_usd": 100.0,
+        "mean_monthly_net_return": 0.002,
+        "median_monthly_net_return": 0.002,
+        "worst_monthly_net_return": 0.002,
+        "best_monthly_net_return": 0.002,
+        "profitable_month_rate": 1.0,
+        "max_drawdown_fraction": 0.01,
+        "transaction_cost_usd": 10.0,
+        "turnover": 1.0,
+        "trade_count": 1,
+        "long_net_pnl_usd": 100.0,
+        "short_net_pnl_usd": 0.0,
+    }
+    control = dict(score, mean_monthly_net_return=0.001, total_net_pnl_usd=50.0)
+    result = v2_optimization.run_issue455_power_weather_outer_orchestration(
+        outer_blocks=[outer],
+        inner_blocks=[inner],
+        power_nested_outer=power,
+        weather_nested_outer=weather,
+        successor_weather_validation={
+            "dataset_frozen": True,
+            "complete": True,
+            "pit_safe": True,
+            "protected_confirmation_accessed": False,
+        },
+        evaluator=lambda *args, **kwargs: {
+            "status": "complete",
+            "monthly_score": score,
+            "matched_control": {"monthly_score": control},
+        },
+    )
+    assert seen[0]["weather_selected_config"]["issue426.role"] == "filter_veto"
+    assert result["interaction"] == "power×successor_weather"
+    assert result["disposition"] == "RETAIN_MATCHED_MARGINAL_VALUE"
+    assert result["mean_monthly_net_return_delta"] == pytest.approx(0.001)
+
+
+def test_issue455_power_weather_orchestration_rejects_protected_successor_evidence() -> None:
+    with pytest.raises(V2OptimizationError, match="crossed protected evidence"):
+        v2_optimization.run_issue455_power_weather_outer_orchestration(
+            outer_blocks=[],
+            inner_blocks=[],
+            power_nested_outer=[],
+            weather_nested_outer=[],
+            successor_weather_validation={
+                "dataset_frozen": True,
+                "complete": True,
+                "pit_safe": True,
+                "protected_confirmation_accessed": True,
+            },
+            evaluator=lambda *args, **kwargs: pytest.fail("interaction evaluator must not run"),
+        )
+
+
+def test_issue455_power_weather_matched_control_removes_only_interaction_terms(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    columns = [
+        "feature_market_return",
+        "feature_weather_anomaly",
+        "feature_issue452_power_weather_issued_load_level__x_anomaly",
+    ]
+    monkeypatch.setattr(
+        v2_optimization,
+        "_issue455_prepare_power_weather_origins",
+        lambda *args, **kwargs: (pd.DataFrame(), columns),
+    )
+    scored_columns: list[list[str]] = []
+    score = {
+        "month_count": 1,
+        "total_net_pnl_usd": 100.0,
+        "mean_monthly_net_return": 0.002,
+        "median_monthly_net_return": 0.002,
+        "worst_monthly_net_return": 0.002,
+        "best_monthly_net_return": 0.002,
+        "profitable_month_rate": 1.0,
+        "max_drawdown_fraction": 0.01,
+        "transaction_cost_usd": 10.0,
+        "turnover": 1.0,
+        "trade_count": 1,
+        "long_net_pnl_usd": 100.0,
+        "short_net_pnl_usd": 0.0,
+    }
+
+    def fake_score(*args, **kwargs):
+        scored_columns.append(list(args[1]))
+        return {"monthly_score": dict(score)}
+
+    monkeypatch.setattr(v2_optimization, "_score_issue426_block", fake_score)
+    monkeypatch.setattr(v2_optimization, "_aggregate_issue425_blocks", lambda rows: rows[0])
+    result = v2_optimization._evaluate_issue455_power_weather_config(
+        pd.DataFrame(),
+        pd.DataFrame(),
+        {"execution_contract": {"contract_multiplier_mmbtu": 10_000}},
+        object(),
+        type("Costs", (), {"round_trip_usd": 1.0})(),
+        {},
+        [{"id": "outer-b", "start": "2019-01-01", "end": "2020-12-31"}],
+        minimum_training_rows=504,
+        feature_cache={},
+        origin_cache={},
+    )
+    assert scored_columns[0] == columns
+    assert scored_columns[1] == ["feature_market_return", "feature_weather_anomaly"]
+    assert result["matched_control_kind"] == (
+        "successor_weather_same_config_interaction_terms_ablated"
+    )
+    assert result["weather_control_feature_count"] == 1
+
+
 def test_issue452_power_weather_orchestration_skips_missing_family_outer() -> None:
     outer = [{"id": "outer-b", "start": "2019-01-01", "end": "2020-12-31"}]
     power_item = {

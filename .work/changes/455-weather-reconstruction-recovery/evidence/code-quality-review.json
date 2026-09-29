@@ -1,0 +1,50 @@
+{
+  "schema_version": 1,
+  "change_id": "455-weather-reconstruction-recovery",
+  "review_type": "code-quality",
+  "status": "closed_no_open_material_findings",
+  "source": "isolated_governed_worktree",
+  "successful_kis_runner_review": {
+    "source_fingerprint": "2edb0fe6322389e5e6fd18274bd553713bdc5feffb89c12d2a5e5baa055dbe37",
+    "backend": "nvidia-nim",
+    "model": "nvidia/nemotron-3-super-120b-a12b",
+    "findings": []
+  },
+  "final_runner_exact_diff": {
+    "sha256": "ce928c5d35fb9f7815fa25dd55e0ffe35c444cfb6fd68785cd6a05bbb24b1d91",
+    "bytes": 58373,
+    "lines": 1357,
+    "kis_disposition": "manual_fallback_exact_diff_after_qualified_routes_failed"
+  },
+  "v2_exact_diff": {
+    "sha256": "de9edf1be8d712224f3661581fdfe3bff6833f37250f846abfeae53d9fef17a2",
+    "bytes": 22427,
+    "lines": 572,
+    "kis_disposition": "manual_fallback_exact_diff_after_projector_omitted_large_source"
+  },
+  "resolved_findings": [
+    {
+      "id": "MISO-SCORING-TOCTOU",
+      "severity": "material",
+      "resolution": "interaction runner now rehashes all 144 current archive, normalized-feature, and exclusion files against frozen #452 identities before scoring"
+    },
+    {
+      "id": "PREREG-AUTHORITY-DRIFT",
+      "severity": "material",
+      "resolution": "runner now rejects drift in frozen #426 search/weather contracts and #452 power/MISO authorities before scoring"
+    },
+    {
+      "id": "TRIAL-COUNT-METADATA",
+      "severity": "minor",
+      "resolution": "current execution identity count is derived from TrialLedger record values; scientific ledger history remains append-only"
+    }
+  ],
+  "final_review": {
+    "protected_evidence_boundary_preserved": true,
+    "matched_control_isolation_verified": true,
+    "trial_identity_separation_verified": true,
+    "current_miso_identity_bound_at_scoring": true,
+    "preregistered_authority_hashes_bound_at_scoring": true,
+    "open_findings": []
+  }
+}

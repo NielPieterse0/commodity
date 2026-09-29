@@ -1,0 +1,76 @@
+{
+  "schema_version": 1,
+  "issue": 455,
+  "programme_issue": 393,
+  "plan_id": "issue455-successor-baseline-plan-v1",
+  "status": "preregistered_before_successor_weather_scoring_and_power_weather_interaction",
+  "evidence_class": "development",
+  "decision": "replace_exact_issue426_recovery_as_prerequisite_with_a_new_reproducible_successor_weather_baseline",
+  "rationale": "Exact historical temperatures are required only for an exact #426 reproduction claim. The current market inputs and weather feature builder reproduce their frozen identities, while the original #426 effective weather archive does not. Further archaeology is therefore not required before new development research.",
+  "historical_boundary": {
+    "issue426_status": "preserved_historical_evidence_not_exactly_reproducible_from_recovered_weather_inputs",
+    "issue455_recovery_plan_sha256": "a2a648efb07787184e68dccbb21cd5fd0de1b8caeea2ca39b70d3fb4a170e8ff",
+    "issue455_weather_replay_validation_sha256": "e56f078d80f08e9cab3f5433af18b52e286642269eb8be6e0ecb3433b68ba996",
+    "reproduces_frozen_issue426": false
+  },
+  "successor_weather_freeze": {
+    "source_id": "ncar_gdex_d084001_gfs_0p25_issued_00utc",
+    "support_start": "2015-01-15",
+    "support_end": "2022-12-31",
+    "cycle_utc_hour": 0,
+    "snapshot_count": 2908,
+    "complete": true,
+    "archive_missing_lead_count": 23,
+    "manifest_artifact_sha256": "c82d6ea5e6810e2bf7b035faf275738f42df44a8fc42b74a122febb21f822e1b",
+    "manifest_index_sha256": "84d97e73f46080aeee8a8ea93c7358dde60f3a657c1ea81267e2f636473c40df",
+    "lineage_index_sha256": "74c6afecfb48fb2a1ea1a9a69b2b4db63e1d0094ab8e9a81efe5d4df033f94ec",
+    "dataset_id": "5353b62ea811c5bbe9b12acd6a66c3a2f26ce568fce153cd887aca52d5aca8b9"
+  },
+  "successor_weather_semantics": {
+    "temperature_variable": "Temperature_height_above_ground",
+    "vertical_coordinate_m": 2.0,
+    "forecast_lead_hours": "24_through_168_inclusive_every_3_hours",
+    "anchor_selection": "deterministic_native_0p25_degree_nearest_neighbour",
+    "temperature_conversion": "kelvin_to_celsius",
+    "fill_policy": "none",
+    "availability_delay_minutes": 370,
+    "missing_lead_policy": "only_manifested_archive_absence_or_manifested_2m_temperature_absence; no silent repair"
+  },
+  "fixed_authorities": {
+    "market_session_path_sha256": "0fe87ea79a56f98fb9d445e89e3d65b48ae7bb1175e06ba9b97da68ebe6b01e8",
+    "market_features_sha256": "b14ae69bd6ec2910f0cf56fe62f481016801308cebc6ef69e536aa7e593d072e",
+    "weather_feature_builder_sha256": "54ba3887ae6e977dc6820c4df32f00f0cb2561aa96bd6f401a094cdfc55653a8",
+    "issue426_search_plan_sha256": "aa909e230b6f222b88a9e5bfb387be399834adfd053c68a95c2efb5180710999",
+    "issue426_optimization_plan_sha256": "f1635e3bc092e537649ec236f42c69d71cb0a107ef5c3ad08db66a7eb3ab5d14",
+    "issue426_weather_contract_sha256": "1eb0057d1049f5287d747b3126d3a5a051b6c3dd03a7f2ed26793fff31bfcf93",
+    "issue452_power_result_sha256": "5d285c79f5b625cbdf8603c362bd42bca3227805105e1fd4272aea36f4ce8b99",
+    "issue452_miso_capture_audit_sha256": "c00681a596bf06e2e6912826dd3dddbf57b6ffee49120d69b7df391c3eb68ae5"
+  },
+  "weather_baseline_experiment": {
+    "rule": "rerun_the_registered_issue426_weather_search_and_outer_evaluations_against_the_frozen_successor_weather_dataset",
+    "matched_control": "unchanged_issue425_market_only_outer_control",
+    "selection": "prior_inner_evidence_only",
+    "output": "issue455-successor-weather-baseline-v1.json"
+  },
+  "power_weather_experiment": {
+    "activation_rule": "run_only_after_successor_weather_baseline_is_frozen_and_complete",
+    "power_authority": "reuse_the_closed_issue452_MISO_power_outer_selections_and_source_identity_without_reopening_power_source_search",
+    "interaction_search": "for_each_common_outer_block_keep_the_successor_weather_selected_configuration_and_role_fixed, keep_the_closed_issue452_selected_power_representation_fixed, and add_only_power_x_weather_interaction_terms",
+    "comparison": "candidate_market_plus_successor_weather_plus_power_x_weather_terms_versus_the_exact_same_successor_weather_configuration_with_only_the_power_x_weather_terms_ablated_on_the_same_power-supported_rows",
+    "retain_rule": "positive_mean_monthly_net_return_delta_over_the_matched_successor_weather_control_only",
+    "output": "issue455-power-weather-result-v1.json"
+  },
+  "stopping_rules": [
+    "Do not resume exact #426 weather archaeology as a prerequisite for successor scoring.",
+    "Do not change the frozen successor weather source/extraction identity after scoring begins.",
+    "Do not retune MISO publication semantics or source selection from interaction performance.",
+    "Preserve every attempted development trial in durable ledgers.",
+    "Do not access post-2022 protected confirmation, true-forward, prospective paper, Saxo SIM, or Saxo LIVE evidence."
+  ],
+  "protected_confirmation_accessed": false,
+  "true_forward_accessed": false,
+  "prospective_paper_accessed": false,
+  "saxo_sim_accessed": false,
+  "saxo_live_accessed": false,
+  "claim_boundary": "development-only successor weather baseline and MISO power×weather marginal-value research; no confirmation or live-edge claim"
+}

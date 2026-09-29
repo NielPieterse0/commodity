@@ -1,0 +1,110 @@
+{
+  "schema_version": 1,
+  "issue": 455,
+  "programme_issue": 393,
+  "plan_id": "issue455-recovery-plan-v1",
+  "status": "preregistered_before_full_acquisition_and_replay",
+  "evidence_class": "development",
+  "claim_boundary": "recover effective #426 weather inputs and execute registered power x weather only after exact replay reproduction",
+  "protected_confirmation_accessed": false,
+  "true_forward_accessed": false,
+  "paper_accessed": false,
+  "saxo_sim_accessed": false,
+  "saxo_live_accessed": false,
+  "authority": {
+    "issue426_weather_feature_contract_sha256": "1eb0057d1049f5287d747b3126d3a5a051b6c3dd03a7f2ed26793fff31bfcf93",
+    "issue426_source_plan_sha256": "a663e394cc493475948ca9558fb21dec410107ab872825fb92f2a11a4c22a1b1",
+    "issue426_optimization_plan_sha256": "f1635e3bc092e537649ec236f42c69d71cb0a107ef5c3ad08db66a7eb3ab5d14",
+    "issue426_search_plan_sha256": "aa909e230b6f222b88a9e5bfb387be399834adfd053c68a95c2efb5180710999",
+    "issue426_interaction_contract_sha256": "435b5b0ec89f45d91f19a5cad26ed3dfb5d2c513438cc6e37e6b11398f8edddb",
+    "issue426_result_sha256": "3e62ace9ae519aa87eec0818cd1087ff61f0e896f138bb0bc0da57230e738e42",
+    "issue426_trials_sha256": "92289f59005d086ac0e50d0cbaa75ecc75d0bf2356df0f96794291258661c662",
+    "issue452_weather_validation_sha256": "54244de745a797de35e261cfeec99ea82d62378a61bd103bcd7726dc4a9b645f",
+    "issue452_result_sha256": "5d285c79f5b625cbdf8603c362bd42bca3227805105e1fd4272aea36f4ce8b99"
+  },
+  "frozen_oracles": {
+    "weather_code_id": "06494ca61eb62764008b500e10812a66fef347ef175cd32cd488ea60be09b19a",
+    "weather_dataset_id": "9d02679d04d32ce3f62f854e09fabfa2af805a19ef2e03b27cdd12c717c6c235",
+    "replays": [
+      {
+        "trial_id": "a3f798e3807bcf9da45e1c840249eb36acab96fbaddbaed93726a960021ec2bd",
+        "outer_block_id": "outer-2019-2020",
+        "representation": "horizon",
+        "role": "regime",
+        "total_net_pnl_usd": -2000.0,
+        "trade_count": 165
+      },
+      {
+        "trial_id": "6d6a016e32b360c064ee55fb13dc235e8da303ffe200080d7bba7cfc1fa77b09",
+        "outer_block_id": "outer-2021-2022",
+        "representation": "anomaly",
+        "role": "filter_veto",
+        "total_net_pnl_usd": -3550.0,
+        "trade_count": 6
+      }
+    ]
+  },
+  "source_contract": {
+    "source_id": "ncar_gdex_d084001_gfs_0p25_issued_00utc",
+    "dataset_doi": "10.5065/D65D8PWK",
+    "support_start": "2015-01-15",
+    "support_end": "2022-12-31",
+    "expected_issue_days": 2908,
+    "cycle_utc_hour": 0,
+    "requested_lead_hours": {"start": 24, "end": 168, "step": 3},
+    "availability_delay_minutes": 370,
+    "temperature_variable": "Temperature_height_above_ground",
+    "vertical_coordinate_m": 2.0,
+    "temperature_units": "K"
+  },
+  "anchors": [
+    {"id": "midwest_chicago", "latitude": 41.8781, "longitude": -87.6298, "resolved_grid_latitude": 42.0, "resolved_grid_longitude": -87.75},
+    {"id": "northeast_new_york", "latitude": 40.7128, "longitude": -74.006, "resolved_grid_latitude": 40.75, "resolved_grid_longitude": -74.0},
+    {"id": "southeast_atlanta", "latitude": 33.749, "longitude": -84.388, "resolved_grid_latitude": 33.75, "resolved_grid_longitude": -84.5},
+    {"id": "south_central_houston", "latitude": 29.7604, "longitude": -95.3698, "resolved_grid_latitude": 29.75, "resolved_grid_longitude": -95.25}
+  ],
+  "extraction_contract": {
+    "native_source_path_template": "files/g/d084001/{year}/{yyyymmdd}/gfs.0p25.{yyyymmdd}00.f{lead_hours:03d}.grib2",
+    "catalog_url_template": "https://thredds.rda.ucar.edu/thredds/catalog/files/g/d084001/{year}/{yyyymmdd}/catalog.xml",
+    "ncss_url_template": "https://thredds.rda.ucar.edu/thredds/ncss/grid/files/g/d084001/{year}/{yyyymmdd}/gfs.0p25.{yyyymmdd}00.f{lead_hours:03d}.grib2",
+    "subset_format": "netcdf3",
+    "subset_bbox": {"north": 42.0, "south": 29.75, "west": -95.25, "east": -74.0},
+    "subset_query": {"var": "Temperature_height_above_ground", "vertCoord": 2.0},
+    "anchor_selection": "exact resolved native 0.25-degree grid coordinates; equivalent to nearest-neighbour from frozen anchor coordinates",
+    "kelvin_to_celsius_offset": -273.15,
+    "anchor_aggregation": "unweighted_anchor_mean",
+    "fill_policy": "none",
+    "one_subset_payload_per_available_lead": true,
+    "lineage_separation": "native source catalog/file identity and derived NCSS payload identity are recorded separately"
+  },
+  "allowed_archive_omission_reasons": [
+    "required 2m temperature variable absent from archived lead",
+    "archived forecast lead file absent"
+  ],
+  "initial_source_probe": {
+    "issue_date": "2015-01-15",
+    "lead_hours": 24,
+    "forecast_valid_at": "2015-01-16T00:00:00Z",
+    "native_grid": {"latitude_start": 90.0, "latitude_end": -90.0, "latitude_resolution": -0.25, "longitude_start": 0.0, "longitude_end": 359.75, "longitude_resolution": 0.25},
+    "bbox_netcdf3_bytes": 20492,
+    "anchor_temperature_k": {
+      "midwest_chicago": 268.24,
+      "northeast_new_york": 271.87,
+      "southeast_atlanta": 275.7,
+      "south_central_houston": 281.74
+    }
+  },
+  "reproduction_policy": {
+    "legacy_dataset_id_match": "record independently; required only for a byte-and-serialization-identical recovery claim",
+    "effective_input_gate": "both frozen replay cases must exactly reproduce total net PnL and trade count before power x weather execution",
+    "mismatch_action": "persist first differing effective weather input or unresolved source ambiguity and continue reconstruction without changing frozen scientific semantics",
+    "outcome_driven_tuning_forbidden": true
+  },
+  "power_weather_gate": {
+    "interaction": "power x weather",
+    "execute_only_after_effective_input_gate": true,
+    "power_authority": "closed issue452 MISO development power source/results",
+    "weather_authority": "reproduced issue426 development weather inputs",
+    "protected_evidence_allowed": false
+  }
+}
