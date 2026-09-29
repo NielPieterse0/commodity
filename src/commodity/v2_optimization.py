@@ -2923,6 +2923,48 @@ def prepare_issue452_power_weather_interaction_features(
     return output, output_columns
 
 
+def prepare_issue455_power_weather_interaction_features(
+    features: pd.DataFrame,
+    config: Mapping[str, object],
+    *,
+    power_representation: str,
+    weather_representation: str,
+) -> tuple[pd.DataFrame, list[str]]:
+    """Add power×weather terms to the exact successor-weather feature preparation.
+
+    The control columns are produced by the normal issue-426 weather preparation.
+    Interaction columns are transformed on the same rows and joined afterwards so
+    the candidate/control difference is only the power×weather terms.
+    """
+    weather_config = _issue426_transform_config(config)
+    baseline, baseline_columns = prepare_issue426_features(features, weather_config)
+    interaction, interaction_columns = prepare_issue452_power_weather_interaction_features(
+        features,
+        config,
+        power_representation=power_representation,
+        weather_representation=weather_representation,
+    )
+    added_columns = [
+        column
+        for column in interaction_columns
+        if column.startswith("feature_issue452_power_weather_")
+    ]
+    if not added_columns:
+        raise V2OptimizationError("issue-455 power-weather produced no interaction columns")
+    merged = baseline.merge(
+        interaction[["trade_date", "available_at", *added_columns]],
+        on=["trade_date", "available_at"],
+        how="inner",
+        validate="one_to_one",
+    )
+    output_columns = [*baseline_columns, *added_columns]
+    if merged.empty:
+        raise V2OptimizationError("issue-455 power-weather has no matched successor-weather rows")
+    if not np.isfinite(merged[output_columns].to_numpy(dtype=float)).all():
+        raise V2OptimizationError("issue-455 power-weather transformed features are non-finite")
+    return merged, output_columns
+
+
 def prepare_issue425_features(
     features: pd.DataFrame, config: Mapping[str, object]
 ) -> tuple[pd.DataFrame, list[str]]:
@@ -3573,6 +3615,78 @@ def _issue452_prepare_power_weather_origins(
     return attached, feature_columns
 
 
+def _issue455_prepare_power_weather_origins(
+    session_path: pd.DataFrame,
+    features: pd.DataFrame,
+    config: Mapping[str, object],
+    *,
+    round_trip_per_mmbtu: float,
+    feature_cache: dict[str, tuple[pd.DataFrame, list[str]]],
+    origin_cache: dict[str, tuple[pd.DataFrame, list[str]]],
+) -> tuple[pd.DataFrame, list[str]]:
+    from commodity.market_only_phase2 import (
+        _build_segmented_decision_origins,
+        _canonicalize_one_origin_per_fill,
+    )
+
+    power_representation = str(config["issue452.power_representation"])
+    weather_representation = str(config["issue452.weather_representation"])
+    transform_key = _sha256_payload(
+        {
+            "interaction": "issue455_power×successor_weather",
+            "power_representation": power_representation,
+            "weather_representation": weather_representation,
+            "weather_role": config["issue426.role"],
+            "lookback": config["data.lookback_sessions"],
+            "return_transform": config["transforms.return_transform"],
+            "scaling": config["transforms.scaling"],
+            "normalization": config["transforms.normalization_window_sessions"],
+            "winsor": config["transforms.winsor_quantile"],
+            "lag": config["transforms.lag_sessions"],
+            "rolling": config["transforms.rolling_stat_window_sessions"],
+            "market_family": config["data.feature_family_subset"],
+        }
+    )
+    prepared = feature_cache.get(transform_key)
+    if prepared is None:
+        prepared = prepare_issue455_power_weather_interaction_features(
+            features,
+            config,
+            power_representation=power_representation,
+            weather_representation=weather_representation,
+        )
+        feature_cache[transform_key] = prepared
+    prepared_features, _ = prepared
+    base_key = _sha256_payload(
+        {
+            "issue455_power_weather_transform": transform_key,
+            "horizon": int(config["target.horizon_sessions"]),
+        }
+    )
+    base = origin_cache.get(base_key)
+    if base is None:
+        origins, feature_columns = _build_segmented_decision_origins(
+            session_path,
+            prepared_features,
+            horizon_sessions=int(config["target.horizon_sessions"]),
+        )
+        if origins.empty:
+            raise V2OptimizationError("issue-455 power-weather target reconstruction produced no origins")
+        origins, _ = _canonicalize_one_origin_per_fill(origins)
+        base = (origins, feature_columns)
+        origin_cache[base_key] = base
+    base_origins, feature_columns = base
+    attached = _attach_issue425_targets(
+        base_origins,
+        session_path,
+        horizon_sessions=int(config["target.horizon_sessions"]),
+        role=str(config["target.target_role"]),
+        aggregation=str(config["target.aggregation"]),
+        round_trip_per_mmbtu=round_trip_per_mmbtu,
+    )
+    return attached, feature_columns
+
+
 def _issue426_apply_exposure_gate(
     origins: pd.DataFrame,
     forecasts: pd.DataFrame,
@@ -4196,6 +4310,117 @@ def _evaluate_issue452_power_weather_config(
         }
 
 
+def _evaluate_issue455_power_weather_config(
+    session_path: pd.DataFrame,
+    features: pd.DataFrame,
+    phase2_cfg: Mapping[str, Any],
+    risk: object,
+    costs: object,
+    config: Mapping[str, object],
+    blocks: Sequence[Mapping[str, str]],
+    *,
+    minimum_training_rows: int,
+    feature_cache: dict[str, tuple[pd.DataFrame, list[str]]],
+    origin_cache: dict[str, tuple[pd.DataFrame, list[str]]],
+) -> dict[str, object]:
+    """Evaluate incremental power×weather value over the matched weather baseline."""
+    try:
+        round_trip_per_mmbtu = float(costs.round_trip_usd) / float(
+            phase2_cfg["execution_contract"]["contract_multiplier_mmbtu"]
+        )
+        origins, feature_columns = _issue455_prepare_power_weather_origins(
+            session_path,
+            features,
+            config,
+            round_trip_per_mmbtu=round_trip_per_mmbtu,
+            feature_cache=feature_cache,
+            origin_cache=origin_cache,
+        )
+        interaction_columns = [
+            column
+            for column in feature_columns
+            if column.startswith("feature_issue452_power_weather_")
+        ]
+        control_columns = [
+            column
+            for column in feature_columns
+            if not column.startswith("feature_issue452_power_weather_")
+        ]
+        weather_columns = [
+            column
+            for column in control_columns
+            if column.startswith("feature_weather_")
+        ]
+        if not interaction_columns or not weather_columns:
+            raise V2OptimizationError(
+                "issue-455 power-weather matched successor-weather feature sets are invalid"
+            )
+        candidate_rows = [
+            _score_issue426_block(
+                origins,
+                feature_columns,
+                session_path,
+                config,
+                phase2_cfg,
+                risk,
+                costs,
+                block_id=str(block["id"]),
+                start_date=str(block["start"]),
+                end_date=str(block["end"]),
+                minimum_training_rows=minimum_training_rows,
+            )
+            for block in blocks
+        ]
+        control_rows = [
+            _score_issue426_block(
+                origins,
+                control_columns,
+                session_path,
+                config,
+                phase2_cfg,
+                risk,
+                costs,
+                block_id=str(block["id"]),
+                start_date=str(block["start"]),
+                end_date=str(block["end"]),
+                minimum_training_rows=minimum_training_rows,
+            )
+            for block in blocks
+        ]
+        candidate = _aggregate_issue425_blocks(candidate_rows)
+        control = _aggregate_issue425_blocks(control_rows)
+        candidate_score = candidate["monthly_score"]
+        control_score = control["monthly_score"]
+        if not isinstance(candidate_score, Mapping) or not isinstance(control_score, Mapping):
+            raise V2OptimizationError("issue-455 power-weather matched ablation score is invalid")
+        candidate["status"] = "complete"
+        candidate["matched_control"] = control
+        candidate["matched_control_kind"] = "successor_weather_same_config_interaction_terms_ablated"
+        candidate["ablation"] = {
+            "mean_monthly_net_return_delta": float(candidate_score["mean_monthly_net_return"])
+            - float(control_score["mean_monthly_net_return"]),
+            "total_net_pnl_usd_delta": float(candidate_score["total_net_pnl_usd"])
+            - float(control_score["total_net_pnl_usd"]),
+            "max_drawdown_fraction_delta": float(candidate_score["max_drawdown_fraction"])
+            - float(control_score["max_drawdown_fraction"]),
+            "transaction_cost_usd_delta": float(candidate_score["transaction_cost_usd"])
+            - float(control_score["transaction_cost_usd"]),
+            "trade_count_delta": int(candidate_score["trade_count"])
+            - int(control_score["trade_count"]),
+        }
+        candidate["interaction_feature_count"] = len(interaction_columns)
+        candidate["weather_control_feature_count"] = len(weather_columns)
+        return candidate
+    except (V2OptimizationError, ValueError, KeyError) as exc:
+        return {
+            "candidate_id": _sha256_payload(dict(config))[:20],
+            "status": "failed",
+            "champion_eligible": True,
+            "config": dict(config),
+            "reason": str(exc),
+        }
+
+
 def _evaluate_issue425_config(
     session_path: pd.DataFrame,
     features: pd.DataFrame,
@@ -4391,9 +4616,10 @@ def _issue426_evaluate_trial(
     code_id: str,
     feature_cache: dict[str, tuple[pd.DataFrame, list[str]]],
     origin_cache: dict[str, tuple[pd.DataFrame, list[str]]],
+    trial_issue: int = 426,
 ) -> dict[str, object]:
     trial_config = {
-        "issue": 426,
+        "issue": int(trial_issue),
         "stage": stage,
         "outer_block_id": outer_block_id,
         "selection_blocks": [str(block["id"]) for block in blocks],
@@ -4527,9 +4753,10 @@ def _issue452_evaluate_power_weather_trial(
     code_id: str,
     feature_cache: dict[str, tuple[pd.DataFrame, list[str]]],
     origin_cache: dict[str, tuple[pd.DataFrame, list[str]]],
+    trial_issue: int = 452,
 ) -> dict[str, object]:
     trial_config = {
-        "issue": 452,
+        "issue": int(trial_issue),
         "interaction": "power×weather",
         "stage": stage,
         "outer_block_id": outer_block_id,
@@ -4576,6 +4803,125 @@ def _issue452_evaluate_power_weather_trial(
     ledger.append(record)
     trial_cache[trial_id] = record
     return result
+
+
+def _issue455_evaluate_power_weather_trial(
+    *,
+    stage: str,
+    outer_block_id: str,
+    blocks: Sequence[Mapping[str, str]],
+    config: Mapping[str, object],
+    session_path: pd.DataFrame,
+    features: pd.DataFrame,
+    phase2_cfg: Mapping[str, Any],
+    risk: object,
+    costs: object,
+    minimum_training_rows: int,
+    ledger: TrialLedger,
+    trial_cache: dict[str, dict[str, object]],
+    dataset_id: str,
+    code_id: str,
+    feature_cache: dict[str, tuple[pd.DataFrame, list[str]]],
+    origin_cache: dict[str, tuple[pd.DataFrame, list[str]]],
+) -> dict[str, object]:
+    trial_config = {
+        "issue": 455,
+        "interaction": "power×successor_weather",
+        "stage": stage,
+        "outer_block_id": outer_block_id,
+        "selection_blocks": [str(block["id"]) for block in blocks],
+        "config": dict(config),
+    }
+    trial_id = build_trial_id(
+        trial_config,
+        seed=0,
+        dataset_id=dataset_id,
+        code_id=code_id,
+        evidence_class="development",
+    )
+    existing = trial_cache.get(trial_id)
+    if existing is not None:
+        return dict(existing["result"])
+    result = _evaluate_issue455_power_weather_config(
+        session_path,
+        features,
+        phase2_cfg,
+        risk,
+        costs,
+        config,
+        blocks,
+        minimum_training_rows=minimum_training_rows,
+        feature_cache=feature_cache,
+        origin_cache=origin_cache,
+    )
+    status = "complete" if result.get("status", "complete") == "complete" else "failed"
+    record: dict[str, object] = {
+        "trial_id": trial_id,
+        "status": status,
+        "evidence_class": "development",
+        "dataset_id": dataset_id,
+        "code_id": code_id,
+        "seed": 0,
+        "stage": stage,
+        "outer_block_id": outer_block_id,
+        "selection_blocks": [str(block["id"]) for block in blocks],
+        "interaction": "power×successor_weather",
+        "config": dict(config),
+        "result": result,
+    }
+    ledger.append(record)
+    trial_cache[trial_id] = record
+    return result
+
+
+def _search_issue455_power_weather_outer(
+    *,
+    outer_block: Mapping[str, str],
+    inner_blocks: Sequence[Mapping[str, str]],
+    power_selected_config: Mapping[str, object],
+    weather_selected_config: Mapping[str, object],
+    evaluator: Any,
+) -> dict[str, object]:
+    if not inner_blocks:
+        raise V2OptimizationError("issue-455 power-weather interaction has no common prior evidence")
+    power_representation = str(power_selected_config["issue426.representation"])
+    weather_representation = str(weather_selected_config["issue426.representation"])
+    config = dict(weather_selected_config)
+    config.update(
+        {
+            "issue426.family": "weather",
+            "issue426.representation": weather_representation,
+            "issue452.power_representation": power_representation,
+            "issue452.weather_representation": weather_representation,
+            "issue455.interaction": "power×successor_weather",
+            "issue455.interaction_transform_basis": "successor_weather_selected_transform",
+        }
+    )
+    outer_id = str(outer_block["id"])
+    result = evaluator(
+        "power_weather_incremental",
+        outer_id,
+        inner_blocks,
+        config,
+    )
+    if result.get("status", "complete") != "complete":
+        raise V2OptimizationError(
+            f"issue-455 power-weather interaction search failed: {result.get('reason')}"
+        )
+    return {
+        "outer_block_id": outer_id,
+        "selection_block_ids": [str(block["id"]) for block in inner_blocks],
+        "selected_config": config,
+        "selected_candidate_id": _sha256_payload(config)[:20],
+        "stage_summaries": [
+            {
+                "stage": "power_weather_incremental",
+                "trials": 1,
+                "winner": result,
+            }
+        ],
+        "trial_count": 1,
+    }
 
 
 def _search_issue452_power_weather_outer(
@@ -5671,6 +6017,171 @@ def run_issue452_power_outer_orchestration(
             }
         )
     return {"nested_outer": nested_outer, "skipped_outer": skipped_outer}
+
+
+def run_issue455_power_weather_outer_orchestration(
+    *,
+    outer_blocks: Sequence[Mapping[str, str]],
+    inner_blocks: Sequence[Mapping[str, str]],
+    power_nested_outer: Sequence[Mapping[str, object]],
+    weather_nested_outer: Sequence[Mapping[str, object]],
+    successor_weather_validation: Mapping[str, object],
+    evaluator: Any,
+) -> dict[str, object]:
+    """Score incremental power×weather value over a frozen #455 weather baseline.
+
+    This deliberately leaves the historical #452 exact-#426-reproduction gate unchanged.
+    The #455 path activates independently after the successor dataset passes its own
+    freeze/PIT boundary and uses the same-config weather ablation as its control.
+    """
+    if successor_weather_validation.get("protected_confirmation_accessed") is not False:
+        raise V2OptimizationError("issue-455 successor weather validation crossed protected evidence")
+    required = {
+        "dataset_frozen": True,
+        "complete": True,
+        "pit_safe": True,
+    }
+    failed = [
+        key for key, expected in required.items()
+        if successor_weather_validation.get(key) is not expected
+    ]
+    if failed:
+        return {
+            "interaction": "power×weather",
+            "disposition": "HOLD_SUCCESSOR_WEATHER_BASELINE_NOT_FROZEN",
+            "nested_outer": [],
+            "skipped_outer": [
+                {
+                    "outer_block": dict(outer),
+                    "disposition": "HOLD_SUCCESSOR_WEATHER_BASELINE_NOT_FROZEN",
+                    "failed_successor_gates": failed,
+                }
+                for outer in outer_blocks
+            ],
+            "nested_selection_score": None,
+            "matched_control_score": None,
+            "mean_monthly_net_return_delta": None,
+            "successor_weather_validation": dict(successor_weather_validation),
+        }
+    power_by_outer = {
+        str(item["outer_block"]["id"]): item for item in power_nested_outer
+    }
+    weather_by_outer = {
+        str(item["outer_block"]["id"]): item for item in weather_nested_outer
+    }
+    nested_outer: list[dict[str, object]] = []
+    skipped_outer: list[dict[str, object]] = []
+    for outer in outer_blocks:
+        outer_id = str(outer["id"])
+        power_item = power_by_outer.get(outer_id)
+        weather_item = weather_by_outer.get(outer_id)
+        if power_item is None or weather_item is None:
+            skipped_outer.append(
+                {
+                    "outer_block": dict(outer),
+                    "disposition": "HOLD_FAMILY_OUTER_UNAVAILABLE",
+                }
+            )
+            continue
+        common_ids = set(map(str, power_item["common_selection_block_ids"])) & set(
+            map(str, weather_item["common_selection_block_ids"])
+        )
+        common_blocks = [
+            block for block in inner_blocks if str(block["id"]) in common_ids
+        ]
+        if not common_blocks:
+            skipped_outer.append(
+                {
+                    "outer_block": dict(outer),
+                    "disposition": "HOLD_NO_COMMON_PRIOR_INTERACTION_EVIDENCE",
+                }
+            )
+            continue
+        try:
+            search = _search_issue455_power_weather_outer(
+                outer_block=outer,
+                inner_blocks=common_blocks,
+                power_selected_config=power_item["search"]["selected_config"],
+                weather_selected_config=weather_item["search"]["selected_config"],
+                evaluator=evaluator,
+            )
+        except V2OptimizationError as exc:
+            skipped_outer.append(
+                {
+                    "outer_block": dict(outer),
+                    "disposition": "HOLD_INTERACTION_SEARCH_FAILED",
+                    "reason": str(exc),
+                    "common_selection_block_ids": [str(block["id"]) for block in common_blocks],
+                }
+            )
+            continue
+        outer_result = evaluator(
+            "power_weather_outer_evaluation",
+            outer_id,
+            [outer],
+            search["selected_config"],
+        )
+        if outer_result.get("status", "complete") != "complete":
+            skipped_outer.append(
+                {
+                    "outer_block": dict(outer),
+                    "disposition": "HOLD_INTERACTION_OUTER_FAILED",
+                    "reason": outer_result.get("reason"),
+                    "common_selection_block_ids": [str(block["id"]) for block in common_blocks],
+                }
+            )
+            continue
+        nested_outer.append(
+            {
+                "outer_block": dict(outer),
+                "common_selection_block_ids": [str(block["id"]) for block in common_blocks],
+                "power_selected_representation": power_item["search"]["selected_config"][
+                    "issue426.representation"
+                ],
+                "weather_selected_representation": weather_item["search"]["selected_config"][
+                    "issue426.representation"
+                ],
+                "weather_selected_role": weather_item["search"]["selected_config"][
+                    "issue426.role"
+                ],
+                "search": search,
+                "selected_outer_result": outer_result,
+            }
+        )
+    if nested_outer:
+        candidate = _combine_issue425_score_summaries(
+            [item["selected_outer_result"]["monthly_score"] for item in nested_outer]
+        )
+        control = _combine_issue425_score_summaries(
+            [
+                item["selected_outer_result"]["matched_control"]["monthly_score"]
+                for item in nested_outer
+            ]
+        )
+        delta = float(candidate["mean_monthly_net_return"]) - float(
+            control["mean_monthly_net_return"]
+        )
+        disposition = (
+            "RETAIN_MATCHED_MARGINAL_VALUE"
+            if delta > 0.0
+            else "HOLD_NO_MATCHED_MARGINAL_VALUE"
+        )
+    else:
+        candidate = None
+        control = None
+        delta = None
+        disposition = "HOLD_NO_SCORABLE_OUTER_BLOCK"
+    return {
+        "interaction": "power×successor_weather",
+        "matched_control_kind": "successor_weather_same_config_interaction_terms_ablated",
+        "disposition": disposition,
+        "nested_outer": nested_outer,
+        "skipped_outer": skipped_outer,
+        "nested_selection_score": candidate,
+        "matched_control_score": control,
+        "mean_monthly_net_return_delta": delta,
+        "successor_weather_validation": dict(successor_weather_validation),
+    }
 
 
 def run_issue452_power_weather_outer_orchestration(

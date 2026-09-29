@@ -1,0 +1,93 @@
+{
+  "artifact_recovery_search": {
+    "checked": [
+      "git history/dangling objects and retained scratch from prior investigation",
+      "recoverable KIS quarantine records",
+      "quarantined python-runner runtime and pytest temp state",
+      "live KIS capability-result store"
+    ],
+    "issue452_raw_weather_recovered": false,
+    "original_issue426_raw_weather_recovered": false
+  },
+  "evidence_class": "development",
+  "frozen_issue426_authority": {
+    "commit": "7ce3876",
+    "execution_code_id": "06494ca61eb62764008b500e10812a66fef347ef175cd32cd488ea60be09b19a",
+    "issue425_result_sha256": "0558e45397d1efb95638ddc833f7ef5944dfb4835a92489195781b9a90445592",
+    "market_features_sha256": "b14ae69bd6ec2910f0cf56fe62f481016801308cebc6ef69e536aa7e593d072e",
+    "market_session_path_sha256": "0fe87ea79a56f98fb9d445e89e3d65b48ae7bb1175e06ba9b97da68ebe6b01e8",
+    "market_source_provenance_sha256": "dca3bf0692e9f3ccc52ec6c6aae81ebf668e17176e2fedf7ee0086b483bcef23",
+    "optimization_plan_sha256": "f1635e3bc092e537649ec236f42c69d71cb0a107ef5c3ad08db66a7eb3ab5d14",
+    "search_plan_sha256": "aa909e230b6f222b88a9e5bfb387be399834adfd053c68a95c2efb5180710999",
+    "source_plan_sha256": "a663e394cc493475948ca9558fb21dec410107ab872825fb92f2a11a4c22a1b1",
+    "weather_dataset_id": "9d02679d04d32ce3f62f854e09fabfa2af805a19ef2e03b27cdd12c717c6c235",
+    "weather_feature_contract_sha256": "1eb0057d1049f5287d747b3126d3a5a051b6c3dd03a7f2ed26793fff31bfcf93"
+  },
+  "isolation": {
+    "first_effective_input_divergence": null,
+    "market_identity_mismatch": false,
+    "remaining_question": "exact historical acquisition/extraction semantics or source payload differences inside the weather archive layer",
+    "weather_archive_or_effective_input_identity_mismatch": true,
+    "weather_feature_builder_code_drift": false
+  },
+  "issue": 455,
+  "market_reconstruction_gate": {
+    "feature_rows": 3088,
+    "market_features_sha256": "b14ae69bd6ec2910f0cf56fe62f481016801308cebc6ef69e536aa7e593d072e",
+    "market_source_provenance_sha256": "dca3bf0692e9f3ccc52ec6c6aae81ebf668e17176e2fedf7ee0086b483bcef23",
+    "matches_frozen_issue426": true,
+    "session_path_sha256": "0fe87ea79a56f98fb9d445e89e3d65b48ae7bb1175e06ba9b97da68ebe6b01e8",
+    "session_rows": 3897
+  },
+  "power_weather_interaction": {
+    "executed": false,
+    "reason": "exact frozen issue426 weather replay gate failed; continue weather recovery before interaction"
+  },
+  "programme_issue": 393,
+  "prospective_paper_accessed": false,
+  "protected_confirmation_accessed": false,
+  "replays": [
+    {
+      "actual_total_net_pnl_usd": 1120.0000000000182,
+      "actual_trade_count": 157,
+      "expected_total_net_pnl_usd": -1999.9999999999782,
+      "expected_trade_count": 165,
+      "outer_block_id": "outer-2019-2020",
+      "representation": "horizon",
+      "role": "regime",
+      "trial_id": "a3f798e3807bcf9da45e1c840249eb36acab96fbaddbaed93726a960021ec2bd"
+    },
+    {
+      "actual_total_net_pnl_usd": 15430.0,
+      "actual_trade_count": 39,
+      "expected_total_net_pnl_usd": -3549.9999999999995,
+      "expected_trade_count": 6,
+      "outer_block_id": "outer-2021-2022",
+      "representation": "anomaly",
+      "role": "filter_veto",
+      "trial_id": "6d6a016e32b360c064ee55fb13dc235e8da303ffe200080d7bba7cfc1fa77b09"
+    }
+  ],
+  "reproduces_frozen_issue426": false,
+  "saxo_live_accessed": false,
+  "saxo_sim_accessed": false,
+  "schema_version": 1,
+  "status": "exact_weather_replay_failed_recovery_continues",
+  "true_forward_accessed": false,
+  "weather_feature_builder": {
+    "byte_equivalent": true,
+    "current_function_sha256": "54ba3887ae6e977dc6820c4df32f00f0cb2561aa96bd6f401a094cdfc55653a8",
+    "preserved_issue426_function_sha256": "54ba3887ae6e977dc6820c4df32f00f0cb2561aa96bd6f401a094cdfc55653a8"
+  },
+  "weather_reconstruction": {
+    "archive_missing_lead_count": 23,
+    "candidate_dataset_id": "5353b62ea811c5bbe9b12acd6a66c3a2f26ce568fce153cd887aca52d5aca8b9",
+    "complete": true,
+    "dataset_id_matches_frozen": false,
+    "frozen_dataset_id": "9d02679d04d32ce3f62f854e09fabfa2af805a19ef2e03b27cdd12c717c6c235",
+    "legacy_manifest_index_sha256": "84d97e73f46080aeee8a8ea93c7358dde60f3a657c1ea81267e2f636473c40df",
+    "lineage_index_sha256": "74c6afecfb48fb2a1ea1a9a69b2b4db63e1d0094ab8e9a81efe5d4df033f94ec",
+    "snapshot_count": 2908,
+    "weather_rows": 2908
+  }
+}

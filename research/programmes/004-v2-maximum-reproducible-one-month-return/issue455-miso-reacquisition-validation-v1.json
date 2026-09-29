@@ -1,0 +1,103 @@
+{
+  "all_archive_and_feature_hashes_match_issue452": true,
+  "audit": {
+    "actual_load_current_day_forbidden": true,
+    "all_member_hashes_valid": true,
+    "archive_member_count": 4383,
+    "archive_month_count": 144,
+    "availability_basis": "miso_internal_published_date_plus_one_day_0000_fixed_est",
+    "calendar_day_count": 4383,
+    "excluded_member_count": 9,
+    "excluded_members": [
+      {
+        "published_date": null,
+        "reason": "invalid_or_mismatched_internal_published_date",
+        "report_day": "2011-05-04",
+        "source_member": "20110504_rf_al.xls",
+        "source_member_sha256": "db2564f8728232dae03796a224cd5a4dcd706e0889e431a1ebee46eb22d5c339"
+      },
+      {
+        "published_date": "2011-06-03",
+        "reason": "invalid_or_mismatched_internal_published_date",
+        "report_day": "2011-06-01",
+        "source_member": "20110601_rf_al.xls",
+        "source_member_sha256": "0dd5da94e67e43a3e80e947a95470f4e083588ed6121610eb3ebaaabaab4ae84"
+      },
+      {
+        "published_date": "2011-08-05",
+        "reason": "invalid_or_mismatched_internal_published_date",
+        "report_day": "2011-08-04",
+        "source_member": "20110804_rf_al.xls",
+        "source_member_sha256": "ee12967990295d099025760b8a7124e477c63a4617df7b0add845154685286e7"
+      },
+      {
+        "published_date": "2011-10-20",
+        "reason": "invalid_or_mismatched_internal_published_date",
+        "report_day": "2011-09-21",
+        "source_member": "20110921_rf_al.xls",
+        "source_member_sha256": "7479dea88a176e6b7f6f1e302416bff28b295fe2729b98146e7335809d95751d"
+      },
+      {
+        "published_date": "2020-05-28",
+        "reason": "invalid_or_mismatched_internal_published_date",
+        "report_day": "2020-05-26",
+        "source_member": "20200526_rf_al.xls",
+        "source_member_sha256": "5a5f8f5ef4c080a80b7b3bd120af6445783af9a40a05cb95048478d9888b9d7f"
+      },
+      {
+        "published_date": "2020-05-28",
+        "reason": "invalid_or_mismatched_internal_published_date",
+        "report_day": "2020-05-27",
+        "source_member": "20200527_rf_al.xls",
+        "source_member_sha256": "a9c40881dec3e82750561ed367c1fb969de4525af13a7c760bbf763a2e63b09b"
+      },
+      {
+        "published_date": "2021-03-08",
+        "reason": "invalid_or_mismatched_internal_published_date",
+        "report_day": "2021-03-06",
+        "source_member": "20210306_rf_al.xls",
+        "source_member_sha256": "47c7d2be09edf2d5a4b0cf3f9d6413a0f6a367fc12494a6662fe3e3810c6d708"
+      },
+      {
+        "published_date": "2021-12-16",
+        "reason": "invalid_or_mismatched_internal_published_date",
+        "report_day": "2021-12-09",
+        "source_member": "20211209_rf_al.xls",
+        "source_member_sha256": "7c0182adf43d76438c9a6cc3f5a41d21b909c188f3b0082b45b03805553fb47b"
+      },
+      {
+        "published_date": "2021-12-16",
+        "reason": "invalid_or_mismatched_internal_published_date",
+        "report_day": "2021-12-10",
+        "source_member": "20211210_rf_al.xls",
+        "source_member_sha256": "fa557548a77d65f73bb0add2499e4ec30acef0ffb00978f87a7f8f79e50d9185"
+      }
+    ],
+    "forecast_hours_per_accepted_day": 24,
+    "required_end": "2022-12-31",
+    "required_start": "2011-01-01",
+    "research_pit_ready": true,
+    "revision_status": "single_daily_issue_same_target_revision_not_identifiable",
+    "source_id": "miso_daily_regional_forecast_actual_load_miso_mtlf_v1",
+    "usable_day_count": 4374
+  },
+  "claim_boundary": "development-only exact reproduction of closed #452 MISO source inputs; no protected outcome evidence accessed",
+  "evidence_class": "development",
+  "exact_archive_zip_hash_matches": 144,
+  "exact_exclusion_hash_matches": 144,
+  "exact_normalized_feature_hash_matches": 144,
+  "issue": 455,
+  "mismatches": [],
+  "programme_issue": 393,
+  "prospective_paper_accessed": false,
+  "protected_confirmation_accessed": false,
+  "saxo_live_accessed": false,
+  "saxo_sim_accessed": false,
+  "schema_version": 1,
+  "source_id": "miso_daily_regional_forecast_actual_load_miso_mtlf_v1",
+  "source_issue": 452,
+  "status": "exact_issue452_miso_reacquisition_verified",
+  "tracked_issue452_capture_audit_sha256": "c00681a596bf06e2e6912826dd3dddbf57b6ffee49120d69b7df391c3eb68ae5",
+  "true_forward_accessed": false,
+  "verified_month_hash_records_sha256": "0417dac8bc20ba7a75af6329dba37010559bcbd545bcded4455b7abc65a1561e"
+}
