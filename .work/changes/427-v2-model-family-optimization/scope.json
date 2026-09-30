@@ -1,0 +1,37 @@
+{
+  "schema_version": 4,
+  "change_id": "427-v2-model-family-optimization",
+  "status": "active",
+  "branch": "change/427-v2-model-family-optimization",
+  "worktree": ".work/worktrees/427-v2-model-family-optimization",
+  "base": "main",
+  "outcome": "Execute bounded development-only V2.30 model-family and specialist-role optimization, preserve protected evidence, identify only reproducible incremental monthly economic value, and persist authoritative trial/evidence records.",
+  "owned_paths": [
+    ".work/changes/427-v2-model-family-optimization",
+    "research/programmes/004-v2-maximum-reproducible-one-month-return",
+    "src/commodity",
+    "scripts/research",
+    "tests",
+    "config/models.json",
+    "docs",
+    ".work/changes/427-v2-model-family-optimization/**"
+  ],
+  "shared_paths": [],
+  "excluded_paths": [],
+  "dependencies": [],
+  "integration_owner": null,
+  "complexity": "large",
+  "risk_triggers": [
+    "money",
+    "persistent_state"
+  ],
+  "base_evidence": {
+    "local_sha": "33702c39eeedc1c13652132e3076c30c6f2d603e",
+    "local_tree": "4d549c826f7373ccd5c0818f31e55c891caedef9",
+    "upstream_sha": "33702c39eeedc1c13652132e3076c30c6f2d603e",
+    "upstream_tree": "4d549c826f7373ccd5c0818f31e55c891caedef9",
+    "upstream_ref": "refs/remotes/origin/main",
+    "evidence_source": "local_remote_tracking_ref",
+    "relation": "same_sha"
+  }
+}

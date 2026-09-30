@@ -1,0 +1,50 @@
+<!-- GENERATED FILE. DO NOT EDIT. Source: research/programmes/004-v2-maximum-reproducible-one-month-return/issue427-preflight-v1.json -->
+
+# Issue427 Preflight V1
+
+Source: `research/programmes/004-v2-maximum-reproducible-one-month-return/issue427-preflight-v1.json`
+
+## Overview
+
+| Field | Value |
+| --- | --- |
+| `family_count` | 10 |
+| `feature_rows` | 3088 |
+| `issue` | 427 |
+| `issue425_search_plan_sha256` | 1ad4ce75d0c52c936e4d3135a0349deeb1ffde19c0c6bafbc99a05cb88b79e85 |
+| `issue448_feature_cache_sha256` | 21358bc35eb59f81ecbc0a413676c704da820c5dad514b331aa5d95fd34fa49b |
+| `issue448_preflight_sha256` | b266e5e8fb4fd069c7a054512ce2b33e401c07f8f7223c95c8f4850f0c33d4ea |
+| `model_code_sha256` | 3934a1f4a0bc69163eae1c19998d161f72b6a89c315a306fa6fcf23913fcbd63 |
+| `preflight_sha256` | 2c2c4b7351d7c13b14983e5a52c1b866a1d335186871cc6979a1d3970c0c9c58 |
+| `prereg_sha256` | 3ff25238408e701f344c7aacb0c60205a037eb4f97d0a7511e46d31c564dc551 |
+| `protected_confirmation_accessed` | false |
+| `runner_sha256` | 96658dcec1c3c0ffb7fde600a9dd38e027b23b71835991763b48c5b380b5c1c6 |
+| `schema_version` | 1 |
+| `scoring_performed` | false |
+| `session_rows` | 3897 |
+| `source_evidence_sha256` | 28b69c78ab8dc652adf90ee465229effe20e738e475d833e175825dae8e38226 |
+| `status` | PASS |
+| `v2_code_sha256` | 810c16c9af4c7a8a0e096dcab3e3d94e6fb8b6e0c818547a9efd7b4bcd27c2ee |
+
+## Structure
+
+| Field | Shape |
+| --- | --- |
+| `failures` | array (0 items) |
+| `family_count` | int |
+| `feature_rows` | int |
+| `issue` | int |
+| `issue425_search_plan_sha256` | str |
+| `issue448_feature_cache_sha256` | str |
+| `issue448_preflight_sha256` | str |
+| `model_code_sha256` | str |
+| `preflight_sha256` | str |
+| `prereg_sha256` | str |
+| `protected_confirmation_accessed` | bool |
+| `runner_sha256` | str |
+| `schema_version` | int |
+| `scoring_performed` | bool |
+| `session_rows` | int |
+| `source_evidence_sha256` | str |
+| `status` | str |
+| `v2_code_sha256` | str |

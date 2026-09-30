@@ -1,0 +1,142 @@
+{
+  "schema_version": 1,
+  "issue": 427,
+  "programme_id": "004-v2-maximum-reproducible-one-month-return",
+  "status": "frozen_before_issue427_scoring",
+  "scientific_role": "L3_preregistration",
+  "claim_boundary": "development_only_not_confirmation",
+  "evidence_boundary": {
+    "allowed_classes": ["development", "rolling_research_oos"],
+    "latest_allowed_trade_date": "2022-12-31",
+    "prohibited_classes": ["reserved_confirmation", "true_forward", "paper", "sim", "live"],
+    "protected_confirmation_accessed": false
+  },
+  "authority": {
+    "github_issue": 427,
+    "registry_path": "config/v2_variable_registry.json",
+    "registry_sha256": "8608d81adbbf53c6df0deb84056d51feecf2cd4abc06964998920687730e2a97",
+    "phase2_path": "config/phase2_market_only.json",
+    "phase2_sha256": "36900d9d28d2807b5e28d42fbcf272a06971af3123dc96a03425c26c10daab11"
+  },
+  "upstream_evidence": {
+    "issue425_result_sha256": "0558e45397d1efb95638ddc833f7ef5944dfb4835a92489195781b9a90445592",
+    "issue448_result_sha256": "71527c5ecde96fcfea9bec4b6a557650d41bae349614d66917bd9a0ecb83368b",
+    "issue448_handoff_sha256": "ce16fda3dd5f58e8658d48a8d428b1dcda96a77fa059b11527532306cb410ad5",
+    "phase4_specialist_audit_sha256": "a06ae949dc207aa2d459411b5542b51ddbb7b9bb572e0f9d8021008e0f5168ea",
+    "phase5_policy_result_sha256": "fc2dee42b86020bc36e1bcc9a2aaaadba84545e3c290ea30f1e5e4f49ad917c9"
+  },
+  "frozen_handoff": {
+    "target_config_source": "issue425-result-v1.latest_preregistered_handoff.config",
+    "feature_source": "issue448 nested selected representations only",
+    "retained_feature_families": [
+      "market_structure.positioning",
+      "ta.oscillator_mean_reversion",
+      "ta.range_breakout",
+      "ta.trend_strength",
+      "ta.volume_confirmation"
+    ],
+    "conditional_feature_families": ["market_structure.open_interest"],
+    "held_feature_families": [
+      "market_structure.carry_basis",
+      "market_structure.curve",
+      "ta.trend_momentum",
+      "ta.volatility_envelope"
+    ],
+    "source_gated_holds": ["storage_consensus_surprise", "options_implied", "event_timing"]
+  },
+  "validation": {
+    "outer_blocks": ["outer-2017-2018", "outer-2019-2020", "outer-2021-2022"],
+    "selection_rule": "prior_inner_blocks_only",
+    "feature_representation_rule": "inherit_issue448_nested_selection_without_reselection",
+    "matched_rows_required": true,
+    "point_in_time_required": true
+  },
+  "model_search": {
+    "training_windows": ["expanding", "rolling_252", "rolling_504", "rolling_756"],
+    "expanding_mean": [{"training_window": "expanding"}],
+    "ridge": {
+      "alpha": [0.1, 1.0, 10.0, 100.0],
+      "training_windows": ["expanding", "rolling_252", "rolling_504", "rolling_756"]
+    },
+    "hist_gb_profiles": [
+      {"learning_rate": 0.03, "max_iter": 50, "max_leaf_nodes": 15},
+      {"learning_rate": 0.05, "max_iter": 20, "max_leaf_nodes": 15},
+      {"learning_rate": 0.05, "max_iter": 50, "max_leaf_nodes": 7},
+      {"learning_rate": 0.05, "max_iter": 50, "max_leaf_nodes": 15},
+      {"learning_rate": 0.05, "max_iter": 50, "max_leaf_nodes": 31},
+      {"learning_rate": 0.05, "max_iter": 100, "max_leaf_nodes": 15},
+      {"learning_rate": 0.10, "max_iter": 50, "max_leaf_nodes": 15}
+    ],
+    "hist_gb_training_windows": ["expanding", "rolling_252", "rolling_504", "rolling_756"],
+    "candidate_count": 45,
+    "selection_objective": "mean_monthly_net_return",
+    "tie_breakers": ["lower_max_drawdown_fraction", "lower_complexity", "stable_candidate_id"]
+  },
+  "feature_search": {
+    "candidate_sets": [
+      "market_control",
+      "market_plus_positioning",
+      "market_plus_oscillator_mean_reversion",
+      "market_plus_range_breakout",
+      "market_plus_trend_strength",
+      "market_plus_volume_confirmation",
+      "market_plus_all_stable_retained"
+    ],
+    "eligible_outer_blocks": ["outer-2019-2020", "outer-2021-2022"],
+    "model_binding": "use_model_selected_from_prior_inner_model_search_for_each_outer",
+    "ablation": "same_model_same_rows_market_control",
+    "combined_set_requires_all_component_rows_complete": true
+  },
+  "open_interest_lane": {
+    "role": "conditional_specialist_not_pooled_winner",
+    "eligible_outer_blocks": ["outer-2020-oi", "outer-2021-2022"],
+    "evaluation_roles": ["representation_feature", "trade_admission", "confidence", "veto"],
+    "reason": "issue448_effect_sign_changed_between_2020_and_2021_2022"
+  },
+  "volatility_tail_lane": {
+    "specialists": ["ewma", "har", "garch_family"],
+    "state_features": ["jump_intensity", "tail_loss_state", "vol_of_vol"],
+    "evaluation_roles": ["direction", "trade_admission", "confidence", "risk_control"],
+    "selection_rule": "prior_inner_blocks_only",
+    "direct_direction_requires_positive_matched_economic_value": true
+  },
+  "foundation_lane": {
+    "models": ["timesfm_2_5", "kronos_base", "chronos_2"],
+    "moirai_2_small_role": "research_only_non_promotable",
+    "usage_modes": ["direct_forecast", "representation_feature", "path_summary_feature", "probabilistic_summary"],
+    "decision_roles": ["confidence", "filter", "veto"],
+    "context_policy": "bounded_registered_contexts_with_existing_pinned_artifacts_only",
+    "no_new_checkpoint_download": true
+  },
+  "promotion_gates": {
+    "development_advantage": {
+      "mean_outer_monthly_net_return_delta_gt": 0.0,
+      "nonnegative_outer_fraction_gte": 0.6666666666666666,
+      "matched_baseline_required": true,
+      "kill_trigger_regression_allowed": false,
+      "protected_confirmation_required": false
+    },
+    "confirmed_edge": {
+      "allowed_in_issue427": false,
+      "reason": "reserved confirmation remains protected"
+    }
+  },
+  "budgets": {
+    "model_candidates": 45,
+    "stable_feature_sets": 7,
+    "foundation_policy_configs_max": 64,
+    "volatility_tail_configs_max": 48,
+    "open_interest_configs_max": 24,
+    "trial_ledger_required": true,
+    "failed_trials_count_against_budget": true
+  },
+  "stopping": {
+    "positive_development_advantage_does_not_end_acceptance_coverage": true,
+    "stop_family_when": [
+      "deterministically_dominated",
+      "repeated_material_underperformance_across_chronological_development_blocks",
+      "preregistered_family_budget_exhausted"
+    ],
+    "single_bad_month_is_not_retirement_evidence": true
+  }
+}

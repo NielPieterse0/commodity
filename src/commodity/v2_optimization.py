@@ -3185,19 +3185,25 @@ def _issue425_labels(
     raise V2OptimizationError(f"unsupported issue-425 target role: {role}")
 
 
-def _issue425_model(model_id: str) -> object | None:
+def _issue425_model(
+    model_id: str, config: Mapping[str, object] | None = None
+) -> object | None:
     from commodity.models.baselines import (
         HistGradientBoostingReturnModel,
         RidgeReturnModel,
     )
 
+    cfg = config or {}
     if model_id == "expanding_mean":
         return None
     if model_id == "ridge":
-        return RidgeReturnModel(alpha=10.0)
+        return RidgeReturnModel(alpha=float(cfg.get("model.ridge_alpha", 10.0)))
     if model_id == "hist_gb":
         return HistGradientBoostingReturnModel(
-            learning_rate=0.05, max_iter=20, max_leaf_nodes=15, random_state=0
+            learning_rate=float(cfg.get("model.hist_gb_learning_rate", 0.05)),
+            max_iter=int(cfg.get("model.hist_gb_max_iter", 20)),
+            max_leaf_nodes=int(cfg.get("model.hist_gb_max_leaf_nodes", 15)),
+            random_state=0,
         )
     raise V2OptimizationError(f"unsupported issue-425 model: {model_id}")
 
@@ -3258,7 +3264,7 @@ def _fit_issue425_forecast_window(
     x_train = training[list(feature_columns)]
     x_eval = evaluation[list(feature_columns)]
     model_id = str(config["model.model_id"])
-    model = _issue425_model(model_id)
+    model = _issue425_model(model_id, config)
     if model is None:
         mean_value = float(y_train.mean())
         train_prediction = np.full(len(training), mean_value, dtype=float)
