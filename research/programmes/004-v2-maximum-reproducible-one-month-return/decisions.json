@@ -9,6 +9,24 @@
       "decision": "Build and prove the common V2 optimization harness on pre-2023 development evidence only; preserve V1 unchanged and prohibit reserved-confirmation, true-forward, paper, SIM and LIVE evidence from search.",
       "status": "active",
       "source_record": "config/v2_variable_registry.json"
+    },
+    {
+      "id": "issue-448-retain-matched-marginal-families",
+      "decision": "Carry market_structure.open_interest, market_structure.positioning, ta.oscillator_mean_reversion, ta.range_breakout, ta.trend_strength, and ta.volume_confirmation forward as development-supported matched marginal feature families for downstream model/regime/risk work; do not treat retention as protected-confirmation validation or as evidence of uniformly positive value across every outer block.",
+      "status": "active",
+      "source_record": "research/programmes/004-v2-maximum-reproducible-one-month-return/issue448-result-v1.json"
+    },
+    {
+      "id": "issue-448-conditional-role-handoff",
+      "decision": "Do not retain carry/basis, curve, trend-momentum, or volatility-envelope families for unconditional matched marginal credit in issue448; preserve them only as bounded downstream conditional/regime-role candidates where issue428 can test interactions without rewriting the issue448 result.",
+      "status": "active",
+      "source_record": "research/programmes/004-v2-maximum-reproducible-one-month-return/issue448-downstream-handoff-v1.json"
+    },
+    {
+      "id": "issue-448-source-gated-holds",
+      "decision": "Keep event timing, storage consensus surprise, and options-implied activation on HOLD until their registered PIT/source gates are proven; authorize no billable options acquisition from issue448. Volatility/tail specialists remain a downstream-only handoff to issues 427/428/430.",
+      "status": "active",
+      "source_record": "research/programmes/004-v2-maximum-reproducible-one-month-return/issue448-downstream-handoff-v1.json"
     }
   ]
 }

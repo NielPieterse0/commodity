@@ -3,6 +3,77 @@
   "zoom_level": "L1",
   "programme_id": "004-v2-maximum-reproducible-one-month-return",
   "registry_id": "programme-004-revisit-v1",
-  "triggers": [],
-  "evaluation_history": []
+  "triggers": [
+    {
+      "trigger_id": "issue448-event-timing-calendar",
+      "source_record": "research/programmes/004-v2-maximum-reproducible-one-month-return/issue448-downstream-handoff-v1.json",
+      "disposition": "hold",
+      "status": "active",
+      "evidence_input": "research/programmes/004-v2-maximum-reproducible-one-month-return/issue448-downstream-handoff-v1.json",
+      "metric": "event_timing.disposition",
+      "operator": "eq",
+      "threshold": "SCORE",
+      "successor_action": {
+        "kind": "create_successor",
+        "trace_ref": "github:NielPieterse0/commodity#448"
+      }
+    },
+    {
+      "trigger_id": "issue448-storage-consensus-source",
+      "source_record": "research/programmes/004-v2-maximum-reproducible-one-month-return/issue448-downstream-handoff-v1.json",
+      "disposition": "hold",
+      "status": "active",
+      "evidence_input": "research/programmes/004-v2-maximum-reproducible-one-month-return/issue448-downstream-handoff-v1.json",
+      "metric": "storage_consensus_surprise.disposition",
+      "operator": "eq",
+      "threshold": "SCORE",
+      "successor_action": {
+        "kind": "create_successor",
+        "trace_ref": "github:NielPieterse0/commodity#448"
+      }
+    },
+    {
+      "trigger_id": "issue448-options-zero-spend-activation",
+      "source_record": "research/programmes/004-v2-maximum-reproducible-one-month-return/issue448-downstream-handoff-v1.json",
+      "disposition": "hold",
+      "status": "active",
+      "evidence_input": "research/programmes/004-v2-maximum-reproducible-one-month-return/issue448-downstream-handoff-v1.json",
+      "metric": "options_implied.activation_disposition",
+      "operator": "eq",
+      "threshold": "SCORE",
+      "successor_action": {
+        "kind": "create_successor",
+        "trace_ref": "github:NielPieterse0/commodity#448"
+      }
+    }
+  ],
+  "evaluation_history": [
+    {
+      "evaluation_id": "issue448-event-timing-calendar-20260930",
+      "evaluated_at": "2026-09-30T09:30:04+02:00",
+      "trigger_id": "issue448-event-timing-calendar",
+      "observed": "HOLD_NO_PROVEN_HISTORICAL_WNGSR_RELEASE_CALENDAR",
+      "satisfied": false,
+      "evidence_ref": "research/programmes/004-v2-maximum-reproducible-one-month-return/issue448-downstream-handoff-v1.json",
+      "successor_ref": null
+    },
+    {
+      "evaluation_id": "issue448-storage-consensus-source-20260930",
+      "evaluated_at": "2026-09-30T09:30:04+02:00",
+      "trigger_id": "issue448-storage-consensus-source",
+      "observed": "HOLD",
+      "satisfied": false,
+      "evidence_ref": "research/programmes/004-v2-maximum-reproducible-one-month-return/issue448-downstream-handoff-v1.json",
+      "successor_ref": null
+    },
+    {
+      "evaluation_id": "issue448-options-zero-spend-activation-20260930",
+      "evaluated_at": "2026-09-30T09:30:04+02:00",
+      "trigger_id": "issue448-options-zero-spend-activation",
+      "observed": "HOLD",
+      "satisfied": false,
+      "evidence_ref": "research/programmes/004-v2-maximum-reproducible-one-month-return/issue448-downstream-handoff-v1.json",
+      "successor_ref": null
+    }
+  ]
 }

@@ -1275,3 +1275,240 @@ def test_databento_offline_statistics_fails_closed_without_canonical_stats(tmp_p
             statistics_path,
             dataset="GLBX.MDP3",
         )
+
+
+def test_issue448_databento_open_interest_decoder_selects_stat9_and_preserves_clocks(tmp_path) -> None:
+    import databento_dbn as dbn
+
+    from commodity.providers.databento_futures import decode_databento_open_interest_dbn
+
+    ts = 1735776000000000000
+    metadata = dbn.Metadata(
+        dataset="GLBX.MDP3",
+        start=ts,
+        stype_in=dbn.SType.INSTRUMENT_ID,
+        stype_out=dbn.SType.INSTRUMENT_ID,
+        schema=dbn.Schema.STATISTICS,
+        symbols=["42"],
+        end=ts + 86400 * 10**9,
+    )
+    settlement = dbn.StatMsg(
+        publisher_id=1, instrument_id=42, ts_event=ts + 100, ts_recv=ts + 200,
+        ts_ref=ts, price=3_080_000_000, quantity=dbn.UNDEF_STAT_QUANTITY,
+        stat_type=dbn.StatType.SETTLEMENT_PRICE, stat_flags=1,
+    )
+    open_interest = dbn.StatMsg(
+        publisher_id=1, instrument_id=42, ts_event=ts + 300, ts_recv=ts + 400,
+        ts_ref=ts, price=dbn.UNDEF_PRICE, quantity=4321,
+        stat_type=dbn.StatType.OPEN_INTEREST, stat_flags=0,
+    )
+    path = tmp_path / "sample.statistics.dbn"
+    path.write_bytes(metadata.encode() + bytes(settlement) + bytes(open_interest))
+
+    frame, provenance = decode_databento_open_interest_dbn(path)
+
+    assert frame["stat_type"].tolist() == [9]
+    assert frame["quantity"].tolist() == [4321]
+    assert frame["ts_ref"].tolist() == [pd.Timestamp(ts, unit="ns", tz="UTC")]
+    assert frame["ts_event"].tolist() == [pd.Timestamp(ts + 300, unit="ns", tz="UTC")]
+    assert frame["ts_recv"].tolist() == [pd.Timestamp(ts + 400, unit="ns", tz="UTC")]
+    assert provenance["schema"] == "statistics"
+    assert provenance["source_sha256"] == hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+def test_issue448_databento_open_interest_decoder_fails_when_stat9_absent(tmp_path) -> None:
+    from commodity.providers.databento_futures import (
+        DatabentoOfflineDecodeError,
+        decode_databento_open_interest_dbn,
+    )
+
+    path = tmp_path / "settlement-only.statistics.dbn"
+    path.write_bytes(_dbn_bytes("statistics"))
+    with pytest.raises(DatabentoOfflineDecodeError, match="open interest"):
+        decode_databento_open_interest_dbn(path)
+
+
+def test_issue448_open_interest_contract_decoder_maps_symbol_identity_and_publication(monkeypatch, tmp_path) -> None:
+    from commodity.providers import databento_futures as module
+
+    raw = pd.DataFrame(
+        {
+            "instrument_id": [42],
+            "ts_event": pd.to_datetime(["2022-06-02T18:30:25Z"]),
+            "ts_recv": pd.to_datetime(["2022-06-02T18:30:26Z"]),
+            "ts_ref": pd.to_datetime(["2022-06-01T00:00:00Z"]),
+            "price": [float("nan")],
+            "quantity": [4321],
+            "stat_type": [9],
+            "stat_flags": [0],
+        }
+    )
+    monkeypatch.setattr(module, "decode_databento_open_interest_dbn", lambda path, dataset=module.DATABENTO_DATASET, chunk_size=250_000: (raw, {"schema": "statistics"}))
+    monkeypatch.setattr(module, "_read_databento_dbn_symbol_mappings", lambda *args, **kwargs: {"NGN2": [{"start_date": pd.Timestamp("2022-01-01").date(), "end_date": pd.Timestamp("2023-01-01").date(), "symbol": "42"}]})
+    definitions = pd.DataFrame(
+        {
+            "raw_symbol": ["NGN2"],
+            "instrument_class": ["F"],
+            "asset": ["NG"],
+            "expiration": pd.to_datetime(["2022-06-28T00:00:00Z"]),
+            "activation": pd.to_datetime(["2021-01-01T00:00:00Z"]),
+            "exchange": ["NYMEX"],
+            "ts_event": pd.to_datetime(["2021-01-01T00:00:00Z"]),
+            "ts_recv": pd.to_datetime(["2021-01-01T00:00:01Z"]),
+        }
+    )
+    path = tmp_path / "oi.dbn"
+    path.write_bytes(b"unused")
+
+    frame, provenance = module.decode_databento_open_interest_contracts_dbn(
+        definitions, path, product_code="NG"
+    )
+
+    assert frame.to_dict("records") == [
+        {
+            "contract_id": "NGN2@2022-06-28",
+            "observed_for": pd.Timestamp("2022-06-01T00:00:00Z"),
+            "available_at": pd.Timestamp("2022-06-02T18:30:26Z"),
+            "open_interest": 4321.0,
+        }
+    ]
+    assert provenance["schema"] == "statistics"
+    assert provenance["open_interest_accounting"] == {
+        "source_rows": 1,
+        "accepted_rows": 1,
+        "rejected_rows": 0,
+        "excluded_non_target_symbol": 0,
+        "excluded_before_target_activation": 0,
+        "undefined_reference_timestamp": 0,
+        "duplicate_publication_rows": 0,
+    }
+
+
+def test_issue448_open_interest_contract_decoder_retains_publication_revisions(monkeypatch, tmp_path) -> None:
+    from commodity.providers import databento_futures as module
+
+    raw = pd.DataFrame(
+        {
+            "instrument_id": [42, 42],
+            "ts_event": pd.to_datetime(["2022-06-02T02:00:00Z", "2022-06-02T14:00:00Z"]),
+            "ts_recv": pd.to_datetime(["2022-06-02T02:00:01Z", "2022-06-02T14:00:01Z"]),
+            "ts_ref": pd.to_datetime(["2022-06-01T00:00:00Z", "2022-06-01T00:00:00Z"]),
+            "price": [float("nan"), float("nan")],
+            "quantity": [4300, 4321],
+            "stat_type": [9, 9],
+            "stat_flags": [0, 0],
+        }
+    )
+    monkeypatch.setattr(module, "decode_databento_open_interest_dbn", lambda *args, **kwargs: (raw, {"schema": "statistics"}))
+    monkeypatch.setattr(module, "_read_databento_dbn_symbol_mappings", lambda *args, **kwargs: {"NGN2": [{"start_date": pd.Timestamp("2022-01-01").date(), "end_date": pd.Timestamp("2023-01-01").date(), "symbol": "42"}]})
+    definitions = pd.DataFrame(
+        {
+            "raw_symbol": ["NGN2"], "instrument_class": ["F"], "asset": ["NG"],
+            "expiration": pd.to_datetime(["2022-06-28T00:00:00Z"]),
+            "activation": pd.to_datetime(["2021-01-01T00:00:00Z"]), "exchange": ["NYMEX"],
+            "ts_event": pd.to_datetime(["2021-01-01T00:00:00Z"]),
+            "ts_recv": pd.to_datetime(["2021-01-01T00:00:01Z"]),
+        }
+    )
+    path = tmp_path / "oi.dbn"
+    path.write_bytes(b"unused")
+    frame, _ = module.decode_databento_open_interest_contracts_dbn(definitions, path, product_code="NG")
+
+    assert frame["open_interest"].tolist() == [4300.0, 4321.0]
+    assert frame["available_at"].is_monotonic_increasing
+
+
+def test_issue448_open_interest_contract_decoder_accepts_zero_for_inactive_contract(monkeypatch, tmp_path) -> None:
+    from commodity.providers import databento_futures as module
+
+    raw = pd.DataFrame({
+        "instrument_id": [42], "ts_event": pd.to_datetime(["2022-06-02T14:00:00Z"]),
+        "ts_recv": pd.to_datetime(["2022-06-02T14:00:01Z"]),
+        "ts_ref": pd.to_datetime(["2022-06-01T00:00:00Z"]), "price": [float("nan")],
+        "quantity": [0], "stat_type": [9], "stat_flags": [0],
+    })
+    monkeypatch.setattr(module, "decode_databento_open_interest_dbn", lambda *args, **kwargs: (raw, {"schema": "statistics"}))
+    monkeypatch.setattr(module, "_read_databento_dbn_symbol_mappings", lambda *args, **kwargs: {"NGN2": [{"start_date": pd.Timestamp("2022-01-01").date(), "end_date": pd.Timestamp("2023-01-01").date(), "symbol": "42"}]})
+    definitions = pd.DataFrame({
+        "raw_symbol": ["NGN2"], "instrument_class": ["F"], "asset": ["NG"],
+        "expiration": pd.to_datetime(["2022-06-28T00:00:00Z"]), "activation": pd.to_datetime(["2021-01-01T00:00:00Z"]),
+        "exchange": ["NYMEX"], "ts_event": pd.to_datetime(["2021-01-01T00:00:00Z"]),
+        "ts_recv": pd.to_datetime(["2021-01-01T00:00:01Z"]),
+    })
+    path = tmp_path / "oi.dbn"
+    path.write_bytes(b"unused")
+    frame, _ = module.decode_databento_open_interest_contracts_dbn(definitions, path, product_code="NG")
+    assert frame["open_interest"].tolist() == [0.0]
+
+
+def test_issue448_open_interest_contract_decoder_drops_undefined_reference_timestamp(monkeypatch, tmp_path) -> None:
+    from commodity.providers import databento_futures as module
+
+    raw = pd.DataFrame({
+        "instrument_id": [42, 42],
+        "ts_event": pd.to_datetime(["2022-06-01T12:00:00Z", "2022-06-02T14:00:00Z"]),
+        "ts_recv": pd.to_datetime(["2022-06-01T12:00:01Z", "2022-06-02T14:00:01Z"]),
+        "ts_ref": [pd.Timestamp(-1, unit="ns", tz="UTC"), pd.Timestamp("2022-06-01T00:00:00Z")],
+        "price": [float("nan"), float("nan")], "quantity": [9999, 4321],
+        "stat_type": [9, 9], "stat_flags": [0, 0],
+    })
+    monkeypatch.setattr(module, "decode_databento_open_interest_dbn", lambda *args, **kwargs: (raw, {"schema": "statistics"}))
+    monkeypatch.setattr(module, "_read_databento_dbn_symbol_mappings", lambda *args, **kwargs: {"NGN2": [{"start_date": pd.Timestamp("2022-01-01").date(), "end_date": pd.Timestamp("2023-01-01").date(), "symbol": "42"}]})
+    definitions = pd.DataFrame({
+        "raw_symbol": ["NGN2"], "instrument_class": ["F"], "asset": ["NG"],
+        "expiration": pd.to_datetime(["2022-06-28T00:00:00Z"]), "activation": pd.to_datetime(["2021-01-01T00:00:00Z"]),
+        "exchange": ["NYMEX"], "ts_event": pd.to_datetime(["2021-01-01T00:00:00Z"]),
+        "ts_recv": pd.to_datetime(["2021-01-01T00:00:01Z"]),
+    })
+    path = tmp_path / "oi.dbn"
+    path.write_bytes(b"unused")
+    frame, provenance = module.decode_databento_open_interest_contracts_dbn(
+        definitions, path, product_code="NG"
+    )
+    assert frame["open_interest"].tolist() == [4321.0]
+    accounting = provenance["open_interest_accounting"]
+    assert accounting["source_rows"] == 2
+    assert accounting["accepted_rows"] == 1
+    assert accounting["rejected_rows"] == 1
+    assert accounting["undefined_reference_timestamp"] == 1
+
+
+def test_target_observation_filter_uses_event_date_for_ohlcv_without_ts_ref() -> None:
+    from commodity.providers import databento_futures as module
+
+    definitions = pd.DataFrame({
+        "raw_symbol": ["NGN2"], "asset": ["NG"], "instrument_class": ["F"],
+        "activation": pd.to_datetime(["2022-06-01T00:00:00Z"]),
+        "ts_event": pd.to_datetime(["2022-06-02T00:00:00Z"]),
+        "ts_recv": pd.to_datetime(["2022-06-02T00:00:01Z"]),
+    })
+    observations = pd.DataFrame({
+        "symbol": ["NGN2", "NGN2"],
+        "ts_event": pd.to_datetime(["2022-05-31T00:00:00Z", "2022-06-03T00:00:00Z"]),
+    })
+    kept, accounting = module._filter_resolved_target_observations(
+        definitions, observations, product_code="NG"
+    )
+    assert kept["ts_event"].tolist() == [pd.Timestamp("2022-06-03T00:00:00Z")]
+    assert accounting["excluded_before_target_activation"] == 1
+
+
+def test_target_observation_filter_uses_event_date_for_ohlcv_even_with_ts_ref() -> None:
+    from commodity.providers import databento_futures as module
+
+    definitions = pd.DataFrame({
+        "raw_symbol": ["NGN2"], "asset": ["NG"], "instrument_class": ["F"],
+        "activation": pd.to_datetime(["2022-06-01T00:00:00Z"]),
+        "ts_event": pd.to_datetime(["2022-06-02T00:00:00Z"]),
+        "ts_recv": pd.to_datetime(["2022-06-02T00:00:01Z"]),
+    })
+    observations = pd.DataFrame({
+        "symbol": ["NGN2"],
+        "ts_event": pd.to_datetime(["2022-06-03T00:00:00Z"]),
+        "ts_ref": pd.to_datetime(["2022-05-01T00:00:00Z"]),
+    })
+    kept, accounting = module._filter_resolved_target_observations(
+        definitions, observations, product_code="NG", observation_kind="ohlcv"
+    )
+    assert kept["ts_event"].tolist() == [pd.Timestamp("2022-06-03T00:00:00Z")]
+    assert accounting["excluded_before_target_activation"] == 0

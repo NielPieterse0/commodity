@@ -1,0 +1,270 @@
+{
+  "schema_version": 1,
+  "issue": 448,
+  "programme_issue": 393,
+  "programme_id": "004-v2-maximum-reproducible-one-month-return",
+  "plan_id": "issue448-prereg-v2",
+  "status": "preregistered_before_issue448_empirical_scoring",
+  "evidence_class": "development",
+  "latest_allowed_trade_date": "2022-12-31",
+  "protected_confirmation_accessed": false,
+  "purpose": "Close bounded classical and quantitative coverage gaps before model-family optimization without duplicating information already present in the V2 market baseline.",
+  "authority": {
+    "source_issue": 448,
+    "parent_programme_issue": 393,
+    "required_predecessors": [
+      426,
+      452,
+      455
+    ],
+    "downstream_consumers": [
+      427,
+      428,
+      429,
+      430
+    ]
+  },
+  "selection_contract": {
+    "chronology": "strictly_prior_inner_blocks_select_then_outer_block_score_once",
+    "matched_control": "same origins, target, model, costs, decision rule and primitive market features without the added issue448 family",
+    "trial_accounting": "retain every attempted candidate including failures and held gates",
+    "multiplicity": "bounded preregistered family grids; no post-result indicator mining",
+    "protected_boundary": "no reserved confirmation, prospective paper, SIM, LIVE or post-2022 selection evidence",
+    "source_availability": "A representation may use only strictly prior inner blocks with at least 504 purge-safe training rows and non-empty evaluation origins after PIT-safe preparation. Competing representations are selected on the chronological intersection of their supported prior blocks. Pre-source history is unavailable rather than backfilled.",
+    "minimum_training_rows": 504,
+    "minimum_training_rows_authority": "config/phase2_market_only.json#execution_contract.minimum_training_rows, preserving the incremental-family semantics used by issues 426 and 455 rather than reverting to the earlier issue425 search minimum."
+  },
+  "technical_analysis": {
+    "credit_rule": "A derived indicator receives credit only versus a matched primitive-feature ablation containing the underlying returns, ranges, moving-average gaps and volume primitives already available to V2.",
+    "trend_momentum": {
+      "ema_pairs": [
+        [
+          5,
+          20
+        ],
+        [
+          10,
+          40
+        ]
+      ],
+      "macd_style": [
+        [
+          12,
+          26,
+          9
+        ]
+      ],
+      "sma_gap_pairs": [
+        [
+          5,
+          20
+        ],
+        [
+          10,
+          40
+        ]
+      ]
+    },
+    "oscillator_mean_reversion": {
+      "rsi_windows": [
+        7,
+        14,
+        28
+      ],
+      "price_zscore_windows": [
+        10,
+        20,
+        60
+      ]
+    },
+    "range_breakout": {
+      "donchian_windows": [
+        10,
+        20,
+        55
+      ],
+      "normalized_range_windows": [
+        14,
+        28
+      ],
+      "note": "Stochastic and Williams-style states share one normalized-range primitive and are not counted as independent information families."
+    },
+    "volatility_envelope": {
+      "atr_windows": [
+        10,
+        20
+      ],
+      "bollinger_windows": [
+        10,
+        20,
+        60
+      ]
+    },
+    "trend_strength": {
+      "adx_windows": [
+        14,
+        28
+      ],
+      "directional_movement_spread": true
+    },
+    "volume_confirmation": {
+      "volume_zscore_windows": [
+        20,
+        60
+      ],
+      "directional_volume_window": 20
+    }
+  },
+  "market_structure": {
+    "carry_basis": [
+      "dte_normalized_m1_m2_log_basis",
+      "dte_normalized_m1_m4_log_basis"
+    ],
+    "basis_momentum_sessions": [
+      1,
+      5
+    ],
+    "curve": [
+      "curvature_123",
+      "m1_m2_change_1",
+      "m1_m4_slope_change_1"
+    ],
+    "open_interest": [
+      "log_oi_m1",
+      "oi_change_1",
+      "oi_change_5",
+      "volume_to_oi_m1"
+    ],
+    "positioning": [
+      "managed_money_net_pct_oi",
+      "managed_money_net_pct_oi_change_1report",
+      "producer_merchant_hedging_pressure",
+      "producer_merchant_hedging_pressure_change_1report"
+    ],
+    "pit_rule": "Use source publication timestamps; unavailable or ambiguous OI/positioning values fail closed rather than being backfilled.",
+    "open_interest_evaluation_lane": {
+      "reason": "PIT-safe OI has insufficient strictly prior history for the full 2017-2018 and 2019-2020 standard outer starts under the frozen 504-row family-layer minimum.",
+      "source_coverage_only_design_change": true,
+      "scoring_observed_before_registration": false,
+      "parent_control_rule": "Use the frozen issue425 selected configuration for the containing standard outer block; do not reselect the base market configuration.",
+      "outer_blocks": [
+        {
+          "id": "outer-2020-oi",
+          "start": "2020-01-01",
+          "end": "2020-12-31",
+          "parent_control_outer_id": "outer-2019-2020",
+          "selection_inner_block_ids": [
+            "inner-2019-01-01-2019-12-31"
+          ]
+        },
+        {
+          "id": "outer-2021-2022",
+          "start": "2021-01-01",
+          "end": "2022-12-31",
+          "parent_control_outer_id": "outer-2021-2022",
+          "selection_inner_block_ids": [
+            "inner-2019-01-01-2019-12-31",
+            "inner-2020-01-01-2020-12-31"
+          ]
+        }
+      ],
+      "excluded_standard_outer_starts": [
+        "outer-2017-2018",
+        "outer-2019-2020"
+      ],
+      "non_overlap_rule": "The availability-aligned 2020 outer and the 2021-2022 outer are disjoint; each outer is scored once after representation selection on strictly prior supported inner blocks.",
+      "matched_row_rule": "Candidate and primitive control use identical OI-supported evaluation origins inside each OI outer."
+    }
+  },
+  "storage_surprise_gate": {
+    "target": "actual WNGSR net change minus a timestamped pre-release market-consensus expectation",
+    "activation_requires": [
+      "historical PIT publication timestamp",
+      "fixed consensus value before release",
+      "2010-2022 usable depth",
+      "private-research licensing permission",
+      "reproducible source identity"
+    ],
+    "no_substitution": "seasonal anomaly, prior-week change, model expectation, or post-release commentary must not be labelled market surprise",
+    "default_disposition": "HOLD_UNTIL_ALL_GATES_PASS"
+  },
+  "scheduled_event_timing": {
+    "event": "EIA Weekly Natural Gas Storage Report",
+    "official_clock": "Thursday 10:30 America/New_York with holiday exceptions resolved from the repository availability contract",
+    "representations": [
+      "hours_to_next_release",
+      "hours_since_last_release",
+      "first_executable_session_after_release"
+    ],
+    "execution_rule": "No same-instant or HFT fill assumption; event state is usable only after the release is publicly available and before the strategy decision timestamp."
+  },
+  "volatility_tail_handoff": {
+    "downstream_issues": [
+      427,
+      428,
+      430
+    ],
+    "specialists": [
+      "ewma",
+      "har",
+      "garch_family"
+    ],
+    "state_features": [
+      "jump_intensity",
+      "tail_loss_state",
+      "vol_of_vol"
+    ],
+    "evaluation_roles": [
+      "direction",
+      "trade_admission",
+      "confidence",
+      "risk_control"
+    ]
+  },
+  "options_implied_gate": {
+    "underlying": "Henry Hub natural gas futures",
+    "candidate_products": [
+      "ON",
+      "LNE"
+    ],
+    "period": [
+      "2010-06-06",
+      "2022-12-31"
+    ],
+    "candidate_information": [
+      "iv_level",
+      "iv_term_structure",
+      "skew",
+      "risk_neutral_moments",
+      "variance_risk_premium_style",
+      "option_volume",
+      "option_open_interest"
+    ],
+    "activation_requires": [
+      "sufficient strike/expiry depth",
+      "PIT definition and statistics timestamps",
+      "private-research licensing permission",
+      "bounded acceptable acquisition cost"
+    ],
+    "preflight_rule": "Metadata and zero-spend feasibility checks precede any billable acquisition; options cannot block V2 completion.",
+    "fallback": "HOLD_OR_DEFER_WITH_REVISIT_TRIGGER"
+  },
+  "dispositions": {
+    "retain": "positive matched marginal value that is not explained by the declared primitive ablation and remains defensible across chronological outer evidence",
+    "hold": "mechanism remains plausible but source/PIT/licensing/coverage/identifiability gate is not satisfied",
+    "drop": "bounded tested representation does not add matched marginal value",
+    "downstream_only": "requirement is registered for #427/#428/#430 but is not itself optimized in #448"
+  },
+  "rules": [
+    "No #448 empirical family scoring starts before this preregistration exists in the governed change.",
+    "All data-dependent transforms are fit on training evidence only.",
+    "Indicator aliases that are algebraically equivalent share one search family rather than multiplying trials.",
+    "The current V2 market primitives remain in matched controls so derived indicators must demonstrate incremental value.",
+    "No storage consensus source is activated from isolated public articles or future-known consensus values.",
+    "No billable options acquisition is performed without a governed cost decision.",
+    "Failed and held candidates remain in the durable trial ledger.",
+    "V1 remains immutable and all post-2022 protected evidence remains unopened."
+  ],
+  "supersedes": "issue448-prereg-v1",
+  "supersession_reason": "No-scoring 2010-2022 source coverage audit proved PIT-safe open interest starts too late for the standard early outer blocks under the established 504-row incremental-family minimum; register an availability-aligned OI lane before any empirical family scoring."
+}

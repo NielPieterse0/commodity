@@ -21,5 +21,5 @@ Source: `research/programmes/004-v2-maximum-reproducible-one-month-return/revisi
 | `zoom_level` | str |
 | `programme_id` | str |
 | `registry_id` | str |
-| `triggers` | array (0 items) |
-| `evaluation_history` | array (0 items) |
+| `triggers` | array (3 items) |
+| `evaluation_history` | array (3 items) |

@@ -1,0 +1,57 @@
+<!-- GENERATED FILE. DO NOT EDIT. Source: research/programmes/004-v2-maximum-reproducible-one-month-return/issue448-preflight-v1.json -->
+
+# Issue448 Preflight V1
+
+Source: `research/programmes/004-v2-maximum-reproducible-one-month-return/issue448-preflight-v1.json`
+
+## Overview
+
+| Field | Value |
+| --- | --- |
+| `cftc_code_sha256` | 9c5993890f7a816ee3274530641e6a7e5ace352d1c8759b5761c0c609f3bbe05 |
+| `code_sha256` | 7ffe51825bd9098411f25642b31877ca121168cf330b77dbd6a7e8c21ff94344 |
+| `development_cutoff` | 2022-12-31 |
+| `family_count` | 10 |
+| `feature_rows` | 3088 |
+| `issue` | 448 |
+| `market_features_sha256` | b14ae69bd6ec2910f0cf56fe62f481016801308cebc6ef69e536aa7e593d072e |
+| `max_trade_date` | 2022-12-29T00:00:00+00:00 |
+| `preflight_sha256` | 37b91eeab7b777ef0835bc3959b09fc6a023528172d461e66f6e259e3cd3554e |
+| `protected_confirmation_accessed` | false |
+| `provider_code_sha256` | d48fc0af0772603b10ca856fe3afd0f54804afe651d271cbc149a791307cf88a |
+| `runner_sha256` | 594ffc1739f81cf043c86b436624eb31ccb7408de76bca39539bfaf8ffc0bf80 |
+| `schema_version` | 1 |
+| `scoring_performed` | false |
+| `session_path_sha256` | 0fe87ea79a56f98fb9d445e89e3d65b48ae7bb1175e06ba9b97da68ebe6b01e8 |
+| `status` | PASS |
+
+## Structure
+
+| Field | Shape |
+| --- | --- |
+| `authority_sha256` | object (4 keys) |
+| `cache` | object (2 keys) |
+| `candidate_control_row_proofs` | object (3 keys) |
+| `candidate_selection_support` | object (3 keys) |
+| `cftc_code_sha256` | str |
+| `code_sha256` | str |
+| `databento_local_definition_parent_symbols` | array (1 items) |
+| `development_cutoff` | str |
+| `event_timing` | object (2 keys) |
+| `failures` | array (0 items) |
+| `family_count` | int |
+| `feature_rows` | int |
+| `issue` | int |
+| `market_features_sha256` | str |
+| `max_trade_date` | str |
+| `options_implied` | object (5 keys) |
+| `preflight_sha256` | str |
+| `protected_confirmation_accessed` | bool |
+| `provider_code_sha256` | str |
+| `runner_sha256` | str |
+| `schema_version` | int |
+| `scoring_performed` | bool |
+| `session_path_sha256` | str |
+| `source_pit_evidence` | object (7 keys) |
+| `status` | str |
+| `storage_consensus_surprise` | object (4 keys) |
