@@ -2347,3 +2347,28 @@ def test_issue426_weather_inventory_rejects_undeclared_archive_omission(tmp_path
     assert coverage["weather"]["snapshot_count"] == 1
     assert coverage["weather"]["integrity_verified"] is False
     assert coverage["weather"]["complete"] is False
+
+
+def test_issue425_model_accepts_issue427_hyperparameters_without_changing_defaults() -> None:
+    ridge_default = v2_optimization._issue425_model("ridge")
+    ridge_tuned = v2_optimization._issue425_model(
+        "ridge", {"model.ridge_alpha": 0.5}
+    )
+    assert ridge_default.pipeline.named_steps["ridge"].alpha == 10.0
+    assert ridge_tuned.pipeline.named_steps["ridge"].alpha == 0.5
+
+    hist_default = v2_optimization._issue425_model("hist_gb")
+    hist_tuned = v2_optimization._issue425_model(
+        "hist_gb",
+        {
+            "model.hist_gb_learning_rate": 0.1,
+            "model.hist_gb_max_iter": 50,
+            "model.hist_gb_max_leaf_nodes": 31,
+        },
+    )
+    assert hist_default.model.learning_rate == 0.05
+    assert hist_default.model.max_iter == 20
+    assert hist_default.model.max_leaf_nodes == 15
+    assert hist_tuned.model.learning_rate == 0.1
+    assert hist_tuned.model.max_iter == 50
+    assert hist_tuned.model.max_leaf_nodes == 31
