@@ -31,6 +31,7 @@ LEGACY_SETTLEMENT_FLAG_NORMALIZATION_END = "2015-11-20T00:00:00Z"
 LEGACY_PRELIMINARY_SETTLEMENT_FLAGS = frozenset({100, 101})
 SETTLEMENT_STAT_TYPE = 3
 CLEARED_VOLUME_STAT_TYPE = 6
+OPEN_INTEREST_STAT_TYPE = 9
 STATISTICS_CAPTURE_GRACE_DAYS = 3
 DEFAULT_MAX_AUTO_RECORDS = 50_000
 PHASE7_REQUIRED_SCHEMAS = ("definition", "statistics", "ohlcv-1d")
@@ -466,6 +467,60 @@ def _decode_databento_canonical_statistics(
     return pd.concat(selected, ignore_index=True), provenance
 
 
+def _normalize_statistics_timestamps(frame: pd.DataFrame) -> pd.DataFrame:
+    normalized = frame.copy()
+    for column in ("ts_event", "ts_recv", "ts_ref"):
+        if pd.api.types.is_numeric_dtype(normalized[column]):
+            normalized[column] = pd.to_datetime(normalized[column], unit="ns", utc=True)
+        else:
+            normalized[column] = pd.to_datetime(normalized[column], utc=True, errors="raise")
+    return normalized
+
+
+def decode_databento_open_interest_dbn(
+    path: Path | str,
+    *,
+    dataset: str = DATABENTO_DATASET,
+    chunk_size: int = 250_000,
+) -> tuple[pd.DataFrame, dict[str, Any]]:
+    try:
+        store, provenance = _open_databento_dbn_store(
+            path, expected_schema="statistics", dataset=dataset
+        )
+    except DatabentoOfflineDecodeError as exc:
+        if _is_high_level_import_failure(exc):
+            try:
+                frame, provenance = _decode_databento_dbn_low_level(
+                    path,
+                    expected_schema="statistics",
+                    dataset=dataset,
+                    selected_stat_types=frozenset({OPEN_INTEREST_STAT_TYPE}),
+                )
+            except DatabentoOfflineDecodeError as low_level_exc:
+                if "no canonical statistics" in str(low_level_exc):
+                    raise DatabentoOfflineDecodeError(
+                        f"Databento statistics DBN contains no open interest: {Path(path).name}"
+                    ) from low_level_exc
+                raise
+            return _normalize_statistics_timestamps(frame), provenance
+        raise
+    selected: list[pd.DataFrame] = []
+    try:
+        for chunk in store.to_ndarray(count=chunk_size):
+            keep = np.isin(chunk["stat_type"], [OPEN_INTEREST_STAT_TYPE])
+            if keep.any():
+                selected.append(_statistics_frame_from_ndarray(chunk[keep]))
+    except Exception as exc:
+        raise DatabentoOfflineDecodeError(
+            f"failed to stream Databento open-interest DBN: {Path(path).name}"
+        ) from exc
+    if not selected:
+        raise DatabentoOfflineDecodeError(
+            f"Databento statistics DBN contains no open interest: {Path(path).name}"
+        )
+    return _normalize_statistics_timestamps(pd.concat(selected, ignore_index=True)), provenance
+
+
 def _exclusive_end(end_trade_date: str, grace_days: int = 0) -> str:
     return (
         pd.Timestamp(end_trade_date) + pd.Timedelta(days=1 + grace_days)
@@ -833,6 +888,7 @@ def _filter_resolved_target_observations(
     observations: pd.DataFrame,
     *,
     product_code: str,
+    observation_kind: str | None = None,
 ) -> tuple[pd.DataFrame, dict[str, int]]:
     """Keep target observations and safely reject publication-order pre-activation rows."""
     target = definitions.loc[
@@ -870,8 +926,15 @@ def _filter_resolved_target_observations(
     target_rows["_observation_time"] = pd.to_datetime(
         target_rows["ts_event"], utc=True, errors="coerce"
     )
+    if observation_kind not in {None, "statistics", "ohlcv"}:
+        raise DataContractViolation(f"Unsupported Databento observation kind: {observation_kind}")
+    trade_date_source = (
+        "ts_event"
+        if observation_kind == "ohlcv"
+        else ("ts_ref" if "ts_ref" in target_rows.columns else "ts_event")
+    )
     target_rows["_trade_date"] = pd.to_datetime(
-        target_rows["ts_ref"], utc=True, errors="coerce"
+        target_rows[trade_date_source], utc=True, errors="coerce"
     ).dt.normalize()
     target_rows = target_rows.merge(first, on="symbol", how="left", validate="many_to_one")
     pre_definition = target_rows["_observation_time"].lt(target_rows["_definition_time"])
@@ -1519,6 +1582,7 @@ def canonicalize_databento_dbn_partition(
         global_definitions,
         resolved,
         product_code=product_code,
+        observation_kind="statistics",
     )
     statistics = map_databento_resolved_symbols_to_target_definitions(
         global_definitions,
@@ -1672,6 +1736,7 @@ def canonicalize_databento_dbn_archive(
             global_definitions,
             resolved,
             product_code=product_code,
+            observation_kind="statistics",
         )
         statistics = map_databento_resolved_symbols_to_target_definitions(
             global_definitions,
@@ -1998,3 +2063,91 @@ def create_provider() -> DatabentoFuturesProvider:
         max_auto_cost_usd=float(provider_config["max_auto_cost_usd"]),
         max_auto_records=int(provider_config["max_auto_records"]),
     )
+
+
+def decode_databento_open_interest_contracts_dbn(
+    definitions: pd.DataFrame,
+    path: Path | str,
+    *,
+    product_code: str,
+    dataset: str = DATABENTO_DATASET,
+    chunk_size: int = 250_000,
+) -> tuple[pd.DataFrame, dict[str, Any]]:
+    frame, provenance = decode_databento_open_interest_dbn(
+        path,
+        dataset=dataset,
+        chunk_size=chunk_size,
+    )
+    provenance = dict(provenance)
+    source_open_interest_rows = len(frame)
+    mappings = _read_databento_dbn_symbol_mappings(
+        Path(path),
+        expected_schema="statistics",
+        dataset=dataset,
+    )
+    resolved = resolve_databento_metadata_symbols(frame, mappings)
+    target_observations, target_filter = _filter_resolved_target_observations(
+        definitions,
+        resolved,
+        product_code=product_code,
+        observation_kind="statistics",
+    )
+    mapped = map_databento_resolved_symbols_to_target_definitions(
+        definitions,
+        target_observations,
+        product_code=product_code,
+    )
+    if mapped.empty:
+        raise DatabentoOfflineDecodeError(
+            f"Databento open-interest DBN has no resolved target contracts: {Path(path).name}"
+        )
+    reference_time = pd.to_datetime(mapped["ts_ref"], utc=True, errors="raise")
+    undef_reference = pd.Timestamp(-1, unit="ns", tz="UTC")
+    invalid_reference_rows = int(reference_time.eq(undef_reference).sum())
+    mapped = mapped.loc[reference_time.ne(undef_reference)].copy()
+    if mapped.empty:
+        raise DatabentoOfflineDecodeError(
+            f"Databento open-interest DBN has no valid referenced target contracts: {Path(path).name}"
+        )
+    out = pd.DataFrame(
+        {
+            "contract_id": databento_contract_id(
+                mapped["symbol"], mapped["definition_expiration"]
+            ),
+            "observed_for": pd.to_datetime(mapped["ts_ref"], utc=True, errors="raise"),
+            "available_at": pd.concat(
+                [
+                    pd.to_datetime(mapped["ts_event"], utc=True, errors="raise"),
+                    pd.to_datetime(mapped["ts_recv"], utc=True, errors="raise"),
+                ],
+                axis=1,
+            ).max(axis=1),
+            "open_interest": pd.to_numeric(mapped["quantity"], errors="raise").astype(float),
+        }
+    )
+    if out["open_interest"].lt(0.0).any():
+        raise DatabentoOfflineDecodeError("Databento open interest must be non-negative")
+    publication_key = ["contract_id", "observed_for", "available_at"]
+    before_duplicate_collapse = len(out)
+    if out.duplicated(publication_key, keep=False).any():
+        duplicates = out.loc[out.duplicated(publication_key, keep=False)]
+        grouped = duplicates.groupby(publication_key, sort=False)["open_interest"].nunique()
+        if grouped.gt(1).any():
+            raise DatabentoOfflineDecodeError(
+                "Databento open interest contains conflicting duplicate publications"
+            )
+        out = out.drop_duplicates(publication_key, keep="last")
+    provenance["open_interest_accounting"] = {
+        "source_rows": source_open_interest_rows,
+        "accepted_rows": len(out),
+        "rejected_rows": source_open_interest_rows - len(out),
+        "excluded_non_target_symbol": int(target_filter["excluded_non_target_symbol"]),
+        "excluded_before_target_activation": int(
+            target_filter["excluded_before_target_activation"]
+        ),
+        "undefined_reference_timestamp": invalid_reference_rows,
+        "duplicate_publication_rows": before_duplicate_collapse - len(out),
+    }
+    return out.sort_values(
+        ["available_at", "contract_id", "observed_for"], kind="stable"
+    ).reset_index(drop=True), provenance

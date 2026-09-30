@@ -13,6 +13,7 @@ from commodity.cftc import (
     cftc_research_availability,
     load_cftc_v1_window,
     normalize_disaggregated_futures_only_archive,
+    parse_cftc_report_dates,
 )
 
 
@@ -95,6 +96,25 @@ def test_cftc_availability_fails_closed_outside_supported_schedule_horizon() -> 
             ValueError, match="outside supported publication-schedule coverage"
         ):
             cftc_research_availability(unsupported)
+
+
+@pytest.mark.parametrize(
+    ("column", "value"),
+    [
+        ("Report_Date_as_YYYY-MM-DD", "2013-12-31"),
+        ("As_of_Date_Form_YYYY-MM-DD", "2013-12-31"),
+        ("Report_Date_as_MM_DD_YYYY", "2010-12-28"),
+        ("As_of_Date_In_Form_YYMMDD", "101228"),
+    ],
+)
+def test_cftc_report_date_parser_accepts_legacy_variants(column: str, value: str) -> None:
+    parsed = parse_cftc_report_dates(pd.DataFrame({column: [value]}))
+    expected = (
+        pd.Timestamp("2010-12-28T00:00:00Z")
+        if value == "101228"
+        else pd.Timestamp(value, tz="UTC")
+    )
+    assert parsed.tolist() == [expected]
 
 
 def test_cftc_normalization_preserves_variant_raw_hash_and_position_features() -> None:

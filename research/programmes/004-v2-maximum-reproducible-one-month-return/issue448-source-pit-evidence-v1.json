@@ -1,0 +1,505 @@
+{
+  "cftc": {
+    "collapsed_conservative_publication_rows": 17,
+    "years": {
+      "2010": {
+        "accepted_rows": 52,
+        "reason": "non_target_market_or_non_futures_only",
+        "rejected_rows": 5495,
+        "sha256": "fef4827fbaa1a2a72ad3fe7ef0ca659ee4c85bc6857fdc096f4320b8a096322b"
+      },
+      "2011": {
+        "accepted_rows": 52,
+        "reason": "non_target_market_or_non_futures_only",
+        "rejected_rows": 5434,
+        "sha256": "9e47499610532150edddc1f43f8fc37cd87718d70022a6db9284f0152f815cf3"
+      },
+      "2012": {
+        "accepted_rows": 53,
+        "reason": "non_target_market_or_non_futures_only",
+        "rejected_rows": 5885,
+        "sha256": "79db37521556a5aa8acc84bd3ca86aa6bf80fb4c5d4a8013dfb215fc760f1e95"
+      },
+      "2013": {
+        "accepted_rows": 52,
+        "reason": "non_target_market_or_non_futures_only",
+        "rejected_rows": 8218,
+        "sha256": "c9bc647013b9b2f1c18e96fdaed95dc94af57c3a949e9fe7dd94aee06f3837bc"
+      },
+      "2014": {
+        "accepted_rows": 52,
+        "reason": "non_target_market_or_non_futures_only",
+        "rejected_rows": 10219,
+        "sha256": "a29872d680f595078062130274374ecb38dc2a24d86f1531a59f52b8abca7eea"
+      },
+      "2015": {
+        "accepted_rows": 52,
+        "reason": "non_target_market_or_non_futures_only",
+        "rejected_rows": 9710,
+        "sha256": "36aacb4389831a89996ba5366c91eedeaa32a55abca8265325bc52d74b06ca34"
+      },
+      "2016": {
+        "accepted_rows": 52,
+        "reason": "non_target_market_or_non_futures_only",
+        "rejected_rows": 10468,
+        "sha256": "50f52674fd924d24c794b921c29342be7d35cbe0a241ac823925ccf43ca1a6d2"
+      },
+      "2017": {
+        "accepted_rows": 52,
+        "reason": "non_target_market_or_non_futures_only",
+        "rejected_rows": 10152,
+        "sha256": "6fc467b989df527a4fbea4ba07185e8951f35cb72563f156488904a37c100e43"
+      },
+      "2018": {
+        "accepted_rows": 53,
+        "reason": "non_target_market_or_non_futures_only",
+        "rejected_rows": 10821,
+        "sha256": "df4bf7d72e8984d6ea04087f793c9f2bf3503ea8c2149f4b01eedeef4fbe40a8"
+      },
+      "2019": {
+        "accepted_rows": 52,
+        "reason": "non_target_market_or_non_futures_only",
+        "rejected_rows": 10902,
+        "sha256": "942a438bcc6f66e65aaf594a1a1fdb8c1505fe4a0feece77a1fd97270317e753"
+      },
+      "2020": {
+        "accepted_rows": 52,
+        "reason": "non_target_market_or_non_futures_only",
+        "rejected_rows": 10734,
+        "sha256": "0aa03c0fd6360f56b6897b6eaff30e8dba774c826bf93cac61598312e19bd1cd"
+      },
+      "2021": {
+        "accepted_rows": 52,
+        "reason": "non_target_market_or_non_futures_only",
+        "rejected_rows": 10652,
+        "sha256": "12d5d49a8963367fd3439050e3e20e6a5338757dfa083432795c5556827ff8ae"
+      },
+      "2022": {
+        "accepted_rows": 52,
+        "reason": "non_target_market_or_non_futures_only",
+        "rejected_rows": 11474,
+        "sha256": "74205d75d4d7b75a9f4159ef2e6abed53eeb4771a74e5a4bf78bc0451410ab7f"
+      }
+    }
+  },
+  "cftc_report_rows": 661,
+  "databento": {
+    "definition_authority_sha256": "6d642648dee24ff50ef5db0536e0b80b14c625ee25cb57d8daf501172a3cb163",
+    "selected_open_interest_rows": 3088,
+    "selected_technical_market_rows": 3088,
+    "years": {
+      "2010": {
+        "hashes": {
+          "definition": "97351c1c515c4b3dfe7f977e1c8bec57aa547917a034e4b42da675820113fae7",
+          "ohlcv_1d": "2c0dd2b51d8cf34820e2190aa0d63eb208d712587886a87854e717bdb5ab9102",
+          "statistics": "136bbbfba272a628747de2b018365c1aecb3c9d359f1148e9608af302e26a3e3"
+        },
+        "open_interest_status": "no_valid_referenced_records",
+        "source_accounting": {
+          "definition": {
+            "accepted_rows": 1802697,
+            "reason": "decoded_into_global_definition_authority",
+            "rejected_rows": 0
+          },
+          "ohlcv_1d": {
+            "accepted_rows": 5131,
+            "reason_counts": {
+              "before_target_activation": 0,
+              "non_target_symbol": 15505
+            },
+            "rejected_rows": 15505
+          },
+          "statistics_open_interest": {
+            "accepted_rows": 0,
+            "reason": "no_valid_referenced_target_contracts",
+            "rejected_rows": 45042,
+            "source_rows": 45042
+          }
+        }
+      },
+      "2011": {
+        "hashes": {
+          "definition": "4fb862bc0eadf0b2701621d5114619dcc62a110eafeec25fcc58e9899dca69b0",
+          "ohlcv_1d": "8e69662600f73ddbed5d8229ee9341ffed186d6832b638cc227ff110eea9b665",
+          "statistics": "efa10a3fa9aca32059d9ff28cd058b1e2c39ed9c0ac903bc0140b4e67c07001e"
+        },
+        "open_interest_status": "no_valid_referenced_records",
+        "source_accounting": {
+          "definition": {
+            "accepted_rows": 2580874,
+            "reason": "decoded_into_global_definition_authority",
+            "rejected_rows": 0
+          },
+          "ohlcv_1d": {
+            "accepted_rows": 8418,
+            "reason_counts": {
+              "before_target_activation": 0,
+              "non_target_symbol": 26956
+            },
+            "rejected_rows": 26956
+          },
+          "statistics_open_interest": {
+            "accepted_rows": 0,
+            "reason": "no_valid_referenced_target_contracts",
+            "rejected_rows": 75049,
+            "source_rows": 75049
+          }
+        }
+      },
+      "2012": {
+        "hashes": {
+          "definition": "028510fda46f95ceb895b26eb5298ea3b9c6c811e3d0bac5d56e6827d2462600",
+          "ohlcv_1d": "49743821f87e130eaed32c2b42fad18afee7508fcb194bf039cdc96f1b440210",
+          "statistics": "d1d532246b8f7a808e50cde680f2f0e33a5f9175415929c298d40e79b3552fd8"
+        },
+        "open_interest_status": "no_valid_referenced_records",
+        "source_accounting": {
+          "definition": {
+            "accepted_rows": 1992942,
+            "reason": "decoded_into_global_definition_authority",
+            "rejected_rows": 0
+          },
+          "ohlcv_1d": {
+            "accepted_rows": 8664,
+            "reason_counts": {
+              "before_target_activation": 0,
+              "non_target_symbol": 37205
+            },
+            "rejected_rows": 37205
+          },
+          "statistics_open_interest": {
+            "accepted_rows": 0,
+            "reason": "no_valid_referenced_target_contracts",
+            "rejected_rows": 71686,
+            "source_rows": 71686
+          }
+        }
+      },
+      "2013": {
+        "hashes": {
+          "definition": "ab435bf756a89072a8f19267d98299ba99370dcd6d91e797c822e7f7ff0983e9",
+          "ohlcv_1d": "6434d3b3aa09047d38ff569e694ac6892fa7a84fd77f6f8c27f8350d91f42c55",
+          "statistics": "106797e93834f4a3f04e80560e92d5a32561c02b137d54c1150359c41b1b80a1"
+        },
+        "open_interest_status": "no_valid_referenced_records",
+        "source_accounting": {
+          "definition": {
+            "accepted_rows": 1474043,
+            "reason": "decoded_into_global_definition_authority",
+            "rejected_rows": 0
+          },
+          "ohlcv_1d": {
+            "accepted_rows": 8593,
+            "reason_counts": {
+              "before_target_activation": 0,
+              "non_target_symbol": 33223
+            },
+            "rejected_rows": 33223
+          },
+          "statistics_open_interest": {
+            "accepted_rows": 0,
+            "reason": "no_valid_referenced_target_contracts",
+            "rejected_rows": 75903,
+            "source_rows": 75903
+          }
+        }
+      },
+      "2014": {
+        "hashes": {
+          "definition": "452a51fdf0a7d83fda778d9af38066fa4f23852af7757a2fcec656b812ae8e37",
+          "ohlcv_1d": "8430bcc512f58cf557b7a0fb4eb7d555140dbdf9043d1151ba4ba1ab763be54e",
+          "statistics": "1cb27f4298019db3223cb9ace67e6dcb375f443f85a290d5e2642db14855e827"
+        },
+        "open_interest_status": "no_valid_referenced_records",
+        "source_accounting": {
+          "definition": {
+            "accepted_rows": 1137014,
+            "reason": "decoded_into_global_definition_authority",
+            "rejected_rows": 0
+          },
+          "ohlcv_1d": {
+            "accepted_rows": 8246,
+            "reason_counts": {
+              "before_target_activation": 0,
+              "non_target_symbol": 29681
+            },
+            "rejected_rows": 29681
+          },
+          "statistics_open_interest": {
+            "accepted_rows": 0,
+            "reason": "no_valid_referenced_target_contracts",
+            "rejected_rows": 73560,
+            "source_rows": 73560
+          }
+        }
+      },
+      "2015": {
+        "hashes": {
+          "definition": "12f65c436294d0ab6ecd56817cebffcb5a8a0852023d86eefb9797e669778f8e",
+          "ohlcv_1d": "ef38122d33d1f9a183f82a3a9e1154e8c32df9acc76fdcbf1ff9cbb1323a2bb9",
+          "statistics": "cfedaf6a088aca49d2c2060c41bdcab6a13c302bd4f989ca64f0b841c6b7cd4d"
+        },
+        "open_interest_status": "valid_referenced_records",
+        "source_accounting": {
+          "definition": {
+            "accepted_rows": 1005248,
+            "reason": "decoded_into_global_definition_authority",
+            "rejected_rows": 0
+          },
+          "ohlcv_1d": {
+            "accepted_rows": 8147,
+            "reason_counts": {
+              "before_target_activation": 0,
+              "non_target_symbol": 28915
+            },
+            "rejected_rows": 28915
+          },
+          "statistics_open_interest": {
+            "accepted_rows": 7306,
+            "duplicate_publication_rows": 0,
+            "excluded_before_target_activation": 0,
+            "excluded_non_target_symbol": 0,
+            "rejected_rows": 62277,
+            "source_rows": 69583,
+            "undefined_reference_timestamp": 62277
+          }
+        }
+      },
+      "2016": {
+        "hashes": {
+          "definition": "607def22f1ba46735b1e13b02ce67d4fff3ac60ab1ba81e08b0f74f307d9c238",
+          "ohlcv_1d": "5f98d139d2dbeab68d15eb5fa4efb45ee7c6c1c5164cedde3f35a6f8a30d55e0",
+          "statistics": "fb0fc5f5b466c5d3d32a799e47e33b8bf700fa4dcb6487bb630cf28832957f6f"
+        },
+        "open_interest_status": "valid_referenced_records",
+        "source_accounting": {
+          "definition": {
+            "accepted_rows": 1064228,
+            "reason": "decoded_into_global_definition_authority",
+            "rejected_rows": 0
+          },
+          "ohlcv_1d": {
+            "accepted_rows": 7440,
+            "reason_counts": {
+              "before_target_activation": 0,
+              "non_target_symbol": 35520
+            },
+            "rejected_rows": 35520
+          },
+          "statistics_open_interest": {
+            "accepted_rows": 65034,
+            "duplicate_publication_rows": 0,
+            "excluded_before_target_activation": 0,
+            "excluded_non_target_symbol": 0,
+            "rejected_rows": 0,
+            "source_rows": 65034,
+            "undefined_reference_timestamp": 0
+          }
+        }
+      },
+      "2017": {
+        "hashes": {
+          "definition": "a8aac7cff22adbe257239fe9895b85d5f7421576194264d070f8fcda952cdada",
+          "ohlcv_1d": "12d9a1252688ecb487ac875e8cfe8cd0fb122cc5620d737071206c50960e96b7",
+          "statistics": "4f322f0e8a71ab4ec0cc9bede6ff54efe38dbed02b7f98564968caa4de6e6a2a"
+        },
+        "open_interest_status": "valid_referenced_records",
+        "source_accounting": {
+          "definition": {
+            "accepted_rows": 1161738,
+            "reason": "decoded_into_global_definition_authority",
+            "rejected_rows": 0
+          },
+          "ohlcv_1d": {
+            "accepted_rows": 7763,
+            "reason_counts": {
+              "before_target_activation": 0,
+              "non_target_symbol": 41153
+            },
+            "rejected_rows": 41153
+          },
+          "statistics_open_interest": {
+            "accepted_rows": 56669,
+            "duplicate_publication_rows": 2,
+            "excluded_before_target_activation": 0,
+            "excluded_non_target_symbol": 0,
+            "rejected_rows": 2,
+            "source_rows": 56671,
+            "undefined_reference_timestamp": 0
+          }
+        }
+      },
+      "2018": {
+        "hashes": {
+          "definition": "659f765860dbb67b4d431c72f986fe7a2db05455108271c4ddcfbb9dd47c4d7e",
+          "ohlcv_1d": "570426ef62db1caf3c5006d13e78c9166ea9010a7e66338d1e0d4ee0cfc5d74f",
+          "statistics": "7ac18dfe86872578a77df7b18ab23289baebb27710096082a612caee9e5de173"
+        },
+        "open_interest_status": "valid_referenced_records",
+        "source_accounting": {
+          "definition": {
+            "accepted_rows": 1542209,
+            "reason": "decoded_into_global_definition_authority",
+            "rejected_rows": 0
+          },
+          "ohlcv_1d": {
+            "accepted_rows": 8027,
+            "reason_counts": {
+              "before_target_activation": 0,
+              "non_target_symbol": 44191
+            },
+            "rejected_rows": 44191
+          },
+          "statistics_open_interest": {
+            "accepted_rows": 37972,
+            "duplicate_publication_rows": 0,
+            "excluded_before_target_activation": 0,
+            "excluded_non_target_symbol": 0,
+            "rejected_rows": 0,
+            "source_rows": 37972,
+            "undefined_reference_timestamp": 0
+          }
+        }
+      },
+      "2019": {
+        "hashes": {
+          "definition": "dc9cc6e7066e6737a6bce9a6c3edb5087624c386f4b8632984414248c7a7c455",
+          "ohlcv_1d": "47e8842bdb23bf42566de84905f94de03c5450faf4f945532df00fb8b64a5e98",
+          "statistics": "229ffa74450a636009f49c28e56443decc651f7121b9af19aed4443147b09e9b"
+        },
+        "open_interest_status": "valid_referenced_records",
+        "source_accounting": {
+          "definition": {
+            "accepted_rows": 1777011,
+            "reason": "decoded_into_global_definition_authority",
+            "rejected_rows": 0
+          },
+          "ohlcv_1d": {
+            "accepted_rows": 8104,
+            "reason_counts": {
+              "before_target_activation": 0,
+              "non_target_symbol": 42870
+            },
+            "rejected_rows": 42870
+          },
+          "statistics_open_interest": {
+            "accepted_rows": 38591,
+            "duplicate_publication_rows": 0,
+            "excluded_before_target_activation": 0,
+            "excluded_non_target_symbol": 0,
+            "rejected_rows": 0,
+            "source_rows": 38591,
+            "undefined_reference_timestamp": 0
+          }
+        }
+      },
+      "2020": {
+        "hashes": {
+          "definition": "efc11d56f7a5c91a4d8530abcaec75e2db16e70072fd5bd19439acfed0a1d1c9",
+          "ohlcv_1d": "44f7a24bedd42c6c9ecfa4e11dcf5c86c1fe322685515f84bd4e171858a62c11",
+          "statistics": "d6405bc717ab5de28e7f89e15e71232d391db5459e0f88eaba3b766cfade73fe"
+        },
+        "open_interest_status": "valid_referenced_records",
+        "source_accounting": {
+          "definition": {
+            "accepted_rows": 1666744,
+            "reason": "decoded_into_global_definition_authority",
+            "rejected_rows": 0
+          },
+          "ohlcv_1d": {
+            "accepted_rows": 8457,
+            "reason_counts": {
+              "before_target_activation": 0,
+              "non_target_symbol": 50586
+            },
+            "rejected_rows": 50586
+          },
+          "statistics_open_interest": {
+            "accepted_rows": 46493,
+            "duplicate_publication_rows": 0,
+            "excluded_before_target_activation": 0,
+            "excluded_non_target_symbol": 0,
+            "rejected_rows": 0,
+            "source_rows": 46493,
+            "undefined_reference_timestamp": 0
+          }
+        }
+      },
+      "2021": {
+        "hashes": {
+          "definition": "c3ed6f26b9ec0e2ac38daf1df44175c7192e6e1397b7092cd723447ed609f5d8",
+          "ohlcv_1d": "56a80e4b4a190c0ba7e56a402c217a8b13ed7e47bb0213a95a8dcba139f3b8b1",
+          "statistics": "7229645f94babbf3af77ee5d33460cd2d0cc7e00b95688d11aa998b40865b944"
+        },
+        "open_interest_status": "valid_referenced_records",
+        "source_accounting": {
+          "definition": {
+            "accepted_rows": 1637778,
+            "reason": "decoded_into_global_definition_authority",
+            "rejected_rows": 0
+          },
+          "ohlcv_1d": {
+            "accepted_rows": 8376,
+            "reason_counts": {
+              "before_target_activation": 0,
+              "non_target_symbol": 48596
+            },
+            "rejected_rows": 48596
+          },
+          "statistics_open_interest": {
+            "accepted_rows": 45734,
+            "duplicate_publication_rows": 0,
+            "excluded_before_target_activation": 0,
+            "excluded_non_target_symbol": 0,
+            "rejected_rows": 0,
+            "source_rows": 45734,
+            "undefined_reference_timestamp": 0
+          }
+        }
+      },
+      "2022": {
+        "hashes": {
+          "definition": "a0b8a22c8505970b8778912f530719d2ecab0f7246b4377ec7bd73dc8d6a6a4d",
+          "ohlcv_1d": "9a992dbe8ecd9a76d5488053ba9fe6f9b754845b4af695e6965427bebae4a2be",
+          "statistics": "0dec170fe11c238ce19a6bc5dfe7bf577fddb3540c6e30b6a7b2b172684e2579"
+        },
+        "open_interest_status": "valid_referenced_records",
+        "source_accounting": {
+          "definition": {
+            "accepted_rows": 1697833,
+            "reason": "decoded_into_global_definition_authority",
+            "rejected_rows": 0
+          },
+          "ohlcv_1d": {
+            "accepted_rows": 8427,
+            "reason_counts": {
+              "before_target_activation": 0,
+              "non_target_symbol": 51525
+            },
+            "rejected_rows": 51525
+          },
+          "statistics_open_interest": {
+            "accepted_rows": 46444,
+            "duplicate_publication_rows": 0,
+            "excluded_before_target_activation": 0,
+            "excluded_non_target_symbol": 0,
+            "rejected_rows": 0,
+            "source_rows": 46444,
+            "undefined_reference_timestamp": 0
+          }
+        }
+      }
+    }
+  },
+  "databento_local_definition_parent_symbols": [
+    "NG.FUT"
+  ],
+  "event_timing_disposition": "HOLD_NO_PROVEN_HISTORICAL_WNGSR_RELEASE_CALENDAR",
+  "event_timing_status": "HOLD_NO_PROVEN_HISTORICAL_WNGSR_RELEASE_CALENDAR",
+  "market_features_sha256": "b14ae69bd6ec2910f0cf56fe62f481016801308cebc6ef69e536aa7e593d072e",
+  "options_local_inventory_found": false,
+  "selected_oi_populated_rows": 1761,
+  "selected_oi_rows": 3088,
+  "session_path_sha256": "0fe87ea79a56f98fb9d445e89e3d65b48ae7bb1175e06ba9b97da68ebe6b01e8",
+  "technical_market_rows": 3088
+}

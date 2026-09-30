@@ -1,0 +1,76 @@
+{
+  "conditional_role_candidates": [
+    "market_structure.carry_basis",
+    "market_structure.curve",
+    "ta.trend_momentum",
+    "ta.volatility_envelope"
+  ],
+  "consumers": [
+    427,
+    428,
+    430
+  ],
+  "event_timing": {
+    "disposition": "HOLD_NO_PROVEN_HISTORICAL_WNGSR_RELEASE_CALENDAR",
+    "revisit_trigger": "complete authoritative 2010-2022 WNGSR holiday/exception release registry"
+  },
+  "evidence_class": "development",
+  "issue": 448,
+  "options_implied": {
+    "activation_disposition": "HOLD",
+    "billable_acquisition_allowed": false,
+    "missing_activation_gates": [
+      "local_inventory",
+      "zero_spend",
+      "strike_expiry_depth_verified",
+      "pit_timestamp_semantics_verified"
+    ],
+    "preflight_disposition": "HOLD",
+    "v2_blocking": false
+  },
+  "protected_confirmation_accessed": false,
+  "retained_families": [
+    "market_structure.open_interest",
+    "market_structure.positioning",
+    "ta.oscillator_mean_reversion",
+    "ta.range_breakout",
+    "ta.trend_strength",
+    "ta.volume_confirmation"
+  ],
+  "schema_version": 1,
+  "storage_consensus_surprise": {
+    "disposition": "HOLD",
+    "missing_gates": [
+      "historical PIT publication timestamp",
+      "fixed consensus value before release",
+      "2010-2022 usable depth",
+      "private-research licensing permission",
+      "reproducible source identity"
+    ],
+    "protected_confirmation_accessed": false,
+    "search_budget_consumed": false
+  },
+  "volatility_tail": {
+    "downstream_issues": [
+      427,
+      428,
+      430
+    ],
+    "evaluation_roles": [
+      "direction",
+      "trade_admission",
+      "confidence",
+      "risk_control"
+    ],
+    "specialists": [
+      "ewma",
+      "har",
+      "garch_family"
+    ],
+    "state_features": [
+      "jump_intensity",
+      "tail_loss_state",
+      "vol_of_vol"
+    ]
+  }
+}

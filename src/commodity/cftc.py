@@ -132,6 +132,22 @@ def _first_column(frame: pd.DataFrame, *columns: str) -> str:
     raise ValueError(f"CFTC annual archive missing required column alternatives: {columns}")
 
 
+def parse_cftc_report_dates(frame: pd.DataFrame) -> pd.Series:
+    column = _first_column(
+        frame, "Report_Date_as_YYYY-MM-DD", "As_of_Date_Form_YYYY-MM-DD",
+        "Report_Date_as_MM_DD_YYYY", "As_of_Date_In_Form_YYMMDD",
+    )
+    raw = _require(frame, column).astype(str).str.strip()
+    parsed = (
+        pd.to_datetime(raw, format="%y%m%d", utc=True, errors="coerce")
+        if column == "As_of_Date_In_Form_YYMMDD"
+        else pd.to_datetime(raw, utc=True, errors="coerce")
+    )
+    if parsed.isna().any():
+        raise ValueError("CFTC annual archive contains invalid report dates")
+    return parsed
+
+
 def normalize_disaggregated_futures_only_archive(
     content: bytes,
     *,
@@ -146,16 +162,7 @@ def normalize_disaggregated_futures_only_archive(
     variant = _require(frame, "FutOnly_or_Combined").astype(str).str.strip()
     if not variant.eq("FutOnly").all():
         raise ValueError("CFTC Henry Hub annual rows are not exclusively Futures Only")
-    report_date_column = _first_column(
-        frame,
-        "Report_Date_as_YYYY-MM-DD",
-        "As_of_Date_Form_YYYY-MM-DD",
-    )
-    report_dates = pd.to_datetime(
-        _require(frame, report_date_column), utc=True, errors="coerce"
-    )
-    if report_dates.isna().any():
-        raise ValueError("CFTC annual archive contains invalid report dates")
+    report_dates = parse_cftc_report_dates(frame)
     if not report_dates.dt.year.eq(year).all():
         raise ValueError(f"CFTC annual archive contains report dates outside {year}")
 

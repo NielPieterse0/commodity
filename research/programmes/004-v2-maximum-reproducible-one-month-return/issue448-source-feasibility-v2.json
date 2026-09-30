@@ -1,0 +1,169 @@
+{
+  "schema_version": 1,
+  "issue": 448,
+  "programme_issue": 393,
+  "plan_id": "issue448-source-feasibility-v2",
+  "status": "registered_before_issue448_empirical_scoring",
+  "evidence_class": "development_source_feasibility",
+  "latest_allowed_trade_date": "2022-12-31",
+  "protected_confirmation_accessed": false,
+  "preregistration_ref": {
+    "path": "research/programmes/004-v2-maximum-reproducible-one-month-return/issue448-prereg-v2.json",
+    "sha256": "4ea610d1f0b42e8cf8d77efd787d0a8a45d4bb2744318c2ba43be2a40c5239d7"
+  },
+  "sources": {
+    "databento_statistics": {
+      "url": "https://databento.com/docs/schemas-and-data-formats/statistics",
+      "facts": [
+        "statistics is venue-published summary data",
+        "stat_type 9 is open interest and uses quantity with ts_ref",
+        "stat_type 14 is implied volatility associated with settlement",
+        "stat_type 15 is option delta associated with settlement"
+      ]
+    },
+    "databento_glbx": {
+      "url": "https://databento.com/docs/venues-and-datasets/glbx-mdp3",
+      "facts": [
+        "CME futures and options-on-futures coverage begins in June 2010",
+        "pre-2017-05-21 backfill comes from legacy FIX/FAST and lacks independently captured receive timestamps"
+      ]
+    },
+    "databento_on": {
+      "url": "https://databento.com/catalog/cme/GLBX.MDP3/options/ON",
+      "facts": [
+        "Henry Hub American options available since 2010-06-06",
+        "definition and statistics schemas are listed"
+      ]
+    },
+    "databento_lne": {
+      "url": "https://databento.com/catalog/cme/GLBX.MDP3/options/LNE",
+      "facts": [
+        "Henry Hub European options available since 2010-06-06",
+        "definition and statistics schemas are listed"
+      ]
+    },
+    "eia_release_schedule": {
+      "url": "https://www.eia.gov/reports/upcoming.php",
+      "facts": [
+        "Weekly Natural Gas Storage Report is normally released Thursday at 10:30 a.m. Eastern with schedule exceptions"
+      ]
+    },
+    "repository_databento_contract": {
+      "path": "config/data_sources.json#sources.databento_henry_hub",
+      "facts": [
+        "existing historical batch is approved for private-project research/backtesting",
+        "history is verified from 2010-06-06",
+        "historical_open_interest is declared true",
+        "paid reacquisition is not approved",
+        "redistribution is prohibited"
+      ]
+    },
+    "repository_storage_consensus_discovery": {
+      "path": "config/data_sources.json#discovered_after_recovery.assessments.historical_storage_consensus",
+      "facts": [
+        "Bloomberg weekly natural-gas storage analyst consensus is the preferred source-faithful route",
+        "S&P Global/Platts and Estimize are independent alternative populations",
+        "subscription/history audit remains required"
+      ]
+    }
+  },
+  "gates": {
+    "futures_open_interest": {
+      "disposition": "GO_IMPLEMENT_PIT_STAT9",
+      "basis": "The existing licensed Databento batch and provider already preserve statistics timestamps; the current decoder filters statistics to settlement and cleared volume and can be extended to stat_type 9 without new acquisition.",
+      "pit_boundary": "Use publication/capture timestamp as availability and ts_ref as statistic reference date; keep the last eligible publication at or before the decision timestamp.",
+      "caveat": "Pre-2017 legacy FIX/FAST timestamps are exchange-sourced rather than independently captured and must remain explicitly flagged in lineage."
+    },
+    "options_implied": {
+      "disposition": "GO_ZERO_SPEND_PREFLIGHT_HOLD_ACTIVATION",
+      "basis": "ON and LNE have documented 2010-06-06 history with Definition and Statistics, including IV and delta statistic types. Existing project rights cover already-purchased historical material, but the repository has not proven that the purchased batch contains the required option products/strikes or that reacquisition is free.",
+      "allowed_now": [
+        "local inventory scan",
+        "metadata/schema compatibility",
+        "zero-dollar provider cost quote or metadata request"
+      ],
+      "prohibited_without_new_governed_cost_decision": [
+        "billable option acquisition",
+        "paid reacquisition"
+      ],
+      "activation_gate": "Require actual 2010-2022 strike/expiry depth, PIT timestamp semantics, local or approved acquisition identity, and acceptable cost before feature scoring."
+    },
+    "storage_consensus_surprise": {
+      "disposition": "HOLD_SOURCE_NOT_PROVEN",
+      "basis": "Repository discovery identifies Bloomberg as the preferred source-faithful route and public evidence shows analyst surveys existed, but no complete licensed timestamped 2010-2022 consensus archive is registered or acquired.",
+      "rule": "Do not substitute seasonal storage anomaly, a model forecast, isolated public articles, or post-release commentary for pre-release market consensus.",
+      "revisit_trigger": "A reproducible 2010-2022 pre-release consensus archive with publication timestamps and private-research rights is acquired and integrity-audited."
+    },
+    "eia_event_timing": {
+      "disposition": "GO_EXISTING_AVAILABILITY_CONTRACT",
+      "basis": "The official EIA release schedule supplies the recurring clock and the repository already owns holiday/revision-aware WNGSR availability semantics.",
+      "execution_boundary": "Features become usable only after public release and at a strategy-executable decision timestamp; no same-instant/HFT fill assumption."
+    },
+    "volatility_tail_specialists": {
+      "disposition": "DOWNSTREAM_REQUIREMENT_REGISTERED",
+      "basis": "#448 defines required specialist/state interfaces; model-family fitting belongs to #427 and conditional admission/confidence/risk roles to #428/#430."
+    }
+  },
+  "decision": "Proceed with technical, market-structure/OI and event-timing implementation; keep true storage surprise on HOLD; perform options zero-spend feasibility only and do not let it block V2.",
+  "protected_evidence_statement": "No confirmation, prospective paper, SIM, LIVE, or post-2022 outcome evidence was inspected to make these source decisions.",
+  "supersedes": "issue448-source-feasibility-v1",
+  "supersession_reason": "No-scoring full-history preflight resolved actual nested OI coverage and justified the preregistered availability-aligned OI evaluation lane before empirical scoring.",
+  "open_interest_nested_coverage_feasibility": {
+    "scoring_performed": false,
+    "protected_confirmation_accessed": false,
+    "minimum_training_rows": 504,
+    "standard_outer_support": {
+      "outer-2017-2018": {
+        "available_representations": 0,
+        "common_selection_block_ids": []
+      },
+      "outer-2019-2020": {
+        "available_representations": 0,
+        "common_selection_block_ids": [],
+        "best_prior_training_rows_by_representation": [
+          482,
+          481,
+          478,
+          482
+        ]
+      },
+      "outer-2021-2022": {
+        "available_representations": 4,
+        "common_selection_block_ids": [
+          "inner-2019-01-01-2019-12-31",
+          "inner-2020-01-01-2020-12-31"
+        ]
+      }
+    },
+    "availability_aligned_2020": {
+      "parent_control_outer_id": "outer-2019-2020",
+      "selection_inner_block_id": "inner-2019-01-01-2019-12-31",
+      "training_rows_by_representation": [
+        723,
+        722,
+        719,
+        723
+      ],
+      "inner_evaluation_rows_by_representation": [
+        242,
+        242,
+        242,
+        242
+      ],
+      "outer_evaluation_rows_by_representation": [
+        248,
+        248,
+        248,
+        248
+      ],
+      "all_four_representations_supported": true
+    },
+    "audit_identity": {
+      "preflight_sha256": "37b91eeab7b777ef0835bc3959b09fc6a023528172d461e66f6e259e3cd3554e",
+      "feature_cache_sha256": "21358bc35eb59f81ecbc0a413676c704da820c5dad514b331aa5d95fd34fa49b",
+      "family_cache_sha256": "99a09f387683fd29332c14697a5c90aa8d017c580916fc75ab91c801d1212e1e",
+      "market_features_sha256": "b14ae69bd6ec2910f0cf56fe62f481016801308cebc6ef69e536aa7e593d072e",
+      "session_path_sha256": "0fe87ea79a56f98fb9d445e89e3d65b48ae7bb1175e06ba9b97da68ebe6b01e8"
+    }
+  }
+}

@@ -2,7 +2,7 @@
   "schema_version": 2,
   "zoom_level": "L1",
   "programme_id": "004-v2-maximum-reproducible-one-month-return",
-  "current_scan_id": "issue-424-harness-readiness-2026-09-14",
+  "current_scan_id": "issue-448-quantitative-coverage-2026-09-30",
   "refresh_triggers": [
     "A V2 execution slice produces new development evidence or changes the admissible search boundary."
   ],
@@ -28,12 +28,37 @@
         "base_round_trip_usd": 30.0
       },
       "feasibility": "go"
+    },
+    {
+      "target": "matched marginal development value of preregistered issue448 quantitative feature families versus exact primitive-feature controls",
+      "horizon": "development-only evidence through 2022-12-31 with strictly chronological inner selection and untouched protected confirmation",
+      "information_family": "issue448 quantitative coverage families",
+      "scientific_mepi": null,
+      "raw_information": 3088,
+      "effective_information_method": {
+        "method": "155-trial preregistered nested matched-control evaluation with availability-aligned open-interest outers",
+        "result_ref": "research/programmes/004-v2-maximum-reproducible-one-month-return/issue448-result-v1.json",
+        "retained_family_count": 6,
+        "held_no_matched_marginal_value_count": 4,
+        "source_or_activation_hold_count": 3
+      },
+      "detectable_effect": null,
+      "expected_snr": null,
+      "costs": {
+        "base_round_trip_usd": 30.0,
+        "billable_options_acquisition_allowed": false
+      },
+      "feasibility": "go"
     }
   ],
   "semantics": {
     "protected_confirmation_accessed": false,
     "development_only": true,
     "v1_immutable": true,
-    "issue": 424
-  }
+    "issue": 448,
+    "result_ref": "research/programmes/004-v2-maximum-reproducible-one-month-return/issue448-result-v1.json",
+    "downstream_handoff_ref": "research/programmes/004-v2-maximum-reproducible-one-month-return/issue448-downstream-handoff-v1.json",
+    "latest_allowed_trade_date": "2022-12-31"
+  },
+  "previous_scan_id": "issue-424-harness-readiness-2026-09-14"
 }
