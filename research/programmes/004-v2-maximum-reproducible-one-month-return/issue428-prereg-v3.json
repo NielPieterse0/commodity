@@ -1,0 +1,174 @@
+{
+  "schema_version": 2,
+  "issue": 428,
+  "programme_id": "004-v2-maximum-reproducible-one-month-return",
+  "status": "frozen_before_issue428_scoring",
+  "supersedes": "issue428-prereg-v2.json",
+  "supersession_reason": "Before any #428 scoring, executable feasibility validation showed that the 2017 history contains 104 baseline trade opportunities under the frozen outer-2019-2020 inherited model, below the preregistered 100 meta-train plus 50 calibration minimum. V3 keeps the same candidate grid, outer evaluations, evidence wall, and promotion gate, but makes learned meta-confidence ineligible for 2018 scoring and the outer-2019-2020 selection. Learned meta-confidence becomes eligible from the 2019 policy score onward, and outer-2021-2022 selection compares every eligible candidate on the common 2019-2020 score years.",
+  "scientific_role": "L3_preregistration",
+  "claim_boundary": "adaptive_development_only_no_confirmation_claim",
+  "evidence_boundary": {
+    "allowed_classes": ["development", "rolling_research_oos"],
+    "latest_allowed_trade_date": "2022-12-31",
+    "prohibited_classes": ["reserved_confirmation", "true_forward", "paper", "sim", "live"],
+    "protected_confirmation_accessed": false
+  },
+  "upstream_evidence": {
+    "issue427_prereg_sha256": "3ff25238408e701f344c7aacb0c60205a037eb4f97d0a7511e46d31c564dc551",
+    "issue427_core_result_sha256": "cab89cda1b59802022f193d1dc3ac8b81796fa6d17976be1df699fb7a9b96ef5",
+    "issue427_result_sha256": "0f2c6b3b66c631331f9a0f7f3e3f87d0f22d0d492ae31db8aeacd996c9b41771",
+    "issue427_core_trials_sha256": "f56f028b9643c55985e9a29bc3405e94da9b4f92179d4b50fdded864c0982ae7",
+    "issue427_specialist_trials_sha256": "90d3012658c699a96f801774cd9f7af0a093f724f57091c255c9adaff4c241ec",
+    "issue448_result_sha256": "71527c5ecde96fcfea9bec4b6a557650d41bae349614d66917bd9a0ecb83368b",
+    "issue448_handoff_sha256": "ce16fda3dd5f58e8658d48a8d428b1dcda96a77fa059b11527532306cb410ad5",
+    "phase2_sha256": "36900d9d28d2807b5e28d42fbcf272a06971af3123dc96a03425c26c10daab11",
+    "phase5_stacking_result_sha256": "fc2dee42b86020bc36e1bcc9a2aaaadba84545e3c290ea30f1e5e4f49ad917c9"
+  },  "frozen_handoff": {
+    "baseline": "issue427_selected_model_per_outer_on_matched_issue425_market_control",
+    "retained_signals": [
+      "market_structure.positioning",
+      "ta.range_breakout",
+      "ta.trend_strength",
+      "ta.volume_confirmation",
+      "volatility_tail.jump_intensity",
+      "volatility_tail.vol_of_vol"
+    ],
+    "conditional_unstable_signals": ["market_structure.open_interest"],
+    "excluded_from_uniform_fusion": ["ta.oscillator_mean_reversion"],
+    "reason": "issue427 retained exactly six development advantages; OI remained sign-unstable and conditional only"
+  },
+  "chronology": {
+    "calibration_seed_year": 2017,
+    "prequential_score_years": [2018, 2019, 2020],
+    "simple_gate_score_years": [2018, 2019, 2020],
+    "meta_score_years": [2019, 2020],
+    "fusion_outer_blocks": ["outer-2019-2020", "outer-2021-2022"],
+    "selection_years_by_outer": {
+      "outer-2019-2020": [2018],
+      "outer-2021-2022": [2019, 2020]
+    },
+    "selection_rule": "for each outer, configuration selection may consume only the preregistered common score years strictly before the outer start; rolling diagnostics for a score year fit thresholds, state maps, meta-label models and calibrators only on earlier records. The inherited model and representation choices are themselves adaptive inner-development choices, so rolling policy diagnostics are selection evidence rather than clean confirmation evidence.",
+    "outer_2019_policy_support": "2017 history supports state/simple-gate fitting but has only 104 baseline trade opportunities, below the frozen 150-row meta train-plus-calibration minimum. Learned meta-confidence is therefore preregistered ineligible for the 2018 score and outer-2019-2020 selection; this ineligibility counts against the candidate budget.",
+    "outer_2021_policy_support": "By the 2019 score, prior 2017-2018 history supplies 226 baseline trade opportunities under the frozen outer-2021-2022 inherited model. All candidate families are therefore compared on the common 2019-2020 policy-score years before outer-2021-2022.",
+    "outer_adaptation": "none_within_outer_block",
+    "matched_rows_required": true,
+    "point_in_time_required": true
+  },
+  "signal_state_contract": {
+    "transform_rule": "use the issue427 lagged transformed value for each inherited selected representation; jump intensity and vol-of-vol use the issue427 PIT-safe derived definitions",
+    "state_threshold": "median fitted on development trade opportunities strictly before the scored year or outer",
+    "favored_state": "for each signal choose high or low state by higher prior development net trade utility after round-trip costs",
+    "minimum_state_rows": 30,
+    "favored_fraction": "eligible retained signals currently in their prior-favored state divided by eligible retained signals"
+  },
+  "regime_contract": {
+    "state_variables": ["jump_intensity", "vol_of_vol"],
+    "joint_state": "2x2 low/high state using medians fitted only on earlier development opportunities",
+    "favorable_regime": "joint states with positive earlier-development mean net trade utility and at least 30 base trade opportunities",
+    "persistence": [1, 2, 3],
+    "persistence_semantics": "same joint state on consecutive decision origins",
+    "high_state_veto_quantiles": [0.75, 0.90]
+  },
+  "confidence_contract": {
+    "primary_strength": "abs(selected_model_predicted_gross_pnl_usd) / inherited_round_trip_cost_usd",
+    "model_disagreement": "selected issue427 model versus inherited issue425 matched model on identical origins",
+    "trade_label": "baseline forecast-sign trade has strictly positive realized gross PnL minus one round-trip cost",
+    "meta_model": "logistic_regression_C1_balanced",
+    "calibration": "chronological Platt calibration: fit meta model on earliest 75% of earlier development trade opportunities and fit scalar logistic calibrator on latest 25%; never use rows from the scored year or outer",
+    "minimum_meta_train_rows": 100,
+    "minimum_calibration_rows": 50,
+    "diagnostics": ["brier_score", "ece_10_equal_width_bins", "calibration_rows", "positive_label_rate"]
+  },
+  "candidate_grid": {
+    "baseline": 1,
+    "strength_quantile_gates": [0.50, 0.65, 0.80],
+    "model_agreement_gate": true,
+    "favored_signal_count_gates": [3, 4, 5],
+    "strength_fusion_cross": {"strength_quantiles": [0.50, 0.65], "favored_signal_counts": [3, 4]},
+    "jump_veto_quantiles": [0.75, 0.90],
+    "vol_of_vol_veto_quantiles": [0.75, 0.90],
+    "joint_volatility_veto_quantiles": [0.75, 0.90],
+    "favorable_regime_persistence": [1, 2, 3],
+    "meta_basic_probability_thresholds": [0.50, 0.55, 0.60, 0.65],
+    "meta_interaction_probability_thresholds": [0.50, 0.55, 0.60, 0.65],
+    "expected_configuration_count": 29
+  },  "meta_features": {
+    "basic": [
+      "log_primary_strength",
+      "model_agreement",
+      "normalized_model_disagreement",
+      "favored_fraction",
+      "jump_high",
+      "vol_of_vol_high"
+    ],
+    "interaction_extension": [
+      "six_retained_signal_zscores",
+      "strength_x_favored_fraction",
+      "jump_x_vol_of_vol",
+      "model_agreement_x_favored_fraction"
+    ]
+  },
+  "open_interest_lane": {
+    "eligible_outer_blocks": ["outer-2020-oi", "outer-2021-2022"],
+    "representation_rule": "inherit each issue448 nested-selected OI representation without reselection",
+    "roles": ["favored_state_gate", "meta_interaction"],
+    "incremental_candidates": ["oi_favored_state_gate", "meta_interactions_oi_p055", "meta_interactions_oi_p060"],
+    "minimum_history_rows": 100,
+    "uniform_value_claim_allowed": false
+  },
+  "selection": {
+    "primary_objective": "median_yearly_net_pnl_usd",
+    "comparison_years": "use chronology.selection_years_by_outer so every candidate competing for an outer is ranked on the same policy-score years",
+    "ineligible_candidate_handling": "record the attempt with status=ineligible and reason; it counts against the frozen candidate budget but cannot enter ranking until it has scores for every comparison year",
+    "tie_breakers": [
+      "higher_mean_monthly_net_return",
+      "higher_worst_yearly_net_pnl_usd",
+      "lower_max_drawdown_fraction",
+      "lower_transaction_cost_usd",
+      "lower_complexity",
+      "stable_config_id"
+    ],
+    "baseline_comparison": "same rows, same selected issue427 model forecast, same execution/cost/risk assumptions; only TRADE versus ABSTAIN admission changes"
+  },  "effective_sample_controls": {
+    "minimum_outer_trade_opportunities": 50,
+    "minimum_selected_trades": 10,
+    "minimum_nonempty_months": 6,
+    "report": ["trade_opportunities", "selected_trades", "abstention_rate", "regime_rows", "signal_state_rows", "monthly_trade_counts"]
+  },
+  "required_diagnostics": [
+    "mean_monthly_net_return",
+    "total_net_pnl_usd",
+    "max_drawdown_fraction",
+    "monthly_net_return_std",
+    "worst_monthly_net_return",
+    "profitable_month_rate",
+    "transaction_cost_usd",
+    "trade_count",
+    "turnover",
+    "signal_abstention_vs_risk_shutdown",
+    "cost_sensitivity",
+    "remove_one_input_ablations",
+    "outer_block_stability",
+    "effective_sample",
+    "confidence_calibration"
+  ],
+  "promotion_gate": {
+    "mean_outer_monthly_net_return_delta_gt": 0.0,
+    "nonnegative_outer_fraction_gte": 1.0,
+    "matched_baseline_required": true,
+    "effective_sample_required": true,
+    "kill_trigger_regression_allowed": false,
+    "protected_confirmation_required": false
+  },
+  "budgets": {
+    "fusion_configurations": 29,
+    "oi_incremental_configurations": 3,
+    "failed_trials_count_against_budget": true,
+    "complete_trial_ledger_required": true
+  },
+  "complexity_control": {
+    "prefer_simpler_on_ties": true,
+    "learned_meta_must_beat_best_simple_gate_on_primary_objective_to_be_preferred": true,
+    "no_post_outer_threshold_tuning": true
+  }
+}

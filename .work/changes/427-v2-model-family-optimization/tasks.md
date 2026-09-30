@@ -13,4 +13,4 @@
 - [x] Persist authoritative result and trial ledger.
 - [x] Run focused and canonical verification.
 - [x] Close independent review findings.
-- [ ] Commit, publish PR, require exact-head CI, merge, reconcile, cleanup.
+- [x] Commit, publish PR #458, require exact-head CI, merge as `d3ab965a1db48ce7d027a23d7d033ffd4a448a23`, reconcile the durable closeout record, and confirm the #427 worktree is cleaned.

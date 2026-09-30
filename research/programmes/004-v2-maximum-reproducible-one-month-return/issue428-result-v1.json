@@ -1,0 +1,3669 @@
+{
+  "claim_boundary": "adaptive_development_only_no_confirmation_claim",
+  "decision_code_sha256": "e0702fdcea3d0dcef16ef454bdfb0cff591f1bb61772c8579e9d65768585e224",
+  "disposition": "HOLD_NO_ROBUST_CONDITIONAL_GAIN",
+  "evidence_class": "development",
+  "issue": 428,
+  "open_interest_lane": {
+    "blocks": {
+      "outer-2020-oi": {
+        "candidates": {
+          "meta_interactions_oi_p055": {
+            "cost_sensitivity": {
+              "base": {
+                "replay_summary": {
+                  "ending_equity_usd": 97370.0,
+                  "execution_side_count": 16.0,
+                  "kill_reason": null,
+                  "kill_triggered": false,
+                  "live_trading_allowed": false,
+                  "max_abs_contracts": 1.0,
+                  "max_drawdown_fraction": 0.06132417662136674,
+                  "net_pnl_usd": -2630.0,
+                  "risk_enforced": true,
+                  "risk_shutdown_sessions": 0,
+                  "signal_abstention_sessions": 290,
+                  "starting_capital_usd": 100000.0,
+                  "total_transaction_cost_usd": 240.0
+                },
+                "score": {
+                  "best_monthly_net_return": 0.008399999999999996,
+                  "flat_net_pnl_usd": -120.0,
+                  "largest_positive_month_profit_fraction": 0.5637583892617443,
+                  "long_net_pnl_usd": -660.0000000000002,
+                  "max_abs_net_exposure_fraction": 1.0,
+                  "max_drawdown_fraction": 0.06132417662136674,
+                  "max_gross_exposure_fraction": 1.0,
+                  "max_leverage": 1.0,
+                  "mean_monthly_net_return": -0.002023076923076924,
+                  "median_monthly_net_return": 0.0,
+                  "month_count": 13,
+                  "monthly_net_return_std": 0.009004627344286248,
+                  "profitable_month_rate": 0.15384615384615385,
+                  "session_count": 313,
+                  "short_net_pnl_usd": -1850.0000000000005,
+                  "total_net_pnl_usd": -2630.000000000001,
+                  "trade_count": 16,
+                  "transaction_cost_usd": 240.0,
+                  "turnover": 16.0,
+                  "worst_monthly_net_return": -0.029400000000000023
+                }
+              },
+              "higher_1_5x": {
+                "replay_summary": {
+                  "ending_equity_usd": 97250.0,
+                  "execution_side_count": 16.0,
+                  "kill_reason": null,
+                  "kill_triggered": false,
+                  "live_trading_allowed": false,
+                  "max_abs_contracts": 1.0,
+                  "max_drawdown_fraction": 0.06151835628372982,
+                  "net_pnl_usd": -2750.0,
+                  "risk_enforced": true,
+                  "risk_shutdown_sessions": 0,
+                  "signal_abstention_sessions": 290,
+                  "starting_capital_usd": 100000.0,
+                  "total_transaction_cost_usd": 360.0
+                },
+                "score": {
+                  "best_monthly_net_return": 0.008249999999999997,
+                  "flat_net_pnl_usd": -180.0,
+                  "largest_positive_month_profit_fraction": 0.5709342560553625,
+                  "long_net_pnl_usd": -690.0000000000002,
+                  "max_abs_net_exposure_fraction": 1.0,
+                  "max_drawdown_fraction": 0.06151835628372982,
+                  "max_gross_exposure_fraction": 1.0,
+                  "max_leverage": 1.0,
+                  "mean_monthly_net_return": -0.0021153846153846158,
+                  "median_monthly_net_return": 0.0,
+                  "month_count": 13,
+                  "monthly_net_return_std": 0.009062228979828326,
+                  "profitable_month_rate": 0.15384615384615385,
+                  "session_count": 313,
+                  "short_net_pnl_usd": -1880.0000000000005,
+                  "total_net_pnl_usd": -2750.000000000001,
+                  "trade_count": 16,
+                  "transaction_cost_usd": 360.0,
+                  "turnover": 16.0,
+                  "worst_monthly_net_return": -0.02970000000000002
+                }
+              },
+              "higher_2x": {
+                "replay_summary": {
+                  "ending_equity_usd": 97130.0,
+                  "execution_side_count": 16.0,
+                  "kill_reason": null,
+                  "kill_triggered": false,
+                  "live_trading_allowed": false,
+                  "max_abs_contracts": 1.0,
+                  "max_drawdown_fraction": 0.061712846347607056,
+                  "net_pnl_usd": -2870.0,
+                  "risk_enforced": true,
+                  "risk_shutdown_sessions": 0,
+                  "signal_abstention_sessions": 290,
+                  "starting_capital_usd": 100000.0,
+                  "total_transaction_cost_usd": 480.0
+                },
+                "score": {
+                  "best_monthly_net_return": 0.008099999999999996,
+                  "flat_net_pnl_usd": -240.0,
+                  "largest_positive_month_profit_fraction": 0.5785714285714277,
+                  "long_net_pnl_usd": -720.0000000000002,
+                  "max_abs_net_exposure_fraction": 1.0,
+                  "max_drawdown_fraction": 0.061712846347607056,
+                  "max_gross_exposure_fraction": 1.0,
+                  "max_leverage": 1.0,
+                  "mean_monthly_net_return": -0.002207692307692308,
+                  "median_monthly_net_return": 0.0,
+                  "month_count": 13,
+                  "monthly_net_return_std": 0.009121189323468532,
+                  "profitable_month_rate": 0.15384615384615385,
+                  "session_count": 313,
+                  "short_net_pnl_usd": -1910.0000000000005,
+                  "total_net_pnl_usd": -2870.000000000001,
+                  "trade_count": 16,
+                  "transaction_cost_usd": 480.0,
+                  "turnover": 16.0,
+                  "worst_monthly_net_return": -0.030000000000000023
+                }
+              }
+            },
+            "delta_vs_matched_baseline": {
+              "max_drawdown_fraction": -0.018416455957953166,
+              "mean_monthly_net_return": 0.003392307692307689,
+              "total_net_pnl_usd": 4409.999999999996,
+              "trade_count": -29,
+              "transaction_cost_usd": -540.0
+            },
+            "diagnostics": {
+              "extra_meta_features": [
+                "feature_issue448_log_oi_m1__z",
+                "feature_issue448_log_oi_m1__z_x_favored_fraction"
+              ],
+              "kind": "meta_interactions_oi",
+              "meta_diagnostics": {
+                "active": true,
+                "brier_score": 0.245840339847307,
+                "calibration_rows": 89,
+                "calibration_start": "2019-04-08 00:00:00+00:00",
+                "ece": 0.039708426997574986,
+                "mode": "interactions",
+                "positive_label_rate": 0.5056179775280899,
+                "training_end": "2019-04-02 00:00:00+00:00",
+                "training_rows": 262
+              },
+              "probability_threshold": 0.55
+            },
+            "effective_sample": {
+              "abstention_rate": 0.8707482993197279,
+              "monthly_trade_counts": {
+                "2020-03": 2,
+                "2020-06": 1,
+                "2020-07": 6,
+                "2020-10": 9,
+                "2020-12": 1
+              },
+              "nonempty_months": 5,
+              "passes_outer_minimums": false,
+              "requested_selected_trades": 19,
+              "risk_or_margin_excluded_selected_trades": 0,
+              "risk_shutdown_sessions": 0,
+              "selected_trades": 19,
+              "signal_abstention_sessions": 290,
+              "trade_opportunities": 147
+            },
+            "replay_summary": {
+              "ending_equity_usd": 97370.0,
+              "execution_side_count": 16.0,
+              "kill_reason": null,
+              "kill_triggered": false,
+              "live_trading_allowed": false,
+              "max_abs_contracts": 1.0,
+              "max_drawdown_fraction": 0.06132417662136674,
+              "net_pnl_usd": -2630.0,
+              "risk_enforced": true,
+              "risk_shutdown_sessions": 0,
+              "signal_abstention_sessions": 290,
+              "starting_capital_usd": 100000.0,
+              "total_transaction_cost_usd": 240.0
+            },
+            "score": {
+              "best_monthly_net_return": 0.008399999999999996,
+              "flat_net_pnl_usd": -120.0,
+              "largest_positive_month_profit_fraction": 0.5637583892617443,
+              "long_net_pnl_usd": -660.0000000000002,
+              "max_abs_net_exposure_fraction": 1.0,
+              "max_drawdown_fraction": 0.06132417662136674,
+              "max_gross_exposure_fraction": 1.0,
+              "max_leverage": 1.0,
+              "mean_monthly_net_return": -0.002023076923076924,
+              "median_monthly_net_return": 0.0,
+              "month_count": 13,
+              "monthly_net_return_std": 0.009004627344286248,
+              "profitable_month_rate": 0.15384615384615385,
+              "session_count": 313,
+              "short_net_pnl_usd": -1850.0000000000005,
+              "total_net_pnl_usd": -2630.000000000001,
+              "trade_count": 16,
+              "transaction_cost_usd": 240.0,
+              "turnover": 16.0,
+              "worst_monthly_net_return": -0.029400000000000023
+            }
+          },
+          "meta_interactions_oi_p060": {
+            "cost_sensitivity": {
+              "base": {
+                "replay_summary": {
+                  "ending_equity_usd": 97660.0,
+                  "execution_side_count": 2.0,
+                  "kill_reason": null,
+                  "kill_triggered": false,
+                  "live_trading_allowed": false,
+                  "max_abs_contracts": 1.0,
+                  "max_drawdown_fraction": 0.0256896293709782,
+                  "net_pnl_usd": -2340.0,
+                  "risk_enforced": true,
+                  "risk_shutdown_sessions": 0,
+                  "signal_abstention_sessions": 309,
+                  "starting_capital_usd": 100000.0,
+                  "total_transaction_cost_usd": 30.0
+                },
+                "score": {
+                  "best_monthly_net_return": 0.0,
+                  "flat_net_pnl_usd": -15.0,
+                  "largest_positive_month_profit_fraction": 0.0,
+                  "long_net_pnl_usd": -2324.9999999999986,
+                  "max_abs_net_exposure_fraction": 1.0,
+                  "max_drawdown_fraction": 0.0256896293709782,
+                  "max_gross_exposure_fraction": 1.0,
+                  "max_leverage": 1.0,
+                  "mean_monthly_net_return": -0.001799999999999999,
+                  "median_monthly_net_return": 0.0,
+                  "month_count": 13,
+                  "monthly_net_return_std": 0.006235382907247953,
+                  "profitable_month_rate": 0.0,
+                  "session_count": 313,
+                  "short_net_pnl_usd": 0.0,
+                  "total_net_pnl_usd": -2339.9999999999986,
+                  "trade_count": 2,
+                  "transaction_cost_usd": 30.0,
+                  "turnover": 2.0,
+                  "worst_monthly_net_return": -0.023399999999999987
+                }
+              },
+              "higher_1_5x": {
+                "replay_summary": {
+                  "ending_equity_usd": 97645.0,
+                  "execution_side_count": 2.0,
+                  "kill_reason": null,
+                  "kill_triggered": false,
+                  "live_trading_allowed": false,
+                  "max_abs_contracts": 1.0,
+                  "max_drawdown_fraction": 0.025766381482128158,
+                  "net_pnl_usd": -2355.0,
+                  "risk_enforced": true,
+                  "risk_shutdown_sessions": 0,
+                  "signal_abstention_sessions": 309,
+                  "starting_capital_usd": 100000.0,
+                  "total_transaction_cost_usd": 45.0
+                },
+                "score": {
+                  "best_monthly_net_return": 0.0,
+                  "flat_net_pnl_usd": -22.5,
+                  "largest_positive_month_profit_fraction": 0.0,
+                  "long_net_pnl_usd": -2332.4999999999986,
+                  "max_abs_net_exposure_fraction": 1.0,
+                  "max_drawdown_fraction": 0.025766381482128158,
+                  "max_gross_exposure_fraction": 1.0,
+                  "max_leverage": 1.0,
+                  "mean_monthly_net_return": -0.0018115384615384606,
+                  "median_monthly_net_return": 0.0,
+                  "month_count": 13,
+                  "monthly_net_return_std": 0.006275353310499544,
+                  "profitable_month_rate": 0.0,
+                  "session_count": 313,
+                  "short_net_pnl_usd": 0.0,
+                  "total_net_pnl_usd": -2354.9999999999986,
+                  "trade_count": 2,
+                  "transaction_cost_usd": 45.0,
+                  "turnover": 2.0,
+                  "worst_monthly_net_return": -0.023549999999999988
+                }
+              },
+              "higher_2x": {
+                "replay_summary": {
+                  "ending_equity_usd": 97630.0,
+                  "execution_side_count": 2.0,
+                  "kill_reason": null,
+                  "kill_triggered": false,
+                  "live_trading_allowed": false,
+                  "max_abs_contracts": 1.0,
+                  "max_drawdown_fraction": 0.02584314508082219,
+                  "net_pnl_usd": -2370.0,
+                  "risk_enforced": true,
+                  "risk_shutdown_sessions": 0,
+                  "signal_abstention_sessions": 309,
+                  "starting_capital_usd": 100000.0,
+                  "total_transaction_cost_usd": 60.0
+                },
+                "score": {
+                  "best_monthly_net_return": 0.0,
+                  "flat_net_pnl_usd": -30.0,
+                  "largest_positive_month_profit_fraction": 0.0,
+                  "long_net_pnl_usd": -2339.9999999999986,
+                  "max_abs_net_exposure_fraction": 1.0,
+                  "max_drawdown_fraction": 0.02584314508082219,
+                  "max_gross_exposure_fraction": 1.0,
+                  "max_leverage": 1.0,
+                  "mean_monthly_net_return": -0.0018230769230769218,
+                  "median_monthly_net_return": 0.0,
+                  "month_count": 13,
+                  "monthly_net_return_std": 0.006315323713751134,
+                  "profitable_month_rate": 0.0,
+                  "session_count": 313,
+                  "short_net_pnl_usd": 0.0,
+                  "total_net_pnl_usd": -2369.9999999999986,
+                  "trade_count": 2,
+                  "transaction_cost_usd": 60.0,
+                  "turnover": 2.0,
+                  "worst_monthly_net_return": -0.023699999999999985
+                }
+              }
+            },
+            "delta_vs_matched_baseline": {
+              "max_drawdown_fraction": -0.054051003208341705,
+              "mean_monthly_net_return": 0.0036153846153846136,
+              "total_net_pnl_usd": 4699.999999999998,
+              "trade_count": -43,
+              "transaction_cost_usd": -750.0
+            },
+            "diagnostics": {
+              "extra_meta_features": [
+                "feature_issue448_log_oi_m1__z",
+                "feature_issue448_log_oi_m1__z_x_favored_fraction"
+              ],
+              "kind": "meta_interactions_oi",
+              "meta_diagnostics": {
+                "active": true,
+                "brier_score": 0.245840339847307,
+                "calibration_rows": 89,
+                "calibration_start": "2019-04-08 00:00:00+00:00",
+                "ece": 0.039708426997574986,
+                "mode": "interactions",
+                "positive_label_rate": 0.5056179775280899,
+                "training_end": "2019-04-02 00:00:00+00:00",
+                "training_rows": 262
+              },
+              "probability_threshold": 0.6
+            },
+            "effective_sample": {
+              "abstention_rate": 0.9795918367346939,
+              "monthly_trade_counts": {
+                "2020-10": 3
+              },
+              "nonempty_months": 1,
+              "passes_outer_minimums": false,
+              "requested_selected_trades": 3,
+              "risk_or_margin_excluded_selected_trades": 0,
+              "risk_shutdown_sessions": 0,
+              "selected_trades": 3,
+              "signal_abstention_sessions": 309,
+              "trade_opportunities": 147
+            },
+            "replay_summary": {
+              "ending_equity_usd": 97660.0,
+              "execution_side_count": 2.0,
+              "kill_reason": null,
+              "kill_triggered": false,
+              "live_trading_allowed": false,
+              "max_abs_contracts": 1.0,
+              "max_drawdown_fraction": 0.0256896293709782,
+              "net_pnl_usd": -2340.0,
+              "risk_enforced": true,
+              "risk_shutdown_sessions": 0,
+              "signal_abstention_sessions": 309,
+              "starting_capital_usd": 100000.0,
+              "total_transaction_cost_usd": 30.0
+            },
+            "score": {
+              "best_monthly_net_return": 0.0,
+              "flat_net_pnl_usd": -15.0,
+              "largest_positive_month_profit_fraction": 0.0,
+              "long_net_pnl_usd": -2324.9999999999986,
+              "max_abs_net_exposure_fraction": 1.0,
+              "max_drawdown_fraction": 0.0256896293709782,
+              "max_gross_exposure_fraction": 1.0,
+              "max_leverage": 1.0,
+              "mean_monthly_net_return": -0.001799999999999999,
+              "median_monthly_net_return": 0.0,
+              "month_count": 13,
+              "monthly_net_return_std": 0.006235382907247953,
+              "profitable_month_rate": 0.0,
+              "session_count": 313,
+              "short_net_pnl_usd": 0.0,
+              "total_net_pnl_usd": -2339.9999999999986,
+              "trade_count": 2,
+              "transaction_cost_usd": 30.0,
+              "turnover": 2.0,
+              "worst_monthly_net_return": -0.023399999999999987
+            }
+          },
+          "oi_favored_state_gate": {
+            "cost_sensitivity": {
+              "base": {
+                "replay_summary": {
+                  "ending_equity_usd": 94550.0,
+                  "execution_side_count": 28.0,
+                  "kill_reason": "daily_loss_limit",
+                  "kill_triggered": true,
+                  "live_trading_allowed": false,
+                  "max_abs_contracts": 1.0,
+                  "max_drawdown_fraction": 0.061119110272578325,
+                  "net_pnl_usd": -5450.0,
+                  "risk_enforced": true,
+                  "risk_shutdown_sessions": 129,
+                  "signal_abstention_sessions": 210,
+                  "starting_capital_usd": 100000.0,
+                  "total_transaction_cost_usd": 420.0
+                },
+                "score": {
+                  "best_monthly_net_return": 0.006600000000000004,
+                  "flat_net_pnl_usd": -165.0,
+                  "largest_positive_month_profit_fraction": 0.6197183098591542,
+                  "long_net_pnl_usd": -2024.9999999999995,
+                  "max_abs_net_exposure_fraction": 1.0,
+                  "max_drawdown_fraction": 0.061119110272578325,
+                  "max_gross_exposure_fraction": 1.0,
+                  "max_leverage": 1.0,
+                  "mean_monthly_net_return": -0.004192307692307691,
+                  "median_monthly_net_return": 0.0,
+                  "month_count": 13,
+                  "monthly_net_return_std": 0.008584351732924057,
+                  "profitable_month_rate": 0.15384615384615385,
+                  "session_count": 313,
+                  "short_net_pnl_usd": -3259.9999999999995,
+                  "total_net_pnl_usd": -5450.0,
+                  "trade_count": 23,
+                  "transaction_cost_usd": 420.0,
+                  "turnover": 28.0,
+                  "worst_monthly_net_return": -0.02835
+                }
+              },
+              "higher_1_5x": {
+                "replay_summary": {
+                  "ending_equity_usd": 94340.0,
+                  "execution_side_count": 28.0,
+                  "kill_reason": "daily_loss_limit",
+                  "kill_triggered": true,
+                  "live_trading_allowed": false,
+                  "max_abs_contracts": 1.0,
+                  "max_drawdown_fraction": 0.06313463591449639,
+                  "net_pnl_usd": -5660.0,
+                  "risk_enforced": true,
+                  "risk_shutdown_sessions": 129,
+                  "signal_abstention_sessions": 210,
+                  "starting_capital_usd": 100000.0,
+                  "total_transaction_cost_usd": 630.0
+                },
+                "score": {
+                  "best_monthly_net_return": 0.006300000000000004,
+                  "flat_net_pnl_usd": -247.5,
+                  "largest_positive_month_profit_fraction": 0.6222222222222215,
+                  "long_net_pnl_usd": -2047.4999999999995,
+                  "max_abs_net_exposure_fraction": 1.0,
+                  "max_drawdown_fraction": 0.06313463591449639,
+                  "max_gross_exposure_fraction": 1.0,
+                  "max_leverage": 1.0,
+                  "mean_monthly_net_return": -0.004353846153846153,
+                  "median_monthly_net_return": 0.0,
+                  "month_count": 13,
+                  "monthly_net_return_std": 0.008607794132208624,
+                  "profitable_month_rate": 0.15384615384615385,
+                  "session_count": 313,
+                  "short_net_pnl_usd": -3364.9999999999995,
+                  "total_net_pnl_usd": -5660.0,
+                  "trade_count": 23,
+                  "transaction_cost_usd": 630.0,
+                  "turnover": 28.0,
+                  "worst_monthly_net_return": -0.028425
+                }
+              },
+              "higher_2x": {
+                "replay_summary": {
+                  "ending_equity_usd": 94130.0,
+                  "execution_side_count": 28.0,
+                  "kill_reason": "daily_loss_limit",
+                  "kill_triggered": true,
+                  "live_trading_allowed": false,
+                  "max_abs_contracts": 1.0,
+                  "max_drawdown_fraction": 0.06515046181348694,
+                  "net_pnl_usd": -5870.0,
+                  "risk_enforced": true,
+                  "risk_shutdown_sessions": 129,
+                  "signal_abstention_sessions": 210,
+                  "starting_capital_usd": 100000.0,
+                  "total_transaction_cost_usd": 840.0
+                },
+                "score": {
+                  "best_monthly_net_return": 0.0060000000000000045,
+                  "flat_net_pnl_usd": -330.0,
+                  "largest_positive_month_profit_fraction": 0.6249999999999991,
+                  "long_net_pnl_usd": -2069.9999999999995,
+                  "max_abs_net_exposure_fraction": 1.0,
+                  "max_drawdown_fraction": 0.06515046181348694,
+                  "max_gross_exposure_fraction": 1.0,
+                  "max_leverage": 1.0,
+                  "mean_monthly_net_return": -0.004515384615384615,
+                  "median_monthly_net_return": 0.0,
+                  "month_count": 13,
+                  "monthly_net_return_std": 0.0086342650262995,
+                  "profitable_month_rate": 0.15384615384615385,
+                  "session_count": 313,
+                  "short_net_pnl_usd": -3470.0,
+                  "total_net_pnl_usd": -5870.0,
+                  "trade_count": 23,
+                  "transaction_cost_usd": 840.0,
+                  "turnover": 28.0,
+                  "worst_monthly_net_return": -0.0285
+                }
+              }
+            },
+            "delta_vs_matched_baseline": {
+              "max_drawdown_fraction": -0.018621522306741578,
+              "mean_monthly_net_return": 0.0012230769230769213,
+              "total_net_pnl_usd": 1589.9999999999973,
+              "trade_count": -22,
+              "transaction_cost_usd": -360.0
+            },
+            "diagnostics": {
+              "favored": "low",
+              "kind": "oi_favored_state_gate",
+              "threshold": 12.11896836416936
+            },
+            "effective_sample": {
+              "abstention_rate": 0.42857142857142855,
+              "monthly_trade_counts": {
+                "2020-01": 4,
+                "2020-02": 2,
+                "2020-03": 4,
+                "2020-04": 7,
+                "2020-05": 7,
+                "2020-06": 4,
+                "2020-07": 7,
+                "2020-08": 1
+              },
+              "nonempty_months": 8,
+              "passes_outer_minimums": true,
+              "requested_selected_trades": 84,
+              "risk_or_margin_excluded_selected_trades": 48,
+              "risk_shutdown_sessions": 129,
+              "selected_trades": 36,
+              "signal_abstention_sessions": 210,
+              "trade_opportunities": 147
+            },
+            "replay_summary": {
+              "ending_equity_usd": 94550.0,
+              "execution_side_count": 28.0,
+              "kill_reason": "daily_loss_limit",
+              "kill_triggered": true,
+              "live_trading_allowed": false,
+              "max_abs_contracts": 1.0,
+              "max_drawdown_fraction": 0.061119110272578325,
+              "net_pnl_usd": -5450.0,
+              "risk_enforced": true,
+              "risk_shutdown_sessions": 129,
+              "signal_abstention_sessions": 210,
+              "starting_capital_usd": 100000.0,
+              "total_transaction_cost_usd": 420.0
+            },
+            "score": {
+              "best_monthly_net_return": 0.006600000000000004,
+              "flat_net_pnl_usd": -165.0,
+              "largest_positive_month_profit_fraction": 0.6197183098591542,
+              "long_net_pnl_usd": -2024.9999999999995,
+              "max_abs_net_exposure_fraction": 1.0,
+              "max_drawdown_fraction": 0.061119110272578325,
+              "max_gross_exposure_fraction": 1.0,
+              "max_leverage": 1.0,
+              "mean_monthly_net_return": -0.004192307692307691,
+              "median_monthly_net_return": 0.0,
+              "month_count": 13,
+              "monthly_net_return_std": 0.008584351732924057,
+              "profitable_month_rate": 0.15384615384615385,
+              "session_count": 313,
+              "short_net_pnl_usd": -3259.9999999999995,
+              "total_net_pnl_usd": -5450.0,
+              "trade_count": 23,
+              "transaction_cost_usd": 420.0,
+              "turnover": 28.0,
+              "worst_monthly_net_return": -0.02835
+            }
+          }
+        },
+        "matched_baseline_effective_sample": {
+          "abstention_rate": 0.0,
+          "monthly_trade_counts": {
+            "2020-01": 5,
+            "2020-02": 7,
+            "2020-03": 11,
+            "2020-04": 12,
+            "2020-05": 15,
+            "2020-06": 8,
+            "2020-07": 15,
+            "2020-08": 1
+          },
+          "nonempty_months": 8,
+          "passes_outer_minimums": true,
+          "requested_selected_trades": 147,
+          "risk_or_margin_excluded_selected_trades": 73,
+          "risk_shutdown_sessions": 129,
+          "selected_trades": 74,
+          "signal_abstention_sessions": 133,
+          "trade_opportunities": 147
+        },
+        "matched_baseline_replay_summary": {
+          "ending_equity_usd": 92960.0,
+          "execution_side_count": 52.0,
+          "kill_reason": "daily_loss_limit",
+          "kill_triggered": true,
+          "live_trading_allowed": false,
+          "max_abs_contracts": 1.0,
+          "max_drawdown_fraction": 0.0797406325793199,
+          "net_pnl_usd": -7040.0,
+          "risk_enforced": true,
+          "risk_shutdown_sessions": 129,
+          "signal_abstention_sessions": 133,
+          "starting_capital_usd": 100000.0,
+          "total_transaction_cost_usd": 780.0
+        },
+        "matched_baseline_score": {
+          "best_monthly_net_return": 0.018300000000000004,
+          "flat_net_pnl_usd": -315.0,
+          "largest_positive_month_profit_fraction": 0.5990180032733222,
+          "long_net_pnl_usd": -4014.9999999999945,
+          "max_abs_net_exposure_fraction": 1.0,
+          "max_drawdown_fraction": 0.0797406325793199,
+          "max_gross_exposure_fraction": 1.0,
+          "max_leverage": 1.0,
+          "mean_monthly_net_return": -0.005415384615384613,
+          "median_monthly_net_return": 0.0,
+          "month_count": 13,
+          "monthly_net_return_std": 0.015143929789438923,
+          "profitable_month_rate": 0.3076923076923077,
+          "session_count": 313,
+          "short_net_pnl_usd": -2710.000000000001,
+          "total_net_pnl_usd": -7039.999999999997,
+          "trade_count": 45,
+          "transaction_cost_usd": 780.0,
+          "turnover": 52.0,
+          "worst_monthly_net_return": -0.04010000000000001
+        },
+        "meta_failure": null,
+        "oi_representation": "feature_issue448_log_oi_m1",
+        "oi_state": {
+          "column": "feature_issue448_log_oi_m1",
+          "favored": "low",
+          "high_mean_utility_usd": -164.91525423728805,
+          "high_rows": 177,
+          "low_mean_utility_usd": 203.9548022598871,
+          "low_rows": 177,
+          "mean": 11.85714252741469,
+          "std": 0.9647398630535399,
+          "threshold": 12.11896836416936
+        },
+        "outer_block": {
+          "end": "2020-12-31",
+          "id": "outer-2020-oi",
+          "start": "2020-01-01"
+        },
+        "parent_outer_block_id": "outer-2019-2020",
+        "policy_history_outcome_diagnostics": {
+          "boundary": "2020-01-01 00:00:00+00:00",
+          "history_rows": 725,
+          "max_target_end_timestamp": "2019-12-31 00:00:00+00:00",
+          "strictly_prior": true
+        },
+        "uniform_value_claim_allowed": false
+      },
+      "outer-2021-2022": {
+        "candidates": {
+          "meta_interactions_oi_p055": {
+            "cost_sensitivity": {
+              "base": {
+                "replay_summary": {
+                  "ending_equity_usd": 98100.0,
+                  "execution_side_count": 6.0,
+                  "kill_reason": "daily_loss_limit",
+                  "kill_triggered": true,
+                  "live_trading_allowed": false,
+                  "max_abs_contracts": 1.0,
+                  "max_drawdown_fraction": 0.020420390433870887,
+                  "net_pnl_usd": -1900.0,
+                  "risk_enforced": true,
+                  "risk_shutdown_sessions": 591,
+                  "signal_abstention_sessions": 537,
+                  "starting_capital_usd": 100000.0,
+                  "total_transaction_cost_usd": 90.0
+                },
+                "score": {
+                  "best_monthly_net_return": 0.0,
+                  "flat_net_pnl_usd": -45.0,
+                  "largest_positive_month_profit_fraction": 0.0,
+                  "long_net_pnl_usd": 0.0,
+                  "max_abs_net_exposure_fraction": 1.0,
+                  "max_drawdown_fraction": 0.020420390433870887,
+                  "max_gross_exposure_fraction": 1.0,
+                  "max_leverage": 1.0,
+                  "mean_monthly_net_return": -0.000791666666666665,
+                  "median_monthly_net_return": 0.0,
+                  "month_count": 24,
+                  "monthly_net_return_std": 0.002764796054363178,
+                  "profitable_month_rate": 0.0,
+                  "session_count": 620,
+                  "short_net_pnl_usd": -1854.9999999999961,
+                  "total_net_pnl_usd": -1899.999999999996,
+                  "trade_count": 6,
+                  "transaction_cost_usd": 90.0,
+                  "turnover": 6.0,
+                  "worst_monthly_net_return": -0.012499999999999987
+                }
+              },
+              "higher_1_5x": {
+                "replay_summary": {
+                  "ending_equity_usd": 98055.0,
+                  "execution_side_count": 6.0,
+                  "kill_reason": "daily_loss_limit",
+                  "kill_triggered": true,
+                  "live_trading_allowed": false,
+                  "max_abs_contracts": 1.0,
+                  "max_drawdown_fraction": 0.02050295931873236,
+                  "net_pnl_usd": -1945.0,
+                  "risk_enforced": true,
+                  "risk_shutdown_sessions": 591,
+                  "signal_abstention_sessions": 537,
+                  "starting_capital_usd": 100000.0,
+                  "total_transaction_cost_usd": 135.0
+                },
+                "score": {
+                  "best_monthly_net_return": 0.0,
+                  "flat_net_pnl_usd": -67.5,
+                  "largest_positive_month_profit_fraction": 0.0,
+                  "long_net_pnl_usd": 0.0,
+                  "max_abs_net_exposure_fraction": 1.0,
+                  "max_drawdown_fraction": 0.02050295931873236,
+                  "max_gross_exposure_fraction": 1.0,
+                  "max_leverage": 1.0,
+                  "mean_monthly_net_return": -0.000810416666666665,
+                  "median_monthly_net_return": 0.0,
+                  "month_count": 24,
+                  "monthly_net_return_std": 0.0028173561471213034,
+                  "profitable_month_rate": 0.0,
+                  "session_count": 620,
+                  "short_net_pnl_usd": -1877.4999999999961,
+                  "total_net_pnl_usd": -1944.999999999996,
+                  "trade_count": 6,
+                  "transaction_cost_usd": 135.0,
+                  "turnover": 6.0,
+                  "worst_monthly_net_return": -0.012649999999999986
+                }
+              },
+              "higher_2x": {
+                "replay_summary": {
+                  "ending_equity_usd": 98010.0,
+                  "execution_side_count": 6.0,
+                  "kill_reason": "daily_loss_limit",
+                  "kill_triggered": true,
+                  "live_trading_allowed": false,
+                  "max_abs_contracts": 1.0,
+                  "max_drawdown_fraction": 0.020585590086939144,
+                  "net_pnl_usd": -1990.0,
+                  "risk_enforced": true,
+                  "risk_shutdown_sessions": 591,
+                  "signal_abstention_sessions": 537,
+                  "starting_capital_usd": 100000.0,
+                  "total_transaction_cost_usd": 180.0
+                },
+                "score": {
+                  "best_monthly_net_return": 0.0,
+                  "flat_net_pnl_usd": -90.0,
+                  "largest_positive_month_profit_fraction": 0.0,
+                  "long_net_pnl_usd": 0.0,
+                  "max_abs_net_exposure_fraction": 1.0,
+                  "max_drawdown_fraction": 0.020585590086939144,
+                  "max_gross_exposure_fraction": 1.0,
+                  "max_leverage": 1.0,
+                  "mean_monthly_net_return": -0.000829166666666665,
+                  "median_monthly_net_return": 0.0,
+                  "month_count": 24,
+                  "monthly_net_return_std": 0.00287046441751543,
+                  "profitable_month_rate": 0.0,
+                  "session_count": 620,
+                  "short_net_pnl_usd": -1899.9999999999961,
+                  "total_net_pnl_usd": -1989.999999999996,
+                  "trade_count": 6,
+                  "transaction_cost_usd": 180.0,
+                  "turnover": 6.0,
+                  "worst_monthly_net_return": -0.012799999999999987
+                }
+              }
+            },
+            "delta_vs_matched_baseline": {
+              "max_drawdown_fraction": -0.029862234289648404,
+              "mean_monthly_net_return": 0.0006208333333333353,
+              "total_net_pnl_usd": 1490.0000000000045,
+              "trade_count": 2,
+              "transaction_cost_usd": 0.0
+            },
+            "diagnostics": {
+              "extra_meta_features": [
+                "feature_issue448_oi_change_1__z",
+                "feature_issue448_oi_change_1__z_x_favored_fraction"
+              ],
+              "kind": "meta_interactions_oi",
+              "meta_diagnostics": {
+                "active": true,
+                "brier_score": 0.24740851712703882,
+                "calibration_rows": 126,
+                "calibration_start": "2020-02-28 00:00:00+00:00",
+                "ece": 0.05130865612458379,
+                "mode": "interactions",
+                "positive_label_rate": 0.5,
+                "training_end": "2020-02-14 00:00:00+00:00",
+                "training_rows": 374
+              },
+              "probability_threshold": 0.55
+            },
+            "effective_sample": {
+              "abstention_rate": 0.7836879432624113,
+              "monthly_trade_counts": {
+                "2021-01": 2,
+                "2021-02": 3
+              },
+              "nonempty_months": 2,
+              "passes_outer_minimums": false,
+              "requested_selected_trades": 61,
+              "risk_or_margin_excluded_selected_trades": 56,
+              "risk_shutdown_sessions": 591,
+              "selected_trades": 5,
+              "signal_abstention_sessions": 537,
+              "trade_opportunities": 282
+            },
+            "replay_summary": {
+              "ending_equity_usd": 98100.0,
+              "execution_side_count": 6.0,
+              "kill_reason": "daily_loss_limit",
+              "kill_triggered": true,
+              "live_trading_allowed": false,
+              "max_abs_contracts": 1.0,
+              "max_drawdown_fraction": 0.020420390433870887,
+              "net_pnl_usd": -1900.0,
+              "risk_enforced": true,
+              "risk_shutdown_sessions": 591,
+              "signal_abstention_sessions": 537,
+              "starting_capital_usd": 100000.0,
+              "total_transaction_cost_usd": 90.0
+            },
+            "score": {
+              "best_monthly_net_return": 0.0,
+              "flat_net_pnl_usd": -45.0,
+              "largest_positive_month_profit_fraction": 0.0,
+              "long_net_pnl_usd": 0.0,
+              "max_abs_net_exposure_fraction": 1.0,
+              "max_drawdown_fraction": 0.020420390433870887,
+              "max_gross_exposure_fraction": 1.0,
+              "max_leverage": 1.0,
+              "mean_monthly_net_return": -0.000791666666666665,
+              "median_monthly_net_return": 0.0,
+              "month_count": 24,
+              "monthly_net_return_std": 0.002764796054363178,
+              "profitable_month_rate": 0.0,
+              "session_count": 620,
+              "short_net_pnl_usd": -1854.9999999999961,
+              "total_net_pnl_usd": -1899.999999999996,
+              "trade_count": 6,
+              "transaction_cost_usd": 90.0,
+              "turnover": 6.0,
+              "worst_monthly_net_return": -0.012499999999999987
+            }
+          },
+          "meta_interactions_oi_p060": {
+            "cost_sensitivity": {
+              "base": {
+                "replay_summary": {
+                  "ending_equity_usd": 97940.0,
+                  "execution_side_count": 2.0,
+                  "kill_reason": "daily_loss_limit",
+                  "kill_triggered": true,
+                  "live_trading_allowed": false,
+                  "max_abs_contracts": 1.0,
+                  "max_drawdown_fraction": 0.0206,
+                  "net_pnl_usd": -2060.0,
+                  "risk_enforced": true,
+                  "risk_shutdown_sessions": 591,
+                  "signal_abstention_sessions": 613,
+                  "starting_capital_usd": 100000.0,
+                  "total_transaction_cost_usd": 30.0
+                },
+                "score": {
+                  "best_monthly_net_return": 0.0,
+                  "flat_net_pnl_usd": -15.0,
+                  "largest_positive_month_profit_fraction": 0.0,
+                  "long_net_pnl_usd": 0.0,
+                  "max_abs_net_exposure_fraction": 1.0,
+                  "max_drawdown_fraction": 0.0206,
+                  "max_gross_exposure_fraction": 1.0,
+                  "max_leverage": 1.0,
+                  "mean_monthly_net_return": -0.0008583333333333326,
+                  "median_monthly_net_return": 0.0,
+                  "month_count": 24,
+                  "monthly_net_return_std": 0.004116422057510081,
+                  "profitable_month_rate": 0.0,
+                  "session_count": 620,
+                  "short_net_pnl_usd": -2044.9999999999984,
+                  "total_net_pnl_usd": -2059.999999999998,
+                  "trade_count": 2,
+                  "transaction_cost_usd": 30.0,
+                  "turnover": 2.0,
+                  "worst_monthly_net_return": -0.020599999999999983
+                }
+              },
+              "higher_1_5x": {
+                "replay_summary": {
+                  "ending_equity_usd": 97925.0,
+                  "execution_side_count": 2.0,
+                  "kill_reason": "daily_loss_limit",
+                  "kill_triggered": true,
+                  "live_trading_allowed": false,
+                  "max_abs_contracts": 1.0,
+                  "max_drawdown_fraction": 0.02075,
+                  "net_pnl_usd": -2075.0,
+                  "risk_enforced": true,
+                  "risk_shutdown_sessions": 591,
+                  "signal_abstention_sessions": 613,
+                  "starting_capital_usd": 100000.0,
+                  "total_transaction_cost_usd": 45.0
+                },
+                "score": {
+                  "best_monthly_net_return": 0.0,
+                  "flat_net_pnl_usd": -22.5,
+                  "largest_positive_month_profit_fraction": 0.0,
+                  "long_net_pnl_usd": 0.0,
+                  "max_abs_net_exposure_fraction": 1.0,
+                  "max_drawdown_fraction": 0.02075,
+                  "max_gross_exposure_fraction": 1.0,
+                  "max_leverage": 1.0,
+                  "mean_monthly_net_return": -0.0008645833333333325,
+                  "median_monthly_net_return": 0.0,
+                  "month_count": 24,
+                  "monthly_net_return_std": 0.004146396004530785,
+                  "profitable_month_rate": 0.0,
+                  "session_count": 620,
+                  "short_net_pnl_usd": -2052.499999999998,
+                  "total_net_pnl_usd": -2074.999999999998,
+                  "trade_count": 2,
+                  "transaction_cost_usd": 45.0,
+                  "turnover": 2.0,
+                  "worst_monthly_net_return": -0.02074999999999998
+                }
+              },
+              "higher_2x": {
+                "replay_summary": {
+                  "ending_equity_usd": 97910.0,
+                  "execution_side_count": 2.0,
+                  "kill_reason": "daily_loss_limit",
+                  "kill_triggered": true,
+                  "live_trading_allowed": false,
+                  "max_abs_contracts": 1.0,
+                  "max_drawdown_fraction": 0.0209,
+                  "net_pnl_usd": -2090.0,
+                  "risk_enforced": true,
+                  "risk_shutdown_sessions": 591,
+                  "signal_abstention_sessions": 613,
+                  "starting_capital_usd": 100000.0,
+                  "total_transaction_cost_usd": 60.0
+                },
+                "score": {
+                  "best_monthly_net_return": 0.0,
+                  "flat_net_pnl_usd": -30.0,
+                  "largest_positive_month_profit_fraction": 0.0,
+                  "long_net_pnl_usd": 0.0,
+                  "max_abs_net_exposure_fraction": 1.0,
+                  "max_drawdown_fraction": 0.0209,
+                  "max_gross_exposure_fraction": 1.0,
+                  "max_leverage": 1.0,
+                  "mean_monthly_net_return": -0.0008708333333333325,
+                  "median_monthly_net_return": 0.0,
+                  "month_count": 24,
+                  "monthly_net_return_std": 0.0041763699515514905,
+                  "profitable_month_rate": 0.0,
+                  "session_count": 620,
+                  "short_net_pnl_usd": -2059.999999999998,
+                  "total_net_pnl_usd": -2089.999999999998,
+                  "trade_count": 2,
+                  "transaction_cost_usd": 60.0,
+                  "turnover": 2.0,
+                  "worst_monthly_net_return": -0.02089999999999998
+                }
+              }
+            },
+            "delta_vs_matched_baseline": {
+              "max_drawdown_fraction": -0.02968262472351929,
+              "mean_monthly_net_return": 0.0005541666666666678,
+              "total_net_pnl_usd": 1330.0000000000023,
+              "trade_count": -2,
+              "transaction_cost_usd": -60.0
+            },
+            "diagnostics": {
+              "extra_meta_features": [
+                "feature_issue448_oi_change_1__z",
+                "feature_issue448_oi_change_1__z_x_favored_fraction"
+              ],
+              "kind": "meta_interactions_oi",
+              "meta_diagnostics": {
+                "active": true,
+                "brier_score": 0.24740851712703882,
+                "calibration_rows": 126,
+                "calibration_start": "2020-02-28 00:00:00+00:00",
+                "ece": 0.05130865612458379,
+                "mode": "interactions",
+                "positive_label_rate": 0.5,
+                "training_end": "2020-02-14 00:00:00+00:00",
+                "training_rows": 374
+              },
+              "probability_threshold": 0.6
+            },
+            "effective_sample": {
+              "abstention_rate": 0.9787234042553191,
+              "monthly_trade_counts": {
+                "2021-02": 1
+              },
+              "nonempty_months": 1,
+              "passes_outer_minimums": false,
+              "requested_selected_trades": 6,
+              "risk_or_margin_excluded_selected_trades": 5,
+              "risk_shutdown_sessions": 591,
+              "selected_trades": 1,
+              "signal_abstention_sessions": 613,
+              "trade_opportunities": 282
+            },
+            "replay_summary": {
+              "ending_equity_usd": 97940.0,
+              "execution_side_count": 2.0,
+              "kill_reason": "daily_loss_limit",
+              "kill_triggered": true,
+              "live_trading_allowed": false,
+              "max_abs_contracts": 1.0,
+              "max_drawdown_fraction": 0.0206,
+              "net_pnl_usd": -2060.0,
+              "risk_enforced": true,
+              "risk_shutdown_sessions": 591,
+              "signal_abstention_sessions": 613,
+              "starting_capital_usd": 100000.0,
+              "total_transaction_cost_usd": 30.0
+            },
+            "score": {
+              "best_monthly_net_return": 0.0,
+              "flat_net_pnl_usd": -15.0,
+              "largest_positive_month_profit_fraction": 0.0,
+              "long_net_pnl_usd": 0.0,
+              "max_abs_net_exposure_fraction": 1.0,
+              "max_drawdown_fraction": 0.0206,
+              "max_gross_exposure_fraction": 1.0,
+              "max_leverage": 1.0,
+              "mean_monthly_net_return": -0.0008583333333333326,
+              "median_monthly_net_return": 0.0,
+              "month_count": 24,
+              "monthly_net_return_std": 0.004116422057510081,
+              "profitable_month_rate": 0.0,
+              "session_count": 620,
+              "short_net_pnl_usd": -2044.9999999999984,
+              "total_net_pnl_usd": -2059.999999999998,
+              "trade_count": 2,
+              "transaction_cost_usd": 30.0,
+              "turnover": 2.0,
+              "worst_monthly_net_return": -0.020599999999999983
+            }
+          },
+          "oi_favored_state_gate": {
+            "cost_sensitivity": {
+              "base": {
+                "replay_summary": {
+                  "ending_equity_usd": 92460.0,
+                  "execution_side_count": 42.0,
+                  "kill_reason": "daily_loss_limit",
+                  "kill_triggered": true,
+                  "live_trading_allowed": false,
+                  "max_abs_contracts": 1.0,
+                  "max_drawdown_fraction": 0.09869864015206901,
+                  "net_pnl_usd": -7540.0,
+                  "risk_enforced": true,
+                  "risk_shutdown_sessions": 418,
+                  "signal_abstention_sessions": 418,
+                  "starting_capital_usd": 100000.0,
+                  "total_transaction_cost_usd": 630.0
+                },
+                "score": {
+                  "best_monthly_net_return": 0.0,
+                  "flat_net_pnl_usd": -240.0,
+                  "largest_positive_month_profit_fraction": 0.0,
+                  "long_net_pnl_usd": 0.0,
+                  "max_abs_net_exposure_fraction": 1.0,
+                  "max_drawdown_fraction": 0.09869864015206901,
+                  "max_gross_exposure_fraction": 1.0,
+                  "max_leverage": 1.0,
+                  "mean_monthly_net_return": -0.003141666666666666,
+                  "median_monthly_net_return": 0.0,
+                  "month_count": 24,
+                  "monthly_net_return_std": 0.006654504531184533,
+                  "profitable_month_rate": 0.0,
+                  "session_count": 620,
+                  "short_net_pnl_usd": -7299.999999999998,
+                  "total_net_pnl_usd": -7539.999999999997,
+                  "trade_count": 32,
+                  "transaction_cost_usd": 630.0,
+                  "turnover": 42.0,
+                  "worst_monthly_net_return": -0.02639999999999999
+                }
+              },
+              "higher_1_5x": {
+                "replay_summary": {
+                  "ending_equity_usd": 92145.0,
+                  "execution_side_count": 42.0,
+                  "kill_reason": "daily_loss_limit+peak_drawdown_kill",
+                  "kill_triggered": true,
+                  "live_trading_allowed": false,
+                  "max_abs_contracts": 1.0,
+                  "max_drawdown_fraction": 0.1014407957288086,
+                  "net_pnl_usd": -7855.0,
+                  "risk_enforced": true,
+                  "risk_shutdown_sessions": 418,
+                  "signal_abstention_sessions": 418,
+                  "starting_capital_usd": 100000.0,
+                  "total_transaction_cost_usd": 945.0
+                },
+                "score": {
+                  "best_monthly_net_return": 0.0,
+                  "flat_net_pnl_usd": -360.0,
+                  "largest_positive_month_profit_fraction": 0.0,
+                  "long_net_pnl_usd": 0.0,
+                  "max_abs_net_exposure_fraction": 1.0,
+                  "max_drawdown_fraction": 0.1014407957288086,
+                  "max_gross_exposure_fraction": 1.0,
+                  "max_leverage": 1.0,
+                  "mean_monthly_net_return": -0.0032729166666666657,
+                  "median_monthly_net_return": 0.0,
+                  "month_count": 24,
+                  "monthly_net_return_std": 0.006795877720578519,
+                  "profitable_month_rate": 0.0,
+                  "session_count": 620,
+                  "short_net_pnl_usd": -7494.999999999998,
+                  "total_net_pnl_usd": -7854.999999999997,
+                  "trade_count": 32,
+                  "transaction_cost_usd": 945.0,
+                  "turnover": 42.0,
+                  "worst_monthly_net_return": -0.026849999999999992
+                }
+              },
+              "higher_2x": {
+                "replay_summary": {
+                  "ending_equity_usd": 91830.0,
+                  "execution_side_count": 42.0,
+                  "kill_reason": "daily_loss_limit+peak_drawdown_kill",
+                  "kill_triggered": true,
+                  "live_trading_allowed": false,
+                  "max_abs_contracts": 1.0,
+                  "max_drawdown_fraction": 0.1041849575651156,
+                  "net_pnl_usd": -8170.0,
+                  "risk_enforced": true,
+                  "risk_shutdown_sessions": 418,
+                  "signal_abstention_sessions": 418,
+                  "starting_capital_usd": 100000.0,
+                  "total_transaction_cost_usd": 1260.0
+                },
+                "score": {
+                  "best_monthly_net_return": 0.0,
+                  "flat_net_pnl_usd": -480.0,
+                  "largest_positive_month_profit_fraction": 0.0,
+                  "long_net_pnl_usd": 0.0,
+                  "max_abs_net_exposure_fraction": 1.0,
+                  "max_drawdown_fraction": 0.1041849575651156,
+                  "max_gross_exposure_fraction": 1.0,
+                  "max_leverage": 1.0,
+                  "mean_monthly_net_return": -0.0034041666666666665,
+                  "median_monthly_net_return": 0.0,
+                  "month_count": 24,
+                  "monthly_net_return_std": 0.006941750449674455,
+                  "profitable_month_rate": 0.0,
+                  "session_count": 620,
+                  "short_net_pnl_usd": -7689.999999999998,
+                  "total_net_pnl_usd": -8169.999999999997,
+                  "trade_count": 32,
+                  "transaction_cost_usd": 1260.0,
+                  "turnover": 42.0,
+                  "worst_monthly_net_return": -0.02729999999999999
+                }
+              }
+            },
+            "delta_vs_matched_baseline": {
+              "max_drawdown_fraction": 0.04841601542854972,
+              "mean_monthly_net_return": -0.0017291666666666655,
+              "total_net_pnl_usd": -4149.999999999996,
+              "trade_count": 28,
+              "transaction_cost_usd": 540.0
+            },
+            "diagnostics": {
+              "favored": "low",
+              "kind": "oi_favored_state_gate",
+              "threshold": -0.10904965776688513
+            },
+            "effective_sample": {
+              "abstention_rate": 0.48936170212765956,
+              "monthly_trade_counts": {
+                "2021-01": 11,
+                "2021-02": 11,
+                "2021-03": 3,
+                "2021-04": 6,
+                "2021-05": 6,
+                "2021-07": 9,
+                "2021-08": 10
+              },
+              "nonempty_months": 7,
+              "passes_outer_minimums": true,
+              "requested_selected_trades": 144,
+              "risk_or_margin_excluded_selected_trades": 88,
+              "risk_shutdown_sessions": 418,
+              "selected_trades": 56,
+              "signal_abstention_sessions": 418,
+              "trade_opportunities": 282
+            },
+            "replay_summary": {
+              "ending_equity_usd": 92460.0,
+              "execution_side_count": 42.0,
+              "kill_reason": "daily_loss_limit",
+              "kill_triggered": true,
+              "live_trading_allowed": false,
+              "max_abs_contracts": 1.0,
+              "max_drawdown_fraction": 0.09869864015206901,
+              "net_pnl_usd": -7540.0,
+              "risk_enforced": true,
+              "risk_shutdown_sessions": 418,
+              "signal_abstention_sessions": 418,
+              "starting_capital_usd": 100000.0,
+              "total_transaction_cost_usd": 630.0
+            },
+            "score": {
+              "best_monthly_net_return": 0.0,
+              "flat_net_pnl_usd": -240.0,
+              "largest_positive_month_profit_fraction": 0.0,
+              "long_net_pnl_usd": 0.0,
+              "max_abs_net_exposure_fraction": 1.0,
+              "max_drawdown_fraction": 0.09869864015206901,
+              "max_gross_exposure_fraction": 1.0,
+              "max_leverage": 1.0,
+              "mean_monthly_net_return": -0.003141666666666666,
+              "median_monthly_net_return": 0.0,
+              "month_count": 24,
+              "monthly_net_return_std": 0.006654504531184533,
+              "profitable_month_rate": 0.0,
+              "session_count": 620,
+              "short_net_pnl_usd": -7299.999999999998,
+              "total_net_pnl_usd": -7539.999999999997,
+              "trade_count": 32,
+              "transaction_cost_usd": 630.0,
+              "turnover": 42.0,
+              "worst_monthly_net_return": -0.02639999999999999
+            }
+          }
+        },
+        "matched_baseline_effective_sample": {
+          "abstention_rate": 0.0,
+          "monthly_trade_counts": {
+            "2021-01": 15,
+            "2021-02": 3
+          },
+          "nonempty_months": 2,
+          "passes_outer_minimums": false,
+          "requested_selected_trades": 282,
+          "risk_or_margin_excluded_selected_trades": 264,
+          "risk_shutdown_sessions": 591,
+          "selected_trades": 18,
+          "signal_abstention_sessions": 224,
+          "trade_opportunities": 282
+        },
+        "matched_baseline_replay_summary": {
+          "ending_equity_usd": 96610.0,
+          "execution_side_count": 6.0,
+          "kill_reason": "daily_loss_limit",
+          "kill_triggered": true,
+          "live_trading_allowed": false,
+          "max_abs_contracts": 1.0,
+          "max_drawdown_fraction": 0.05028262472351929,
+          "net_pnl_usd": -3390.0,
+          "risk_enforced": true,
+          "risk_shutdown_sessions": 591,
+          "signal_abstention_sessions": 224,
+          "starting_capital_usd": 100000.0,
+          "total_transaction_cost_usd": 90.0
+        },
+        "matched_baseline_score": {
+          "best_monthly_net_return": 0.0,
+          "flat_net_pnl_usd": -30.0,
+          "largest_positive_month_profit_fraction": 0.0,
+          "long_net_pnl_usd": 0.0,
+          "max_abs_net_exposure_fraction": 1.0,
+          "max_drawdown_fraction": 0.05028262472351929,
+          "max_gross_exposure_fraction": 1.0,
+          "max_leverage": 1.0,
+          "mean_monthly_net_return": -0.0014125000000000003,
+          "median_monthly_net_return": 0.0,
+          "month_count": 24,
+          "monthly_net_return_std": 0.00524881435024457,
+          "profitable_month_rate": 0.0,
+          "session_count": 620,
+          "short_net_pnl_usd": -3360.000000000001,
+          "total_net_pnl_usd": -3390.0000000000005,
+          "trade_count": 4,
+          "transaction_cost_usd": 90.0,
+          "turnover": 6.0,
+          "worst_monthly_net_return": -0.02515
+        },
+        "meta_failure": null,
+        "oi_representation": "feature_issue448_oi_change_1",
+        "oi_state": {
+          "column": "feature_issue448_oi_change_1",
+          "favored": "low",
+          "high_mean_utility_usd": 188.7600000000002,
+          "high_rows": 250,
+          "low_mean_utility_usd": 261.1952191235065,
+          "low_rows": 251,
+          "mean": -0.008252035048873035,
+          "std": 0.9059250128218138,
+          "threshold": -0.10904965776688513
+        },
+        "outer_block": {
+          "end": "2022-12-31",
+          "id": "outer-2021-2022",
+          "start": "2021-01-01"
+        },
+        "parent_outer_block_id": "outer-2021-2022",
+        "policy_history_outcome_diagnostics": {
+          "boundary": "2021-01-01 00:00:00+00:00",
+          "history_rows": 906,
+          "max_target_end_timestamp": "2020-12-29 00:00:00+00:00",
+          "strictly_prior": true
+        },
+        "uniform_value_claim_allowed": false
+      }
+    },
+    "uniform_value_claim_allowed": false
+  },
+  "outer_block_stability": {
+    "outer-2019-2020": {
+      "effective_sample_pass": true,
+      "kill_trigger_regression": false,
+      "mean_monthly_net_return_delta": 0.0,
+      "selected_config_id": "baseline",
+      "total_net_pnl_usd_delta": 0.0
+    },
+    "outer-2021-2022": {
+      "effective_sample_pass": false,
+      "kill_trigger_regression": false,
+      "mean_monthly_net_return_delta": 0.0005541666666666678,
+      "selected_config_id": "meta-interactions-p60",
+      "total_net_pnl_usd_delta": 1330.0000000000023
+    }
+  },
+  "outer_results": {
+    "outer-2019-2020": {
+      "baseline_effective_sample": {
+        "abstention_rate": 0.0,
+        "monthly_trade_counts": {
+          "2019-01": 13,
+          "2019-02": 12,
+          "2019-03": 11,
+          "2019-04": 10,
+          "2019-05": 2,
+          "2019-06": 12,
+          "2019-07": 7,
+          "2019-08": 12,
+          "2019-09": 10,
+          "2019-10": 17,
+          "2019-11": 9,
+          "2019-12": 2
+        },
+        "nonempty_months": 12,
+        "passes_outer_minimums": true,
+        "requested_selected_trades": 285,
+        "risk_or_margin_excluded_selected_trades": 168,
+        "risk_shutdown_sessions": 334,
+        "selected_trades": 117,
+        "signal_abstention_sessions": 272,
+        "trade_opportunities": 285
+      },
+      "baseline_replay_summary": {
+        "ending_equity_usd": 107010.0,
+        "execution_side_count": 72.0,
+        "kill_reason": "daily_loss_limit",
+        "kill_triggered": true,
+        "live_trading_allowed": false,
+        "max_abs_contracts": 1.0,
+        "max_drawdown_fraction": 0.06982012595713832,
+        "net_pnl_usd": 7010.0,
+        "risk_enforced": true,
+        "risk_shutdown_sessions": 334,
+        "signal_abstention_sessions": 272,
+        "starting_capital_usd": 100000.0,
+        "total_transaction_cost_usd": 1080.0
+      },
+      "confidence_calibration": {
+        "outer_fit": {
+          "basic": {
+            "active": true,
+            "brier_score": 0.24913760731850965,
+            "calibration_rows": 57,
+            "calibration_start": "2018-07-02 00:00:00+00:00",
+            "ece": 0.014075350334875131,
+            "mode": "basic",
+            "positive_label_rate": 0.49122807017543857,
+            "training_end": "2018-07-01 00:00:00+00:00",
+            "training_rows": 168
+          },
+          "interactions": {
+            "active": true,
+            "brier_score": 0.24585106064757548,
+            "calibration_rows": 57,
+            "calibration_start": "2018-07-02 00:00:00+00:00",
+            "ece": 0.04615873480704402,
+            "mode": "interactions",
+            "positive_label_rate": 0.49122807017543857,
+            "training_end": "2018-07-01 00:00:00+00:00",
+            "training_rows": 168
+          }
+        },
+        "prequential": {
+          "2018": {
+            "basic": {
+              "active": false,
+              "reason": "preregistered_meta_year_ineligible"
+            },
+            "interactions": {
+              "active": false,
+              "reason": "preregistered_meta_year_ineligible"
+            }
+          }
+        }
+      },
+      "cost_sensitivity": {
+        "base": {
+          "replay_summary": {
+            "ending_equity_usd": 107010.0,
+            "execution_side_count": 72.0,
+            "kill_reason": "daily_loss_limit",
+            "kill_triggered": true,
+            "live_trading_allowed": false,
+            "max_abs_contracts": 1.0,
+            "max_drawdown_fraction": 0.06982012595713832,
+            "net_pnl_usd": 7010.0,
+            "risk_enforced": true,
+            "risk_shutdown_sessions": 334,
+            "signal_abstention_sessions": 272,
+            "starting_capital_usd": 100000.0,
+            "total_transaction_cost_usd": 1080.0
+          },
+          "score": {
+            "best_monthly_net_return": 0.09774999999999993,
+            "flat_net_pnl_usd": -480.0,
+            "largest_positive_month_profit_fraction": 0.5513254371122391,
+            "long_net_pnl_usd": 1729.9999999999986,
+            "max_abs_net_exposure_fraction": 1.0,
+            "max_drawdown_fraction": 0.06982012595713832,
+            "max_gross_exposure_fraction": 1.0,
+            "max_leverage": 1.0,
+            "mean_monthly_net_return": 0.002803999999999995,
+            "median_monthly_net_return": 0.0,
+            "month_count": 25,
+            "monthly_net_return_std": 0.023538266376264824,
+            "profitable_month_rate": 0.24,
+            "session_count": 625,
+            "short_net_pnl_usd": 5759.999999999989,
+            "total_net_pnl_usd": 7009.999999999989,
+            "trade_count": 66,
+            "transaction_cost_usd": 1080.0,
+            "turnover": 72.0,
+            "worst_monthly_net_return": -0.030500000000000013
+          }
+        },
+        "higher_1_5x": {
+          "replay_summary": {
+            "ending_equity_usd": 106470.0,
+            "execution_side_count": 72.0,
+            "kill_reason": "daily_loss_limit",
+            "kill_triggered": true,
+            "live_trading_allowed": false,
+            "max_abs_contracts": 1.0,
+            "max_drawdown_fraction": 0.07223317694521883,
+            "net_pnl_usd": 6470.0,
+            "risk_enforced": true,
+            "risk_shutdown_sessions": 334,
+            "signal_abstention_sessions": 272,
+            "starting_capital_usd": 100000.0,
+            "total_transaction_cost_usd": 1620.0
+          },
+          "score": {
+            "best_monthly_net_return": 0.09692499999999993,
+            "flat_net_pnl_usd": -720.0,
+            "largest_positive_month_profit_fraction": 0.5570402298850575,
+            "long_net_pnl_usd": 1579.9999999999986,
+            "max_abs_net_exposure_fraction": 1.0,
+            "max_drawdown_fraction": 0.07223317694521883,
+            "max_gross_exposure_fraction": 1.0,
+            "max_leverage": 1.0,
+            "mean_monthly_net_return": 0.002587999999999995,
+            "median_monthly_net_return": 0.0,
+            "month_count": 25,
+            "monthly_net_return_std": 0.023419027648474207,
+            "profitable_month_rate": 0.24,
+            "session_count": 625,
+            "short_net_pnl_usd": 5609.999999999989,
+            "total_net_pnl_usd": 6469.999999999989,
+            "trade_count": 66,
+            "transaction_cost_usd": 1620.0,
+            "turnover": 72.0,
+            "worst_monthly_net_return": -0.031100000000000013
+          }
+        },
+        "higher_2x": {
+          "replay_summary": {
+            "ending_equity_usd": 105930.0,
+            "execution_side_count": 72.0,
+            "kill_reason": "daily_loss_limit",
+            "kill_triggered": true,
+            "live_trading_allowed": false,
+            "max_abs_contracts": 1.0,
+            "max_drawdown_fraction": 0.0746485260770975,
+            "net_pnl_usd": 5930.0,
+            "risk_enforced": true,
+            "risk_shutdown_sessions": 334,
+            "signal_abstention_sessions": 272,
+            "starting_capital_usd": 100000.0,
+            "total_transaction_cost_usd": 2160.0
+          },
+          "score": {
+            "best_monthly_net_return": 0.09609999999999992,
+            "flat_net_pnl_usd": -960.0,
+            "largest_positive_month_profit_fraction": 0.5619883040935673,
+            "long_net_pnl_usd": 1429.9999999999986,
+            "max_abs_net_exposure_fraction": 1.0,
+            "max_drawdown_fraction": 0.0746485260770975,
+            "max_gross_exposure_fraction": 1.0,
+            "max_leverage": 1.0,
+            "mean_monthly_net_return": 0.0023719999999999948,
+            "median_monthly_net_return": 0.0,
+            "month_count": 25,
+            "monthly_net_return_std": 0.02330204317221988,
+            "profitable_month_rate": 0.2,
+            "session_count": 625,
+            "short_net_pnl_usd": 5459.99999999999,
+            "total_net_pnl_usd": 5929.999999999989,
+            "trade_count": 66,
+            "transaction_cost_usd": 2160.0,
+            "turnover": 72.0,
+            "worst_monthly_net_return": -0.03170000000000001
+          }
+        }
+      },
+      "delta": {
+        "max_drawdown_fraction": 0.0,
+        "mean_monthly_net_return": 0.0,
+        "total_net_pnl_usd": 0.0,
+        "trade_count": 0,
+        "transaction_cost_usd": 0.0
+      },
+      "kill_trigger_regression": false,
+      "matched_baseline_score": {
+        "best_monthly_net_return": 0.09774999999999993,
+        "flat_net_pnl_usd": -480.0,
+        "largest_positive_month_profit_fraction": 0.5513254371122391,
+        "long_net_pnl_usd": 1729.9999999999986,
+        "max_abs_net_exposure_fraction": 1.0,
+        "max_drawdown_fraction": 0.06982012595713832,
+        "max_gross_exposure_fraction": 1.0,
+        "max_leverage": 1.0,
+        "mean_monthly_net_return": 0.002803999999999995,
+        "median_monthly_net_return": 0.0,
+        "month_count": 25,
+        "monthly_net_return_std": 0.023538266376264824,
+        "profitable_month_rate": 0.24,
+        "session_count": 625,
+        "short_net_pnl_usd": 5759.999999999989,
+        "total_net_pnl_usd": 7009.999999999989,
+        "trade_count": 66,
+        "transaction_cost_usd": 1080.0,
+        "turnover": 72.0,
+        "worst_monthly_net_return": -0.030500000000000013
+      },
+      "outer_block": {
+        "end": "2020-12-31",
+        "id": "outer-2019-2020",
+        "start": "2019-01-01"
+      },
+      "policy_history_outcome_diagnostics": {
+        "outer_fit": {
+          "boundary": "2019-01-01 00:00:00+00:00",
+          "history_rows": 483,
+          "max_target_end_timestamp": "2018-12-31 00:00:00+00:00",
+          "strictly_prior": true
+        },
+        "prequential": {
+          "2018": {
+            "boundary": "2018-01-01 00:00:00+00:00",
+            "history_rows": 242,
+            "max_target_end_timestamp": "2017-12-27 00:00:00+00:00",
+            "strictly_prior": true
+          }
+        }
+      },
+      "remove_one_input_ablations": {},
+      "selected": {
+        "complexity": 0,
+        "complexity_control": "not_needed",
+        "config_id": "baseline",
+        "max_drawdown_fraction": 0.05981523266209715,
+        "mean_monthly_net_return": 0.008015384615384617,
+        "median_yearly_net_pnl_usd": 10420.0,
+        "ranking": [
+          {
+            "complexity": 0,
+            "config_id": "baseline",
+            "max_drawdown_fraction": 0.05981523266209715,
+            "mean_monthly_net_return": 0.008015384615384617,
+            "median_yearly_net_pnl_usd": 10420.0,
+            "transaction_cost_usd": 1050.0,
+            "worst_yearly_net_pnl_usd": 10420.0,
+            "years": [
+              2018
+            ]
+          },
+          {
+            "complexity": 1,
+            "config_id": "model-agreement",
+            "max_drawdown_fraction": 0.05981523266209715,
+            "mean_monthly_net_return": 0.008015384615384617,
+            "median_yearly_net_pnl_usd": 10420.0,
+            "transaction_cost_usd": 1050.0,
+            "worst_yearly_net_pnl_usd": 10420.0,
+            "years": [
+              2018
+            ]
+          },
+          {
+            "complexity": 1,
+            "config_id": "vol-of-vol-veto-q90",
+            "max_drawdown_fraction": 0.06012753027774211,
+            "mean_monthly_net_return": 0.007546153846153846,
+            "median_yearly_net_pnl_usd": 9810.0,
+            "transaction_cost_usd": 990.0,
+            "worst_yearly_net_pnl_usd": 9810.0,
+            "years": [
+              2018
+            ]
+          },
+          {
+            "complexity": 1,
+            "config_id": "jump-veto-q75",
+            "max_drawdown_fraction": 0.060168729390604254,
+            "mean_monthly_net_return": 0.007484615384615385,
+            "median_yearly_net_pnl_usd": 9730.0,
+            "transaction_cost_usd": 960.0,
+            "worst_yearly_net_pnl_usd": 9730.0,
+            "years": [
+              2018
+            ]
+          },
+          {
+            "complexity": 2,
+            "config_id": "joint-vol-veto-q75",
+            "max_drawdown_fraction": 0.06051600120601284,
+            "mean_monthly_net_return": 0.006969230769230768,
+            "median_yearly_net_pnl_usd": 9060.0,
+            "transaction_cost_usd": 900.0,
+            "worst_yearly_net_pnl_usd": 9060.0,
+            "years": [
+              2018
+            ]
+          },
+          {
+            "complexity": 2,
+            "config_id": "joint-vol-veto-q90",
+            "max_drawdown_fraction": 0.06059952555531594,
+            "mean_monthly_net_return": 0.006846153846153848,
+            "median_yearly_net_pnl_usd": 8900.000000000004,
+            "transaction_cost_usd": 990.0,
+            "worst_yearly_net_pnl_usd": 8900.000000000004,
+            "years": [
+              2018
+            ]
+          },
+          {
+            "complexity": 1,
+            "config_id": "jump-veto-q90",
+            "max_drawdown_fraction": 0.06088840736728061,
+            "mean_monthly_net_return": 0.006423076923076925,
+            "median_yearly_net_pnl_usd": 8350.000000000002,
+            "transaction_cost_usd": 1020.0,
+            "worst_yearly_net_pnl_usd": 8350.000000000002,
+            "years": [
+              2018
+            ]
+          },
+          {
+            "complexity": 1,
+            "config_id": "vol-of-vol-veto-q75",
+            "max_drawdown_fraction": 0.06110555386421954,
+            "mean_monthly_net_return": 0.006107692307692308,
+            "median_yearly_net_pnl_usd": 7940.0,
+            "transaction_cost_usd": 960.0,
+            "worst_yearly_net_pnl_usd": 7940.0,
+            "years": [
+              2018
+            ]
+          },
+          {
+            "complexity": 1,
+            "config_id": "favored-signals-ge3",
+            "max_drawdown_fraction": 0.06164714141547102,
+            "mean_monthly_net_return": 0.005330769230769227,
+            "median_yearly_net_pnl_usd": 6929.999999999996,
+            "transaction_cost_usd": 720.0,
+            "worst_yearly_net_pnl_usd": 6929.999999999996,
+            "years": [
+              2018
+            ]
+          },
+          {
+            "complexity": 1,
+            "config_id": "strength-q50",
+            "max_drawdown_fraction": 0.034702647751952316,
+            "mean_monthly_net_return": 0.003423076923076915,
+            "median_yearly_net_pnl_usd": 4449.99999999999,
+            "transaction_cost_usd": 480.0,
+            "worst_yearly_net_pnl_usd": 4449.99999999999,
+            "years": [
+              2018
+            ]
+          },
+          {
+            "complexity": 3,
+            "config_id": "favorable-regime-p2",
+            "max_drawdown_fraction": 0.02516470996185664,
+            "mean_monthly_net_return": 0.0023307692307692304,
+            "median_yearly_net_pnl_usd": 3030.0,
+            "transaction_cost_usd": 360.0,
+            "worst_yearly_net_pnl_usd": 3030.0,
+            "years": [
+              2018
+            ]
+          },
+          {
+            "complexity": 2,
+            "config_id": "strength-q50__favored-ge4",
+            "max_drawdown_fraction": 0.03527312009769386,
+            "mean_monthly_net_return": 0.002076923076923071,
+            "median_yearly_net_pnl_usd": 2699.9999999999936,
+            "transaction_cost_usd": 270.0,
+            "worst_yearly_net_pnl_usd": 2699.9999999999936,
+            "years": [
+              2018
+            ]
+          },
+          {
+            "complexity": 2,
+            "config_id": "strength-q50__favored-ge3",
+            "max_drawdown_fraction": 0.03535948020151622,
+            "mean_monthly_net_return": 0.0018769230769230699,
+            "median_yearly_net_pnl_usd": 2439.999999999992,
+            "transaction_cost_usd": 420.0,
+            "worst_yearly_net_pnl_usd": 2439.999999999992,
+            "years": [
+              2018
+            ]
+          },
+          {
+            "complexity": 1,
+            "config_id": "strength-q65",
+            "max_drawdown_fraction": 0.03575308175506555,
+            "mean_monthly_net_return": 0.0015999999999999936,
+            "median_yearly_net_pnl_usd": 2079.999999999991,
+            "transaction_cost_usd": 420.0,
+            "worst_yearly_net_pnl_usd": 2079.999999999991,
+            "years": [
+              2018
+            ]
+          },
+          {
+            "complexity": 2,
+            "config_id": "favorable-regime-p1",
+            "max_drawdown_fraction": 0.02625,
+            "mean_monthly_net_return": 0.0015461538461538488,
+            "median_yearly_net_pnl_usd": 2010.0000000000032,
+            "transaction_cost_usd": 420.0,
+            "worst_yearly_net_pnl_usd": 2010.0000000000032,
+            "years": [
+              2018
+            ]
+          },
+          {
+            "complexity": 1,
+            "config_id": "favored-signals-ge5",
+            "max_drawdown_fraction": 0.02513387042307878,
+            "mean_monthly_net_return": 0.0008000000000000048,
+            "median_yearly_net_pnl_usd": 1040.000000000006,
+            "transaction_cost_usd": 240.0,
+            "worst_yearly_net_pnl_usd": 1040.000000000006,
+            "years": [
+              2018
+            ]
+          },
+          {
+            "complexity": 4,
+            "config_id": "favorable-regime-p3",
+            "max_drawdown_fraction": 0.025202163020290717,
+            "mean_monthly_net_return": 0.0007846153846153856,
+            "median_yearly_net_pnl_usd": 1020.0000000000014,
+            "transaction_cost_usd": 300.0,
+            "worst_yearly_net_pnl_usd": 1020.0000000000014,
+            "years": [
+              2018
+            ]
+          },
+          {
+            "complexity": 1,
+            "config_id": "favored-signals-ge4",
+            "max_drawdown_fraction": 0.06547867650471019,
+            "mean_monthly_net_return": 0.0005307692307692337,
+            "median_yearly_net_pnl_usd": 690.0000000000039,
+            "transaction_cost_usd": 480.0,
+            "worst_yearly_net_pnl_usd": 690.0000000000039,
+            "years": [
+              2018
+            ]
+          },
+          {
+            "complexity": 1,
+            "config_id": "strength-q80",
+            "max_drawdown_fraction": 0.033129778333413476,
+            "mean_monthly_net_return": 0.0004153846153846102,
+            "median_yearly_net_pnl_usd": 539.9999999999941,
+            "transaction_cost_usd": 240.0,
+            "worst_yearly_net_pnl_usd": 539.9999999999941,
+            "years": [
+              2018
+            ]
+          },
+          {
+            "complexity": 2,
+            "config_id": "strength-q65__favored-ge4",
+            "max_drawdown_fraction": 0.0364275058948079,
+            "mean_monthly_net_return": 9.230769230768588e-05,
+            "median_yearly_net_pnl_usd": 119.99999999999181,
+            "transaction_cost_usd": 240.0,
+            "worst_yearly_net_pnl_usd": 119.99999999999181,
+            "years": [
+              2018
+            ]
+          },
+          {
+            "complexity": 2,
+            "config_id": "strength-q65__favored-ge3",
+            "max_drawdown_fraction": 0.036490720655579796,
+            "mean_monthly_net_return": -4.615384615385495e-05,
+            "median_yearly_net_pnl_usd": -60.00000000001046,
+            "transaction_cost_usd": 360.0,
+            "worst_yearly_net_pnl_usd": -60.00000000001046,
+            "years": [
+              2018
+            ]
+          }
+        ],
+        "transaction_cost_usd": 1050.0,
+        "worst_yearly_net_pnl_usd": 10420.0,
+        "years": [
+          2018
+        ]
+      },
+      "selected_config": {
+        "complexity": 0,
+        "config_id": "baseline",
+        "favored_signal_count": null,
+        "kind": "baseline",
+        "meta_mode": null,
+        "persistence": null,
+        "probability_threshold": null,
+        "strength_quantile": null,
+        "veto_quantile": null
+      },
+      "selected_effective_sample": {
+        "abstention_rate": 0.0,
+        "monthly_trade_counts": {
+          "2019-01": 13,
+          "2019-02": 12,
+          "2019-03": 11,
+          "2019-04": 10,
+          "2019-05": 2,
+          "2019-06": 12,
+          "2019-07": 7,
+          "2019-08": 12,
+          "2019-09": 10,
+          "2019-10": 17,
+          "2019-11": 9,
+          "2019-12": 2
+        },
+        "nonempty_months": 12,
+        "passes_outer_minimums": true,
+        "requested_selected_trades": 285,
+        "risk_or_margin_excluded_selected_trades": 168,
+        "risk_shutdown_sessions": 334,
+        "selected_trades": 117,
+        "signal_abstention_sessions": 272,
+        "trade_opportunities": 285
+      },
+      "selected_replay_summary": {
+        "ending_equity_usd": 107010.0,
+        "execution_side_count": 72.0,
+        "kill_reason": "daily_loss_limit",
+        "kill_triggered": true,
+        "live_trading_allowed": false,
+        "max_abs_contracts": 1.0,
+        "max_drawdown_fraction": 0.06982012595713832,
+        "net_pnl_usd": 7010.0,
+        "risk_enforced": true,
+        "risk_shutdown_sessions": 334,
+        "signal_abstention_sessions": 272,
+        "starting_capital_usd": 100000.0,
+        "total_transaction_cost_usd": 1080.0
+      },
+      "selected_score": {
+        "best_monthly_net_return": 0.09774999999999993,
+        "flat_net_pnl_usd": -480.0,
+        "largest_positive_month_profit_fraction": 0.5513254371122391,
+        "long_net_pnl_usd": 1729.9999999999986,
+        "max_abs_net_exposure_fraction": 1.0,
+        "max_drawdown_fraction": 0.06982012595713832,
+        "max_gross_exposure_fraction": 1.0,
+        "max_leverage": 1.0,
+        "mean_monthly_net_return": 0.002803999999999995,
+        "median_monthly_net_return": 0.0,
+        "month_count": 25,
+        "monthly_net_return_std": 0.023538266376264824,
+        "profitable_month_rate": 0.24,
+        "session_count": 625,
+        "short_net_pnl_usd": 5759.999999999989,
+        "total_net_pnl_usd": 7009.999999999989,
+        "trade_count": 66,
+        "transaction_cost_usd": 1080.0,
+        "turnover": 72.0,
+        "worst_monthly_net_return": -0.030500000000000013
+      },
+      "selection_years": [
+        2018
+      ],
+      "signal_columns": [
+        "feature_issue448_managed_money_net_pct_oi_change_1report",
+        "feature_issue448_donchian_position_55",
+        "feature_issue448_adx_28",
+        "feature_issue448_volume_zscore_20",
+        "feature_issue427_jump_intensity",
+        "feature_issue427_vol_of_vol"
+      ]
+    },
+    "outer-2021-2022": {
+      "baseline_effective_sample": {
+        "abstention_rate": 0.0,
+        "monthly_trade_counts": {
+          "2021-01": 15,
+          "2021-02": 3
+        },
+        "nonempty_months": 2,
+        "passes_outer_minimums": false,
+        "requested_selected_trades": 282,
+        "risk_or_margin_excluded_selected_trades": 264,
+        "risk_shutdown_sessions": 591,
+        "selected_trades": 18,
+        "signal_abstention_sessions": 224,
+        "trade_opportunities": 282
+      },
+      "baseline_replay_summary": {
+        "ending_equity_usd": 96610.0,
+        "execution_side_count": 6.0,
+        "kill_reason": "daily_loss_limit",
+        "kill_triggered": true,
+        "live_trading_allowed": false,
+        "max_abs_contracts": 1.0,
+        "max_drawdown_fraction": 0.05028262472351929,
+        "net_pnl_usd": -3390.0,
+        "risk_enforced": true,
+        "risk_shutdown_sessions": 591,
+        "signal_abstention_sessions": 224,
+        "starting_capital_usd": 100000.0,
+        "total_transaction_cost_usd": 90.0
+      },
+      "confidence_calibration": {
+        "outer_fit": {
+          "basic": {
+            "active": true,
+            "brier_score": 0.24800383469375076,
+            "calibration_rows": 126,
+            "calibration_start": "2020-02-28 00:00:00+00:00",
+            "ece": 0.038433920978692866,
+            "mode": "basic",
+            "positive_label_rate": 0.5,
+            "training_end": "2020-02-14 00:00:00+00:00",
+            "training_rows": 374
+          },
+          "interactions": {
+            "active": true,
+            "brier_score": 0.2470766728425731,
+            "calibration_rows": 126,
+            "calibration_start": "2020-02-28 00:00:00+00:00",
+            "ece": 0.08988692849465264,
+            "mode": "interactions",
+            "positive_label_rate": 0.5,
+            "training_end": "2020-02-14 00:00:00+00:00",
+            "training_rows": 374
+          }
+        },
+        "prequential": {
+          "2018": {
+            "basic": {
+              "active": false,
+              "reason": "preregistered_meta_year_ineligible"
+            },
+            "interactions": {
+              "active": false,
+              "reason": "preregistered_meta_year_ineligible"
+            }
+          },
+          "2019": {
+            "basic": {
+              "active": true,
+              "brier_score": 0.2438806015142027,
+              "calibration_rows": 57,
+              "calibration_start": "2018-06-26 00:00:00+00:00",
+              "ece": 0.11822513698616846,
+              "mode": "basic",
+              "positive_label_rate": 0.5087719298245614,
+              "training_end": "2018-06-25 00:00:00+00:00",
+              "training_rows": 160
+            },
+            "interactions": {
+              "active": true,
+              "brier_score": 0.24190196197481378,
+              "calibration_rows": 57,
+              "calibration_start": "2018-06-26 00:00:00+00:00",
+              "ece": 0.15398887625172386,
+              "mode": "interactions",
+              "positive_label_rate": 0.5087719298245614,
+              "training_end": "2018-06-25 00:00:00+00:00",
+              "training_rows": 160
+            }
+          },
+          "2020": {
+            "basic": {
+              "active": true,
+              "brier_score": 0.2358459842164498,
+              "calibration_rows": 90,
+              "calibration_start": "2019-04-10 00:00:00+00:00",
+              "ece": 0.01728358422683801,
+              "mode": "basic",
+              "positive_label_rate": 0.6111111111111112,
+              "training_end": "2019-04-05 00:00:00+00:00",
+              "training_rows": 261
+            },
+            "interactions": {
+              "active": true,
+              "brier_score": 0.21453847200203924,
+              "calibration_rows": 90,
+              "calibration_start": "2019-04-10 00:00:00+00:00",
+              "ece": 0.05021471122302876,
+              "mode": "interactions",
+              "positive_label_rate": 0.6111111111111112,
+              "training_end": "2019-04-05 00:00:00+00:00",
+              "training_rows": 261
+            }
+          }
+        }
+      },
+      "cost_sensitivity": {
+        "base": {
+          "replay_summary": {
+            "ending_equity_usd": 97940.0,
+            "execution_side_count": 2.0,
+            "kill_reason": "daily_loss_limit",
+            "kill_triggered": true,
+            "live_trading_allowed": false,
+            "max_abs_contracts": 1.0,
+            "max_drawdown_fraction": 0.0206,
+            "net_pnl_usd": -2060.0,
+            "risk_enforced": true,
+            "risk_shutdown_sessions": 591,
+            "signal_abstention_sessions": 608,
+            "starting_capital_usd": 100000.0,
+            "total_transaction_cost_usd": 30.0
+          },
+          "score": {
+            "best_monthly_net_return": 0.0,
+            "flat_net_pnl_usd": -15.0,
+            "largest_positive_month_profit_fraction": 0.0,
+            "long_net_pnl_usd": 0.0,
+            "max_abs_net_exposure_fraction": 1.0,
+            "max_drawdown_fraction": 0.0206,
+            "max_gross_exposure_fraction": 1.0,
+            "max_leverage": 1.0,
+            "mean_monthly_net_return": -0.0008583333333333326,
+            "median_monthly_net_return": 0.0,
+            "month_count": 24,
+            "monthly_net_return_std": 0.004116422057510081,
+            "profitable_month_rate": 0.0,
+            "session_count": 620,
+            "short_net_pnl_usd": -2044.9999999999984,
+            "total_net_pnl_usd": -2059.999999999998,
+            "trade_count": 2,
+            "transaction_cost_usd": 30.0,
+            "turnover": 2.0,
+            "worst_monthly_net_return": -0.020599999999999983
+          }
+        },
+        "higher_1_5x": {
+          "replay_summary": {
+            "ending_equity_usd": 97925.0,
+            "execution_side_count": 2.0,
+            "kill_reason": "daily_loss_limit",
+            "kill_triggered": true,
+            "live_trading_allowed": false,
+            "max_abs_contracts": 1.0,
+            "max_drawdown_fraction": 0.02075,
+            "net_pnl_usd": -2075.0,
+            "risk_enforced": true,
+            "risk_shutdown_sessions": 591,
+            "signal_abstention_sessions": 608,
+            "starting_capital_usd": 100000.0,
+            "total_transaction_cost_usd": 45.0
+          },
+          "score": {
+            "best_monthly_net_return": 0.0,
+            "flat_net_pnl_usd": -22.5,
+            "largest_positive_month_profit_fraction": 0.0,
+            "long_net_pnl_usd": 0.0,
+            "max_abs_net_exposure_fraction": 1.0,
+            "max_drawdown_fraction": 0.02075,
+            "max_gross_exposure_fraction": 1.0,
+            "max_leverage": 1.0,
+            "mean_monthly_net_return": -0.0008645833333333325,
+            "median_monthly_net_return": 0.0,
+            "month_count": 24,
+            "monthly_net_return_std": 0.004146396004530785,
+            "profitable_month_rate": 0.0,
+            "session_count": 620,
+            "short_net_pnl_usd": -2052.499999999998,
+            "total_net_pnl_usd": -2074.999999999998,
+            "trade_count": 2,
+            "transaction_cost_usd": 45.0,
+            "turnover": 2.0,
+            "worst_monthly_net_return": -0.02074999999999998
+          }
+        },
+        "higher_2x": {
+          "replay_summary": {
+            "ending_equity_usd": 97910.0,
+            "execution_side_count": 2.0,
+            "kill_reason": "daily_loss_limit",
+            "kill_triggered": true,
+            "live_trading_allowed": false,
+            "max_abs_contracts": 1.0,
+            "max_drawdown_fraction": 0.0209,
+            "net_pnl_usd": -2090.0,
+            "risk_enforced": true,
+            "risk_shutdown_sessions": 591,
+            "signal_abstention_sessions": 608,
+            "starting_capital_usd": 100000.0,
+            "total_transaction_cost_usd": 60.0
+          },
+          "score": {
+            "best_monthly_net_return": 0.0,
+            "flat_net_pnl_usd": -30.0,
+            "largest_positive_month_profit_fraction": 0.0,
+            "long_net_pnl_usd": 0.0,
+            "max_abs_net_exposure_fraction": 1.0,
+            "max_drawdown_fraction": 0.0209,
+            "max_gross_exposure_fraction": 1.0,
+            "max_leverage": 1.0,
+            "mean_monthly_net_return": -0.0008708333333333325,
+            "median_monthly_net_return": 0.0,
+            "month_count": 24,
+            "monthly_net_return_std": 0.0041763699515514905,
+            "profitable_month_rate": 0.0,
+            "session_count": 620,
+            "short_net_pnl_usd": -2059.999999999998,
+            "total_net_pnl_usd": -2089.999999999998,
+            "trade_count": 2,
+            "transaction_cost_usd": 60.0,
+            "turnover": 2.0,
+            "worst_monthly_net_return": -0.02089999999999998
+          }
+        }
+      },
+      "delta": {
+        "max_drawdown_fraction": -0.02968262472351929,
+        "mean_monthly_net_return": 0.0005541666666666678,
+        "total_net_pnl_usd": 1330.0000000000023,
+        "trade_count": -2,
+        "transaction_cost_usd": -60.0
+      },
+      "kill_trigger_regression": false,
+      "matched_baseline_score": {
+        "best_monthly_net_return": 0.0,
+        "flat_net_pnl_usd": -30.0,
+        "largest_positive_month_profit_fraction": 0.0,
+        "long_net_pnl_usd": 0.0,
+        "max_abs_net_exposure_fraction": 1.0,
+        "max_drawdown_fraction": 0.05028262472351929,
+        "max_gross_exposure_fraction": 1.0,
+        "max_leverage": 1.0,
+        "mean_monthly_net_return": -0.0014125000000000003,
+        "median_monthly_net_return": 0.0,
+        "month_count": 24,
+        "monthly_net_return_std": 0.00524881435024457,
+        "profitable_month_rate": 0.0,
+        "session_count": 620,
+        "short_net_pnl_usd": -3360.000000000001,
+        "total_net_pnl_usd": -3390.0000000000005,
+        "trade_count": 4,
+        "transaction_cost_usd": 90.0,
+        "turnover": 6.0,
+        "worst_monthly_net_return": -0.02515
+      },
+      "outer_block": {
+        "end": "2022-12-31",
+        "id": "outer-2021-2022",
+        "start": "2021-01-01"
+      },
+      "policy_history_outcome_diagnostics": {
+        "outer_fit": {
+          "boundary": "2021-01-01 00:00:00+00:00",
+          "history_rows": 906,
+          "max_target_end_timestamp": "2020-12-29 00:00:00+00:00",
+          "strictly_prior": true
+        },
+        "prequential": {
+          "2018": {
+            "boundary": "2018-01-01 00:00:00+00:00",
+            "history_rows": 225,
+            "max_target_end_timestamp": "2017-12-27 00:00:00+00:00",
+            "strictly_prior": true
+          },
+          "2019": {
+            "boundary": "2019-01-01 00:00:00+00:00",
+            "history_rows": 443,
+            "max_target_end_timestamp": "2018-12-31 00:00:00+00:00",
+            "strictly_prior": true
+          },
+          "2020": {
+            "boundary": "2020-01-01 00:00:00+00:00",
+            "history_rows": 664,
+            "max_target_end_timestamp": "2019-12-31 00:00:00+00:00",
+            "strictly_prior": true
+          }
+        }
+      },
+      "remove_one_input_ablations": {
+        "favored_fraction": {
+          "delta_vs_selected": {
+            "max_drawdown_fraction": 0.0,
+            "mean_monthly_net_return": 0.0,
+            "total_net_pnl_usd": 0.0,
+            "trade_count": 0,
+            "transaction_cost_usd": 0.0
+          },
+          "effective_sample": {
+            "abstention_rate": 0.9609929078014184,
+            "monthly_trade_counts": {
+              "2021-02": 1
+            },
+            "nonempty_months": 1,
+            "passes_outer_minimums": false,
+            "requested_selected_trades": 11,
+            "risk_or_margin_excluded_selected_trades": 10,
+            "risk_shutdown_sessions": 591,
+            "selected_trades": 1,
+            "signal_abstention_sessions": 608,
+            "trade_opportunities": 282
+          },
+          "replay_summary": {
+            "ending_equity_usd": 97940.0,
+            "execution_side_count": 2.0,
+            "kill_reason": "daily_loss_limit",
+            "kill_triggered": true,
+            "live_trading_allowed": false,
+            "max_abs_contracts": 1.0,
+            "max_drawdown_fraction": 0.0206,
+            "net_pnl_usd": -2060.0,
+            "risk_enforced": true,
+            "risk_shutdown_sessions": 591,
+            "signal_abstention_sessions": 608,
+            "starting_capital_usd": 100000.0,
+            "total_transaction_cost_usd": 30.0
+          },
+          "score": {
+            "best_monthly_net_return": 0.0,
+            "flat_net_pnl_usd": -15.0,
+            "largest_positive_month_profit_fraction": 0.0,
+            "long_net_pnl_usd": 0.0,
+            "max_abs_net_exposure_fraction": 1.0,
+            "max_drawdown_fraction": 0.0206,
+            "max_gross_exposure_fraction": 1.0,
+            "max_leverage": 1.0,
+            "mean_monthly_net_return": -0.0008583333333333326,
+            "median_monthly_net_return": 0.0,
+            "month_count": 24,
+            "monthly_net_return_std": 0.004116422057510081,
+            "profitable_month_rate": 0.0,
+            "session_count": 620,
+            "short_net_pnl_usd": -2044.9999999999984,
+            "total_net_pnl_usd": -2059.999999999998,
+            "trade_count": 2,
+            "transaction_cost_usd": 30.0,
+            "turnover": 2.0,
+            "worst_monthly_net_return": -0.020599999999999983
+          }
+        },
+        "feature_issue427_jump_intensity__z": {
+          "delta_vs_selected": {
+            "max_drawdown_fraction": 0.0,
+            "mean_monthly_net_return": 0.0,
+            "total_net_pnl_usd": 0.0,
+            "trade_count": 0,
+            "transaction_cost_usd": 0.0
+          },
+          "effective_sample": {
+            "abstention_rate": 0.9574468085106383,
+            "monthly_trade_counts": {
+              "2021-02": 1
+            },
+            "nonempty_months": 1,
+            "passes_outer_minimums": false,
+            "requested_selected_trades": 12,
+            "risk_or_margin_excluded_selected_trades": 11,
+            "risk_shutdown_sessions": 591,
+            "selected_trades": 1,
+            "signal_abstention_sessions": 606,
+            "trade_opportunities": 282
+          },
+          "replay_summary": {
+            "ending_equity_usd": 97940.0,
+            "execution_side_count": 2.0,
+            "kill_reason": "daily_loss_limit",
+            "kill_triggered": true,
+            "live_trading_allowed": false,
+            "max_abs_contracts": 1.0,
+            "max_drawdown_fraction": 0.0206,
+            "net_pnl_usd": -2060.0,
+            "risk_enforced": true,
+            "risk_shutdown_sessions": 591,
+            "signal_abstention_sessions": 606,
+            "starting_capital_usd": 100000.0,
+            "total_transaction_cost_usd": 30.0
+          },
+          "score": {
+            "best_monthly_net_return": 0.0,
+            "flat_net_pnl_usd": -15.0,
+            "largest_positive_month_profit_fraction": 0.0,
+            "long_net_pnl_usd": 0.0,
+            "max_abs_net_exposure_fraction": 1.0,
+            "max_drawdown_fraction": 0.0206,
+            "max_gross_exposure_fraction": 1.0,
+            "max_leverage": 1.0,
+            "mean_monthly_net_return": -0.0008583333333333326,
+            "median_monthly_net_return": 0.0,
+            "month_count": 24,
+            "monthly_net_return_std": 0.004116422057510081,
+            "profitable_month_rate": 0.0,
+            "session_count": 620,
+            "short_net_pnl_usd": -2044.9999999999984,
+            "total_net_pnl_usd": -2059.999999999998,
+            "trade_count": 2,
+            "transaction_cost_usd": 30.0,
+            "turnover": 2.0,
+            "worst_monthly_net_return": -0.020599999999999983
+          }
+        },
+        "feature_issue427_vol_of_vol__z": {
+          "delta_vs_selected": {
+            "max_drawdown_fraction": 0.0,
+            "mean_monthly_net_return": 0.0,
+            "total_net_pnl_usd": 0.0,
+            "trade_count": 0,
+            "transaction_cost_usd": 0.0
+          },
+          "effective_sample": {
+            "abstention_rate": 0.9148936170212766,
+            "monthly_trade_counts": {
+              "2021-02": 1
+            },
+            "nonempty_months": 1,
+            "passes_outer_minimums": false,
+            "requested_selected_trades": 24,
+            "risk_or_margin_excluded_selected_trades": 23,
+            "risk_shutdown_sessions": 591,
+            "selected_trades": 1,
+            "signal_abstention_sessions": 591,
+            "trade_opportunities": 282
+          },
+          "replay_summary": {
+            "ending_equity_usd": 97940.0,
+            "execution_side_count": 2.0,
+            "kill_reason": "daily_loss_limit",
+            "kill_triggered": true,
+            "live_trading_allowed": false,
+            "max_abs_contracts": 1.0,
+            "max_drawdown_fraction": 0.0206,
+            "net_pnl_usd": -2060.0,
+            "risk_enforced": true,
+            "risk_shutdown_sessions": 591,
+            "signal_abstention_sessions": 591,
+            "starting_capital_usd": 100000.0,
+            "total_transaction_cost_usd": 30.0
+          },
+          "score": {
+            "best_monthly_net_return": 0.0,
+            "flat_net_pnl_usd": -15.0,
+            "largest_positive_month_profit_fraction": 0.0,
+            "long_net_pnl_usd": 0.0,
+            "max_abs_net_exposure_fraction": 1.0,
+            "max_drawdown_fraction": 0.0206,
+            "max_gross_exposure_fraction": 1.0,
+            "max_leverage": 1.0,
+            "mean_monthly_net_return": -0.0008583333333333326,
+            "median_monthly_net_return": 0.0,
+            "month_count": 24,
+            "monthly_net_return_std": 0.004116422057510081,
+            "profitable_month_rate": 0.0,
+            "session_count": 620,
+            "short_net_pnl_usd": -2044.9999999999984,
+            "total_net_pnl_usd": -2059.999999999998,
+            "trade_count": 2,
+            "transaction_cost_usd": 30.0,
+            "turnover": 2.0,
+            "worst_monthly_net_return": -0.020599999999999983
+          }
+        },
+        "feature_issue448_adx_28__z": {
+          "delta_vs_selected": {
+            "max_drawdown_fraction": -0.0206,
+            "mean_monthly_net_return": 0.0008583333333333326,
+            "total_net_pnl_usd": 2059.999999999998,
+            "trade_count": -2,
+            "transaction_cost_usd": -30.0
+          },
+          "effective_sample": {
+            "abstention_rate": 1.0,
+            "monthly_trade_counts": {},
+            "nonempty_months": 0,
+            "passes_outer_minimums": false,
+            "requested_selected_trades": 0,
+            "risk_or_margin_excluded_selected_trades": 0,
+            "risk_shutdown_sessions": 0,
+            "selected_trades": 0,
+            "signal_abstention_sessions": 620,
+            "trade_opportunities": 282
+          },
+          "replay_summary": {
+            "ending_equity_usd": 100000.0,
+            "execution_side_count": 0.0,
+            "kill_reason": null,
+            "kill_triggered": false,
+            "live_trading_allowed": false,
+            "max_abs_contracts": 0.0,
+            "max_drawdown_fraction": 0.0,
+            "net_pnl_usd": 0.0,
+            "risk_enforced": true,
+            "risk_shutdown_sessions": 0,
+            "signal_abstention_sessions": 620,
+            "starting_capital_usd": 100000.0,
+            "total_transaction_cost_usd": 0.0
+          },
+          "score": {
+            "best_monthly_net_return": 0.0,
+            "flat_net_pnl_usd": 0.0,
+            "largest_positive_month_profit_fraction": 0.0,
+            "long_net_pnl_usd": 0.0,
+            "max_abs_net_exposure_fraction": 0.0,
+            "max_drawdown_fraction": 0.0,
+            "max_gross_exposure_fraction": 0.0,
+            "max_leverage": 0.0,
+            "mean_monthly_net_return": 0.0,
+            "median_monthly_net_return": 0.0,
+            "month_count": 24,
+            "monthly_net_return_std": 0.0,
+            "profitable_month_rate": 0.0,
+            "session_count": 620,
+            "short_net_pnl_usd": 0.0,
+            "total_net_pnl_usd": 0.0,
+            "trade_count": 0,
+            "transaction_cost_usd": 0.0,
+            "turnover": 0.0,
+            "worst_monthly_net_return": 0.0
+          }
+        },
+        "feature_issue448_managed_money_net_pct_oi_change_1report__z": {
+          "delta_vs_selected": {
+            "max_drawdown_fraction": -0.0206,
+            "mean_monthly_net_return": 0.0008583333333333326,
+            "total_net_pnl_usd": 2059.999999999998,
+            "trade_count": -2,
+            "transaction_cost_usd": -30.0
+          },
+          "effective_sample": {
+            "abstention_rate": 1.0,
+            "monthly_trade_counts": {},
+            "nonempty_months": 0,
+            "passes_outer_minimums": false,
+            "requested_selected_trades": 0,
+            "risk_or_margin_excluded_selected_trades": 0,
+            "risk_shutdown_sessions": 0,
+            "selected_trades": 0,
+            "signal_abstention_sessions": 620,
+            "trade_opportunities": 282
+          },
+          "replay_summary": {
+            "ending_equity_usd": 100000.0,
+            "execution_side_count": 0.0,
+            "kill_reason": null,
+            "kill_triggered": false,
+            "live_trading_allowed": false,
+            "max_abs_contracts": 0.0,
+            "max_drawdown_fraction": 0.0,
+            "net_pnl_usd": 0.0,
+            "risk_enforced": true,
+            "risk_shutdown_sessions": 0,
+            "signal_abstention_sessions": 620,
+            "starting_capital_usd": 100000.0,
+            "total_transaction_cost_usd": 0.0
+          },
+          "score": {
+            "best_monthly_net_return": 0.0,
+            "flat_net_pnl_usd": 0.0,
+            "largest_positive_month_profit_fraction": 0.0,
+            "long_net_pnl_usd": 0.0,
+            "max_abs_net_exposure_fraction": 0.0,
+            "max_drawdown_fraction": 0.0,
+            "max_gross_exposure_fraction": 0.0,
+            "max_leverage": 0.0,
+            "mean_monthly_net_return": 0.0,
+            "median_monthly_net_return": 0.0,
+            "month_count": 24,
+            "monthly_net_return_std": 0.0,
+            "profitable_month_rate": 0.0,
+            "session_count": 620,
+            "short_net_pnl_usd": 0.0,
+            "total_net_pnl_usd": 0.0,
+            "trade_count": 0,
+            "transaction_cost_usd": 0.0,
+            "turnover": 0.0,
+            "worst_monthly_net_return": 0.0
+          }
+        },
+        "feature_issue448_normalized_range_28__z": {
+          "delta_vs_selected": {
+            "max_drawdown_fraction": -0.02045478483953725,
+            "mean_monthly_net_return": 0.002225000000000001,
+            "total_net_pnl_usd": 5340.000000000002,
+            "trade_count": 0,
+            "transaction_cost_usd": 0.0
+          },
+          "effective_sample": {
+            "abstention_rate": 0.9964539007092199,
+            "monthly_trade_counts": {
+              "2021-10": 1
+            },
+            "nonempty_months": 1,
+            "passes_outer_minimums": false,
+            "requested_selected_trades": 1,
+            "risk_or_margin_excluded_selected_trades": 0,
+            "risk_shutdown_sessions": 0,
+            "selected_trades": 1,
+            "signal_abstention_sessions": 618,
+            "trade_opportunities": 282
+          },
+          "replay_summary": {
+            "ending_equity_usd": 103280.0,
+            "execution_side_count": 2.0,
+            "kill_reason": null,
+            "kill_triggered": false,
+            "live_trading_allowed": false,
+            "max_abs_contracts": 1.0,
+            "max_drawdown_fraction": 0.00014521516046275232,
+            "net_pnl_usd": 3280.0,
+            "risk_enforced": true,
+            "risk_shutdown_sessions": 0,
+            "signal_abstention_sessions": 618,
+            "starting_capital_usd": 100000.0,
+            "total_transaction_cost_usd": 30.0
+          },
+          "score": {
+            "best_monthly_net_return": 0.03280000000000004,
+            "flat_net_pnl_usd": -15.0,
+            "largest_positive_month_profit_fraction": 1.0,
+            "long_net_pnl_usd": 0.0,
+            "max_abs_net_exposure_fraction": 1.0,
+            "max_drawdown_fraction": 0.00014521516046275232,
+            "max_gross_exposure_fraction": 1.0,
+            "max_leverage": 1.0,
+            "mean_monthly_net_return": 0.0013666666666666682,
+            "median_monthly_net_return": 0.0,
+            "month_count": 24,
+            "monthly_net_return_std": 0.006554303081860724,
+            "profitable_month_rate": 0.041666666666666664,
+            "session_count": 620,
+            "short_net_pnl_usd": 3295.000000000004,
+            "total_net_pnl_usd": 3280.000000000004,
+            "trade_count": 2,
+            "transaction_cost_usd": 30.0,
+            "turnover": 2.0,
+            "worst_monthly_net_return": 0.0
+          }
+        },
+        "feature_issue448_volume_zscore_60__z": {
+          "delta_vs_selected": {
+            "max_drawdown_fraction": -0.0206,
+            "mean_monthly_net_return": 0.0008583333333333326,
+            "total_net_pnl_usd": 2059.999999999998,
+            "trade_count": -2,
+            "transaction_cost_usd": -30.0
+          },
+          "effective_sample": {
+            "abstention_rate": 1.0,
+            "monthly_trade_counts": {},
+            "nonempty_months": 0,
+            "passes_outer_minimums": false,
+            "requested_selected_trades": 0,
+            "risk_or_margin_excluded_selected_trades": 0,
+            "risk_shutdown_sessions": 0,
+            "selected_trades": 0,
+            "signal_abstention_sessions": 620,
+            "trade_opportunities": 282
+          },
+          "replay_summary": {
+            "ending_equity_usd": 100000.0,
+            "execution_side_count": 0.0,
+            "kill_reason": null,
+            "kill_triggered": false,
+            "live_trading_allowed": false,
+            "max_abs_contracts": 0.0,
+            "max_drawdown_fraction": 0.0,
+            "net_pnl_usd": 0.0,
+            "risk_enforced": true,
+            "risk_shutdown_sessions": 0,
+            "signal_abstention_sessions": 620,
+            "starting_capital_usd": 100000.0,
+            "total_transaction_cost_usd": 0.0
+          },
+          "score": {
+            "best_monthly_net_return": 0.0,
+            "flat_net_pnl_usd": 0.0,
+            "largest_positive_month_profit_fraction": 0.0,
+            "long_net_pnl_usd": 0.0,
+            "max_abs_net_exposure_fraction": 0.0,
+            "max_drawdown_fraction": 0.0,
+            "max_gross_exposure_fraction": 0.0,
+            "max_leverage": 0.0,
+            "mean_monthly_net_return": 0.0,
+            "median_monthly_net_return": 0.0,
+            "month_count": 24,
+            "monthly_net_return_std": 0.0,
+            "profitable_month_rate": 0.0,
+            "session_count": 620,
+            "short_net_pnl_usd": 0.0,
+            "total_net_pnl_usd": 0.0,
+            "trade_count": 0,
+            "transaction_cost_usd": 0.0,
+            "turnover": 0.0,
+            "worst_monthly_net_return": 0.0
+          }
+        },
+        "jump_high": {
+          "delta_vs_selected": {
+            "max_drawdown_fraction": 0.0,
+            "mean_monthly_net_return": 0.0,
+            "total_net_pnl_usd": 0.0,
+            "trade_count": 0,
+            "transaction_cost_usd": 0.0
+          },
+          "effective_sample": {
+            "abstention_rate": 0.9609929078014184,
+            "monthly_trade_counts": {
+              "2021-02": 1
+            },
+            "nonempty_months": 1,
+            "passes_outer_minimums": false,
+            "requested_selected_trades": 11,
+            "risk_or_margin_excluded_selected_trades": 10,
+            "risk_shutdown_sessions": 591,
+            "selected_trades": 1,
+            "signal_abstention_sessions": 606,
+            "trade_opportunities": 282
+          },
+          "replay_summary": {
+            "ending_equity_usd": 97940.0,
+            "execution_side_count": 2.0,
+            "kill_reason": "daily_loss_limit",
+            "kill_triggered": true,
+            "live_trading_allowed": false,
+            "max_abs_contracts": 1.0,
+            "max_drawdown_fraction": 0.0206,
+            "net_pnl_usd": -2060.0,
+            "risk_enforced": true,
+            "risk_shutdown_sessions": 591,
+            "signal_abstention_sessions": 606,
+            "starting_capital_usd": 100000.0,
+            "total_transaction_cost_usd": 30.0
+          },
+          "score": {
+            "best_monthly_net_return": 0.0,
+            "flat_net_pnl_usd": -15.0,
+            "largest_positive_month_profit_fraction": 0.0,
+            "long_net_pnl_usd": 0.0,
+            "max_abs_net_exposure_fraction": 1.0,
+            "max_drawdown_fraction": 0.0206,
+            "max_gross_exposure_fraction": 1.0,
+            "max_leverage": 1.0,
+            "mean_monthly_net_return": -0.0008583333333333326,
+            "median_monthly_net_return": 0.0,
+            "month_count": 24,
+            "monthly_net_return_std": 0.004116422057510081,
+            "profitable_month_rate": 0.0,
+            "session_count": 620,
+            "short_net_pnl_usd": -2044.9999999999984,
+            "total_net_pnl_usd": -2059.999999999998,
+            "trade_count": 2,
+            "transaction_cost_usd": 30.0,
+            "turnover": 2.0,
+            "worst_monthly_net_return": -0.020599999999999983
+          }
+        },
+        "jump_x_vol_of_vol": {
+          "delta_vs_selected": {
+            "max_drawdown_fraction": 0.027999999999999997,
+            "mean_monthly_net_return": -0.0011666666666666661,
+            "total_net_pnl_usd": -2799.999999999998,
+            "trade_count": 0,
+            "transaction_cost_usd": 0.0
+          },
+          "effective_sample": {
+            "abstention_rate": 0.9858156028368794,
+            "monthly_trade_counts": {
+              "2021-10": 1
+            },
+            "nonempty_months": 1,
+            "passes_outer_minimums": false,
+            "requested_selected_trades": 4,
+            "risk_or_margin_excluded_selected_trades": 3,
+            "risk_shutdown_sessions": 384,
+            "selected_trades": 1,
+            "signal_abstention_sessions": 615,
+            "trade_opportunities": 282
+          },
+          "replay_summary": {
+            "ending_equity_usd": 95140.0,
+            "execution_side_count": 2.0,
+            "kill_reason": "daily_loss_limit",
+            "kill_triggered": true,
+            "live_trading_allowed": false,
+            "max_abs_contracts": 1.0,
+            "max_drawdown_fraction": 0.0486,
+            "net_pnl_usd": -4860.0,
+            "risk_enforced": true,
+            "risk_shutdown_sessions": 384,
+            "signal_abstention_sessions": 615,
+            "starting_capital_usd": 100000.0,
+            "total_transaction_cost_usd": 30.0
+          },
+          "score": {
+            "best_monthly_net_return": 0.0,
+            "flat_net_pnl_usd": -15.0,
+            "largest_positive_month_profit_fraction": 0.0,
+            "long_net_pnl_usd": 0.0,
+            "max_abs_net_exposure_fraction": 1.0,
+            "max_drawdown_fraction": 0.0486,
+            "max_gross_exposure_fraction": 1.0,
+            "max_leverage": 1.0,
+            "mean_monthly_net_return": -0.0020249999999999986,
+            "median_monthly_net_return": 0.0,
+            "month_count": 24,
+            "monthly_net_return_std": 0.00971155883470825,
+            "profitable_month_rate": 0.0,
+            "session_count": 620,
+            "short_net_pnl_usd": -4844.999999999996,
+            "total_net_pnl_usd": -4859.999999999996,
+            "trade_count": 2,
+            "transaction_cost_usd": 30.0,
+            "turnover": 2.0,
+            "worst_monthly_net_return": -0.04859999999999996
+          }
+        },
+        "log_primary_strength": {
+          "delta_vs_selected": {
+            "max_drawdown_fraction": 0.0,
+            "mean_monthly_net_return": 0.0,
+            "total_net_pnl_usd": 0.0,
+            "trade_count": 0,
+            "transaction_cost_usd": 0.0
+          },
+          "effective_sample": {
+            "abstention_rate": 0.9645390070921985,
+            "monthly_trade_counts": {
+              "2021-02": 1
+            },
+            "nonempty_months": 1,
+            "passes_outer_minimums": false,
+            "requested_selected_trades": 10,
+            "risk_or_margin_excluded_selected_trades": 9,
+            "risk_shutdown_sessions": 591,
+            "selected_trades": 1,
+            "signal_abstention_sessions": 609,
+            "trade_opportunities": 282
+          },
+          "replay_summary": {
+            "ending_equity_usd": 97940.0,
+            "execution_side_count": 2.0,
+            "kill_reason": "daily_loss_limit",
+            "kill_triggered": true,
+            "live_trading_allowed": false,
+            "max_abs_contracts": 1.0,
+            "max_drawdown_fraction": 0.0206,
+            "net_pnl_usd": -2060.0,
+            "risk_enforced": true,
+            "risk_shutdown_sessions": 591,
+            "signal_abstention_sessions": 609,
+            "starting_capital_usd": 100000.0,
+            "total_transaction_cost_usd": 30.0
+          },
+          "score": {
+            "best_monthly_net_return": 0.0,
+            "flat_net_pnl_usd": -15.0,
+            "largest_positive_month_profit_fraction": 0.0,
+            "long_net_pnl_usd": 0.0,
+            "max_abs_net_exposure_fraction": 1.0,
+            "max_drawdown_fraction": 0.0206,
+            "max_gross_exposure_fraction": 1.0,
+            "max_leverage": 1.0,
+            "mean_monthly_net_return": -0.0008583333333333326,
+            "median_monthly_net_return": 0.0,
+            "month_count": 24,
+            "monthly_net_return_std": 0.004116422057510081,
+            "profitable_month_rate": 0.0,
+            "session_count": 620,
+            "short_net_pnl_usd": -2044.9999999999984,
+            "total_net_pnl_usd": -2059.999999999998,
+            "trade_count": 2,
+            "transaction_cost_usd": 30.0,
+            "turnover": 2.0,
+            "worst_monthly_net_return": -0.020599999999999983
+          }
+        },
+        "model_agreement": {
+          "delta_vs_selected": {
+            "max_drawdown_fraction": 0.0,
+            "mean_monthly_net_return": 0.0,
+            "total_net_pnl_usd": 0.0,
+            "trade_count": 0,
+            "transaction_cost_usd": 0.0
+          },
+          "effective_sample": {
+            "abstention_rate": 0.9609929078014184,
+            "monthly_trade_counts": {
+              "2021-02": 1
+            },
+            "nonempty_months": 1,
+            "passes_outer_minimums": false,
+            "requested_selected_trades": 11,
+            "risk_or_margin_excluded_selected_trades": 10,
+            "risk_shutdown_sessions": 591,
+            "selected_trades": 1,
+            "signal_abstention_sessions": 608,
+            "trade_opportunities": 282
+          },
+          "replay_summary": {
+            "ending_equity_usd": 97940.0,
+            "execution_side_count": 2.0,
+            "kill_reason": "daily_loss_limit",
+            "kill_triggered": true,
+            "live_trading_allowed": false,
+            "max_abs_contracts": 1.0,
+            "max_drawdown_fraction": 0.0206,
+            "net_pnl_usd": -2060.0,
+            "risk_enforced": true,
+            "risk_shutdown_sessions": 591,
+            "signal_abstention_sessions": 608,
+            "starting_capital_usd": 100000.0,
+            "total_transaction_cost_usd": 30.0
+          },
+          "score": {
+            "best_monthly_net_return": 0.0,
+            "flat_net_pnl_usd": -15.0,
+            "largest_positive_month_profit_fraction": 0.0,
+            "long_net_pnl_usd": 0.0,
+            "max_abs_net_exposure_fraction": 1.0,
+            "max_drawdown_fraction": 0.0206,
+            "max_gross_exposure_fraction": 1.0,
+            "max_leverage": 1.0,
+            "mean_monthly_net_return": -0.0008583333333333326,
+            "median_monthly_net_return": 0.0,
+            "month_count": 24,
+            "monthly_net_return_std": 0.004116422057510081,
+            "profitable_month_rate": 0.0,
+            "session_count": 620,
+            "short_net_pnl_usd": -2044.9999999999984,
+            "total_net_pnl_usd": -2059.999999999998,
+            "trade_count": 2,
+            "transaction_cost_usd": 30.0,
+            "turnover": 2.0,
+            "worst_monthly_net_return": -0.020599999999999983
+          }
+        },
+        "model_agreement_x_favored_fraction": {
+          "delta_vs_selected": {
+            "max_drawdown_fraction": 0.0,
+            "mean_monthly_net_return": 0.0,
+            "total_net_pnl_usd": 0.0,
+            "trade_count": 0,
+            "transaction_cost_usd": 0.0
+          },
+          "effective_sample": {
+            "abstention_rate": 0.9609929078014184,
+            "monthly_trade_counts": {
+              "2021-02": 1
+            },
+            "nonempty_months": 1,
+            "passes_outer_minimums": false,
+            "requested_selected_trades": 11,
+            "risk_or_margin_excluded_selected_trades": 10,
+            "risk_shutdown_sessions": 591,
+            "selected_trades": 1,
+            "signal_abstention_sessions": 608,
+            "trade_opportunities": 282
+          },
+          "replay_summary": {
+            "ending_equity_usd": 97940.0,
+            "execution_side_count": 2.0,
+            "kill_reason": "daily_loss_limit",
+            "kill_triggered": true,
+            "live_trading_allowed": false,
+            "max_abs_contracts": 1.0,
+            "max_drawdown_fraction": 0.0206,
+            "net_pnl_usd": -2060.0,
+            "risk_enforced": true,
+            "risk_shutdown_sessions": 591,
+            "signal_abstention_sessions": 608,
+            "starting_capital_usd": 100000.0,
+            "total_transaction_cost_usd": 30.0
+          },
+          "score": {
+            "best_monthly_net_return": 0.0,
+            "flat_net_pnl_usd": -15.0,
+            "largest_positive_month_profit_fraction": 0.0,
+            "long_net_pnl_usd": 0.0,
+            "max_abs_net_exposure_fraction": 1.0,
+            "max_drawdown_fraction": 0.0206,
+            "max_gross_exposure_fraction": 1.0,
+            "max_leverage": 1.0,
+            "mean_monthly_net_return": -0.0008583333333333326,
+            "median_monthly_net_return": 0.0,
+            "month_count": 24,
+            "monthly_net_return_std": 0.004116422057510081,
+            "profitable_month_rate": 0.0,
+            "session_count": 620,
+            "short_net_pnl_usd": -2044.9999999999984,
+            "total_net_pnl_usd": -2059.999999999998,
+            "trade_count": 2,
+            "transaction_cost_usd": 30.0,
+            "turnover": 2.0,
+            "worst_monthly_net_return": -0.020599999999999983
+          }
+        },
+        "normalized_model_disagreement": {
+          "delta_vs_selected": {
+            "max_drawdown_fraction": 0.0,
+            "mean_monthly_net_return": 0.0,
+            "total_net_pnl_usd": 0.0,
+            "trade_count": 0,
+            "transaction_cost_usd": 0.0
+          },
+          "effective_sample": {
+            "abstention_rate": 0.9609929078014184,
+            "monthly_trade_counts": {
+              "2021-02": 1
+            },
+            "nonempty_months": 1,
+            "passes_outer_minimums": false,
+            "requested_selected_trades": 11,
+            "risk_or_margin_excluded_selected_trades": 10,
+            "risk_shutdown_sessions": 591,
+            "selected_trades": 1,
+            "signal_abstention_sessions": 608,
+            "trade_opportunities": 282
+          },
+          "replay_summary": {
+            "ending_equity_usd": 97940.0,
+            "execution_side_count": 2.0,
+            "kill_reason": "daily_loss_limit",
+            "kill_triggered": true,
+            "live_trading_allowed": false,
+            "max_abs_contracts": 1.0,
+            "max_drawdown_fraction": 0.0206,
+            "net_pnl_usd": -2060.0,
+            "risk_enforced": true,
+            "risk_shutdown_sessions": 591,
+            "signal_abstention_sessions": 608,
+            "starting_capital_usd": 100000.0,
+            "total_transaction_cost_usd": 30.0
+          },
+          "score": {
+            "best_monthly_net_return": 0.0,
+            "flat_net_pnl_usd": -15.0,
+            "largest_positive_month_profit_fraction": 0.0,
+            "long_net_pnl_usd": 0.0,
+            "max_abs_net_exposure_fraction": 1.0,
+            "max_drawdown_fraction": 0.0206,
+            "max_gross_exposure_fraction": 1.0,
+            "max_leverage": 1.0,
+            "mean_monthly_net_return": -0.0008583333333333326,
+            "median_monthly_net_return": 0.0,
+            "month_count": 24,
+            "monthly_net_return_std": 0.004116422057510081,
+            "profitable_month_rate": 0.0,
+            "session_count": 620,
+            "short_net_pnl_usd": -2044.9999999999984,
+            "total_net_pnl_usd": -2059.999999999998,
+            "trade_count": 2,
+            "transaction_cost_usd": 30.0,
+            "turnover": 2.0,
+            "worst_monthly_net_return": -0.020599999999999983
+          }
+        },
+        "strength_x_favored_fraction": {
+          "delta_vs_selected": {
+            "max_drawdown_fraction": 0.0,
+            "mean_monthly_net_return": 0.0,
+            "total_net_pnl_usd": 0.0,
+            "trade_count": 0,
+            "transaction_cost_usd": 0.0
+          },
+          "effective_sample": {
+            "abstention_rate": 0.975177304964539,
+            "monthly_trade_counts": {
+              "2021-02": 1
+            },
+            "nonempty_months": 1,
+            "passes_outer_minimums": false,
+            "requested_selected_trades": 7,
+            "risk_or_margin_excluded_selected_trades": 6,
+            "risk_shutdown_sessions": 591,
+            "selected_trades": 1,
+            "signal_abstention_sessions": 612,
+            "trade_opportunities": 282
+          },
+          "replay_summary": {
+            "ending_equity_usd": 97940.0,
+            "execution_side_count": 2.0,
+            "kill_reason": "daily_loss_limit",
+            "kill_triggered": true,
+            "live_trading_allowed": false,
+            "max_abs_contracts": 1.0,
+            "max_drawdown_fraction": 0.0206,
+            "net_pnl_usd": -2060.0,
+            "risk_enforced": true,
+            "risk_shutdown_sessions": 591,
+            "signal_abstention_sessions": 612,
+            "starting_capital_usd": 100000.0,
+            "total_transaction_cost_usd": 30.0
+          },
+          "score": {
+            "best_monthly_net_return": 0.0,
+            "flat_net_pnl_usd": -15.0,
+            "largest_positive_month_profit_fraction": 0.0,
+            "long_net_pnl_usd": 0.0,
+            "max_abs_net_exposure_fraction": 1.0,
+            "max_drawdown_fraction": 0.0206,
+            "max_gross_exposure_fraction": 1.0,
+            "max_leverage": 1.0,
+            "mean_monthly_net_return": -0.0008583333333333326,
+            "median_monthly_net_return": 0.0,
+            "month_count": 24,
+            "monthly_net_return_std": 0.004116422057510081,
+            "profitable_month_rate": 0.0,
+            "session_count": 620,
+            "short_net_pnl_usd": -2044.9999999999984,
+            "total_net_pnl_usd": -2059.999999999998,
+            "trade_count": 2,
+            "transaction_cost_usd": 30.0,
+            "turnover": 2.0,
+            "worst_monthly_net_return": -0.020599999999999983
+          }
+        },
+        "vol_of_vol_high": {
+          "delta_vs_selected": {
+            "max_drawdown_fraction": 0.026963295770525246,
+            "mean_monthly_net_return": -0.00013333333333333068,
+            "total_net_pnl_usd": -319.99999999999363,
+            "trade_count": 4,
+            "transaction_cost_usd": 60.0
+          },
+          "effective_sample": {
+            "abstention_rate": 0.9645390070921985,
+            "monthly_trade_counts": {
+              "2021-06": 1,
+              "2021-09": 1,
+              "2021-10": 1
+            },
+            "nonempty_months": 3,
+            "passes_outer_minimums": false,
+            "requested_selected_trades": 10,
+            "risk_or_margin_excluded_selected_trades": 7,
+            "risk_shutdown_sessions": 384,
+            "selected_trades": 3,
+            "signal_abstention_sessions": 609,
+            "trade_opportunities": 282
+          },
+          "replay_summary": {
+            "ending_equity_usd": 97620.0,
+            "execution_side_count": 6.0,
+            "kill_reason": "daily_loss_limit",
+            "kill_triggered": true,
+            "live_trading_allowed": false,
+            "max_abs_contracts": 1.0,
+            "max_drawdown_fraction": 0.04756329577052539,
+            "net_pnl_usd": -2380.0,
+            "risk_enforced": true,
+            "risk_shutdown_sessions": 384,
+            "signal_abstention_sessions": 609,
+            "starting_capital_usd": 100000.0,
+            "total_transaction_cost_usd": 90.0
+          },
+          "score": {
+            "best_monthly_net_return": 0.02080000000000003,
+            "flat_net_pnl_usd": -45.0,
+            "largest_positive_month_profit_fraction": 0.8387096774193545,
+            "long_net_pnl_usd": 2510.0000000000045,
+            "max_abs_net_exposure_fraction": 1.0,
+            "max_drawdown_fraction": 0.047563295770525246,
+            "max_gross_exposure_fraction": 1.0,
+            "max_leverage": 1.0,
+            "mean_monthly_net_return": -0.0009916666666666633,
+            "median_monthly_net_return": 0.0,
+            "month_count": 24,
+            "monthly_net_return_std": 0.010776127808983868,
+            "profitable_month_rate": 0.08333333333333333,
+            "session_count": 620,
+            "short_net_pnl_usd": -4844.999999999996,
+            "total_net_pnl_usd": -2379.999999999992,
+            "trade_count": 6,
+            "transaction_cost_usd": 90.0,
+            "turnover": 6.0,
+            "worst_monthly_net_return": -0.04859999999999996
+          }
+        }
+      },
+      "selected": {
+        "complexity": 6,
+        "complexity_control": "meta_primary_objective_strictly_better",
+        "config_id": "meta-interactions-p60",
+        "max_drawdown_fraction": 0.02982530890498495,
+        "mean_monthly_net_return": 0.006242307692307694,
+        "median_yearly_net_pnl_usd": 8115.000000000003,
+        "ranking": [
+          {
+            "complexity": 6,
+            "config_id": "meta-interactions-p60",
+            "max_drawdown_fraction": 0.02982530890498495,
+            "mean_monthly_net_return": 0.006242307692307694,
+            "median_yearly_net_pnl_usd": 8115.000000000003,
+            "transaction_cost_usd": 1020.0,
+            "worst_yearly_net_pnl_usd": 6950.000000000011,
+            "years": [
+              2019,
+              2020
+            ]
+          },
+          {
+            "complexity": 1,
+            "config_id": "vol-of-vol-veto-q75",
+            "max_drawdown_fraction": 0.034986525459789135,
+            "mean_monthly_net_return": 0.00409230769230769,
+            "median_yearly_net_pnl_usd": 5319.999999999998,
+            "transaction_cost_usd": 960.0,
+            "worst_yearly_net_pnl_usd": 3450.000000000002,
+            "years": [
+              2019,
+              2020
+            ]
+          },
+          {
+            "complexity": 2,
+            "config_id": "joint-vol-veto-q75",
+            "max_drawdown_fraction": 0.034986525459789135,
+            "mean_monthly_net_return": 0.003711538461538461,
+            "median_yearly_net_pnl_usd": 4824.999999999999,
+            "transaction_cost_usd": 960.0,
+            "worst_yearly_net_pnl_usd": 3450.000000000002,
+            "years": [
+              2019,
+              2020
+            ]
+          },
+          {
+            "complexity": 4,
+            "config_id": "meta-basic-p60",
+            "max_drawdown_fraction": 0.02337325061318713,
+            "mean_monthly_net_return": 0.0030384615384615385,
+            "median_yearly_net_pnl_usd": 3949.9999999999995,
+            "transaction_cost_usd": 540.0,
+            "worst_yearly_net_pnl_usd": 1550.0000000000016,
+            "years": [
+              2019,
+              2020
+            ]
+          },
+          {
+            "complexity": 1,
+            "config_id": "favored-signals-ge4",
+            "max_drawdown_fraction": 0.027876305140630463,
+            "mean_monthly_net_return": 0.0025730769230769214,
+            "median_yearly_net_pnl_usd": 3344.9999999999964,
+            "transaction_cost_usd": 870.0,
+            "worst_yearly_net_pnl_usd": 339.999999999995,
+            "years": [
+              2019,
+              2020
+            ]
+          },
+          {
+            "complexity": 1,
+            "config_id": "strength-q50",
+            "max_drawdown_fraction": 0.05781057810578106,
+            "mean_monthly_net_return": 0.0014307692307692329,
+            "median_yearly_net_pnl_usd": 1860.0000000000023,
+            "transaction_cost_usd": 930.0,
+            "worst_yearly_net_pnl_usd": -4249.999999999993,
+            "years": [
+              2019,
+              2020
+            ]
+          },
+          {
+            "complexity": 2,
+            "config_id": "strength-q50__favored-ge4",
+            "max_drawdown_fraction": 0.02415,
+            "mean_monthly_net_return": 0.0013923076923076938,
+            "median_yearly_net_pnl_usd": 1810.0000000000018,
+            "transaction_cost_usd": 480.0,
+            "worst_yearly_net_pnl_usd": 1190.0000000000027,
+            "years": [
+              2019,
+              2020
+            ]
+          },
+          {
+            "complexity": 6,
+            "config_id": "meta-interactions-p50",
+            "max_drawdown_fraction": 0.046613564594428995,
+            "mean_monthly_net_return": 0.0006346153846153862,
+            "median_yearly_net_pnl_usd": 825.0000000000032,
+            "transaction_cost_usd": 840.0,
+            "worst_yearly_net_pnl_usd": -3779.999999999999,
+            "years": [
+              2019,
+              2020
+            ]
+          },
+          {
+            "complexity": 6,
+            "config_id": "meta-interactions-p55",
+            "max_drawdown_fraction": 0.041978724419214804,
+            "mean_monthly_net_return": 0.0006153846153846205,
+            "median_yearly_net_pnl_usd": 800.0000000000068,
+            "transaction_cost_usd": 780.0,
+            "worst_yearly_net_pnl_usd": -3779.999999999999,
+            "years": [
+              2019,
+              2020
+            ]
+          },
+          {
+            "complexity": 0,
+            "config_id": "baseline",
+            "max_drawdown_fraction": 0.04372507623739151,
+            "mean_monthly_net_return": 0.0005653846153846165,
+            "median_yearly_net_pnl_usd": 735.0000000000023,
+            "transaction_cost_usd": 750.0,
+            "worst_yearly_net_pnl_usd": -3779.999999999999,
+            "years": [
+              2019,
+              2020
+            ]
+          },
+          {
+            "complexity": 1,
+            "config_id": "jump-veto-q90",
+            "max_drawdown_fraction": 0.04372507623739151,
+            "mean_monthly_net_return": 0.0005653846153846165,
+            "median_yearly_net_pnl_usd": 735.0000000000023,
+            "transaction_cost_usd": 750.0,
+            "worst_yearly_net_pnl_usd": -3779.999999999999,
+            "years": [
+              2019,
+              2020
+            ]
+          },
+          {
+            "complexity": 1,
+            "config_id": "model-agreement",
+            "max_drawdown_fraction": 0.04372507623739151,
+            "mean_monthly_net_return": 0.0005653846153846165,
+            "median_yearly_net_pnl_usd": 735.0000000000023,
+            "transaction_cost_usd": 750.0,
+            "worst_yearly_net_pnl_usd": -3779.999999999999,
+            "years": [
+              2019,
+              2020
+            ]
+          },
+          {
+            "complexity": 4,
+            "config_id": "meta-basic-p50",
+            "max_drawdown_fraction": 0.04372507623739151,
+            "mean_monthly_net_return": 0.0005653846153846165,
+            "median_yearly_net_pnl_usd": 735.0000000000023,
+            "transaction_cost_usd": 750.0,
+            "worst_yearly_net_pnl_usd": -3779.999999999999,
+            "years": [
+              2019,
+              2020
+            ]
+          },
+          {
+            "complexity": 4,
+            "config_id": "meta-basic-p55",
+            "max_drawdown_fraction": 0.04372507623739151,
+            "mean_monthly_net_return": 0.0005653846153846165,
+            "median_yearly_net_pnl_usd": 735.0000000000023,
+            "transaction_cost_usd": 750.0,
+            "worst_yearly_net_pnl_usd": -3779.999999999999,
+            "years": [
+              2019,
+              2020
+            ]
+          },
+          {
+            "complexity": 2,
+            "config_id": "strength-q65__favored-ge4",
+            "max_drawdown_fraction": 0.01795,
+            "mean_monthly_net_return": 0.0005576923076923049,
+            "median_yearly_net_pnl_usd": 724.9999999999962,
+            "transaction_cost_usd": 330.0,
+            "worst_yearly_net_pnl_usd": -820.0000000000061,
+            "years": [
+              2019,
+              2020
+            ]
+          },
+          {
+            "complexity": 4,
+            "config_id": "favorable-regime-p3",
+            "max_drawdown_fraction": 0.043918759719146126,
+            "mean_monthly_net_return": 0.0005423076923076911,
+            "median_yearly_net_pnl_usd": 704.9999999999986,
+            "transaction_cost_usd": 510.0,
+            "worst_yearly_net_pnl_usd": -3079.9999999999973,
+            "years": [
+              2019,
+              2020
+            ]
+          },
+          {
+            "complexity": 3,
+            "config_id": "favorable-regime-p2",
+            "max_drawdown_fraction": 0.04401416765053129,
+            "mean_monthly_net_return": 0.000515384615384615,
+            "median_yearly_net_pnl_usd": 670.0000000000005,
+            "transaction_cost_usd": 510.0,
+            "worst_yearly_net_pnl_usd": -3779.999999999999,
+            "years": [
+              2019,
+              2020
+            ]
+          },
+          {
+            "complexity": 2,
+            "config_id": "favorable-regime-p1",
+            "max_drawdown_fraction": 0.04401416765053129,
+            "mean_monthly_net_return": 0.00046153846153846115,
+            "median_yearly_net_pnl_usd": 600.0000000000005,
+            "transaction_cost_usd": 510.0,
+            "worst_yearly_net_pnl_usd": -3779.999999999999,
+            "years": [
+              2019,
+              2020
+            ]
+          },
+          {
+            "complexity": 6,
+            "config_id": "meta-interactions-p65",
+            "max_drawdown_fraction": 0.03276787008844425,
+            "mean_monthly_net_return": 0.0003884615384615401,
+            "median_yearly_net_pnl_usd": 505.0000000000019,
+            "transaction_cost_usd": 570.0,
+            "worst_yearly_net_pnl_usd": 429.9999999999992,
+            "years": [
+              2019,
+              2020
+            ]
+          },
+          {
+            "complexity": 1,
+            "config_id": "jump-veto-q75",
+            "max_drawdown_fraction": 0.04403080266452497,
+            "mean_monthly_net_return": 0.000280769230769232,
+            "median_yearly_net_pnl_usd": 365.0000000000023,
+            "transaction_cost_usd": 720.0,
+            "worst_yearly_net_pnl_usd": -3779.999999999999,
+            "years": [
+              2019,
+              2020
+            ]
+          },
+          {
+            "complexity": 1,
+            "config_id": "strength-q80",
+            "max_drawdown_fraction": 0.028667217336378212,
+            "mean_monthly_net_return": 8.076923076923083e-05,
+            "median_yearly_net_pnl_usd": 104.99999999999989,
+            "transaction_cost_usd": 360.0,
+            "worst_yearly_net_pnl_usd": -1329.9999999999989,
+            "years": [
+              2019,
+              2020
+            ]
+          },
+          {
+            "complexity": 1,
+            "config_id": "favored-signals-ge5",
+            "max_drawdown_fraction": 0.0303,
+            "mean_monthly_net_return": 4.230769230769067e-05,
+            "median_yearly_net_pnl_usd": 54.99999999999778,
+            "transaction_cost_usd": 390.0,
+            "worst_yearly_net_pnl_usd": -280.00000000000273,
+            "years": [
+              2019,
+              2020
+            ]
+          },
+          {
+            "complexity": 4,
+            "config_id": "meta-basic-p65",
+            "max_drawdown_fraction": 0.0,
+            "mean_monthly_net_return": 0.0,
+            "median_yearly_net_pnl_usd": 0.0,
+            "transaction_cost_usd": 0.0,
+            "worst_yearly_net_pnl_usd": 0.0,
+            "years": [
+              2019,
+              2020
+            ]
+          },
+          {
+            "complexity": 2,
+            "config_id": "strength-q50__favored-ge3",
+            "max_drawdown_fraction": 0.05834611768199139,
+            "mean_monthly_net_return": -0.0003653846153846179,
+            "median_yearly_net_pnl_usd": -475.0000000000032,
+            "transaction_cost_usd": 750.0,
+            "worst_yearly_net_pnl_usd": -4859.999999999998,
+            "years": [
+              2019,
+              2020
+            ]
+          },
+          {
+            "complexity": 1,
+            "config_id": "strength-q65",
+            "max_drawdown_fraction": 0.04305770765835577,
+            "mean_monthly_net_return": -0.0004192307692307769,
+            "median_yearly_net_pnl_usd": -545.0000000000101,
+            "transaction_cost_usd": 630.0,
+            "worst_yearly_net_pnl_usd": -2990.0000000000023,
+            "years": [
+              2019,
+              2020
+            ]
+          },
+          {
+            "complexity": 1,
+            "config_id": "favored-signals-ge3",
+            "max_drawdown_fraction": 0.04462578689671252,
+            "mean_monthly_net_return": -0.0005153846153846156,
+            "median_yearly_net_pnl_usd": -669.9999999999986,
+            "transaction_cost_usd": 690.0,
+            "worst_yearly_net_pnl_usd": -3779.999999999999,
+            "years": [
+              2019,
+              2020
+            ]
+          },
+          {
+            "complexity": 2,
+            "config_id": "strength-q65__favored-ge3",
+            "max_drawdown_fraction": 0.04012299756980608,
+            "mean_monthly_net_return": -0.00098076923076924,
+            "median_yearly_net_pnl_usd": -1275.0000000000118,
+            "transaction_cost_usd": 510.0,
+            "worst_yearly_net_pnl_usd": -3230.0000000000036,
+            "years": [
+              2019,
+              2020
+            ]
+          },
+          {
+            "complexity": 1,
+            "config_id": "vol-of-vol-veto-q90",
+            "max_drawdown_fraction": 0.041099786679307894,
+            "mean_monthly_net_return": -0.001015384615384616,
+            "median_yearly_net_pnl_usd": -1320.0,
+            "transaction_cost_usd": 690.0,
+            "worst_yearly_net_pnl_usd": -3779.999999999999,
+            "years": [
+              2019,
+              2020
+            ]
+          },
+          {
+            "complexity": 2,
+            "config_id": "joint-vol-veto-q90",
+            "max_drawdown_fraction": 0.041099786679307894,
+            "mean_monthly_net_return": -0.001015384615384616,
+            "median_yearly_net_pnl_usd": -1320.0,
+            "transaction_cost_usd": 690.0,
+            "worst_yearly_net_pnl_usd": -3779.999999999999,
+            "years": [
+              2019,
+              2020
+            ]
+          }
+        ],
+        "transaction_cost_usd": 1020.0,
+        "worst_yearly_net_pnl_usd": 6950.000000000011,
+        "years": [
+          2019,
+          2020
+        ]
+      },
+      "selected_config": {
+        "complexity": 6,
+        "config_id": "meta-interactions-p60",
+        "favored_signal_count": null,
+        "kind": "meta",
+        "meta_mode": "interactions",
+        "persistence": null,
+        "probability_threshold": 0.6,
+        "strength_quantile": null,
+        "veto_quantile": null
+      },
+      "selected_effective_sample": {
+        "abstention_rate": 0.9609929078014184,
+        "monthly_trade_counts": {
+          "2021-02": 1
+        },
+        "nonempty_months": 1,
+        "passes_outer_minimums": false,
+        "requested_selected_trades": 11,
+        "risk_or_margin_excluded_selected_trades": 10,
+        "risk_shutdown_sessions": 591,
+        "selected_trades": 1,
+        "signal_abstention_sessions": 608,
+        "trade_opportunities": 282
+      },
+      "selected_replay_summary": {
+        "ending_equity_usd": 97940.0,
+        "execution_side_count": 2.0,
+        "kill_reason": "daily_loss_limit",
+        "kill_triggered": true,
+        "live_trading_allowed": false,
+        "max_abs_contracts": 1.0,
+        "max_drawdown_fraction": 0.0206,
+        "net_pnl_usd": -2060.0,
+        "risk_enforced": true,
+        "risk_shutdown_sessions": 591,
+        "signal_abstention_sessions": 608,
+        "starting_capital_usd": 100000.0,
+        "total_transaction_cost_usd": 30.0
+      },
+      "selected_score": {
+        "best_monthly_net_return": 0.0,
+        "flat_net_pnl_usd": -15.0,
+        "largest_positive_month_profit_fraction": 0.0,
+        "long_net_pnl_usd": 0.0,
+        "max_abs_net_exposure_fraction": 1.0,
+        "max_drawdown_fraction": 0.0206,
+        "max_gross_exposure_fraction": 1.0,
+        "max_leverage": 1.0,
+        "mean_monthly_net_return": -0.0008583333333333326,
+        "median_monthly_net_return": 0.0,
+        "month_count": 24,
+        "monthly_net_return_std": 0.004116422057510081,
+        "profitable_month_rate": 0.0,
+        "session_count": 620,
+        "short_net_pnl_usd": -2044.9999999999984,
+        "total_net_pnl_usd": -2059.999999999998,
+        "trade_count": 2,
+        "transaction_cost_usd": 30.0,
+        "turnover": 2.0,
+        "worst_monthly_net_return": -0.020599999999999983
+      },
+      "selection_years": [
+        2019,
+        2020
+      ],
+      "signal_columns": [
+        "feature_issue448_managed_money_net_pct_oi_change_1report",
+        "feature_issue448_normalized_range_28",
+        "feature_issue448_adx_28",
+        "feature_issue448_volume_zscore_60",
+        "feature_issue427_jump_intensity",
+        "feature_issue427_vol_of_vol"
+      ]
+    }
+  },
+  "preflight_sha256": "5e6594debec71103c650ba928f0a900b24936bd903c76ae80b721a18f6552119",
+  "prereg_sha256": "a81ef8912634be233ea3d8c3227c0e9e0e0a364af78417fb72663e87338cbe0c",
+  "promotion": {
+    "effective_sample_pass": false,
+    "kill_trigger_regression": false,
+    "mean_outer_monthly_net_return_delta": 0.0002770833333333339,
+    "nonnegative_outer_fraction": 1.0,
+    "passes": false
+  },
+  "protected_confirmation_accessed": false,
+  "result_sha256": "718b79625d36318b9e4462e96b5421271a50aa69340833e7b76e8823e5663894",
+  "runner_sha256": "bf0904183ef42105c0263d4995b101c756a427ad1549840725eae1ff23260d9a",
+  "schema_version": 1,
+  "source_evidence_sha256": "28b69c78ab8dc652adf90ee465229effe20e738e475d833e175825dae8e38226",
+  "trial_accounting": {
+    "complete": 127,
+    "failed": 0,
+    "frozen_fusion_configuration_budget": 29,
+    "frozen_oi_incremental_configuration_budget": 3,
+    "ineligible": 16,
+    "ledger_rows": 143
+  },
+  "trial_count": 143,
+  "trial_ledger_file_sha256": "2a780122be4fab6df4a5891dc29c749554be5759c20cb815b34468435a0d6cf1"
+}

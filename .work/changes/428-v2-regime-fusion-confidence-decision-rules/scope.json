@@ -1,0 +1,47 @@
+{
+  "schema_version": 4,
+  "change_id": "428-v2-regime-fusion-confidence-decision-rules",
+  "status": "active",
+  "branch": "change/428-v2-regime-fusion-confidence-decision-rules",
+  "worktree": ".work/worktrees/428-v2-regime-fusion-confidence-decision-rules",
+  "base": "main",
+  "outcome": "Reconcile the completed #427 landing record, then execute bounded development-only V2.31 regime/state conditioning, signal fusion, calibrated confidence/disagreement, and TRADE-vs-ABSTAIN decision-rule optimization with matched ablations, effective-sample controls, complete trial accounting, realistic net-return/risk diagnostics, complexity controls, and protected confirmation/paper/SIM/LIVE evidence sealed.",
+  "owned_paths": [
+    ".work/changes/428-v2-regime-fusion-confidence-decision-rules/**",
+    ".work/changes/427-v2-model-family-optimization/closeout.md",
+    ".work/changes/427-v2-model-family-optimization/tasks.md",
+    "research/programmes/004-v2-maximum-reproducible-one-month-return/issue428-preflight-v1.json",
+    "research/programmes/004-v2-maximum-reproducible-one-month-return/issue428-prereg-v1.json",
+    "research/programmes/004-v2-maximum-reproducible-one-month-return/issue428-prereg-v2.json",
+    "research/programmes/004-v2-maximum-reproducible-one-month-return/issue428-prereg-v3.json",
+    "research/programmes/004-v2-maximum-reproducible-one-month-return/issue428-result-v1.json",
+    "research/programmes/004-v2-maximum-reproducible-one-month-return/issue428-trials-v1.jsonl",
+    "scripts/research/run_issue428_decision_optimization.py",
+    "src/commodity/v2_decision_optimization.py",
+    "tests/test_v2_decision_optimization.py",
+    "docs/reference/README.md",
+    "docs/reference/research/programmes/004-v2-maximum-reproducible-one-month-return/issue428-preflight-v1.md",
+    "docs/reference/research/programmes/004-v2-maximum-reproducible-one-month-return/issue428-prereg-v1.md",
+    "docs/reference/research/programmes/004-v2-maximum-reproducible-one-month-return/issue428-prereg-v2.md",
+    "docs/reference/research/programmes/004-v2-maximum-reproducible-one-month-return/issue428-prereg-v3.md",
+    "docs/reference/research/programmes/004-v2-maximum-reproducible-one-month-return/issue428-result-v1.md"
+  ],
+  "shared_paths": [],
+  "excluded_paths": [],
+  "dependencies": [],
+  "integration_owner": null,
+  "complexity": "large",
+  "risk_triggers": [
+    "money",
+    "persistent_state"
+  ],
+  "base_evidence": {
+    "local_sha": "d3ab965a1db48ce7d027a23d7d033ffd4a448a23",
+    "local_tree": "58cadee118017683b1e9619962ac7a88b3d462f3",
+    "upstream_sha": "d3ab965a1db48ce7d027a23d7d033ffd4a448a23",
+    "upstream_tree": "58cadee118017683b1e9619962ac7a88b3d462f3",
+    "upstream_ref": "refs/remotes/origin/main",
+    "evidence_source": "local_remote_tracking_ref",
+    "relation": "same_sha"
+  }
+}
