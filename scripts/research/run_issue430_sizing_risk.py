@@ -521,6 +521,18 @@ def _require_preflight() -> dict[str, Any]:
         raise RuntimeError("issue430 preflight is not a passing no-scoring report")
     if report.get("protected_confirmation_accessed") is not False:
         raise RuntimeError("issue430 preflight protected-evidence flag changed")
+    expected_preflight_sha = stable_sha(
+        {key: value for key, value in report.items() if key != "preflight_sha256"}
+    )
+    if report.get("preflight_sha256") != expected_preflight_sha:
+        raise RuntimeError("issue430 preflight self-hash is stale")
+    parent_failures = _parent_file_failures(load_prereg())
+    if parent_failures:
+        raise RuntimeError(f"issue430 parent bindings changed: {parent_failures}")
+    if RESULT.exists():
+        raise RuntimeError(
+            "issue430 scoring is frozen after the completed result; use a new research identity"
+        )
     expected = {
         "prereg_sha256": sha256_file(PREREG),
         "issue429_result_sha256": sha256_file(ISSUE429_RESULT),
@@ -888,6 +900,23 @@ def allocation_efficiency_summary(trials: pd.DataFrame) -> list[dict[str, object
     )
 
 
+def promotable_stage2_variants(
+    stage1_evaluation: list[dict[str, object]],
+    stage2_evaluation: list[dict[str, object]],
+) -> list[dict[str, object]]:
+    passing_stage1_ids = {
+        str(row["policy_id"])
+        for row in stage1_evaluation
+        if bool(row["passes_return_gate"])
+    }
+    return [
+        row
+        for row in stage2_evaluation
+        if bool(row["passes_risk_gate"])
+        and str(row["parent_policy_id"]) in passing_stage1_ids
+    ]
+
+
 def score_issue430() -> dict[str, object]:
     preflight_report = _require_preflight()
     prereg = load_prereg()
@@ -916,7 +945,7 @@ def score_issue430() -> dict[str, object]:
     stage1_evaluation = list(stage1["evaluation"])
     allocation = allocation_efficiency_summary(pd.DataFrame(stage1_trials))
     passing_stage1 = [row for row in stage1_evaluation if row["passes_return_gate"]]
-    passing_stage2 = [row for row in stage2_evaluation if row["passes_risk_gate"]]
+    passing_stage2 = promotable_stage2_variants(stage1_evaluation, stage2_evaluation)
     if passing_stage2:
         disposition = "FREEZE_ISSUE430_SIZING_RISK_DEVELOPMENT_CANDIDATE"
     elif passing_stage1:

@@ -18,5 +18,5 @@
 - [x] Separate fixed exposure amplification from dynamic allocation value.
 - [x] Preserve one-contract operational paper authority and fixed hard risk limits outside optimization.
 - [x] Run focused and inherited regression checks plus change-scope validation.
-- [ ] Complete canonical repository verification and implementation review through KIS.
+- [x] Complete canonical repository verification and implementation review through KIS.
 - [ ] Commit, create PR, require exact-head CI, merge, reconcile Work/documentation state, and clean the worktree.

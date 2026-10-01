@@ -7,8 +7,8 @@
 - [x] Execute and ledger all 318 declared development trials.
 - [x] Record deterministic #430 result and allocation-efficiency diagnostics.
 - [x] Run focused tests, inherited execution regressions, Ruff, and `change-workflow.ps1 check`.
-- [ ] Execute canonical verification selected by KIS.
-- [ ] Close implementation review findings through KIS.
+- [x] Execute canonical verification selected by KIS.
+- [x] Close implementation review findings through KIS.
 - [ ] Prepare reviewable PR from exact verified source.
 - [ ] Require provider-native exact-head GitHub Actions success.
 - [ ] Merge, reconcile Work/documentation state, and clean the worktree through KIS.

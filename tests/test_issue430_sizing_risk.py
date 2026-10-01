@@ -89,6 +89,15 @@ def test_sizing_rejects_protected_evidence() -> None:
         sizing.apply_sizing_policy(policy, {"base_scale": 2.0})
 
 
+def test_sizing_rejects_nonfinite_positions_and_scales() -> None:
+    policy = _policy([1.0])
+    policy.loc[0, "signal_requested_position"] = float("nan")
+    with pytest.raises(ValueError, match="finite"):
+        sizing.apply_sizing_policy(policy, {"base_scale": 1.0})
+    with pytest.raises(ValueError, match="finite"):
+        sizing.apply_sizing_policy(_policy([1.0]), {"base_scale": float("inf")})
+
+
 def _sessions_for_replay() -> pd.DataFrame:
     dates = pd.date_range("2022-01-03", periods=3, freq="D", tz="UTC")
     return pd.DataFrame(
@@ -290,6 +299,42 @@ def test_stage1_evaluator_requires_cross_outer_and_cost_robustness() -> None:
     assert candidate["passes_return_gate"] is True
 
 
+def test_stage1_evaluator_rejects_each_frozen_gate_failure() -> None:
+    import sys
+
+    root = Path(__file__).resolve().parents[1]
+    sys.path.insert(0, str(root / "scripts" / "research"))
+    import run_issue430_sizing_risk as issue430
+
+    rows = []
+    for outer in ("outer-2019-2020", "outer-2021-2022"):
+        for cost in ("base", "higher_1_5x", "higher_2x"):
+            rows.append({
+                "policy_id": "candidate", "outer_id": outer, "cost_profile": cost,
+                "mean_monthly_net_return": 0.012,
+                "parent_mean_monthly_net_return": 0.01,
+                "mean_monthly_net_return_delta": 0.002,
+                "hard_safety_regression": False,
+                "largest_incremental_positive_month_fraction": 0.2,
+                "max_margin_utilization_fraction": 0.2,
+            })
+    baseline = pd.DataFrame(rows)
+    cases: list[tuple[str, object, pd.Series]] = [
+        ("mean_monthly_net_return_delta", -0.001,
+         baseline["outer_id"].eq("outer-2019-2020") & baseline["cost_profile"].eq("base")),
+        ("mean_monthly_net_return_delta", -0.001, baseline["cost_profile"].eq("higher_2x")),
+        ("hard_safety_regression", True, baseline.index.to_series().eq(0)),
+        ("largest_incremental_positive_month_fraction", 0.6, baseline["cost_profile"].eq("base")),
+        ("max_margin_utilization_fraction", 0.5, baseline.index.to_series().eq(0)),
+    ]
+    prereg = issue430.load_prereg()
+    for column, value, mask in cases:
+        trial = baseline.copy()
+        trial.loc[mask, column] = value
+        candidate = issue430.evaluate_stage1(trial, prereg)[0]
+        assert candidate["passes_return_gate"] is False
+
+
 def test_stage2_parent_selection_is_mechanical_and_safety_bounded() -> None:
     import sys
 
@@ -460,6 +505,43 @@ def test_stage2_evaluator_requires_incremental_cross_outer_cost_robustness() -> 
     assert candidate["passes_risk_gate"] is True
 
 
+def test_stage2_evaluator_rejects_each_frozen_gate_failure() -> None:
+    import sys
+
+    root = Path(__file__).resolve().parents[1]
+    sys.path.insert(0, str(root / "scripts" / "research"))
+    import run_issue430_sizing_risk as issue430
+
+    rows = []
+    for outer in ("outer-2019-2020", "outer-2021-2022"):
+        for cost in ("base", "higher_1_5x", "higher_2x"):
+            rows.append({
+                "parent_policy_id": "parent", "risk_variant_id": "candidate",
+                "outer_id": outer, "cost_profile": cost,
+                "mean_monthly_net_return_delta_vs_sized_parent": 0.001,
+                "hard_safety_regression": False,
+                "largest_incremental_positive_month_fraction": 0.2,
+                "max_margin_utilization_fraction": 0.2,
+            })
+    baseline = pd.DataFrame(rows)
+    cases: list[tuple[str, object, pd.Series]] = [
+        ("mean_monthly_net_return_delta_vs_sized_parent", -0.001,
+         baseline["outer_id"].eq("outer-2019-2020") & baseline["cost_profile"].eq("base")),
+        ("mean_monthly_net_return_delta_vs_sized_parent", -0.001,
+         baseline["cost_profile"].eq("higher_2x")),
+        ("hard_safety_regression", True, baseline.index.to_series().eq(0)),
+        ("largest_incremental_positive_month_fraction", 0.6,
+         baseline["cost_profile"].eq("base")),
+        ("max_margin_utilization_fraction", 0.5, baseline.index.to_series().eq(0)),
+    ]
+    prereg = issue430.load_prereg()
+    for column, value, mask in cases:
+        trial = baseline.copy()
+        trial.loc[mask, column] = value
+        candidate = issue430.evaluate_stage2(trial, prereg)[0]
+        assert candidate["passes_risk_gate"] is False
+
+
 @pytest.mark.skipif(
     not (Path(__file__).resolve().parents[1] / "data/raw/issue448/preflight-features.parquet").exists(),
     reason="requires ignored #448 local development cache",
@@ -520,3 +602,203 @@ def test_full_issue430_scoring_refuses_missing_preflight(monkeypatch, tmp_path: 
     monkeypatch.setattr(issue430, "PREFLIGHT", tmp_path / "missing-preflight.json")
     with pytest.raises(RuntimeError, match="preflight"):
         issue430.score_issue430()
+
+
+def test_replay_rejects_fill_after_session_execution_point() -> None:
+    policy = _policy([1.0]).assign(forecast_id=["f0"])
+    policy.loc[0, "fill_timestamp"] = pd.Timestamp("2022-01-03 15:00", tz="UTC")
+    risk, costs = _risk_and_costs()
+    with pytest.raises(ValueError, match="execution point"):
+        sizing.replay_research_policy(
+            _sessions_for_replay(), policy, risk, costs,
+            contract_multiplier=10_000.0, max_abs_contracts=4.0,
+        )
+
+
+def test_dynamic_margin_uses_post_cost_equity_and_does_not_advance_path_state() -> None:
+    from commodity.trading_decision_v0 import ExecutionCostAssumptions, PaperRiskPolicy
+
+    policy = _policy([2.0]).assign(forecast_id=["f0"], uncertainty_usd=[100.0])
+    path = _sessions_for_replay()
+    path["path_move_per_mmbtu"] = [-1.0, 0.0, 0.0]
+    risk = PaperRiskPolicy(10_000.0, 1, 0.50, 0.90, "remain_flat", False)
+    costs = ExecutionCostAssumptions(1.0, 0.0, 0.0, 0.0, 5_000.0, 10.0)
+    ledger, summary = sizing.replay_risk_controlled_policy(
+        path, policy, risk, costs,
+        contract_multiplier=10_000.0, max_abs_contracts=2.0,
+        risk_config={"stop_loss_uncertainty_multiple": 1.0},
+    )
+    assert ledger.loc[0, "target_position"] == 0.0
+    assert ledger.loc[0, "no_trade_reason"] == "insufficient_margin_assumption"
+    assert ledger.loc[0, "path_risk_trigger_after_session"] is None
+    assert summary["stop_trigger_count"] == 0
+
+
+@pytest.mark.parametrize(
+    ("risk_config", "first_move", "expected_trigger"),
+    [
+        ({"stop_loss_uncertainty_multiple": 1.0}, 0.10, "stop_loss"),
+        ({"take_profit_uncertainty_multiple": 1.5}, -0.10, "take_profit"),
+    ],
+)
+def test_short_uncertainty_risk_triggers_use_position_direction(
+    risk_config: dict[str, float], first_move: float, expected_trigger: str
+) -> None:
+    policy = _policy([-1.0]).assign(forecast_id=["f0"], uncertainty_usd=[500.0])
+    path = _sessions_for_replay()
+    path["path_move_per_mmbtu"] = [first_move, 0.0, 0.0]
+    risk, costs = _risk_and_costs()
+    ledger, _ = sizing.replay_risk_controlled_policy(
+        path, policy, risk, costs,
+        contract_multiplier=10_000.0, max_abs_contracts=4.0,
+        risk_config=risk_config,
+    )
+    assert ledger.loc[0, "target_position"] == -1.0
+    assert ledger.loc[0, "path_risk_trigger_after_session"] == expected_trigger
+    assert ledger.loc[1, "target_position"] == 0.0
+
+
+def test_dynamic_replay_rejects_finite_input_overflow() -> None:
+    from commodity.trading_decision_v0 import ExecutionCostAssumptions, PaperRiskPolicy
+
+    policy = _policy([1e200]).assign(forecast_id=["f0"], uncertainty_usd=[1.0])
+    path = _sessions_for_replay()
+    path["path_move_per_mmbtu"] = [1e200, 0.0, 0.0]
+    risk = PaperRiskPolicy(1e300, 1, 0.50, 0.90, "remain_flat", False)
+    costs = ExecutionCostAssumptions(0.0, 0.0, 0.0, 0.0, 0.0, 10.0)
+    with pytest.raises(ValueError, match="gross pnl"):
+        sizing.replay_risk_controlled_policy(
+            path, policy, risk, costs,
+            contract_multiplier=1e200, max_abs_contracts=1e200,
+            risk_config={"stop_loss_uncertainty_multiple": 1.0},
+        )
+
+
+def test_dynamic_path_risk_rejects_unit_pnl_overflow() -> None:
+    from commodity.trading_decision_v0 import ExecutionCostAssumptions, PaperRiskPolicy
+
+    policy = _policy([1e-200]).assign(forecast_id=["f0"], uncertainty_usd=[1.0])
+    path = _sessions_for_replay()
+    path["path_move_per_mmbtu"] = [1e200, 0.0, 0.0]
+    risk = PaperRiskPolicy(1e300, 1, 0.50, 0.90, "remain_flat", False)
+    costs = ExecutionCostAssumptions(0.0, 0.0, 0.0, 0.0, 0.0, 10.0)
+    with pytest.raises(ValueError, match="unit path pnl"):
+        sizing.replay_risk_controlled_policy(
+            path, policy, risk, costs,
+            contract_multiplier=1e200, max_abs_contracts=1.0,
+            risk_config={"stop_loss_uncertainty_multiple": 1.0},
+        )
+
+
+def test_dynamic_path_risk_rejects_threshold_overflow() -> None:
+    from commodity.trading_decision_v0 import ExecutionCostAssumptions, PaperRiskPolicy
+
+    policy = _policy([1.0]).assign(forecast_id=["f0"], uncertainty_usd=[1e308])
+    path = _sessions_for_replay()
+    path["path_move_per_mmbtu"] = [0.0, 0.0, 0.0]
+    risk = PaperRiskPolicy(100_000.0, 1, 0.50, 0.90, "remain_flat", False)
+    costs = ExecutionCostAssumptions(0.0, 0.0, 0.0, 0.0, 0.0, 10.0)
+    with pytest.raises(ValueError, match="stop-loss threshold"):
+        sizing.replay_risk_controlled_policy(
+            path, policy, risk, costs,
+            contract_multiplier=10_000.0, max_abs_contracts=1.0,
+            risk_config={"stop_loss_uncertainty_multiple": 2.0},
+        )
+
+
+def test_issue430_preflight_self_hash_fails_closed(monkeypatch, tmp_path: Path) -> None:
+    import sys
+
+    root = Path(__file__).resolve().parents[1]
+    sys.path.insert(0, str(root / "scripts" / "research"))
+    import run_issue430_sizing_risk as issue430
+
+    payload = issue430.json.loads(issue430.PREFLIGHT.read_text(encoding="utf-8"))
+    payload["feature_rows"] = int(payload["feature_rows"]) + 1
+    stale = tmp_path / "stale-preflight.json"
+    stale.write_text(issue430.json.dumps(payload), encoding="utf-8")
+    monkeypatch.setattr(issue430, "PREFLIGHT", stale)
+    with pytest.raises(RuntimeError, match="self-hash"):
+        issue430._require_preflight()
+
+
+def test_issue430_completed_result_blocks_rescoring(monkeypatch, tmp_path: Path) -> None:
+    import sys
+
+    root = Path(__file__).resolve().parents[1]
+    sys.path.insert(0, str(root / "scripts" / "research"))
+    import run_issue430_sizing_risk as issue430
+
+    preflight = tmp_path / "preflight.json"
+    preflight.write_text(issue430.PREFLIGHT.read_text(encoding="utf-8"), encoding="utf-8")
+    completed = tmp_path / "result.json"
+    completed.write_text("{}\n", encoding="utf-8")
+    monkeypatch.setattr(issue430, "PREFLIGHT", preflight)
+    monkeypatch.setattr(issue430, "RESULT", completed)
+    with pytest.raises(RuntimeError, match="frozen"):
+        issue430._require_preflight()
+
+
+def test_stage2_promotion_requires_a_stage1_passing_parent() -> None:
+    import sys
+
+    root = Path(__file__).resolve().parents[1]
+    sys.path.insert(0, str(root / "scripts" / "research"))
+    import run_issue430_sizing_risk as issue430
+
+    stage1 = [
+        {"policy_id": "pass", "passes_return_gate": True},
+        {"policy_id": "fail", "passes_return_gate": False},
+    ]
+    stage2 = [
+        {"parent_policy_id": "fail", "risk_variant_id": "r1", "passes_risk_gate": True},
+        {"parent_policy_id": "pass", "risk_variant_id": "r2", "passes_risk_gate": True},
+    ]
+    promoted = issue430.promotable_stage2_variants(stage1, stage2)
+    assert [(row["parent_policy_id"], row["risk_variant_id"]) for row in promoted] == [
+        ("pass", "r2")
+    ]
+
+
+def test_committed_issue430_trial_ledger_is_complete_and_unique() -> None:
+    import sys
+
+    root = Path(__file__).resolve().parents[1]
+    sys.path.insert(0, str(root / "scripts" / "research"))
+    import run_issue430_sizing_risk as issue430
+
+    ledger = pd.read_json(issue430.LEDGER, lines=True)
+    prereg = issue430.load_prereg()
+    result = issue430.json.loads(issue430.RESULT.read_text(encoding="utf-8"))
+    assert set(ledger["stage"]) == {"stage1_sizing", "stage2_risk"}
+    stage1 = ledger.loc[ledger["stage"].eq("stage1_sizing")]
+    stage2 = ledger.loc[ledger["stage"].eq("stage2_risk")]
+    expected_stage1 = {
+        (str(spec["id"]), str(outer), str(cost))
+        for spec in prereg["stage1_sizing"]["policy_configs"]
+        for outer in prereg["outer_blocks"]
+        for cost in prereg["cost_profiles"]
+    }
+    actual_stage1 = {
+        (str(row.policy_id), str(row.outer_id), str(row.cost_profile))
+        for row in stage1.itertuples(index=False)
+    }
+    expected_stage2 = {
+        (str(parent), str(spec["id"]), str(outer), str(cost))
+        for parent in result["selected_stage2_parent_policy_ids"]
+        for spec in prereg["stage2_risk"]["risk_variants"]
+        for outer in prereg["outer_blocks"]
+        for cost in prereg["cost_profiles"]
+    }
+    actual_stage2 = {
+        (
+            str(row.parent_policy_id), str(row.risk_variant_id),
+            str(row.outer_id), str(row.cost_profile),
+        )
+        for row in stage2.itertuples(index=False)
+    }
+    assert actual_stage1 == expected_stage1
+    assert actual_stage2 == expected_stage2
+    assert len(ledger) == len(expected_stage1) + len(expected_stage2) == 318
+    assert ledger["operational_paper_max_contracts"].eq(1).all()
+    assert pd.to_numeric(ledger["research_max_abs_contracts"]).le(4.0).all()
