@@ -1,0 +1,121 @@
+{
+  "schema_version": 1,
+  "issue": 429,
+  "revision": 1,
+  "status": "frozen_before_issue429_scoring",
+  "evidence_class": "development",
+  "claim_boundary": "development_discovery_only_no_confirmed_edge_claim",
+  "evidence_boundary": {
+    "latest_allowed_trade_date": "2022-12-31",
+    "protected_confirmation_accessed": false,
+    "prospective_paper_accessed": false,
+    "saxo_sim_accessed": false,
+    "live_accessed": false
+  },
+  "parent": {
+    "policy_id": "both__strength_q50__f1.00__loss_cooldown_3_sessions__short_none__long_veto",
+    "issue459_wave2_prereg_sha256": "c90b20f799bd7443c301e677dae282ce22078b5bc38e823541dba22f909f257f",
+    "issue459_wave2_result_file_sha256": "aab50fcef8934e05f405045b13cf2ac4ebdb0a7e375c07c23cbf814f8c11aa59",
+    "issue459_wave2_result_identity": "66ea6671e8a5dc05d291f8bc125117eed1190bd2b8efbebd4931444f34ebe961",
+    "issue459_wave2_trial_ledger_sha256": "d1bacc02331fe0a0dc6d8368346d0210ebfc70966c65c3bdda7c560e51e2aa86",
+    "mean_outer_monthly_net_return_delta": 0.00324275,
+    "timesfm_short_mode": "none",
+    "kronos_long_mode": "veto"
+  },
+  "fixed_parent_model_rule": "retain each outer's issue427 selected model config and its forecast outputs for every issue429 contribution and lifecycle comparison",
+  "contribution_ablation": {
+    "context_ablation_rule": "keep forecasts and full origin rows fixed; recompute issue428 decision state with only the declared retained context families removed",
+    "policies": [
+      {"id": "full_promoted_control", "kind": "control"},
+      {"id": "remove_long_specialist_veto", "kind": "policy_component", "long_specialist_mode": "none"},
+      {"id": "remove_strength_gate", "kind": "policy_component", "gate_id": "baseline"},
+      {"id": "remove_loss_cooldown", "kind": "policy_component", "lifecycle": "inherited_horizon"},
+      {
+        "id": "remove_ta_decision_context",
+        "kind": "decision_context_family",
+        "excluded_retained_families": ["ta.range_breakout", "ta.trend_strength", "ta.volume_confirmation"]
+      },
+      {
+        "id": "remove_positioning_decision_context",
+        "kind": "decision_context_family",
+        "excluded_retained_families": ["market_structure.positioning"]
+      },
+      {
+        "id": "remove_volatility_tail_decision_context",
+        "kind": "decision_context_family",
+        "excluded_retained_families": ["volatility_tail.jump_intensity", "volatility_tail.vol_of_vol"]
+      }
+    ],
+    "inactive_parent_components": ["timesfm_short_modifier"]
+  },
+  "lifecycle_search": {
+    "base_policy": "full_promoted_control",
+    "position_bound": 1.0,
+    "independent_multi_lot_overlap": "deferred_to_issue430_exposure_scope",
+    "transform_order": ["abstain", "cadence", "same_direction", "opposite", "decision_delay", "hold_cap"],
+    "variants": [
+      {"id": "hold_on_abstain", "abstain_mode": "hold"},
+      {"id": "ignore_same_direction_refresh", "same_direction_mode": "ignore_while_active"},
+      {"id": "exit_only_on_opposite", "opposite_mode": "exit_only"},
+      {"id": "decision_delay_1_session", "decision_delay_sessions": 1},
+      {"id": "max_hold_1_session", "max_hold_sessions": 1},
+      {"id": "max_hold_3_sessions", "max_hold_sessions": 3},
+      {"id": "max_hold_5_sessions", "max_hold_sessions": 5},
+      {"id": "one_signal_per_target_window", "cadence_mode": "one_per_target_window"},
+      {
+        "id": "hold_on_abstain__max_hold_3",
+        "abstain_mode": "hold",
+        "max_hold_sessions": 3
+      },
+      {
+        "id": "hold_on_abstain__exit_only",
+        "abstain_mode": "hold",
+        "opposite_mode": "exit_only"
+      },
+      {
+        "id": "ignore_same_direction__exit_only",
+        "same_direction_mode": "ignore_while_active",
+        "opposite_mode": "exit_only"
+      },
+      {
+        "id": "decision_delay_1__max_hold_3",
+        "decision_delay_sessions": 1,
+        "max_hold_sessions": 3
+      }
+    ]
+  },
+  "event_time_lane": {
+    "status": "HOLD_SOURCE_TIMING_NOT_PROVEN",
+    "authority": "issue448 event timing disposition",
+    "synthetic_timestamps_allowed": false
+  },
+  "evaluation": {
+    "outer_blocks": ["outer-2019-2020", "outer-2021-2022"],
+    "cost_profiles": ["base", "higher_1_5x", "higher_2x"],
+    "declared_ablation_policy_count": 7,
+    "declared_lifecycle_variant_count": 12,
+    "expected_outer_cost_trial_count": 114,
+    "all_attempts_ledgered": true,
+    "no_post_result_rescue": true
+  },
+  "effective_sample_controls": {
+    "minimum_risk_executed_trades_per_outer": 24,
+    "minimum_nonempty_months_per_outer": 6,
+    "minimum_risk_executed_trades_per_active_month": 1,
+    "requested_signals_do_not_count_as_executed_sample": true
+  },
+  "promotion_gate": {
+    "mean_outer_monthly_net_return_improvement_gt": 0.0,
+    "nonnegative_outer_fraction_gte": 1.0,
+    "effective_sample_required": true,
+    "kill_trigger_regression_allowed": false,
+    "higher_cost_delta_vs_parent_must_remain_nonnegative": true,
+    "no_single_month_majority_of_incremental_pnl": true
+  },
+  "fixed_safety": {
+    "paper_risk_policy": "phase1_standard_ng_v0",
+    "peak_drawdown_kill_fraction": 0.1,
+    "daily_loss_fraction": 0.02,
+    "rule": "fixed_safety_is_not_an_optimization_variable"
+  }
+}

@@ -1,0 +1,369 @@
+{
+  "claim_boundary": "development_discovery_only_no_confirmed_edge_claim",
+  "contribution_summary": [
+    {
+      "mean_component_contribution_to_parent": 0.005960999999999998,
+      "mean_outer_monthly_net_return_delta_vs_parent": -0.005960999999999998,
+      "outer_deltas": {
+        "outer-2019-2020": -0.004372000000000002,
+        "outer-2021-2022": -0.007549999999999995
+      },
+      "policy_id": "remove_strength_gate"
+    },
+    {
+      "mean_component_contribution_to_parent": 0.0044040833333333345,
+      "mean_outer_monthly_net_return_delta_vs_parent": -0.0044040833333333345,
+      "outer_deltas": {
+        "outer-2019-2020": -0.003704000000000003,
+        "outer-2021-2022": -0.005104166666666667
+      },
+      "policy_id": "remove_loss_cooldown"
+    },
+    {
+      "mean_component_contribution_to_parent": 0.0012800000000000008,
+      "mean_outer_monthly_net_return_delta_vs_parent": -0.0012800000000000008,
+      "outer_deltas": {
+        "outer-2019-2020": -0.0025600000000000015,
+        "outer-2021-2022": 0.0
+      },
+      "policy_id": "remove_long_specialist_veto"
+    },
+    {
+      "mean_component_contribution_to_parent": -0.0,
+      "mean_outer_monthly_net_return_delta_vs_parent": 0.0,
+      "outer_deltas": {
+        "outer-2019-2020": 0.0,
+        "outer-2021-2022": 0.0
+      },
+      "policy_id": "full_promoted_control"
+    },
+    {
+      "mean_component_contribution_to_parent": -0.0,
+      "mean_outer_monthly_net_return_delta_vs_parent": 0.0,
+      "outer_deltas": {
+        "outer-2019-2020": 0.0,
+        "outer-2021-2022": 0.0
+      },
+      "policy_id": "remove_positioning_decision_context"
+    },
+    {
+      "mean_component_contribution_to_parent": -0.0,
+      "mean_outer_monthly_net_return_delta_vs_parent": 0.0,
+      "outer_deltas": {
+        "outer-2019-2020": 0.0,
+        "outer-2021-2022": 0.0
+      },
+      "policy_id": "remove_ta_decision_context"
+    },
+    {
+      "mean_component_contribution_to_parent": -0.0,
+      "mean_outer_monthly_net_return_delta_vs_parent": 0.0,
+      "outer_deltas": {
+        "outer-2019-2020": 0.0,
+        "outer-2021-2022": 0.0
+      },
+      "policy_id": "remove_volatility_tail_decision_context"
+    }
+  ],
+  "declared_contribution_policy_count": 7,
+  "declared_lifecycle_variant_count": 12,
+  "disposition": "NO_ISSUE429_LIFECYCLE_IMPROVEMENT",
+  "event_time_lane": {
+    "authority": "issue448 event timing disposition",
+    "status": "HOLD_SOURCE_TIMING_NOT_PROVEN",
+    "synthetic_timestamps_allowed": false
+  },
+  "evidence_class": "development",
+  "issue": 429,
+  "issue459_wave2_result_identity": "66ea6671e8a5dc05d291f8bc125117eed1190bd2b8efbebd4931444f34ebe961",
+  "issue459_wave2_trial_ledger_sha256": "d1bacc02331fe0a0dc6d8368346d0210ebfc70966c65c3bdda7c560e51e2aa86",
+  "lifecycle_evaluation": [
+    {
+      "concentration_pass": false,
+      "effective_sample_pass": true,
+      "higher_cost_nonnegative": false,
+      "kill_trigger_regression": false,
+      "max_drawdown_fraction": 0.04908087396797883,
+      "mean_outer_monthly_net_return_delta": 0.0010760833333333297,
+      "nonnegative_outer_fraction": 0.5,
+      "passes_promotion_gate": false,
+      "policy_id": "hold_on_abstain__max_hold_3"
+    },
+    {
+      "concentration_pass": false,
+      "effective_sample_pass": false,
+      "higher_cost_nonnegative": true,
+      "kill_trigger_regression": false,
+      "max_drawdown_fraction": 0.045485527332212346,
+      "mean_outer_monthly_net_return_delta": 0.00042450000000000213,
+      "nonnegative_outer_fraction": 1.0,
+      "passes_promotion_gate": false,
+      "policy_id": "ignore_same_direction__exit_only"
+    },
+    {
+      "concentration_pass": false,
+      "effective_sample_pass": false,
+      "higher_cost_nonnegative": true,
+      "kill_trigger_regression": false,
+      "max_drawdown_fraction": 0.045485527332212346,
+      "mean_outer_monthly_net_return_delta": 0.00042450000000000213,
+      "nonnegative_outer_fraction": 1.0,
+      "passes_promotion_gate": false,
+      "policy_id": "ignore_same_direction_refresh"
+    },
+    {
+      "concentration_pass": false,
+      "effective_sample_pass": true,
+      "higher_cost_nonnegative": true,
+      "kill_trigger_regression": false,
+      "max_drawdown_fraction": 0.0578763550596453,
+      "mean_outer_monthly_net_return_delta": 0.0002604166666666666,
+      "nonnegative_outer_fraction": 1.0,
+      "passes_promotion_gate": false,
+      "policy_id": "max_hold_3_sessions"
+    },
+    {
+      "concentration_pass": false,
+      "effective_sample_pass": true,
+      "higher_cost_nonnegative": true,
+      "kill_trigger_regression": false,
+      "max_drawdown_fraction": 0.0578763550596453,
+      "mean_outer_monthly_net_return_delta": 0.0,
+      "nonnegative_outer_fraction": 1.0,
+      "passes_promotion_gate": false,
+      "policy_id": "exit_only_on_opposite"
+    },
+    {
+      "concentration_pass": false,
+      "effective_sample_pass": true,
+      "higher_cost_nonnegative": true,
+      "kill_trigger_regression": false,
+      "max_drawdown_fraction": 0.0578763550596453,
+      "mean_outer_monthly_net_return_delta": 0.0,
+      "nonnegative_outer_fraction": 1.0,
+      "passes_promotion_gate": false,
+      "policy_id": "max_hold_5_sessions"
+    },
+    {
+      "concentration_pass": false,
+      "effective_sample_pass": true,
+      "higher_cost_nonnegative": false,
+      "kill_trigger_regression": false,
+      "max_drawdown_fraction": 0.04154824739477602,
+      "mean_outer_monthly_net_return_delta": -0.0005325833333333317,
+      "nonnegative_outer_fraction": 0.5,
+      "passes_promotion_gate": false,
+      "policy_id": "max_hold_1_session"
+    },
+    {
+      "concentration_pass": true,
+      "effective_sample_pass": false,
+      "higher_cost_nonnegative": false,
+      "kill_trigger_regression": false,
+      "max_drawdown_fraction": 0.039043863492526996,
+      "mean_outer_monthly_net_return_delta": -0.0015535000000000034,
+      "nonnegative_outer_fraction": 0.0,
+      "passes_promotion_gate": false,
+      "policy_id": "decision_delay_1_session"
+    },
+    {
+      "concentration_pass": true,
+      "effective_sample_pass": false,
+      "higher_cost_nonnegative": false,
+      "kill_trigger_regression": false,
+      "max_drawdown_fraction": 0.03933596222189752,
+      "mean_outer_monthly_net_return_delta": -0.0015597500000000038,
+      "nonnegative_outer_fraction": 0.0,
+      "passes_promotion_gate": false,
+      "policy_id": "decision_delay_1__max_hold_3"
+    },
+    {
+      "concentration_pass": false,
+      "effective_sample_pass": false,
+      "higher_cost_nonnegative": false,
+      "kill_trigger_regression": true,
+      "max_drawdown_fraction": 0.04594290851876826,
+      "mean_outer_monthly_net_return_delta": -0.001996250000000002,
+      "nonnegative_outer_fraction": 0.5,
+      "passes_promotion_gate": false,
+      "policy_id": "one_signal_per_target_window"
+    },
+    {
+      "concentration_pass": false,
+      "effective_sample_pass": false,
+      "higher_cost_nonnegative": false,
+      "kill_trigger_regression": true,
+      "max_drawdown_fraction": 0.04983680031178448,
+      "mean_outer_monthly_net_return_delta": -0.002555166666666669,
+      "nonnegative_outer_fraction": 0.0,
+      "passes_promotion_gate": false,
+      "policy_id": "hold_on_abstain"
+    },
+    {
+      "concentration_pass": false,
+      "effective_sample_pass": false,
+      "higher_cost_nonnegative": false,
+      "kill_trigger_regression": true,
+      "max_drawdown_fraction": 0.04983680031178448,
+      "mean_outer_monthly_net_return_delta": -0.002555166666666669,
+      "nonnegative_outer_fraction": 0.0,
+      "passes_promotion_gate": false,
+      "policy_id": "hold_on_abstain__exit_only"
+    }
+  ],
+  "parent_policy_id": "both__strength_q50__f1.00__loss_cooldown_3_sessions__short_none__long_veto",
+  "parent_reproduction": {
+    "outer-2019-2020": {
+      "reproduced": true,
+      "scores": {
+        "base": {
+          "best_monthly_net_return": 0.04110000000000001,
+          "flat_net_pnl_usd": -510.0,
+          "largest_positive_month_profit_fraction": 0.2339880444064903,
+          "long_net_pnl_usd": 84.99999999999571,
+          "max_abs_net_exposure_fraction": 1.0,
+          "max_drawdown_fraction": 0.0578763550596453,
+          "max_gross_exposure_fraction": 1.0,
+          "max_leverage": 1.0,
+          "mean_monthly_net_return": 0.003852000000000002,
+          "median_monthly_net_return": 0.0007500000000000014,
+          "month_count": 25,
+          "monthly_net_return_std": 0.015248576851627827,
+          "profitable_month_rate": 0.52,
+          "session_count": 625,
+          "short_net_pnl_usd": 10055.000000000007,
+          "total_net_pnl_usd": 9630.000000000007,
+          "trade_count": 68,
+          "transaction_cost_usd": 1080.0,
+          "turnover": 72.0,
+          "worst_monthly_net_return": -0.04470000000000002
+        },
+        "higher_1_5x": {
+          "best_monthly_net_return": 0.04050000000000001,
+          "flat_net_pnl_usd": -765.0,
+          "largest_positive_month_profit_fraction": 0.2348847324923881,
+          "long_net_pnl_usd": 17.499999999995723,
+          "max_abs_net_exposure_fraction": 1.0,
+          "max_drawdown_fraction": 0.05975507236498307,
+          "max_gross_exposure_fraction": 1.0,
+          "max_leverage": 1.0,
+          "mean_monthly_net_return": 0.0036360000000000025,
+          "median_monthly_net_return": 0.0005250000000000014,
+          "month_count": 25,
+          "monthly_net_return_std": 0.015240969588579331,
+          "profitable_month_rate": 0.52,
+          "session_count": 625,
+          "short_net_pnl_usd": 9837.500000000007,
+          "total_net_pnl_usd": 9090.000000000007,
+          "trade_count": 68,
+          "transaction_cost_usd": 1620.0,
+          "turnover": 72.0,
+          "worst_monthly_net_return": -0.045150000000000017
+        },
+        "higher_2x": {
+          "best_monthly_net_return": 0.03990000000000001,
+          "flat_net_pnl_usd": -1020.0,
+          "largest_positive_month_profit_fraction": 0.23581560283687955,
+          "long_net_pnl_usd": -50.00000000000422,
+          "max_abs_net_exposure_fraction": 1.0,
+          "max_drawdown_fraction": 0.06164071747245743,
+          "max_gross_exposure_fraction": 1.0,
+          "max_leverage": 1.0,
+          "mean_monthly_net_return": 0.003420000000000002,
+          "median_monthly_net_return": 0.00030000000000000144,
+          "month_count": 25,
+          "monthly_net_return_std": 0.015235169838239415,
+          "profitable_month_rate": 0.52,
+          "session_count": 625,
+          "short_net_pnl_usd": 9620.000000000007,
+          "total_net_pnl_usd": 8550.000000000007,
+          "trade_count": 68,
+          "transaction_cost_usd": 2160.0,
+          "turnover": 72.0,
+          "worst_monthly_net_return": -0.045600000000000016
+        }
+      }
+    },
+    "outer-2021-2022": {
+      "reproduced": true,
+      "scores": {
+        "base": {
+          "best_monthly_net_return": 0.06419999999999998,
+          "flat_net_pnl_usd": -150.0,
+          "largest_positive_month_profit_fraction": 0.44275862068965494,
+          "long_net_pnl_usd": 0.0,
+          "max_abs_net_exposure_fraction": 1.0,
+          "max_drawdown_fraction": 0.04030105456614011,
+          "max_gross_exposure_fraction": 1.0,
+          "max_leverage": 1.0,
+          "mean_monthly_net_return": 0.004025,
+          "median_monthly_net_return": 0.0,
+          "month_count": 24,
+          "monthly_net_return_std": 0.018374200662885993,
+          "profitable_month_rate": 0.2916666666666667,
+          "session_count": 620,
+          "short_net_pnl_usd": 9810.0,
+          "total_net_pnl_usd": 9660.0,
+          "trade_count": 20,
+          "transaction_cost_usd": 330.0,
+          "turnover": 22.0,
+          "worst_monthly_net_return": -0.04590000000000004
+        },
+        "higher_1_5x": {
+          "best_monthly_net_return": 0.06374999999999999,
+          "flat_net_pnl_usd": -225.0,
+          "largest_positive_month_profit_fraction": 0.4437869822485205,
+          "long_net_pnl_usd": 0.0,
+          "max_abs_net_exposure_fraction": 1.0,
+          "max_drawdown_fraction": 0.040548533374225065,
+          "max_gross_exposure_fraction": 1.0,
+          "max_leverage": 1.0,
+          "mean_monthly_net_return": 0.0039562500000000006,
+          "median_monthly_net_return": 0.0,
+          "month_count": 24,
+          "monthly_net_return_std": 0.018308087138953107,
+          "profitable_month_rate": 0.2916666666666667,
+          "session_count": 620,
+          "short_net_pnl_usd": 9720.0,
+          "total_net_pnl_usd": 9495.0,
+          "trade_count": 20,
+          "transaction_cost_usd": 495.0,
+          "turnover": 22.0,
+          "worst_monthly_net_return": -0.046050000000000035
+        },
+        "higher_2x": {
+          "best_monthly_net_return": 0.06329999999999998,
+          "flat_net_pnl_usd": -300.0,
+          "largest_positive_month_profit_fraction": 0.4448348559381586,
+          "long_net_pnl_usd": 0.0,
+          "max_abs_net_exposure_fraction": 1.0,
+          "max_drawdown_fraction": 0.040796630987892615,
+          "max_gross_exposure_fraction": 1.0,
+          "max_leverage": 1.0,
+          "mean_monthly_net_return": 0.0038875000000000008,
+          "median_monthly_net_return": 0.0,
+          "month_count": 24,
+          "monthly_net_return_std": 0.018242425654227023,
+          "profitable_month_rate": 0.2916666666666667,
+          "session_count": 620,
+          "short_net_pnl_usd": 9630.0,
+          "total_net_pnl_usd": 9330.0,
+          "trade_count": 20,
+          "transaction_cost_usd": 660.0,
+          "turnover": 22.0,
+          "worst_monthly_net_return": -0.04620000000000004
+        }
+      }
+    }
+  },
+  "passing_lifecycle_variant_count": 0,
+  "passing_lifecycle_variants": [],
+  "preflight_sha256": "a787720492d9fc67cdd29503781d06efe87023b82f51313c08d53b00acb92437",
+  "prereg_sha256": "0ec059451809fc65d2e8543cb51235c3abd151d0ae483eeaa2503341191bb73e",
+  "protected_confirmation_accessed": false,
+  "result_sha256": "2b800943f250867278b952555994204fb5dcf98c7fd058894947064470333430",
+  "runner_sha256": "64a062a0d9e2048a64fff5ac216cae0a52ca2711985d20ba6b0c529e3904076e",
+  "schema_version": 1,
+  "trial_count": 114,
+  "trial_ledger_file_sha256": "c3ef3f917cf2bfbaeb2b9690f5766d6b6f693cca110870477c549aeaf4ab56c8"
+}
