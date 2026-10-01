@@ -1,0 +1,40 @@
+{
+  "schema_version": 4,
+  "change_id": "430-v2-sizing-exposure-leverage-risk-control",
+  "status": "active",
+  "branch": "change/430-v2-sizing-exposure-leverage-risk-control",
+  "worktree": ".work/worktrees/430-v2-sizing-exposure-leverage-risk-control",
+  "base": "main",
+  "outcome": "Execute #430 development-only sizing, exposure, leverage, and risk-control optimization against the fixed promoted policy while keeping protected confirmation and prospective evidence sealed.",
+  "owned_paths": [
+    "src/commodity/v2_sizing_risk.py",
+    "scripts/research/run_issue430_sizing_risk.py",
+    "tests/test_issue430_sizing_risk.py",
+    "research/programmes/004-v2-maximum-reproducible-one-month-return/issue430-prereg-v1.json",
+    "research/programmes/004-v2-maximum-reproducible-one-month-return/issue430-preflight-v1.json",
+    "research/programmes/004-v2-maximum-reproducible-one-month-return/issue430-trials-v1.jsonl",
+    "research/programmes/004-v2-maximum-reproducible-one-month-return/issue430-result-v1.json",
+    "docs/reference/README.md",
+    "docs/reference/research/programmes/004-v2-maximum-reproducible-one-month-return/issue430-preflight-v1.md",
+    "docs/reference/research/programmes/004-v2-maximum-reproducible-one-month-return/issue430-prereg-v1.md",
+    "docs/reference/research/programmes/004-v2-maximum-reproducible-one-month-return/issue430-result-v1.md",
+    ".work/changes/430-v2-sizing-exposure-leverage-risk-control/**"
+  ],
+  "shared_paths": [],
+  "excluded_paths": [],
+  "dependencies": [],
+  "integration_owner": null,
+  "complexity": "large",
+  "risk_triggers": [
+    "money"
+  ],
+  "base_evidence": {
+    "local_sha": "ba1f8ec351816cbee595ab1fbb3680de50d2d9e3",
+    "local_tree": "53809cf27e5cab874d9cd6b129f8ce71cb325384",
+    "upstream_sha": "ba1f8ec351816cbee595ab1fbb3680de50d2d9e3",
+    "upstream_tree": "53809cf27e5cab874d9cd6b129f8ce71cb325384",
+    "upstream_ref": "refs/remotes/origin/main",
+    "evidence_source": "local_remote_tracking_ref",
+    "relation": "same_sha"
+  }
+}

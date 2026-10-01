@@ -1,0 +1,125 @@
+{
+  "schema_version": 1,
+  "issue": 430,
+  "revision": 1,
+  "status": "frozen_before_issue430_scoring",
+  "evidence_class": "development",
+  "claim_boundary": "development_discovery_only_no_confirmed_edge_claim",
+  "evidence_boundary": {
+    "latest_allowed_trade_date": "2022-12-31",
+    "protected_confirmation_accessed": false,
+    "prospective_paper_accessed": false,
+    "saxo_sim_accessed": false,
+    "live_accessed": false
+  },
+  "parent": {
+    "policy_id": "both__strength_q50__f1.00__loss_cooldown_3_sessions__short_none__long_veto",
+    "issue429_prereg_sha256": "0ec059451809fc65d2e8543cb51235c3abd151d0ae483eeaa2503341191bb73e",
+    "issue429_preflight_sha256": "c242749ff10c416c092cac0244548970d4ae6642be94c94e0f5e47c1a4dc17bc",
+    "issue429_trial_ledger_sha256": "c3ef3f917cf2bfbaeb2b9690f5766d6b6f693cca110870477c549aeaf4ab56c8",
+    "issue429_result_file_sha256": "89134b272b4d9f2d6fe73ee1721abe5e18e2b688b7bda57d4c3a95687d38d699",
+    "mean_outer_monthly_net_return_delta_vs_baseline": 0.00324275
+  },
+  "research_boundary": {
+    "operational_paper_max_standard_contracts": 1,
+    "research_max_abs_contracts": 4.0,
+    "starting_capital_usd": 100000.0,
+    "initial_margin_usd_per_contract": 5000.0,
+    "contract_multiplier_mmbtu": 10000.0,
+    "multi_contract_results_do_not_authorize_paper_sim_or_live_size": true,
+    "paper_risk_policy_remains_fixed": true
+  },
+  "outer_blocks": ["outer-2019-2020", "outer-2021-2022"],
+  "cost_profiles": ["base", "higher_1_5x", "higher_2x"],
+  "stage1_sizing": {
+    "max_abs_contracts": 4.0,
+    "confidence_basis": "favored_fraction_from_prior_fitted_issue428_signal_states",
+    "regime_basis": "issue428_prior_only_favorable_regimes",
+    "tail_basis": ["jump_high", "vol_of_vol_high"],
+    "policy_configs": [
+      {"id": "fixed_0_50", "base_scale": 0.5},
+      {"id": "fixed_0_75", "base_scale": 0.75},
+      {"id": "fixed_1_00", "base_scale": 1.0, "control": true},
+      {"id": "fixed_1_25", "base_scale": 1.25},
+      {"id": "fixed_1_50", "base_scale": 1.5},
+      {"id": "fixed_2_00", "base_scale": 2.0},
+      {"id": "fixed_3_00", "base_scale": 3.0},
+      {"id": "fixed_4_00", "base_scale": 4.0},
+      {"id": "asym_long0_50_short1_00", "base_scale": 1.0, "long_scale": 0.5, "short_scale": 1.0},
+      {"id": "asym_long1_00_short1_50", "base_scale": 1.0, "long_scale": 1.0, "short_scale": 1.5},
+      {"id": "asym_long1_00_short2_00", "base_scale": 1.0, "long_scale": 1.0, "short_scale": 2.0},
+      {"id": "asym_long0_50_short1_50", "base_scale": 1.0, "long_scale": 0.5, "short_scale": 1.5},
+      {"id": "asym_long0_50_short2_00", "base_scale": 1.0, "long_scale": 0.5, "short_scale": 2.0},
+      {"id": "confidence_t67_low0_50_high1_50", "confidence_threshold": 0.6666666666666666, "low_confidence_scale": 0.5, "high_confidence_scale": 1.5},
+      {"id": "confidence_t67_low0_50_high2_00", "confidence_threshold": 0.6666666666666666, "low_confidence_scale": 0.5, "high_confidence_scale": 2.0},
+      {"id": "confidence_t67_low0_75_high1_50", "confidence_threshold": 0.6666666666666666, "low_confidence_scale": 0.75, "high_confidence_scale": 1.5},
+      {"id": "confidence_t50_low0_75_high1_50", "confidence_threshold": 0.5, "low_confidence_scale": 0.75, "high_confidence_scale": 1.5},
+      {"id": "jump_high_half", "jump_high_scale": 0.5},
+      {"id": "jump_high_veto", "jump_high_scale": 0.0},
+      {"id": "vol_of_vol_high_half", "vol_of_vol_high_scale": 0.5},
+      {"id": "vol_of_vol_high_veto", "vol_of_vol_high_scale": 0.0},
+      {"id": "tail_both_half", "jump_high_scale": 0.5, "vol_of_vol_high_scale": 0.5},
+      {"id": "regime_favored1_50_other0_75", "favorable_regime_scale": 1.5, "other_regime_scale": 0.75, "use_prior_favorable_regimes": true},
+      {"id": "regime_favored2_00_other0_50", "favorable_regime_scale": 2.0, "other_regime_scale": 0.5, "use_prior_favorable_regimes": true},
+      {"id": "hybrid_scale1_50_conf_tail", "base_scale": 1.5, "confidence_threshold": 0.6666666666666666, "low_confidence_scale": 0.5, "high_confidence_scale": 1.25, "jump_high_scale": 0.75, "vol_of_vol_high_scale": 0.5},
+      {"id": "hybrid_scale2_00_tail", "base_scale": 2.0, "jump_high_scale": 0.75, "vol_of_vol_high_scale": 0.5}
+    ]
+  },
+  "stage2_risk": {
+    "mechanical_parent_count": 3,
+    "parent_selection": "top_stage1_cross_outer_base_cost_candidates_with_no_hard_safety_regression_then_return_order",
+    "risk_variants": [
+      {"id": "risk_control", "kind": "control"},
+      {"id": "drawdown_2pct_half", "drawdown_threshold_fraction": 0.02, "drawdown_scale": 0.5},
+      {"id": "drawdown_4pct_half", "drawdown_threshold_fraction": 0.04, "drawdown_scale": 0.5},
+      {"id": "time_stop_3_sessions", "max_hold_sessions": 3},
+      {"id": "stop_uncertainty_1_00", "stop_loss_uncertainty_multiple": 1.0},
+      {"id": "take_profit_uncertainty_1_50", "take_profit_uncertainty_multiple": 1.5},
+      {"id": "stop1_00_take1_50", "stop_loss_uncertainty_multiple": 1.0, "take_profit_uncertainty_multiple": 1.5},
+      {"id": "additional_loss_cooldown_1", "additional_loss_cooldown_sessions": 1},
+      {"id": "additional_loss_cooldown_5", "additional_loss_cooldown_sessions": 5}
+    ]
+  },
+  "trial_accounting": {
+    "declared_stage1_policy_count": 26,
+    "declared_stage1_outer_cost_trials": 156,
+    "declared_stage2_parent_count": 3,
+    "declared_stage2_risk_variant_count": 9,
+    "declared_stage2_outer_cost_trial_upper_bound": 162,
+    "declared_total_trial_upper_bound": 318,
+    "all_attempts_ledgered": true,
+    "no_post_result_rescue": true
+  },
+  "evaluation": {
+    "primary_metric": "mean_monthly_net_return",
+    "required_diagnostics": [
+      "max_drawdown_fraction", "worst_monthly_net_return", "monthly_net_return_std",
+      "transaction_cost_usd", "largest_positive_month_profit_fraction",
+      "largest_losing_month_fraction", "max_abs_contracts",
+      "max_margin_utilization_fraction", "max_notional_leverage",
+      "mean_notional_leverage", "long_net_pnl_usd", "short_net_pnl_usd"
+    ],
+    "allocation_efficiency_rule": "dynamic sizing is distinct only if it beats its nearest fixed-exposure control after exposure normalization",
+    "leveraged_return_rule": "fixed scale may increase return but must be labeled exposure amplification rather than new directional edge"
+  },
+  "promotion_gate": {
+    "mean_outer_monthly_net_return_improvement_gt": 0.0,
+    "nonnegative_outer_fraction_gte": 1.0,
+    "hard_safety_regression_allowed": false,
+    "higher_cost_improvement_must_remain_nonnegative": true,
+    "largest_incremental_positive_month_fraction_lte": 0.5,
+    "max_margin_utilization_fraction_lt": 0.5,
+    "research_max_abs_contracts_lte": 4.0
+  },
+  "fixed_operational_safety": {
+    "paper_risk_policy": "phase1_standard_ng_v0",
+    "paper_max_standard_contracts": 1,
+    "daily_loss_fraction": 0.02,
+    "peak_drawdown_kill_fraction": 0.10,
+    "rule": "operational safety is enforced but never optimized or weakened"
+  },
+  "options_implied_lane": {
+    "status": "SOURCE_GATED_USE_ONLY_IF_ALREADY_ADMITTED_BY_ISSUE448_HANDOFF",
+    "synthetic_options_state_allowed": false
+  }
+}
