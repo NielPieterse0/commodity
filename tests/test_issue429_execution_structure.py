@@ -143,6 +143,11 @@ def test_context_ablation_removes_only_declared_retained_families() -> None:
     ]
 
 
+@pytest.mark.skipif(
+    not (issue429.issue428.issue448.CACHE / "preflight-features.parquet").exists()
+    or not (issue429.issue428.issue448.CACHE / "preflight-families.json").exists(),
+    reason="requires ignored #448 local development cache",
+)
 def test_no_scoring_preflight_binds_parent_and_local_cache() -> None:
     report = issue429.preflight(write=False)
     assert report["status"] == "PASS"
