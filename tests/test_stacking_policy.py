@@ -11,6 +11,7 @@ from commodity.stacking_policy import (
     build_policy_grid,
     build_prospective_policy_decisions,
     fit_timesfm_uncertainty_state,
+    replay_bounded_fractional_policy,
     replay_fractional_policy,
     replay_post_freeze_policy,
     select_policy_from_prior_oos,
@@ -315,6 +316,21 @@ def test_fractional_position_change_charges_fractional_execution_sides() -> None
     )
     assert ledger.loc[0, "execution_side_count"] == pytest.approx(0.5)
     assert ledger.loc[0, "transaction_cost_usd"] == pytest.approx(0.5 * _costs().per_side_usd)
+
+
+def test_bounded_fractional_replay_accepts_declared_quarter_levels() -> None:
+    ledger, _ = replay_bounded_fractional_policy(
+        _path_for_replay(),
+        _decisions(0.25),
+        _risk(),
+        _costs(),
+        contract_multiplier=10000.0,
+        enforce_risk=False,
+        allowed_position_levels=(-1.0, -0.75, -0.5, -0.25, 0.0, 0.25, 0.5, 0.75, 1.0),
+    )
+    assert ledger.loc[0, "target_position"] == pytest.approx(0.25)
+    assert ledger.loc[0, "execution_side_count"] == pytest.approx(0.25)
+    assert ledger.loc[0, "transaction_cost_usd"] == pytest.approx(0.25 * _costs().per_side_usd)
 
 
 def test_replay_expires_a_signal_at_its_target_end() -> None:

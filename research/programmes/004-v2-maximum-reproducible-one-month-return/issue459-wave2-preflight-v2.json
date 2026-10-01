@@ -1,0 +1,23 @@
+{
+  "eligible_parent_count": 8,
+  "expected_outer_cost_trial_count": 276,
+  "failures": [],
+  "issue": 459,
+  "joint_code_sha256": "999b11b9d872ac45195ffe9cd3eeeaeb1931e899170f8c9802bf837dc5549026",
+  "kronos_rows": 3088,
+  "kronos_sha256": "98010ff7329c312cf04dbd4902d3fa6b3fe71ea562054c897eaf338e3f94df6c",
+  "preflight_sha256": "52bd31935b8302808be408d00c1454f9c9a8f97b66d14428a9e427cc57fa744b",
+  "protected_confirmation_accessed": false,
+  "runner_sha256": "fd65e9663fc512c2f16b941db06c3d2640dad5245164b62d2e6e8c201bd37749",
+  "schema_version": 1,
+  "scoring_performed": false,
+  "status": "PASS",
+  "timesfm_rows": 3088,
+  "timesfm_sha256": "692930439b863208b47dbeff246fd9790b4f2239f5434e72448538bc674aedc6",
+  "wave": 2,
+  "wave1_preflight_identity": "2494085ae50fa66b555797618a5dfee81e4d39299ce3989452db2bf4bf2ccf87",
+  "wave1_result_identity": "b4e6ce357f89ccde4e906ebc5d84ee74ae65eb155771588febf6a97a621cedfc",
+  "wave1_trial_ledger_sha256": "9203b1365cc9117b52ab662ed49feb934545cf39e7a37aa377b21709ab6dbd5c",
+  "wave2_candidate_count": 46,
+  "wave2_prereg_sha256": "c90b20f799bd7443c301e677dae282ce22078b5bc38e823541dba22f909f257f"
+}

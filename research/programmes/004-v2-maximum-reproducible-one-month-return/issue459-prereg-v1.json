@@ -1,0 +1,114 @@
+{
+  "schema_version": 1,
+  "issue": 459,
+  "status": "frozen_before_issue459_scoring",
+  "parent_issue": 393,
+  "evidence_class": "development",
+  "evidence_boundary": {
+    "latest_allowed_trade_date": "2022-12-31",
+    "protected_confirmation_accessed": false,
+    "prospective_paper_accessed": false,
+    "saxo_sim_accessed": false,
+    "live_accessed": false
+  },
+  "objective": {
+    "primary": "mean_outer_monthly_net_return_delta_vs_matched_baseline",
+    "secondary": [
+      "risk_executed_trade_count",
+      "nonempty_months",
+      "max_drawdown_fraction",
+      "transaction_cost_usd",
+      "long_short_contribution",
+      "period_concentration"
+    ]
+  },
+  "historical_map": {
+    "path": "research/programmes/004-v2-maximum-reproducible-one-month-return/issue459-advantage-map-v1.json",
+    "required_priority_clues": 8
+  },
+  "fixed_safety": {
+    "paper_risk_policy": "phase1_standard_ng_v0",
+    "peak_drawdown_kill_fraction": 0.10,
+    "daily_loss_fraction": 0.02,
+    "rule": "fixed_safety_is_not_an_optimization_variable"
+  },
+  "wave1_joint_scarcity_repair": {
+    "outer_blocks": ["outer-2019-2020", "outer-2021-2022"],
+    "side_scopes": ["both", "long_only", "short_only"],
+    "gate_families": [
+      "baseline",
+      "model_agreement",
+      "strength_q50",
+      "strength_q65",
+      "strength_q80",
+      "favored_count_3",
+      "favored_count_4",
+      "vol_of_vol_veto_q75",
+      "vol_of_vol_veto_q90",
+      "meta_interactions_p55",
+      "meta_interactions_p60"
+    ],
+    "position_fractions": [0.25, 0.5, 0.75, 1.0],
+    "lifecycle_variants": [
+      "inherited_horizon",
+      "one_signal_per_target_window",
+      "loss_cooldown_1_session",
+      "loss_cooldown_3_sessions"
+    ],
+    "cost_profiles": ["base", "higher_1_5x", "higher_2x"],
+    "design_note": "search signal_side_gate_x_fraction_x_lifecycle jointly under unchanged paper safety"
+  },
+  "wave2_side_specialists": {
+    "required": true,
+    "roles": [
+      "timesfm_short_confirmation_veto_weight",
+      "kronos_long_confirmation_veto_weight"
+    ],
+    "combine_with": [
+      "issue427_retained_signals",
+      "issue426_storage_positioning_interaction",
+      "issue448_open_interest",
+      "confidence_and_regime_state"
+    ]
+  },
+  "wave3_mechanism_clocks": {
+    "required": true,
+    "families": [
+      "storage_state_and_surprise",
+      "storage_announcement_window",
+      "weather_asymmetry_and_revision",
+      "curve_maturity_and_scarcity",
+      "physical_balance_and_lng",
+      "state_dependent_volatility"
+    ]
+  },
+  "selection_and_pruning": {
+    "chronology": "prior_completed_outcomes_only",
+    "selection": "prior_years_only_before_each_outer",
+    "broad_screen_rule": "prune_if_dominated_on_net_return_and_effective_sample_or_if_zero_executed_trades",
+    "complexity_rule": "prefer_simpler_nested_candidate_when_economic_difference_is_not_material",
+    "multiple_testing_rule": "all_attempted_configurations_are_ledgered_and_finalists_require_cross_outer_stability",
+    "no_post_result_rescue": true
+  },
+  "effective_sample_controls": {
+    "minimum_risk_executed_trades_per_outer": 24,
+    "minimum_nonempty_months_per_outer": 6,
+    "minimum_risk_executed_trades_per_active_month": 1,
+    "requested_signals_do_not_count_as_executed_sample": true
+  },
+  "promotion_gate": {
+    "mean_outer_monthly_net_return_delta_gt": 0.001,
+    "nonnegative_outer_fraction_gte": 1.0,
+    "effective_sample_required": true,
+    "kill_trigger_regression_allowed": false,
+    "higher_cost_profile_must_remain_nonnegative": true,
+    "no_single_month_majority_of_incremental_pnl": true
+  },
+  "search_budget": {
+    "wave1_declared_cartesian_upper_bound": 1584,
+    "wave1_formula": "3 sides x 11 gates x 4 fractions x 4 lifecycle variants x 3 cost profiles",
+    "heavier_replay_reserved_for_pruned_survivors": true,
+    "wave2_and_wave3_freeze_required_before_their_scoring": true
+  },
+  "claim_boundary": "development_discovery_only_no_confirmed_edge_claim"
+}

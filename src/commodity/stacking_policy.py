@@ -234,6 +234,7 @@ def _replay_fractional_policy(
     contract_multiplier: float,
     enforce_risk: bool,
     enforce_phase5_boundary: bool,
+    allowed_position_levels: frozenset[float] = frozenset(_ALLOWED_POSITION_LEVELS),
 ) -> tuple[pd.DataFrame, dict[str, Any]]:
     required_path = {
         "trade_date",
@@ -287,8 +288,8 @@ def _replay_fractional_policy(
             active_signal_position = _finite_float(
                 decision["signal_requested_position"], "signal requested position"
             )
-            if active_signal_position not in _ALLOWED_POSITION_LEVELS:
-                raise Phase5PolicyError("signal requested position is outside the frozen levels")
+            if active_signal_position not in allowed_position_levels:
+                raise Phase5PolicyError("signal requested position is outside the declared replay levels")
             active_signal_reason = str(decision.get("signal_reason", "forecast_signal"))
             value = decision.get("forecast_id")
             active_forecast_id = None if pd.isna(value) else str(value)
@@ -419,6 +420,31 @@ def replay_fractional_policy(
         contract_multiplier=contract_multiplier,
         enforce_risk=enforce_risk,
         enforce_phase5_boundary=True,
+    )
+
+
+def replay_bounded_fractional_policy(
+    path: pd.DataFrame,
+    decisions: pd.DataFrame,
+    risk: PaperRiskPolicy,
+    costs: ExecutionCostAssumptions,
+    *,
+    contract_multiplier: float,
+    enforce_risk: bool,
+    allowed_position_levels: tuple[float, ...],
+) -> tuple[pd.DataFrame, dict[str, Any]]:
+    levels = frozenset(_finite_float(value, "allowed position level") for value in allowed_position_levels)
+    if 0.0 not in levels or any(abs(value) > 1.0 for value in levels):
+        raise Phase5PolicyError("declared replay levels must include zero and remain within [-1, 1]")
+    return _replay_fractional_policy(
+        path,
+        decisions,
+        risk,
+        costs,
+        contract_multiplier=contract_multiplier,
+        enforce_risk=enforce_risk,
+        enforce_phase5_boundary=True,
+        allowed_position_levels=levels,
     )
 
 

@@ -1,0 +1,36 @@
+{
+  "schema_version": 4,
+  "change_id": "459-historical-evidence-recombination-joint-advantage-discovery",
+  "status": "active",
+  "branch": "change/459-historical-evidence-recombination-joint-advantage-discovery",
+  "worktree": ".work/worktrees/459-historical-evidence-recombination-joint-advantage-discovery",
+  "base": "main",
+  "outcome": "Run development-only joint historical-evidence recombination and cross-variable advantage discovery for issue #459.",
+  "owned_paths": [
+    ".work/changes/459-historical-evidence-recombination-joint-advantage-discovery",
+    "research/programmes/004-v2-maximum-reproducible-one-month-return",
+    "scripts/research",
+    "src/commodity",
+    "tests",
+    "docs/reference/research/programmes/004-v2-maximum-reproducible-one-month-return",
+    ".work/changes/459-historical-evidence-recombination-joint-advantage-discovery/**"
+  ],
+  "shared_paths": [],
+  "excluded_paths": [],
+  "dependencies": [],
+  "integration_owner": null,
+  "complexity": "large",
+  "risk_triggers": [
+    "money",
+    "persistent_state"
+  ],
+  "base_evidence": {
+    "local_sha": "d3ab965a1db48ce7d027a23d7d033ffd4a448a23",
+    "local_tree": "58cadee118017683b1e9619962ac7a88b3d462f3",
+    "upstream_sha": "d3ab965a1db48ce7d027a23d7d033ffd4a448a23",
+    "upstream_tree": "58cadee118017683b1e9619962ac7a88b3d462f3",
+    "upstream_ref": "refs/remotes/origin/main",
+    "evidence_source": "local_remote_tracking_ref",
+    "relation": "same_sha"
+  }
+}
