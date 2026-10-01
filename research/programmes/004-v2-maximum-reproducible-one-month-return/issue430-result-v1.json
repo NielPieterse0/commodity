@@ -1,0 +1,1108 @@
+{
+  "allocation_efficiency": [
+    {
+      "classification": "dynamic_allocation_candidate",
+      "distinct_allocation_value": true,
+      "mean_monthly_return_delta_vs_nearest_fixed": 0.0011875,
+      "nearest_fixed_policy_ids": {
+        "outer-2019-2020": "fixed_0_75",
+        "outer-2021-2022": "fixed_2_00"
+      },
+      "nonnegative_outer_fraction_vs_nearest_fixed": 1.0,
+      "policy_id": "asym_long0_50_short2_00"
+    },
+    {
+      "classification": "dynamic_allocation_candidate",
+      "distinct_allocation_value": true,
+      "mean_monthly_return_delta_vs_nearest_fixed": 0.0010110000000000004,
+      "nearest_fixed_policy_ids": {
+        "outer-2019-2020": "fixed_0_50",
+        "outer-2021-2022": "fixed_1_50"
+      },
+      "nonnegative_outer_fraction_vs_nearest_fixed": 1.0,
+      "policy_id": "asym_long0_50_short1_50"
+    },
+    {
+      "classification": "dynamic_allocation_candidate",
+      "distinct_allocation_value": true,
+      "mean_monthly_return_delta_vs_nearest_fixed": 0.000658000000000001,
+      "nearest_fixed_policy_ids": {
+        "outer-2019-2020": "fixed_1_50",
+        "outer-2021-2022": "fixed_2_00"
+      },
+      "nonnegative_outer_fraction_vs_nearest_fixed": 1.0,
+      "policy_id": "asym_long1_00_short2_00"
+    },
+    {
+      "classification": "dynamic_allocation_candidate",
+      "distinct_allocation_value": true,
+      "mean_monthly_return_delta_vs_nearest_fixed": 0.00032900000000000095,
+      "nearest_fixed_policy_ids": {
+        "outer-2019-2020": "fixed_1_25",
+        "outer-2021-2022": "fixed_1_50"
+      },
+      "nonnegative_outer_fraction_vs_nearest_fixed": 1.0,
+      "policy_id": "asym_long1_00_short1_50"
+    },
+    {
+      "classification": "dynamic_allocation_candidate",
+      "distinct_allocation_value": false,
+      "mean_monthly_return_delta_vs_nearest_fixed": 0.0015870833333333336,
+      "nearest_fixed_policy_ids": {
+        "outer-2019-2020": "fixed_0_50",
+        "outer-2021-2022": "fixed_1_00"
+      },
+      "nonnegative_outer_fraction_vs_nearest_fixed": 0.5,
+      "policy_id": "vol_of_vol_high_veto"
+    },
+    {
+      "classification": "dynamic_allocation_candidate",
+      "distinct_allocation_value": false,
+      "mean_monthly_return_delta_vs_nearest_fixed": 0.00035056249999999985,
+      "nearest_fixed_policy_ids": {
+        "outer-2019-2020": "fixed_0_50",
+        "outer-2021-2022": "fixed_1_25"
+      },
+      "nonnegative_outer_fraction_vs_nearest_fixed": 0.5,
+      "policy_id": "confidence_t67_low0_75_high1_50"
+    },
+    {
+      "classification": "dynamic_allocation_candidate",
+      "distinct_allocation_value": false,
+      "mean_monthly_return_delta_vs_nearest_fixed": 0.0001792083333333344,
+      "nearest_fixed_policy_ids": {
+        "outer-2019-2020": "fixed_0_50",
+        "outer-2021-2022": "fixed_0_75"
+      },
+      "nonnegative_outer_fraction_vs_nearest_fixed": 0.5,
+      "policy_id": "vol_of_vol_high_half"
+    },
+    {
+      "classification": "dynamic_allocation_candidate",
+      "distinct_allocation_value": false,
+      "mean_monthly_return_delta_vs_nearest_fixed": 7.541666666666764e-06,
+      "nearest_fixed_policy_ids": {
+        "outer-2019-2020": "fixed_1_50",
+        "outer-2021-2022": "fixed_2_00"
+      },
+      "nonnegative_outer_fraction_vs_nearest_fixed": 0.5,
+      "policy_id": "regime_favored1_50_other0_75"
+    },
+    {
+      "classification": "exposure_amplification_control",
+      "distinct_allocation_value": false,
+      "mean_monthly_return_delta_vs_nearest_fixed": 0.0,
+      "nearest_fixed_policy_ids": {
+        "outer-2019-2020": "fixed_0_50",
+        "outer-2021-2022": "fixed_0_50"
+      },
+      "nonnegative_outer_fraction_vs_nearest_fixed": 1.0,
+      "policy_id": "fixed_0_50"
+    },
+    {
+      "classification": "exposure_amplification_control",
+      "distinct_allocation_value": false,
+      "mean_monthly_return_delta_vs_nearest_fixed": 0.0,
+      "nearest_fixed_policy_ids": {
+        "outer-2019-2020": "fixed_0_75",
+        "outer-2021-2022": "fixed_0_75"
+      },
+      "nonnegative_outer_fraction_vs_nearest_fixed": 1.0,
+      "policy_id": "fixed_0_75"
+    },
+    {
+      "classification": "exposure_amplification_control",
+      "distinct_allocation_value": false,
+      "mean_monthly_return_delta_vs_nearest_fixed": 0.0,
+      "nearest_fixed_policy_ids": {
+        "outer-2019-2020": "fixed_1_00",
+        "outer-2021-2022": "fixed_1_00"
+      },
+      "nonnegative_outer_fraction_vs_nearest_fixed": 1.0,
+      "policy_id": "fixed_1_00"
+    },
+    {
+      "classification": "exposure_amplification_control",
+      "distinct_allocation_value": false,
+      "mean_monthly_return_delta_vs_nearest_fixed": 0.0,
+      "nearest_fixed_policy_ids": {
+        "outer-2019-2020": "fixed_1_25",
+        "outer-2021-2022": "fixed_1_25"
+      },
+      "nonnegative_outer_fraction_vs_nearest_fixed": 1.0,
+      "policy_id": "fixed_1_25"
+    },
+    {
+      "classification": "exposure_amplification_control",
+      "distinct_allocation_value": false,
+      "mean_monthly_return_delta_vs_nearest_fixed": 0.0,
+      "nearest_fixed_policy_ids": {
+        "outer-2019-2020": "fixed_1_50",
+        "outer-2021-2022": "fixed_1_50"
+      },
+      "nonnegative_outer_fraction_vs_nearest_fixed": 1.0,
+      "policy_id": "fixed_1_50"
+    },
+    {
+      "classification": "exposure_amplification_control",
+      "distinct_allocation_value": false,
+      "mean_monthly_return_delta_vs_nearest_fixed": 0.0,
+      "nearest_fixed_policy_ids": {
+        "outer-2019-2020": "fixed_2_00",
+        "outer-2021-2022": "fixed_2_00"
+      },
+      "nonnegative_outer_fraction_vs_nearest_fixed": 1.0,
+      "policy_id": "fixed_2_00"
+    },
+    {
+      "classification": "exposure_amplification_control",
+      "distinct_allocation_value": false,
+      "mean_monthly_return_delta_vs_nearest_fixed": 0.0,
+      "nearest_fixed_policy_ids": {
+        "outer-2019-2020": "fixed_3_00",
+        "outer-2021-2022": "fixed_3_00"
+      },
+      "nonnegative_outer_fraction_vs_nearest_fixed": 1.0,
+      "policy_id": "fixed_3_00"
+    },
+    {
+      "classification": "exposure_amplification_control",
+      "distinct_allocation_value": false,
+      "mean_monthly_return_delta_vs_nearest_fixed": 0.0,
+      "nearest_fixed_policy_ids": {
+        "outer-2019-2020": "fixed_4_00",
+        "outer-2021-2022": "fixed_4_00"
+      },
+      "nonnegative_outer_fraction_vs_nearest_fixed": 1.0,
+      "policy_id": "fixed_4_00"
+    },
+    {
+      "classification": "dynamic_allocation_candidate",
+      "distinct_allocation_value": false,
+      "mean_monthly_return_delta_vs_nearest_fixed": -7.583333333333173e-05,
+      "nearest_fixed_policy_ids": {
+        "outer-2019-2020": "fixed_0_50",
+        "outer-2021-2022": "fixed_1_00"
+      },
+      "nonnegative_outer_fraction_vs_nearest_fixed": 0.5,
+      "policy_id": "confidence_t67_low0_50_high1_50"
+    },
+    {
+      "classification": "dynamic_allocation_candidate",
+      "distinct_allocation_value": false,
+      "mean_monthly_return_delta_vs_nearest_fixed": -0.0001612708333333327,
+      "nearest_fixed_policy_ids": {
+        "outer-2019-2020": "fixed_1_25",
+        "outer-2021-2022": "fixed_2_00"
+      },
+      "nonnegative_outer_fraction_vs_nearest_fixed": 0.5,
+      "policy_id": "confidence_t50_low0_75_high1_50"
+    },
+    {
+      "classification": "dynamic_allocation_candidate",
+      "distinct_allocation_value": false,
+      "mean_monthly_return_delta_vs_nearest_fixed": -0.00033104166666666406,
+      "nearest_fixed_policy_ids": {
+        "outer-2019-2020": "fixed_0_50",
+        "outer-2021-2022": "fixed_1_00"
+      },
+      "nonnegative_outer_fraction_vs_nearest_fixed": 0.5,
+      "policy_id": "confidence_t67_low0_50_high2_00"
+    },
+    {
+      "classification": "dynamic_allocation_candidate",
+      "distinct_allocation_value": false,
+      "mean_monthly_return_delta_vs_nearest_fixed": -0.0003752916666666657,
+      "nearest_fixed_policy_ids": {
+        "outer-2019-2020": "fixed_3_00",
+        "outer-2021-2022": "fixed_1_00"
+      },
+      "nonnegative_outer_fraction_vs_nearest_fixed": 0.5,
+      "policy_id": "regime_favored2_00_other0_50"
+    },
+    {
+      "classification": "dynamic_allocation_candidate",
+      "distinct_allocation_value": false,
+      "mean_monthly_return_delta_vs_nearest_fixed": -0.00045443749999999586,
+      "nearest_fixed_policy_ids": {
+        "outer-2019-2020": "fixed_2_00",
+        "outer-2021-2022": "fixed_1_00"
+      },
+      "nonnegative_outer_fraction_vs_nearest_fixed": 0.0,
+      "policy_id": "hybrid_scale2_00_tail"
+    },
+    {
+      "classification": "dynamic_allocation_candidate",
+      "distinct_allocation_value": false,
+      "mean_monthly_return_delta_vs_nearest_fixed": -0.0006453749999999983,
+      "nearest_fixed_policy_ids": {
+        "outer-2019-2020": "fixed_1_25",
+        "outer-2021-2022": "fixed_0_75"
+      },
+      "nonnegative_outer_fraction_vs_nearest_fixed": 0.5,
+      "policy_id": "jump_high_veto"
+    },
+    {
+      "classification": "dynamic_allocation_candidate",
+      "distinct_allocation_value": false,
+      "mean_monthly_return_delta_vs_nearest_fixed": -0.0006970000000000001,
+      "nearest_fixed_policy_ids": {
+        "outer-2019-2020": "fixed_3_00",
+        "outer-2021-2022": "fixed_1_00"
+      },
+      "nonnegative_outer_fraction_vs_nearest_fixed": 0.5,
+      "policy_id": "asym_long0_50_short1_00"
+    },
+    {
+      "classification": "dynamic_allocation_candidate",
+      "distinct_allocation_value": false,
+      "mean_monthly_return_delta_vs_nearest_fixed": -0.0010085833333333307,
+      "nearest_fixed_policy_ids": {
+        "outer-2019-2020": "fixed_1_50",
+        "outer-2021-2022": "fixed_1_00"
+      },
+      "nonnegative_outer_fraction_vs_nearest_fixed": 0.0,
+      "policy_id": "jump_high_half"
+    },
+    {
+      "classification": "dynamic_allocation_candidate",
+      "distinct_allocation_value": false,
+      "mean_monthly_return_delta_vs_nearest_fixed": -0.0010489140624999967,
+      "nearest_fixed_policy_ids": {
+        "outer-2019-2020": "fixed_1_25",
+        "outer-2021-2022": "fixed_0_75"
+      },
+      "nonnegative_outer_fraction_vs_nearest_fixed": 0.0,
+      "policy_id": "hybrid_scale1_50_conf_tail"
+    },
+    {
+      "classification": "dynamic_allocation_candidate",
+      "distinct_allocation_value": false,
+      "mean_monthly_return_delta_vs_nearest_fixed": -0.0033005625,
+      "nearest_fixed_policy_ids": {
+        "outer-2019-2020": "fixed_0_50",
+        "outer-2021-2022": "fixed_2_00"
+      },
+      "nonnegative_outer_fraction_vs_nearest_fixed": 0.5,
+      "policy_id": "tail_both_half"
+    }
+  ],
+  "claim_boundary": "development_discovery_only_no_confirmed_edge_claim",
+  "disposition": "FREEZE_ISSUE430_SIZING_DEVELOPMENT_CANDIDATE_NO_RISK_INCREMENT",
+  "evidence_class": "development",
+  "fixed_exposure_interpretation": "fixed-scale return changes are exposure amplification, not new directional edge",
+  "issue": 430,
+  "options_implied_lane": {
+    "status": "SOURCE_GATED_USE_ONLY_IF_ALREADY_ADMITTED_BY_ISSUE448_HANDOFF",
+    "synthetic_options_state_allowed": false
+  },
+  "parent_policy_id": "both__strength_q50__f1.00__loss_cooldown_3_sessions__short_none__long_veto",
+  "preflight_sha256": "13553182f3cd7c3f4ff2b0ac64971f189e54b8b54398b473c4fdaa59dd34a2be",
+  "prereg_sha256": "d1009575138536bd7a960ba0ac3cd993d8b33b1095cd3736bdd47bfade6ab016",
+  "protected_confirmation_accessed": false,
+  "result_sha256": "98d65a94ffff93aea93c95f5e52c7de0a34500e1efb21d41b396e13aef5ef50c",
+  "runner_sha256": "8916761c2c35249dc24884a5e2d2286aa905d04c96428dfde5ad890abe2e0abc",
+  "schema_version": 1,
+  "selected_stage2_parent_policy_ids": [
+    "regime_favored1_50_other0_75",
+    "vol_of_vol_high_veto",
+    "asym_long0_50_short1_00"
+  ],
+  "sizing_code_sha256": "451678aab79a1a592e439dab178cd98e1fd1f9a2f113a53853f2f077350e44c2",
+  "stage1_evaluation": [
+    {
+      "hard_safety_clear": true,
+      "higher_cost_nonnegative": true,
+      "largest_incremental_positive_month_fraction": 0.3097713097713101,
+      "max_margin_utilization_fraction": 0.075,
+      "mean_outer_monthly_net_return_delta": 0.0012763750000000004,
+      "nonnegative_outer_fraction": 1.0,
+      "outer_base_deltas": {
+        "outer-2019-2020": 8.999999999999026e-06,
+        "outer-2021-2022": 0.0025437500000000017
+      },
+      "passes_return_gate": true,
+      "policy_id": "regime_favored1_50_other0_75"
+    },
+    {
+      "hard_safety_clear": false,
+      "higher_cost_nonnegative": true,
+      "largest_incremental_positive_month_fraction": 0.3316115702479336,
+      "max_margin_utilization_fraction": 0.075,
+      "mean_outer_monthly_net_return_delta": 0.0020386250000000022,
+      "nonnegative_outer_fraction": 1.0,
+      "outer_base_deltas": {
+        "outer-2019-2020": 9.599999999999973e-05,
+        "outer-2021-2022": 0.003981250000000005
+      },
+      "passes_return_gate": false,
+      "policy_id": "asym_long0_50_short1_50"
+    },
+    {
+      "hard_safety_clear": false,
+      "higher_cost_nonnegative": true,
+      "largest_incremental_positive_month_fraction": 0.3316115702479336,
+      "max_margin_utilization_fraction": 0.075,
+      "mean_outer_monthly_net_return_delta": 0.0020386250000000022,
+      "nonnegative_outer_fraction": 1.0,
+      "outer_base_deltas": {
+        "outer-2019-2020": 9.599999999999973e-05,
+        "outer-2021-2022": 0.003981250000000005
+      },
+      "passes_return_gate": false,
+      "policy_id": "asym_long1_00_short1_50"
+    },
+    {
+      "hard_safety_clear": false,
+      "higher_cost_nonnegative": true,
+      "largest_incremental_positive_month_fraction": 0.3316115702479336,
+      "max_margin_utilization_fraction": 0.075,
+      "mean_outer_monthly_net_return_delta": 0.0020386250000000014,
+      "nonnegative_outer_fraction": 1.0,
+      "outer_base_deltas": {
+        "outer-2019-2020": 9.5999999999998e-05,
+        "outer-2021-2022": 0.003981250000000005
+      },
+      "passes_return_gate": false,
+      "policy_id": "fixed_1_50"
+    },
+    {
+      "hard_safety_clear": false,
+      "higher_cost_nonnegative": true,
+      "largest_incremental_positive_month_fraction": 0.5095238095238093,
+      "max_margin_utilization_fraction": 0.1,
+      "mean_outer_monthly_net_return_delta": 0.0019268333333333347,
+      "nonnegative_outer_fraction": 1.0,
+      "outer_base_deltas": {
+        "outer-2019-2020": 0.001412,
+        "outer-2021-2022": 0.0024416666666666692
+      },
+      "passes_return_gate": false,
+      "policy_id": "asym_long0_50_short2_00"
+    },
+    {
+      "hard_safety_clear": false,
+      "higher_cost_nonnegative": true,
+      "largest_incremental_positive_month_fraction": 0.5095238095238093,
+      "max_margin_utilization_fraction": 0.1,
+      "mean_outer_monthly_net_return_delta": 0.0019268333333333347,
+      "nonnegative_outer_fraction": 1.0,
+      "outer_base_deltas": {
+        "outer-2019-2020": 0.001412,
+        "outer-2021-2022": 0.0024416666666666692
+      },
+      "passes_return_gate": false,
+      "policy_id": "asym_long1_00_short2_00"
+    },
+    {
+      "hard_safety_clear": false,
+      "higher_cost_nonnegative": true,
+      "largest_incremental_positive_month_fraction": 0.5095238095238093,
+      "max_margin_utilization_fraction": 0.1,
+      "mean_outer_monthly_net_return_delta": 0.0019268333333333333,
+      "nonnegative_outer_fraction": 1.0,
+      "outer_base_deltas": {
+        "outer-2019-2020": 0.0014119999999999975,
+        "outer-2021-2022": 0.0024416666666666692
+      },
+      "passes_return_gate": false,
+      "policy_id": "fixed_2_00"
+    },
+    {
+      "hard_safety_clear": false,
+      "higher_cost_nonnegative": false,
+      "largest_incremental_positive_month_fraction": 0.6052202283849919,
+      "max_margin_utilization_fraction": 0.2,
+      "mean_outer_monthly_net_return_delta": 0.0013155000000000024,
+      "nonnegative_outer_fraction": 0.5,
+      "outer_base_deltas": {
+        "outer-2019-2020": 0.0031560000000000034,
+        "outer-2021-2022": -0.0005249999999999986
+      },
+      "passes_return_gate": false,
+      "policy_id": "fixed_4_00"
+    },
+    {
+      "hard_safety_clear": false,
+      "higher_cost_nonnegative": false,
+      "largest_incremental_positive_month_fraction": 0.3234608985024961,
+      "max_margin_utilization_fraction": 0.075,
+      "mean_outer_monthly_net_return_delta": 0.0007785625000000008,
+      "nonnegative_outer_fraction": 0.5,
+      "outer_base_deltas": {
+        "outer-2019-2020": -0.0015210000000000002,
+        "outer-2021-2022": 0.003078125000000002
+      },
+      "passes_return_gate": false,
+      "policy_id": "confidence_t50_low0_75_high1_50"
+    },
+    {
+      "hard_safety_clear": true,
+      "higher_cost_nonnegative": false,
+      "largest_incremental_positive_month_fraction": 0.6448538754764928,
+      "max_margin_utilization_fraction": 0.05018065034122842,
+      "mean_outer_monthly_net_return_delta": 0.000624083333333333,
+      "nonnegative_outer_fraction": 0.5,
+      "outer_base_deltas": {
+        "outer-2019-2020": -0.0025560000000000023,
+        "outer-2021-2022": 0.0038041666666666684
+      },
+      "passes_return_gate": false,
+      "policy_id": "vol_of_vol_high_veto"
+    },
+    {
+      "hard_safety_clear": false,
+      "higher_cost_nonnegative": true,
+      "largest_incremental_positive_month_fraction": 0.5553539019963704,
+      "max_margin_utilization_fraction": 0.1,
+      "mean_outer_monthly_net_return_delta": 0.00032670833333333467,
+      "nonnegative_outer_fraction": 1.0,
+      "outer_base_deltas": {
+        "outer-2019-2020": 1.799999999999892e-05,
+        "outer-2021-2022": 0.0006354166666666704
+      },
+      "passes_return_gate": false,
+      "policy_id": "regime_favored2_00_other0_50"
+    },
+    {
+      "hard_safety_clear": false,
+      "higher_cost_nonnegative": false,
+      "largest_incremental_positive_month_fraction": 0.6313617606602474,
+      "max_margin_utilization_fraction": 0.1,
+      "mean_outer_monthly_net_return_delta": 0.00025156250000000287,
+      "nonnegative_outer_fraction": 0.5,
+      "outer_base_deltas": {
+        "outer-2019-2020": 0.000700000000000001,
+        "outer-2021-2022": -0.00019687499999999523
+      },
+      "passes_return_gate": false,
+      "policy_id": "hybrid_scale2_00_tail"
+    },
+    {
+      "hard_safety_clear": false,
+      "higher_cost_nonnegative": false,
+      "largest_incremental_positive_month_fraction": 0.44275862068965494,
+      "max_margin_utilization_fraction": 0.0625,
+      "mean_outer_monthly_net_return_delta": 0.00022212499999999988,
+      "nonnegative_outer_fraction": 0.5,
+      "outer_base_deltas": {
+        "outer-2019-2020": -0.0005620000000000022,
+        "outer-2021-2022": 0.001006250000000002
+      },
+      "passes_return_gate": false,
+      "policy_id": "fixed_1_25"
+    },
+    {
+      "hard_safety_clear": true,
+      "higher_cost_nonnegative": true,
+      "largest_incremental_positive_month_fraction": 1.0,
+      "max_margin_utilization_fraction": 0.05,
+      "mean_outer_monthly_net_return_delta": 5.00000000000023e-06,
+      "nonnegative_outer_fraction": 1.0,
+      "outer_base_deltas": {
+        "outer-2019-2020": 1.000000000000046e-05,
+        "outer-2021-2022": 0.0
+      },
+      "passes_return_gate": false,
+      "policy_id": "asym_long0_50_short1_00"
+    },
+    {
+      "hard_safety_clear": true,
+      "higher_cost_nonnegative": true,
+      "largest_incremental_positive_month_fraction": 1.0,
+      "max_margin_utilization_fraction": 0.05,
+      "mean_outer_monthly_net_return_delta": 0.0,
+      "nonnegative_outer_fraction": 1.0,
+      "outer_base_deltas": {
+        "outer-2019-2020": 0.0,
+        "outer-2021-2022": 0.0
+      },
+      "passes_return_gate": false,
+      "policy_id": "fixed_1_00"
+    },
+    {
+      "hard_safety_clear": false,
+      "higher_cost_nonnegative": false,
+      "largest_incremental_positive_month_fraction": 0.5461065573770487,
+      "max_margin_utilization_fraction": 0.0744638602065131,
+      "mean_outer_monthly_net_return_delta": -0.00010931249999999971,
+      "nonnegative_outer_fraction": 0.5,
+      "outer_base_deltas": {
+        "outer-2019-2020": -0.001953000000000001,
+        "outer-2021-2022": 0.0017343750000000015
+      },
+      "passes_return_gate": false,
+      "policy_id": "confidence_t67_low0_75_high1_50"
+    },
+    {
+      "hard_safety_clear": false,
+      "higher_cost_nonnegative": false,
+      "largest_incremental_positive_month_fraction": 0.5530120481927717,
+      "max_margin_utilization_fraction": 0.15,
+      "mean_outer_monthly_net_return_delta": -0.00038550000000000086,
+      "nonnegative_outer_fraction": 0.5,
+      "outer_base_deltas": {
+        "outer-2019-2020": 0.0014040000000000007,
+        "outer-2021-2022": -0.0021750000000000025
+      },
+      "passes_return_gate": false,
+      "policy_id": "fixed_3_00"
+    },
+    {
+      "hard_safety_clear": true,
+      "higher_cost_nonnegative": false,
+      "largest_incremental_positive_month_fraction": 1.0,
+      "max_margin_utilization_fraction": 0.05,
+      "mean_outer_monthly_net_return_delta": -0.0009605833333333317,
+      "nonnegative_outer_fraction": 0.0,
+      "outer_base_deltas": {
+        "outer-2019-2020": -0.0011919999999999986,
+        "outer-2021-2022": -0.0007291666666666649
+      },
+      "passes_return_gate": false,
+      "policy_id": "jump_high_half"
+    },
+    {
+      "hard_safety_clear": true,
+      "higher_cost_nonnegative": false,
+      "largest_incremental_positive_month_fraction": 0.948347107438017,
+      "max_margin_utilization_fraction": 0.0375,
+      "mean_outer_monthly_net_return_delta": -0.0009846249999999996,
+      "nonnegative_outer_fraction": 0.0,
+      "outer_base_deltas": {
+        "outer-2019-2020": -0.0009629999999999999,
+        "outer-2021-2022": -0.0010062499999999993
+      },
+      "passes_return_gate": false,
+      "policy_id": "fixed_0_75"
+    },
+    {
+      "hard_safety_clear": false,
+      "higher_cost_nonnegative": false,
+      "largest_incremental_positive_month_fraction": 0.7598450613298897,
+      "max_margin_utilization_fraction": 0.07464171974522293,
+      "mean_outer_monthly_net_return_delta": -0.0010388333333333321,
+      "nonnegative_outer_fraction": 0.5,
+      "outer_base_deltas": {
+        "outer-2019-2020": -0.0026360000000000003,
+        "outer-2021-2022": 0.000558333333333336
+      },
+      "passes_return_gate": false,
+      "policy_id": "confidence_t67_low0_50_high1_50"
+    },
+    {
+      "hard_safety_clear": true,
+      "higher_cost_nonnegative": false,
+      "largest_incremental_positive_month_fraction": 1.0,
+      "max_margin_utilization_fraction": 0.05,
+      "mean_outer_monthly_net_return_delta": -0.0012869166666666658,
+      "nonnegative_outer_fraction": 0.0,
+      "outer_base_deltas": {
+        "outer-2019-2020": -0.0012780000000000014,
+        "outer-2021-2022": -0.0012958333333333303
+      },
+      "passes_return_gate": false,
+      "policy_id": "vol_of_vol_high_half"
+    },
+    {
+      "hard_safety_clear": false,
+      "higher_cost_nonnegative": false,
+      "largest_incremental_positive_month_fraction": 0.682527881040892,
+      "max_margin_utilization_fraction": 0.09952229299363058,
+      "mean_outer_monthly_net_return_delta": -0.0012940416666666647,
+      "nonnegative_outer_fraction": 0.5,
+      "outer_base_deltas": {
+        "outer-2019-2020": -0.002686,
+        "outer-2021-2022": 9.791666666667063e-05
+      },
+      "passes_return_gate": false,
+      "policy_id": "confidence_t67_low0_50_high2_00"
+    },
+    {
+      "hard_safety_clear": true,
+      "higher_cost_nonnegative": false,
+      "largest_incremental_positive_month_fraction": 0.8038528896672505,
+      "max_margin_utilization_fraction": 0.0500751126690035,
+      "mean_outer_monthly_net_return_delta": -0.0014294999999999991,
+      "nonnegative_outer_fraction": 0.0,
+      "outer_base_deltas": {
+        "outer-2019-2020": -0.002383999999999998,
+        "outer-2021-2022": -0.00047500000000000016
+      },
+      "passes_return_gate": false,
+      "policy_id": "jump_high_veto"
+    },
+    {
+      "hard_safety_clear": false,
+      "higher_cost_nonnegative": false,
+      "largest_incremental_positive_month_fraction": 0.7207065750736011,
+      "max_margin_utilization_fraction": 0.09307982525814139,
+      "mean_outer_monthly_net_return_delta": -0.0018330390624999974,
+      "nonnegative_outer_fraction": 0.0,
+      "outer_base_deltas": {
+        "outer-2019-2020": -0.0023469375,
+        "outer-2021-2022": -0.0013191406249999948
+      },
+      "passes_return_gate": false,
+      "policy_id": "hybrid_scale1_50_conf_tail"
+    },
+    {
+      "hard_safety_clear": true,
+      "higher_cost_nonnegative": false,
+      "largest_incremental_positive_month_fraction": 0.9399999999999995,
+      "max_margin_utilization_fraction": 0.025,
+      "mean_outer_monthly_net_return_delta": -0.0025109166666666665,
+      "nonnegative_outer_fraction": 0.0,
+      "outer_base_deltas": {
+        "outer-2019-2020": -0.001926000000000001,
+        "outer-2021-2022": -0.0030958333333333324
+      },
+      "passes_return_gate": false,
+      "policy_id": "fixed_0_50"
+    },
+    {
+      "hard_safety_clear": true,
+      "higher_cost_nonnegative": false,
+      "largest_incremental_positive_month_fraction": 0.7190454750112567,
+      "max_margin_utilization_fraction": 0.05,
+      "mean_outer_monthly_net_return_delta": -0.003042729166666666,
+      "nonnegative_outer_fraction": 0.0,
+      "outer_base_deltas": {
+        "outer-2019-2020": -0.0018740000000000002,
+        "outer-2021-2022": -0.004211458333333332
+      },
+      "passes_return_gate": false,
+      "policy_id": "tail_both_half"
+    }
+  ],
+  "stage1_passing_policies": [
+    {
+      "hard_safety_clear": true,
+      "higher_cost_nonnegative": true,
+      "largest_incremental_positive_month_fraction": 0.3097713097713101,
+      "max_margin_utilization_fraction": 0.075,
+      "mean_outer_monthly_net_return_delta": 0.0012763750000000004,
+      "nonnegative_outer_fraction": 1.0,
+      "outer_base_deltas": {
+        "outer-2019-2020": 8.999999999999026e-06,
+        "outer-2021-2022": 0.0025437500000000017
+      },
+      "passes_return_gate": true,
+      "policy_id": "regime_favored1_50_other0_75"
+    }
+  ],
+  "stage1_passing_policy_count": 1,
+  "stage1_trial_count": 156,
+  "stage2_evaluation": [
+    {
+      "hard_safety_clear": true,
+      "higher_cost_nonnegative": true,
+      "largest_incremental_positive_month_fraction": 1.0,
+      "max_margin_utilization_fraction": 0.05018065034122842,
+      "mean_outer_monthly_net_return_delta": 0.0010750000000000004,
+      "nonnegative_outer_fraction": 1.0,
+      "outer_base_deltas": {
+        "outer-2019-2020": 0.0,
+        "outer-2021-2022": 0.002150000000000001
+      },
+      "parent_policy_id": "vol_of_vol_high_veto",
+      "passes_risk_gate": false,
+      "risk_variant_id": "stop1_00_take1_50"
+    },
+    {
+      "hard_safety_clear": true,
+      "higher_cost_nonnegative": true,
+      "largest_incremental_positive_month_fraction": 1.0,
+      "max_margin_utilization_fraction": 0.05018065034122842,
+      "mean_outer_monthly_net_return_delta": 0.0010750000000000004,
+      "nonnegative_outer_fraction": 1.0,
+      "outer_base_deltas": {
+        "outer-2019-2020": 0.0,
+        "outer-2021-2022": 0.002150000000000001
+      },
+      "parent_policy_id": "vol_of_vol_high_veto",
+      "passes_risk_gate": false,
+      "risk_variant_id": "take_profit_uncertainty_1_50"
+    },
+    {
+      "hard_safety_clear": false,
+      "higher_cost_nonnegative": true,
+      "largest_incremental_positive_month_fraction": 1.0,
+      "max_margin_utilization_fraction": 0.075,
+      "mean_outer_monthly_net_return_delta": 0.0003906249999999999,
+      "nonnegative_outer_fraction": 1.0,
+      "outer_base_deltas": {
+        "outer-2019-2020": 0.0,
+        "outer-2021-2022": 0.0007812499999999998
+      },
+      "parent_policy_id": "regime_favored1_50_other0_75",
+      "passes_risk_gate": false,
+      "risk_variant_id": "time_stop_3_sessions"
+    },
+    {
+      "hard_safety_clear": true,
+      "higher_cost_nonnegative": true,
+      "largest_incremental_positive_month_fraction": 1.0,
+      "max_margin_utilization_fraction": 0.050045040536482836,
+      "mean_outer_monthly_net_return_delta": 0.0003312500000000008,
+      "nonnegative_outer_fraction": 1.0,
+      "outer_base_deltas": {
+        "outer-2019-2020": 0.0,
+        "outer-2021-2022": 0.0006625000000000016
+      },
+      "parent_policy_id": "vol_of_vol_high_veto",
+      "passes_risk_gate": false,
+      "risk_variant_id": "time_stop_3_sessions"
+    },
+    {
+      "hard_safety_clear": false,
+      "higher_cost_nonnegative": true,
+      "largest_incremental_positive_month_fraction": 1.0,
+      "max_margin_utilization_fraction": 0.05,
+      "mean_outer_monthly_net_return_delta": 0.0002604166666666666,
+      "nonnegative_outer_fraction": 1.0,
+      "outer_base_deltas": {
+        "outer-2019-2020": 0.0,
+        "outer-2021-2022": 0.0005208333333333332
+      },
+      "parent_policy_id": "asym_long0_50_short1_00",
+      "passes_risk_gate": false,
+      "risk_variant_id": "time_stop_3_sessions"
+    },
+    {
+      "hard_safety_clear": true,
+      "higher_cost_nonnegative": true,
+      "largest_incremental_positive_month_fraction": 1.0,
+      "max_margin_utilization_fraction": 0.05,
+      "mean_outer_monthly_net_return_delta": 0.0,
+      "nonnegative_outer_fraction": 1.0,
+      "outer_base_deltas": {
+        "outer-2019-2020": 0.0,
+        "outer-2021-2022": 0.0
+      },
+      "parent_policy_id": "asym_long0_50_short1_00",
+      "passes_risk_gate": false,
+      "risk_variant_id": "risk_control"
+    },
+    {
+      "hard_safety_clear": false,
+      "higher_cost_nonnegative": true,
+      "largest_incremental_positive_month_fraction": 1.0,
+      "max_margin_utilization_fraction": 0.05,
+      "mean_outer_monthly_net_return_delta": 0.0,
+      "nonnegative_outer_fraction": 1.0,
+      "outer_base_deltas": {
+        "outer-2019-2020": 0.0,
+        "outer-2021-2022": 0.0
+      },
+      "parent_policy_id": "asym_long0_50_short1_00",
+      "passes_risk_gate": false,
+      "risk_variant_id": "stop1_00_take1_50"
+    },
+    {
+      "hard_safety_clear": false,
+      "higher_cost_nonnegative": true,
+      "largest_incremental_positive_month_fraction": 1.0,
+      "max_margin_utilization_fraction": 0.05,
+      "mean_outer_monthly_net_return_delta": 0.0,
+      "nonnegative_outer_fraction": 1.0,
+      "outer_base_deltas": {
+        "outer-2019-2020": 0.0,
+        "outer-2021-2022": 0.0
+      },
+      "parent_policy_id": "asym_long0_50_short1_00",
+      "passes_risk_gate": false,
+      "risk_variant_id": "stop_uncertainty_1_00"
+    },
+    {
+      "hard_safety_clear": false,
+      "higher_cost_nonnegative": true,
+      "largest_incremental_positive_month_fraction": 1.0,
+      "max_margin_utilization_fraction": 0.05,
+      "mean_outer_monthly_net_return_delta": 0.0,
+      "nonnegative_outer_fraction": 1.0,
+      "outer_base_deltas": {
+        "outer-2019-2020": 0.0,
+        "outer-2021-2022": 0.0
+      },
+      "parent_policy_id": "asym_long0_50_short1_00",
+      "passes_risk_gate": false,
+      "risk_variant_id": "take_profit_uncertainty_1_50"
+    },
+    {
+      "hard_safety_clear": true,
+      "higher_cost_nonnegative": true,
+      "largest_incremental_positive_month_fraction": 1.0,
+      "max_margin_utilization_fraction": 0.075,
+      "mean_outer_monthly_net_return_delta": 0.0,
+      "nonnegative_outer_fraction": 1.0,
+      "outer_base_deltas": {
+        "outer-2019-2020": 0.0,
+        "outer-2021-2022": 0.0
+      },
+      "parent_policy_id": "regime_favored1_50_other0_75",
+      "passes_risk_gate": false,
+      "risk_variant_id": "risk_control"
+    },
+    {
+      "hard_safety_clear": false,
+      "higher_cost_nonnegative": true,
+      "largest_incremental_positive_month_fraction": 1.0,
+      "max_margin_utilization_fraction": 0.075,
+      "mean_outer_monthly_net_return_delta": 0.0,
+      "nonnegative_outer_fraction": 1.0,
+      "outer_base_deltas": {
+        "outer-2019-2020": 0.0,
+        "outer-2021-2022": 0.0
+      },
+      "parent_policy_id": "regime_favored1_50_other0_75",
+      "passes_risk_gate": false,
+      "risk_variant_id": "stop1_00_take1_50"
+    },
+    {
+      "hard_safety_clear": false,
+      "higher_cost_nonnegative": true,
+      "largest_incremental_positive_month_fraction": 1.0,
+      "max_margin_utilization_fraction": 0.075,
+      "mean_outer_monthly_net_return_delta": 0.0,
+      "nonnegative_outer_fraction": 1.0,
+      "outer_base_deltas": {
+        "outer-2019-2020": 0.0,
+        "outer-2021-2022": 0.0
+      },
+      "parent_policy_id": "regime_favored1_50_other0_75",
+      "passes_risk_gate": false,
+      "risk_variant_id": "stop_uncertainty_1_00"
+    },
+    {
+      "hard_safety_clear": false,
+      "higher_cost_nonnegative": true,
+      "largest_incremental_positive_month_fraction": 1.0,
+      "max_margin_utilization_fraction": 0.075,
+      "mean_outer_monthly_net_return_delta": 0.0,
+      "nonnegative_outer_fraction": 1.0,
+      "outer_base_deltas": {
+        "outer-2019-2020": 0.0,
+        "outer-2021-2022": 0.0
+      },
+      "parent_policy_id": "regime_favored1_50_other0_75",
+      "passes_risk_gate": false,
+      "risk_variant_id": "take_profit_uncertainty_1_50"
+    },
+    {
+      "hard_safety_clear": false,
+      "higher_cost_nonnegative": true,
+      "largest_incremental_positive_month_fraction": 1.0,
+      "max_margin_utilization_fraction": 0.05018065034122842,
+      "mean_outer_monthly_net_return_delta": 0.0,
+      "nonnegative_outer_fraction": 1.0,
+      "outer_base_deltas": {
+        "outer-2019-2020": 0.0,
+        "outer-2021-2022": 0.0
+      },
+      "parent_policy_id": "vol_of_vol_high_veto",
+      "passes_risk_gate": false,
+      "risk_variant_id": "drawdown_4pct_half"
+    },
+    {
+      "hard_safety_clear": true,
+      "higher_cost_nonnegative": true,
+      "largest_incremental_positive_month_fraction": 1.0,
+      "max_margin_utilization_fraction": 0.05018065034122842,
+      "mean_outer_monthly_net_return_delta": 0.0,
+      "nonnegative_outer_fraction": 1.0,
+      "outer_base_deltas": {
+        "outer-2019-2020": 0.0,
+        "outer-2021-2022": 0.0
+      },
+      "parent_policy_id": "vol_of_vol_high_veto",
+      "passes_risk_gate": false,
+      "risk_variant_id": "risk_control"
+    },
+    {
+      "hard_safety_clear": false,
+      "higher_cost_nonnegative": true,
+      "largest_incremental_positive_month_fraction": 1.0,
+      "max_margin_utilization_fraction": 0.05018065034122842,
+      "mean_outer_monthly_net_return_delta": 0.0,
+      "nonnegative_outer_fraction": 1.0,
+      "outer_base_deltas": {
+        "outer-2019-2020": 0.0,
+        "outer-2021-2022": 0.0
+      },
+      "parent_policy_id": "vol_of_vol_high_veto",
+      "passes_risk_gate": false,
+      "risk_variant_id": "stop_uncertainty_1_00"
+    },
+    {
+      "hard_safety_clear": false,
+      "higher_cost_nonnegative": false,
+      "largest_incremental_positive_month_fraction": 1.0,
+      "max_margin_utilization_fraction": 0.050045040536482836,
+      "mean_outer_monthly_net_return_delta": -0.0002479166666666671,
+      "nonnegative_outer_fraction": 0.5,
+      "outer_base_deltas": {
+        "outer-2019-2020": 0.0,
+        "outer-2021-2022": -0.0004958333333333342
+      },
+      "parent_policy_id": "vol_of_vol_high_veto",
+      "passes_risk_gate": false,
+      "risk_variant_id": "drawdown_2pct_half"
+    },
+    {
+      "hard_safety_clear": false,
+      "higher_cost_nonnegative": false,
+      "largest_incremental_positive_month_fraction": 1.0,
+      "max_margin_utilization_fraction": 0.05,
+      "mean_outer_monthly_net_return_delta": -0.0003114999999999997,
+      "nonnegative_outer_fraction": 0.5,
+      "outer_base_deltas": {
+        "outer-2019-2020": -0.0006229999999999994,
+        "outer-2021-2022": 0.0
+      },
+      "parent_policy_id": "asym_long0_50_short1_00",
+      "passes_risk_gate": false,
+      "risk_variant_id": "drawdown_4pct_half"
+    },
+    {
+      "hard_safety_clear": true,
+      "higher_cost_nonnegative": false,
+      "largest_incremental_positive_month_fraction": 1.0,
+      "max_margin_utilization_fraction": 0.05015045135406219,
+      "mean_outer_monthly_net_return_delta": -0.0004110000000000001,
+      "nonnegative_outer_fraction": 0.5,
+      "outer_base_deltas": {
+        "outer-2019-2020": -0.0012719999999999975,
+        "outer-2021-2022": 0.0004499999999999973
+      },
+      "parent_policy_id": "vol_of_vol_high_veto",
+      "passes_risk_gate": false,
+      "risk_variant_id": "additional_loss_cooldown_5"
+    },
+    {
+      "hard_safety_clear": true,
+      "higher_cost_nonnegative": false,
+      "largest_incremental_positive_month_fraction": 1.0,
+      "max_margin_utilization_fraction": 0.050515255607193374,
+      "mean_outer_monthly_net_return_delta": -0.00042775000000000023,
+      "nonnegative_outer_fraction": 0.0,
+      "outer_base_deltas": {
+        "outer-2019-2020": -0.0005679999999999983,
+        "outer-2021-2022": -0.00028750000000000216
+      },
+      "parent_policy_id": "vol_of_vol_high_veto",
+      "passes_risk_gate": false,
+      "risk_variant_id": "additional_loss_cooldown_1"
+    },
+    {
+      "hard_safety_clear": true,
+      "higher_cost_nonnegative": false,
+      "largest_incremental_positive_month_fraction": 1.0,
+      "max_margin_utilization_fraction": 0.075,
+      "mean_outer_monthly_net_return_delta": -0.00048106249999999495,
+      "nonnegative_outer_fraction": 0.0,
+      "outer_base_deltas": {
+        "outer-2019-2020": -0.0009089999999999949,
+        "outer-2021-2022": -5.3124999999995016e-05
+      },
+      "parent_policy_id": "regime_favored1_50_other0_75",
+      "passes_risk_gate": false,
+      "risk_variant_id": "additional_loss_cooldown_1"
+    },
+    {
+      "hard_safety_clear": true,
+      "higher_cost_nonnegative": false,
+      "largest_incremental_positive_month_fraction": 1.0,
+      "max_margin_utilization_fraction": 0.05,
+      "mean_outer_monthly_net_return_delta": -0.0005117499999999959,
+      "nonnegative_outer_fraction": 0.0,
+      "outer_base_deltas": {
+        "outer-2019-2020": -0.000835999999999996,
+        "outer-2021-2022": -0.00018749999999999583
+      },
+      "parent_policy_id": "asym_long0_50_short1_00",
+      "passes_risk_gate": false,
+      "risk_variant_id": "additional_loss_cooldown_1"
+    },
+    {
+      "hard_safety_clear": false,
+      "higher_cost_nonnegative": false,
+      "largest_incremental_positive_month_fraction": 1.0,
+      "max_margin_utilization_fraction": 0.05,
+      "mean_outer_monthly_net_return_delta": -0.0005664166666666675,
+      "nonnegative_outer_fraction": 0.0,
+      "outer_base_deltas": {
+        "outer-2019-2020": -0.0006370000000000004,
+        "outer-2021-2022": -0.0004958333333333347
+      },
+      "parent_policy_id": "asym_long0_50_short1_00",
+      "passes_risk_gate": false,
+      "risk_variant_id": "drawdown_2pct_half"
+    },
+    {
+      "hard_safety_clear": false,
+      "higher_cost_nonnegative": false,
+      "largest_incremental_positive_month_fraction": 1.0,
+      "max_margin_utilization_fraction": 0.075,
+      "mean_outer_monthly_net_return_delta": -0.0006928750000000003,
+      "nonnegative_outer_fraction": 0.0,
+      "outer_base_deltas": {
+        "outer-2019-2020": -0.0006419999999999993,
+        "outer-2021-2022": -0.0007437500000000014
+      },
+      "parent_policy_id": "regime_favored1_50_other0_75",
+      "passes_risk_gate": false,
+      "risk_variant_id": "drawdown_2pct_half"
+    },
+    {
+      "hard_safety_clear": false,
+      "higher_cost_nonnegative": false,
+      "largest_incremental_positive_month_fraction": 1.0,
+      "max_margin_utilization_fraction": 0.075,
+      "mean_outer_monthly_net_return_delta": -0.0007194999999999994,
+      "nonnegative_outer_fraction": 0.0,
+      "outer_base_deltas": {
+        "outer-2019-2020": -0.00033899999999999946,
+        "outer-2021-2022": -0.0010999999999999994
+      },
+      "parent_policy_id": "regime_favored1_50_other0_75",
+      "passes_risk_gate": false,
+      "risk_variant_id": "drawdown_4pct_half"
+    },
+    {
+      "hard_safety_clear": true,
+      "higher_cost_nonnegative": false,
+      "largest_incremental_positive_month_fraction": 0.9399999999999995,
+      "max_margin_utilization_fraction": 0.05,
+      "mean_outer_monthly_net_return_delta": -0.0022767499999999984,
+      "nonnegative_outer_fraction": 0.0,
+      "outer_base_deltas": {
+        "outer-2019-2020": -0.0025659999999999962,
+        "outer-2021-2022": -0.0019875000000000006
+      },
+      "parent_policy_id": "asym_long0_50_short1_00",
+      "passes_risk_gate": false,
+      "risk_variant_id": "additional_loss_cooldown_5"
+    },
+    {
+      "hard_safety_clear": true,
+      "higher_cost_nonnegative": false,
+      "largest_incremental_positive_month_fraction": 0.9399999999999995,
+      "max_margin_utilization_fraction": 0.075,
+      "mean_outer_monthly_net_return_delta": -0.0024505624999999983,
+      "nonnegative_outer_fraction": 0.0,
+      "outer_base_deltas": {
+        "outer-2019-2020": -0.002147999999999994,
+        "outer-2021-2022": -0.0027531250000000025
+      },
+      "parent_policy_id": "regime_favored1_50_other0_75",
+      "passes_risk_gate": false,
+      "risk_variant_id": "additional_loss_cooldown_5"
+    }
+  ],
+  "stage2_passing_variant_count": 0,
+  "stage2_passing_variants": [],
+  "stage2_trial_count": 162,
+  "trial_count": 318,
+  "trial_ledger_file_sha256": "f180434937b86795abfd98a844b3297ae920f5f4612a8ce19d2808fa52b493e7"
+}
