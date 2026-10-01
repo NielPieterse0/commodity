@@ -1,0 +1,41 @@
+{
+  "schema_version": 4,
+  "change_id": "429-v2-entry-exit-holding-position-structure",
+  "status": "active",
+  "branch": "change/429-v2-entry-exit-holding-position-structure",
+  "worktree": ".work/worktrees/429-v2-entry-exit-holding-position-structure",
+  "base": "main",
+  "outcome": "Preregister, implement, and evaluate development-only contribution ablations plus bounded entry/exit/holding/frequency/position-structure optimization for the promoted #459 decision policy, with protected 2023+ confirmation remaining sealed.",
+  "owned_paths": [
+    ".work/changes/429-v2-entry-exit-holding-position-structure/scope.json",
+    ".work/changes/429-v2-entry-exit-holding-position-structure/spec.md",
+    ".work/changes/429-v2-entry-exit-holding-position-structure/plan.md",
+    ".work/changes/429-v2-entry-exit-holding-position-structure/tasks.md",
+    ".work/changes/429-v2-entry-exit-holding-position-structure/closeout.md",
+    "scripts/research/run_issue429_execution_structure.py",
+    "tests/test_issue429_execution_structure.py",
+    "research/programmes/004-v2-maximum-reproducible-one-month-return/issue429-prereg-v1.json",
+    "research/programmes/004-v2-maximum-reproducible-one-month-return/issue429-preflight-v1.json",
+    "research/programmes/004-v2-maximum-reproducible-one-month-return/issue429-trials-v1.jsonl",
+    "research/programmes/004-v2-maximum-reproducible-one-month-return/issue429-result-v1.json",
+    ".work/changes/429-v2-entry-exit-holding-position-structure/**"
+  ],
+  "shared_paths": [],
+  "excluded_paths": [],
+  "dependencies": [],
+  "integration_owner": null,
+  "complexity": "large",
+  "risk_triggers": [
+    "persistent_state",
+    "sensitive_data"
+  ],
+  "base_evidence": {
+    "local_sha": "d3ab965a1db48ce7d027a23d7d033ffd4a448a23",
+    "local_tree": "58cadee118017683b1e9619962ac7a88b3d462f3",
+    "upstream_sha": "08037bb3690ce0108b39f095c96d00d5edc756a3",
+    "upstream_tree": "f304bf6465cd40c73a08fc9470063cbd8d5a7dd4",
+    "upstream_ref": "refs/remotes/origin/main",
+    "evidence_source": "local_remote_tracking_ref",
+    "relation": "content_divergence"
+  }
+}
