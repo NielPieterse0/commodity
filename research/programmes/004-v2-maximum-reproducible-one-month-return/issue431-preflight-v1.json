@@ -1,0 +1,57 @@
+{
+  "adaptation_minimum_training_rows": 504,
+  "adaptation_outer_trial_count": 50,
+  "adaptation_variant_count": 25,
+  "authority_sha256": {
+    "config/phase2_market_only.json": "36900d9d28d2807b5e28d42fbcf272a06971af3123dc96a03425c26c10daab11",
+    "config/research_dataset.json": "5fba33e4aff2c6408748e792fcdc9b607c6194183294ea47e7c9607066ad7a9d",
+    "config/simulation.json": "a9413697129d2232e43d5b5efbf52cbb9c2a17a7fa0455aa4cc228a6ca4aac80",
+    "config/trading-policy.json": "5eb84ad71d7dddffff06dc7efa0bdd8e2d7436122e92aeff2900a36590edc93e",
+    "config/v2_variable_registry.json": "8608d81adbbf53c6df0deb84056d51feecf2cd4abc06964998920687730e2a97",
+    "issue429-result-v1.json": "89134b272b4d9f2d6fe73ee1721abe5e18e2b688b7bda57d4c3a95687d38d699",
+    "issue430-preflight-v1.json": "6c5bd6712aff57b16e37b53fc1d589b71efc3422a281d5b3434ef70a25cd5ec7",
+    "issue430-prereg-v1.json": "d1009575138536bd7a960ba0ac3cd993d8b33b1095cd3736bdd47bfade6ab016",
+    "issue430-result-v1.json": "d8e01cd6e7e9f980b171fc33eb66c27d4c593965361c59640eb79b5c38e5a690",
+    "issue430-trials-v1.jsonl": "f180434937b86795abfd98a844b3297ae920f5f4612a8ce19d2808fa52b493e7",
+    "issue448-downstream-handoff-v1.json": "ce16fda3dd5f58e8658d48a8d428b1dcda96a77fa059b11527532306cb410ad5"
+  },
+  "event_time_status": "HOLD_SOURCE_TIMING_NOT_PROVEN",
+  "event_time_trials": 0,
+  "evidence_class": "development_only",
+  "execution_config_count": 54,
+  "execution_outer_trial_count": 108,
+  "infeasible_adaptation_variants": [
+    {
+      "reason": "rolling_window_below_minimum_training_rows:252<504",
+      "variant_id": "rolling252_r5"
+    },
+    {
+      "reason": "rolling_window_below_minimum_training_rows:252<504",
+      "variant_id": "rolling252_r20"
+    }
+  ],
+  "issue": 431,
+  "maximum_conditional_outer_trials": 32,
+  "maximum_total_outer_trials": 190,
+  "paper_sim_live_accessed": false,
+  "paths": {
+    "outer-2019-2020": {
+      "maximum_trade_date": "2021-01-03 00:00:00+00:00",
+      "minimum_trade_date": "2019-01-01 00:00:00+00:00",
+      "roll_transitions": 24,
+      "rows": 625,
+      "settlement_or_close_supported": false
+    },
+    "outer-2021-2022": {
+      "maximum_trade_date": "2022-12-30 00:00:00+00:00",
+      "minimum_trade_date": "2021-01-03 00:00:00+00:00",
+      "roll_transitions": 24,
+      "rows": 620,
+      "settlement_or_close_supported": false
+    }
+  },
+  "prereg_sha256": "befe4de0dff67aad999d2d71c5b480671a16027d25e1d096c0e1a913ed701dfc",
+  "protected_confirmation_accessed": false,
+  "runner_sha256": "682aa8509cf8166d9b5271f58f80995650bf7226a1391c038d723b187c2ed55b",
+  "status": "PASS_NO_SCORING"
+}

@@ -1,0 +1,40 @@
+{
+  "schema_version": 4,
+  "change_id": "431-v2-execution-roll-slippage-cost-adaptation",
+  "status": "active",
+  "branch": "change/431-v2-execution-roll-slippage-cost-adaptation",
+  "worktree": ".work/worktrees/431-v2-execution-roll-slippage-cost-adaptation",
+  "base": "main",
+  "outcome": "Run development-only execution, roll, slippage, cost, liquidity and adaptation optimization for the promoted V2 candidate while keeping protected confirmation, paper, SIM and LIVE sealed.",
+  "owned_paths": [
+    ".work/changes/431-v2-execution-roll-slippage-cost-adaptation/**",
+    "src/commodity/v2_execution_adaptation.py",
+    "scripts/research/run_issue431_execution_adaptation.py",
+    "tests/test_issue431_execution_adaptation.py",
+    "research/programmes/004-v2-maximum-reproducible-one-month-return/issue431-prereg-v1.json",
+    "research/programmes/004-v2-maximum-reproducible-one-month-return/issue431-preflight-v1.json",
+    "research/programmes/004-v2-maximum-reproducible-one-month-return/issue431-trials-v1.jsonl",
+    "research/programmes/004-v2-maximum-reproducible-one-month-return/issue431-result-v1.json",
+    "docs/reference/README.md",
+    "docs/reference/research/programmes/004-v2-maximum-reproducible-one-month-return/issue431-preflight-v1.md",
+    "docs/reference/research/programmes/004-v2-maximum-reproducible-one-month-return/issue431-prereg-v1.md",
+    "docs/reference/research/programmes/004-v2-maximum-reproducible-one-month-return/issue431-result-v1.md"
+  ],
+  "shared_paths": [],
+  "excluded_paths": [],
+  "dependencies": [],
+  "integration_owner": null,
+  "complexity": "large",
+  "risk_triggers": [
+    "money"
+  ],
+  "base_evidence": {
+    "local_sha": "ba1f8ec351816cbee595ab1fbb3680de50d2d9e3",
+    "local_tree": "53809cf27e5cab874d9cd6b129f8ce71cb325384",
+    "upstream_sha": "e5392a50b93e221ab77fd488136b17c7e0562e1a",
+    "upstream_tree": "5c852378a8c609adc5c0bb8eb8c40056aa2605bb",
+    "upstream_ref": "refs/remotes/origin/main",
+    "evidence_source": "local_remote_tracking_ref",
+    "relation": "content_divergence"
+  }
+}
