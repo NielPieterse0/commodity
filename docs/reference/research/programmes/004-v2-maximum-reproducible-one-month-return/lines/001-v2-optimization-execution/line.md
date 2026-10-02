@@ -13,12 +13,12 @@ Source: `research/programmes/004-v2-maximum-reproducible-one-month-return/lines/
 | `programme_id` | 004-v2-maximum-reproducible-one-month-return |
 | `research_line_id` | 001-v2-optimization-execution |
 | `status` | active |
-| `big_picture` | Execute Programme #393 as an auditable optimization campaign for reproducible one-month net trading return while preserving V1 and later evidence boundaries. |
-| `why_zoomed_in` | Programme setup registered the variable/search design but did not execute optimization; issue #424 establishes the shared execution, scoring, and trial-accounting layer needed before family searches. |
-| `tested_role_target_horizon` | Issue #424 tests the optimization harness itself on bounded pre-2023 development evidence; it does not select a V2 champion. |
-| `revisit_trigger` | Revisit the harness contract if a registered variable cannot be represented without weakening PIT, chronological-selection, trial-accounting, or executable-cost semantics. |
-| `programme_interpretation` | Issue #424 is infrastructure and bounded development pilot evidence only; later V2 execution slices must consume it without opening protected confirmation or prospective evidence. |
-| `selection_basis` | Primary optimization objective is reproducible monthly net return after costs with mandatory risk, stability, concentration, and execution diagnostics. |
+| `big_picture` | Execute Programme #393 as a chronological, auditable optimization campaign for reproducible one-month net trading return. The current pre-freeze problem is to replace history-wide fixed parameter selection with a causal adaptive procedure that can choose experts, horizons, sizing, position actions and execution behavior from point-in-time state. |
+| `why_zoomed_in` | Issues #459/#429/#430/#431 established that V2 contains material but conditional and time-sensitive development value: joint side-specific policy gains, state-dependent sizing, fast adaptation value, and strong execution-latency sensitivity. #465 therefore becomes the final broad discovery stage before #414 champion simplification and freeze. |
+| `tested_role_target_horizon` | Completed development work through #431 tested joint signal/side/regime policies, lifecycle/position structure, sizing/risk, and execution/adaptation over chronological pre-2023 outers. #465 will test a point-in-time time-instance representation and causal adaptive whole-system controller without accessing protected confirmation. |
+| `revisit_trigger` | Return to upstream research design if #465 cannot reconstruct a candidate field at its true availability timestamp, if an alternative role is not scientifically distinct from a prior negative, or if adaptive selection requires protected outcomes or future-derived diagnostics. |
+| `programme_interpretation` | V2 development has moved from isolated family optimization to whole-system causal adaptation. The next scientific object is not one fixed fifteen-year parameter vector but a frozen procedure that selects bounded parameters and actions from information available at each timestamp; #414 remains the simplification/freeze gate after #465. |
+| `selection_basis` | Primary objective remains chronological net percentage return after realistic costs. #465 may search aggressively, but every model, parameter, weight, memory, threshold and action must be selected from prior/inner evidence only and must satisfy minimum executability, sample, concentration, drawdown and stability constraints before #414 can freeze it. |
 
 ## Structure
 
@@ -34,12 +34,12 @@ Source: `research/programmes/004-v2-maximum-reproducible-one-month-return/lines/
 | `why_zoomed_in` | str |
 | `tested_role_target_horizon` | str |
 | `historical_facts` | object (3 keys) |
-| `useful_secondary_observations` | array (1 items) |
-| `remaining_untested_roles` | array (6 items) |
+| `useful_secondary_observations` | array (4 items) |
+| `remaining_untested_roles` | array (8 items) |
 | `revisit_trigger` | str |
 | `programme_interpretation` | str |
-| `evidence_refs` | array (5 items) |
-| `experiment_history` | array (1 items) |
+| `evidence_refs` | array (8 items) |
+| `experiment_history` | array (5 items) |
 | `experiment_refs` | array (0 items) |
 | `selection_basis` | str |
 | `stopping_rules` | object (1 keys) |

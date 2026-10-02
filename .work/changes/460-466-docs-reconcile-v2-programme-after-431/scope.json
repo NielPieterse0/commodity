@@ -1,0 +1,35 @@
+{
+  "schema_version": 4,
+  "change_id": "460-466-docs-reconcile-v2-programme-after-431",
+  "status": "active",
+  "branch": "change/460-466-docs-reconcile-v2-programme-after-431",
+  "worktree": ".work/worktrees/460-466-docs-reconcile-v2-programme-after-431",
+  "base": "main",
+  "outcome": "Reconcile Programme 004 canonical metadata through #431/#459 and register #465 as the final broad V2 development stage before #414 champion freeze, without new empirical scoring or protected-evidence access.",
+  "owned_paths": [
+    "research/programmes/004-v2-maximum-reproducible-one-month-return/backlog.json",
+    "research/programmes/004-v2-maximum-reproducible-one-month-return/decisions.json",
+    "research/programmes/004-v2-maximum-reproducible-one-month-return/evidence-map.json",
+    "research/programmes/004-v2-maximum-reproducible-one-month-return/lines/001-v2-optimization-execution/line.json",
+    "docs/reference/research/programmes/004-v2-maximum-reproducible-one-month-return/**",
+    ".work/changes/466-docs-reconcile-v2-programme-after-431/**",
+    ".work/changes/460-466-docs-reconcile-v2-programme-after-431/**"
+  ],
+  "shared_paths": [],
+  "excluded_paths": [],
+  "dependencies": [],
+  "integration_owner": null,
+  "complexity": "medium",
+  "risk_triggers": [
+    "public_contract"
+  ],
+  "base_evidence": {
+    "local_sha": "2548a6ea9bbfd5ff3ddce698a775fb777aaac8f2",
+    "local_tree": "4061109473c128e5710b23b81647f83c39cefe28",
+    "upstream_sha": "2548a6ea9bbfd5ff3ddce698a775fb777aaac8f2",
+    "upstream_tree": "4061109473c128e5710b23b81647f83c39cefe28",
+    "upstream_ref": "refs/remotes/origin/main",
+    "evidence_source": "local_remote_tracking_ref",
+    "relation": "same_sha"
+  }
+}

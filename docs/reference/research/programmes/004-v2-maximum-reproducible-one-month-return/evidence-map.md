@@ -11,8 +11,8 @@ Source: `research/programmes/004-v2-maximum-reproducible-one-month-return/eviden
 | `schema_version` | 2 |
 | `zoom_level` | L1 |
 | `programme_id` | 004-v2-maximum-reproducible-one-month-return |
-| `current_scan_id` | issue-448-quantitative-coverage-2026-09-30 |
-| `previous_scan_id` | issue-424-harness-readiness-2026-09-14 |
+| `current_scan_id` | issue-466-v2-pre-freeze-reconciliation-2026-10-02 |
+| `previous_scan_id` | issue-448-quantitative-coverage-2026-09-30 |
 
 ## Structure
 
@@ -22,8 +22,10 @@ Source: `research/programmes/004-v2-maximum-reproducible-one-month-return/eviden
 | `zoom_level` | str |
 | `programme_id` | str |
 | `current_scan_id` | str |
-| `refresh_triggers` | array (1 items) |
-| `research_line_refs` | array (1 items) |
-| `feasibility_map` | array (2 items) |
-| `semantics` | object (7 keys) |
 | `previous_scan_id` | str |
+| `retrospective_synthesis` | object (4 keys) |
+| `refresh_triggers` | array (2 items) |
+| `current_helicopter_view` | object (6 keys) |
+| `research_line_refs` | array (1 items) |
+| `feasibility_map` | array (6 items) |
+| `semantics` | object (13 keys) |
