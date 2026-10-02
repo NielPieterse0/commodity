@@ -1,0 +1,1161 @@
+{
+  "adaptation_evaluation": [
+    {
+      "declared_complexity": 2,
+      "failure_reasons": [],
+      "kill_trigger_regression": false,
+      "maximum_drawdown_regression_fraction": -0.009487177043847377,
+      "mean_outer_monthly_net_return_delta": 0.004456875000000001,
+      "nonnegative_outer_fraction": 1.0,
+      "outer_deltas": {
+        "outer-2019-2020": 0.005820000000000004,
+        "outer-2021-2022": 0.0030937499999999967
+      },
+      "passes_promotion_gate": true,
+      "status": "complete",
+      "total_refits": 242,
+      "variant_id": "decay20"
+    },
+    {
+      "declared_complexity": 2,
+      "failure_reasons": [],
+      "kill_trigger_regression": false,
+      "maximum_drawdown_regression_fraction": -0.0035194662061619406,
+      "mean_outer_monthly_net_return_delta": 0.002600250000000001,
+      "nonnegative_outer_fraction": 1.0,
+      "outer_deltas": {
+        "outer-2019-2020": 0.004038000000000003,
+        "outer-2021-2022": 0.0011624999999999986
+      },
+      "passes_promotion_gate": true,
+      "status": "complete",
+      "total_refits": 242,
+      "variant_id": "rolling1260_r20"
+    },
+    {
+      "declared_complexity": 2,
+      "failure_reasons": [],
+      "kill_trigger_regression": false,
+      "maximum_drawdown_regression_fraction": 0.04672925089294336,
+      "mean_outer_monthly_net_return_delta": 0.0028385625000000025,
+      "nonnegative_outer_fraction": 1.0,
+      "outer_deltas": {
+        "outer-2019-2020": 0.0019740000000000022,
+        "outer-2021-2022": 0.0037031250000000024
+      },
+      "passes_promotion_gate": false,
+      "status": "complete",
+      "total_refits": 242,
+      "variant_id": "decay60"
+    },
+    {
+      "declared_complexity": 1,
+      "failure_reasons": [],
+      "kill_trigger_regression": false,
+      "maximum_drawdown_regression_fraction": 0.02218757540862832,
+      "mean_outer_monthly_net_return_delta": 0.002253875000000001,
+      "nonnegative_outer_fraction": 1.0,
+      "outer_deltas": {
+        "outer-2019-2020": 0.0013140000000000022,
+        "outer-2021-2022": 0.00319375
+      },
+      "passes_promotion_gate": false,
+      "status": "complete",
+      "total_refits": 936,
+      "variant_id": "expanding_r5"
+    },
+    {
+      "declared_complexity": 1,
+      "failure_reasons": [],
+      "kill_trigger_regression": false,
+      "maximum_drawdown_regression_fraction": 0.0321000334122679,
+      "mean_outer_monthly_net_return_delta": 0.0020140000000000015,
+      "nonnegative_outer_fraction": 1.0,
+      "outer_deltas": {
+        "outer-2019-2020": 0.0015780000000000052,
+        "outer-2021-2022": 0.0024499999999999978
+      },
+      "passes_promotion_gate": false,
+      "status": "complete",
+      "total_refits": 474,
+      "variant_id": "expanding_r10"
+    },
+    {
+      "declared_complexity": 1,
+      "failure_reasons": [],
+      "kill_trigger_regression": false,
+      "maximum_drawdown_regression_fraction": 0.02161413510395318,
+      "mean_outer_monthly_net_return_delta": 0.001916374999999999,
+      "nonnegative_outer_fraction": 1.0,
+      "outer_deltas": {
+        "outer-2019-2020": 0.0017640000000000004,
+        "outer-2021-2022": 0.0020687499999999977
+      },
+      "passes_promotion_gate": false,
+      "status": "complete",
+      "total_refits": 242,
+      "variant_id": "expanding_r20"
+    },
+    {
+      "declared_complexity": 2,
+      "failure_reasons": [],
+      "kill_trigger_regression": false,
+      "maximum_drawdown_regression_fraction": 0.02161413510395318,
+      "mean_outer_monthly_net_return_delta": 0.001916374999999999,
+      "nonnegative_outer_fraction": 1.0,
+      "outer_deltas": {
+        "outer-2019-2020": 0.0017640000000000004,
+        "outer-2021-2022": 0.0020687499999999977
+      },
+      "passes_promotion_gate": false,
+      "status": "complete",
+      "total_refits": 242,
+      "variant_id": "recal20"
+    },
+    {
+      "declared_complexity": 2,
+      "failure_reasons": [],
+      "kill_trigger_regression": false,
+      "maximum_drawdown_regression_fraction": 0.02161413510395318,
+      "mean_outer_monthly_net_return_delta": 0.001916374999999999,
+      "nonnegative_outer_fraction": 1.0,
+      "outer_deltas": {
+        "outer-2019-2020": 0.0017640000000000004,
+        "outer-2021-2022": 0.0020687499999999977
+      },
+      "passes_promotion_gate": false,
+      "status": "complete",
+      "total_refits": 242,
+      "variant_id": "recal5"
+    },
+    {
+      "declared_complexity": 2,
+      "failure_reasons": [],
+      "kill_trigger_regression": false,
+      "maximum_drawdown_regression_fraction": 0.02161413510395318,
+      "mean_outer_monthly_net_return_delta": 0.001916374999999999,
+      "nonnegative_outer_fraction": 1.0,
+      "outer_deltas": {
+        "outer-2019-2020": 0.0017640000000000004,
+        "outer-2021-2022": 0.0020687499999999977
+      },
+      "passes_promotion_gate": false,
+      "status": "complete",
+      "total_refits": 242,
+      "variant_id": "recal60"
+    },
+    {
+      "declared_complexity": 2,
+      "failure_reasons": [],
+      "kill_trigger_regression": false,
+      "maximum_drawdown_regression_fraction": 0.030833950923286377,
+      "mean_outer_monthly_net_return_delta": 0.0018493750000000016,
+      "nonnegative_outer_fraction": 0.5,
+      "outer_deltas": {
+        "outer-2019-2020": 0.004680000000000002,
+        "outer-2021-2022": -0.0009812499999999986
+      },
+      "passes_promotion_gate": false,
+      "status": "complete",
+      "total_refits": 936,
+      "variant_id": "rolling1260_r5"
+    },
+    {
+      "declared_complexity": 1,
+      "failure_reasons": [],
+      "kill_trigger_regression": false,
+      "maximum_drawdown_regression_fraction": 0.022364177851886734,
+      "mean_outer_monthly_net_return_delta": 0.001763374999999999,
+      "nonnegative_outer_fraction": 1.0,
+      "outer_deltas": {
+        "outer-2019-2020": 0.00033299999999999823,
+        "outer-2021-2022": 0.00319375
+      },
+      "passes_promotion_gate": false,
+      "status": "complete",
+      "total_refits": 4634,
+      "variant_id": "expanding_r1"
+    },
+    {
+      "declared_complexity": 2,
+      "failure_reasons": [],
+      "kill_trigger_regression": false,
+      "maximum_drawdown_regression_fraction": 0.013533017777895354,
+      "mean_outer_monthly_net_return_delta": 0.0012284999999999991,
+      "nonnegative_outer_fraction": 1.0,
+      "outer_deltas": {
+        "outer-2019-2020": 0.0012569999999999994,
+        "outer-2021-2022": 0.0011999999999999988
+      },
+      "passes_promotion_gate": false,
+      "status": "complete",
+      "total_refits": 304,
+      "variant_id": "drift_feature"
+    },
+    {
+      "declared_complexity": 2,
+      "failure_reasons": [],
+      "kill_trigger_regression": false,
+      "maximum_drawdown_regression_fraction": 0.015134207457586521,
+      "mean_outer_monthly_net_return_delta": 0.0009961249999999987,
+      "nonnegative_outer_fraction": 1.0,
+      "outer_deltas": {
+        "outer-2019-2020": 0.0010109999999999989,
+        "outer-2021-2022": 0.0009812499999999986
+      },
+      "passes_promotion_gate": false,
+      "status": "complete",
+      "total_refits": 316,
+      "variant_id": "drift_residual"
+    },
+    {
+      "declared_complexity": 2,
+      "failure_reasons": [],
+      "kill_trigger_regression": true,
+      "maximum_drawdown_regression_fraction": 0.02307634042490754,
+      "mean_outer_monthly_net_return_delta": 0.0007704999999999969,
+      "nonnegative_outer_fraction": 0.5,
+      "outer_deltas": {
+        "outer-2019-2020": -0.0030840000000000017,
+        "outer-2021-2022": 0.0046249999999999954
+      },
+      "passes_promotion_gate": false,
+      "status": "complete",
+      "total_refits": 242,
+      "variant_id": "decay252"
+    },
+    {
+      "declared_complexity": 1,
+      "failure_reasons": [],
+      "kill_trigger_regression": false,
+      "maximum_drawdown_regression_fraction": 0.015147965439028313,
+      "mean_outer_monthly_net_return_delta": 0.000599374999999999,
+      "nonnegative_outer_fraction": 1.0,
+      "outer_deltas": {
+        "outer-2019-2020": 0.0010049999999999994,
+        "outer-2021-2022": 0.0001937499999999986
+      },
+      "passes_promotion_gate": false,
+      "status": "complete",
+      "total_refits": 88,
+      "variant_id": "expanding_r60"
+    },
+    {
+      "declared_complexity": 2,
+      "failure_reasons": [],
+      "kill_trigger_regression": true,
+      "maximum_drawdown_regression_fraction": 0.0009580744448918418,
+      "mean_outer_monthly_net_return_delta": 0.000579249999999998,
+      "nonnegative_outer_fraction": 0.5,
+      "outer_deltas": {
+        "outer-2019-2020": -0.0028289999999999977,
+        "outer-2021-2022": 0.003987499999999994
+      },
+      "passes_promotion_gate": false,
+      "status": "complete",
+      "total_refits": 242,
+      "variant_id": "decay126"
+    },
+    {
+      "declared_complexity": 2,
+      "failure_reasons": [],
+      "kill_trigger_regression": false,
+      "maximum_drawdown_regression_fraction": 0.024545709585416416,
+      "mean_outer_monthly_net_return_delta": 0.0004017500000000017,
+      "nonnegative_outer_fraction": 0.5,
+      "outer_deltas": {
+        "outer-2019-2020": 0.0008160000000000047,
+        "outer-2021-2022": -1.2500000000001225e-05
+      },
+      "passes_promotion_gate": false,
+      "status": "complete",
+      "total_refits": 2356,
+      "variant_id": "drift_performance"
+    },
+    {
+      "declared_complexity": 2,
+      "failure_reasons": [],
+      "kill_trigger_regression": false,
+      "maximum_drawdown_regression_fraction": 0.01793583246849398,
+      "mean_outer_monthly_net_return_delta": 5.987499999999732e-05,
+      "nonnegative_outer_fraction": 0.5,
+      "outer_deltas": {
+        "outer-2019-2020": -0.0018989999999999994,
+        "outer-2021-2022": 0.002018749999999994
+      },
+      "passes_promotion_gate": false,
+      "status": "complete",
+      "total_refits": 242,
+      "variant_id": "rolling504_r20"
+    },
+    {
+      "declared_complexity": 0,
+      "failure_reasons": [],
+      "kill_trigger_regression": false,
+      "maximum_drawdown_regression_fraction": 0.0,
+      "mean_outer_monthly_net_return_delta": 0.0,
+      "nonnegative_outer_fraction": 1.0,
+      "outer_deltas": {
+        "outer-2019-2020": 0.0,
+        "outer-2021-2022": 0.0
+      },
+      "passes_promotion_gate": false,
+      "status": "complete",
+      "total_refits": 16,
+      "variant_id": "fixed"
+    },
+    {
+      "declared_complexity": 2,
+      "failure_reasons": [],
+      "kill_trigger_regression": true,
+      "maximum_drawdown_regression_fraction": 0.027935555267587606,
+      "mean_outer_monthly_net_return_delta": -9.874999999996649e-06,
+      "nonnegative_outer_fraction": 0.5,
+      "outer_deltas": {
+        "outer-2019-2020": -0.001625999999999992,
+        "outer-2021-2022": 0.0016062499999999987
+      },
+      "passes_promotion_gate": false,
+      "status": "complete",
+      "total_refits": 936,
+      "variant_id": "rolling756_r5"
+    },
+    {
+      "declared_complexity": 2,
+      "failure_reasons": [],
+      "kill_trigger_regression": false,
+      "maximum_drawdown_regression_fraction": 0.01841787443156105,
+      "mean_outer_monthly_net_return_delta": -0.00017549999999999781,
+      "nonnegative_outer_fraction": 0.5,
+      "outer_deltas": {
+        "outer-2019-2020": -0.0017009999999999996,
+        "outer-2021-2022": 0.001350000000000004
+      },
+      "passes_promotion_gate": false,
+      "status": "complete",
+      "total_refits": 242,
+      "variant_id": "decay504"
+    },
+    {
+      "declared_complexity": 2,
+      "failure_reasons": [],
+      "kill_trigger_regression": true,
+      "maximum_drawdown_regression_fraction": 0.050912933080936404,
+      "mean_outer_monthly_net_return_delta": -0.000465249999999998,
+      "nonnegative_outer_fraction": 0.5,
+      "outer_deltas": {
+        "outer-2019-2020": -0.003917999999999994,
+        "outer-2021-2022": 0.0029874999999999984
+      },
+      "passes_promotion_gate": false,
+      "status": "complete",
+      "total_refits": 242,
+      "variant_id": "rolling756_r20"
+    },
+    {
+      "declared_complexity": 2,
+      "failure_reasons": [],
+      "kill_trigger_regression": true,
+      "maximum_drawdown_regression_fraction": 0.06016321553759017,
+      "mean_outer_monthly_net_return_delta": -0.0017296250000000026,
+      "nonnegative_outer_fraction": 0.5,
+      "outer_deltas": {
+        "outer-2019-2020": -0.005477999999999999,
+        "outer-2021-2022": 0.002018749999999994
+      },
+      "passes_promotion_gate": false,
+      "status": "complete",
+      "total_refits": 936,
+      "variant_id": "rolling504_r5"
+    },
+    {
+      "declared_complexity": 2,
+      "failure_reasons": [
+        "rolling_window_below_minimum_training_rows:252<504"
+      ],
+      "kill_trigger_regression": null,
+      "maximum_drawdown_regression_fraction": null,
+      "mean_outer_monthly_net_return_delta": null,
+      "nonnegative_outer_fraction": 0.0,
+      "outer_deltas": {
+        "outer-2019-2020": null,
+        "outer-2021-2022": null
+      },
+      "passes_promotion_gate": false,
+      "status": "infeasible",
+      "total_refits": 0,
+      "variant_id": "rolling252_r20"
+    },
+    {
+      "declared_complexity": 2,
+      "failure_reasons": [
+        "rolling_window_below_minimum_training_rows:252<504"
+      ],
+      "kill_trigger_regression": null,
+      "maximum_drawdown_regression_fraction": null,
+      "mean_outer_monthly_net_return_delta": null,
+      "nonnegative_outer_fraction": 0.0,
+      "outer_deltas": {
+        "outer-2019-2020": null,
+        "outer-2021-2022": null
+      },
+      "passes_promotion_gate": false,
+      "status": "infeasible",
+      "total_refits": 0,
+      "variant_id": "rolling252_r5"
+    }
+  ],
+  "adaptation_passing_variant_count": 2,
+  "adaptation_trial_count": 50,
+  "conditional_cross_execution_trial_count": 32,
+  "cross_execution_evaluation": [
+    {
+      "config_id": "d0__roll0__miss0__cost_conservative",
+      "mean_outer_monthly_net_return_delta": 0.004456875000000001,
+      "nonnegative_outer_fraction": 1.0,
+      "outer_deltas": {
+        "outer-2019-2020": 0.005820000000000004,
+        "outer-2021-2022": 0.0030937499999999967
+      },
+      "passes_cross_execution_gate": true
+    },
+    {
+      "config_id": "d0__roll1__miss0__cost_conservative",
+      "mean_outer_monthly_net_return_delta": 0.0041365625,
+      "nonnegative_outer_fraction": 1.0,
+      "outer_deltas": {
+        "outer-2019-2020": 0.005370000000000003,
+        "outer-2021-2022": 0.002903124999999997
+      },
+      "passes_cross_execution_gate": true
+    },
+    {
+      "config_id": "d0__roll0__miss0__cost_stressed",
+      "mean_outer_monthly_net_return_delta": 0.0038186250000000017,
+      "nonnegative_outer_fraction": 1.0,
+      "outer_deltas": {
+        "outer-2019-2020": 0.005556000000000005,
+        "outer-2021-2022": 0.0020812499999999985
+      },
+      "passes_cross_execution_gate": true
+    },
+    {
+      "config_id": "d0__roll1__miss0__cost_stressed",
+      "mean_outer_monthly_net_return_delta": 0.0037223125,
+      "nonnegative_outer_fraction": 1.0,
+      "outer_deltas": {
+        "outer-2019-2020": 0.005154000000000004,
+        "outer-2021-2022": 0.0022906249999999962
+      },
+      "passes_cross_execution_gate": true
+    },
+    {
+      "config_id": "d0__roll1__miss5__cost_conservative",
+      "mean_outer_monthly_net_return_delta": 0.003099250000000003,
+      "nonnegative_outer_fraction": 1.0,
+      "outer_deltas": {
+        "outer-2019-2020": 0.003036000000000007,
+        "outer-2021-2022": 0.0031624999999999995
+      },
+      "passes_cross_execution_gate": true
+    },
+    {
+      "config_id": "d0__roll0__miss5__cost_conservative",
+      "mean_outer_monthly_net_return_delta": 0.0028351875000000018,
+      "nonnegative_outer_fraction": 1.0,
+      "outer_deltas": {
+        "outer-2019-2020": 0.0034860000000000056,
+        "outer-2021-2022": 0.0021843749999999984
+      },
+      "passes_cross_execution_gate": true
+    },
+    {
+      "config_id": "d0__roll0__miss5__cost_stressed",
+      "mean_outer_monthly_net_return_delta": 0.0025854375000000053,
+      "nonnegative_outer_fraction": 1.0,
+      "outer_deltas": {
+        "outer-2019-2020": 0.0031740000000000075,
+        "outer-2021-2022": 0.0019968750000000026
+      },
+      "passes_cross_execution_gate": true
+    },
+    {
+      "config_id": "d0__roll1__miss5__cost_stressed",
+      "mean_outer_monthly_net_return_delta": 0.0025547500000000015,
+      "nonnegative_outer_fraction": 1.0,
+      "outer_deltas": {
+        "outer-2019-2020": 0.0027720000000000062,
+        "outer-2021-2022": 0.0023374999999999963
+      },
+      "passes_cross_execution_gate": true
+    },
+    {
+      "config_id": "d1__roll0__miss5__cost_conservative",
+      "mean_outer_monthly_net_return_delta": -6.231250000000095e-05,
+      "nonnegative_outer_fraction": 0.5,
+      "outer_deltas": {
+        "outer-2019-2020": -0.0022589999999999984,
+        "outer-2021-2022": 0.0021343749999999965
+      },
+      "passes_cross_execution_gate": false
+    },
+    {
+      "config_id": "d1__roll0__miss0__cost_conservative",
+      "mean_outer_monthly_net_return_delta": -0.00034356250000000033,
+      "nonnegative_outer_fraction": 0.5,
+      "outer_deltas": {
+        "outer-2019-2020": -0.0030839999999999956,
+        "outer-2021-2022": 0.002396874999999995
+      },
+      "passes_cross_execution_gate": false
+    },
+    {
+      "config_id": "d1__roll1__miss5__cost_conservative",
+      "mean_outer_monthly_net_return_delta": -0.0003657500000000002,
+      "nonnegative_outer_fraction": 0.5,
+      "outer_deltas": {
+        "outer-2019-2020": -0.002318999999999998,
+        "outer-2021-2022": 0.0015874999999999978
+      },
+      "passes_cross_execution_gate": false
+    },
+    {
+      "config_id": "d1__roll1__miss0__cost_conservative",
+      "mean_outer_monthly_net_return_delta": -0.0006469999999999998,
+      "nonnegative_outer_fraction": 0.5,
+      "outer_deltas": {
+        "outer-2019-2020": -0.003143999999999995,
+        "outer-2021-2022": 0.0018499999999999953
+      },
+      "passes_cross_execution_gate": false
+    },
+    {
+      "config_id": "d1__roll1__miss5__cost_stressed",
+      "mean_outer_monthly_net_return_delta": -0.0018324999999999982,
+      "nonnegative_outer_fraction": 0.0,
+      "outer_deltas": {
+        "outer-2019-2020": -0.0012149999999999973,
+        "outer-2021-2022": -0.002449999999999999
+      },
+      "passes_cross_execution_gate": false
+    },
+    {
+      "config_id": "d1__roll0__miss5__cost_stressed",
+      "mean_outer_monthly_net_return_delta": -0.0018769374999999982,
+      "nonnegative_outer_fraction": 0.0,
+      "outer_deltas": {
+        "outer-2019-2020": -0.0011069999999999982,
+        "outer-2021-2022": -0.002646874999999998
+      },
+      "passes_cross_execution_gate": false
+    },
+    {
+      "config_id": "d1__roll1__miss0__cost_stressed",
+      "mean_outer_monthly_net_return_delta": -0.0021214999999999975,
+      "nonnegative_outer_fraction": 0.0,
+      "outer_deltas": {
+        "outer-2019-2020": -0.001967999999999995,
+        "outer-2021-2022": -0.002275
+      },
+      "passes_cross_execution_gate": false
+    },
+    {
+      "config_id": "d1__roll0__miss0__cost_stressed",
+      "mean_outer_monthly_net_return_delta": -0.0021659374999999977,
+      "nonnegative_outer_fraction": 0.0,
+      "outer_deltas": {
+        "outer-2019-2020": -0.0018599999999999958,
+        "outer-2021-2022": -0.0024718749999999992
+      },
+      "passes_cross_execution_gate": false
+    }
+  ],
+  "cross_execution_robust": false,
+  "disposition": "HOLD_ADAPTATION_CROSS_EXECUTION_NOT_ROBUST",
+  "event_time_status": "HOLD_SOURCE_TIMING_NOT_PROVEN",
+  "event_time_trials": 0,
+  "evidence_class": "development_only",
+  "execution_code_sha256": "f8d4f1d9684a30e7cf5d1f1408749f018ad32ab4737a7d2eb442613c4e78e83b",
+  "execution_config_count": 54,
+  "execution_evaluation": [
+    {
+      "config_id": "d0__roll0__miss5__cost_inherited_base",
+      "mean_outer_sizing_delta": 0.0024279166666666694,
+      "minimum_outer_sizing_delta": -0.00026499999999999874,
+      "nonnegative_outer_fraction": 0.5,
+      "outer_deltas": {
+        "outer-2019-2020": -0.00026499999999999874,
+        "outer-2021-2022": 0.0051208333333333375
+      }
+    },
+    {
+      "config_id": "d0__roll0__miss5__cost_conservative",
+      "mean_outer_sizing_delta": 0.0024272916666666696,
+      "minimum_outer_sizing_delta": -0.00023499999999999866,
+      "nonnegative_outer_fraction": 0.5,
+      "outer_deltas": {
+        "outer-2019-2020": -0.00023499999999999866,
+        "outer-2021-2022": 0.0050895833333333374
+      }
+    },
+    {
+      "config_id": "d0__roll0__miss5__cost_stressed",
+      "mean_outer_sizing_delta": 0.002424791666666669,
+      "minimum_outer_sizing_delta": -0.00011499999999999922,
+      "nonnegative_outer_fraction": 0.5,
+      "outer_deltas": {
+        "outer-2019-2020": -0.00011499999999999922,
+        "outer-2021-2022": 0.0049645833333333365
+      }
+    },
+    {
+      "config_id": "d0__roll1__miss5__cost_inherited_base",
+      "mean_outer_sizing_delta": 0.002095312500000004,
+      "minimum_outer_sizing_delta": -0.0002749999999999992,
+      "nonnegative_outer_fraction": 0.5,
+      "outer_deltas": {
+        "outer-2019-2020": -0.0002749999999999992,
+        "outer-2021-2022": 0.004465625000000007
+      }
+    },
+    {
+      "config_id": "d0__roll1__miss5__cost_conservative",
+      "mean_outer_sizing_delta": 0.002085520833333336,
+      "minimum_outer_sizing_delta": -0.0002549999999999996,
+      "nonnegative_outer_fraction": 0.5,
+      "outer_deltas": {
+        "outer-2019-2020": -0.0002549999999999996,
+        "outer-2021-2022": 0.004426041666666672
+      }
+    },
+    {
+      "config_id": "d0__roll1__miss5__cost_stressed",
+      "mean_outer_sizing_delta": 0.0020463541666666694,
+      "minimum_outer_sizing_delta": -0.00017500000000000024,
+      "nonnegative_outer_fraction": 0.5,
+      "outer_deltas": {
+        "outer-2019-2020": -0.00017500000000000024,
+        "outer-2021-2022": 0.0042677083333333395
+      }
+    },
+    {
+      "config_id": "d0__roll2__miss5__cost_inherited_base",
+      "mean_outer_sizing_delta": 0.0019164166666666674,
+      "minimum_outer_sizing_delta": -0.0007380000000000008,
+      "nonnegative_outer_fraction": 0.5,
+      "outer_deltas": {
+        "outer-2019-2020": -0.0007380000000000008,
+        "outer-2021-2022": 0.004570833333333336
+      }
+    },
+    {
+      "config_id": "d0__roll2__miss5__cost_conservative",
+      "mean_outer_sizing_delta": 0.0019108333333333353,
+      "minimum_outer_sizing_delta": -0.0007200000000000006,
+      "nonnegative_outer_fraction": 0.5,
+      "outer_deltas": {
+        "outer-2019-2020": -0.0007200000000000006,
+        "outer-2021-2022": 0.004541666666666671
+      }
+    },
+    {
+      "config_id": "d0__roll2__miss5__cost_stressed",
+      "mean_outer_sizing_delta": 0.0018885000000000013,
+      "minimum_outer_sizing_delta": -0.0006480000000000008,
+      "nonnegative_outer_fraction": 0.5,
+      "outer_deltas": {
+        "outer-2019-2020": -0.0006480000000000008,
+        "outer-2021-2022": 0.004425000000000004
+      }
+    },
+    {
+      "config_id": "d0__roll0__miss10__cost_stressed",
+      "mean_outer_sizing_delta": 0.0017793958333333355,
+      "minimum_outer_sizing_delta": 0.00023900000000000006,
+      "nonnegative_outer_fraction": 1.0,
+      "outer_deltas": {
+        "outer-2019-2020": 0.00023900000000000006,
+        "outer-2021-2022": 0.003319791666666671
+      }
+    },
+    {
+      "config_id": "d0__roll0__miss10__cost_conservative",
+      "mean_outer_sizing_delta": 0.0017255625000000005,
+      "minimum_outer_sizing_delta": 2.2999999999998716e-05,
+      "nonnegative_outer_fraction": 1.0,
+      "outer_deltas": {
+        "outer-2019-2020": 2.2999999999998716e-05,
+        "outer-2021-2022": 0.0034281250000000024
+      }
+    },
+    {
+      "config_id": "d0__roll0__miss10__cost_inherited_base",
+      "mean_outer_sizing_delta": 0.0017121041666666682,
+      "minimum_outer_sizing_delta": -3.1000000000000645e-05,
+      "nonnegative_outer_fraction": 0.5,
+      "outer_deltas": {
+        "outer-2019-2020": -3.1000000000000645e-05,
+        "outer-2021-2022": 0.003455208333333337
+      }
+    },
+    {
+      "config_id": "d0__roll1__miss10__cost_stressed",
+      "mean_outer_sizing_delta": 0.0014407708333333343,
+      "minimum_outer_sizing_delta": 0.00021799999999999858,
+      "nonnegative_outer_fraction": 1.0,
+      "outer_deltas": {
+        "outer-2019-2020": 0.00021799999999999858,
+        "outer-2021-2022": 0.00266354166666667
+      }
+    },
+    {
+      "config_id": "d0__roll1__miss10__cost_conservative",
+      "mean_outer_sizing_delta": 0.0013991041666666687,
+      "minimum_outer_sizing_delta": 1.799999999999892e-05,
+      "nonnegative_outer_fraction": 1.0,
+      "outer_deltas": {
+        "outer-2019-2020": 1.799999999999892e-05,
+        "outer-2021-2022": 0.0027802083333333385
+      }
+    },
+    {
+      "config_id": "d0__roll1__miss10__cost_inherited_base",
+      "mean_outer_sizing_delta": 0.001388687500000002,
+      "minimum_outer_sizing_delta": -3.200000000000078e-05,
+      "nonnegative_outer_fraction": 0.5,
+      "outer_deltas": {
+        "outer-2019-2020": -3.200000000000078e-05,
+        "outer-2021-2022": 0.0028093750000000046
+      }
+    },
+    {
+      "config_id": "d0__roll2__miss0__cost_stressed",
+      "mean_outer_sizing_delta": 0.0013481249999999988,
+      "minimum_outer_sizing_delta": -3.500000000000248e-05,
+      "nonnegative_outer_fraction": 0.5,
+      "outer_deltas": {
+        "outer-2019-2020": -3.500000000000248e-05,
+        "outer-2021-2022": 0.00273125
+      }
+    },
+    {
+      "config_id": "d0__roll2__miss10__cost_stressed",
+      "mean_outer_sizing_delta": 0.001339791666666666,
+      "minimum_outer_sizing_delta": -6.0000000000002326e-05,
+      "nonnegative_outer_fraction": 0.5,
+      "outer_deltas": {
+        "outer-2019-2020": -6.0000000000002326e-05,
+        "outer-2021-2022": 0.0027395833333333343
+      }
+    },
+    {
+      "config_id": "d0__roll2__miss0__cost_conservative",
+      "mean_outer_sizing_delta": 0.0013261249999999996,
+      "minimum_outer_sizing_delta": -0.0001790000000000012,
+      "nonnegative_outer_fraction": 0.5,
+      "outer_deltas": {
+        "outer-2019-2020": -0.0001790000000000012,
+        "outer-2021-2022": 0.0028312500000000004
+      }
+    },
+    {
+      "config_id": "d0__roll2__miss0__cost_inherited_base",
+      "mean_outer_sizing_delta": 0.0013206250000000004,
+      "minimum_outer_sizing_delta": -0.00021500000000000035,
+      "nonnegative_outer_fraction": 0.5,
+      "outer_deltas": {
+        "outer-2019-2020": -0.00021500000000000035,
+        "outer-2021-2022": 0.002856250000000001
+      }
+    },
+    {
+      "config_id": "d0__roll0__miss0__cost_stressed",
+      "mean_outer_sizing_delta": 0.001313666666666668,
+      "minimum_outer_sizing_delta": 0.000219,
+      "nonnegative_outer_fraction": 1.0,
+      "outer_deltas": {
+        "outer-2019-2020": 0.000219,
+        "outer-2021-2022": 0.002408333333333336
+      }
+    },
+    {
+      "config_id": "d0__roll2__miss10__cost_conservative",
+      "mean_outer_sizing_delta": 0.0013057916666666665,
+      "minimum_outer_sizing_delta": -0.0002280000000000025,
+      "nonnegative_outer_fraction": 0.5,
+      "outer_deltas": {
+        "outer-2019-2020": -0.0002280000000000025,
+        "outer-2021-2022": 0.0028395833333333355
+      }
+    },
+    {
+      "config_id": "d0__roll2__miss10__cost_inherited_base",
+      "mean_outer_sizing_delta": 0.0012972916666666666,
+      "minimum_outer_sizing_delta": -0.000270000000000002,
+      "nonnegative_outer_fraction": 0.5,
+      "outer_deltas": {
+        "outer-2019-2020": -0.000270000000000002,
+        "outer-2021-2022": 0.0028645833333333353
+      }
+    },
+    {
+      "config_id": "d0__roll0__miss0__cost_conservative",
+      "mean_outer_sizing_delta": 0.0012838333333333328,
+      "minimum_outer_sizing_delta": 5.099999999999853e-05,
+      "nonnegative_outer_fraction": 1.0,
+      "outer_deltas": {
+        "outer-2019-2020": 5.099999999999853e-05,
+        "outer-2021-2022": 0.002516666666666667
+      }
+    },
+    {
+      "config_id": "d0__roll0__miss0__cost_inherited_base",
+      "mean_outer_sizing_delta": 0.0012763750000000004,
+      "minimum_outer_sizing_delta": 8.999999999999026e-06,
+      "nonnegative_outer_fraction": 1.0,
+      "outer_deltas": {
+        "outer-2019-2020": 8.999999999999026e-06,
+        "outer-2021-2022": 0.0025437500000000017
+      }
+    },
+    {
+      "config_id": "d0__roll1__miss0__cost_stressed",
+      "mean_outer_sizing_delta": 0.0011833541666666672,
+      "minimum_outer_sizing_delta": 0.0001739999999999988,
+      "nonnegative_outer_fraction": 1.0,
+      "outer_deltas": {
+        "outer-2019-2020": 0.0001739999999999988,
+        "outer-2021-2022": 0.0021927083333333356
+      }
+    },
+    {
+      "config_id": "d0__roll1__miss0__cost_conservative",
+      "mean_outer_sizing_delta": 0.0011656875000000011,
+      "minimum_outer_sizing_delta": 2.1999999999999017e-05,
+      "nonnegative_outer_fraction": 1.0,
+      "outer_deltas": {
+        "outer-2019-2020": 2.1999999999999017e-05,
+        "outer-2021-2022": 0.0023093750000000033
+      }
+    },
+    {
+      "config_id": "d0__roll1__miss0__cost_inherited_base",
+      "mean_outer_sizing_delta": 0.0011612708333333345,
+      "minimum_outer_sizing_delta": -1.600000000000039e-05,
+      "nonnegative_outer_fraction": 0.5,
+      "outer_deltas": {
+        "outer-2019-2020": -1.600000000000039e-05,
+        "outer-2021-2022": 0.0023385416666666693
+      }
+    },
+    {
+      "config_id": "d1__roll2__miss5__cost_inherited_base",
+      "mean_outer_sizing_delta": 0.0011169583333333329,
+      "minimum_outer_sizing_delta": -0.0005639999999999995,
+      "nonnegative_outer_fraction": 0.5,
+      "outer_deltas": {
+        "outer-2019-2020": -0.0005639999999999995,
+        "outer-2021-2022": 0.002797916666666665
+      }
+    },
+    {
+      "config_id": "d1__roll2__miss5__cost_conservative",
+      "mean_outer_sizing_delta": 0.0010981666666666666,
+      "minimum_outer_sizing_delta": -0.0005619999999999996,
+      "nonnegative_outer_fraction": 0.5,
+      "outer_deltas": {
+        "outer-2019-2020": -0.0005619999999999996,
+        "outer-2021-2022": 0.0027583333333333327
+      }
+    },
+    {
+      "config_id": "d1__roll2__miss5__cost_stressed",
+      "mean_outer_sizing_delta": 0.0010229999999999992,
+      "minimum_outer_sizing_delta": -0.000554,
+      "nonnegative_outer_fraction": 0.5,
+      "outer_deltas": {
+        "outer-2019-2020": -0.000554,
+        "outer-2021-2022": 0.0025999999999999986
+      }
+    },
+    {
+      "config_id": "d1__roll2__miss0__cost_inherited_base",
+      "mean_outer_sizing_delta": 0.0009693125000000002,
+      "minimum_outer_sizing_delta": -0.0004770000000000002,
+      "nonnegative_outer_fraction": 0.5,
+      "outer_deltas": {
+        "outer-2019-2020": -0.0004770000000000002,
+        "outer-2021-2022": 0.0024156250000000007
+      }
+    },
+    {
+      "config_id": "d1__roll2__miss0__cost_conservative",
+      "mean_outer_sizing_delta": 0.0009677291666666674,
+      "minimum_outer_sizing_delta": -0.0004509999999999998,
+      "nonnegative_outer_fraction": 0.5,
+      "outer_deltas": {
+        "outer-2019-2020": -0.0004509999999999998,
+        "outer-2021-2022": 0.0023864583333333346
+      }
+    },
+    {
+      "config_id": "d1__roll2__miss0__cost_stressed",
+      "mean_outer_sizing_delta": 0.0009613958333333336,
+      "minimum_outer_sizing_delta": -0.000347,
+      "nonnegative_outer_fraction": 0.5,
+      "outer_deltas": {
+        "outer-2019-2020": -0.000347,
+        "outer-2021-2022": 0.0022697916666666674
+      }
+    },
+    {
+      "config_id": "d1__roll2__miss10__cost_stressed",
+      "mean_outer_sizing_delta": 0.0008707291666666653,
+      "minimum_outer_sizing_delta": -0.0006200000000000012,
+      "nonnegative_outer_fraction": 0.5,
+      "outer_deltas": {
+        "outer-2019-2020": -0.0006200000000000012,
+        "outer-2021-2022": 0.0023614583333333317
+      }
+    },
+    {
+      "config_id": "d1__roll2__miss10__cost_conservative",
+      "mean_outer_sizing_delta": 0.0008650624999999989,
+      "minimum_outer_sizing_delta": -0.0007480000000000007,
+      "nonnegative_outer_fraction": 0.5,
+      "outer_deltas": {
+        "outer-2019-2020": -0.0007480000000000007,
+        "outer-2021-2022": 0.0024781249999999986
+      }
+    },
+    {
+      "config_id": "d1__roll2__miss10__cost_inherited_base",
+      "mean_outer_sizing_delta": 0.0008636458333333313,
+      "minimum_outer_sizing_delta": -0.0007800000000000011,
+      "nonnegative_outer_fraction": 0.5,
+      "outer_deltas": {
+        "outer-2019-2020": -0.0007800000000000011,
+        "outer-2021-2022": 0.0025072916666666637
+      }
+    },
+    {
+      "config_id": "d1__roll0__miss0__cost_stressed",
+      "mean_outer_sizing_delta": 0.0008540416666666678,
+      "minimum_outer_sizing_delta": -0.00014399999999999981,
+      "nonnegative_outer_fraction": 0.5,
+      "outer_deltas": {
+        "outer-2019-2020": -0.00014399999999999981,
+        "outer-2021-2022": 0.0018520833333333354
+      }
+    },
+    {
+      "config_id": "d1__roll0__miss0__cost_conservative",
+      "mean_outer_sizing_delta": 0.0008402083333333351,
+      "minimum_outer_sizing_delta": -0.00027999999999999965,
+      "nonnegative_outer_fraction": 0.5,
+      "outer_deltas": {
+        "outer-2019-2020": -0.00027999999999999965,
+        "outer-2021-2022": 0.0019604166666666698
+      }
+    },
+    {
+      "config_id": "d1__roll0__miss0__cost_inherited_base",
+      "mean_outer_sizing_delta": 0.0008367500000000014,
+      "minimum_outer_sizing_delta": -0.0003139999999999998,
+      "nonnegative_outer_fraction": 0.5,
+      "outer_deltas": {
+        "outer-2019-2020": -0.0003139999999999998,
+        "outer-2021-2022": 0.0019875000000000027
+      }
+    },
+    {
+      "config_id": "d1__roll1__miss0__cost_stressed",
+      "mean_outer_sizing_delta": 0.0008134166666666678,
+      "minimum_outer_sizing_delta": -0.0002189999999999999,
+      "nonnegative_outer_fraction": 0.5,
+      "outer_deltas": {
+        "outer-2019-2020": -0.0002189999999999999,
+        "outer-2021-2022": 0.0018458333333333356
+      }
+    },
+    {
+      "config_id": "d1__roll1__miss0__cost_conservative",
+      "mean_outer_sizing_delta": 0.0008035833333333346,
+      "minimum_outer_sizing_delta": -0.00034699999999999944,
+      "nonnegative_outer_fraction": 0.5,
+      "outer_deltas": {
+        "outer-2019-2020": -0.00034699999999999944,
+        "outer-2021-2022": 0.0019541666666666687
+      }
+    },
+    {
+      "config_id": "d1__roll1__miss0__cost_inherited_base",
+      "mean_outer_sizing_delta": 0.0008011250000000017,
+      "minimum_outer_sizing_delta": -0.00037899999999999956,
+      "nonnegative_outer_fraction": 0.5,
+      "outer_deltas": {
+        "outer-2019-2020": -0.00037899999999999956,
+        "outer-2021-2022": 0.001981250000000003
+      }
+    },
+    {
+      "config_id": "d1__roll0__miss5__cost_inherited_base",
+      "mean_outer_sizing_delta": 0.0006882708333333359,
+      "minimum_outer_sizing_delta": -0.0003619999999999982,
+      "nonnegative_outer_fraction": 0.5,
+      "outer_deltas": {
+        "outer-2019-2020": -0.0003619999999999982,
+        "outer-2021-2022": 0.00173854166666667
+      }
+    },
+    {
+      "config_id": "d1__roll0__miss5__cost_conservative",
+      "mean_outer_sizing_delta": 0.000680645833333336,
+      "minimum_outer_sizing_delta": -0.0003459999999999982,
+      "nonnegative_outer_fraction": 0.5,
+      "outer_deltas": {
+        "outer-2019-2020": -0.0003459999999999982,
+        "outer-2021-2022": 0.0017072916666666703
+      }
+    },
+    {
+      "config_id": "d1__roll1__miss5__cost_inherited_base",
+      "mean_outer_sizing_delta": 0.0006526458333333358,
+      "minimum_outer_sizing_delta": -0.00042699999999999813,
+      "nonnegative_outer_fraction": 0.5,
+      "outer_deltas": {
+        "outer-2019-2020": -0.00042699999999999813,
+        "outer-2021-2022": 0.0017322916666666697
+      }
+    },
+    {
+      "config_id": "d1__roll0__miss5__cost_stressed",
+      "mean_outer_sizing_delta": 0.0006501458333333359,
+      "minimum_outer_sizing_delta": -0.00028199999999999894,
+      "nonnegative_outer_fraction": 0.5,
+      "outer_deltas": {
+        "outer-2019-2020": -0.00028199999999999894,
+        "outer-2021-2022": 0.0015822916666666706
+      }
+    },
+    {
+      "config_id": "d1__roll1__miss5__cost_conservative",
+      "mean_outer_sizing_delta": 0.0006440208333333361,
+      "minimum_outer_sizing_delta": -0.00041299999999999844,
+      "nonnegative_outer_fraction": 0.5,
+      "outer_deltas": {
+        "outer-2019-2020": -0.00041299999999999844,
+        "outer-2021-2022": 0.0017010416666666706
+      }
+    },
+    {
+      "config_id": "d1__roll1__miss5__cost_stressed",
+      "mean_outer_sizing_delta": 0.0006095208333333356,
+      "minimum_outer_sizing_delta": -0.00035699999999999887,
+      "nonnegative_outer_fraction": 0.5,
+      "outer_deltas": {
+        "outer-2019-2020": -0.00035699999999999887,
+        "outer-2021-2022": 0.00157604166666667
+      }
+    },
+    {
+      "config_id": "d1__roll0__miss10__cost_stressed",
+      "mean_outer_sizing_delta": 0.0004775625000000014,
+      "minimum_outer_sizing_delta": -0.00034799999999999984,
+      "nonnegative_outer_fraction": 0.5,
+      "outer_deltas": {
+        "outer-2019-2020": -0.00034799999999999984,
+        "outer-2021-2022": 0.0013031250000000026
+      }
+    },
+    {
+      "config_id": "d1__roll0__miss10__cost_conservative",
+      "mean_outer_sizing_delta": 0.00043972916666666824,
+      "minimum_outer_sizing_delta": -0.0005320000000000001,
+      "nonnegative_outer_fraction": 0.5,
+      "outer_deltas": {
+        "outer-2019-2020": -0.0005320000000000001,
+        "outer-2021-2022": 0.0014114583333333366
+      }
+    },
+    {
+      "config_id": "d1__roll1__miss10__cost_stressed",
+      "mean_outer_sizing_delta": 0.0004369375000000013,
+      "minimum_outer_sizing_delta": -0.0004230000000000001,
+      "nonnegative_outer_fraction": 0.5,
+      "outer_deltas": {
+        "outer-2019-2020": -0.0004230000000000001,
+        "outer-2021-2022": 0.0012968750000000027
+      }
+    },
+    {
+      "config_id": "d1__roll0__miss10__cost_inherited_base",
+      "mean_outer_sizing_delta": 0.00043027083333333405,
+      "minimum_outer_sizing_delta": -0.0005780000000000002,
+      "nonnegative_outer_fraction": 0.5,
+      "outer_deltas": {
+        "outer-2019-2020": -0.0005780000000000002,
+        "outer-2021-2022": 0.0014385416666666683
+      }
+    },
+    {
+      "config_id": "d1__roll1__miss10__cost_conservative",
+      "mean_outer_sizing_delta": 0.00040310416666666793,
+      "minimum_outer_sizing_delta": -0.0005989999999999997,
+      "nonnegative_outer_fraction": 0.5,
+      "outer_deltas": {
+        "outer-2019-2020": -0.0005989999999999997,
+        "outer-2021-2022": 0.0014052083333333356
+      }
+    },
+    {
+      "config_id": "d1__roll1__miss10__cost_inherited_base",
+      "mean_outer_sizing_delta": 0.00039464583333333485,
+      "minimum_outer_sizing_delta": -0.0006429999999999997,
+      "nonnegative_outer_fraction": 0.5,
+      "outer_deltas": {
+        "outer-2019-2020": -0.0006429999999999997,
+        "outer-2021-2022": 0.0014322916666666694
+      }
+    }
+  ],
+  "execution_full_outer_survival_config_count": 9,
+  "execution_trial_count": 108,
+  "issue": 431,
+  "issue430_parent_reproduction": {
+    "expected": {
+      "outer-2019-2020": 8.999999999999026e-06,
+      "outer-2021-2022": 0.0025437500000000017
+    },
+    "observed": {
+      "outer-2019-2020": 8.999999999999026e-06,
+      "outer-2021-2022": 0.0025437500000000017
+    },
+    "reproduced": true
+  },
+  "paper_sim_live_accessed": false,
+  "preflight_sha256": "481629a208d0314252396a0786fd5be6a5fef2a0e20359580dd29b472a8f3329",
+  "prereg_sha256": "befe4de0dff67aad999d2d71c5b480671a16027d25e1d096c0e1a913ed701dfc",
+  "protected_confirmation_accessed": false,
+  "result_sha256": "836398bf4f5013333221bb8db255d82b4067455b59b6b7a966e13717831ad498",
+  "runner_sha256": "682aa8509cf8166d9b5271f58f80995650bf7226a1391c038d723b187c2ed55b",
+  "schema_version": 1,
+  "selected_adaptation": {
+    "declared_complexity": 2,
+    "failure_reasons": [],
+    "kill_trigger_regression": false,
+    "maximum_drawdown_regression_fraction": -0.009487177043847377,
+    "mean_outer_monthly_net_return_delta": 0.004456875000000001,
+    "nonnegative_outer_fraction": 1.0,
+    "outer_deltas": {
+      "outer-2019-2020": 0.005820000000000004,
+      "outer-2021-2022": 0.0030937499999999967
+    },
+    "passes_promotion_gate": true,
+    "status": "complete",
+    "total_refits": 242,
+    "variant_id": "decay20"
+  },
+  "trial_count": 190,
+  "trial_ledger_file_sha256": "fcc9f53dcfe9e24a4790514c4871831556c71b17a3021bccda0702054e0a7475"
+}

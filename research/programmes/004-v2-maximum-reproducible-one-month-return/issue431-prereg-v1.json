@@ -1,0 +1,136 @@
+{
+  "schema_version": 1,
+  "issue": 431,
+  "programme": "004-v2-maximum-reproducible-one-month-return",
+  "title": "V2.34 execution, roll, slippage, cost, and adaptation optimization",
+  "evidence_class": "development_only",
+  "protected_confirmation_start": "2023-01-01",
+  "paper_sim_live_access": false,
+  "scientific_parent": {
+    "decision_policy_id": "both__strength_q50__f1.00__loss_cooldown_3_sessions__short_none__long_veto",
+    "sizing_policy_id": "regime_favored1_50_other0_75",
+    "stage2_risk_increment": "none",
+    "research_max_abs_contracts": 1.5,
+    "operational_size_authority_changed": false
+  },
+  "authority_sha256": {
+    "config/v2_variable_registry.json": "8608d81adbbf53c6df0deb84056d51feecf2cd4abc06964998920687730e2a97",
+    "config/simulation.json": "a9413697129d2232e43d5b5efbf52cbb9c2a17a7fa0455aa4cc228a6ca4aac80",
+    "config/trading-policy.json": "5eb84ad71d7dddffff06dc7efa0bdd8e2d7436122e92aeff2900a36590edc93e",
+    "config/research_dataset.json": "5fba33e4aff2c6408748e792fcdc9b607c6194183294ea47e7c9607066ad7a9d",
+    "config/phase2_market_only.json": "36900d9d28d2807b5e28d42fbcf272a06971af3123dc96a03425c26c10daab11",
+    "issue430-prereg-v1.json": "d1009575138536bd7a960ba0ac3cd993d8b33b1095cd3736bdd47bfade6ab016",
+    "issue430-preflight-v1.json": "6c5bd6712aff57b16e37b53fc1d589b71efc3422a281d5b3434ef70a25cd5ec7",
+    "issue430-trials-v1.jsonl": "f180434937b86795abfd98a844b3297ae920f5f4612a8ce19d2808fa52b493e7",
+    "issue430-result-v1.json": "d8e01cd6e7e9f980b171fc33eb66c27d4c593965361c59640eb79b5c38e5a690",
+    "issue429-result-v1.json": "89134b272b4d9f2d6fe73ee1721abe5e18e2b688b7bda57d4c3a95687d38d699",
+    "issue448-downstream-handoff-v1.json": "ce16fda3dd5f58e8658d48a8d428b1dcda96a77fa059b11527532306cb410ad5"
+  },
+  "event_time_lane": {
+    "status": "HOLD_SOURCE_TIMING_NOT_PROVEN",
+    "authority": "issue448-downstream-handoff-v1.json",
+    "trials": 0,
+    "synthetic_release_timestamps_allowed": false
+  },
+  "fill_support": {
+    "next_session_open_proxy": "supported",
+    "next_session_settlement_proxy": "HOLD_CANONICAL_SELECTED_PATH_HAS_NO_SETTLEMENT_OR_CLOSE",
+    "impossible_same_bar_fill_allowed": false
+  },
+  "development_outers": [
+    {"id": "outer-2019-2020", "start": "2019-01-01", "end": "2020-12-31"},
+    {"id": "outer-2021-2022", "start": "2021-01-01", "end": "2022-12-31"}
+  ],
+  "execution_stage": {
+    "purpose": "stress identical fixed-parent and promoted-sizing decisions under the same executable assumptions",
+    "delay_sessions": [0, 1],
+    "roll_gap_sessions": [0, 1, 2],
+    "miss_every_nth_order": [0, 10, 5],
+    "cost_profiles": [
+      {"id": "inherited_base", "half_spread_ticks_per_side": 0.5, "slippage_ticks_per_side": 0.5},
+      {"id": "conservative", "half_spread_ticks_per_side": 1.0, "slippage_ticks_per_side": 1.0},
+      {"id": "stressed", "half_spread_ticks_per_side": 2.0, "slippage_ticks_per_side": 4.0}
+    ],
+    "common_reference": {
+      "delay_sessions": 0,
+      "roll_gap_sessions": 0,
+      "miss_every_nth_order": 0,
+      "cost_profile": "conservative"
+    },
+    "scored_config_count": 54,
+    "outer_trial_count": 108,
+    "selection_rule": "report survival envelope; execution assumptions are stresses, not model knobs",
+    "required_diagnostics": [
+      "mean_monthly_net_return", "total_net_pnl_usd", "transaction_cost_usd",
+      "turnover", "max_drawdown_fraction", "execution_side_count", "roll_side_count",
+      "mean_holding_sessions", "max_margin_utilization_fraction", "max_notional_leverage"
+    ]
+  },
+  "adaptation_stage": {
+    "common_execution_reference": "execution_stage.common_reference",
+    "variants": [
+      {"id": "fixed", "refit_mode": "fixed", "retrain_every_sessions": 60, "rolling_train_sessions": null, "decay_half_life_sessions": null, "recalibration_cadence_sessions": null, "drift_trigger": "off"},
+      {"id": "expanding_r1", "refit_mode": "expanding", "retrain_every_sessions": 1, "rolling_train_sessions": null, "decay_half_life_sessions": null, "recalibration_cadence_sessions": null, "drift_trigger": "off"},
+      {"id": "expanding_r5", "refit_mode": "expanding", "retrain_every_sessions": 5, "rolling_train_sessions": null, "decay_half_life_sessions": null, "recalibration_cadence_sessions": null, "drift_trigger": "off"},
+      {"id": "expanding_r10", "refit_mode": "expanding", "retrain_every_sessions": 10, "rolling_train_sessions": null, "decay_half_life_sessions": null, "recalibration_cadence_sessions": null, "drift_trigger": "off"},
+      {"id": "expanding_r20", "refit_mode": "expanding", "retrain_every_sessions": 20, "rolling_train_sessions": null, "decay_half_life_sessions": null, "recalibration_cadence_sessions": null, "drift_trigger": "off"},
+      {"id": "expanding_r60", "refit_mode": "expanding", "retrain_every_sessions": 60, "rolling_train_sessions": null, "decay_half_life_sessions": null, "recalibration_cadence_sessions": null, "drift_trigger": "off"},
+      {"id": "rolling252_r5", "refit_mode": "rolling", "retrain_every_sessions": 5, "rolling_train_sessions": 252, "decay_half_life_sessions": null, "recalibration_cadence_sessions": null, "drift_trigger": "off"},
+      {"id": "rolling252_r20", "refit_mode": "rolling", "retrain_every_sessions": 20, "rolling_train_sessions": 252, "decay_half_life_sessions": null, "recalibration_cadence_sessions": null, "drift_trigger": "off"},
+      {"id": "rolling504_r5", "refit_mode": "rolling", "retrain_every_sessions": 5, "rolling_train_sessions": 504, "decay_half_life_sessions": null, "recalibration_cadence_sessions": null, "drift_trigger": "off"},
+      {"id": "rolling504_r20", "refit_mode": "rolling", "retrain_every_sessions": 20, "rolling_train_sessions": 504, "decay_half_life_sessions": null, "recalibration_cadence_sessions": null, "drift_trigger": "off"},
+      {"id": "rolling756_r5", "refit_mode": "rolling", "retrain_every_sessions": 5, "rolling_train_sessions": 756, "decay_half_life_sessions": null, "recalibration_cadence_sessions": null, "drift_trigger": "off"},
+      {"id": "rolling756_r20", "refit_mode": "rolling", "retrain_every_sessions": 20, "rolling_train_sessions": 756, "decay_half_life_sessions": null, "recalibration_cadence_sessions": null, "drift_trigger": "off"},
+      {"id": "rolling1260_r5", "refit_mode": "rolling", "retrain_every_sessions": 5, "rolling_train_sessions": 1260, "decay_half_life_sessions": null, "recalibration_cadence_sessions": null, "drift_trigger": "off"},
+      {"id": "rolling1260_r20", "refit_mode": "rolling", "retrain_every_sessions": 20, "rolling_train_sessions": 1260, "decay_half_life_sessions": null, "recalibration_cadence_sessions": null, "drift_trigger": "off"},
+      {"id": "decay20", "refit_mode": "expanding", "retrain_every_sessions": 20, "rolling_train_sessions": null, "decay_half_life_sessions": 20, "recalibration_cadence_sessions": null, "drift_trigger": "off"},
+      {"id": "decay60", "refit_mode": "expanding", "retrain_every_sessions": 20, "rolling_train_sessions": null, "decay_half_life_sessions": 60, "recalibration_cadence_sessions": null, "drift_trigger": "off"},
+      {"id": "decay126", "refit_mode": "expanding", "retrain_every_sessions": 20, "rolling_train_sessions": null, "decay_half_life_sessions": 126, "recalibration_cadence_sessions": null, "drift_trigger": "off"},
+      {"id": "decay252", "refit_mode": "expanding", "retrain_every_sessions": 20, "rolling_train_sessions": null, "decay_half_life_sessions": 252, "recalibration_cadence_sessions": null, "drift_trigger": "off"},
+      {"id": "decay504", "refit_mode": "expanding", "retrain_every_sessions": 20, "rolling_train_sessions": null, "decay_half_life_sessions": 504, "recalibration_cadence_sessions": null, "drift_trigger": "off"},
+      {"id": "recal5", "refit_mode": "expanding", "retrain_every_sessions": 20, "rolling_train_sessions": null, "decay_half_life_sessions": null, "recalibration_cadence_sessions": 5, "drift_trigger": "off"},
+      {"id": "recal20", "refit_mode": "expanding", "retrain_every_sessions": 20, "rolling_train_sessions": null, "decay_half_life_sessions": null, "recalibration_cadence_sessions": 20, "drift_trigger": "off"},
+      {"id": "recal60", "refit_mode": "expanding", "retrain_every_sessions": 20, "rolling_train_sessions": null, "decay_half_life_sessions": null, "recalibration_cadence_sessions": 60, "drift_trigger": "off"},
+      {"id": "drift_feature", "refit_mode": "expanding", "retrain_every_sessions": 60, "rolling_train_sessions": null, "decay_half_life_sessions": null, "recalibration_cadence_sessions": null, "drift_trigger": "feature_distribution"},
+      {"id": "drift_residual", "refit_mode": "expanding", "retrain_every_sessions": 60, "rolling_train_sessions": null, "decay_half_life_sessions": null, "recalibration_cadence_sessions": null, "drift_trigger": "residual_distribution"},
+      {"id": "drift_performance", "refit_mode": "expanding", "retrain_every_sessions": 60, "rolling_train_sessions": null, "decay_half_life_sessions": null, "recalibration_cadence_sessions": null, "drift_trigger": "performance_degradation"}
+    ],
+    "variant_count": 25,
+    "outer_trial_count": 50,
+    "reference_variant_id": "fixed",
+    "promotion_gates": {
+      "minimum_mean_outer_monthly_net_return_delta": 0.00025,
+      "minimum_nonnegative_outer_fraction": 1.0,
+      "maximum_drawdown_regression_fraction": 0.01,
+      "kill_trigger_regression_allowed": false
+    },
+    "complexity_rule": "fixed=0; expanding=1; rolling=2; add 1 each for decay, recalibration, or drift trigger",
+    "selection_tiebreak": [
+      "higher_mean_outer_monthly_net_return_delta",
+      "fewer_total_refits",
+      "lower_declared_complexity",
+      "lexical_variant_id"
+    ]
+  },
+  "conditional_cross_execution_stage": {
+    "run_only_if_adaptation_promotion_gate_passes": true,
+    "delay_sessions": [0, 1],
+    "roll_gap_sessions": [0, 1],
+    "miss_every_nth_order": [0, 5],
+    "cost_profiles": ["conservative", "stressed"],
+    "config_count": 16,
+    "maximum_outer_trial_count": 32,
+    "required_mean_outer_delta_nonnegative": true
+  },
+  "trial_budget": {
+    "execution_outer_trials": 108,
+    "adaptation_outer_trials": 50,
+    "maximum_conditional_cross_execution_outer_trials": 32,
+    "maximum_total_outer_trials": 190
+  },
+  "prohibited_actions": [
+    "read_2023_plus_outcomes", "read_paper_results", "read_sim_results", "read_live_results",
+    "synthetic_release_timestamp_scoring", "same_bar_impossible_fill", "weaken_operational_risk_policy",
+    "authorize_operational_size_above_one_contract"
+  ]
+}
