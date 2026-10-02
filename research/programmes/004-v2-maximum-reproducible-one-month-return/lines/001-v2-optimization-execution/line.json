@@ -5,33 +5,41 @@
   "research_line_id": "001-v2-optimization-execution",
   "legacy_research_line_ids": [],
   "status": "active",
-  "big_picture": "Execute Programme #393 as an auditable optimization campaign for reproducible one-month net trading return while preserving V1 and later evidence boundaries.",
-  "why_zoomed_in": "Programme setup registered the variable/search design but did not execute optimization; issue #424 establishes the shared execution, scoring, and trial-accounting layer needed before family searches.",
-  "tested_role_target_horizon": "Issue #424 tests the optimization harness itself on bounded pre-2023 development evidence; it does not select a V2 champion.",
+  "big_picture": "Execute Programme #393 as a chronological, auditable optimization campaign for reproducible one-month net trading return. The current pre-freeze problem is to replace history-wide fixed parameter selection with a causal adaptive procedure that can choose experts, horizons, sizing, position actions and execution behavior from point-in-time state.",
+  "why_zoomed_in": "Issues #459/#429/#430/#431 established that V2 contains material but conditional and time-sensitive development value: joint side-specific policy gains, state-dependent sizing, fast adaptation value, and strong execution-latency sensitivity. #465 therefore becomes the final broad discovery stage before #414 champion simplification and freeze.",
+  "tested_role_target_horizon": "Completed development work through #431 tested joint signal/side/regime policies, lifecycle/position structure, sizing/risk, and execution/adaptation over chronological pre-2023 outers. #465 will test a point-in-time time-instance representation and causal adaptive whole-system controller without accessing protected confirmation.",
   "historical_facts": {
-    "observed": "Programme-003 provides reusable pre-2023 exact-source reconstruction and execution primitives plus frozen V1 development evidence. Issue #424 then completed a bounded 2022 development-only smoke pilot with three fully scored candidates and an idempotent rerun that skipped all three completed trial identities.",
-    "rules_out": "Design-only closures cannot be treated as V2 optimization evidence or champion-selection evidence. The #424 smoke pilot also does not establish a V2 trading edge: all three pilot candidates lost money in the bounded 2022 window.",
-    "does_not_rule_out": "Any registered V2 variable family, interaction, model role, lifecycle, sizing, risk, execution, or adaptation choice remains eligible for later bounded optimization. The three #424 candidates were execution probes, not an exhaustive family search."
+    "observed": "#459 promoted a joint development policy at +0.324275 percentage points/month mean outer improvement; #429 found no promoted static lifecycle variant but confirmed material contribution from strength gating, loss cooldown and the long specialist veto; #430 promoted state-dependent sizing at +0.1276375 percentage points/month; #431 selected decay20 at +0.4456875 percentage points/month versus fixed adaptation but the advantage failed under every tested one-session execution delay.",
+    "rules_out": "The completed evidence rules out the exact failed static lifecycle variants, the tested incremental Stage-2 risk controls, and claims that the selected #431 adaptation is robust to a full-session execution delay. It does not permit protected-confirmation or paper claims.",
+    "does_not_rule_out": "Previously underpowered, role-unidentifiable, null or exact-role-negative inputs may still have value in scientifically distinct regime, confidence, veto, horizon-selection, sizing, position-management or expert-weighting roles. Dynamic policy selection through time remains untested and is owned by #465."
   },
   "useful_secondary_observations": [
-    "The #424 smoke pilot scored expanding-mean-v1 and ridge-core-a10 at -$4,450 net and histgb-core-v1 at -$4,400 net over the bounded 2022 development window; histgb-core-v1 was only least negative, not a promoted champion."
+    "The #459 repository-wide advantage map distinguishes empirical negatives from underpowered, role-unidentifiable, source/data-held, untested and positive clues; non-promotion is not automatically evidence of no information.",
+    "#429 contribution ablations show the promoted parent materially depends on strength gating and loss cooldown, with a smaller positive long-specialist-veto contribution.",
+    "#430 shows that changing exposure can create value conditionally, while uniform fixed scaling is exposure amplification rather than a new source of directional information.",
+    "#431 shows a sharp timing boundary: same-session cost/roll/missed-fill stresses preserve the adaptation increment, while a one-session delay removes it."
   ],
   "remaining_untested_roles": [
-    "Target/horizon and market-state optimization",
-    "Fundamental/weather/cross-market optimization",
-    "Model/foundation-specialist optimization",
-    "Regime/fusion/decision optimization",
-    "Lifecycle, sizing, risk, execution and adaptation optimization",
-    "Cross-family robustness and champion assembly"
+    "Deterministic PIT time-instance state representation across the complete admissible V2 information set",
+    "Timestamped TimesFM, Kronos and specialist expert-output archive across admissible horizons",
+    "Multiple trailing memory lengths and state-conditional expert effectiveness",
+    "Causal expert/feature weighting and model/horizon selection through time",
+    "Dynamic existing-position actions: initiate, add, hold, reduce, exit, reverse and abstain",
+    "Slow model/parameter adaptation versus fast trade/size adaptation",
+    "Development-only hindsight oracle and measurable oracle-to-causal selection gap",
+    "Final simplification and freeze of the adaptive procedure under #414"
   ],
-  "revisit_trigger": "Revisit the harness contract if a registered variable cannot be represented without weakening PIT, chronological-selection, trial-accounting, or executable-cost semantics.",
-  "programme_interpretation": "Issue #424 is infrastructure and bounded development pilot evidence only; later V2 execution slices must consume it without opening protected confirmation or prospective evidence.",
+  "revisit_trigger": "Return to upstream research design if #465 cannot reconstruct a candidate field at its true availability timestamp, if an alternative role is not scientifically distinct from a prior negative, or if adaptive selection requires protected outcomes or future-derived diagnostics.",
+  "programme_interpretation": "V2 development has moved from isolated family optimization to whole-system causal adaptation. The next scientific object is not one fixed fifteen-year parameter vector but a frozen procedure that selects bounded parameters and actions from information available at each timestamp; #414 remains the simplification/freeze gate after #465.",
   "evidence_refs": [
     "config/v2_variable_registry.json",
-    "config/phase2_market_only.json",
-    "research/programmes/003-natural-gas-trading-decision-system/phase2-market-only-baseline-v1.json",
-    "research/programmes/004-v2-maximum-reproducible-one-month-return/issue424-pilot-trials-v1.jsonl",
-    "research/programmes/004-v2-maximum-reproducible-one-month-return/issue424-pilot-result-v1.json"
+    "research/programmes/004-v2-maximum-reproducible-one-month-return/issue448-result-v1.json",
+    "research/programmes/004-v2-maximum-reproducible-one-month-return/issue459-advantage-map-v1.json",
+    "research/programmes/004-v2-maximum-reproducible-one-month-return/issue459-wave2-result-v2.json",
+    "research/programmes/004-v2-maximum-reproducible-one-month-return/issue429-result-v1.json",
+    "research/programmes/004-v2-maximum-reproducible-one-month-return/issue430-result-v1.json",
+    "research/programmes/004-v2-maximum-reproducible-one-month-return/issue431-result-v1.json",
+    "https://github.com/NielPieterse0/commodity/issues/465"
   ],
   "experiment_history": [
     {
@@ -43,16 +51,59 @@
       "candidate_count": 3,
       "champion_selection_permitted": false,
       "result_ref": "research/programmes/004-v2-maximum-reproducible-one-month-return/issue424-pilot-result-v1.json"
+    },
+    {
+      "run_id": "issue459-wave2-v2",
+      "kind": "joint_historical_evidence_recombination",
+      "evidence_class": "development",
+      "window": "2019-01-01/2022-12-31 chronological outers",
+      "status": "complete",
+      "trial_count": 276,
+      "policy_count": 46,
+      "passing_policy_count": 2,
+      "result_ref": "research/programmes/004-v2-maximum-reproducible-one-month-return/issue459-wave2-result-v2.json"
+    },
+    {
+      "run_id": "issue429-lifecycle-v1",
+      "kind": "lifecycle_and_position_structure",
+      "evidence_class": "development",
+      "window": "2019-01-01/2022-12-31 chronological outers",
+      "status": "complete",
+      "trial_count": 114,
+      "disposition": "NO_ISSUE429_LIFECYCLE_IMPROVEMENT",
+      "result_ref": "research/programmes/004-v2-maximum-reproducible-one-month-return/issue429-result-v1.json"
+    },
+    {
+      "run_id": "issue430-sizing-risk-v1",
+      "kind": "sizing_exposure_leverage_and_risk",
+      "evidence_class": "development",
+      "window": "2019-01-01/2022-12-31 chronological outers",
+      "status": "complete",
+      "trial_count": 318,
+      "selected_policy": "regime_favored1_50_other0_75",
+      "result_ref": "research/programmes/004-v2-maximum-reproducible-one-month-return/issue430-result-v1.json"
+    },
+    {
+      "run_id": "issue431-execution-adaptation-v1",
+      "kind": "execution_cost_roll_slippage_and_adaptation",
+      "evidence_class": "development",
+      "window": "2019-01-01/2022-12-31 chronological outers",
+      "status": "complete",
+      "trial_count": 190,
+      "selected_adaptation": "decay20",
+      "disposition": "HOLD_ADAPTATION_CROSS_EXECUTION_NOT_ROBUST",
+      "result_ref": "research/programmes/004-v2-maximum-reproducible-one-month-return/issue431-result-v1.json"
     }
   ],
   "experiment_refs": [],
-  "selection_basis": "Primary optimization objective is reproducible monthly net return after costs with mandatory risk, stability, concentration, and execution diagnostics.",
+  "selection_basis": "Primary objective remains chronological net percentage return after realistic costs. #465 may search aggressively, but every model, parameter, weight, memory, threshold and action must be selected from prior/inner evidence only and must satisfy minimum executability, sample, concentration, drawdown and stability constraints before #414 can freeze it.",
   "stopping_rules": {
-    "issue_424": [
-      "Use only development or rolling_research_oos evidence.",
-      "Stop before any reserved_confirmation or true_forward outcome is accessed.",
-      "Do not modify V1.",
-      "Pilot only enough candidates to prove deterministic scoring, accounting, and resume behavior."
+    "issue_465": [
+      "Use only development or rolling_research_oos evidence through 2022-12-31.",
+      "Keep protected 2023+ confirmation, prospective paper, Saxo SIM and LIVE outcomes unread.",
+      "Preserve historical negatives for the exact roles tested; reopen only scientifically distinct roles.",
+      "Never present the hindsight oracle as tradable performance.",
+      "Stop broad discovery only when a bounded causal adaptive candidate/control set is ready for #414, or when the declared adaptive search cannot causally capture material oracle opportunity."
     ]
   }
 }

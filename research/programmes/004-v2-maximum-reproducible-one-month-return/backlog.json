@@ -5,12 +5,20 @@
   "generated_projection": false,
   "items": [
     {
-      "id": "issue-425-family-optimization",
-      "item": "After the issue-424 harness is landed, execute the first bounded V2 family optimization using only admissible development and rolling-research-OOS evidence under the registered search budget.",
+      "id": "issue-465-adaptive-time-instance-controller",
+      "item": "Execute #465 as the final broad V2 development stage: build the deterministic point-in-time time-instance state dataset, timestamped expert-output archive, multi-memory effectiveness features, causal adaptive controller, dynamic position-management policy, and development-only oracle-gap diagnostic while keeping protected confirmation, paper, SIM and LIVE sealed.",
       "kind": "recommendation",
       "status": "open",
-      "source_record": "research/programmes/004-v2-maximum-reproducible-one-month-return/lines/001-v2-optimization-execution/line.json",
-      "work_ref": "issue-425"
+      "source_record": "https://github.com/NielPieterse0/commodity/issues/465",
+      "work_ref": "issue-465"
+    },
+    {
+      "id": "issue-414-champion-freeze-after-465",
+      "item": "After #465 closes, assemble and simplify its bounded adaptive candidate/control set in #414, then freeze the exact selection/adaptation procedure before any protected confirmation or prospective paper outcome is opened.",
+      "kind": "recommendation",
+      "status": "open",
+      "source_record": "https://github.com/NielPieterse0/commodity/issues/414",
+      "work_ref": "issue-414"
     }
   ]
 }

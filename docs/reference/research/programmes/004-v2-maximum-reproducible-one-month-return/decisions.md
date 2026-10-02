@@ -21,4 +21,4 @@ Source: `research/programmes/004-v2-maximum-reproducible-one-month-return/decisi
 | `zoom_level` | str |
 | `programme_id` | str |
 | `generated_projection` | bool |
-| `decisions` | array (4 items) |
+| `decisions` | array (10 items) |

@@ -18,15 +18,51 @@
     },
     {
       "id": "issue-448-conditional-role-handoff",
-      "decision": "Do not retain carry/basis, curve, trend-momentum, or volatility-envelope families for unconditional matched marginal credit in issue448; preserve them only as bounded downstream conditional/regime-role candidates where issue428 can test interactions without rewriting the issue448 result.",
+      "decision": "Do not retain carry/basis, curve, trend-momentum, or volatility-envelope families for unconditional matched marginal credit in issue448; preserve them only as bounded downstream conditional/regime-role candidates without rewriting the issue448 result.",
       "status": "active",
       "source_record": "research/programmes/004-v2-maximum-reproducible-one-month-return/issue448-downstream-handoff-v1.json"
     },
     {
       "id": "issue-448-source-gated-holds",
-      "decision": "Keep event timing, storage consensus surprise, and options-implied activation on HOLD until their registered PIT/source gates are proven; authorize no billable options acquisition from issue448. Volatility/tail specialists remain a downstream-only handoff to issues 427/428/430.",
+      "decision": "Keep event timing, storage consensus surprise, and options-implied activation on HOLD until their registered PIT/source gates are proven; authorize no billable options acquisition from issue448. Volatility/tail specialists remain admissible only in roles supported by downstream evidence.",
       "status": "active",
       "source_record": "research/programmes/004-v2-maximum-reproducible-one-month-return/issue448-downstream-handoff-v1.json"
+    },
+    {
+      "id": "issue-459-joint-development-candidate",
+      "decision": "Retain `both__strength_q50__f1.00__loss_cooldown_3_sessions__short_none__long_veto` as the strongest development-only joint candidate from #459: +0.324275 percentage points/month mean outer improvement, with positive deltas in both development outers. This is not protected-confirmation evidence and its components remain subject to causal adaptive re-selection in #465.",
+      "status": "active",
+      "source_record": "research/programmes/004-v2-maximum-reproducible-one-month-return/issue459-wave2-result-v2.json"
+    },
+    {
+      "id": "issue-429-static-lifecycle-no-promotion",
+      "decision": "Preserve #429's `NO_ISSUE429_LIFECYCLE_IMPROVEMENT` result for the tested static lifecycle variants. Strength gating, loss cooldown, and the long specialist veto remain evidenced contributors to the parent, while dynamic lifecycle and existing-position actions are reopened only as distinct hypotheses under #465.",
+      "status": "active",
+      "source_record": "research/programmes/004-v2-maximum-reproducible-one-month-return/issue429-result-v1.json"
+    },
+    {
+      "id": "issue-430-state-dependent-sizing-candidate",
+      "decision": "Retain `regime_favored1_50_other0_75` as the #430 development sizing candidate: +0.1276375 percentage points/month mean outer improvement versus the inherited parent, with no promoted incremental Stage-2 risk-control rule. Treat fixed exposure scaling as amplification rather than new directional edge.",
+      "status": "active",
+      "source_record": "research/programmes/004-v2-maximum-reproducible-one-month-return/issue430-result-v1.json"
+    },
+    {
+      "id": "issue-431-fast-adaptation-short-half-life",
+      "decision": "Retain `decay20` as a strong development adaptation clue: +0.4456875 percentage points/month versus fixed adaptation and positive in both development outers. Preserve the final #431 HOLD because the advantage failed every tested one-session-delay cross-execution configuration; exact source/event timing remains unproven.",
+      "status": "active",
+      "source_record": "research/programmes/004-v2-maximum-reproducible-one-month-return/issue431-result-v1.json"
+    },
+    {
+      "id": "issue-465-adaptive-procedure-before-freeze",
+      "decision": "Make #465 the final broad V2 development stage before #414: model each legitimate decision timestamp as a point-in-time state, archive expert/model outputs and trailing effectiveness, select roles/weights/horizons/sizing/position actions causally through time, and freeze the eventual selection/adaptation procedure rather than one history-wide parameter vector.",
+      "status": "active",
+      "source_record": "https://github.com/NielPieterse0/commodity/issues/465"
+    },
+    {
+      "id": "programme-v3-boundary-preserved",
+      "decision": "Do not repurpose V3 for the adaptive time-instance work. Programme V3 #449 remains the post-V2 LLM/event/expectations/alternative-information programme and stays gated on V2 finalisation and champion freeze.",
+      "status": "active",
+      "source_record": "https://github.com/NielPieterse0/commodity/issues/449"
     }
   ]
 }

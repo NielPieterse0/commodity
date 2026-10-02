@@ -2,10 +2,51 @@
   "schema_version": 2,
   "zoom_level": "L1",
   "programme_id": "004-v2-maximum-reproducible-one-month-return",
-  "current_scan_id": "issue-448-quantitative-coverage-2026-09-30",
+  "current_scan_id": "issue-466-v2-pre-freeze-reconciliation-2026-10-02",
+  "previous_scan_id": "issue-448-quantitative-coverage-2026-09-30",
+  "retrospective_synthesis": {
+    "as_of": "2026-10-02",
+    "purpose": "Reconcile landed V2 development evidence through #459/#429/#430/#431 and establish the evidence boundary for #465 before champion assembly.",
+    "historical_fact_rule": "Preserve every historical result for the exact role and configuration tested; a negative may be revisited only under a scientifically distinct role that the prior evidence did not rule out.",
+    "state_rule": "At each historical decision timestamp, future outcomes remain unavailable; any adaptive selection, weighting, fitting, sizing, lifecycle or execution choice must be derived from prior or inner-validation evidence only."
+  },
   "refresh_triggers": [
-    "A V2 execution slice produces new development evidence or changes the admissible search boundary."
+    "Issue #465 produces time-instance/controller evidence or changes the admissible V2 search boundary.",
+    "A source/PIT gate releases or permanently rejects a material held information family before #414 freeze."
   ],
+  "current_helicopter_view": {
+    "known": [
+      "#459 promoted a joint development policy with +0.324275 percentage points/month mean outer improvement and positive deltas in both development outers.",
+      "#429 did not promote a tested static lifecycle variant, while its ablations confirmed material contribution from strength gating, loss cooldown and the long specialist veto.",
+      "#430 promoted state-dependent sizing `regime_favored1_50_other0_75` with +0.1276375 percentage points/month mean outer improvement and no promoted incremental Stage-2 risk-control rule.",
+      "#431 selected `decay20` with +0.4456875 percentage points/month versus fixed adaptation; same-session stress remained positive, but every tested one-session-delay cross-execution configuration failed."
+    ],
+    "repeatedly_failed": [
+      "Treating one static lifecycle parameterization as a universal improvement across development periods.",
+      "Adding the tested Stage-2 stop, drawdown, take-profit, time-stop or extra-cooldown controls on top of the #430 sizing parent.",
+      "Preserving the #431 adaptation advantage after one full session of execution delay."
+    ],
+    "mechanisms_still_alive": [
+      "Side-conditional TimesFM/Kronos and specialist-model roles.",
+      "State- and regime-dependent technical, fundamental, positioning, volatility and market-structure information.",
+      "Adaptive memory, training-window and expert-weight selection.",
+      "State-dependent sizing and dynamic existing-position management.",
+      "Mechanism-aligned horizons and execution clocks where point-in-time timing is provable."
+    ],
+    "missing_not_negative": [
+      "Event-time source timing remains held because authoritative publication-time semantics are not yet proven.",
+      "Underpowered and role-unidentifiable historical clues remain unresolved outside the exact roles already tested.",
+      "Source-gated families remain unavailable until their registered PIT/source gates pass."
+    ],
+    "integrated_system_needs": [
+      "A deterministic point-in-time time-instance state dataset keyed by legitimate decision timestamp.",
+      "A timestamped expert-output archive for TimesFM, Kronos and other eligible specialists.",
+      "Trailing expert-effectiveness features over multiple memory lengths and comparable prior states.",
+      "A causal walk-forward controller for expert weighting, horizon, abstention, sizing and position actions.",
+      "A development-only oracle-gap diagnostic that separates underlying opportunity from causal selection ability."
+    ],
+    "next_branch_reason": "#465 is required because the surviving V2 evidence is materially time-, side-, state- and latency-dependent; #414 should simplify and freeze the adaptive procedure only after that dependency is modeled causally."
+  },
   "research_line_refs": [
     {
       "research_line_id": "001-v2-optimization-execution",
@@ -49,16 +90,100 @@
         "billable_options_acquisition_allowed": false
       },
       "feasibility": "go"
+    },
+    {
+      "target": "joint side/regime/confidence/specialist policy value versus the inherited V2 baseline",
+      "horizon": "development-only chronological outers 2019-2020 and 2021-2022",
+      "information_family": "issue459 historical-evidence recombination and joint advantage discovery",
+      "scientific_mepi": null,
+      "raw_information": 46,
+      "effective_information_method": {
+        "method": "276 Wave-2 outer-level trials over 46 frozen joint policies after a 3,168-trial Wave-1 screen",
+        "result_ref": "research/programmes/004-v2-maximum-reproducible-one-month-return/issue459-wave2-result-v2.json",
+        "selected_policy": "both__strength_q50__f1.00__loss_cooldown_3_sessions__short_none__long_veto",
+        "mean_outer_monthly_net_return_delta": 0.00324275
+      },
+      "detectable_effect": null,
+      "expected_snr": null,
+      "costs": {
+        "base_round_trip_usd": 30.0
+      },
+      "feasibility": "go"
+    },
+    {
+      "target": "incremental entry/exit/holding/frequency/position-structure improvement over the #459 promoted parent",
+      "horizon": "development-only chronological outers 2019-2020 and 2021-2022",
+      "information_family": "issue429 lifecycle and position structure",
+      "scientific_mepi": null,
+      "raw_information": 114,
+      "effective_information_method": {
+        "method": "114 governed outer-level trials covering seven contribution ablations and twelve lifecycle variants",
+        "result_ref": "research/programmes/004-v2-maximum-reproducible-one-month-return/issue429-result-v1.json",
+        "disposition": "NO_ISSUE429_LIFECYCLE_IMPROVEMENT"
+      },
+      "detectable_effect": null,
+      "expected_snr": null,
+      "costs": {
+        "base_round_trip_usd": 30.0
+      },
+      "hold_reason": "No tested static lifecycle variant passed promotion; dynamic existing-position actions remain a distinct #465 hypothesis.",
+      "feasibility": "redesign"
+    },
+    {
+      "target": "state-dependent sizing/exposure improvement over the #459/#429 parent",
+      "horizon": "development-only chronological outers 2019-2020 and 2021-2022",
+      "information_family": "issue430 sizing, exposure, leverage and risk-control optimization",
+      "scientific_mepi": null,
+      "raw_information": 318,
+      "effective_information_method": {
+        "method": "318 governed sizing and risk-control trials",
+        "result_ref": "research/programmes/004-v2-maximum-reproducible-one-month-return/issue430-result-v1.json",
+        "selected_policy": "regime_favored1_50_other0_75",
+        "mean_outer_monthly_net_return_delta": 0.001276375,
+        "stage2_risk_increment_promoted": false
+      },
+      "detectable_effect": null,
+      "expected_snr": null,
+      "costs": {
+        "base_round_trip_usd": 30.0
+      },
+      "feasibility": "go"
+    },
+    {
+      "target": "execution robustness and adaptive-training improvement for the promoted V2 candidate",
+      "horizon": "development-only chronological outers 2019-2020 and 2021-2022",
+      "information_family": "issue431 execution, cost, roll, slippage and adaptation optimization",
+      "scientific_mepi": null,
+      "raw_information": 190,
+      "effective_information_method": {
+        "method": "190 frozen development trials: 108 execution, 50 adaptation and 32 conditional cross-execution trials",
+        "result_ref": "research/programmes/004-v2-maximum-reproducible-one-month-return/issue431-result-v1.json",
+        "selected_adaptation": "decay20",
+        "mean_outer_monthly_net_return_delta": 0.004456875,
+        "cross_execution_robust": false
+      },
+      "detectable_effect": null,
+      "expected_snr": null,
+      "costs": {
+        "base_round_trip_usd": 30.0
+      },
+      "hold_reason": "Selected adaptation passed its development gate but failed every tested one-session-delay cross-execution configuration; event-time timing is also not proven.",
+      "feasibility": "redesign"
     }
   ],
   "semantics": {
     "protected_confirmation_accessed": false,
     "development_only": true,
     "v1_immutable": true,
-    "issue": 448,
-    "result_ref": "research/programmes/004-v2-maximum-reproducible-one-month-return/issue448-result-v1.json",
-    "downstream_handoff_ref": "research/programmes/004-v2-maximum-reproducible-one-month-return/issue448-downstream-handoff-v1.json",
-    "latest_allowed_trade_date": "2022-12-31"
-  },
-  "previous_scan_id": "issue-424-harness-readiness-2026-09-14"
+    "issue": 466,
+    "reconciled_through_issues": [459, 429, 430, 431],
+    "next_development_issue": 465,
+    "champion_freeze_issue": 414,
+    "v3_programme_issue": 449,
+    "latest_allowed_trade_date": "2022-12-31",
+    "protected_2023_plus_sealed": true,
+    "prospective_paper_accessed": false,
+    "saxo_sim_accessed": false,
+    "live_accessed": false
+  }
 }

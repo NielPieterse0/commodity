@@ -21,4 +21,4 @@ Source: `research/programmes/004-v2-maximum-reproducible-one-month-return/backlo
 | `zoom_level` | str |
 | `programme_id` | str |
 | `generated_projection` | bool |
-| `items` | array (1 items) |
+| `items` | array (2 items) |
