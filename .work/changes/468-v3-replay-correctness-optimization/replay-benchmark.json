@@ -1,0 +1,24 @@
+{
+  "candidate_batch_speedup": 3.211740158878472,
+  "candidate_config_id": "long=balanced|short=balanced|cmp=0|slow=10",
+  "decision_count": 123,
+  "exact_batch_equivalence": true,
+  "issue": 468,
+  "metrics_seconds": {
+    "base_consequences": 15.302181600010954,
+    "candidate_three_scenarios_batch": 1.292796800029464,
+    "candidate_three_scenarios_legacy": 4.152127399924211,
+    "comparable_refs": 0.4197158000897616,
+    "execution_path": 0.368127099936828,
+    "foundation_actuals": 0.1771673000184819,
+    "load_state": 0.06055349996313453,
+    "meta_controller_one_candidate": 0.06637100002262741,
+    "meta_score_tensor_one_candidate": 0.0034043999621644616,
+    "profile_score_cache_one_candidate": 2.4284103999380022,
+    "rich_consequences": 21.909361199941486,
+    "rich_surfaces_incremental": 30.059184000012465,
+    "specialists": 0.043584899976849556
+  },
+  "scenario_count": 3,
+  "schema_version": 1
+}

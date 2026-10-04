@@ -1,0 +1,52 @@
+{
+  "schema_version": 4,
+  "change_id": "468-v3-replay-correctness-optimization",
+  "status": "active",
+  "branch": "change/468-v3-replay-correctness-optimization",
+  "worktree": ".work/worktrees/468-v3-replay-correctness-optimization",
+  "base": "main",
+  "outcome": "Fix the V3 complete future-invariance boundary, freeze a corrected semantic baseline, and implement deterministic NumPy/Numba multicore replay and supporting profiling/caching/tensor/artifact optimizations without changing #465 trading semantics or opening later/protected data.",
+  "owned_paths": [
+    ".work/changes/468-v3-replay-correctness-optimization/**",
+    "src/commodity/v2_adaptive_controller_v2.py",
+    "src/commodity/v2_adaptive_controller_v3.py",
+    "src/commodity/v2_adaptive_controller_v3_diagnostics.py",
+    "src/commodity/v3_replay_engine.py",
+    "scripts/research/run_issue465_block1_controller_v3.py",
+    "scripts/research/audit_issue465_block1_controller_v3_completeness.py",
+    "scripts/research/benchmark_issue468_v3_replay.py",
+    "tests/test_issue465_block1_controller_v3.py",
+    "tests/test_issue465_block1_controller_v3_runner.py",
+    "tests/test_issue468_v3_replay_engine.py",
+    "pyproject.toml",
+    "requirements.lock.txt"
+  ],
+  "shared_paths": [],
+  "excluded_paths": [],
+  "dependencies": [],
+  "integration_owner": null,
+  "complexity": "large",
+  "risk_triggers": [
+    "architecture_boundary",
+    "money",
+    "persistent_state"
+  ],
+  "base_evidence": {
+    "local_sha": "ac12f2200d252490c73a0779defa91ccf67fccf3",
+    "local_tree": "89a8fab3b9c4b190fab42ec98480f114eee2633e",
+    "upstream_sha": "ac12f2200d252490c73a0779defa91ccf67fccf3",
+    "upstream_tree": "89a8fab3b9c4b190fab42ec98480f114eee2633e",
+    "upstream_ref": "refs/remotes/origin/main",
+    "evidence_source": "local_remote_tracking_ref",
+    "relation": "same_sha"
+  },
+  "work_management": {
+    "project_id": "commodity",
+    "record_id": "WORK-468",
+    "source_repository": "NielPieterse0/commodity",
+    "source_number": 468,
+    "source_kind": "issue",
+    "documentation_impact": "none",
+    "execution_owner": "codex"
+  }
+}

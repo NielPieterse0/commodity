@@ -14,6 +14,8 @@ from typing import Any
 
 import numpy as np
 import pandas as pd
+import pyarrow as pa
+import pyarrow.parquet as pq
 
 REPO = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(REPO / "src"))
@@ -21,7 +23,7 @@ sys.path.insert(0, str(REPO / "src"))
 from commodity.v2_adaptive_controller_v2 import (
     MEMORY_BANK,
     build_base_consequences,
-    precompute_surfaces,
+    precompute_comparable_refs,
     serializable_value,
     stable_sha,
 )
@@ -31,7 +33,8 @@ from commodity.v2_adaptive_controller_v3 import (
     config_to_dict,
     execution_turnover,
     oracle_first_diagnostic,
-    replay_candidate,
+    precompute_profile_score_cache,
+    replay_candidate_scenarios,
     replay_targets_under_execution_stress,
     run_meta_controller,
     structural_grid,
@@ -46,7 +49,9 @@ from commodity.v2_adaptive_controller_v3_diagnostics import (
     foundation_horizon_signals,
     hindsight_attribute_weight_oracle,
     oracle_predictor_causal_check,
-    precompute_rich_surfaces,
+    oracle_weight_predictor_causal_projection,
+    precompute_rich_surfaces_incremental,
+    primitive_oracle_predictor_causal_projection,
 )
 
 PROGRAMME = REPO / "research/programmes/004-v2-maximum-reproducible-one-month-return"
@@ -66,6 +71,7 @@ ORACLE_PREDICTOR = PROGRAMME / "issue465-block1-controller-v3-oracle-predictor.j
 PRIMITIVE_ORACLE_PREDICTOR = PROGRAMME / "issue465-block1-controller-v3-primitive-oracle-predictor.jsonl"
 TRIALS = PROGRAMME / "issue465-block1-controller-v3-trials.jsonl"
 BRAIN = PROGRAMME / "issue465-block1-controller-v3-decision-brain.jsonl"
+EFFECTIVENESS_SURFACES = PROGRAMME / "issue465-block1-controller-v3-effectiveness-surfaces.parquet"
 CONSEQUENCES = PROGRAMME / "issue465-block1-controller-v3-consequences.jsonl"
 LEDGER = PROGRAMME / "issue465-block1-controller-v3-ledger.json"
 RESULT = PROGRAMME / "issue465-block1-controller-v3-result.json"
@@ -161,6 +167,68 @@ def _write_jsonl(path: Path, frame: pd.DataFrame) -> None:
             temporary.unlink()
 
 
+def _write_effectiveness_surface_sidecar(
+    path: Path,
+    surfaces: dict[pd.Timestamp, pd.DataFrame],
+) -> dict[str, Any]:
+    temporary = path.with_name(f".{path.name}.tmp-{os.getpid()}")
+    path.parent.mkdir(parents=True, exist_ok=True)
+    writer: pq.ParquetWriter | None = None
+    row_count = 0
+    populated_surface_count = 0
+    try:
+        for raw_stamp, raw_surface in surfaces.items():
+            if raw_surface.empty:
+                continue
+            stamp = pd.Timestamp(raw_stamp)
+            frame = raw_surface.copy()
+            frame.insert(0, "effectiveness_surface_id", stamp.isoformat())
+            frame.insert(1, "surface_decision_time", stamp)
+            string_columns = {
+                "effectiveness_surface_id", "specialist", "direction", "memory",
+            }
+            integer_columns = {
+                "horizon", "count", "objective_30_count", "comparable_count",
+                "forecast_diagnostic_count",
+            }
+            timestamp_columns = {
+                "surface_decision_time", "max_outcome_available_at_used",
+                "max_forecast_outcome_available_at_used",
+            }
+            for column in frame.columns:
+                if column in string_columns:
+                    frame[column] = frame[column].astype(str)
+                elif column in integer_columns:
+                    frame[column] = pd.to_numeric(frame[column], errors="raise").astype("int64")
+                elif column in timestamp_columns:
+                    frame[column] = pd.to_datetime(frame[column], utc=True, errors="coerce")
+                else:
+                    frame[column] = pd.to_numeric(frame[column], errors="coerce").astype(float)
+            table = pa.Table.from_pandas(frame, preserve_index=False)
+            if writer is None:
+                writer = pq.ParquetWriter(temporary, table.schema, compression="zstd")
+            writer.write_table(table)
+            row_count += len(frame)
+            populated_surface_count += 1
+        if writer is None:
+            raise RuntimeError("effectiveness surface sidecar has no rows")
+        writer.close()
+        writer = None
+        _commit_atomic_file(temporary, path)
+    finally:
+        if writer is not None:
+            writer.close()
+        if temporary.exists():
+            temporary.unlink()
+    return {
+        "path": path.name,
+        "sha256": sha256_file(path),
+        "row_count": int(row_count),
+        "surface_count": len(surfaces),
+        "populated_surface_count": int(populated_surface_count),
+    }
+
+
 SCORE_ARTIFACTS = (
     PRIMITIVE_ORACLE_PREDICTOR,
     ATTRIBUTE_ORACLE,
@@ -168,6 +236,7 @@ SCORE_ARTIFACTS = (
     ORACLE,
     TRIALS,
     BRAIN,
+    EFFECTIVENESS_SURFACES,
     CONSEQUENCES,
     LEDGER,
     RESULT,
@@ -500,8 +569,8 @@ def _load_candidate_checkpoint(
             return None
         if sha256_file(summary_path) != hashes["summary_sha256"]:
             return None
-        decisions = pd.read_json(decision_path, lines=True)
-        consequences = pd.read_json(consequence_path, lines=True)
+        decisions = pd.read_json(decision_path, lines=True, precise_float=True)
+        consequences = pd.read_json(consequence_path, lines=True, precise_float=True)
         for frame in (decisions, consequences):
             for column in ("decision_time", "fill_timestamp", "outcome_available_at"):
                 if column in frame:
@@ -1216,9 +1285,21 @@ def _clone_replay_with_future_corruption(replay: Any, cutoff: pd.Timestamp) -> A
     return type(replay)(replay.config, decisions, consequences, dict(replay.summary))
 
 
+POST_META_DIAGNOSTIC_COLUMNS = (
+    "expert_context_state",
+    "expert_multi_horizon_opinions",
+    "oracle_weight_predictor",
+    "primitive_oracle_winner_predictor",
+)
+
+
+def _canonical_records_payload(records: list[dict[str, Any]]) -> str:
+    canonical = [serializable_value(row) for row in records]
+    return json.dumps(canonical, sort_keys=True, separators=(",", ":"), default=str)
+
+
 def _prefix_payload(brain: pd.DataFrame, cutoff: pd.Timestamp) -> str:
-    frame = brain.loc[pd.to_datetime(brain["decision_time"], utc=True) <= cutoff].copy()
-    return frame.to_json(orient="records", date_format="iso", double_precision=15)
+    return _decision_causal_prefix_payload(brain, cutoff)
 
 
 def future_invariance_proof(
@@ -1259,6 +1340,7 @@ def future_invariance_proof(
         max_margin_fraction=float(prereg["dynamic_sizing"]["max_margin_fraction"]),
         max_notional_leverage=float(prereg["dynamic_sizing"]["max_notional_leverage"]),
         max_drawdown_fraction=float(prereg["dynamic_sizing"]["max_drawdown_fraction"]),
+        embed_effectiveness_surface=False,
     )
     baseline_prefix = _prefix_payload(brain, cutoff)
     mutated_prefix = _prefix_payload(mutated_brain, cutoff)
@@ -1275,11 +1357,43 @@ def future_invariance_proof(
         "protected_confirmation_accessed": False,
     }
 
-def _candidate_prefix_payload(replay: Any, cutoff: pd.Timestamp) -> str:
-    frame = replay.decisions.loc[
-        pd.to_datetime(replay.decisions["decision_time"], utc=True) <= cutoff
+def _decision_causal_prefix_payload(frame: pd.DataFrame, cutoff: pd.Timestamp) -> str:
+    prefix = frame.loc[
+        pd.to_datetime(frame["decision_time"], utc=True) <= cutoff
     ].copy()
-    return frame.to_json(orient="records", date_format="iso", double_precision=15)
+    prefix = prefix.drop(
+        columns=[
+            "executed_target_exposure", "execution_audit", "effectiveness_surface",
+            *POST_META_DIAGNOSTIC_COLUMNS,
+        ],
+        errors="ignore",
+    )
+    return _canonical_records_payload(prefix.to_dict(orient="records"))
+
+
+def _matured_execution_audit_prefix_payload(
+    frame: pd.DataFrame,
+    cutoff: pd.Timestamp,
+) -> str:
+    rows: list[dict[str, Any]] = []
+    for row in frame.loc[
+        pd.to_datetime(frame["decision_time"], utc=True) <= cutoff
+    ].to_dict(orient="records"):
+        audit = row.get("execution_audit")
+        if not isinstance(audit, dict):
+            continue
+        available_at = pd.Timestamp(audit["available_at"])
+        if available_at <= cutoff:
+            rows.append({
+                "decision_time": row["decision_time"],
+                "executed_target_exposure": row.get("executed_target_exposure"),
+                "execution_audit": audit,
+            })
+    return _canonical_records_payload(rows)
+
+
+def _candidate_prefix_payload(replay: Any, cutoff: pd.Timestamp) -> str:
+    return _decision_causal_prefix_payload(replay.decisions, cutoff)
 
 
 def full_future_invariance_proof(
@@ -1361,8 +1475,8 @@ def full_future_invariance_proof(
     mutated_context_state, context_columns = build_controller_context(
         mutated_state, mutated_expert_paths, prereg
     )
-    _legacy_mutated_surfaces, mutated_refs = precompute_surfaces(
-        mutated_base, mutated_context_state,
+    mutated_refs = precompute_comparable_refs(
+        mutated_context_state,
         context_columns=context_columns, k=10,
     )
     mutated_foundation_actuals = foundation_actuals.copy(deep=True)
@@ -1383,31 +1497,35 @@ def full_future_invariance_proof(
         multiplier=10000.0, capital_usd=100000.0,
         cost_per_side_usd=execution_cost,
     )
-    mutated_surfaces = precompute_rich_surfaces(
+    mutated_surfaces = precompute_rich_surfaces_incremental(
         mutated_rich_base, mutated_context_state, mutated_refs
     )
-    mutated_scenarios: dict[str, list[Any]] = {}
-    scenario_definitions = {
-        str(row["id"]): row for row in prereg["execution_sensitivity"]["scenarios"]
+    mutated_profile_score_cache = precompute_profile_score_cache(
+        mutated_surfaces, configs
+    )
+    scenario_definitions = tuple(prereg["execution_sensitivity"]["scenarios"])
+    mutated_scenarios: dict[str, list[Any]] = {
+        str(row["id"]): [] for row in scenario_definitions
     }
-    for scenario_id, scenario in scenario_definitions.items():
-        rows: list[Any] = []
-        for config in configs:
-            rows.append(replay_candidate(
-                config, mutated_state, mutated_specialists, mutated_path,
-                mutated_surfaces, mutated_refs, families,
-                execution_scenario=scenario,
-                horizon_signals_by_time=mutated_horizon_signals,
-                max_abs_contracts=float(prereg["dynamic_sizing"]["max_abs_contracts"]),
-                initial_capital=100000.0, multiplier=10000.0,
-                base_cost_per_side=execution_cost,
-                initial_margin_usd_per_contract=5000.0,
-                max_margin_fraction=float(prereg["dynamic_sizing"]["max_margin_fraction"]),
-                max_notional_leverage=float(prereg["dynamic_sizing"]["max_notional_leverage"]),
-                max_drawdown_fraction=float(prereg["dynamic_sizing"]["max_drawdown_fraction"]),
-            ))
-        mutated_scenarios[scenario_id] = rows
+    for config in configs:
+        candidate_replays = replay_candidate_scenarios(
+            config, mutated_state, mutated_specialists, mutated_path,
+            mutated_surfaces, mutated_refs, families,
+            execution_scenarios=scenario_definitions,
+            horizon_signals_by_time=mutated_horizon_signals,
+            max_abs_contracts=float(prereg["dynamic_sizing"]["max_abs_contracts"]),
+            initial_capital=100000.0, multiplier=10000.0,
+            base_cost_per_side=execution_cost,
+            initial_margin_usd_per_contract=5000.0,
+            max_margin_fraction=float(prereg["dynamic_sizing"]["max_margin_fraction"]),
+            max_notional_leverage=float(prereg["dynamic_sizing"]["max_notional_leverage"]),
+            max_drawdown_fraction=float(prereg["dynamic_sizing"]["max_drawdown_fraction"]),
+            profile_score_cache=mutated_profile_score_cache,
+        )
+        for scenario_id, replay in candidate_replays.items():
+            mutated_scenarios[scenario_id].append(replay)
     structural_prefix_equal = True
+    structural_execution_audit_prefix_equal = True
     mismatch: dict[str, Any] | None = None
     for scenario_id, originals in scenario_replays.items():
         for original, mutated in zip(originals, mutated_scenarios[scenario_id], strict=True):
@@ -1415,7 +1533,17 @@ def full_future_invariance_proof(
                 structural_prefix_equal = False
                 mismatch = {"scenario": scenario_id, "config_id": original.config.config_id}
                 break
-        if not structural_prefix_equal:
+            original_audit = _matured_execution_audit_prefix_payload(
+                original.decisions, cutoff
+            )
+            mutated_audit = _matured_execution_audit_prefix_payload(
+                mutated.decisions, cutoff
+            )
+            if original_audit != mutated_audit:
+                structural_execution_audit_prefix_equal = False
+                mismatch = {"scenario": scenario_id, "config_id": original.config.config_id}
+                break
+        if not structural_prefix_equal or not structural_execution_audit_prefix_equal:
             break
     original_specialist_prefix = specialists.loc[
         pd.to_datetime(specialists["decision_time"], utc=True) <= cutoff
@@ -1450,10 +1578,14 @@ def full_future_invariance_proof(
         max_margin_fraction=float(prereg["dynamic_sizing"]["max_margin_fraction"]),
         max_notional_leverage=float(prereg["dynamic_sizing"]["max_notional_leverage"]),
         max_drawdown_fraction=float(prereg["dynamic_sizing"]["max_drawdown_fraction"]),
+        embed_effectiveness_surface=False,
     )
-    baseline_prefix = _prefix_payload(brain, cutoff)
-    mutated_prefix = _prefix_payload(mutated_brain, cutoff)
+    baseline_prefix = _decision_causal_prefix_payload(brain, cutoff)
+    mutated_prefix = _decision_causal_prefix_payload(mutated_brain, cutoff)
     meta_prefix_equal = baseline_prefix == mutated_prefix
+    baseline_meta_audit = _matured_execution_audit_prefix_payload(brain, cutoff)
+    mutated_meta_audit = _matured_execution_audit_prefix_payload(mutated_brain, cutoff)
+    meta_execution_audit_prefix_equal = baseline_meta_audit == mutated_meta_audit
     oracle_kwargs = {
         "sparse_k": int(prereg["attribute_weight_oracle"]["sparse_k"]),
         "sparse_ks": tuple(int(value) for value in prereg["attribute_weight_oracle"]["sparse_ks"]),
@@ -1474,16 +1606,17 @@ def full_future_invariance_proof(
     }
     original_predictor = causal_oracle_weight_predictor(state, original_attribute_oracle, weightable, **predictor_kwargs)
     mutated_predictor = causal_oracle_weight_predictor(mutated_state, mutated_attribute_oracle, weightable, **predictor_kwargs)
-    predictor_columns = [
-        "decision_time", "training_label_count", "max_label_available_at",
-        "predicted_weights", "predicted_exposure", "predicted_direction", "predicted_side",
-        "predicted_top_attribute", "horizon_predictions",
-    ]
-    original_predictor_prefix = original_predictor.loc[
-        pd.to_datetime(original_predictor["decision_time"], utc=True) <= cutoff, predictor_columns
+    original_predictor_causal = oracle_weight_predictor_causal_projection(
+        original_predictor
+    )
+    mutated_predictor_causal = oracle_weight_predictor_causal_projection(
+        mutated_predictor
+    )
+    original_predictor_prefix = original_predictor_causal.loc[
+        pd.to_datetime(original_predictor_causal["decision_time"], utc=True) <= cutoff
     ].to_json(orient="records", date_format="iso", double_precision=15)
-    mutated_predictor_prefix = mutated_predictor.loc[
-        pd.to_datetime(mutated_predictor["decision_time"], utc=True) <= cutoff, predictor_columns
+    mutated_predictor_prefix = mutated_predictor_causal.loc[
+        pd.to_datetime(mutated_predictor_causal["decision_time"], utc=True) <= cutoff
     ].to_json(orient="records", date_format="iso", double_precision=15)
     oracle_predictor_prefix_equal = original_predictor_prefix == mutated_predictor_prefix
     oracle_decision_times = state["decision_time"].tolist()
@@ -1499,18 +1632,17 @@ def full_future_invariance_proof(
         mutated_state, mutated_primitive_oracle["winner_by_day"], weightable,
         **primitive_predictor_kwargs,
     )
-    primitive_predictor_columns = [
-        "decision_time", "training_label_count", "neighbor_count", "max_label_available_at",
-        "predicted_policy_id", "predicted_specialist", "predicted_horizon",
-        "predicted_direction", "class_probabilities",
-    ]
-    original_primitive_prefix = original_primitive_predictor.loc[
-        pd.to_datetime(original_primitive_predictor["decision_time"], utc=True) <= cutoff,
-        primitive_predictor_columns,
+    original_primitive_causal = primitive_oracle_predictor_causal_projection(
+        original_primitive_predictor
+    )
+    mutated_primitive_causal = primitive_oracle_predictor_causal_projection(
+        mutated_primitive_predictor
+    )
+    original_primitive_prefix = original_primitive_causal.loc[
+        pd.to_datetime(original_primitive_causal["decision_time"], utc=True) <= cutoff
     ].to_json(orient="records", date_format="iso", double_precision=15)
-    mutated_primitive_prefix = mutated_primitive_predictor.loc[
-        pd.to_datetime(mutated_primitive_predictor["decision_time"], utc=True) <= cutoff,
-        primitive_predictor_columns,
+    mutated_primitive_prefix = mutated_primitive_causal.loc[
+        pd.to_datetime(mutated_primitive_causal["decision_time"], utc=True) <= cutoff
     ].to_json(orient="records", date_format="iso", double_precision=15)
     primitive_predictor_prefix_equal = original_primitive_prefix == mutated_primitive_prefix
     cadence = int(prereg["meta_controller"]["structural_ensemble_cadence_sessions"])
@@ -1533,8 +1665,10 @@ def full_future_invariance_proof(
     )
     passed = bool(
         specialist_prefix_equal and refs_prefix_equal and surfaces_prefix_equal
-        and structural_prefix_equal and meta_prefix_equal and oracle_predictor_prefix_equal
-        and primitive_predictor_prefix_equal and phase_prefixes_equal
+        and structural_prefix_equal and structural_execution_audit_prefix_equal
+        and meta_prefix_equal and meta_execution_audit_prefix_equal
+        and oracle_predictor_prefix_equal and primitive_predictor_prefix_equal
+        and phase_prefixes_equal
     )
     return {
         "status": "PASS" if passed else "FAIL",
@@ -1548,10 +1682,16 @@ def full_future_invariance_proof(
         "comparable_state_refs_prefix_identical": bool(refs_prefix_equal),
         "effectiveness_surfaces_prefix_identical": bool(surfaces_prefix_equal),
         "all_structural_candidate_decision_prefixes_identical": bool(structural_prefix_equal),
+        "all_structural_candidate_matured_execution_audits_identical": bool(
+            structural_execution_audit_prefix_equal
+        ),
         "meta_state_weights_structure_actions_pruning_prefix_identical": bool(meta_prefix_equal),
+        "meta_matured_execution_audit_prefix_identical": bool(
+            meta_execution_audit_prefix_equal
+        ),
         "oracle_weight_predictor_prefix_identical": bool(oracle_predictor_prefix_equal),
         "primitive_oracle_winner_predictor_prefix_identical": bool(primitive_predictor_prefix_equal),
-        "full_persisted_row_prefix_comparison": True,
+        "persisted_row_prefix_comparison": "causal_fields_plus_matured_execution_audit",
         "structural_phase_cutoff_count": len(phase_proofs),
         "structural_phase_prefixes_identical": bool(phase_prefixes_equal),
         "structural_phase_proofs": phase_proofs,
@@ -1668,8 +1808,8 @@ def score_block() -> dict[str, Any]:
     )
     expert_paths = load_expert_paths()
     context_state, context_columns = build_controller_context(state, expert_paths, prereg)
-    _legacy_surfaces, refs = precompute_surfaces(
-        base, context_state,
+    refs = precompute_comparable_refs(
+        context_state,
         context_columns=context_columns, k=10,
     )
     horizon_signals = foundation_horizon_signals(expert_paths, opportunity_horizons)
@@ -1680,9 +1820,10 @@ def score_block() -> dict[str, Any]:
         capital_usd=float(execution["starting_capital_usd"]),
         cost_per_side_usd=base_cost,
     )
-    surfaces = precompute_rich_surfaces(
+    surfaces = precompute_rich_surfaces_incremental(
         rich_base, context_state, refs
     )
+    profile_score_cache = precompute_profile_score_cache(surfaces, configs)
     warmup = int(prereg["block_contract"]["warmup_completed_trading_sessions"])
     oracle = oracle_first_diagnostic(rich_base, state["decision_time"].iloc[warmup:].tolist())
     primitive_oracle_labels = oracle_first_diagnostic(
@@ -1749,22 +1890,20 @@ def score_block() -> dict[str, Any]:
     for number, config in enumerate(configs, start=1):
         cached = _load_candidate_checkpoint(checkpoint_root, number, config, scenario_ids)
         if cached is None:
-            candidate_replays: dict[str, CandidateReplay] = {}
-            for scenario in scenarios:
-                scenario_id = str(scenario["id"])
-                candidate_replays[scenario_id] = replay_candidate(
-                    config, state, specialists, path, surfaces, refs, families,
-                    execution_scenario=scenario,
-                    horizon_signals_by_time=horizon_signals,
-                    max_abs_contracts=float(prereg["dynamic_sizing"]["max_abs_contracts"]),
-                    initial_capital=float(execution["starting_capital_usd"]),
-                    multiplier=float(execution["contract_multiplier_mmbtu"]),
-                    base_cost_per_side=base_cost,
-                    initial_margin_usd_per_contract=float(execution["initial_margin_usd_per_contract"]),
-                    max_margin_fraction=float(prereg["dynamic_sizing"]["max_margin_fraction"]),
-                    max_notional_leverage=float(prereg["dynamic_sizing"]["max_notional_leverage"]),
-                    max_drawdown_fraction=float(prereg["dynamic_sizing"]["max_drawdown_fraction"]),
-                )
+            candidate_replays = replay_candidate_scenarios(
+                config, state, specialists, path, surfaces, refs, families,
+                execution_scenarios=scenarios,
+                horizon_signals_by_time=horizon_signals,
+                max_abs_contracts=float(prereg["dynamic_sizing"]["max_abs_contracts"]),
+                initial_capital=float(execution["starting_capital_usd"]),
+                multiplier=float(execution["contract_multiplier_mmbtu"]),
+                base_cost_per_side=base_cost,
+                initial_margin_usd_per_contract=float(execution["initial_margin_usd_per_contract"]),
+                max_margin_fraction=float(prereg["dynamic_sizing"]["max_margin_fraction"]),
+                max_notional_leverage=float(prereg["dynamic_sizing"]["max_notional_leverage"]),
+                max_drawdown_fraction=float(prereg["dynamic_sizing"]["max_drawdown_fraction"]),
+                profile_score_cache=profile_score_cache,
+            )
             _write_candidate_checkpoint(checkpoint_root, number, config, candidate_replays)
         completed_ids.append(config.config_id)
         _write_json(checkpoint_root / "progress.json", {
@@ -1809,6 +1948,7 @@ def score_block() -> dict[str, Any]:
         max_margin_fraction=float(prereg["dynamic_sizing"]["max_margin_fraction"]),
         max_notional_leverage=float(prereg["dynamic_sizing"]["max_notional_leverage"]),
         max_drawdown_fraction=float(prereg["dynamic_sizing"]["max_drawdown_fraction"]),
+        embed_effectiveness_surface=False,
     )
     if not causal_prior_check(brain.iloc[warmup:].copy()):
         raise RuntimeError("controller-v3 meta selection failed strict-prior causal check")
@@ -1842,6 +1982,9 @@ def score_block() -> dict[str, Any]:
         primitive_predictor_map.get(pd.Timestamp(stamp), {})
         for stamp in pd.to_datetime(brain["decision_time"], utc=True)
     ]
+    surface_sidecar = _write_effectiveness_surface_sidecar(
+        out(EFFECTIVENESS_SURFACES), surfaces
+    )
     _write_jsonl(out(BRAIN), brain)
     freeze_sha = sha256_file(out(BRAIN))
     research_consequences = build_research_consequence_store(brain, path, state, prereg)
@@ -1858,6 +2001,7 @@ def score_block() -> dict[str, Any]:
         "iteration": str(prereg["iteration"]),
         "decision_brain_freeze_sha256": freeze_sha,
         "decision_row_count": len(brain),
+        "effectiveness_surface_sidecar": surface_sidecar,
         "selected_consequences": consequences.to_dict(orient="records"),
         "research_consequence_store_path": CONSEQUENCES.name,
         "research_consequence_store_sha256": sha256_file(out(CONSEQUENCES)),
@@ -1967,6 +2111,8 @@ def score_block() -> dict[str, Any]:
         "primitive_oracle_winner_predictor_sha256": sha256_file(out(PRIMITIVE_ORACLE_PREDICTOR)),
         "trials_sha256": sha256_file(out(TRIALS)),
         "decision_brain_sha256": sha256_file(out(BRAIN)),
+        "effectiveness_surface_sidecar_sha256": sha256_file(out(EFFECTIVENESS_SURFACES)),
+        "effectiveness_surface_sidecar": surface_sidecar,
         "consequence_store_sha256": sha256_file(out(CONSEQUENCES)),
         "ledger_sha256": sha256_file(out(LEDGER)),
         "scoring_input_identity_sha256": preflight["scoring_input_identity_sha256"],
@@ -2033,7 +2179,9 @@ def score_block() -> dict[str, Any]:
             "independent_memory_selection_per_specialist_horizon_direction": True,
             "profile_memory_sets_are_tie_break_preferences_only": True,
             "forecast_metrics_strict_prior_native_target": True,
-            "full_history_in_decision_brain": True,
+            "full_history_in_decision_brain": False,
+            "effectiveness_surface_storage": "hash_bound_parquet_sidecar",
+            "effectiveness_surface_sidecar_sha256": surface_sidecar["sha256"],
         },
         "primitive_oracle_winner_reporting": {
             "predictor_row_count": len(primitive_oracle_predictor),
