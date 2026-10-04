@@ -1,0 +1,6230 @@
+{
+  "block_id": "block-001",
+  "freeze_sha256": "897316924cbf1782e441d7e3c452cdf5c4c96f861956b32ab12a95c11516755b",
+  "issue": 465,
+  "row_count": 123,
+  "rows": [
+    {
+      "decision_time": "2010-07-07 00:01:43.586000+00:00",
+      "marginal_edge": 0.0,
+      "max_outcome_available_at_used": "NaT",
+      "objective_window_sessions": 30,
+      "position_state": "FLAT",
+      "selected_exposure": NaN,
+      "selected_horizon_sessions": NaN,
+      "selected_memory": {},
+      "selected_policy_id": "warmup",
+      "selected_side": null,
+      "selected_signal": 0.0,
+      "selected_weights": {},
+      "similar_state_net_return_mean": 0.0,
+      "similar_state_refs": []
+    },
+    {
+      "decision_time": "2010-07-08 00:01:12.246000+00:00",
+      "marginal_edge": 0.0,
+      "max_outcome_available_at_used": "NaT",
+      "objective_window_sessions": 30,
+      "position_state": "FLAT",
+      "selected_exposure": NaN,
+      "selected_horizon_sessions": NaN,
+      "selected_memory": {},
+      "selected_policy_id": "warmup",
+      "selected_side": null,
+      "selected_signal": 0.0,
+      "selected_weights": {},
+      "similar_state_net_return_mean": 0.0,
+      "similar_state_refs": []
+    },
+    {
+      "decision_time": "2010-07-09 00:01:41.472000+00:00",
+      "marginal_edge": 0.0,
+      "max_outcome_available_at_used": "NaT",
+      "objective_window_sessions": 30,
+      "position_state": "FLAT",
+      "selected_exposure": NaN,
+      "selected_horizon_sessions": NaN,
+      "selected_memory": {},
+      "selected_policy_id": "warmup",
+      "selected_side": null,
+      "selected_signal": 0.0,
+      "selected_weights": {},
+      "similar_state_net_return_mean": 0.0,
+      "similar_state_refs": []
+    },
+    {
+      "decision_time": "2010-07-11 23:33:33.461000+00:00",
+      "marginal_edge": 0.0,
+      "max_outcome_available_at_used": "NaT",
+      "objective_window_sessions": 30,
+      "position_state": "FLAT",
+      "selected_exposure": NaN,
+      "selected_horizon_sessions": NaN,
+      "selected_memory": {},
+      "selected_policy_id": "warmup",
+      "selected_side": null,
+      "selected_signal": 0.0,
+      "selected_weights": {},
+      "similar_state_net_return_mean": 0.0,
+      "similar_state_refs": []
+    },
+    {
+      "decision_time": "2010-07-13 00:34:45.011000+00:00",
+      "marginal_edge": 0.0,
+      "max_outcome_available_at_used": "NaT",
+      "objective_window_sessions": 30,
+      "position_state": "FLAT",
+      "selected_exposure": NaN,
+      "selected_horizon_sessions": NaN,
+      "selected_memory": {},
+      "selected_policy_id": "warmup",
+      "selected_side": null,
+      "selected_signal": 0.0,
+      "selected_weights": {},
+      "similar_state_net_return_mean": 0.0,
+      "similar_state_refs": []
+    },
+    {
+      "decision_time": "2010-07-14 00:01:40.886000+00:00",
+      "marginal_edge": 0.0,
+      "max_outcome_available_at_used": "NaT",
+      "objective_window_sessions": 30,
+      "position_state": "FLAT",
+      "selected_exposure": NaN,
+      "selected_horizon_sessions": NaN,
+      "selected_memory": {},
+      "selected_policy_id": "warmup",
+      "selected_side": null,
+      "selected_signal": 0.0,
+      "selected_weights": {},
+      "similar_state_net_return_mean": 0.0,
+      "similar_state_refs": []
+    },
+    {
+      "decision_time": "2010-07-15 00:01:41.525000+00:00",
+      "marginal_edge": 0.0,
+      "max_outcome_available_at_used": "NaT",
+      "objective_window_sessions": 30,
+      "position_state": "FLAT",
+      "selected_exposure": NaN,
+      "selected_horizon_sessions": NaN,
+      "selected_memory": {},
+      "selected_policy_id": "warmup",
+      "selected_side": null,
+      "selected_signal": 0.0,
+      "selected_weights": {},
+      "similar_state_net_return_mean": 0.0,
+      "similar_state_refs": []
+    },
+    {
+      "decision_time": "2010-07-16 00:01:39.862000+00:00",
+      "marginal_edge": 0.0,
+      "max_outcome_available_at_used": "NaT",
+      "objective_window_sessions": 30,
+      "position_state": "FLAT",
+      "selected_exposure": NaN,
+      "selected_horizon_sessions": NaN,
+      "selected_memory": {},
+      "selected_policy_id": "warmup",
+      "selected_side": null,
+      "selected_signal": 0.0,
+      "selected_weights": {},
+      "similar_state_net_return_mean": 0.0,
+      "similar_state_refs": []
+    },
+    {
+      "decision_time": "2010-07-18 22:50:36.399000+00:00",
+      "marginal_edge": 0.0,
+      "max_outcome_available_at_used": "NaT",
+      "objective_window_sessions": 30,
+      "position_state": "FLAT",
+      "selected_exposure": NaN,
+      "selected_horizon_sessions": NaN,
+      "selected_memory": {},
+      "selected_policy_id": "warmup",
+      "selected_side": null,
+      "selected_signal": 0.0,
+      "selected_weights": {},
+      "similar_state_net_return_mean": 0.0,
+      "similar_state_refs": []
+    },
+    {
+      "decision_time": "2010-07-20 00:01:06.935000+00:00",
+      "marginal_edge": 0.0,
+      "max_outcome_available_at_used": "NaT",
+      "objective_window_sessions": 30,
+      "position_state": "FLAT",
+      "selected_exposure": NaN,
+      "selected_horizon_sessions": NaN,
+      "selected_memory": {},
+      "selected_policy_id": "warmup",
+      "selected_side": null,
+      "selected_signal": 0.0,
+      "selected_weights": {},
+      "similar_state_net_return_mean": 0.0,
+      "similar_state_refs": []
+    },
+    {
+      "decision_time": "2010-07-21 00:36:55.278000+00:00",
+      "marginal_edge": 0.0,
+      "max_outcome_available_at_used": "NaT",
+      "objective_window_sessions": 30,
+      "position_state": "FLAT",
+      "selected_exposure": NaN,
+      "selected_horizon_sessions": NaN,
+      "selected_memory": {},
+      "selected_policy_id": "warmup",
+      "selected_side": null,
+      "selected_signal": 0.0,
+      "selected_weights": {},
+      "similar_state_net_return_mean": 0.0,
+      "similar_state_refs": []
+    },
+    {
+      "decision_time": "2010-07-22 00:01:27.959000+00:00",
+      "marginal_edge": 0.0,
+      "max_outcome_available_at_used": "NaT",
+      "objective_window_sessions": 30,
+      "position_state": "FLAT",
+      "selected_exposure": NaN,
+      "selected_horizon_sessions": NaN,
+      "selected_memory": {},
+      "selected_policy_id": "warmup",
+      "selected_side": null,
+      "selected_signal": 0.0,
+      "selected_weights": {},
+      "similar_state_net_return_mean": 0.0,
+      "similar_state_refs": []
+    },
+    {
+      "decision_time": "2010-07-23 00:01:11.559000+00:00",
+      "marginal_edge": 0.0,
+      "max_outcome_available_at_used": "NaT",
+      "objective_window_sessions": 30,
+      "position_state": "FLAT",
+      "selected_exposure": NaN,
+      "selected_horizon_sessions": NaN,
+      "selected_memory": {},
+      "selected_policy_id": "warmup",
+      "selected_side": null,
+      "selected_signal": 0.0,
+      "selected_weights": {},
+      "similar_state_net_return_mean": 0.0,
+      "similar_state_refs": []
+    },
+    {
+      "decision_time": "2010-07-25 22:00:41.907000+00:00",
+      "marginal_edge": 0.0,
+      "max_outcome_available_at_used": "NaT",
+      "objective_window_sessions": 30,
+      "position_state": "FLAT",
+      "selected_exposure": NaN,
+      "selected_horizon_sessions": NaN,
+      "selected_memory": {},
+      "selected_policy_id": "warmup",
+      "selected_side": null,
+      "selected_signal": 0.0,
+      "selected_weights": {},
+      "similar_state_net_return_mean": 0.0,
+      "similar_state_refs": []
+    },
+    {
+      "decision_time": "2010-07-27 00:01:11.375000+00:00",
+      "marginal_edge": 0.0,
+      "max_outcome_available_at_used": "NaT",
+      "objective_window_sessions": 30,
+      "position_state": "FLAT",
+      "selected_exposure": NaN,
+      "selected_horizon_sessions": NaN,
+      "selected_memory": {},
+      "selected_policy_id": "warmup",
+      "selected_side": null,
+      "selected_signal": 0.0,
+      "selected_weights": {},
+      "similar_state_net_return_mean": 0.0,
+      "similar_state_refs": []
+    },
+    {
+      "decision_time": "2010-07-28 00:01:11.260000+00:00",
+      "marginal_edge": 0.0,
+      "max_outcome_available_at_used": "NaT",
+      "objective_window_sessions": 30,
+      "position_state": "FLAT",
+      "selected_exposure": NaN,
+      "selected_horizon_sessions": NaN,
+      "selected_memory": {},
+      "selected_policy_id": "warmup",
+      "selected_side": null,
+      "selected_signal": 0.0,
+      "selected_weights": {},
+      "similar_state_net_return_mean": 0.0,
+      "similar_state_refs": []
+    },
+    {
+      "decision_time": "2010-07-29 00:00:54.954000+00:00",
+      "marginal_edge": 0.0,
+      "max_outcome_available_at_used": "NaT",
+      "objective_window_sessions": 30,
+      "position_state": "FLAT",
+      "selected_exposure": NaN,
+      "selected_horizon_sessions": NaN,
+      "selected_memory": {},
+      "selected_policy_id": "warmup",
+      "selected_side": null,
+      "selected_signal": 0.0,
+      "selected_weights": {},
+      "similar_state_net_return_mean": 0.0,
+      "similar_state_refs": []
+    },
+    {
+      "decision_time": "2010-07-30 00:09:19.773000+00:00",
+      "marginal_edge": 0.0,
+      "max_outcome_available_at_used": "NaT",
+      "objective_window_sessions": 30,
+      "position_state": "FLAT",
+      "selected_exposure": NaN,
+      "selected_horizon_sessions": NaN,
+      "selected_memory": {},
+      "selected_policy_id": "warmup",
+      "selected_side": null,
+      "selected_signal": 0.0,
+      "selected_weights": {},
+      "similar_state_net_return_mean": 0.0,
+      "similar_state_refs": []
+    },
+    {
+      "decision_time": "2010-08-01 23:45:34.368000+00:00",
+      "marginal_edge": 0.0,
+      "max_outcome_available_at_used": "NaT",
+      "objective_window_sessions": 30,
+      "position_state": "FLAT",
+      "selected_exposure": NaN,
+      "selected_horizon_sessions": NaN,
+      "selected_memory": {},
+      "selected_policy_id": "warmup",
+      "selected_side": null,
+      "selected_signal": 0.0,
+      "selected_weights": {},
+      "similar_state_net_return_mean": 0.0,
+      "similar_state_refs": []
+    },
+    {
+      "decision_time": "2010-08-03 00:01:07.735000+00:00",
+      "marginal_edge": 0.0,
+      "max_outcome_available_at_used": "NaT",
+      "objective_window_sessions": 30,
+      "position_state": "FLAT",
+      "selected_exposure": NaN,
+      "selected_horizon_sessions": NaN,
+      "selected_memory": {},
+      "selected_policy_id": "warmup",
+      "selected_side": null,
+      "selected_signal": 0.0,
+      "selected_weights": {},
+      "similar_state_net_return_mean": 0.0,
+      "similar_state_refs": []
+    },
+    {
+      "decision_time": "2010-08-04 00:01:10.362000+00:00",
+      "marginal_edge": 0.0,
+      "max_outcome_available_at_used": "NaT",
+      "objective_window_sessions": 30,
+      "position_state": "FLAT",
+      "selected_exposure": NaN,
+      "selected_horizon_sessions": NaN,
+      "selected_memory": {},
+      "selected_policy_id": "warmup",
+      "selected_side": null,
+      "selected_signal": 0.0,
+      "selected_weights": {},
+      "similar_state_net_return_mean": 0.0,
+      "similar_state_refs": []
+    },
+    {
+      "decision_time": "2010-08-05 00:01:10.614000+00:00",
+      "marginal_edge": 0.0,
+      "max_outcome_available_at_used": "NaT",
+      "objective_window_sessions": 30,
+      "position_state": "FLAT",
+      "selected_exposure": NaN,
+      "selected_horizon_sessions": NaN,
+      "selected_memory": {},
+      "selected_policy_id": "warmup",
+      "selected_side": null,
+      "selected_signal": 0.0,
+      "selected_weights": {},
+      "similar_state_net_return_mean": 0.0,
+      "similar_state_refs": []
+    },
+    {
+      "decision_time": "2010-08-06 00:12:16.884000+00:00",
+      "marginal_edge": 0.0,
+      "max_outcome_available_at_used": "NaT",
+      "objective_window_sessions": 30,
+      "position_state": "FLAT",
+      "selected_exposure": NaN,
+      "selected_horizon_sessions": NaN,
+      "selected_memory": {},
+      "selected_policy_id": "warmup",
+      "selected_side": null,
+      "selected_signal": 0.0,
+      "selected_weights": {},
+      "similar_state_net_return_mean": 0.0,
+      "similar_state_refs": []
+    },
+    {
+      "decision_time": "2010-08-08 23:59:15.431000+00:00",
+      "marginal_edge": 0.0,
+      "max_outcome_available_at_used": "NaT",
+      "objective_window_sessions": 30,
+      "position_state": "FLAT",
+      "selected_exposure": NaN,
+      "selected_horizon_sessions": NaN,
+      "selected_memory": {},
+      "selected_policy_id": "warmup",
+      "selected_side": null,
+      "selected_signal": 0.0,
+      "selected_weights": {},
+      "similar_state_net_return_mean": 0.0,
+      "similar_state_refs": []
+    },
+    {
+      "decision_time": "2010-08-10 00:13:24.575000+00:00",
+      "marginal_edge": 0.0,
+      "max_outcome_available_at_used": "NaT",
+      "objective_window_sessions": 30,
+      "position_state": "FLAT",
+      "selected_exposure": NaN,
+      "selected_horizon_sessions": NaN,
+      "selected_memory": {},
+      "selected_policy_id": "warmup",
+      "selected_side": null,
+      "selected_signal": 0.0,
+      "selected_weights": {},
+      "similar_state_net_return_mean": 0.0,
+      "similar_state_refs": []
+    },
+    {
+      "decision_time": "2010-08-11 00:01:14.510000+00:00",
+      "marginal_edge": 0.0,
+      "max_outcome_available_at_used": "NaT",
+      "objective_window_sessions": 30,
+      "position_state": "FLAT",
+      "selected_exposure": NaN,
+      "selected_horizon_sessions": NaN,
+      "selected_memory": {},
+      "selected_policy_id": "warmup",
+      "selected_side": null,
+      "selected_signal": 0.0,
+      "selected_weights": {},
+      "similar_state_net_return_mean": 0.0,
+      "similar_state_refs": [
+        "2010-08-10 00:13:24.575000+00:00"
+      ]
+    },
+    {
+      "decision_time": "2010-08-12 00:01:11.981000+00:00",
+      "marginal_edge": 0.0,
+      "max_outcome_available_at_used": "NaT",
+      "objective_window_sessions": 30,
+      "position_state": "FLAT",
+      "selected_exposure": NaN,
+      "selected_horizon_sessions": NaN,
+      "selected_memory": {},
+      "selected_policy_id": "warmup",
+      "selected_side": null,
+      "selected_signal": 0.0,
+      "selected_weights": {},
+      "similar_state_net_return_mean": 0.0,
+      "similar_state_refs": [
+        "2010-08-11 00:01:14.510000+00:00",
+        "2010-08-10 00:13:24.575000+00:00"
+      ]
+    },
+    {
+      "decision_time": "2010-08-13 00:01:32.421000+00:00",
+      "marginal_edge": 0.0,
+      "max_outcome_available_at_used": "NaT",
+      "objective_window_sessions": 30,
+      "position_state": "FLAT",
+      "selected_exposure": NaN,
+      "selected_horizon_sessions": NaN,
+      "selected_memory": {},
+      "selected_policy_id": "warmup",
+      "selected_side": null,
+      "selected_signal": 0.0,
+      "selected_weights": {},
+      "similar_state_net_return_mean": 0.0,
+      "similar_state_refs": [
+        "2010-08-12 00:01:11.981000+00:00",
+        "2010-08-11 00:01:14.510000+00:00",
+        "2010-08-10 00:13:24.575000+00:00"
+      ]
+    },
+    {
+      "decision_time": "2010-08-15 23:52:25.548000+00:00",
+      "marginal_edge": 0.0,
+      "max_outcome_available_at_used": "NaT",
+      "objective_window_sessions": 30,
+      "position_state": "FLAT",
+      "selected_exposure": NaN,
+      "selected_horizon_sessions": NaN,
+      "selected_memory": {},
+      "selected_policy_id": "warmup",
+      "selected_side": null,
+      "selected_signal": 0.0,
+      "selected_weights": {},
+      "similar_state_net_return_mean": 0.0,
+      "similar_state_refs": [
+        "2010-08-12 00:01:11.981000+00:00",
+        "2010-08-13 00:01:32.421000+00:00",
+        "2010-08-11 00:01:14.510000+00:00",
+        "2010-08-10 00:13:24.575000+00:00"
+      ]
+    },
+    {
+      "decision_time": "2010-08-17 00:01:26.292000+00:00",
+      "marginal_edge": 0.0,
+      "max_outcome_available_at_used": "NaT",
+      "objective_window_sessions": 30,
+      "position_state": "FLAT",
+      "selected_exposure": NaN,
+      "selected_horizon_sessions": NaN,
+      "selected_memory": {},
+      "selected_policy_id": "warmup",
+      "selected_side": null,
+      "selected_signal": 0.0,
+      "selected_weights": {},
+      "similar_state_net_return_mean": 0.0,
+      "similar_state_refs": [
+        "2010-08-13 00:01:32.421000+00:00",
+        "2010-08-15 23:52:25.548000+00:00",
+        "2010-08-12 00:01:11.981000+00:00",
+        "2010-08-11 00:01:14.510000+00:00",
+        "2010-08-10 00:13:24.575000+00:00"
+      ]
+    },
+    {
+      "decision_time": "2010-08-18 00:01:39.569000+00:00",
+      "marginal_edge": 0.0,
+      "max_outcome_available_at_used": "NaT",
+      "objective_window_sessions": 30,
+      "position_state": "FLAT",
+      "selected_exposure": 0.0,
+      "selected_horizon_sessions": 0.0,
+      "selected_memory": {},
+      "selected_policy_id": "flat",
+      "selected_side": "flat",
+      "selected_signal": 0.0,
+      "selected_weights": {},
+      "similar_state_net_return_mean": 0.0,
+      "similar_state_refs": [
+        "2010-08-17 00:01:26.292000+00:00",
+        "2010-08-15 23:52:25.548000+00:00",
+        "2010-08-13 00:01:32.421000+00:00",
+        "2010-08-12 00:01:11.981000+00:00",
+        "2010-08-11 00:01:14.510000+00:00",
+        "2010-08-10 00:13:24.575000+00:00"
+      ]
+    },
+    {
+      "decision_time": "2010-08-19 00:01:10.304000+00:00",
+      "marginal_edge": 0.0010500000000001342,
+      "max_outcome_available_at_used": "2010-08-19 00:00:00+00:00",
+      "objective_window_sessions": 30,
+      "position_state": "STARTER",
+      "selected_exposure": 1.5,
+      "selected_horizon_sessions": 1.0,
+      "selected_memory": {
+        "expanding": {
+          "count": 30,
+          "net_return_sum": 0.1407750000000003
+        },
+        "w10": {
+          "count": 10,
+          "net_return_sum": 0.07035
+        },
+        "w126": {
+          "count": 30,
+          "net_return_sum": 0.1407750000000003
+        },
+        "w20": {
+          "count": 20,
+          "net_return_sum": 0.0843000000000001
+        },
+        "w252": {
+          "count": 30,
+          "net_return_sum": 0.1407750000000003
+        },
+        "w40": {
+          "count": 30,
+          "net_return_sum": 0.1407750000000003
+        },
+        "w5": {
+          "count": 5,
+          "net_return_sum": 0.007799999999999859
+        },
+        "w60": {
+          "count": 30,
+          "net_return_sum": 0.1407750000000003
+        }
+      },
+      "selected_policy_id": "kronos_direction:1__h1__symmetric__x1p5",
+      "selected_side": "symmetric",
+      "selected_signal": -1.5,
+      "selected_weights": {
+        "kronos_direction": 1.0
+      },
+      "similar_state_net_return_mean": 0.0012999999999999765,
+      "similar_state_refs": [
+        "2010-08-18 00:01:39.569000+00:00",
+        "2010-08-17 00:01:26.292000+00:00",
+        "2010-08-15 23:52:25.548000+00:00",
+        "2010-08-13 00:01:32.421000+00:00",
+        "2010-08-12 00:01:11.981000+00:00",
+        "2010-08-11 00:01:14.510000+00:00",
+        "2010-08-10 00:13:24.575000+00:00"
+      ]
+    },
+    {
+      "decision_time": "2010-08-20 00:01:21.191000+00:00",
+      "marginal_edge": 0.0006000000000001282,
+      "max_outcome_available_at_used": "2010-08-20 00:00:00+00:00",
+      "objective_window_sessions": 30,
+      "position_state": "REVERSE",
+      "selected_exposure": 1.5,
+      "selected_horizon_sessions": 1.0,
+      "selected_memory": {
+        "expanding": {
+          "count": 31,
+          "net_return_sum": 0.1499250000000003
+        },
+        "w10": {
+          "count": 10,
+          "net_return_sum": 0.062399999999999886
+        },
+        "w126": {
+          "count": 31,
+          "net_return_sum": 0.1499250000000003
+        },
+        "w20": {
+          "count": 20,
+          "net_return_sum": 0.11385000000000013
+        },
+        "w252": {
+          "count": 31,
+          "net_return_sum": 0.1499250000000003
+        },
+        "w40": {
+          "count": 31,
+          "net_return_sum": 0.1499250000000003
+        },
+        "w5": {
+          "count": 5,
+          "net_return_sum": 0.022049999999999955
+        },
+        "w60": {
+          "count": 31,
+          "net_return_sum": 0.1499250000000003
+        }
+      },
+      "selected_policy_id": "kronos_direction:1__h1__symmetric__x1p5",
+      "selected_side": "symmetric",
+      "selected_signal": 1.5,
+      "selected_weights": {
+        "kronos_direction": 1.0
+      },
+      "similar_state_net_return_mean": 0.0024214285714285527,
+      "similar_state_refs": [
+        "2010-08-19 00:01:10.304000+00:00",
+        "2010-08-17 00:01:26.292000+00:00",
+        "2010-08-18 00:01:39.569000+00:00",
+        "2010-08-13 00:01:32.421000+00:00",
+        "2010-08-15 23:52:25.548000+00:00",
+        "2010-08-12 00:01:11.981000+00:00",
+        "2010-08-11 00:01:14.510000+00:00",
+        "2010-08-10 00:13:24.575000+00:00"
+      ]
+    },
+    {
+      "decision_time": "2010-08-22 23:02:55.734000+00:00",
+      "marginal_edge": 0.000600000000000156,
+      "max_outcome_available_at_used": "2010-08-22 00:00:00+00:00",
+      "objective_window_sessions": 30,
+      "position_state": "REVERSE",
+      "selected_exposure": 1.5,
+      "selected_horizon_sessions": 1.0,
+      "selected_memory": {
+        "expanding": {
+          "count": 32,
+          "net_return_sum": 0.16507500000000028
+        },
+        "w10": {
+          "count": 10,
+          "net_return_sum": 0.05294999999999993
+        },
+        "w126": {
+          "count": 32,
+          "net_return_sum": 0.16507500000000028
+        },
+        "w20": {
+          "count": 20,
+          "net_return_sum": 0.11385000000000012
+        },
+        "w252": {
+          "count": 32,
+          "net_return_sum": 0.16507500000000028
+        },
+        "w40": {
+          "count": 32,
+          "net_return_sum": 0.16507500000000028
+        },
+        "w5": {
+          "count": 5,
+          "net_return_sum": 0.028949999999999865
+        },
+        "w60": {
+          "count": 32,
+          "net_return_sum": 0.16507500000000028
+        }
+      },
+      "selected_policy_id": "kronos_direction:1__h1__symmetric__x1p5",
+      "selected_side": "symmetric",
+      "selected_signal": -1.5,
+      "selected_weights": {
+        "kronos_direction": 1.0
+      },
+      "similar_state_net_return_mean": 0.004012499999999984,
+      "similar_state_refs": [
+        "2010-08-20 00:01:21.191000+00:00",
+        "2010-08-19 00:01:10.304000+00:00",
+        "2010-08-17 00:01:26.292000+00:00",
+        "2010-08-18 00:01:39.569000+00:00",
+        "2010-08-15 23:52:25.548000+00:00",
+        "2010-08-13 00:01:32.421000+00:00",
+        "2010-08-12 00:01:11.981000+00:00",
+        "2010-08-11 00:01:14.510000+00:00",
+        "2010-08-10 00:13:24.575000+00:00"
+      ]
+    },
+    {
+      "decision_time": "2010-08-24 00:01:40.038000+00:00",
+      "marginal_edge": 0.00945000000000007,
+      "max_outcome_available_at_used": "2010-08-24 00:00:00+00:00",
+      "objective_window_sessions": 30,
+      "position_state": "REVERSE",
+      "selected_exposure": 1.5,
+      "selected_horizon_sessions": 1.0,
+      "selected_memory": {
+        "expanding": {
+          "count": 34,
+          "net_return_sum": 0.15772500000000014
+        },
+        "w10": {
+          "count": 10,
+          "net_return_sum": 0.024749999999999717
+        },
+        "w126": {
+          "count": 34,
+          "net_return_sum": 0.15772500000000014
+        },
+        "w20": {
+          "count": 20,
+          "net_return_sum": 0.12179999999999998
+        },
+        "w252": {
+          "count": 34,
+          "net_return_sum": 0.15772500000000014
+        },
+        "w40": {
+          "count": 34,
+          "net_return_sum": 0.15772500000000014
+        },
+        "w5": {
+          "count": 5,
+          "net_return_sum": 0.008999999999999876
+        },
+        "w60": {
+          "count": 34,
+          "net_return_sum": 0.15772500000000014
+        }
+      },
+      "selected_policy_id": "kronos_direction:1__h1__symmetric__x1p5",
+      "selected_side": "symmetric",
+      "selected_signal": 1.5,
+      "selected_weights": {
+        "kronos_direction": 1.0
+      },
+      "similar_state_net_return_mean": 0.0024749999999999716,
+      "similar_state_refs": [
+        "2010-08-22 23:02:55.734000+00:00",
+        "2010-08-20 00:01:21.191000+00:00",
+        "2010-08-19 00:01:10.304000+00:00",
+        "2010-08-17 00:01:26.292000+00:00",
+        "2010-08-18 00:01:39.569000+00:00",
+        "2010-08-15 23:52:25.548000+00:00",
+        "2010-08-13 00:01:32.421000+00:00",
+        "2010-08-12 00:01:11.981000+00:00",
+        "2010-08-11 00:01:14.510000+00:00",
+        "2010-08-10 00:13:24.575000+00:00"
+      ]
+    },
+    {
+      "decision_time": "2010-08-25 00:01:08.446000+00:00",
+      "marginal_edge": 0.00945000000000007,
+      "max_outcome_available_at_used": "2010-08-24 00:00:00+00:00",
+      "objective_window_sessions": 30,
+      "position_state": "STARTER",
+      "selected_exposure": 1.5,
+      "selected_horizon_sessions": 1.0,
+      "selected_memory": {
+        "expanding": {
+          "count": 34,
+          "net_return_sum": 0.15772500000000014
+        },
+        "w10": {
+          "count": 10,
+          "net_return_sum": 0.024749999999999717
+        },
+        "w126": {
+          "count": 34,
+          "net_return_sum": 0.15772500000000014
+        },
+        "w20": {
+          "count": 20,
+          "net_return_sum": 0.12179999999999998
+        },
+        "w252": {
+          "count": 34,
+          "net_return_sum": 0.15772500000000014
+        },
+        "w40": {
+          "count": 34,
+          "net_return_sum": 0.15772500000000014
+        },
+        "w5": {
+          "count": 5,
+          "net_return_sum": 0.008999999999999876
+        },
+        "w60": {
+          "count": 34,
+          "net_return_sum": 0.15772500000000014
+        }
+      },
+      "selected_policy_id": "kronos_direction:1__h1__symmetric__x1p5",
+      "selected_side": "symmetric",
+      "selected_signal": 1.5,
+      "selected_weights": {
+        "kronos_direction": 1.0
+      },
+      "similar_state_net_return_mean": 0.002749999999999968,
+      "similar_state_refs": [
+        "2010-08-24 00:01:40.038000+00:00",
+        "2010-08-22 23:02:55.734000+00:00",
+        "2010-08-20 00:01:21.191000+00:00",
+        "2010-08-19 00:01:10.304000+00:00",
+        "2010-08-17 00:01:26.292000+00:00",
+        "2010-08-18 00:01:39.569000+00:00",
+        "2010-08-15 23:52:25.548000+00:00",
+        "2010-08-13 00:01:32.421000+00:00",
+        "2010-08-12 00:01:11.981000+00:00",
+        "2010-08-11 00:01:14.510000+00:00"
+      ]
+    },
+    {
+      "decision_time": "2010-08-26 00:16:12.163000+00:00",
+      "marginal_edge": 0.0,
+      "max_outcome_available_at_used": "2010-08-26 00:00:00+00:00",
+      "objective_window_sessions": 30,
+      "position_state": "REVERSE",
+      "selected_exposure": 1.5,
+      "selected_horizon_sessions": 10.0,
+      "selected_memory": {
+        "expanding": {
+          "count": 35,
+          "net_return_sum": 0.18022500000000002
+        },
+        "w10": {
+          "count": 10,
+          "net_return_sum": 0.05954999999999984
+        },
+        "w126": {
+          "count": 35,
+          "net_return_sum": 0.18022500000000002
+        },
+        "w20": {
+          "count": 20,
+          "net_return_sum": 0.13305000000000003
+        },
+        "w252": {
+          "count": 35,
+          "net_return_sum": 0.18022500000000002
+        },
+        "w40": {
+          "count": 35,
+          "net_return_sum": 0.18022500000000002
+        },
+        "w5": {
+          "count": 5,
+          "net_return_sum": 0.04049999999999987
+        },
+        "w60": {
+          "count": 35,
+          "net_return_sum": 0.18022500000000002
+        }
+      },
+      "selected_policy_id": "trend_ret5:1__h10__symmetric__x1p5",
+      "selected_side": "symmetric",
+      "selected_signal": -1.5,
+      "selected_weights": {
+        "trend_ret5": 1.0
+      },
+      "similar_state_net_return_mean": 0.006099999999999973,
+      "similar_state_refs": [
+        "2010-08-24 00:01:40.038000+00:00",
+        "2010-08-25 00:01:08.446000+00:00",
+        "2010-08-22 23:02:55.734000+00:00",
+        "2010-08-20 00:01:21.191000+00:00",
+        "2010-08-19 00:01:10.304000+00:00",
+        "2010-08-17 00:01:26.292000+00:00",
+        "2010-08-18 00:01:39.569000+00:00",
+        "2010-08-13 00:01:32.421000+00:00",
+        "2010-08-15 23:52:25.548000+00:00",
+        "2010-08-12 00:01:11.981000+00:00"
+      ]
+    },
+    {
+      "decision_time": "2010-08-27 00:05:47.998000+00:00",
+      "marginal_edge": 0.0,
+      "max_outcome_available_at_used": "2010-08-27 00:00:00+00:00",
+      "objective_window_sessions": 30,
+      "position_state": "STARTER",
+      "selected_exposure": 1.5,
+      "selected_horizon_sessions": 10.0,
+      "selected_memory": {
+        "expanding": {
+          "count": 36,
+          "net_return_sum": 0.19552500000000006
+        },
+        "w10": {
+          "count": 10,
+          "net_return_sum": 0.0701999999999998
+        },
+        "w126": {
+          "count": 36,
+          "net_return_sum": 0.19552500000000006
+        },
+        "w20": {
+          "count": 20,
+          "net_return_sum": 0.12840000000000007
+        },
+        "w252": {
+          "count": 36,
+          "net_return_sum": 0.19552500000000006
+        },
+        "w40": {
+          "count": 36,
+          "net_return_sum": 0.19552500000000006
+        },
+        "w5": {
+          "count": 5,
+          "net_return_sum": 0.04619999999999991
+        },
+        "w60": {
+          "count": 36,
+          "net_return_sum": 0.19552500000000006
+        }
+      },
+      "selected_policy_id": "trend_ret5:1__h10__symmetric__x1p5",
+      "selected_side": "symmetric",
+      "selected_signal": -1.5,
+      "selected_weights": {
+        "trend_ret5": 1.0
+      },
+      "similar_state_net_return_mean": 0.008716666666666656,
+      "similar_state_refs": [
+        "2010-08-26 00:16:12.163000+00:00",
+        "2010-08-25 00:01:08.446000+00:00",
+        "2010-08-24 00:01:40.038000+00:00",
+        "2010-08-20 00:01:21.191000+00:00",
+        "2010-08-22 23:02:55.734000+00:00",
+        "2010-08-17 00:01:26.292000+00:00",
+        "2010-08-19 00:01:10.304000+00:00",
+        "2010-08-18 00:01:39.569000+00:00",
+        "2010-08-13 00:01:32.421000+00:00",
+        "2010-08-15 23:52:25.548000+00:00"
+      ]
+    },
+    {
+      "decision_time": "2010-08-29 23:30:11.142000+00:00",
+      "marginal_edge": 0.0,
+      "max_outcome_available_at_used": "2010-08-29 00:00:00+00:00",
+      "objective_window_sessions": 30,
+      "position_state": "FULL",
+      "selected_exposure": 1.5,
+      "selected_horizon_sessions": 10.0,
+      "selected_memory": {
+        "expanding": {
+          "count": 37,
+          "net_return_sum": 0.21082500000000004
+        },
+        "w10": {
+          "count": 10,
+          "net_return_sum": 0.09374999999999988
+        },
+        "w126": {
+          "count": 37,
+          "net_return_sum": 0.21082500000000004
+        },
+        "w20": {
+          "count": 20,
+          "net_return_sum": 0.12149999999999996
+        },
+        "w252": {
+          "count": 37,
+          "net_return_sum": 0.21082500000000004
+        },
+        "w40": {
+          "count": 37,
+          "net_return_sum": 0.21082500000000004
+        },
+        "w5": {
+          "count": 5,
+          "net_return_sum": 0.04634999999999989
+        },
+        "w60": {
+          "count": 37,
+          "net_return_sum": 0.21082500000000004
+        }
+      },
+      "selected_policy_id": "trend_ret5:1__h10__symmetric__x1p5",
+      "selected_side": "symmetric",
+      "selected_signal": -1.5,
+      "selected_weights": {
+        "trend_ret5": 1.0
+      },
+      "similar_state_net_return_mean": 0.009833333333333331,
+      "similar_state_refs": [
+        "2010-08-20 00:01:21.191000+00:00",
+        "2010-08-26 00:16:12.163000+00:00",
+        "2010-08-27 00:05:47.998000+00:00",
+        "2010-08-19 00:01:10.304000+00:00",
+        "2010-08-17 00:01:26.292000+00:00",
+        "2010-08-13 00:01:32.421000+00:00",
+        "2010-08-15 23:52:25.548000+00:00",
+        "2010-08-24 00:01:40.038000+00:00",
+        "2010-08-10 00:13:24.575000+00:00",
+        "2010-08-25 00:01:08.446000+00:00"
+      ]
+    },
+    {
+      "decision_time": "2010-08-31 00:44:53.796000+00:00",
+      "marginal_edge": 0.0,
+      "max_outcome_available_at_used": "2010-08-31 00:00:00+00:00",
+      "objective_window_sessions": 30,
+      "position_state": "FULL",
+      "selected_exposure": 1.5,
+      "selected_horizon_sessions": 10.0,
+      "selected_memory": {
+        "expanding": {
+          "count": 39,
+          "net_return_sum": 0.197175
+        },
+        "w10": {
+          "count": 10,
+          "net_return_sum": 0.06494999999999986
+        },
+        "w126": {
+          "count": 39,
+          "net_return_sum": 0.197175
+        },
+        "w20": {
+          "count": 20,
+          "net_return_sum": 0.14669999999999994
+        },
+        "w252": {
+          "count": 39,
+          "net_return_sum": 0.197175
+        },
+        "w40": {
+          "count": 39,
+          "net_return_sum": 0.197175
+        },
+        "w5": {
+          "count": 5,
+          "net_return_sum": 0.03494999999999995
+        },
+        "w60": {
+          "count": 39,
+          "net_return_sum": 0.197175
+        }
+      },
+      "selected_policy_id": "trend_ret5:1__h10__symmetric__x1p5",
+      "selected_side": "symmetric",
+      "selected_signal": -1.5,
+      "selected_weights": {
+        "trend_ret5": 1.0
+      },
+      "similar_state_net_return_mean": 0.0041549999999999886,
+      "similar_state_refs": [
+        "2010-08-10 00:13:24.575000+00:00",
+        "2010-08-11 00:01:14.510000+00:00",
+        "2010-08-12 00:01:11.981000+00:00",
+        "2010-08-13 00:01:32.421000+00:00",
+        "2010-08-15 23:52:25.548000+00:00",
+        "2010-08-17 00:01:26.292000+00:00",
+        "2010-08-18 00:01:39.569000+00:00",
+        "2010-08-19 00:01:10.304000+00:00",
+        "2010-08-20 00:01:21.191000+00:00",
+        "2010-08-22 23:02:55.734000+00:00"
+      ]
+    },
+    {
+      "decision_time": "2010-09-01 00:33:24.068000+00:00",
+      "marginal_edge": 0.0,
+      "max_outcome_available_at_used": "2010-08-31 00:00:00+00:00",
+      "objective_window_sessions": 30,
+      "position_state": "FULL",
+      "selected_exposure": 1.5,
+      "selected_horizon_sessions": 10.0,
+      "selected_memory": {
+        "expanding": {
+          "count": 39,
+          "net_return_sum": 0.197175
+        },
+        "w10": {
+          "count": 10,
+          "net_return_sum": 0.06494999999999986
+        },
+        "w126": {
+          "count": 39,
+          "net_return_sum": 0.197175
+        },
+        "w20": {
+          "count": 20,
+          "net_return_sum": 0.14669999999999994
+        },
+        "w252": {
+          "count": 39,
+          "net_return_sum": 0.197175
+        },
+        "w40": {
+          "count": 39,
+          "net_return_sum": 0.197175
+        },
+        "w5": {
+          "count": 5,
+          "net_return_sum": 0.03494999999999995
+        },
+        "w60": {
+          "count": 39,
+          "net_return_sum": 0.197175
+        }
+      },
+      "selected_policy_id": "trend_ret5:1__h10__symmetric__x1p5",
+      "selected_side": "symmetric",
+      "selected_signal": -1.5,
+      "selected_weights": {
+        "trend_ret5": 1.0
+      },
+      "similar_state_net_return_mean": 0.00736666666666664,
+      "similar_state_refs": [
+        "2010-08-31 00:44:53.796000+00:00",
+        "2010-08-29 23:30:11.142000+00:00",
+        "2010-08-24 00:01:40.038000+00:00",
+        "2010-08-20 00:01:21.191000+00:00",
+        "2010-08-22 23:02:55.734000+00:00",
+        "2010-08-19 00:01:10.304000+00:00",
+        "2010-08-18 00:01:39.569000+00:00",
+        "2010-08-17 00:01:26.292000+00:00",
+        "2010-08-15 23:52:25.548000+00:00",
+        "2010-08-25 00:01:08.446000+00:00"
+      ]
+    },
+    {
+      "decision_time": "2010-09-02 01:19:32.072000+00:00",
+      "marginal_edge": 0.0,
+      "max_outcome_available_at_used": "2010-09-02 00:00:00+00:00",
+      "objective_window_sessions": 30,
+      "position_state": "FULL",
+      "selected_exposure": 1.5,
+      "selected_horizon_sessions": 10.0,
+      "selected_memory": {
+        "expanding": {
+          "count": 40,
+          "net_return_sum": 0.20182500000000003
+        },
+        "w10": {
+          "count": 10,
+          "net_return_sum": 0.0620999999999999
+        },
+        "w126": {
+          "count": 40,
+          "net_return_sum": 0.20182500000000003
+        },
+        "w20": {
+          "count": 20,
+          "net_return_sum": 0.14084999999999995
+        },
+        "w252": {
+          "count": 40,
+          "net_return_sum": 0.20182500000000003
+        },
+        "w40": {
+          "count": 40,
+          "net_return_sum": 0.20182500000000003
+        },
+        "w5": {
+          "count": 5,
+          "net_return_sum": 0.021600000000000022
+        },
+        "w60": {
+          "count": 40,
+          "net_return_sum": 0.20182500000000003
+        }
+      },
+      "selected_policy_id": "trend_ret5:1__h10__symmetric__x1p5",
+      "selected_side": "symmetric",
+      "selected_signal": -1.5,
+      "selected_weights": {
+        "trend_ret5": 1.0
+      },
+      "similar_state_net_return_mean": 0.004966666666666644,
+      "similar_state_refs": [
+        "2010-09-01 00:33:24.068000+00:00",
+        "2010-08-31 00:44:53.796000+00:00",
+        "2010-08-29 23:30:11.142000+00:00",
+        "2010-08-20 00:01:21.191000+00:00",
+        "2010-08-19 00:01:10.304000+00:00",
+        "2010-08-22 23:02:55.734000+00:00",
+        "2010-08-26 00:16:12.163000+00:00",
+        "2010-08-24 00:01:40.038000+00:00",
+        "2010-08-17 00:01:26.292000+00:00",
+        "2010-08-27 00:05:47.998000+00:00"
+      ]
+    },
+    {
+      "decision_time": "2010-09-03 00:02:36.246000+00:00",
+      "marginal_edge": 0.0,
+      "max_outcome_available_at_used": "2010-09-03 00:00:00+00:00",
+      "objective_window_sessions": 30,
+      "position_state": "FULL",
+      "selected_exposure": 1.5,
+      "selected_horizon_sessions": 10.0,
+      "selected_memory": {
+        "expanding": {
+          "count": 41,
+          "net_return_sum": 0.19567500000000004
+        },
+        "w10": {
+          "count": 10,
+          "net_return_sum": 0.0463499999999999
+        },
+        "w126": {
+          "count": 41,
+          "net_return_sum": 0.19567500000000004
+        },
+        "w20": {
+          "count": 20,
+          "net_return_sum": 0.11804999999999984
+        },
+        "w252": {
+          "count": 41,
+          "net_return_sum": 0.19567500000000004
+        },
+        "w40": {
+          "count": 40,
+          "net_return_sum": 0.16590000000000002
+        },
+        "w5": {
+          "count": 5,
+          "net_return_sum": 0.0001499999999999826
+        },
+        "w60": {
+          "count": 41,
+          "net_return_sum": 0.19567500000000004
+        }
+      },
+      "selected_policy_id": "trend_ret5:1__h10__symmetric__x1p5",
+      "selected_side": "symmetric",
+      "selected_signal": -1.5,
+      "selected_weights": {
+        "trend_ret5": 1.0
+      },
+      "similar_state_net_return_mean": 0.004799999999999981,
+      "similar_state_refs": [
+        "2010-09-02 01:19:32.072000+00:00",
+        "2010-09-01 00:33:24.068000+00:00",
+        "2010-08-31 00:44:53.796000+00:00",
+        "2010-08-29 23:30:11.142000+00:00",
+        "2010-08-20 00:01:21.191000+00:00",
+        "2010-08-19 00:01:10.304000+00:00",
+        "2010-08-22 23:02:55.734000+00:00",
+        "2010-08-24 00:01:40.038000+00:00",
+        "2010-08-26 00:16:12.163000+00:00",
+        "2010-08-18 00:01:39.569000+00:00"
+      ]
+    },
+    {
+      "decision_time": "2010-09-05 23:16:53.774000+00:00",
+      "marginal_edge": 0.0,
+      "max_outcome_available_at_used": "2010-09-05 00:00:00+00:00",
+      "objective_window_sessions": 30,
+      "position_state": "FULL",
+      "selected_exposure": 1.5,
+      "selected_horizon_sessions": 10.0,
+      "selected_memory": {
+        "expanding": {
+          "count": 42,
+          "net_return_sum": 0.17212500000000003
+        },
+        "w10": {
+          "count": 10,
+          "net_return_sum": 0.0076499999999998895
+        },
+        "w126": {
+          "count": 42,
+          "net_return_sum": 0.17212500000000003
+        },
+        "w20": {
+          "count": 20,
+          "net_return_sum": 0.06989999999999989
+        },
+        "w252": {
+          "count": 42,
+          "net_return_sum": 0.17212500000000003
+        },
+        "w40": {
+          "count": 40,
+          "net_return_sum": 0.14520000000000002
+        },
+        "w5": {
+          "count": 5,
+          "net_return_sum": -0.0387
+        },
+        "w60": {
+          "count": 42,
+          "net_return_sum": 0.17212500000000003
+        }
+      },
+      "selected_policy_id": "trend_ret5:1__h10__symmetric__x1p5",
+      "selected_side": "symmetric",
+      "selected_signal": -1.5,
+      "selected_weights": {
+        "trend_ret5": 1.0
+      },
+      "similar_state_net_return_mean": 0.003283333333333313,
+      "similar_state_refs": [
+        "2010-09-03 00:02:36.246000+00:00",
+        "2010-09-01 00:33:24.068000+00:00",
+        "2010-08-31 00:44:53.796000+00:00",
+        "2010-09-02 01:19:32.072000+00:00",
+        "2010-08-19 00:01:10.304000+00:00",
+        "2010-08-18 00:01:39.569000+00:00",
+        "2010-08-20 00:01:21.191000+00:00",
+        "2010-08-24 00:01:40.038000+00:00",
+        "2010-08-22 23:02:55.734000+00:00",
+        "2010-08-15 23:52:25.548000+00:00"
+      ]
+    },
+    {
+      "decision_time": "2010-09-08 00:37:55.552000+00:00",
+      "marginal_edge": 0.0,
+      "max_outcome_available_at_used": "2010-09-07 00:00:00+00:00",
+      "objective_window_sessions": 30,
+      "position_state": "REVERSE",
+      "selected_exposure": 1.5,
+      "selected_horizon_sessions": 10.0,
+      "selected_memory": {
+        "expanding": {
+          "count": 44,
+          "net_return_sum": 0.1533749999999999
+        },
+        "w10": {
+          "count": 10,
+          "net_return_sum": 0.060149999999999995
+        },
+        "w126": {
+          "count": 44,
+          "net_return_sum": 0.1533749999999999
+        },
+        "w20": {
+          "count": 20,
+          "net_return_sum": 0.10169999999999987
+        },
+        "w252": {
+          "count": 44,
+          "net_return_sum": 0.1533749999999999
+        },
+        "w40": {
+          "count": 40,
+          "net_return_sum": 0.12284999999999986
+        },
+        "w5": {
+          "count": 5,
+          "net_return_sum": 0.02520000000000004
+        },
+        "w60": {
+          "count": 44,
+          "net_return_sum": 0.1533749999999999
+        }
+      },
+      "selected_policy_id": "kronos_direction:1__h10__symmetric__x1p5",
+      "selected_side": "symmetric",
+      "selected_signal": 1.5,
+      "selected_weights": {
+        "kronos_direction": 1.0
+      },
+      "similar_state_net_return_mean": 0.005894999999999999,
+      "similar_state_refs": [
+        "2010-09-05 23:16:53.774000+00:00",
+        "2010-09-03 00:02:36.246000+00:00",
+        "2010-09-01 00:33:24.068000+00:00",
+        "2010-09-02 01:19:32.072000+00:00",
+        "2010-08-31 00:44:53.796000+00:00",
+        "2010-08-19 00:01:10.304000+00:00",
+        "2010-08-20 00:01:21.191000+00:00",
+        "2010-08-24 00:01:40.038000+00:00",
+        "2010-08-18 00:01:39.569000+00:00",
+        "2010-08-29 23:30:11.142000+00:00"
+      ]
+    },
+    {
+      "decision_time": "2010-09-09 00:07:35.172000+00:00",
+      "marginal_edge": 0.0,
+      "max_outcome_available_at_used": "2010-09-07 00:00:00+00:00",
+      "objective_window_sessions": 30,
+      "position_state": "STARTER",
+      "selected_exposure": 1.5,
+      "selected_horizon_sessions": 10.0,
+      "selected_memory": {
+        "expanding": {
+          "count": 44,
+          "net_return_sum": 0.1533749999999999
+        },
+        "w10": {
+          "count": 10,
+          "net_return_sum": 0.060149999999999995
+        },
+        "w126": {
+          "count": 44,
+          "net_return_sum": 0.1533749999999999
+        },
+        "w20": {
+          "count": 20,
+          "net_return_sum": 0.10169999999999987
+        },
+        "w252": {
+          "count": 44,
+          "net_return_sum": 0.1533749999999999
+        },
+        "w40": {
+          "count": 40,
+          "net_return_sum": 0.12284999999999986
+        },
+        "w5": {
+          "count": 5,
+          "net_return_sum": 0.02520000000000004
+        },
+        "w60": {
+          "count": 44,
+          "net_return_sum": 0.1533749999999999
+        }
+      },
+      "selected_policy_id": "kronos_direction:1__h10__symmetric__x1p5",
+      "selected_side": "symmetric",
+      "selected_signal": 1.5,
+      "selected_weights": {
+        "kronos_direction": 1.0
+      },
+      "similar_state_net_return_mean": 0.0062333333333333225,
+      "similar_state_refs": [
+        "2010-09-08 00:37:55.552000+00:00",
+        "2010-09-03 00:02:36.246000+00:00",
+        "2010-09-02 01:19:32.072000+00:00",
+        "2010-09-01 00:33:24.068000+00:00",
+        "2010-09-05 23:16:53.774000+00:00",
+        "2010-08-31 00:44:53.796000+00:00",
+        "2010-08-19 00:01:10.304000+00:00",
+        "2010-08-20 00:01:21.191000+00:00",
+        "2010-08-22 23:02:55.734000+00:00",
+        "2010-08-24 00:01:40.038000+00:00"
+      ]
+    },
+    {
+      "decision_time": "2010-09-10 00:04:59.248000+00:00",
+      "marginal_edge": 0.0,
+      "max_outcome_available_at_used": "2010-09-10 00:00:00+00:00",
+      "objective_window_sessions": 30,
+      "position_state": "FULL",
+      "selected_exposure": 1.5,
+      "selected_horizon_sessions": 10.0,
+      "selected_memory": {
+        "expanding": {
+          "count": 45,
+          "net_return_sum": 0.15022499999999991
+        },
+        "w10": {
+          "count": 10,
+          "net_return_sum": 0.039000000000000055
+        },
+        "w126": {
+          "count": 45,
+          "net_return_sum": 0.15022499999999991
+        },
+        "w20": {
+          "count": 20,
+          "net_return_sum": 0.09854999999999989
+        },
+        "w252": {
+          "count": 45,
+          "net_return_sum": 0.15022499999999991
+        },
+        "w40": {
+          "count": 40,
+          "net_return_sum": 0.11189999999999994
+        },
+        "w5": {
+          "count": 5,
+          "net_return_sum": 0.017400000000000037
+        },
+        "w60": {
+          "count": 45,
+          "net_return_sum": 0.15022499999999991
+        }
+      },
+      "selected_policy_id": "kronos_direction:1__h10__symmetric__x1p5",
+      "selected_side": "symmetric",
+      "selected_signal": 1.5,
+      "selected_weights": {
+        "kronos_direction": 1.0
+      },
+      "similar_state_net_return_mean": 0.006366666666666671,
+      "similar_state_refs": [
+        "2010-09-09 00:07:35.172000+00:00",
+        "2010-09-08 00:37:55.552000+00:00",
+        "2010-09-03 00:02:36.246000+00:00",
+        "2010-09-02 01:19:32.072000+00:00",
+        "2010-09-01 00:33:24.068000+00:00",
+        "2010-09-05 23:16:53.774000+00:00",
+        "2010-08-31 00:44:53.796000+00:00",
+        "2010-08-19 00:01:10.304000+00:00",
+        "2010-08-20 00:01:21.191000+00:00",
+        "2010-08-24 00:01:40.038000+00:00"
+      ]
+    },
+    {
+      "decision_time": "2010-09-12 23:43:23.717000+00:00",
+      "marginal_edge": 0.0,
+      "max_outcome_available_at_used": "2010-09-12 00:00:00+00:00",
+      "objective_window_sessions": 30,
+      "position_state": "FULL",
+      "selected_exposure": 1.5,
+      "selected_horizon_sessions": 10.0,
+      "selected_memory": {
+        "expanding": {
+          "count": 46,
+          "net_return_sum": 0.15547499999999995
+        },
+        "w10": {
+          "count": 10,
+          "net_return_sum": 0.028950000000000028
+        },
+        "w126": {
+          "count": 46,
+          "net_return_sum": 0.15547499999999995
+        },
+        "w20": {
+          "count": 20,
+          "net_return_sum": 0.09914999999999982
+        },
+        "w252": {
+          "count": 46,
+          "net_return_sum": 0.15547499999999995
+        },
+        "w40": {
+          "count": 40,
+          "net_return_sum": 0.16139999999999993
+        },
+        "w5": {
+          "count": 5,
+          "net_return_sum": 0.01695000000000007
+        },
+        "w60": {
+          "count": 46,
+          "net_return_sum": 0.15547499999999995
+        }
+      },
+      "selected_policy_id": "kronos_direction:1__h10__symmetric__x1p5",
+      "selected_side": "symmetric",
+      "selected_signal": 1.5,
+      "selected_weights": {
+        "kronos_direction": 1.0
+      },
+      "similar_state_net_return_mean": 0.004950000000000012,
+      "similar_state_refs": [
+        "2010-09-09 00:07:35.172000+00:00",
+        "2010-09-10 00:04:59.248000+00:00",
+        "2010-09-08 00:37:55.552000+00:00",
+        "2010-09-05 23:16:53.774000+00:00",
+        "2010-08-31 00:44:53.796000+00:00",
+        "2010-09-01 00:33:24.068000+00:00",
+        "2010-09-02 01:19:32.072000+00:00",
+        "2010-09-03 00:02:36.246000+00:00",
+        "2010-08-20 00:01:21.191000+00:00",
+        "2010-08-19 00:01:10.304000+00:00"
+      ]
+    },
+    {
+      "decision_time": "2010-09-14 00:06:47.395000+00:00",
+      "marginal_edge": 0.0,
+      "max_outcome_available_at_used": "2010-09-14 00:00:00+00:00",
+      "objective_window_sessions": 30,
+      "position_state": "FULL",
+      "selected_exposure": 1.5,
+      "selected_horizon_sessions": 10.0,
+      "selected_memory": {
+        "expanding": {
+          "count": 48,
+          "net_return_sum": 0.17092499999999988
+        },
+        "w10": {
+          "count": 10,
+          "net_return_sum": 0.03165
+        },
+        "w126": {
+          "count": 48,
+          "net_return_sum": 0.17092499999999988
+        },
+        "w20": {
+          "count": 20,
+          "net_return_sum": 0.1217999999999998
+        },
+        "w252": {
+          "count": 48,
+          "net_return_sum": 0.17092499999999988
+        },
+        "w40": {
+          "count": 40,
+          "net_return_sum": 0.16259999999999997
+        },
+        "w5": {
+          "count": 5,
+          "net_return_sum": 0.013949999999999997
+        },
+        "w60": {
+          "count": 48,
+          "net_return_sum": 0.17092499999999988
+        }
+      },
+      "selected_policy_id": "kronos_direction:1__h10__symmetric__x1p5",
+      "selected_side": "symmetric",
+      "selected_signal": 1.5,
+      "selected_weights": {
+        "kronos_direction": 1.0
+      },
+      "similar_state_net_return_mean": 0.004395000000000005,
+      "similar_state_refs": [
+        "2010-09-12 23:43:23.717000+00:00",
+        "2010-09-08 00:37:55.552000+00:00",
+        "2010-09-10 00:04:59.248000+00:00",
+        "2010-09-09 00:07:35.172000+00:00",
+        "2010-09-05 23:16:53.774000+00:00",
+        "2010-09-01 00:33:24.068000+00:00",
+        "2010-08-31 00:44:53.796000+00:00",
+        "2010-08-18 00:01:39.569000+00:00",
+        "2010-09-03 00:02:36.246000+00:00",
+        "2010-08-19 00:01:10.304000+00:00"
+      ]
+    },
+    {
+      "decision_time": "2010-09-15 00:00:40.260000+00:00",
+      "marginal_edge": 0.0,
+      "max_outcome_available_at_used": "2010-09-14 00:00:00+00:00",
+      "objective_window_sessions": 30,
+      "position_state": "FULL",
+      "selected_exposure": 1.5,
+      "selected_horizon_sessions": 10.0,
+      "selected_memory": {
+        "expanding": {
+          "count": 48,
+          "net_return_sum": 0.17092499999999988
+        },
+        "w10": {
+          "count": 10,
+          "net_return_sum": 0.03165
+        },
+        "w126": {
+          "count": 48,
+          "net_return_sum": 0.17092499999999988
+        },
+        "w20": {
+          "count": 20,
+          "net_return_sum": 0.1217999999999998
+        },
+        "w252": {
+          "count": 48,
+          "net_return_sum": 0.17092499999999988
+        },
+        "w40": {
+          "count": 40,
+          "net_return_sum": 0.16259999999999997
+        },
+        "w5": {
+          "count": 5,
+          "net_return_sum": 0.013949999999999997
+        },
+        "w60": {
+          "count": 48,
+          "net_return_sum": 0.17092499999999988
+        }
+      },
+      "selected_policy_id": "kronos_direction:1__h10__symmetric__x1p5",
+      "selected_side": "symmetric",
+      "selected_signal": 1.5,
+      "selected_weights": {
+        "kronos_direction": 1.0
+      },
+      "similar_state_net_return_mean": 0.0029166666666666733,
+      "similar_state_refs": [
+        "2010-09-14 00:06:47.395000+00:00",
+        "2010-09-12 23:43:23.717000+00:00",
+        "2010-09-08 00:37:55.552000+00:00",
+        "2010-09-10 00:04:59.248000+00:00",
+        "2010-09-09 00:07:35.172000+00:00",
+        "2010-09-05 23:16:53.774000+00:00",
+        "2010-09-01 00:33:24.068000+00:00",
+        "2010-08-18 00:01:39.569000+00:00",
+        "2010-09-03 00:02:36.246000+00:00",
+        "2010-08-20 00:01:21.191000+00:00"
+      ]
+    },
+    {
+      "decision_time": "2010-09-16 00:11:53.098000+00:00",
+      "marginal_edge": 0.0,
+      "max_outcome_available_at_used": "2010-09-16 00:00:00+00:00",
+      "objective_window_sessions": 30,
+      "position_state": "FULL",
+      "selected_exposure": 1.5,
+      "selected_horizon_sessions": 10.0,
+      "selected_memory": {
+        "expanding": {
+          "count": 49,
+          "net_return_sum": 0.17602499999999993
+        },
+        "w10": {
+          "count": 10,
+          "net_return_sum": 0.04785000000000008
+        },
+        "w126": {
+          "count": 49,
+          "net_return_sum": 0.17602499999999993
+        },
+        "w20": {
+          "count": 20,
+          "net_return_sum": 0.11279999999999991
+        },
+        "w252": {
+          "count": 49,
+          "net_return_sum": 0.17602499999999993
+        },
+        "w40": {
+          "count": 40,
+          "net_return_sum": 0.16514999999999996
+        },
+        "w5": {
+          "count": 5,
+          "net_return_sum": 0.02265000000000004
+        },
+        "w60": {
+          "count": 49,
+          "net_return_sum": 0.17602499999999993
+        }
+      },
+      "selected_policy_id": "kronos_direction:1__h10__symmetric__x1p5",
+      "selected_side": "symmetric",
+      "selected_signal": 1.5,
+      "selected_weights": {
+        "kronos_direction": 1.0
+      },
+      "similar_state_net_return_mean": 0.003466666666666678,
+      "similar_state_refs": [
+        "2010-09-15 00:00:40.260000+00:00",
+        "2010-09-14 00:06:47.395000+00:00",
+        "2010-09-09 00:07:35.172000+00:00",
+        "2010-09-12 23:43:23.717000+00:00",
+        "2010-09-10 00:04:59.248000+00:00",
+        "2010-09-08 00:37:55.552000+00:00",
+        "2010-09-05 23:16:53.774000+00:00",
+        "2010-08-19 00:01:10.304000+00:00",
+        "2010-08-20 00:01:21.191000+00:00",
+        "2010-09-03 00:02:36.246000+00:00"
+      ]
+    },
+    {
+      "decision_time": "2010-09-17 00:57:03.959000+00:00",
+      "marginal_edge": 0.0,
+      "max_outcome_available_at_used": "2010-09-17 00:00:00+00:00",
+      "objective_window_sessions": 30,
+      "position_state": "FULL",
+      "selected_exposure": 1.5,
+      "selected_horizon_sessions": 10.0,
+      "selected_memory": {
+        "expanding": {
+          "count": 50,
+          "net_return_sum": 0.18607499999999988
+        },
+        "w10": {
+          "count": 10,
+          "net_return_sum": 0.05325000000000002
+        },
+        "w126": {
+          "count": 50,
+          "net_return_sum": 0.18607499999999988
+        },
+        "w20": {
+          "count": 20,
+          "net_return_sum": 0.1153499999999999
+        },
+        "w252": {
+          "count": 50,
+          "net_return_sum": 0.18607499999999988
+        },
+        "w40": {
+          "count": 40,
+          "net_return_sum": 0.15959999999999988
+        },
+        "w5": {
+          "count": 5,
+          "net_return_sum": 0.035849999999999986
+        },
+        "w60": {
+          "count": 50,
+          "net_return_sum": 0.18607499999999988
+        }
+      },
+      "selected_policy_id": "kronos_direction:1__h10__symmetric__x1p5",
+      "selected_side": "symmetric",
+      "selected_signal": 1.5,
+      "selected_weights": {
+        "kronos_direction": 1.0
+      },
+      "similar_state_net_return_mean": 0.0051500000000000035,
+      "similar_state_refs": [
+        "2010-09-16 00:11:53.098000+00:00",
+        "2010-09-15 00:00:40.260000+00:00",
+        "2010-09-14 00:06:47.395000+00:00",
+        "2010-09-12 23:43:23.717000+00:00",
+        "2010-09-10 00:04:59.248000+00:00",
+        "2010-09-08 00:37:55.552000+00:00",
+        "2010-09-09 00:07:35.172000+00:00",
+        "2010-09-05 23:16:53.774000+00:00",
+        "2010-08-20 00:01:21.191000+00:00",
+        "2010-08-19 00:01:10.304000+00:00"
+      ]
+    },
+    {
+      "decision_time": "2010-09-19 23:50:46.296000+00:00",
+      "marginal_edge": 0.0,
+      "max_outcome_available_at_used": "2010-09-19 00:00:00+00:00",
+      "objective_window_sessions": 30,
+      "position_state": "FULL",
+      "selected_exposure": 1.5,
+      "selected_horizon_sessions": 10.0,
+      "selected_memory": {
+        "expanding": {
+          "count": 51,
+          "net_return_sum": 0.17167499999999994
+        },
+        "w10": {
+          "count": 10,
+          "net_return_sum": 0.03315000000000009
+        },
+        "w126": {
+          "count": 51,
+          "net_return_sum": 0.17167499999999994
+        },
+        "w20": {
+          "count": 20,
+          "net_return_sum": 0.09134999999999996
+        },
+        "w252": {
+          "count": 51,
+          "net_return_sum": 0.17167499999999994
+        },
+        "w40": {
+          "count": 40,
+          "net_return_sum": 0.16559999999999997
+        },
+        "w5": {
+          "count": 5,
+          "net_return_sum": 0.016200000000000013
+        },
+        "w60": {
+          "count": 51,
+          "net_return_sum": 0.17167499999999994
+        }
+      },
+      "selected_policy_id": "kronos_direction:1__h10__symmetric__x1p5",
+      "selected_side": "symmetric",
+      "selected_signal": 1.5,
+      "selected_weights": {
+        "kronos_direction": 1.0
+      },
+      "similar_state_net_return_mean": 0.005733333333333338,
+      "similar_state_refs": [
+        "2010-09-16 00:11:53.098000+00:00",
+        "2010-09-15 00:00:40.260000+00:00",
+        "2010-09-14 00:06:47.395000+00:00",
+        "2010-09-17 00:57:03.959000+00:00",
+        "2010-09-12 23:43:23.717000+00:00",
+        "2010-09-09 00:07:35.172000+00:00",
+        "2010-09-10 00:04:59.248000+00:00",
+        "2010-09-08 00:37:55.552000+00:00",
+        "2010-08-24 00:01:40.038000+00:00",
+        "2010-08-25 00:01:08.446000+00:00"
+      ]
+    },
+    {
+      "decision_time": "2010-09-21 01:06:09.041000+00:00",
+      "marginal_edge": 0.0,
+      "max_outcome_available_at_used": "2010-09-21 00:00:00+00:00",
+      "objective_window_sessions": 30,
+      "position_state": "FULL",
+      "selected_exposure": 1.5,
+      "selected_horizon_sessions": 10.0,
+      "selected_memory": {
+        "expanding": {
+          "count": 53,
+          "net_return_sum": 0.15112499999999995
+        },
+        "w10": {
+          "count": 10,
+          "net_return_sum": -0.005849999999999951
+        },
+        "w126": {
+          "count": 53,
+          "net_return_sum": 0.15112499999999995
+        },
+        "w20": {
+          "count": 20,
+          "net_return_sum": 0.053549999999999924
+        },
+        "w252": {
+          "count": 53,
+          "net_return_sum": 0.15112499999999995
+        },
+        "w40": {
+          "count": 40,
+          "net_return_sum": 0.1277999999999999
+        },
+        "w5": {
+          "count": 5,
+          "net_return_sum": -0.01979999999999995
+        },
+        "w60": {
+          "count": 53,
+          "net_return_sum": 0.15112499999999995
+        }
+      },
+      "selected_policy_id": "kronos_direction:1__h10__symmetric__x1p5",
+      "selected_side": "symmetric",
+      "selected_signal": 1.5,
+      "selected_weights": {
+        "kronos_direction": 1.0
+      },
+      "similar_state_net_return_mean": 0.0013050000000000032,
+      "similar_state_refs": [
+        "2010-09-19 23:50:46.296000+00:00",
+        "2010-09-10 00:04:59.248000+00:00",
+        "2010-09-12 23:43:23.717000+00:00",
+        "2010-09-15 00:00:40.260000+00:00",
+        "2010-09-14 00:06:47.395000+00:00",
+        "2010-09-08 00:37:55.552000+00:00",
+        "2010-09-17 00:57:03.959000+00:00",
+        "2010-09-09 00:07:35.172000+00:00",
+        "2010-09-16 00:11:53.098000+00:00",
+        "2010-08-26 00:16:12.163000+00:00"
+      ]
+    },
+    {
+      "decision_time": "2010-09-22 00:36:00.517000+00:00",
+      "marginal_edge": 0.0,
+      "max_outcome_available_at_used": "2010-09-21 00:00:00+00:00",
+      "objective_window_sessions": 30,
+      "position_state": "FULL",
+      "selected_exposure": 1.5,
+      "selected_horizon_sessions": 10.0,
+      "selected_memory": {
+        "expanding": {
+          "count": 53,
+          "net_return_sum": 0.15112499999999995
+        },
+        "w10": {
+          "count": 10,
+          "net_return_sum": -0.005849999999999951
+        },
+        "w126": {
+          "count": 53,
+          "net_return_sum": 0.15112499999999995
+        },
+        "w20": {
+          "count": 20,
+          "net_return_sum": 0.053549999999999924
+        },
+        "w252": {
+          "count": 53,
+          "net_return_sum": 0.15112499999999995
+        },
+        "w40": {
+          "count": 40,
+          "net_return_sum": 0.1277999999999999
+        },
+        "w5": {
+          "count": 5,
+          "net_return_sum": -0.01979999999999995
+        },
+        "w60": {
+          "count": 53,
+          "net_return_sum": 0.15112499999999995
+        }
+      },
+      "selected_policy_id": "kronos_direction:1__h10__symmetric__x1p5",
+      "selected_side": "symmetric",
+      "selected_signal": 1.5,
+      "selected_weights": {
+        "kronos_direction": 1.0
+      },
+      "similar_state_net_return_mean": -0.00024999999999999426,
+      "similar_state_refs": [
+        "2010-09-15 00:00:40.260000+00:00",
+        "2010-09-19 23:50:46.296000+00:00",
+        "2010-09-14 00:06:47.395000+00:00",
+        "2010-09-21 01:06:09.041000+00:00",
+        "2010-09-12 23:43:23.717000+00:00",
+        "2010-09-17 00:57:03.959000+00:00",
+        "2010-09-16 00:11:53.098000+00:00",
+        "2010-09-10 00:04:59.248000+00:00",
+        "2010-09-08 00:37:55.552000+00:00",
+        "2010-09-09 00:07:35.172000+00:00"
+      ]
+    },
+    {
+      "decision_time": "2010-09-23 00:01:49.732000+00:00",
+      "marginal_edge": 0.0,
+      "max_outcome_available_at_used": "2010-09-23 00:00:00+00:00",
+      "objective_window_sessions": 30,
+      "position_state": "FULL",
+      "selected_exposure": 1.5,
+      "selected_horizon_sessions": 10.0,
+      "selected_memory": {
+        "expanding": {
+          "count": 54,
+          "net_return_sum": 0.158625
+        },
+        "w10": {
+          "count": 10,
+          "net_return_sum": 0.005250000000000091
+        },
+        "w126": {
+          "count": 54,
+          "net_return_sum": 0.158625
+        },
+        "w20": {
+          "count": 20,
+          "net_return_sum": 0.06540000000000008
+        },
+        "w252": {
+          "count": 54,
+          "net_return_sum": 0.158625
+        },
+        "w40": {
+          "count": 40,
+          "net_return_sum": 0.14759999999999995
+        },
+        "w5": {
+          "count": 5,
+          "net_return_sum": -0.01739999999999995
+        },
+        "w60": {
+          "count": 54,
+          "net_return_sum": 0.158625
+        }
+      },
+      "selected_policy_id": "kronos_direction:1__h10__symmetric__x1p5",
+      "selected_side": "symmetric",
+      "selected_signal": 1.5,
+      "selected_weights": {
+        "kronos_direction": 1.0
+      },
+      "similar_state_net_return_mean": 0.001266666666666683,
+      "similar_state_refs": [
+        "2010-09-22 00:36:00.517000+00:00",
+        "2010-09-16 00:11:53.098000+00:00",
+        "2010-09-19 23:50:46.296000+00:00",
+        "2010-09-09 00:07:35.172000+00:00",
+        "2010-09-14 00:06:47.395000+00:00",
+        "2010-09-10 00:04:59.248000+00:00",
+        "2010-09-15 00:00:40.260000+00:00",
+        "2010-09-12 23:43:23.717000+00:00",
+        "2010-09-21 01:06:09.041000+00:00",
+        "2010-09-08 00:37:55.552000+00:00"
+      ]
+    },
+    {
+      "decision_time": "2010-09-24 00:04:12.422000+00:00",
+      "marginal_edge": 0.0,
+      "max_outcome_available_at_used": "2010-09-24 00:00:00+00:00",
+      "objective_window_sessions": 30,
+      "position_state": "FULL",
+      "selected_exposure": 1.5,
+      "selected_horizon_sessions": 10.0,
+      "selected_memory": {
+        "expanding": {
+          "count": 55,
+          "net_return_sum": 0.16582499999999992
+        },
+        "w10": {
+          "count": 10,
+          "net_return_sum": 0.015600000000000013
+        },
+        "w126": {
+          "count": 55,
+          "net_return_sum": 0.16582499999999992
+        },
+        "w20": {
+          "count": 20,
+          "net_return_sum": 0.05460000000000007
+        },
+        "w252": {
+          "count": 55,
+          "net_return_sum": 0.16582499999999992
+        },
+        "w40": {
+          "count": 40,
+          "net_return_sum": 0.16049999999999992
+        },
+        "w5": {
+          "count": 5,
+          "net_return_sum": -0.020249999999999966
+        },
+        "w60": {
+          "count": 55,
+          "net_return_sum": 0.16582499999999992
+        }
+      },
+      "selected_policy_id": "kronos_direction:1__h10__symmetric__x1p5",
+      "selected_side": "symmetric",
+      "selected_signal": 1.5,
+      "selected_weights": {
+        "kronos_direction": 1.0
+      },
+      "similar_state_net_return_mean": 0.0008999999999999968,
+      "similar_state_refs": [
+        "2010-09-23 00:01:49.732000+00:00",
+        "2010-09-22 00:36:00.517000+00:00",
+        "2010-09-16 00:11:53.098000+00:00",
+        "2010-09-19 23:50:46.296000+00:00",
+        "2010-09-15 00:00:40.260000+00:00",
+        "2010-09-17 00:57:03.959000+00:00",
+        "2010-09-14 00:06:47.395000+00:00",
+        "2010-09-12 23:43:23.717000+00:00",
+        "2010-09-09 00:07:35.172000+00:00",
+        "2010-09-10 00:04:59.248000+00:00"
+      ]
+    },
+    {
+      "decision_time": "2010-09-26 23:44:37.613000+00:00",
+      "marginal_edge": 0.0,
+      "max_outcome_available_at_used": "2010-09-26 00:00:00+00:00",
+      "objective_window_sessions": 30,
+      "position_state": "FULL",
+      "selected_exposure": 1.5,
+      "selected_horizon_sessions": 1.0,
+      "selected_memory": {
+        "expanding": {
+          "count": 56,
+          "net_return_sum": 0.026175000000000097
+        },
+        "w10": {
+          "count": 10,
+          "net_return_sum": 0.022049999999999972
+        },
+        "w126": {
+          "count": 56,
+          "net_return_sum": 0.026175000000000097
+        },
+        "w20": {
+          "count": 20,
+          "net_return_sum": 0.00524999999999989
+        },
+        "w252": {
+          "count": 56,
+          "net_return_sum": 0.026175000000000097
+        },
+        "w40": {
+          "count": 40,
+          "net_return_sum": 0.04080000000000008
+        },
+        "w5": {
+          "count": 5,
+          "net_return_sum": 0.038249999999999985
+        },
+        "w60": {
+          "count": 56,
+          "net_return_sum": 0.026175000000000097
+        }
+      },
+      "selected_policy_id": "trend_ret20:1__h1__symmetric__x1p5",
+      "selected_side": "symmetric",
+      "selected_signal": 1.5,
+      "selected_weights": {
+        "trend_ret20": 1.0
+      },
+      "similar_state_net_return_mean": 0.004433333333333311,
+      "similar_state_refs": [
+        "2010-09-24 00:04:12.422000+00:00",
+        "2010-09-21 01:06:09.041000+00:00",
+        "2010-09-23 00:01:49.732000+00:00",
+        "2010-09-22 00:36:00.517000+00:00",
+        "2010-09-19 23:50:46.296000+00:00",
+        "2010-09-09 00:07:35.172000+00:00",
+        "2010-09-14 00:06:47.395000+00:00",
+        "2010-09-12 23:43:23.717000+00:00",
+        "2010-08-24 00:01:40.038000+00:00",
+        "2010-09-16 00:11:53.098000+00:00"
+      ]
+    },
+    {
+      "decision_time": "2010-09-28 00:28:03.890000+00:00",
+      "marginal_edge": 0.0,
+      "max_outcome_available_at_used": "2010-09-28 00:00:00+00:00",
+      "objective_window_sessions": 30,
+      "position_state": "REVERSE",
+      "selected_exposure": 1.5,
+      "selected_horizon_sessions": 10.0,
+      "selected_memory": {
+        "expanding": {
+          "count": 58,
+          "net_return_sum": 0.13552499999999978
+        },
+        "w10": {
+          "count": 10,
+          "net_return_sum": 0.04124999999999992
+        },
+        "w126": {
+          "count": 58,
+          "net_return_sum": 0.13552499999999978
+        },
+        "w20": {
+          "count": 20,
+          "net_return_sum": -0.003750000000000116
+        },
+        "w252": {
+          "count": 58,
+          "net_return_sum": 0.13552499999999978
+        },
+        "w40": {
+          "count": 40,
+          "net_return_sum": 0.1736999999999998
+        },
+        "w5": {
+          "count": 5,
+          "net_return_sum": 0.02144999999999997
+        },
+        "w60": {
+          "count": 58,
+          "net_return_sum": 0.13552499999999978
+        }
+      },
+      "selected_policy_id": "curve_slope_inverse:1__h10__short_only__x1p5",
+      "selected_side": "short_only",
+      "selected_signal": -1.5,
+      "selected_weights": {
+        "curve_slope_inverse": 1.0
+      },
+      "similar_state_net_return_mean": 0.0033749999999999883,
+      "similar_state_refs": [
+        "2010-09-26 23:44:37.613000+00:00",
+        "2010-09-24 00:04:12.422000+00:00",
+        "2010-09-23 00:01:49.732000+00:00",
+        "2010-09-22 00:36:00.517000+00:00",
+        "2010-09-21 01:06:09.041000+00:00",
+        "2010-09-19 23:50:46.296000+00:00",
+        "2010-09-15 00:00:40.260000+00:00",
+        "2010-09-16 00:11:53.098000+00:00",
+        "2010-09-09 00:07:35.172000+00:00",
+        "2010-09-10 00:04:59.248000+00:00"
+      ]
+    },
+    {
+      "decision_time": "2010-09-30 00:32:28.322000+00:00",
+      "marginal_edge": 0.0,
+      "max_outcome_available_at_used": "2010-09-30 00:00:00+00:00",
+      "objective_window_sessions": 30,
+      "position_state": "REVERSE",
+      "selected_exposure": 1.5,
+      "selected_horizon_sessions": 3.0,
+      "selected_memory": {
+        "expanding": {
+          "count": 59,
+          "net_return_sum": -0.04672500000000018
+        },
+        "w10": {
+          "count": 10,
+          "net_return_sum": 0.044700000000000024
+        },
+        "w126": {
+          "count": 59,
+          "net_return_sum": -0.04672500000000018
+        },
+        "w20": {
+          "count": 20,
+          "net_return_sum": 0.00569999999999999
+        },
+        "w252": {
+          "count": 59,
+          "net_return_sum": -0.04672500000000018
+        },
+        "w40": {
+          "count": 40,
+          "net_return_sum": 0.03209999999999978
+        },
+        "w5": {
+          "count": 5,
+          "net_return_sum": 0.027300000000000078
+        },
+        "w60": {
+          "count": 59,
+          "net_return_sum": -0.04672500000000018
+        }
+      },
+      "selected_policy_id": "trend_ret20:1__h3__symmetric__x1p5",
+      "selected_side": "symmetric",
+      "selected_signal": 1.5,
+      "selected_weights": {
+        "trend_ret20": 1.0
+      },
+      "similar_state_net_return_mean": 0.005414999999999989,
+      "similar_state_refs": [
+        "2010-09-09 00:07:35.172000+00:00",
+        "2010-09-16 00:11:53.098000+00:00",
+        "2010-08-31 00:44:53.796000+00:00",
+        "2010-09-08 00:37:55.552000+00:00",
+        "2010-09-23 00:01:49.732000+00:00",
+        "2010-09-19 23:50:46.296000+00:00",
+        "2010-09-12 23:43:23.717000+00:00",
+        "2010-09-24 00:04:12.422000+00:00",
+        "2010-09-05 23:16:53.774000+00:00",
+        "2010-09-10 00:04:59.248000+00:00"
+      ]
+    },
+    {
+      "decision_time": "2010-10-01 00:15:23.701000+00:00",
+      "marginal_edge": 0.0,
+      "max_outcome_available_at_used": "2010-09-30 00:00:00+00:00",
+      "objective_window_sessions": 30,
+      "position_state": "REVERSE",
+      "selected_exposure": 1.5,
+      "selected_horizon_sessions": 3.0,
+      "selected_memory": {
+        "expanding": {
+          "count": 59,
+          "net_return_sum": -0.04672500000000018
+        },
+        "w10": {
+          "count": 10,
+          "net_return_sum": 0.044700000000000024
+        },
+        "w126": {
+          "count": 59,
+          "net_return_sum": -0.04672500000000018
+        },
+        "w20": {
+          "count": 20,
+          "net_return_sum": 0.00569999999999999
+        },
+        "w252": {
+          "count": 59,
+          "net_return_sum": -0.04672500000000018
+        },
+        "w40": {
+          "count": 40,
+          "net_return_sum": 0.03209999999999978
+        },
+        "w5": {
+          "count": 5,
+          "net_return_sum": 0.027300000000000078
+        },
+        "w60": {
+          "count": 59,
+          "net_return_sum": -0.04672500000000018
+        }
+      },
+      "selected_policy_id": "trend_ret20:1__h3__symmetric__x1p5",
+      "selected_side": "symmetric",
+      "selected_signal": -1.5,
+      "selected_weights": {
+        "trend_ret20": 1.0
+      },
+      "similar_state_net_return_mean": -0.004133333333333337,
+      "similar_state_refs": [
+        "2010-09-30 00:32:28.322000+00:00",
+        "2010-09-08 00:37:55.552000+00:00",
+        "2010-09-09 00:07:35.172000+00:00",
+        "2010-09-10 00:04:59.248000+00:00",
+        "2010-09-16 00:11:53.098000+00:00",
+        "2010-09-15 00:00:40.260000+00:00",
+        "2010-08-31 00:44:53.796000+00:00",
+        "2010-09-12 23:43:23.717000+00:00",
+        "2010-09-02 01:19:32.072000+00:00",
+        "2010-09-14 00:06:47.395000+00:00"
+      ]
+    },
+    {
+      "decision_time": "2010-10-03 23:30:55.291000+00:00",
+      "marginal_edge": 0.00607500000000008,
+      "max_outcome_available_at_used": "2010-10-03 00:00:00+00:00",
+      "objective_window_sessions": 30,
+      "position_state": "REVERSE",
+      "selected_exposure": 1.5,
+      "selected_horizon_sessions": 3.0,
+      "selected_memory": {
+        "expanding": {
+          "count": 60,
+          "net_return_sum": 0.17197500000000007
+        },
+        "w10": {
+          "count": 10,
+          "net_return_sum": 0.07064999999999995
+        },
+        "w126": {
+          "count": 60,
+          "net_return_sum": 0.17197500000000007
+        },
+        "w20": {
+          "count": 20,
+          "net_return_sum": 0.03374999999999998
+        },
+        "w252": {
+          "count": 60,
+          "net_return_sum": 0.17197500000000007
+        },
+        "w40": {
+          "count": 40,
+          "net_return_sum": 0.12465000000000011
+        },
+        "w5": {
+          "count": 5,
+          "net_return_sum": 0.05039999999999997
+        },
+        "w60": {
+          "count": 60,
+          "net_return_sum": 0.17197500000000007
+        }
+      },
+      "selected_policy_id": "kronos_direction:1__h3__symmetric__x1p5",
+      "selected_side": "symmetric",
+      "selected_signal": 1.5,
+      "selected_weights": {
+        "kronos_direction": 1.0
+      },
+      "similar_state_net_return_mean": -0.0012833333333333227,
+      "similar_state_refs": [
+        "2010-10-01 00:15:23.701000+00:00",
+        "2010-09-30 00:32:28.322000+00:00",
+        "2010-09-08 00:37:55.552000+00:00",
+        "2010-09-09 00:07:35.172000+00:00",
+        "2010-09-10 00:04:59.248000+00:00",
+        "2010-09-03 00:02:36.246000+00:00",
+        "2010-09-01 00:33:24.068000+00:00",
+        "2010-09-16 00:11:53.098000+00:00",
+        "2010-09-02 01:19:32.072000+00:00",
+        "2010-09-15 00:00:40.260000+00:00"
+      ]
+    },
+    {
+      "decision_time": "2010-10-05 00:03:25.711000+00:00",
+      "marginal_edge": 0.01365000000000019,
+      "max_outcome_available_at_used": "2010-10-05 00:00:00+00:00",
+      "objective_window_sessions": 30,
+      "position_state": "STARTER",
+      "selected_exposure": 1.5,
+      "selected_horizon_sessions": 10.0,
+      "selected_memory": {
+        "expanding": {
+          "count": 62,
+          "net_return_sum": -0.08287500000000002
+        },
+        "w10": {
+          "count": 10,
+          "net_return_sum": 0.0474
+        },
+        "w126": {
+          "count": 62,
+          "net_return_sum": -0.08287500000000002
+        },
+        "w20": {
+          "count": 20,
+          "net_return_sum": 0.09150000000000003
+        },
+        "w252": {
+          "count": 62,
+          "net_return_sum": -0.08287500000000002
+        },
+        "w40": {
+          "count": 40,
+          "net_return_sum": 0.02160000000000013
+        },
+        "w5": {
+          "count": 5,
+          "net_return_sum": 0.013050000000000051
+        },
+        "w60": {
+          "count": 60,
+          "net_return_sum": -0.055499999999999994
+        }
+      },
+      "selected_policy_id": "mean_reversion_ret5:1__h10__symmetric__x1p5",
+      "selected_side": "symmetric",
+      "selected_signal": 1.5,
+      "selected_weights": {
+        "mean_reversion_ret5": 1.0
+      },
+      "similar_state_net_return_mean": 0.007065000000000004,
+      "similar_state_refs": [
+        "2010-10-03 23:30:55.291000+00:00",
+        "2010-10-01 00:15:23.701000+00:00",
+        "2010-09-09 00:07:35.172000+00:00",
+        "2010-09-08 00:37:55.552000+00:00",
+        "2010-09-10 00:04:59.248000+00:00",
+        "2010-09-30 00:32:28.322000+00:00",
+        "2010-09-15 00:00:40.260000+00:00",
+        "2010-09-01 00:33:24.068000+00:00",
+        "2010-09-12 23:43:23.717000+00:00",
+        "2010-09-02 01:19:32.072000+00:00"
+      ]
+    },
+    {
+      "decision_time": "2010-10-06 00:00:37.617000+00:00",
+      "marginal_edge": 0.01365000000000019,
+      "max_outcome_available_at_used": "2010-10-05 00:00:00+00:00",
+      "objective_window_sessions": 30,
+      "position_state": "FULL",
+      "selected_exposure": 1.5,
+      "selected_horizon_sessions": 10.0,
+      "selected_memory": {
+        "expanding": {
+          "count": 62,
+          "net_return_sum": -0.08287500000000002
+        },
+        "w10": {
+          "count": 10,
+          "net_return_sum": 0.0474
+        },
+        "w126": {
+          "count": 62,
+          "net_return_sum": -0.08287500000000002
+        },
+        "w20": {
+          "count": 20,
+          "net_return_sum": 0.09150000000000003
+        },
+        "w252": {
+          "count": 62,
+          "net_return_sum": -0.08287500000000002
+        },
+        "w40": {
+          "count": 40,
+          "net_return_sum": 0.02160000000000013
+        },
+        "w5": {
+          "count": 5,
+          "net_return_sum": 0.013050000000000051
+        },
+        "w60": {
+          "count": 60,
+          "net_return_sum": -0.055499999999999994
+        }
+      },
+      "selected_policy_id": "mean_reversion_ret5:1__h10__symmetric__x1p5",
+      "selected_side": "symmetric",
+      "selected_signal": 1.5,
+      "selected_weights": {
+        "mean_reversion_ret5": 1.0
+      },
+      "similar_state_net_return_mean": 0.005233333333333336,
+      "similar_state_refs": [
+        "2010-10-05 00:03:25.711000+00:00",
+        "2010-10-03 23:30:55.291000+00:00",
+        "2010-10-01 00:15:23.701000+00:00",
+        "2010-09-09 00:07:35.172000+00:00",
+        "2010-09-08 00:37:55.552000+00:00",
+        "2010-09-01 00:33:24.068000+00:00",
+        "2010-09-15 00:00:40.260000+00:00",
+        "2010-09-30 00:32:28.322000+00:00",
+        "2010-09-10 00:04:59.248000+00:00",
+        "2010-09-12 23:43:23.717000+00:00"
+      ]
+    },
+    {
+      "decision_time": "2010-10-07 00:00:48.818000+00:00",
+      "marginal_edge": 0.023850000000000204,
+      "max_outcome_available_at_used": "2010-10-07 00:00:00+00:00",
+      "objective_window_sessions": 30,
+      "position_state": "FULL",
+      "selected_exposure": 1.5,
+      "selected_horizon_sessions": 10.0,
+      "selected_memory": {
+        "expanding": {
+          "count": 63,
+          "net_return_sum": -0.06682500000000005
+        },
+        "w10": {
+          "count": 10,
+          "net_return_sum": 0.04905000000000001
+        },
+        "w126": {
+          "count": 63,
+          "net_return_sum": -0.06682500000000005
+        },
+        "w20": {
+          "count": 20,
+          "net_return_sum": 0.11264999999999996
+        },
+        "w252": {
+          "count": 63,
+          "net_return_sum": -0.06682500000000005
+        },
+        "w40": {
+          "count": 40,
+          "net_return_sum": 0.036000000000000074
+        },
+        "w5": {
+          "count": 5,
+          "net_return_sum": 0.027600000000000045
+        },
+        "w60": {
+          "count": 60,
+          "net_return_sum": -0.04260000000000001
+        }
+      },
+      "selected_policy_id": "mean_reversion_ret5:1__h10__symmetric__x1p5",
+      "selected_side": "symmetric",
+      "selected_signal": 1.5,
+      "selected_weights": {
+        "mean_reversion_ret5": 1.0
+      },
+      "similar_state_net_return_mean": 0.010049999999999984,
+      "similar_state_refs": [
+        "2010-10-03 23:30:55.291000+00:00",
+        "2010-10-05 00:03:25.711000+00:00",
+        "2010-10-06 00:00:37.617000+00:00",
+        "2010-10-01 00:15:23.701000+00:00",
+        "2010-09-09 00:07:35.172000+00:00",
+        "2010-09-16 00:11:53.098000+00:00",
+        "2010-09-12 23:43:23.717000+00:00",
+        "2010-09-10 00:04:59.248000+00:00",
+        "2010-09-23 00:01:49.732000+00:00",
+        "2010-09-15 00:00:40.260000+00:00"
+      ]
+    },
+    {
+      "decision_time": "2010-10-08 00:00:30.565000+00:00",
+      "marginal_edge": 0.0,
+      "max_outcome_available_at_used": "2010-10-08 00:00:00+00:00",
+      "objective_window_sessions": 30,
+      "position_state": "REVERSE",
+      "selected_exposure": 1.5,
+      "selected_horizon_sessions": 10.0,
+      "selected_memory": {
+        "expanding": {
+          "count": 64,
+          "net_return_sum": 0.17587499999999973
+        },
+        "w10": {
+          "count": 10,
+          "net_return_sum": 0.06929999999999996
+        },
+        "w126": {
+          "count": 64,
+          "net_return_sum": 0.17587499999999973
+        },
+        "w20": {
+          "count": 20,
+          "net_return_sum": 0.06404999999999988
+        },
+        "w252": {
+          "count": 64,
+          "net_return_sum": 0.17587499999999973
+        },
+        "w40": {
+          "count": 40,
+          "net_return_sum": 0.12419999999999971
+        },
+        "w5": {
+          "count": 5,
+          "net_return_sum": 0.04214999999999995
+        },
+        "w60": {
+          "count": 60,
+          "net_return_sum": 0.1453499999999997
+        }
+      },
+      "selected_policy_id": "curve_slope_inverse:1__h10__short_only__x1p5",
+      "selected_side": "short_only",
+      "selected_signal": -1.5,
+      "selected_weights": {
+        "curve_slope_inverse": 1.0
+      },
+      "similar_state_net_return_mean": -0.0009166666666666844,
+      "similar_state_refs": [
+        "2010-10-07 00:00:48.818000+00:00",
+        "2010-10-05 00:03:25.711000+00:00",
+        "2010-09-10 00:04:59.248000+00:00",
+        "2010-10-03 23:30:55.291000+00:00",
+        "2010-10-01 00:15:23.701000+00:00",
+        "2010-09-09 00:07:35.172000+00:00",
+        "2010-09-08 00:37:55.552000+00:00",
+        "2010-10-06 00:00:37.617000+00:00",
+        "2010-09-21 01:06:09.041000+00:00",
+        "2010-09-02 01:19:32.072000+00:00"
+      ]
+    },
+    {
+      "decision_time": "2010-10-10 23:34:50.664000+00:00",
+      "marginal_edge": 0.010800000000000032,
+      "max_outcome_available_at_used": "2010-10-10 00:00:00+00:00",
+      "objective_window_sessions": 30,
+      "position_state": "REVERSE",
+      "selected_exposure": 1.5,
+      "selected_horizon_sessions": 10.0,
+      "selected_memory": {
+        "expanding": {
+          "count": 65,
+          "net_return_sum": -0.10147500000000005
+        },
+        "w10": {
+          "count": 10,
+          "net_return_sum": 0.029100000000000008
+        },
+        "w126": {
+          "count": 65,
+          "net_return_sum": -0.10147500000000005
+        },
+        "w20": {
+          "count": 20,
+          "net_return_sum": 0.08474999999999996
+        },
+        "w252": {
+          "count": 65,
+          "net_return_sum": -0.10147500000000005
+        },
+        "w40": {
+          "count": 40,
+          "net_return_sum": 0.021450000000000136
+        },
+        "w5": {
+          "count": 5,
+          "net_return_sum": -0.02129999999999997
+        },
+        "w60": {
+          "count": 60,
+          "net_return_sum": -0.06270000000000009
+        }
+      },
+      "selected_policy_id": "mean_reversion_ret5:1__h10__symmetric__x1p5",
+      "selected_side": "symmetric",
+      "selected_signal": 1.5,
+      "selected_weights": {
+        "mean_reversion_ret5": 1.0
+      },
+      "similar_state_net_return_mean": -0.000416666666666663,
+      "similar_state_refs": [
+        "2010-10-07 00:00:48.818000+00:00",
+        "2010-10-08 00:00:30.565000+00:00",
+        "2010-10-06 00:00:37.617000+00:00",
+        "2010-10-05 00:03:25.711000+00:00",
+        "2010-10-03 23:30:55.291000+00:00",
+        "2010-09-10 00:04:59.248000+00:00",
+        "2010-09-09 00:07:35.172000+00:00",
+        "2010-09-12 23:43:23.717000+00:00",
+        "2010-09-08 00:37:55.552000+00:00",
+        "2010-10-01 00:15:23.701000+00:00"
+      ]
+    },
+    {
+      "decision_time": "2010-10-12 00:00:37.236000+00:00",
+      "marginal_edge": 0.03405000000000008,
+      "max_outcome_available_at_used": "2010-10-12 00:00:00+00:00",
+      "objective_window_sessions": 30,
+      "position_state": "STARTER",
+      "selected_exposure": 1.5,
+      "selected_horizon_sessions": 10.0,
+      "selected_memory": {
+        "expanding": {
+          "count": 67,
+          "net_return_sum": -0.10882500000000003
+        },
+        "w10": {
+          "count": 10,
+          "net_return_sum": -0.012899999999999958
+        },
+        "w126": {
+          "count": 67,
+          "net_return_sum": -0.10882500000000003
+        },
+        "w20": {
+          "count": 20,
+          "net_return_sum": 0.07094999999999996
+        },
+        "w252": {
+          "count": 67,
+          "net_return_sum": -0.10882500000000003
+        },
+        "w40": {
+          "count": 40,
+          "net_return_sum": 0.010500000000000148
+        },
+        "w5": {
+          "count": 5,
+          "net_return_sum": -0.025950000000000008
+        },
+        "w60": {
+          "count": 60,
+          "net_return_sum": -0.1014
+        }
+      },
+      "selected_policy_id": "mean_reversion_ret5:1__h10__symmetric__x1p5",
+      "selected_side": "symmetric",
+      "selected_signal": 1.5,
+      "selected_weights": {
+        "mean_reversion_ret5": 1.0
+      },
+      "similar_state_net_return_mean": -0.0019499999999999912,
+      "similar_state_refs": [
+        "2010-10-10 23:34:50.664000+00:00",
+        "2010-10-06 00:00:37.617000+00:00",
+        "2010-10-07 00:00:48.818000+00:00",
+        "2010-10-08 00:00:30.565000+00:00",
+        "2010-10-05 00:03:25.711000+00:00",
+        "2010-09-10 00:04:59.248000+00:00",
+        "2010-10-03 23:30:55.291000+00:00",
+        "2010-09-22 00:36:00.517000+00:00",
+        "2010-09-09 00:07:35.172000+00:00",
+        "2010-09-12 23:43:23.717000+00:00"
+      ]
+    },
+    {
+      "decision_time": "2010-10-13 00:00:37.664000+00:00",
+      "marginal_edge": 0.03405000000000008,
+      "max_outcome_available_at_used": "2010-10-12 00:00:00+00:00",
+      "objective_window_sessions": 30,
+      "position_state": "FULL",
+      "selected_exposure": 1.5,
+      "selected_horizon_sessions": 10.0,
+      "selected_memory": {
+        "expanding": {
+          "count": 67,
+          "net_return_sum": -0.10882500000000003
+        },
+        "w10": {
+          "count": 10,
+          "net_return_sum": -0.012899999999999958
+        },
+        "w126": {
+          "count": 67,
+          "net_return_sum": -0.10882500000000003
+        },
+        "w20": {
+          "count": 20,
+          "net_return_sum": 0.07094999999999996
+        },
+        "w252": {
+          "count": 67,
+          "net_return_sum": -0.10882500000000003
+        },
+        "w40": {
+          "count": 40,
+          "net_return_sum": 0.010500000000000148
+        },
+        "w5": {
+          "count": 5,
+          "net_return_sum": -0.025950000000000008
+        },
+        "w60": {
+          "count": 60,
+          "net_return_sum": -0.1014
+        }
+      },
+      "selected_policy_id": "mean_reversion_ret5:1__h10__symmetric__x1p5",
+      "selected_side": "symmetric",
+      "selected_signal": 1.5,
+      "selected_weights": {
+        "mean_reversion_ret5": 1.0
+      },
+      "similar_state_net_return_mean": -0.0018666666666666608,
+      "similar_state_refs": [
+        "2010-10-10 23:34:50.664000+00:00",
+        "2010-10-12 00:00:37.236000+00:00",
+        "2010-10-08 00:00:30.565000+00:00",
+        "2010-10-07 00:00:48.818000+00:00",
+        "2010-10-06 00:00:37.617000+00:00",
+        "2010-09-22 00:36:00.517000+00:00",
+        "2010-10-05 00:03:25.711000+00:00",
+        "2010-09-10 00:04:59.248000+00:00",
+        "2010-09-15 00:00:40.260000+00:00",
+        "2010-09-14 00:06:47.395000+00:00"
+      ]
+    },
+    {
+      "decision_time": "2010-10-14 00:00:38.321000+00:00",
+      "marginal_edge": 0.035300000000000026,
+      "max_outcome_available_at_used": "2010-10-14 00:00:00+00:00",
+      "objective_window_sessions": 30,
+      "position_state": "FULL",
+      "selected_exposure": 1.5,
+      "selected_horizon_sessions": 10.0,
+      "selected_memory": {
+        "expanding": {
+          "count": 68,
+          "net_return_sum": -0.10462500000000002
+        },
+        "w10": {
+          "count": 10,
+          "net_return_sum": -0.010199999999999921
+        },
+        "w126": {
+          "count": 68,
+          "net_return_sum": -0.10462500000000002
+        },
+        "w20": {
+          "count": 20,
+          "net_return_sum": 0.060899999999999996
+        },
+        "w252": {
+          "count": 68,
+          "net_return_sum": -0.10462500000000002
+        },
+        "w40": {
+          "count": 40,
+          "net_return_sum": 0.015750000000000236
+        },
+        "w5": {
+          "count": 5,
+          "net_return_sum": -0.037799999999999966
+        },
+        "w60": {
+          "count": 60,
+          "net_return_sum": -0.0958500000000001
+        }
+      },
+      "selected_policy_id": "mean_reversion_ret5:1__h10__symmetric__x1p5",
+      "selected_side": "symmetric",
+      "selected_signal": 1.5,
+      "selected_weights": {
+        "mean_reversion_ret5": 1.0
+      },
+      "similar_state_net_return_mean": 0.003866666666666657,
+      "similar_state_refs": [
+        "2010-10-10 23:34:50.664000+00:00",
+        "2010-10-13 00:00:37.664000+00:00",
+        "2010-10-07 00:00:48.818000+00:00",
+        "2010-10-12 00:00:37.236000+00:00",
+        "2010-10-08 00:00:30.565000+00:00",
+        "2010-09-16 00:11:53.098000+00:00",
+        "2010-09-10 00:04:59.248000+00:00",
+        "2010-09-09 00:07:35.172000+00:00",
+        "2010-09-24 00:04:12.422000+00:00",
+        "2010-09-15 00:00:40.260000+00:00"
+      ]
+    },
+    {
+      "decision_time": "2010-10-15 00:09:09.601000+00:00",
+      "marginal_edge": 0.020550000000000013,
+      "max_outcome_available_at_used": "2010-10-15 00:00:00+00:00",
+      "objective_window_sessions": 30,
+      "position_state": "REVERSE",
+      "selected_exposure": 1.5,
+      "selected_horizon_sessions": 10.0,
+      "selected_memory": {
+        "expanding": {
+          "count": 69,
+          "net_return_sum": -0.10867500000000005
+        },
+        "w10": {
+          "count": 10,
+          "net_return_sum": -0.01244999999999994
+        },
+        "w126": {
+          "count": 69,
+          "net_return_sum": -0.10867500000000005
+        },
+        "w20": {
+          "count": 20,
+          "net_return_sum": 0.05174999999999994
+        },
+        "w252": {
+          "count": 69,
+          "net_return_sum": -0.10867500000000005
+        },
+        "w40": {
+          "count": 40,
+          "net_return_sum": 0.02580000000000012
+        },
+        "w5": {
+          "count": 5,
+          "net_return_sum": -0.001950000000000052
+        },
+        "w60": {
+          "count": 60,
+          "net_return_sum": -0.09735000000000006
+        }
+      },
+      "selected_policy_id": "mean_reversion_ret5:1__h10__symmetric__x1p5",
+      "selected_side": "symmetric",
+      "selected_signal": -1.5,
+      "selected_weights": {
+        "mean_reversion_ret5": 1.0
+      },
+      "similar_state_net_return_mean": 0.0017833333333333234,
+      "similar_state_refs": [
+        "2010-10-14 00:00:38.321000+00:00",
+        "2010-10-13 00:00:37.664000+00:00",
+        "2010-10-10 23:34:50.664000+00:00",
+        "2010-10-12 00:00:37.236000+00:00",
+        "2010-10-07 00:00:48.818000+00:00",
+        "2010-09-10 00:04:59.248000+00:00",
+        "2010-09-16 00:11:53.098000+00:00",
+        "2010-10-08 00:00:30.565000+00:00",
+        "2010-09-22 00:36:00.517000+00:00",
+        "2010-09-15 00:00:40.260000+00:00"
+      ]
+    },
+    {
+      "decision_time": "2010-10-17 22:24:04.878000+00:00",
+      "marginal_edge": 0.0003000000000000502,
+      "max_outcome_available_at_used": "2010-10-17 00:00:00+00:00",
+      "objective_window_sessions": 30,
+      "position_state": "STARTER",
+      "selected_exposure": 1.5,
+      "selected_horizon_sessions": 10.0,
+      "selected_memory": {
+        "expanding": {
+          "count": 70,
+          "net_return_sum": -0.13357500000000005
+        },
+        "w10": {
+          "count": 10,
+          "net_return_sum": -0.05339999999999997
+        },
+        "w126": {
+          "count": 70,
+          "net_return_sum": -0.13357500000000005
+        },
+        "w20": {
+          "count": 20,
+          "net_return_sum": 0.01679999999999998
+        },
+        "w252": {
+          "count": 70,
+          "net_return_sum": -0.13357500000000005
+        },
+        "w40": {
+          "count": 40,
+          "net_return_sum": 0.008400000000000102
+        },
+        "w5": {
+          "count": 5,
+          "net_return_sum": -0.0321
+        },
+        "w60": {
+          "count": 60,
+          "net_return_sum": -0.10665000000000004
+        }
+      },
+      "selected_policy_id": "mean_reversion_ret5:1__h10__symmetric__x1p5",
+      "selected_side": "symmetric",
+      "selected_signal": -1.5,
+      "selected_weights": {
+        "mean_reversion_ret5": 1.0
+      },
+      "similar_state_net_return_mean": -0.008116666666666668,
+      "similar_state_refs": [
+        "2010-10-12 00:00:37.236000+00:00",
+        "2010-10-15 00:09:09.601000+00:00",
+        "2010-10-13 00:00:37.664000+00:00",
+        "2010-10-10 23:34:50.664000+00:00",
+        "2010-10-14 00:00:38.321000+00:00",
+        "2010-10-08 00:00:30.565000+00:00",
+        "2010-09-21 01:06:09.041000+00:00",
+        "2010-10-06 00:00:37.617000+00:00",
+        "2010-10-07 00:00:48.818000+00:00",
+        "2010-09-10 00:04:59.248000+00:00"
+      ]
+    },
+    {
+      "decision_time": "2010-10-19 00:18:35.052000+00:00",
+      "marginal_edge": 0.0,
+      "max_outcome_available_at_used": "2010-10-19 00:00:00+00:00",
+      "objective_window_sessions": 30,
+      "position_state": "FULL",
+      "selected_exposure": 1.5,
+      "selected_horizon_sessions": 10.0,
+      "selected_memory": {
+        "expanding": {
+          "count": 72,
+          "net_return_sum": 0.2123249999999998
+        },
+        "w10": {
+          "count": 10,
+          "net_return_sum": 0.06030000000000002
+        },
+        "w126": {
+          "count": 72,
+          "net_return_sum": 0.2123249999999998
+        },
+        "w20": {
+          "count": 20,
+          "net_return_sum": 0.11264999999999993
+        },
+        "w252": {
+          "count": 72,
+          "net_return_sum": 0.2123249999999998
+        },
+        "w40": {
+          "count": 40,
+          "net_return_sum": 0.11684999999999979
+        },
+        "w5": {
+          "count": 5,
+          "net_return_sum": 0.03435000000000002
+        },
+        "w60": {
+          "count": 60,
+          "net_return_sum": 0.19109999999999983
+        }
+      },
+      "selected_policy_id": "curve_slope_inverse:1__h10__short_only__x1p5",
+      "selected_side": "short_only",
+      "selected_signal": -1.5,
+      "selected_weights": {
+        "curve_slope_inverse": 1.0
+      },
+      "similar_state_net_return_mean": 0.007559999999999986,
+      "similar_state_refs": [
+        "2010-10-17 22:24:04.878000+00:00",
+        "2010-10-12 00:00:37.236000+00:00",
+        "2010-10-13 00:00:37.664000+00:00",
+        "2010-10-15 00:09:09.601000+00:00",
+        "2010-10-10 23:34:50.664000+00:00",
+        "2010-09-21 01:06:09.041000+00:00",
+        "2010-10-08 00:00:30.565000+00:00",
+        "2010-10-14 00:00:38.321000+00:00",
+        "2010-09-26 23:44:37.613000+00:00",
+        "2010-10-06 00:00:37.617000+00:00"
+      ]
+    },
+    {
+      "decision_time": "2010-10-20 00:10:21.001000+00:00",
+      "marginal_edge": 0.0,
+      "max_outcome_available_at_used": "2010-10-19 00:00:00+00:00",
+      "objective_window_sessions": 30,
+      "position_state": "FULL",
+      "selected_exposure": 1.5,
+      "selected_horizon_sessions": 10.0,
+      "selected_memory": {
+        "expanding": {
+          "count": 72,
+          "net_return_sum": 0.2123249999999998
+        },
+        "w10": {
+          "count": 10,
+          "net_return_sum": 0.06030000000000002
+        },
+        "w126": {
+          "count": 72,
+          "net_return_sum": 0.2123249999999998
+        },
+        "w20": {
+          "count": 20,
+          "net_return_sum": 0.11264999999999993
+        },
+        "w252": {
+          "count": 72,
+          "net_return_sum": 0.2123249999999998
+        },
+        "w40": {
+          "count": 40,
+          "net_return_sum": 0.11684999999999979
+        },
+        "w5": {
+          "count": 5,
+          "net_return_sum": 0.03435000000000002
+        },
+        "w60": {
+          "count": 60,
+          "net_return_sum": 0.19109999999999983
+        }
+      },
+      "selected_policy_id": "curve_slope_inverse:1__h10__short_only__x1p5",
+      "selected_side": "short_only",
+      "selected_signal": -1.5,
+      "selected_weights": {
+        "curve_slope_inverse": 1.0
+      },
+      "similar_state_net_return_mean": 0.0029166666666666638,
+      "similar_state_refs": [
+        "2010-10-19 00:18:35.052000+00:00",
+        "2010-10-12 00:00:37.236000+00:00",
+        "2010-10-17 22:24:04.878000+00:00",
+        "2010-10-13 00:00:37.664000+00:00",
+        "2010-10-15 00:09:09.601000+00:00",
+        "2010-10-10 23:34:50.664000+00:00",
+        "2010-09-22 00:36:00.517000+00:00",
+        "2010-10-14 00:00:38.321000+00:00",
+        "2010-09-26 23:44:37.613000+00:00",
+        "2010-09-21 01:06:09.041000+00:00"
+      ]
+    },
+    {
+      "decision_time": "2010-10-21 00:00:36.706000+00:00",
+      "marginal_edge": 0.0,
+      "max_outcome_available_at_used": "2010-10-21 00:00:00+00:00",
+      "objective_window_sessions": 30,
+      "position_state": "FULL",
+      "selected_exposure": 1.5,
+      "selected_horizon_sessions": 10.0,
+      "selected_memory": {
+        "expanding": {
+          "count": 73,
+          "net_return_sum": 0.21157499999999974
+        },
+        "w10": {
+          "count": 10,
+          "net_return_sum": 0.07559999999999993
+        },
+        "w126": {
+          "count": 73,
+          "net_return_sum": 0.21157499999999974
+        },
+        "w20": {
+          "count": 20,
+          "net_return_sum": 0.09749999999999992
+        },
+        "w252": {
+          "count": 73,
+          "net_return_sum": 0.21157499999999974
+        },
+        "w40": {
+          "count": 40,
+          "net_return_sum": 0.11399999999999971
+        },
+        "w5": {
+          "count": 5,
+          "net_return_sum": 0.03779999999999997
+        },
+        "w60": {
+          "count": 60,
+          "net_return_sum": 0.18824999999999972
+        }
+      },
+      "selected_policy_id": "curve_slope_inverse:1__h10__short_only__x1p5",
+      "selected_side": "short_only",
+      "selected_signal": -1.5,
+      "selected_weights": {
+        "curve_slope_inverse": 1.0
+      },
+      "similar_state_net_return_mean": 0.00731666666666666,
+      "similar_state_refs": [
+        "2010-10-15 00:09:09.601000+00:00",
+        "2010-10-14 00:00:38.321000+00:00",
+        "2010-10-20 00:10:21.001000+00:00",
+        "2010-10-17 22:24:04.878000+00:00",
+        "2010-10-10 23:34:50.664000+00:00",
+        "2010-10-19 00:18:35.052000+00:00",
+        "2010-10-12 00:00:37.236000+00:00",
+        "2010-10-13 00:00:37.664000+00:00",
+        "2010-09-23 00:01:49.732000+00:00",
+        "2010-10-07 00:00:48.818000+00:00"
+      ]
+    },
+    {
+      "decision_time": "2010-10-22 00:00:41.420000+00:00",
+      "marginal_edge": 0.0,
+      "max_outcome_available_at_used": "2010-10-22 00:00:00+00:00",
+      "objective_window_sessions": 30,
+      "position_state": "FULL",
+      "selected_exposure": 1.5,
+      "selected_horizon_sessions": 10.0,
+      "selected_memory": {
+        "expanding": {
+          "count": 74,
+          "net_return_sum": 0.23092499999999974
+        },
+        "w10": {
+          "count": 10,
+          "net_return_sum": 0.05505
+        },
+        "w126": {
+          "count": 74,
+          "net_return_sum": 0.23092499999999974
+        },
+        "w20": {
+          "count": 20,
+          "net_return_sum": 0.12434999999999996
+        },
+        "w252": {
+          "count": 74,
+          "net_return_sum": 0.23092499999999974
+        },
+        "w40": {
+          "count": 40,
+          "net_return_sum": 0.1376999999999998
+        },
+        "w5": {
+          "count": 5,
+          "net_return_sum": 0.05309999999999995
+        },
+        "w60": {
+          "count": 60,
+          "net_return_sum": 0.21989999999999965
+        }
+      },
+      "selected_policy_id": "curve_slope_inverse:1__h10__short_only__x1p5",
+      "selected_side": "short_only",
+      "selected_signal": -1.5,
+      "selected_weights": {
+        "curve_slope_inverse": 1.0
+      },
+      "similar_state_net_return_mean": 0.0026999999999999915,
+      "similar_state_refs": [
+        "2010-10-19 00:18:35.052000+00:00",
+        "2010-10-17 22:24:04.878000+00:00",
+        "2010-10-20 00:10:21.001000+00:00",
+        "2010-10-21 00:00:36.706000+00:00",
+        "2010-10-12 00:00:37.236000+00:00",
+        "2010-10-08 00:00:30.565000+00:00",
+        "2010-09-21 01:06:09.041000+00:00",
+        "2010-10-15 00:09:09.601000+00:00",
+        "2010-10-13 00:00:37.664000+00:00",
+        "2010-09-26 23:44:37.613000+00:00"
+      ]
+    },
+    {
+      "decision_time": "2010-10-24 22:58:53.442000+00:00",
+      "marginal_edge": 0.0,
+      "max_outcome_available_at_used": "2010-10-24 00:00:00+00:00",
+      "objective_window_sessions": 30,
+      "position_state": "FULL",
+      "selected_exposure": 1.5,
+      "selected_horizon_sessions": 10.0,
+      "selected_memory": {
+        "expanding": {
+          "count": 75,
+          "net_return_sum": 0.2468249999999998
+        },
+        "w10": {
+          "count": 10,
+          "net_return_sum": 0.07619999999999999
+        },
+        "w126": {
+          "count": 75,
+          "net_return_sum": 0.2468249999999998
+        },
+        "w20": {
+          "count": 20,
+          "net_return_sum": 0.14744999999999994
+        },
+        "w252": {
+          "count": 75,
+          "net_return_sum": 0.2468249999999998
+        },
+        "w40": {
+          "count": 40,
+          "net_return_sum": 0.13559999999999992
+        },
+        "w5": {
+          "count": 5,
+          "net_return_sum": 0.0441
+        },
+        "w60": {
+          "count": 60,
+          "net_return_sum": 0.24149999999999977
+        }
+      },
+      "selected_policy_id": "curve_slope_inverse:1__h10__short_only__x1p5",
+      "selected_side": "short_only",
+      "selected_signal": -1.5,
+      "selected_weights": {
+        "curve_slope_inverse": 1.0
+      },
+      "similar_state_net_return_mean": 0.005616666666666662,
+      "similar_state_refs": [
+        "2010-10-19 00:18:35.052000+00:00",
+        "2010-10-22 00:00:41.420000+00:00",
+        "2010-10-20 00:10:21.001000+00:00",
+        "2010-10-17 22:24:04.878000+00:00",
+        "2010-10-21 00:00:36.706000+00:00",
+        "2010-10-12 00:00:37.236000+00:00",
+        "2010-10-13 00:00:37.664000+00:00",
+        "2010-10-15 00:09:09.601000+00:00",
+        "2010-10-10 23:34:50.664000+00:00",
+        "2010-09-26 23:44:37.613000+00:00"
+      ]
+    },
+    {
+      "decision_time": "2010-10-26 00:02:43.914000+00:00",
+      "marginal_edge": 0.0,
+      "max_outcome_available_at_used": "2010-10-26 00:00:00+00:00",
+      "objective_window_sessions": 30,
+      "position_state": "FULL",
+      "selected_exposure": 1.5,
+      "selected_horizon_sessions": 10.0,
+      "selected_memory": {
+        "expanding": {
+          "count": 77,
+          "net_return_sum": 0.23917499999999978
+        },
+        "w10": {
+          "count": 10,
+          "net_return_sum": 0.061199999999999984
+        },
+        "w126": {
+          "count": 77,
+          "net_return_sum": 0.23917499999999978
+        },
+        "w20": {
+          "count": 20,
+          "net_return_sum": 0.10514999999999997
+        },
+        "w252": {
+          "count": 77,
+          "net_return_sum": 0.23917499999999978
+        },
+        "w40": {
+          "count": 40,
+          "net_return_sum": 0.09734999999999985
+        },
+        "w5": {
+          "count": 5,
+          "net_return_sum": 0.02684999999999997
+        },
+        "w60": {
+          "count": 60,
+          "net_return_sum": 0.2759999999999998
+        }
+      },
+      "selected_policy_id": "curve_slope_inverse:1__h10__short_only__x1p5",
+      "selected_side": "short_only",
+      "selected_signal": -1.5,
+      "selected_weights": {
+        "curve_slope_inverse": 1.0
+      },
+      "similar_state_net_return_mean": 0.003779999999999996,
+      "similar_state_refs": [
+        "2010-10-24 22:58:53.442000+00:00",
+        "2010-10-20 00:10:21.001000+00:00",
+        "2010-10-19 00:18:35.052000+00:00",
+        "2010-10-22 00:00:41.420000+00:00",
+        "2010-10-21 00:00:36.706000+00:00",
+        "2010-10-17 22:24:04.878000+00:00",
+        "2010-10-12 00:00:37.236000+00:00",
+        "2010-10-13 00:00:37.664000+00:00",
+        "2010-10-15 00:09:09.601000+00:00",
+        "2010-09-26 23:44:37.613000+00:00"
+      ]
+    },
+    {
+      "decision_time": "2010-10-27 00:00:51.619000+00:00",
+      "marginal_edge": 0.0,
+      "max_outcome_available_at_used": "2010-10-26 00:00:00+00:00",
+      "objective_window_sessions": 30,
+      "position_state": "FULL",
+      "selected_exposure": 1.5,
+      "selected_horizon_sessions": 10.0,
+      "selected_memory": {
+        "expanding": {
+          "count": 77,
+          "net_return_sum": 0.23917499999999978
+        },
+        "w10": {
+          "count": 10,
+          "net_return_sum": 0.061199999999999984
+        },
+        "w126": {
+          "count": 77,
+          "net_return_sum": 0.23917499999999978
+        },
+        "w20": {
+          "count": 20,
+          "net_return_sum": 0.10514999999999997
+        },
+        "w252": {
+          "count": 77,
+          "net_return_sum": 0.23917499999999978
+        },
+        "w40": {
+          "count": 40,
+          "net_return_sum": 0.09734999999999985
+        },
+        "w5": {
+          "count": 5,
+          "net_return_sum": 0.02684999999999997
+        },
+        "w60": {
+          "count": 60,
+          "net_return_sum": 0.2759999999999998
+        }
+      },
+      "selected_policy_id": "curve_slope_inverse:1__h10__short_only__x1p5",
+      "selected_side": "short_only",
+      "selected_signal": -1.5,
+      "selected_weights": {
+        "curve_slope_inverse": 1.0
+      },
+      "similar_state_net_return_mean": 0.004199999999999996,
+      "similar_state_refs": [
+        "2010-10-26 00:02:43.914000+00:00",
+        "2010-10-20 00:10:21.001000+00:00",
+        "2010-10-24 22:58:53.442000+00:00",
+        "2010-10-19 00:18:35.052000+00:00",
+        "2010-10-22 00:00:41.420000+00:00",
+        "2010-10-12 00:00:37.236000+00:00",
+        "2010-10-17 22:24:04.878000+00:00",
+        "2010-10-13 00:00:37.664000+00:00",
+        "2010-10-21 00:00:36.706000+00:00",
+        "2010-09-26 23:44:37.613000+00:00"
+      ]
+    },
+    {
+      "decision_time": "2010-10-28 00:21:20.372000+00:00",
+      "marginal_edge": 0.0,
+      "max_outcome_available_at_used": "2010-10-28 00:00:00+00:00",
+      "objective_window_sessions": 30,
+      "position_state": "FULL",
+      "selected_exposure": 1.5,
+      "selected_horizon_sessions": 10.0,
+      "selected_memory": {
+        "expanding": {
+          "count": 78,
+          "net_return_sum": 0.23617499999999977
+        },
+        "w10": {
+          "count": 10,
+          "net_return_sum": 0.0624
+        },
+        "w126": {
+          "count": 78,
+          "net_return_sum": 0.23617499999999977
+        },
+        "w20": {
+          "count": 20,
+          "net_return_sum": 0.10064999999999999
+        },
+        "w252": {
+          "count": 78,
+          "net_return_sum": 0.23617499999999977
+        },
+        "w40": {
+          "count": 40,
+          "net_return_sum": 0.09689999999999986
+        },
+        "w5": {
+          "count": 5,
+          "net_return_sum": 0.024600000000000018
+        },
+        "w60": {
+          "count": 60,
+          "net_return_sum": 0.2743499999999997
+        }
+      },
+      "selected_policy_id": "curve_slope_inverse:1__h10__short_only__x1p5",
+      "selected_side": "short_only",
+      "selected_signal": -1.5,
+      "selected_weights": {
+        "curve_slope_inverse": 1.0
+      },
+      "similar_state_net_return_mean": 0.005265,
+      "similar_state_refs": [
+        "2010-09-30 00:32:28.322000+00:00",
+        "2010-10-01 00:15:23.701000+00:00",
+        "2010-10-03 23:30:55.291000+00:00",
+        "2010-10-06 00:00:37.617000+00:00",
+        "2010-10-05 00:03:25.711000+00:00",
+        "2010-10-07 00:00:48.818000+00:00",
+        "2010-10-21 00:00:36.706000+00:00",
+        "2010-10-15 00:09:09.601000+00:00",
+        "2010-10-10 23:34:50.664000+00:00",
+        "2010-09-09 00:07:35.172000+00:00"
+      ]
+    },
+    {
+      "decision_time": "2010-10-29 00:05:32.587000+00:00",
+      "marginal_edge": 0.0,
+      "max_outcome_available_at_used": "2010-10-29 00:00:00+00:00",
+      "objective_window_sessions": 30,
+      "position_state": "FULL",
+      "selected_exposure": 1.5,
+      "selected_horizon_sessions": 10.0,
+      "selected_memory": {
+        "expanding": {
+          "count": 79,
+          "net_return_sum": 0.21637499999999976
+        },
+        "w10": {
+          "count": 10,
+          "net_return_sum": 0.038549999999999945
+        },
+        "w126": {
+          "count": 79,
+          "net_return_sum": 0.21637499999999976
+        },
+        "w20": {
+          "count": 20,
+          "net_return_sum": 0.08264999999999997
+        },
+        "w252": {
+          "count": 79,
+          "net_return_sum": 0.21637499999999976
+        },
+        "w40": {
+          "count": 40,
+          "net_return_sum": 0.08819999999999988
+        },
+        "w5": {
+          "count": 5,
+          "net_return_sum": -0.014549999999999999
+        },
+        "w60": {
+          "count": 60,
+          "net_return_sum": 0.2143499999999998
+        }
+      },
+      "selected_policy_id": "curve_slope_inverse:1__h10__short_only__x1p5",
+      "selected_side": "short_only",
+      "selected_signal": -1.5,
+      "selected_weights": {
+        "curve_slope_inverse": 1.0
+      },
+      "similar_state_net_return_mean": 0.00518333333333334,
+      "similar_state_refs": [
+        "2010-10-01 00:15:23.701000+00:00",
+        "2010-10-28 00:21:20.372000+00:00",
+        "2010-10-07 00:00:48.818000+00:00",
+        "2010-10-03 23:30:55.291000+00:00",
+        "2010-10-15 00:09:09.601000+00:00",
+        "2010-10-05 00:03:25.711000+00:00",
+        "2010-09-30 00:32:28.322000+00:00",
+        "2010-09-17 00:57:03.959000+00:00",
+        "2010-10-06 00:00:37.617000+00:00",
+        "2010-09-05 23:16:53.774000+00:00"
+      ]
+    },
+    {
+      "decision_time": "2010-10-31 23:46:58.559000+00:00",
+      "marginal_edge": 0.002924999999999983,
+      "max_outcome_available_at_used": "2010-10-31 00:00:00+00:00",
+      "objective_window_sessions": 30,
+      "position_state": "REVERSE",
+      "selected_exposure": 1.5,
+      "selected_horizon_sessions": 10.0,
+      "selected_memory": {
+        "expanding": {
+          "count": 80,
+          "net_return_sum": 0.20542499999999975
+        },
+        "w10": {
+          "count": 10,
+          "net_return_sum": 0.002699999999999987
+        },
+        "w126": {
+          "count": 80,
+          "net_return_sum": 0.20542499999999975
+        },
+        "w20": {
+          "count": 20,
+          "net_return_sum": 0.055649999999999956
+        },
+        "w252": {
+          "count": 80,
+          "net_return_sum": 0.20542499999999975
+        },
+        "w40": {
+          "count": 40,
+          "net_return_sum": 0.07259999999999987
+        },
+        "w5": {
+          "count": 5,
+          "net_return_sum": 0.04724999999999999
+        },
+        "w60": {
+          "count": 60,
+          "net_return_sum": 0.21389999999999984
+        }
+      },
+      "selected_policy_id": "season_cos_direct:1__h10__symmetric__x1p5",
+      "selected_side": "symmetric",
+      "selected_signal": 1.5,
+      "selected_weights": {
+        "season_cos_direct": 1.0
+      },
+      "similar_state_net_return_mean": 0.003866666666666665,
+      "similar_state_refs": [
+        "2010-10-29 00:05:32.587000+00:00",
+        "2010-10-07 00:00:48.818000+00:00",
+        "2010-10-01 00:15:23.701000+00:00",
+        "2010-09-17 00:57:03.959000+00:00",
+        "2010-10-28 00:21:20.372000+00:00",
+        "2010-09-15 00:00:40.260000+00:00",
+        "2010-09-16 00:11:53.098000+00:00",
+        "2010-09-19 23:50:46.296000+00:00",
+        "2010-10-15 00:09:09.601000+00:00",
+        "2010-09-05 23:16:53.774000+00:00"
+      ]
+    },
+    {
+      "decision_time": "2010-11-02 00:07:14.620000+00:00",
+      "marginal_edge": 0.0,
+      "max_outcome_available_at_used": "2010-11-02 00:00:00+00:00",
+      "objective_window_sessions": 30,
+      "position_state": "REVERSE",
+      "selected_exposure": 1.5,
+      "selected_horizon_sessions": 10.0,
+      "selected_memory": {
+        "expanding": {
+          "count": 82,
+          "net_return_sum": 0.24037499999999984
+        },
+        "w10": {
+          "count": 10,
+          "net_return_sum": 0.029624999999999978
+        },
+        "w126": {
+          "count": 82,
+          "net_return_sum": 0.24037499999999984
+        },
+        "w20": {
+          "count": 20,
+          "net_return_sum": 0.08009999999999999
+        },
+        "w252": {
+          "count": 82,
+          "net_return_sum": 0.24037499999999984
+        },
+        "w40": {
+          "count": 40,
+          "net_return_sum": 0.12899999999999986
+        },
+        "w5": {
+          "count": 5,
+          "net_return_sum": 0.029624999999999978
+        },
+        "w60": {
+          "count": 60,
+          "net_return_sum": 0.1988999999999998
+        }
+      },
+      "selected_policy_id": "low_vol_trend20:1__h10__short_only__x1p5",
+      "selected_side": "short_only",
+      "selected_signal": -1.5,
+      "selected_weights": {
+        "low_vol_trend20": 1.0
+      },
+      "similar_state_net_return_mean": 0.0005324999999999989,
+      "similar_state_refs": [
+        "2010-10-31 23:46:58.559000+00:00",
+        "2010-10-29 00:05:32.587000+00:00",
+        "2010-10-08 00:00:30.565000+00:00",
+        "2010-10-01 00:15:23.701000+00:00",
+        "2010-09-21 01:06:09.041000+00:00",
+        "2010-10-07 00:00:48.818000+00:00",
+        "2010-10-28 00:21:20.372000+00:00",
+        "2010-10-17 22:24:04.878000+00:00",
+        "2010-10-05 00:03:25.711000+00:00",
+        "2010-10-03 23:30:55.291000+00:00"
+      ]
+    },
+    {
+      "decision_time": "2010-11-03 00:00:51.065000+00:00",
+      "marginal_edge": 0.0,
+      "max_outcome_available_at_used": "2010-11-02 00:00:00+00:00",
+      "objective_window_sessions": 30,
+      "position_state": "STARTER",
+      "selected_exposure": 1.5,
+      "selected_horizon_sessions": 10.0,
+      "selected_memory": {
+        "expanding": {
+          "count": 82,
+          "net_return_sum": 0.24037499999999984
+        },
+        "w10": {
+          "count": 10,
+          "net_return_sum": 0.029624999999999978
+        },
+        "w126": {
+          "count": 82,
+          "net_return_sum": 0.24037499999999984
+        },
+        "w20": {
+          "count": 20,
+          "net_return_sum": 0.08009999999999999
+        },
+        "w252": {
+          "count": 82,
+          "net_return_sum": 0.24037499999999984
+        },
+        "w40": {
+          "count": 40,
+          "net_return_sum": 0.12899999999999986
+        },
+        "w5": {
+          "count": 5,
+          "net_return_sum": 0.029624999999999978
+        },
+        "w60": {
+          "count": 60,
+          "net_return_sum": 0.1988999999999998
+        }
+      },
+      "selected_policy_id": "low_vol_trend20:1__h10__short_only__x1p5",
+      "selected_side": "short_only",
+      "selected_signal": -1.5,
+      "selected_weights": {
+        "low_vol_trend20": 1.0
+      },
+      "similar_state_net_return_mean": 0.006524999999999989,
+      "similar_state_refs": [
+        "2010-11-02 00:07:14.620000+00:00",
+        "2010-10-31 23:46:58.559000+00:00",
+        "2010-10-29 00:05:32.587000+00:00",
+        "2010-10-03 23:30:55.291000+00:00",
+        "2010-10-05 00:03:25.711000+00:00",
+        "2010-10-10 23:34:50.664000+00:00",
+        "2010-10-07 00:00:48.818000+00:00",
+        "2010-10-06 00:00:37.617000+00:00",
+        "2010-10-01 00:15:23.701000+00:00",
+        "2010-09-08 00:37:55.552000+00:00"
+      ]
+    },
+    {
+      "decision_time": "2010-11-04 00:07:35.050000+00:00",
+      "marginal_edge": 0.0,
+      "max_outcome_available_at_used": "2010-11-04 00:00:00+00:00",
+      "objective_window_sessions": 30,
+      "position_state": "FULL",
+      "selected_exposure": 1.5,
+      "selected_horizon_sessions": 10.0,
+      "selected_memory": {
+        "expanding": {
+          "count": 83,
+          "net_return_sum": 0.24577499999999985
+        },
+        "w10": {
+          "count": 10,
+          "net_return_sum": 0.03502499999999998
+        },
+        "w126": {
+          "count": 83,
+          "net_return_sum": 0.24577499999999985
+        },
+        "w20": {
+          "count": 20,
+          "net_return_sum": 0.10154999999999996
+        },
+        "w252": {
+          "count": 83,
+          "net_return_sum": 0.24577499999999985
+        },
+        "w40": {
+          "count": 40,
+          "net_return_sum": 0.12929999999999992
+        },
+        "w5": {
+          "count": 5,
+          "net_return_sum": 0.03502499999999998
+        },
+        "w60": {
+          "count": 60,
+          "net_return_sum": 0.2059499999999998
+        }
+      },
+      "selected_policy_id": "low_vol_trend20:1__h10__short_only__x1p5",
+      "selected_side": "short_only",
+      "selected_signal": -1.5,
+      "selected_weights": {
+        "low_vol_trend20": 1.0
+      },
+      "similar_state_net_return_mean": 0.002474999999999991,
+      "similar_state_refs": [
+        "2010-11-03 00:00:51.065000+00:00",
+        "2010-10-28 00:21:20.372000+00:00",
+        "2010-10-03 23:30:55.291000+00:00",
+        "2010-10-07 00:00:48.818000+00:00",
+        "2010-10-29 00:05:32.587000+00:00",
+        "2010-10-01 00:15:23.701000+00:00",
+        "2010-11-02 00:07:14.620000+00:00",
+        "2010-10-05 00:03:25.711000+00:00",
+        "2010-10-06 00:00:37.617000+00:00",
+        "2010-10-21 00:00:36.706000+00:00"
+      ]
+    },
+    {
+      "decision_time": "2010-11-05 00:16:27.850000+00:00",
+      "marginal_edge": 0.0,
+      "max_outcome_available_at_used": "2010-11-05 00:00:00+00:00",
+      "objective_window_sessions": 30,
+      "position_state": "FULL",
+      "selected_exposure": 1.5,
+      "selected_horizon_sessions": 10.0,
+      "selected_memory": {
+        "expanding": {
+          "count": 84,
+          "net_return_sum": 0.2406749999999999
+        },
+        "w10": {
+          "count": 10,
+          "net_return_sum": 0.029925000000000007
+        },
+        "w126": {
+          "count": 84,
+          "net_return_sum": 0.2406749999999999
+        },
+        "w20": {
+          "count": 20,
+          "net_return_sum": 0.05655000000000005
+        },
+        "w252": {
+          "count": 84,
+          "net_return_sum": 0.2406749999999999
+        },
+        "w40": {
+          "count": 40,
+          "net_return_sum": 0.12059999999999994
+        },
+        "w5": {
+          "count": 5,
+          "net_return_sum": 0.029925000000000007
+        },
+        "w60": {
+          "count": 60,
+          "net_return_sum": 0.18074999999999977
+        }
+      },
+      "selected_policy_id": "low_vol_trend20:1__h10__short_only__x1p5",
+      "selected_side": "short_only",
+      "selected_signal": -1.5,
+      "selected_weights": {
+        "low_vol_trend20": 1.0
+      },
+      "similar_state_net_return_mean": 0.0028083333333333324,
+      "similar_state_refs": [
+        "2010-11-03 00:00:51.065000+00:00",
+        "2010-11-04 00:07:35.050000+00:00",
+        "2010-10-29 00:05:32.587000+00:00",
+        "2010-10-31 23:46:58.559000+00:00",
+        "2010-10-07 00:00:48.818000+00:00",
+        "2010-10-01 00:15:23.701000+00:00",
+        "2010-11-02 00:07:14.620000+00:00",
+        "2010-10-05 00:03:25.711000+00:00",
+        "2010-10-03 23:30:55.291000+00:00",
+        "2010-09-16 00:11:53.098000+00:00"
+      ]
+    },
+    {
+      "decision_time": "2010-11-07 23:59:04.267000+00:00",
+      "marginal_edge": 0.0,
+      "max_outcome_available_at_used": "2010-11-07 00:00:00+00:00",
+      "objective_window_sessions": 30,
+      "position_state": "FULL",
+      "selected_exposure": 1.5,
+      "selected_horizon_sessions": 10.0,
+      "selected_memory": {
+        "expanding": {
+          "count": 85,
+          "net_return_sum": 0.22597499999999984
+        },
+        "w10": {
+          "count": 10,
+          "net_return_sum": 0.015224999999999963
+        },
+        "w126": {
+          "count": 85,
+          "net_return_sum": 0.22597499999999984
+        },
+        "w20": {
+          "count": 20,
+          "net_return_sum": 0.04709999999999997
+        },
+        "w252": {
+          "count": 85,
+          "net_return_sum": 0.22597499999999984
+        },
+        "w40": {
+          "count": 40,
+          "net_return_sum": 0.10274999999999991
+        },
+        "w5": {
+          "count": 5,
+          "net_return_sum": 0.015224999999999963
+        },
+        "w60": {
+          "count": 60,
+          "net_return_sum": 0.16604999999999973
+        }
+      },
+      "selected_policy_id": "low_vol_trend20:1__h10__short_only__x1p5",
+      "selected_side": "short_only",
+      "selected_signal": -1.5,
+      "selected_weights": {
+        "low_vol_trend20": 1.0
+      },
+      "similar_state_net_return_mean": -0.002141666666666663,
+      "similar_state_refs": [
+        "2010-11-05 00:16:27.850000+00:00",
+        "2010-11-03 00:00:51.065000+00:00",
+        "2010-11-04 00:07:35.050000+00:00",
+        "2010-10-31 23:46:58.559000+00:00",
+        "2010-10-29 00:05:32.587000+00:00",
+        "2010-10-07 00:00:48.818000+00:00",
+        "2010-10-05 00:03:25.711000+00:00",
+        "2010-10-03 23:30:55.291000+00:00",
+        "2010-10-01 00:15:23.701000+00:00",
+        "2010-09-15 00:00:40.260000+00:00"
+      ]
+    },
+    {
+      "decision_time": "2010-11-09 01:00:50.329000+00:00",
+      "marginal_edge": 0.009749999999999953,
+      "max_outcome_available_at_used": "2010-11-09 00:00:00+00:00",
+      "objective_window_sessions": 30,
+      "position_state": "REVERSE",
+      "selected_exposure": 1.5,
+      "selected_horizon_sessions": 5.0,
+      "selected_memory": {
+        "expanding": {
+          "count": 87,
+          "net_return_sum": -0.12577499999999997
+        },
+        "w10": {
+          "count": 10,
+          "net_return_sum": 0.08024999999999993
+        },
+        "w126": {
+          "count": 87,
+          "net_return_sum": -0.12577499999999997
+        },
+        "w20": {
+          "count": 20,
+          "net_return_sum": 0.10634999999999996
+        },
+        "w252": {
+          "count": 87,
+          "net_return_sum": -0.12577499999999997
+        },
+        "w40": {
+          "count": 40,
+          "net_return_sum": 0.07769999999999992
+        },
+        "w5": {
+          "count": 5,
+          "net_return_sum": 0.011249999999999979
+        },
+        "w60": {
+          "count": 60,
+          "net_return_sum": 0.017250000000000133
+        }
+      },
+      "selected_policy_id": "timesfm_direction:1__h5__symmetric__x1p5",
+      "selected_side": "symmetric",
+      "selected_signal": 1.5,
+      "selected_weights": {
+        "timesfm_direction": 1.0
+      },
+      "similar_state_net_return_mean": 0.0019499999999999956,
+      "similar_state_refs": [
+        "2010-10-31 23:46:58.559000+00:00",
+        "2010-11-07 23:59:04.267000+00:00",
+        "2010-11-05 00:16:27.850000+00:00",
+        "2010-11-03 00:00:51.065000+00:00",
+        "2010-10-29 00:05:32.587000+00:00",
+        "2010-09-15 00:00:40.260000+00:00",
+        "2010-09-17 00:57:03.959000+00:00",
+        "2010-11-04 00:07:35.050000+00:00",
+        "2010-09-19 23:50:46.296000+00:00",
+        "2010-10-07 00:00:48.818000+00:00"
+      ]
+    },
+    {
+      "decision_time": "2010-11-10 01:10:14.114000+00:00",
+      "marginal_edge": 0.009749999999999953,
+      "max_outcome_available_at_used": "2010-11-09 00:00:00+00:00",
+      "objective_window_sessions": 30,
+      "position_state": "STARTER",
+      "selected_exposure": 1.5,
+      "selected_horizon_sessions": 5.0,
+      "selected_memory": {
+        "expanding": {
+          "count": 87,
+          "net_return_sum": -0.12577499999999997
+        },
+        "w10": {
+          "count": 10,
+          "net_return_sum": 0.08024999999999993
+        },
+        "w126": {
+          "count": 87,
+          "net_return_sum": -0.12577499999999997
+        },
+        "w20": {
+          "count": 20,
+          "net_return_sum": 0.10634999999999996
+        },
+        "w252": {
+          "count": 87,
+          "net_return_sum": -0.12577499999999997
+        },
+        "w40": {
+          "count": 40,
+          "net_return_sum": 0.07769999999999992
+        },
+        "w5": {
+          "count": 5,
+          "net_return_sum": 0.011249999999999979
+        },
+        "w60": {
+          "count": 60,
+          "net_return_sum": 0.017250000000000133
+        }
+      },
+      "selected_policy_id": "timesfm_direction:1__h5__symmetric__x1p5",
+      "selected_side": "symmetric",
+      "selected_signal": 1.5,
+      "selected_weights": {
+        "timesfm_direction": 1.0
+      },
+      "similar_state_net_return_mean": 0.0049499999999999995,
+      "similar_state_refs": [
+        "2010-11-09 01:00:50.329000+00:00",
+        "2010-10-31 23:46:58.559000+00:00",
+        "2010-11-07 23:59:04.267000+00:00",
+        "2010-11-05 00:16:27.850000+00:00",
+        "2010-11-03 00:00:51.065000+00:00",
+        "2010-10-29 00:05:32.587000+00:00",
+        "2010-09-17 00:57:03.959000+00:00",
+        "2010-09-15 00:00:40.260000+00:00",
+        "2010-09-19 23:50:46.296000+00:00",
+        "2010-09-14 00:06:47.395000+00:00"
+      ]
+    },
+    {
+      "decision_time": "2010-11-11 01:00:37.111000+00:00",
+      "marginal_edge": 0.013875000000000082,
+      "max_outcome_available_at_used": "2010-11-11 00:00:00+00:00",
+      "objective_window_sessions": 30,
+      "position_state": "REVERSE",
+      "selected_exposure": 1.5,
+      "selected_horizon_sessions": 3.0,
+      "selected_memory": {
+        "expanding": {
+          "count": 88,
+          "net_return_sum": 0.0315750000000004
+        },
+        "w10": {
+          "count": 10,
+          "net_return_sum": 0.1342500000000002
+        },
+        "w126": {
+          "count": 88,
+          "net_return_sum": 0.0315750000000004
+        },
+        "w20": {
+          "count": 20,
+          "net_return_sum": 0.1399500000000002
+        },
+        "w252": {
+          "count": 88,
+          "net_return_sum": 0.0315750000000004
+        },
+        "w40": {
+          "count": 40,
+          "net_return_sum": 0.08415000000000013
+        },
+        "w5": {
+          "count": 5,
+          "net_return_sum": 0.05535000000000013
+        },
+        "w60": {
+          "count": 60,
+          "net_return_sum": 0.03900000000000038
+        }
+      },
+      "selected_policy_id": "ma5_mean_reversion:1__h3__symmetric__x1p5",
+      "selected_side": "symmetric",
+      "selected_signal": -1.5,
+      "selected_weights": {
+        "ma5_mean_reversion": 1.0
+      },
+      "similar_state_net_return_mean": 0.010600000000000023,
+      "similar_state_refs": [
+        "2010-11-09 01:00:50.329000+00:00",
+        "2010-11-05 00:16:27.850000+00:00",
+        "2010-11-07 23:59:04.267000+00:00",
+        "2010-11-04 00:07:35.050000+00:00",
+        "2010-11-10 01:10:14.114000+00:00",
+        "2010-11-02 00:07:14.620000+00:00",
+        "2010-11-03 00:00:51.065000+00:00",
+        "2010-10-31 23:46:58.559000+00:00",
+        "2010-09-24 00:04:12.422000+00:00",
+        "2010-10-29 00:05:32.587000+00:00"
+      ]
+    },
+    {
+      "decision_time": "2010-11-12 01:00:52.156000+00:00",
+      "marginal_edge": 0.012075000000000086,
+      "max_outcome_available_at_used": "2010-11-12 00:00:00+00:00",
+      "objective_window_sessions": 30,
+      "position_state": "REVERSE",
+      "selected_exposure": 1.5,
+      "selected_horizon_sessions": 3.0,
+      "selected_memory": {
+        "expanding": {
+          "count": 89,
+          "net_return_sum": 0.055275000000000386
+        },
+        "w10": {
+          "count": 10,
+          "net_return_sum": 0.13815000000000016
+        },
+        "w126": {
+          "count": 89,
+          "net_return_sum": 0.055275000000000386
+        },
+        "w20": {
+          "count": 20,
+          "net_return_sum": 0.16770000000000024
+        },
+        "w252": {
+          "count": 89,
+          "net_return_sum": 0.055275000000000386
+        },
+        "w40": {
+          "count": 40,
+          "net_return_sum": 0.11340000000000015
+        },
+        "w5": {
+          "count": 5,
+          "net_return_sum": 0.08415000000000009
+        },
+        "w60": {
+          "count": 60,
+          "net_return_sum": 0.07680000000000026
+        }
+      },
+      "selected_policy_id": "ma5_mean_reversion:1__h3__symmetric__x1p5",
+      "selected_side": "symmetric",
+      "selected_signal": 1.5,
+      "selected_weights": {
+        "ma5_mean_reversion": 1.0
+      },
+      "similar_state_net_return_mean": 0.005533333333333349,
+      "similar_state_refs": [
+        "2010-11-11 01:00:37.111000+00:00",
+        "2010-11-05 00:16:27.850000+00:00",
+        "2010-11-07 23:59:04.267000+00:00",
+        "2010-11-04 00:07:35.050000+00:00",
+        "2010-11-09 01:00:50.329000+00:00",
+        "2010-11-02 00:07:14.620000+00:00",
+        "2010-11-03 00:00:51.065000+00:00",
+        "2010-11-10 01:10:14.114000+00:00",
+        "2010-09-23 00:01:49.732000+00:00",
+        "2010-09-24 00:04:12.422000+00:00"
+      ]
+    },
+    {
+      "decision_time": "2010-11-14 23:37:53.184000+00:00",
+      "marginal_edge": 0.024600000000000094,
+      "max_outcome_available_at_used": "2010-11-14 00:00:00+00:00",
+      "objective_window_sessions": 30,
+      "position_state": "STARTER",
+      "selected_exposure": 1.5,
+      "selected_horizon_sessions": 3.0,
+      "selected_memory": {
+        "expanding": {
+          "count": 90,
+          "net_return_sum": 0.07642500000000038
+        },
+        "w10": {
+          "count": 10,
+          "net_return_sum": 0.1425000000000002
+        },
+        "w126": {
+          "count": 90,
+          "net_return_sum": 0.07642500000000038
+        },
+        "w20": {
+          "count": 20,
+          "net_return_sum": 0.1644000000000002
+        },
+        "w252": {
+          "count": 90,
+          "net_return_sum": 0.07642500000000038
+        },
+        "w40": {
+          "count": 40,
+          "net_return_sum": 0.14460000000000012
+        },
+        "w5": {
+          "count": 5,
+          "net_return_sum": 0.09105000000000005
+        },
+        "w60": {
+          "count": 60,
+          "net_return_sum": 0.10545000000000024
+        }
+      },
+      "selected_policy_id": "ma5_mean_reversion:1__h3__symmetric__x1p5",
+      "selected_side": "symmetric",
+      "selected_signal": 1.5,
+      "selected_weights": {
+        "ma5_mean_reversion": 1.0
+      },
+      "similar_state_net_return_mean": 0.00581666666666668,
+      "similar_state_refs": [
+        "2010-11-12 01:00:52.156000+00:00",
+        "2010-11-11 01:00:37.111000+00:00",
+        "2010-11-05 00:16:27.850000+00:00",
+        "2010-11-04 00:07:35.050000+00:00",
+        "2010-11-07 23:59:04.267000+00:00",
+        "2010-11-03 00:00:51.065000+00:00",
+        "2010-11-02 00:07:14.620000+00:00",
+        "2010-10-19 00:18:35.052000+00:00",
+        "2010-10-17 22:24:04.878000+00:00",
+        "2010-10-20 00:10:21.001000+00:00"
+      ]
+    },
+    {
+      "decision_time": "2010-11-16 01:34:51.812000+00:00",
+      "marginal_edge": 0.02865000000000001,
+      "max_outcome_available_at_used": "2010-11-16 00:00:00+00:00",
+      "objective_window_sessions": 30,
+      "position_state": "FULL",
+      "selected_exposure": 1.5,
+      "selected_horizon_sessions": 3.0,
+      "selected_memory": {
+        "expanding": {
+          "count": 92,
+          "net_return_sum": 0.08992500000000045
+        },
+        "w10": {
+          "count": 10,
+          "net_return_sum": 0.11910000000000019
+        },
+        "w126": {
+          "count": 92,
+          "net_return_sum": 0.08992500000000045
+        },
+        "w20": {
+          "count": 20,
+          "net_return_sum": 0.16830000000000028
+        },
+        "w252": {
+          "count": 92,
+          "net_return_sum": 0.08992500000000045
+        },
+        "w40": {
+          "count": 40,
+          "net_return_sum": 0.13755000000000017
+        },
+        "w5": {
+          "count": 5,
+          "net_return_sum": 0.07845000000000012
+        },
+        "w60": {
+          "count": 60,
+          "net_return_sum": 0.1437000000000003
+        }
+      },
+      "selected_policy_id": "ma5_mean_reversion:1__h3__symmetric__x1p5",
+      "selected_side": "symmetric",
+      "selected_signal": 1.5,
+      "selected_weights": {
+        "ma5_mean_reversion": 1.0
+      },
+      "similar_state_net_return_mean": 0.012045000000000012,
+      "similar_state_refs": [
+        "2010-11-14 23:37:53.184000+00:00",
+        "2010-11-12 01:00:52.156000+00:00",
+        "2010-11-05 00:16:27.850000+00:00",
+        "2010-11-11 01:00:37.111000+00:00",
+        "2010-11-07 23:59:04.267000+00:00",
+        "2010-11-03 00:00:51.065000+00:00",
+        "2010-11-09 01:00:50.329000+00:00",
+        "2010-11-10 01:10:14.114000+00:00",
+        "2010-11-04 00:07:35.050000+00:00",
+        "2010-09-22 00:36:00.517000+00:00"
+      ]
+    },
+    {
+      "decision_time": "2010-11-17 02:49:26.166000+00:00",
+      "marginal_edge": 0.02865000000000001,
+      "max_outcome_available_at_used": "2010-11-16 00:00:00+00:00",
+      "objective_window_sessions": 30,
+      "position_state": "FULL",
+      "selected_exposure": 1.5,
+      "selected_horizon_sessions": 3.0,
+      "selected_memory": {
+        "expanding": {
+          "count": 92,
+          "net_return_sum": 0.08992500000000045
+        },
+        "w10": {
+          "count": 10,
+          "net_return_sum": 0.11910000000000019
+        },
+        "w126": {
+          "count": 92,
+          "net_return_sum": 0.08992500000000045
+        },
+        "w20": {
+          "count": 20,
+          "net_return_sum": 0.16830000000000028
+        },
+        "w252": {
+          "count": 92,
+          "net_return_sum": 0.08992500000000045
+        },
+        "w40": {
+          "count": 40,
+          "net_return_sum": 0.13755000000000017
+        },
+        "w5": {
+          "count": 5,
+          "net_return_sum": 0.07845000000000012
+        },
+        "w60": {
+          "count": 60,
+          "net_return_sum": 0.1437000000000003
+        }
+      },
+      "selected_policy_id": "ma5_mean_reversion:1__h3__symmetric__x1p5",
+      "selected_side": "symmetric",
+      "selected_signal": 1.5,
+      "selected_weights": {
+        "ma5_mean_reversion": 1.0
+      },
+      "similar_state_net_return_mean": 0.00785000000000002,
+      "similar_state_refs": [
+        "2010-11-16 01:34:51.812000+00:00",
+        "2010-11-14 23:37:53.184000+00:00",
+        "2010-11-12 01:00:52.156000+00:00",
+        "2010-11-07 23:59:04.267000+00:00",
+        "2010-11-05 00:16:27.850000+00:00",
+        "2010-11-03 00:00:51.065000+00:00",
+        "2010-11-04 00:07:35.050000+00:00",
+        "2010-11-11 01:00:37.111000+00:00",
+        "2010-11-09 01:00:50.329000+00:00",
+        "2010-10-20 00:10:21.001000+00:00"
+      ]
+    },
+    {
+      "decision_time": "2010-11-18 01:01:24.689000+00:00",
+      "marginal_edge": 0.003449999999999953,
+      "max_outcome_available_at_used": "2010-11-18 00:00:00+00:00",
+      "objective_window_sessions": 30,
+      "position_state": "FULL",
+      "selected_exposure": 1.5,
+      "selected_horizon_sessions": 3.0,
+      "selected_memory": {
+        "expanding": {
+          "count": 93,
+          "net_return_sum": -0.01492499999999939
+        },
+        "w10": {
+          "count": 10,
+          "net_return_sum": 0.14370000000000022
+        },
+        "w126": {
+          "count": 93,
+          "net_return_sum": -0.01492499999999939
+        },
+        "w20": {
+          "count": 20,
+          "net_return_sum": 0.11730000000000022
+        },
+        "w252": {
+          "count": 93,
+          "net_return_sum": -0.01492499999999939
+        },
+        "w40": {
+          "count": 40,
+          "net_return_sum": 0.14400000000000024
+        },
+        "w5": {
+          "count": 5,
+          "net_return_sum": 0.08835000000000007
+        },
+        "w60": {
+          "count": 60,
+          "net_return_sum": 0.07650000000000051
+        }
+      },
+      "selected_policy_id": "timesfm_direction:1__h3__symmetric__x1p5",
+      "selected_side": "symmetric",
+      "selected_signal": 1.5,
+      "selected_weights": {
+        "timesfm_direction": 1.0
+      },
+      "similar_state_net_return_mean": 0.014700000000000012,
+      "similar_state_refs": [
+        "2010-11-11 01:00:37.111000+00:00",
+        "2010-11-12 01:00:52.156000+00:00",
+        "2010-11-09 01:00:50.329000+00:00",
+        "2010-11-16 01:34:51.812000+00:00",
+        "2010-11-10 01:10:14.114000+00:00",
+        "2010-11-07 23:59:04.267000+00:00",
+        "2010-11-17 02:49:26.166000+00:00",
+        "2010-11-14 23:37:53.184000+00:00",
+        "2010-11-05 00:16:27.850000+00:00",
+        "2010-09-24 00:04:12.422000+00:00"
+      ]
+    },
+    {
+      "decision_time": "2010-11-19 01:04:35.084000+00:00",
+      "marginal_edge": 0.07634999999999995,
+      "max_outcome_available_at_used": "2010-11-19 00:00:00+00:00",
+      "objective_window_sessions": 30,
+      "position_state": "FULL",
+      "selected_exposure": 1.5,
+      "selected_horizon_sessions": 3.0,
+      "selected_memory": {
+        "expanding": {
+          "count": 94,
+          "net_return_sum": 0.11917500000000036
+        },
+        "w10": {
+          "count": 10,
+          "net_return_sum": 0.14805000000000007
+        },
+        "w126": {
+          "count": 94,
+          "net_return_sum": 0.11917500000000036
+        },
+        "w20": {
+          "count": 20,
+          "net_return_sum": 0.21660000000000015
+        },
+        "w252": {
+          "count": 94,
+          "net_return_sum": 0.11917500000000036
+        },
+        "w40": {
+          "count": 40,
+          "net_return_sum": 0.15990000000000015
+        },
+        "w5": {
+          "count": 5,
+          "net_return_sum": 0.06389999999999998
+        },
+        "w60": {
+          "count": 60,
+          "net_return_sum": 0.17070000000000016
+        }
+      },
+      "selected_policy_id": "ma5_mean_reversion:1__h3__symmetric__x1p5",
+      "selected_side": "symmetric",
+      "selected_signal": 1.5,
+      "selected_weights": {
+        "ma5_mean_reversion": 1.0
+      },
+      "similar_state_net_return_mean": 0.01486666666666667,
+      "similar_state_refs": [
+        "2010-11-18 01:01:24.689000+00:00",
+        "2010-11-11 01:00:37.111000+00:00",
+        "2010-11-12 01:00:52.156000+00:00",
+        "2010-11-16 01:34:51.812000+00:00",
+        "2010-11-17 02:49:26.166000+00:00",
+        "2010-11-09 01:00:50.329000+00:00",
+        "2010-11-07 23:59:04.267000+00:00",
+        "2010-11-10 01:10:14.114000+00:00",
+        "2010-11-14 23:37:53.184000+00:00",
+        "2010-11-05 00:16:27.850000+00:00"
+      ]
+    },
+    {
+      "decision_time": "2010-11-21 23:59:08.911000+00:00",
+      "marginal_edge": 0.06585000000000002,
+      "max_outcome_available_at_used": "2010-11-21 00:00:00+00:00",
+      "objective_window_sessions": 30,
+      "position_state": "REVERSE",
+      "selected_exposure": 1.5,
+      "selected_horizon_sessions": 3.0,
+      "selected_memory": {
+        "expanding": {
+          "count": 95,
+          "net_return_sum": 0.1404750000000004
+        },
+        "w10": {
+          "count": 10,
+          "net_return_sum": 0.15510000000000007
+        },
+        "w126": {
+          "count": 95,
+          "net_return_sum": 0.1404750000000004
+        },
+        "w20": {
+          "count": 20,
+          "net_return_sum": 0.25380000000000025
+        },
+        "w252": {
+          "count": 95,
+          "net_return_sum": 0.1404750000000004
+        },
+        "w40": {
+          "count": 40,
+          "net_return_sum": 0.1744500000000003
+        },
+        "w5": {
+          "count": 5,
+          "net_return_sum": 0.06405000000000002
+        },
+        "w60": {
+          "count": 60,
+          "net_return_sum": 0.2100000000000001
+        }
+      },
+      "selected_policy_id": "ma5_mean_reversion:1__h3__symmetric__x1p5",
+      "selected_side": "symmetric",
+      "selected_signal": -1.5,
+      "selected_weights": {
+        "ma5_mean_reversion": 1.0
+      },
+      "similar_state_net_return_mean": 0.01673333333333334,
+      "similar_state_refs": [
+        "2010-11-18 01:01:24.689000+00:00",
+        "2010-11-19 01:04:35.084000+00:00",
+        "2010-11-09 01:00:50.329000+00:00",
+        "2010-11-10 01:10:14.114000+00:00",
+        "2010-11-11 01:00:37.111000+00:00",
+        "2010-11-12 01:00:52.156000+00:00",
+        "2010-11-16 01:34:51.812000+00:00",
+        "2010-11-07 23:59:04.267000+00:00",
+        "2010-11-17 02:49:26.166000+00:00",
+        "2010-11-14 23:37:53.184000+00:00"
+      ]
+    },
+    {
+      "decision_time": "2010-11-23 01:00:51.863000+00:00",
+      "marginal_edge": 0.0804500000000001,
+      "max_outcome_available_at_used": "2010-11-23 00:00:00+00:00",
+      "objective_window_sessions": 30,
+      "position_state": "STARTER",
+      "selected_exposure": 1.5,
+      "selected_horizon_sessions": 3.0,
+      "selected_memory": {
+        "expanding": {
+          "count": 97,
+          "net_return_sum": 0.1287750000000005
+        },
+        "w10": {
+          "count": 10,
+          "net_return_sum": 0.11730000000000015
+        },
+        "w126": {
+          "count": 97,
+          "net_return_sum": 0.1287750000000005
+        },
+        "w20": {
+          "count": 20,
+          "net_return_sum": 0.23445000000000027
+        },
+        "w252": {
+          "count": 97,
+          "net_return_sum": 0.1287750000000005
+        },
+        "w40": {
+          "count": 40,
+          "net_return_sum": 0.19740000000000038
+        },
+        "w5": {
+          "count": 5,
+          "net_return_sum": 0.038850000000000065
+        },
+        "w60": {
+          "count": 60,
+          "net_return_sum": 0.22890000000000024
+        }
+      },
+      "selected_policy_id": "ma5_mean_reversion:1__h3__symmetric__x1p5",
+      "selected_side": "symmetric",
+      "selected_signal": -1.5,
+      "selected_weights": {
+        "ma5_mean_reversion": 1.0
+      },
+      "similar_state_net_return_mean": 0.012870000000000024,
+      "similar_state_refs": [
+        "2010-11-21 23:59:08.911000+00:00",
+        "2010-11-19 01:04:35.084000+00:00",
+        "2010-11-18 01:01:24.689000+00:00",
+        "2010-11-10 01:10:14.114000+00:00",
+        "2010-11-09 01:00:50.329000+00:00",
+        "2010-11-11 01:00:37.111000+00:00",
+        "2010-11-12 01:00:52.156000+00:00",
+        "2010-09-24 00:04:12.422000+00:00",
+        "2010-11-16 01:34:51.812000+00:00",
+        "2010-11-07 23:59:04.267000+00:00"
+      ]
+    },
+    {
+      "decision_time": "2010-11-24 23:45:17.562000+00:00",
+      "marginal_edge": 0.0804500000000001,
+      "max_outcome_available_at_used": "2010-11-23 00:00:00+00:00",
+      "objective_window_sessions": 30,
+      "position_state": "FULL",
+      "selected_exposure": 1.5,
+      "selected_horizon_sessions": 3.0,
+      "selected_memory": {
+        "expanding": {
+          "count": 97,
+          "net_return_sum": 0.1287750000000005
+        },
+        "w10": {
+          "count": 10,
+          "net_return_sum": 0.11730000000000015
+        },
+        "w126": {
+          "count": 97,
+          "net_return_sum": 0.1287750000000005
+        },
+        "w20": {
+          "count": 20,
+          "net_return_sum": 0.23445000000000027
+        },
+        "w252": {
+          "count": 97,
+          "net_return_sum": 0.1287750000000005
+        },
+        "w40": {
+          "count": 40,
+          "net_return_sum": 0.19740000000000038
+        },
+        "w5": {
+          "count": 5,
+          "net_return_sum": 0.038850000000000065
+        },
+        "w60": {
+          "count": 60,
+          "net_return_sum": 0.22890000000000024
+        }
+      },
+      "selected_policy_id": "ma5_mean_reversion:1__h3__symmetric__x1p5",
+      "selected_side": "symmetric",
+      "selected_signal": -1.5,
+      "selected_weights": {
+        "ma5_mean_reversion": 1.0
+      },
+      "similar_state_net_return_mean": 0.011900000000000027,
+      "similar_state_refs": [
+        "2010-11-23 01:00:51.863000+00:00",
+        "2010-11-21 23:59:08.911000+00:00",
+        "2010-11-19 01:04:35.084000+00:00",
+        "2010-11-18 01:01:24.689000+00:00",
+        "2010-11-11 01:00:37.111000+00:00",
+        "2010-11-12 01:00:52.156000+00:00",
+        "2010-11-10 01:10:14.114000+00:00",
+        "2010-11-09 01:00:50.329000+00:00",
+        "2010-09-24 00:04:12.422000+00:00",
+        "2010-11-16 01:34:51.812000+00:00"
+      ]
+    },
+    {
+      "decision_time": "2010-11-25 23:00:00.344000+00:00",
+      "marginal_edge": 0.06990000000000027,
+      "max_outcome_available_at_used": "2010-11-25 00:00:00+00:00",
+      "objective_window_sessions": 30,
+      "position_state": "FULL",
+      "selected_exposure": 1.5,
+      "selected_horizon_sessions": 3.0,
+      "selected_memory": {
+        "expanding": {
+          "count": 98,
+          "net_return_sum": 0.12607500000000052
+        },
+        "w10": {
+          "count": 10,
+          "net_return_sum": 0.09450000000000015
+        },
+        "w126": {
+          "count": 98,
+          "net_return_sum": 0.12607500000000052
+        },
+        "w20": {
+          "count": 20,
+          "net_return_sum": 0.22875000000000031
+        },
+        "w252": {
+          "count": 98,
+          "net_return_sum": 0.12607500000000052
+        },
+        "w40": {
+          "count": 40,
+          "net_return_sum": 0.19620000000000035
+        },
+        "w5": {
+          "count": 5,
+          "net_return_sum": 0.006150000000000069
+        },
+        "w60": {
+          "count": 60,
+          "net_return_sum": 0.22365000000000027
+        }
+      },
+      "selected_policy_id": "ma5_mean_reversion:1__h3__symmetric__x1p5",
+      "selected_side": "symmetric",
+      "selected_signal": -1.5,
+      "selected_weights": {
+        "ma5_mean_reversion": 1.0
+      },
+      "similar_state_net_return_mean": 0.013410000000000005,
+      "similar_state_refs": [
+        "2010-10-28 00:21:20.372000+00:00",
+        "2010-11-07 23:59:04.267000+00:00",
+        "2010-11-04 00:07:35.050000+00:00",
+        "2010-09-30 00:32:28.322000+00:00",
+        "2010-10-31 23:46:58.559000+00:00",
+        "2010-11-09 01:00:50.329000+00:00",
+        "2010-11-05 00:16:27.850000+00:00",
+        "2010-11-11 01:00:37.111000+00:00",
+        "2010-11-03 00:00:51.065000+00:00",
+        "2010-11-10 01:10:14.114000+00:00"
+      ]
+    },
+    {
+      "decision_time": "2010-11-28 23:56:49.497000+00:00",
+      "marginal_edge": 0.07235000000000011,
+      "max_outcome_available_at_used": "2010-11-28 00:00:00+00:00",
+      "objective_window_sessions": 30,
+      "position_state": "FULL",
+      "selected_exposure": 1.5,
+      "selected_horizon_sessions": 3.0,
+      "selected_memory": {
+        "expanding": {
+          "count": 100,
+          "net_return_sum": 0.1290750000000006
+        },
+        "w10": {
+          "count": 10,
+          "net_return_sum": 0.05265000000000022
+        },
+        "w126": {
+          "count": 100,
+          "net_return_sum": 0.1290750000000006
+        },
+        "w20": {
+          "count": 20,
+          "net_return_sum": 0.19515000000000043
+        },
+        "w252": {
+          "count": 100,
+          "net_return_sum": 0.1290750000000006
+        },
+        "w40": {
+          "count": 40,
+          "net_return_sum": 0.21345000000000047
+        },
+        "w5": {
+          "count": 5,
+          "net_return_sum": -0.011399999999999794
+        },
+        "w60": {
+          "count": 60,
+          "net_return_sum": 0.22020000000000034
+        }
+      },
+      "selected_policy_id": "ma5_mean_reversion:1__h3__symmetric__x1p5",
+      "selected_side": "symmetric",
+      "selected_signal": -1.5,
+      "selected_weights": {
+        "ma5_mean_reversion": 1.0
+      },
+      "similar_state_net_return_mean": 0.0033449999999999986,
+      "similar_state_refs": [
+        "2010-11-25 23:00:00.344000+00:00",
+        "2010-11-04 00:07:35.050000+00:00",
+        "2010-09-30 00:32:28.322000+00:00",
+        "2010-11-07 23:59:04.267000+00:00",
+        "2010-11-17 02:49:26.166000+00:00",
+        "2010-10-29 00:05:32.587000+00:00",
+        "2010-11-03 00:00:51.065000+00:00",
+        "2010-10-03 23:30:55.291000+00:00",
+        "2010-10-28 00:21:20.372000+00:00",
+        "2010-10-01 00:15:23.701000+00:00"
+      ]
+    },
+    {
+      "decision_time": "2010-11-30 01:01:25.026000+00:00",
+      "marginal_edge": 0.07260000000000041,
+      "max_outcome_available_at_used": "2010-11-30 00:00:00+00:00",
+      "objective_window_sessions": 30,
+      "position_state": "FULL",
+      "selected_exposure": 1.5,
+      "selected_horizon_sessions": 3.0,
+      "selected_memory": {
+        "expanding": {
+          "count": 101,
+          "net_return_sum": 0.1580250000000007
+        },
+        "w10": {
+          "count": 10,
+          "net_return_sum": 0.07680000000000028
+        },
+        "w126": {
+          "count": 101,
+          "net_return_sum": 0.1580250000000007
+        },
+        "w20": {
+          "count": 20,
+          "net_return_sum": 0.22035000000000046
+        },
+        "w252": {
+          "count": 101,
+          "net_return_sum": 0.1580250000000007
+        },
+        "w40": {
+          "count": 40,
+          "net_return_sum": 0.23760000000000053
+        },
+        "w5": {
+          "count": 5,
+          "net_return_sum": 0.014550000000000214
+        },
+        "w60": {
+          "count": 60,
+          "net_return_sum": 0.24300000000000047
+        }
+      },
+      "selected_policy_id": "ma5_mean_reversion:1__h3__symmetric__x1p5",
+      "selected_side": "symmetric",
+      "selected_signal": -1.5,
+      "selected_weights": {
+        "ma5_mean_reversion": 1.0
+      },
+      "similar_state_net_return_mean": 0.008160000000000004,
+      "similar_state_refs": [
+        "2010-11-25 23:00:00.344000+00:00",
+        "2010-11-11 01:00:37.111000+00:00",
+        "2010-11-02 00:07:14.620000+00:00",
+        "2010-11-03 00:00:51.065000+00:00",
+        "2010-11-12 01:00:52.156000+00:00",
+        "2010-11-07 23:59:04.267000+00:00",
+        "2010-11-05 00:16:27.850000+00:00",
+        "2010-11-09 01:00:50.329000+00:00",
+        "2010-11-14 23:37:53.184000+00:00",
+        "2010-11-17 02:49:26.166000+00:00"
+      ]
+    },
+    {
+      "decision_time": "2010-12-01 01:00:49.551000+00:00",
+      "marginal_edge": 0.07260000000000041,
+      "max_outcome_available_at_used": "2010-11-30 00:00:00+00:00",
+      "objective_window_sessions": 30,
+      "position_state": "REVERSE",
+      "selected_exposure": 1.5,
+      "selected_horizon_sessions": 3.0,
+      "selected_memory": {
+        "expanding": {
+          "count": 101,
+          "net_return_sum": 0.1580250000000007
+        },
+        "w10": {
+          "count": 10,
+          "net_return_sum": 0.07680000000000028
+        },
+        "w126": {
+          "count": 101,
+          "net_return_sum": 0.1580250000000007
+        },
+        "w20": {
+          "count": 20,
+          "net_return_sum": 0.22035000000000046
+        },
+        "w252": {
+          "count": 101,
+          "net_return_sum": 0.1580250000000007
+        },
+        "w40": {
+          "count": 40,
+          "net_return_sum": 0.23760000000000053
+        },
+        "w5": {
+          "count": 5,
+          "net_return_sum": 0.014550000000000214
+        },
+        "w60": {
+          "count": 60,
+          "net_return_sum": 0.24300000000000047
+        }
+      },
+      "selected_policy_id": "ma5_mean_reversion:1__h3__symmetric__x1p5",
+      "selected_side": "symmetric",
+      "selected_signal": 1.5,
+      "selected_weights": {
+        "ma5_mean_reversion": 1.0
+      },
+      "similar_state_net_return_mean": 0.009950000000000011,
+      "similar_state_refs": [
+        "2010-11-30 01:01:25.026000+00:00",
+        "2010-11-07 23:59:04.267000+00:00",
+        "2010-11-17 02:49:26.166000+00:00",
+        "2010-11-25 23:00:00.344000+00:00",
+        "2010-11-03 00:00:51.065000+00:00",
+        "2010-11-04 00:07:35.050000+00:00",
+        "2010-11-05 00:16:27.850000+00:00",
+        "2010-11-09 01:00:50.329000+00:00",
+        "2010-11-28 23:56:49.497000+00:00",
+        "2010-11-12 01:00:52.156000+00:00"
+      ]
+    },
+    {
+      "decision_time": "2010-12-02 01:08:17.940000+00:00",
+      "marginal_edge": 0.024600000000000566,
+      "max_outcome_available_at_used": "2010-12-02 00:00:00+00:00",
+      "objective_window_sessions": 30,
+      "position_state": "STARTER",
+      "selected_exposure": 1.5,
+      "selected_horizon_sessions": 3.0,
+      "selected_memory": {
+        "expanding": {
+          "count": 102,
+          "net_return_sum": 0.1436250000000008
+        },
+        "w10": {
+          "count": 10,
+          "net_return_sum": 0.053700000000000365
+        },
+        "w126": {
+          "count": 102,
+          "net_return_sum": 0.1436250000000008
+        },
+        "w20": {
+          "count": 20,
+          "net_return_sum": 0.17280000000000056
+        },
+        "w252": {
+          "count": 102,
+          "net_return_sum": 0.1436250000000008
+        },
+        "w40": {
+          "count": 40,
+          "net_return_sum": 0.2302500000000006
+        },
+        "w5": {
+          "count": 5,
+          "net_return_sum": 0.014850000000000295
+        },
+        "w60": {
+          "count": 60,
+          "net_return_sum": 0.20505000000000057
+        }
+      },
+      "selected_policy_id": "ma5_mean_reversion:1__h3__symmetric__x1p5",
+      "selected_side": "symmetric",
+      "selected_signal": 1.5,
+      "selected_weights": {
+        "ma5_mean_reversion": 1.0
+      },
+      "similar_state_net_return_mean": 0.010500000000000032,
+      "similar_state_refs": [
+        "2010-12-01 01:00:49.551000+00:00",
+        "2010-11-30 01:01:25.026000+00:00",
+        "2010-11-25 23:00:00.344000+00:00",
+        "2010-11-11 01:00:37.111000+00:00",
+        "2010-11-12 01:00:52.156000+00:00",
+        "2010-11-07 23:59:04.267000+00:00",
+        "2010-11-05 00:16:27.850000+00:00",
+        "2010-11-18 01:01:24.689000+00:00",
+        "2010-11-04 00:07:35.050000+00:00",
+        "2010-11-09 01:00:50.329000+00:00"
+      ]
+    },
+    {
+      "decision_time": "2010-12-03 01:05:15.241000+00:00",
+      "marginal_edge": 0.024600000000000594,
+      "max_outcome_available_at_used": "2010-12-03 00:00:00+00:00",
+      "objective_window_sessions": 30,
+      "position_state": "FULL",
+      "selected_exposure": 1.5,
+      "selected_horizon_sessions": 3.0,
+      "selected_memory": {
+        "expanding": {
+          "count": 103,
+          "net_return_sum": 0.15112500000000093
+        },
+        "w10": {
+          "count": 10,
+          "net_return_sum": 0.031200000000000463
+        },
+        "w126": {
+          "count": 103,
+          "net_return_sum": 0.15112500000000093
+        },
+        "w20": {
+          "count": 20,
+          "net_return_sum": 0.17490000000000067
+        },
+        "w252": {
+          "count": 103,
+          "net_return_sum": 0.15112500000000093
+        },
+        "w40": {
+          "count": 40,
+          "net_return_sum": 0.22170000000000076
+        },
+        "w5": {
+          "count": 5,
+          "net_return_sum": 0.02505000000000039
+        },
+        "w60": {
+          "count": 60,
+          "net_return_sum": 0.21765000000000065
+        }
+      },
+      "selected_policy_id": "ma5_mean_reversion:1__h3__symmetric__x1p5",
+      "selected_side": "symmetric",
+      "selected_signal": 1.5,
+      "selected_weights": {
+        "ma5_mean_reversion": 1.0
+      },
+      "similar_state_net_return_mean": 0.009583333333333385,
+      "similar_state_refs": [
+        "2010-12-02 01:08:17.940000+00:00",
+        "2010-12-01 01:00:49.551000+00:00",
+        "2010-11-30 01:01:25.026000+00:00",
+        "2010-11-25 23:00:00.344000+00:00",
+        "2010-11-11 01:00:37.111000+00:00",
+        "2010-11-07 23:59:04.267000+00:00",
+        "2010-11-19 01:04:35.084000+00:00",
+        "2010-11-09 01:00:50.329000+00:00",
+        "2010-11-18 01:01:24.689000+00:00",
+        "2010-11-12 01:00:52.156000+00:00"
+      ]
+    },
+    {
+      "decision_time": "2010-12-05 23:59:47.756000+00:00",
+      "marginal_edge": 0.024600000000000594,
+      "max_outcome_available_at_used": "2010-12-05 00:00:00+00:00",
+      "objective_window_sessions": 30,
+      "position_state": "REVERSE",
+      "selected_exposure": 1.5,
+      "selected_horizon_sessions": 3.0,
+      "selected_memory": {
+        "expanding": {
+          "count": 104,
+          "net_return_sum": 0.15562500000000082
+        },
+        "w10": {
+          "count": 10,
+          "net_return_sum": 0.03645000000000048
+        },
+        "w126": {
+          "count": 104,
+          "net_return_sum": 0.15562500000000082
+        },
+        "w20": {
+          "count": 20,
+          "net_return_sum": 0.18450000000000052
+        },
+        "w252": {
+          "count": 104,
+          "net_return_sum": 0.15562500000000082
+        },
+        "w40": {
+          "count": 40,
+          "net_return_sum": 0.2661000000000006
+        },
+        "w5": {
+          "count": 5,
+          "net_return_sum": 0.027750000000000222
+        },
+        "w60": {
+          "count": 60,
+          "net_return_sum": 0.22575000000000053
+        }
+      },
+      "selected_policy_id": "ma5_mean_reversion:1__h3__symmetric__x1p5",
+      "selected_side": "symmetric",
+      "selected_signal": -1.5,
+      "selected_weights": {
+        "ma5_mean_reversion": 1.0
+      },
+      "similar_state_net_return_mean": 0.010683333333333373,
+      "similar_state_refs": [
+        "2010-12-03 01:05:15.241000+00:00",
+        "2010-12-02 01:08:17.940000+00:00",
+        "2010-12-01 01:00:49.551000+00:00",
+        "2010-11-25 23:00:00.344000+00:00",
+        "2010-11-30 01:01:25.026000+00:00",
+        "2010-11-07 23:59:04.267000+00:00",
+        "2010-11-19 01:04:35.084000+00:00",
+        "2010-11-09 01:00:50.329000+00:00",
+        "2010-11-10 01:10:14.114000+00:00",
+        "2010-11-28 23:56:49.497000+00:00"
+      ]
+    },
+    {
+      "decision_time": "2010-12-07 01:00:46.285000+00:00",
+      "marginal_edge": 0.008549999999999391,
+      "max_outcome_available_at_used": "2010-12-07 00:00:00+00:00",
+      "objective_window_sessions": 30,
+      "position_state": "STARTER",
+      "selected_exposure": 1.5,
+      "selected_horizon_sessions": 1.0,
+      "selected_memory": {
+        "expanding": {
+          "count": 106,
+          "net_return_sum": 0.05572499999999999
+        },
+        "w10": {
+          "count": 10,
+          "net_return_sum": 0.06135000000000012
+        },
+        "w126": {
+          "count": 106,
+          "net_return_sum": 0.05572499999999999
+        },
+        "w20": {
+          "count": 20,
+          "net_return_sum": 0.1980000000000001
+        },
+        "w252": {
+          "count": 106,
+          "net_return_sum": 0.05572499999999999
+        },
+        "w40": {
+          "count": 40,
+          "net_return_sum": 0.18945000000000006
+        },
+        "w5": {
+          "count": 5,
+          "net_return_sum": 0.046349999999999905
+        },
+        "w60": {
+          "count": 60,
+          "net_return_sum": 0.1434000000000001
+        }
+      },
+      "selected_policy_id": "mean_reversion_ret5:1__h1__symmetric__x1p5",
+      "selected_side": "symmetric",
+      "selected_signal": -1.5,
+      "selected_weights": {
+        "mean_reversion_ret5": 1.0
+      },
+      "similar_state_net_return_mean": 0.007440000000000002,
+      "similar_state_refs": [
+        "2010-12-03 01:05:15.241000+00:00",
+        "2010-12-05 23:59:47.756000+00:00",
+        "2010-12-02 01:08:17.940000+00:00",
+        "2010-11-10 01:10:14.114000+00:00",
+        "2010-11-30 01:01:25.026000+00:00",
+        "2010-12-01 01:00:49.551000+00:00",
+        "2010-11-09 01:00:50.329000+00:00",
+        "2010-11-21 23:59:08.911000+00:00",
+        "2010-11-25 23:00:00.344000+00:00",
+        "2010-11-23 01:00:51.863000+00:00"
+      ]
+    },
+    {
+      "decision_time": "2010-12-08 01:00:36.236000+00:00",
+      "marginal_edge": 0.008549999999999391,
+      "max_outcome_available_at_used": "2010-12-07 00:00:00+00:00",
+      "objective_window_sessions": 30,
+      "position_state": "FULL",
+      "selected_exposure": 1.5,
+      "selected_horizon_sessions": 1.0,
+      "selected_memory": {
+        "expanding": {
+          "count": 106,
+          "net_return_sum": 0.05572499999999999
+        },
+        "w10": {
+          "count": 10,
+          "net_return_sum": 0.06135000000000012
+        },
+        "w126": {
+          "count": 106,
+          "net_return_sum": 0.05572499999999999
+        },
+        "w20": {
+          "count": 20,
+          "net_return_sum": 0.1980000000000001
+        },
+        "w252": {
+          "count": 106,
+          "net_return_sum": 0.05572499999999999
+        },
+        "w40": {
+          "count": 40,
+          "net_return_sum": 0.18945000000000006
+        },
+        "w5": {
+          "count": 5,
+          "net_return_sum": 0.046349999999999905
+        },
+        "w60": {
+          "count": 60,
+          "net_return_sum": 0.1434000000000001
+        }
+      },
+      "selected_policy_id": "mean_reversion_ret5:1__h1__symmetric__x1p5",
+      "selected_side": "symmetric",
+      "selected_signal": -1.5,
+      "selected_weights": {
+        "mean_reversion_ret5": 1.0
+      },
+      "similar_state_net_return_mean": 0.012066666666666667,
+      "similar_state_refs": [
+        "2010-12-07 01:00:46.285000+00:00",
+        "2010-12-03 01:05:15.241000+00:00",
+        "2010-12-05 23:59:47.756000+00:00",
+        "2010-12-02 01:08:17.940000+00:00",
+        "2010-12-01 01:00:49.551000+00:00",
+        "2010-11-30 01:01:25.026000+00:00",
+        "2010-11-10 01:10:14.114000+00:00",
+        "2010-11-09 01:00:50.329000+00:00",
+        "2010-11-11 01:00:37.111000+00:00",
+        "2010-11-23 01:00:51.863000+00:00"
+      ]
+    },
+    {
+      "decision_time": "2010-12-09 01:00:47.309000+00:00",
+      "marginal_edge": 0.008099999999999358,
+      "max_outcome_available_at_used": "2010-12-09 00:00:00+00:00",
+      "objective_window_sessions": 30,
+      "position_state": "FULL",
+      "selected_exposure": 1.5,
+      "selected_horizon_sessions": 1.0,
+      "selected_memory": {
+        "expanding": {
+          "count": 107,
+          "net_return_sum": 0.018974999999999992
+        },
+        "w10": {
+          "count": 10,
+          "net_return_sum": 0.038850000000000086
+        },
+        "w126": {
+          "count": 107,
+          "net_return_sum": 0.018974999999999992
+        },
+        "w20": {
+          "count": 20,
+          "net_return_sum": 0.13965000000000008
+        },
+        "w252": {
+          "count": 107,
+          "net_return_sum": 0.018974999999999992
+        },
+        "w40": {
+          "count": 40,
+          "net_return_sum": 0.15780000000000002
+        },
+        "w5": {
+          "count": 5,
+          "net_return_sum": -0.004349999999999972
+        },
+        "w60": {
+          "count": 60,
+          "net_return_sum": 0.10830000000000006
+        }
+      },
+      "selected_policy_id": "mean_reversion_ret5:1__h1__symmetric__x1p5",
+      "selected_side": "symmetric",
+      "selected_signal": -1.5,
+      "selected_weights": {
+        "mean_reversion_ret5": 1.0
+      },
+      "similar_state_net_return_mean": 0.003983333333333342,
+      "similar_state_refs": [
+        "2010-12-07 01:00:46.285000+00:00",
+        "2010-12-03 01:05:15.241000+00:00",
+        "2010-12-08 01:00:36.236000+00:00",
+        "2010-12-02 01:08:17.940000+00:00",
+        "2010-11-10 01:10:14.114000+00:00",
+        "2010-11-09 01:00:50.329000+00:00",
+        "2010-11-21 23:59:08.911000+00:00",
+        "2010-12-05 23:59:47.756000+00:00",
+        "2010-11-18 01:01:24.689000+00:00",
+        "2010-11-23 01:00:51.863000+00:00"
+      ]
+    },
+    {
+      "decision_time": "2010-12-10 01:01:03.410000+00:00",
+      "marginal_edge": 0.008099999999999358,
+      "max_outcome_available_at_used": "2010-12-10 00:00:00+00:00",
+      "objective_window_sessions": 30,
+      "position_state": "FULL",
+      "selected_exposure": 1.5,
+      "selected_horizon_sessions": 1.0,
+      "selected_memory": {
+        "expanding": {
+          "count": 108,
+          "net_return_sum": 0.04897500000000002
+        },
+        "w10": {
+          "count": 10,
+          "net_return_sum": 0.07155000000000009
+        },
+        "w126": {
+          "count": 108,
+          "net_return_sum": 0.04897500000000002
+        },
+        "w20": {
+          "count": 20,
+          "net_return_sum": 0.14955000000000004
+        },
+        "w252": {
+          "count": 108,
+          "net_return_sum": 0.04897500000000002
+        },
+        "w40": {
+          "count": 40,
+          "net_return_sum": 0.18360000000000004
+        },
+        "w5": {
+          "count": 5,
+          "net_return_sum": 0.01769999999999993
+        },
+        "w60": {
+          "count": 60,
+          "net_return_sum": 0.15255000000000013
+        }
+      },
+      "selected_policy_id": "mean_reversion_ret5:1__h1__symmetric__x1p5",
+      "selected_side": "symmetric",
+      "selected_signal": -1.5,
+      "selected_weights": {
+        "mean_reversion_ret5": 1.0
+      },
+      "similar_state_net_return_mean": 0.004899999999999969,
+      "similar_state_refs": [
+        "2010-12-08 01:00:36.236000+00:00",
+        "2010-12-09 01:00:47.309000+00:00",
+        "2010-12-03 01:05:15.241000+00:00",
+        "2010-11-11 01:00:37.111000+00:00",
+        "2010-12-02 01:08:17.940000+00:00",
+        "2010-12-07 01:00:46.285000+00:00",
+        "2010-11-30 01:01:25.026000+00:00",
+        "2010-11-12 01:00:52.156000+00:00",
+        "2010-12-05 23:59:47.756000+00:00",
+        "2010-11-19 01:04:35.084000+00:00"
+      ]
+    },
+    {
+      "decision_time": "2010-12-12 23:52:21.496000+00:00",
+      "marginal_edge": 0.008099999999999385,
+      "max_outcome_available_at_used": "2010-12-12 00:00:00+00:00",
+      "objective_window_sessions": 30,
+      "position_state": "FULL",
+      "selected_exposure": 1.5,
+      "selected_horizon_sessions": 1.0,
+      "selected_memory": {
+        "expanding": {
+          "count": 109,
+          "net_return_sum": 0.04417500000000001
+        },
+        "w10": {
+          "count": 10,
+          "net_return_sum": 0.06495000000000001
+        },
+        "w126": {
+          "count": 109,
+          "net_return_sum": 0.04417500000000001
+        },
+        "w20": {
+          "count": 20,
+          "net_return_sum": 0.12105000000000005
+        },
+        "w252": {
+          "count": 109,
+          "net_return_sum": 0.04417500000000001
+        },
+        "w40": {
+          "count": 40,
+          "net_return_sum": 0.18285000000000007
+        },
+        "w5": {
+          "count": 5,
+          "net_return_sum": 0.008400000000000022
+        },
+        "w60": {
+          "count": 60,
+          "net_return_sum": 0.1431000000000001
+        }
+      },
+      "selected_policy_id": "mean_reversion_ret5:1__h1__symmetric__x1p5",
+      "selected_side": "symmetric",
+      "selected_signal": -1.5,
+      "selected_weights": {
+        "mean_reversion_ret5": 1.0
+      },
+      "similar_state_net_return_mean": 0.004283333333333331,
+      "similar_state_refs": [
+        "2010-12-10 01:01:03.410000+00:00",
+        "2010-12-08 01:00:36.236000+00:00",
+        "2010-12-03 01:05:15.241000+00:00",
+        "2010-12-05 23:59:47.756000+00:00",
+        "2010-12-02 01:08:17.940000+00:00",
+        "2010-12-07 01:00:46.285000+00:00",
+        "2010-12-09 01:00:47.309000+00:00",
+        "2010-12-01 01:00:49.551000+00:00",
+        "2010-11-11 01:00:37.111000+00:00",
+        "2010-11-19 01:04:35.084000+00:00"
+      ]
+    },
+    {
+      "decision_time": "2010-12-14 01:10:11.481000+00:00",
+      "marginal_edge": 0.016049999999999454,
+      "max_outcome_available_at_used": "2010-12-14 00:00:00+00:00",
+      "objective_window_sessions": 30,
+      "position_state": "REVERSE",
+      "selected_exposure": 1.5,
+      "selected_horizon_sessions": 1.0,
+      "selected_memory": {
+        "expanding": {
+          "count": 111,
+          "net_return_sum": 0.04687499999999998
+        },
+        "w10": {
+          "count": 10,
+          "net_return_sum": 0.037499999999999895
+        },
+        "w126": {
+          "count": 111,
+          "net_return_sum": 0.04687499999999998
+        },
+        "w20": {
+          "count": 20,
+          "net_return_sum": 0.10785000000000004
+        },
+        "w252": {
+          "count": 111,
+          "net_return_sum": 0.04687499999999998
+        },
+        "w40": {
+          "count": 40,
+          "net_return_sum": 0.21090000000000003
+        },
+        "w5": {
+          "count": 5,
+          "net_return_sum": -0.008850000000000009
+        },
+        "w60": {
+          "count": 60,
+          "net_return_sum": 0.14190000000000003
+        }
+      },
+      "selected_policy_id": "mean_reversion_ret5:1__h1__symmetric__x1p5",
+      "selected_side": "symmetric",
+      "selected_signal": 1.5,
+      "selected_weights": {
+        "mean_reversion_ret5": 1.0
+      },
+      "similar_state_net_return_mean": 0.0009300000000000055,
+      "similar_state_refs": [
+        "2010-12-12 23:52:21.496000+00:00",
+        "2010-12-10 01:01:03.410000+00:00",
+        "2010-12-08 01:00:36.236000+00:00",
+        "2010-12-03 01:05:15.241000+00:00",
+        "2010-12-07 01:00:46.285000+00:00",
+        "2010-12-02 01:08:17.940000+00:00",
+        "2010-12-05 23:59:47.756000+00:00",
+        "2010-12-09 01:00:47.309000+00:00",
+        "2010-12-01 01:00:49.551000+00:00",
+        "2010-11-21 23:59:08.911000+00:00"
+      ]
+    },
+    {
+      "decision_time": "2010-12-15 01:00:35.630000+00:00",
+      "marginal_edge": 0.016049999999999454,
+      "max_outcome_available_at_used": "2010-12-14 00:00:00+00:00",
+      "objective_window_sessions": 30,
+      "position_state": "STARTER",
+      "selected_exposure": 1.5,
+      "selected_horizon_sessions": 1.0,
+      "selected_memory": {
+        "expanding": {
+          "count": 111,
+          "net_return_sum": 0.04687499999999998
+        },
+        "w10": {
+          "count": 10,
+          "net_return_sum": 0.037499999999999895
+        },
+        "w126": {
+          "count": 111,
+          "net_return_sum": 0.04687499999999998
+        },
+        "w20": {
+          "count": 20,
+          "net_return_sum": 0.10785000000000004
+        },
+        "w252": {
+          "count": 111,
+          "net_return_sum": 0.04687499999999998
+        },
+        "w40": {
+          "count": 40,
+          "net_return_sum": 0.21090000000000003
+        },
+        "w5": {
+          "count": 5,
+          "net_return_sum": -0.008850000000000009
+        },
+        "w60": {
+          "count": 60,
+          "net_return_sum": 0.14190000000000003
+        }
+      },
+      "selected_policy_id": "mean_reversion_ret5:1__h1__symmetric__x1p5",
+      "selected_side": "symmetric",
+      "selected_signal": 1.5,
+      "selected_weights": {
+        "mean_reversion_ret5": 1.0
+      },
+      "similar_state_net_return_mean": 0.012083333333333338,
+      "similar_state_refs": [
+        "2010-12-14 01:10:11.481000+00:00",
+        "2010-12-12 23:52:21.496000+00:00",
+        "2010-12-10 01:01:03.410000+00:00",
+        "2010-12-08 01:00:36.236000+00:00",
+        "2010-11-12 01:00:52.156000+00:00",
+        "2010-11-14 23:37:53.184000+00:00",
+        "2010-12-01 01:00:49.551000+00:00",
+        "2010-11-11 01:00:37.111000+00:00",
+        "2010-11-30 01:01:25.026000+00:00",
+        "2010-11-16 01:34:51.812000+00:00"
+      ]
+    },
+    {
+      "decision_time": "2010-12-16 01:00:35.218000+00:00",
+      "marginal_edge": 0.015599999999999448,
+      "max_outcome_available_at_used": "2010-12-16 00:00:00+00:00",
+      "objective_window_sessions": 30,
+      "position_state": "FULL",
+      "selected_exposure": 1.5,
+      "selected_horizon_sessions": 1.0,
+      "selected_memory": {
+        "expanding": {
+          "count": 112,
+          "net_return_sum": 0.04552500000000006
+        },
+        "w10": {
+          "count": 10,
+          "net_return_sum": 0.022200000000000115
+        },
+        "w126": {
+          "count": 112,
+          "net_return_sum": 0.04552500000000006
+        },
+        "w20": {
+          "count": 20,
+          "net_return_sum": 0.0982500000000001
+        },
+        "w252": {
+          "count": 112,
+          "net_return_sum": 0.04552500000000006
+        },
+        "w40": {
+          "count": 40,
+          "net_return_sum": 0.21960000000000013
+        },
+        "w5": {
+          "count": 5,
+          "net_return_sum": 0.026550000000000087
+        },
+        "w60": {
+          "count": 60,
+          "net_return_sum": 0.1344000000000001
+        }
+      },
+      "selected_policy_id": "mean_reversion_ret5:1__h1__symmetric__x1p5",
+      "selected_side": "symmetric",
+      "selected_signal": 1.5,
+      "selected_weights": {
+        "mean_reversion_ret5": 1.0
+      },
+      "similar_state_net_return_mean": 0.0033166666666666674,
+      "similar_state_refs": [
+        "2010-12-12 23:52:21.496000+00:00",
+        "2010-12-14 01:10:11.481000+00:00",
+        "2010-12-15 01:00:35.630000+00:00",
+        "2010-12-02 01:08:17.940000+00:00",
+        "2010-12-10 01:01:03.410000+00:00",
+        "2010-11-12 01:00:52.156000+00:00",
+        "2010-12-03 01:05:15.241000+00:00",
+        "2010-11-11 01:00:37.111000+00:00",
+        "2010-11-19 01:04:35.084000+00:00",
+        "2010-12-01 01:00:49.551000+00:00"
+      ]
+    },
+    {
+      "decision_time": "2010-12-17 03:18:24.572000+00:00",
+      "marginal_edge": 0.01559999999999949,
+      "max_outcome_available_at_used": "2010-12-17 00:00:00+00:00",
+      "objective_window_sessions": 30,
+      "position_state": "FULL",
+      "selected_exposure": 1.5,
+      "selected_horizon_sessions": 1.0,
+      "selected_memory": {
+        "expanding": {
+          "count": 113,
+          "net_return_sum": 0.013724999999999966
+        },
+        "w10": {
+          "count": 10,
+          "net_return_sum": -0.0175500000000001
+        },
+        "w126": {
+          "count": 113,
+          "net_return_sum": 0.013724999999999966
+        },
+        "w20": {
+          "count": 20,
+          "net_return_sum": 0.03644999999999997
+        },
+        "w252": {
+          "count": 113,
+          "net_return_sum": 0.013724999999999966
+        },
+        "w40": {
+          "count": 40,
+          "net_return_sum": 0.18704999999999997
+        },
+        "w5": {
+          "count": 5,
+          "net_return_sum": -0.03525000000000003
+        },
+        "w60": {
+          "count": 60,
+          "net_return_sum": 0.08820000000000007
+        }
+      },
+      "selected_policy_id": "mean_reversion_ret5:1__h1__symmetric__x1p5",
+      "selected_side": "symmetric",
+      "selected_signal": 1.5,
+      "selected_weights": {
+        "mean_reversion_ret5": 1.0
+      },
+      "similar_state_net_return_mean": 0.002549999999999989,
+      "similar_state_refs": [
+        "2010-12-16 01:00:35.218000+00:00",
+        "2010-12-15 01:00:35.630000+00:00",
+        "2010-11-12 01:00:52.156000+00:00",
+        "2010-11-14 23:37:53.184000+00:00",
+        "2010-12-10 01:01:03.410000+00:00",
+        "2010-11-11 01:00:37.111000+00:00",
+        "2010-12-14 01:10:11.481000+00:00",
+        "2010-12-12 23:52:21.496000+00:00",
+        "2010-11-16 01:34:51.812000+00:00",
+        "2010-11-17 02:49:26.166000+00:00"
+      ]
+    },
+    {
+      "decision_time": "2010-12-19 23:52:07.950000+00:00",
+      "marginal_edge": 0.015599999999999503,
+      "max_outcome_available_at_used": "2010-12-19 00:00:00+00:00",
+      "objective_window_sessions": 30,
+      "position_state": "FULL",
+      "selected_exposure": 1.5,
+      "selected_horizon_sessions": 1.0,
+      "selected_memory": {
+        "expanding": {
+          "count": 114,
+          "net_return_sum": 0.01882499999999994
+        },
+        "w10": {
+          "count": 10,
+          "net_return_sum": -0.016950000000000034
+        },
+        "w126": {
+          "count": 114,
+          "net_return_sum": 0.01882499999999994
+        },
+        "w20": {
+          "count": 20,
+          "net_return_sum": 0.04230000000000007
+        },
+        "w252": {
+          "count": 114,
+          "net_return_sum": 0.01882499999999994
+        },
+        "w40": {
+          "count": 40,
+          "net_return_sum": 0.21149999999999997
+        },
+        "w5": {
+          "count": 5,
+          "net_return_sum": -0.025350000000000053
+        },
+        "w60": {
+          "count": 60,
+          "net_return_sum": 0.08625000000000001
+        }
+      },
+      "selected_policy_id": "mean_reversion_ret5:1__h1__symmetric__x1p5",
+      "selected_side": "symmetric",
+      "selected_signal": 1.5,
+      "selected_weights": {
+        "mean_reversion_ret5": 1.0
+      },
+      "similar_state_net_return_mean": 0.0007666666666666522,
+      "similar_state_refs": [
+        "2010-12-17 03:18:24.572000+00:00",
+        "2010-12-16 01:00:35.218000+00:00",
+        "2010-12-15 01:00:35.630000+00:00",
+        "2010-12-14 01:10:11.481000+00:00",
+        "2010-11-14 23:37:53.184000+00:00",
+        "2010-12-12 23:52:21.496000+00:00",
+        "2010-11-16 01:34:51.812000+00:00",
+        "2010-11-17 02:49:26.166000+00:00",
+        "2010-11-12 01:00:52.156000+00:00",
+        "2010-12-10 01:01:03.410000+00:00"
+      ]
+    },
+    {
+      "decision_time": "2010-12-21 01:43:08.434000+00:00",
+      "marginal_edge": 0.03765000000000024,
+      "max_outcome_available_at_used": "2010-12-21 00:00:00+00:00",
+      "objective_window_sessions": 30,
+      "position_state": "FULL",
+      "selected_exposure": 1.5,
+      "selected_horizon_sessions": 1.0,
+      "selected_memory": {
+        "expanding": {
+          "count": 116,
+          "net_return_sum": 0.046725000000000065
+        },
+        "w10": {
+          "count": 10,
+          "net_return_sum": -0.008999999999999904
+        },
+        "w126": {
+          "count": 116,
+          "net_return_sum": 0.046725000000000065
+        },
+        "w20": {
+          "count": 20,
+          "net_return_sum": 0.05235000000000021
+        },
+        "w252": {
+          "count": 116,
+          "net_return_sum": 0.046725000000000065
+        },
+        "w40": {
+          "count": 40,
+          "net_return_sum": 0.2586000000000001
+        },
+        "w5": {
+          "count": 5,
+          "net_return_sum": -0.00014999999999989327
+        },
+        "w60": {
+          "count": 60,
+          "net_return_sum": 0.13935000000000014
+        }
+      },
+      "selected_policy_id": "mean_reversion_ret5:1__h1__symmetric__x1p5",
+      "selected_side": "symmetric",
+      "selected_signal": 1.5,
+      "selected_weights": {
+        "mean_reversion_ret5": 1.0
+      },
+      "similar_state_net_return_mean": 0.003960000000000019,
+      "similar_state_refs": [
+        "2010-12-15 01:00:35.630000+00:00",
+        "2010-12-19 23:52:07.950000+00:00",
+        "2010-12-14 01:10:11.481000+00:00",
+        "2010-12-16 01:00:35.218000+00:00",
+        "2010-12-17 03:18:24.572000+00:00",
+        "2010-12-12 23:52:21.496000+00:00",
+        "2010-11-21 23:59:08.911000+00:00",
+        "2010-11-18 01:01:24.689000+00:00",
+        "2010-12-10 01:01:03.410000+00:00",
+        "2010-11-16 01:34:51.812000+00:00"
+      ]
+    },
+    {
+      "decision_time": "2010-12-22 01:25:39.876000+00:00",
+      "marginal_edge": 0.03765000000000024,
+      "max_outcome_available_at_used": "2010-12-21 00:00:00+00:00",
+      "objective_window_sessions": 30,
+      "position_state": "FULL",
+      "selected_exposure": 1.5,
+      "selected_horizon_sessions": 1.0,
+      "selected_memory": {
+        "expanding": {
+          "count": 116,
+          "net_return_sum": 0.046725000000000065
+        },
+        "w10": {
+          "count": 10,
+          "net_return_sum": -0.008999999999999904
+        },
+        "w126": {
+          "count": 116,
+          "net_return_sum": 0.046725000000000065
+        },
+        "w20": {
+          "count": 20,
+          "net_return_sum": 0.05235000000000021
+        },
+        "w252": {
+          "count": 116,
+          "net_return_sum": 0.046725000000000065
+        },
+        "w40": {
+          "count": 40,
+          "net_return_sum": 0.2586000000000001
+        },
+        "w5": {
+          "count": 5,
+          "net_return_sum": -0.00014999999999989327
+        },
+        "w60": {
+          "count": 60,
+          "net_return_sum": 0.13935000000000014
+        }
+      },
+      "selected_policy_id": "mean_reversion_ret5:1__h1__symmetric__x1p5",
+      "selected_side": "symmetric",
+      "selected_signal": 1.5,
+      "selected_weights": {
+        "mean_reversion_ret5": 1.0
+      },
+      "similar_state_net_return_mean": 0.0035666666666666702,
+      "similar_state_refs": [
+        "2010-12-15 01:00:35.630000+00:00",
+        "2010-12-21 01:43:08.434000+00:00",
+        "2010-12-17 03:18:24.572000+00:00",
+        "2010-12-19 23:52:07.950000+00:00",
+        "2010-12-16 01:00:35.218000+00:00",
+        "2010-11-14 23:37:53.184000+00:00",
+        "2010-11-17 02:49:26.166000+00:00",
+        "2010-11-12 01:00:52.156000+00:00",
+        "2010-12-14 01:10:11.481000+00:00",
+        "2010-11-16 01:34:51.812000+00:00"
+      ]
+    },
+    {
+      "decision_time": "2010-12-24 01:47:19.762000+00:00",
+      "marginal_edge": 0.005549999999999777,
+      "max_outcome_available_at_used": "2010-12-23 00:00:00+00:00",
+      "objective_window_sessions": 30,
+      "position_state": "FULL",
+      "selected_exposure": 1.5,
+      "selected_horizon_sessions": 10.0,
+      "selected_memory": {
+        "expanding": {
+          "count": 117,
+          "net_return_sum": 0.06607499999999958
+        },
+        "w10": {
+          "count": 10,
+          "net_return_sum": -0.021899999999999975
+        },
+        "w126": {
+          "count": 117,
+          "net_return_sum": 0.06607499999999958
+        },
+        "w20": {
+          "count": 20,
+          "net_return_sum": 0.03194999999999976
+        },
+        "w252": {
+          "count": 117,
+          "net_return_sum": 0.06607499999999958
+        },
+        "w40": {
+          "count": 40,
+          "net_return_sum": 0.12839999999999988
+        },
+        "w5": {
+          "count": 5,
+          "net_return_sum": 0.006899999999999912
+        },
+        "w60": {
+          "count": 60,
+          "net_return_sum": 0.2015999999999998
+        }
+      },
+      "selected_policy_id": "ma20_trend:1__h10__symmetric__x1p5",
+      "selected_side": "symmetric",
+      "selected_signal": 1.5,
+      "selected_weights": {
+        "ma20_trend": 1.0
+      },
+      "similar_state_net_return_mean": 0.0005166666666666641,
+      "similar_state_refs": [
+        "2010-12-22 01:25:39.876000+00:00",
+        "2010-12-21 01:43:08.434000+00:00",
+        "2010-12-16 01:00:35.218000+00:00",
+        "2010-12-19 23:52:07.950000+00:00",
+        "2010-12-17 03:18:24.572000+00:00",
+        "2010-12-15 01:00:35.630000+00:00",
+        "2010-11-24 23:45:17.562000+00:00",
+        "2010-11-12 01:00:52.156000+00:00",
+        "2010-12-12 23:52:21.496000+00:00",
+        "2010-11-19 01:04:35.084000+00:00"
+      ]
+    },
+    {
+      "decision_time": "2010-12-28 01:00:35.048000+00:00",
+      "marginal_edge": 0.010349999999999804,
+      "max_outcome_available_at_used": "2010-12-27 00:00:00+00:00",
+      "objective_window_sessions": 30,
+      "position_state": "FULL",
+      "selected_exposure": 1.5,
+      "selected_horizon_sessions": 10.0,
+      "selected_memory": {
+        "expanding": {
+          "count": 119,
+          "net_return_sum": 0.05572499999999958
+        },
+        "w10": {
+          "count": 10,
+          "net_return_sum": -0.007049999999999947
+        },
+        "w126": {
+          "count": 119,
+          "net_return_sum": 0.05572499999999958
+        },
+        "w20": {
+          "count": 20,
+          "net_return_sum": 0.02069999999999986
+        },
+        "w252": {
+          "count": 119,
+          "net_return_sum": 0.05572499999999958
+        },
+        "w40": {
+          "count": 40,
+          "net_return_sum": 0.14084999999999992
+        },
+        "w5": {
+          "count": 5,
+          "net_return_sum": 0.023250000000000038
+        },
+        "w60": {
+          "count": 60,
+          "net_return_sum": 0.19094999999999981
+        }
+      },
+      "selected_policy_id": "ma20_trend:1__h10__symmetric__x1p5",
+      "selected_side": "symmetric",
+      "selected_signal": 1.5,
+      "selected_weights": {
+        "ma20_trend": 1.0
+      },
+      "similar_state_net_return_mean": 0.0008249999999999701,
+      "similar_state_refs": [
+        "2010-12-24 01:47:19.762000+00:00",
+        "2010-12-22 01:25:39.876000+00:00",
+        "2010-12-21 01:43:08.434000+00:00",
+        "2010-12-19 23:52:07.950000+00:00",
+        "2010-12-16 01:00:35.218000+00:00",
+        "2010-12-15 01:00:35.630000+00:00",
+        "2010-11-17 02:49:26.166000+00:00",
+        "2010-11-24 23:45:17.562000+00:00",
+        "2010-11-21 23:59:08.911000+00:00",
+        "2010-12-17 03:18:24.572000+00:00"
+      ]
+    },
+    {
+      "decision_time": "2010-12-30 01:00:35.091000+00:00",
+      "marginal_edge": 0.004950000000000079,
+      "max_outcome_available_at_used": "2010-12-30 00:00:00+00:00",
+      "objective_window_sessions": 30,
+      "position_state": "FULL",
+      "selected_exposure": 1.5,
+      "selected_horizon_sessions": 5.0,
+      "selected_memory": {
+        "expanding": {
+          "count": 120,
+          "net_return_sum": -0.13372499999999982
+        },
+        "w10": {
+          "count": 10,
+          "net_return_sum": 0.07454999999999987
+        },
+        "w126": {
+          "count": 120,
+          "net_return_sum": -0.13372499999999982
+        },
+        "w20": {
+          "count": 20,
+          "net_return_sum": 0.039600000000000066
+        },
+        "w252": {
+          "count": 120,
+          "net_return_sum": -0.13372499999999982
+        },
+        "w40": {
+          "count": 40,
+          "net_return_sum": 0.0663
+        },
+        "w5": {
+          "count": 5,
+          "net_return_sum": 0.03465
+        },
+        "w60": {
+          "count": 60,
+          "net_return_sum": 0.01650000000000002
+        }
+      },
+      "selected_policy_id": "curve_slope_direct:1__h5__symmetric__x1p5",
+      "selected_side": "symmetric",
+      "selected_signal": 1.5,
+      "selected_weights": {
+        "curve_slope_direct": 1.0
+      },
+      "similar_state_net_return_mean": 0.0004799999999999955,
+      "similar_state_refs": [
+        "2010-11-25 23:00:00.344000+00:00",
+        "2010-11-28 23:56:49.497000+00:00",
+        "2010-09-30 00:32:28.322000+00:00",
+        "2010-12-01 01:00:49.551000+00:00",
+        "2010-10-28 00:21:20.372000+00:00",
+        "2010-12-12 23:52:21.496000+00:00",
+        "2010-12-16 01:00:35.218000+00:00",
+        "2010-12-02 01:08:17.940000+00:00",
+        "2010-12-05 23:59:47.756000+00:00",
+        "2010-12-24 01:47:19.762000+00:00"
+      ]
+    },
+    {
+      "decision_time": "2010-12-31 01:00:35.557000+00:00",
+      "marginal_edge": 0.004950000000000079,
+      "max_outcome_available_at_used": "2010-12-30 00:00:00+00:00",
+      "objective_window_sessions": 30,
+      "position_state": "FULL",
+      "selected_exposure": 1.5,
+      "selected_horizon_sessions": 5.0,
+      "selected_memory": {
+        "expanding": {
+          "count": 120,
+          "net_return_sum": -0.13372499999999982
+        },
+        "w10": {
+          "count": 10,
+          "net_return_sum": 0.07454999999999987
+        },
+        "w126": {
+          "count": 120,
+          "net_return_sum": -0.13372499999999982
+        },
+        "w20": {
+          "count": 20,
+          "net_return_sum": 0.039600000000000066
+        },
+        "w252": {
+          "count": 120,
+          "net_return_sum": -0.13372499999999982
+        },
+        "w40": {
+          "count": 40,
+          "net_return_sum": 0.0663
+        },
+        "w5": {
+          "count": 5,
+          "net_return_sum": 0.03465
+        },
+        "w60": {
+          "count": 60,
+          "net_return_sum": 0.01650000000000002
+        }
+      },
+      "selected_policy_id": "curve_slope_direct:1__h5__symmetric__x1p5",
+      "selected_side": "symmetric",
+      "selected_signal": 1.5,
+      "selected_weights": {
+        "curve_slope_direct": 1.0
+      },
+      "similar_state_net_return_mean": -0.005716666666666649,
+      "similar_state_refs": [
+        "2010-12-30 01:00:35.091000+00:00",
+        "2010-11-28 23:56:49.497000+00:00",
+        "2010-12-01 01:00:49.551000+00:00",
+        "2010-12-12 23:52:21.496000+00:00",
+        "2010-12-02 01:08:17.940000+00:00",
+        "2010-12-05 23:59:47.756000+00:00",
+        "2010-12-16 01:00:35.218000+00:00",
+        "2010-11-30 01:01:25.026000+00:00",
+        "2010-12-03 01:05:15.241000+00:00",
+        "2010-12-07 01:00:46.285000+00:00"
+      ]
+    },
+    {
+      "decision_time": "2011-01-02 23:14:28.828000+00:00",
+      "marginal_edge": 0.004950000000000093,
+      "max_outcome_available_at_used": "2011-01-02 00:00:00+00:00",
+      "objective_window_sessions": 30,
+      "position_state": "FULL",
+      "selected_exposure": 1.5,
+      "selected_horizon_sessions": 5.0,
+      "selected_memory": {
+        "expanding": {
+          "count": 121,
+          "net_return_sum": -0.1097249999999998
+        },
+        "w10": {
+          "count": 10,
+          "net_return_sum": 0.09029999999999994
+        },
+        "w126": {
+          "count": 121,
+          "net_return_sum": -0.1097249999999998
+        },
+        "w20": {
+          "count": 20,
+          "net_return_sum": 0.03510000000000001
+        },
+        "w252": {
+          "count": 121,
+          "net_return_sum": -0.1097249999999998
+        },
+        "w40": {
+          "count": 40,
+          "net_return_sum": 0.08654999999999997
+        },
+        "w5": {
+          "count": 5,
+          "net_return_sum": 0.027150000000000007
+        },
+        "w60": {
+          "count": 60,
+          "net_return_sum": 0.035700000000000044
+        }
+      },
+      "selected_policy_id": "curve_slope_direct:1__h5__symmetric__x1p5",
+      "selected_side": "symmetric",
+      "selected_signal": 1.5,
+      "selected_weights": {
+        "curve_slope_direct": 1.0
+      },
+      "similar_state_net_return_mean": -0.0007833333333333412,
+      "similar_state_refs": [
+        "2010-12-31 01:00:35.557000+00:00",
+        "2010-12-30 01:00:35.091000+00:00",
+        "2010-11-28 23:56:49.497000+00:00",
+        "2010-12-01 01:00:49.551000+00:00",
+        "2010-12-12 23:52:21.496000+00:00",
+        "2010-12-05 23:59:47.756000+00:00",
+        "2010-12-02 01:08:17.940000+00:00",
+        "2010-12-07 01:00:46.285000+00:00",
+        "2010-12-14 01:10:11.481000+00:00",
+        "2010-12-03 01:05:15.241000+00:00"
+      ]
+    }
+  ],
+  "schema_version": 1
+}

@@ -1,0 +1,26 @@
+{
+  "schema_version": 1,
+  "review_type": "manual_exact_diff_fallback",
+  "source_base": "ac12f2200d252490c73a0779defa91ccf67fccf3",
+  "source_head": "affec961e75ae550a750881fcc7bce949e21f71f",
+  "reason": "KIS whole-range reviewer returned manual_fallback exact-diff because projected evidence was incomplete for the large source surface.",
+  "reviewed_surfaces": [
+    "src/commodity/v2_adaptive_controller.py",
+    "src/commodity/v2_adaptive_controller_v2.py",
+    "src/commodity/v2_adaptive_controller_v3.py",
+    "src/commodity/v2_adaptive_controller_v3_diagnostics.py",
+    "scripts/research/run_issue465_adaptive_block.py",
+    "scripts/research/run_issue465_block1_controller_v2.py",
+    "scripts/research/run_issue465_block1_controller_v3.py",
+    "scripts/research/audit_issue465_block1_controller_v3_completeness.py",
+    "tests/test_issue465_adaptive_controller.py",
+    "tests/test_issue465_adaptive_runner.py",
+    "tests/test_issue465_block1_controller_v2.py",
+    "tests/test_issue465_block1_controller_v2_runner.py",
+    "tests/test_issue465_block1_controller_v3.py",
+    "tests/test_issue465_block1_controller_v3_runner.py"
+  ],
+  "verification": "scripts/verify.ps1 PASS: 1162 passed, 12 skipped; repository checks, Ruff and git-whitespace passed",
+  "focused_tests": "89 passed",
+  "result": "NO_NEW_NON_REPLAY_FINDINGS"
+}

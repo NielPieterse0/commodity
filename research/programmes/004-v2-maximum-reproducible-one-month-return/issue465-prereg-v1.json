@@ -1,0 +1,200 @@
+{
+  "schema_version": 1,
+  "issue": 465,
+  "evidence_class": "development_only",
+  "scope": "first_chronological_six_month_block_only",
+  "status": "frozen_before_issue465_block1_scoring",
+  "claim_boundary": "adaptive_development_vertical_slice_no_confirmation_claim",
+  "protected_confirmation_accessed": false,
+  "protected_start": "2023-01-01T00:00:00Z",
+  "dependencies": {
+    "issue431_status": "complete",
+    "issue431_disposition": "HOLD_ADAPTATION_CROSS_EXECUTION_NOT_ROBUST"
+  },
+  "block_contract": {
+    "anchor_rule": "earliest eligible consolidated PIT feature date after frozen source identity validation",
+    "block_id": "block-001",
+    "start_inclusive": "2010-07-06T00:00:00Z",
+    "end_exclusive": "2011-01-06T00:00:00Z",
+    "duration_calendar_months": 6,
+    "warmup_completed_trading_sessions": 30,
+    "raw_structural_decision_rows": 124,
+    "expected_executable_decision_rows": 123,
+    "duplicate_fill_rule": "when multiple PIT decisions map to the same executable fill, retain only the latest signal strictly before that fill",
+    "later_blocks_available_to_search": false
+  },
+  "pit_contract": {
+    "state_rule": "only observations with actual available_at <= decision_time",
+    "carry_forward": "latest_known_only_after_true_availability",
+    "required_provenance": [
+      "observation_timestamp",
+      "available_at",
+      "age_sessions",
+      "source_id"
+    ],
+    "optional_provenance": ["vintage", "revision", "change_id"],
+    "consequence_store_logically_separate": true,
+    "same_decision_or_future_outcomes_forbidden": true,
+    "state_target_leakage_policy": "fail_closed"
+  },
+  "selection_contract": {
+    "objective": "prior_30_completed_trading_sessions_realized_net_return_after_costs",
+    "objective_window_sessions": 30,
+    "minimum_matured_rows": 30,
+    "zero_weight_and_flat_policy_legal": true,
+    "tie_breakers": ["lower_turnover", "lower_complexity", "policy_id_lexicographic"],
+    "oracle_allowed_in_selection": false
+  },
+  "historical_reentry_rule": {
+    "prior_records_are_hard_discarded": false,
+    "classifications": [
+      "positive_clue",
+      "negative",
+      "underpowered",
+      "role_unidentifiable",
+      "source_hold",
+      "untested",
+      "governance_only"
+    ],
+    "rule": "all admissible prior development findings through issue431 remain inventory metadata; zero weight is legal and no prior result is treated as confirmation evidence"
+  },
+  "specialist_library": [
+    {"id": "trend_ret20", "family": "trend", "signal": "sign(feature_ret_20)"},
+    {"id": "trend_ret5", "family": "trend", "signal": "sign(feature_ret_5)"},
+    {"id": "mean_reversion_ret5", "family": "mean_reversion", "signal": "-sign(feature_ret_5)"},
+    {"id": "ma20_trend", "family": "trend", "signal": "sign(feature_ma_gap_20)"},
+    {"id": "ma5_mean_reversion", "family": "mean_reversion", "signal": "-sign(feature_ma_gap_5)"},
+    {"id": "curve_slope_direct", "family": "curve", "signal": "sign(feature_curve_slope_m1_m4)"},
+    {"id": "curve_slope_inverse", "family": "curve", "signal": "-sign(feature_curve_slope_m1_m4)"},
+    {"id": "season_sin_direct", "family": "seasonality", "signal": "sign(feature_season_sin)"},
+    {"id": "season_cos_direct", "family": "seasonality", "signal": "sign(feature_season_cos)"},
+    {"id": "positioning_producer_direct", "family": "positioning", "signal": "sign(producer_merchant_net)"},
+    {"id": "positioning_producer_inverse", "family": "positioning", "signal": "-sign(producer_merchant_net)"},
+    {"id": "timesfm_direction", "family": "timesfm", "signal": "sign(timesfm_point_return)"},
+    {"id": "kronos_direction", "family": "kronos", "signal": "sign(kronos_close_return)"},
+    {"id": "range_breakout20", "family": "breakout", "signal": "prior20_settle_breakout"},
+    {"id": "low_vol_trend20", "family": "volatility", "signal": "trend_ret20_when_feature_vol_20_le_prior60_median"},
+    {"id": "high_jump_mean_reversion", "family": "jump", "signal": "mean_reversion_ret5_when_jump_intensity_ge_prior60_q67"},
+    {"id": "vol_of_vol_veto_trend", "family": "vol_of_vol", "signal": "trend_ret20_when_vol_of_vol_le_prior60_q67"}
+  ],
+  "sparse_pair_library": [
+    ["timesfm_direction", "kronos_direction"],
+    ["timesfm_direction", "trend_ret20"],
+    ["kronos_direction", "trend_ret20"],
+    ["trend_ret20", "range_breakout20"],
+    ["trend_ret20", "positioning_producer_direct"],
+    ["mean_reversion_ret5", "curve_slope_inverse"],
+    ["trend_ret20", "low_vol_trend20"],
+    ["trend_ret20", "vol_of_vol_veto_trend"]
+  ],
+  "policy_search_space": {
+    "single_specialist_weight": 1.0,
+    "pair_specialist_weights": [0.5, 0.5],
+    "rebalance_horizon_sessions": [1, 3, 5, 10, 20],
+    "side_modes": ["symmetric", "long_only", "short_only"],
+    "research_exposure_contracts": [0.75, 1.0, 1.5],
+    "flat_policy_included": true,
+    "expected_policy_count": 1126,
+    "all_unselected_specialist_weights_are_exactly_zero": true,
+    "selection_uses_only_prior_30_completed_sessions": true
+  },
+  "memory_windows_sessions": [5, 10, 20, 40, 60, 126, 252],
+  "memory_includes_expanding": true,
+  "comparable_state_contract": {
+    "enabled": true,
+    "prior_only": true,
+    "nearest_prior_states": 10,
+    "selection_role_first_block": "diagnostic_only_no_primary_objective_override"
+  },
+  "adaptation_contract": {
+    "fast": "daily_prior30_policy_reselection_after_warmup",
+    "slow": "frozen_structure_for_block1_vertical_slice",
+    "slow_structural_rebuilds_inside_block1": 0,
+    "reason": "first block establishes causal vertical slice before later-block structural cadence experiments"
+  },
+  "oracle_contract": {
+    "required_before_adaptive_scoring_report": true,
+    "role": "development_only_hindsight_diagnostic_nontradable",
+    "selection_use": false,
+    "reported_metric": "oracle_minus_causal_adaptive_net_return_selection_gap"
+  },
+  "horizon_contract": {
+    "event_time": "HOLD_SOURCE_TIMING_NOT_PROVEN",
+    "active_policy_horizon_sessions": [1, 3, 5, 10, 20],
+    "semantics": "causal target-position rebalance/holding cadence; expert forecast clocks remain source-native"
+  },
+  "position_state_contract": [
+    "FLAT",
+    "STARTER",
+    "FULL",
+    "ADD",
+    "REDUCE",
+    "EXIT",
+    "REVERSE"
+  ],
+  "execution_contract": {
+    "starting_capital_usd": 100000.0,
+    "contract_multiplier_mmbtu": 10000.0,
+    "tick_value_usd": 10.0,
+    "commission_usd_per_side": 2.0,
+    "exchange_clearing_fees_usd_per_side": 3.0,
+    "half_spread_ticks_per_side": 0.5,
+    "slippage_ticks_per_side": 0.5,
+    "derived_total_cost_usd_per_contract_side": 15.0,
+    "initial_margin_usd_per_contract": 5000.0,
+    "max_abs_contracts_first_block": 1.5,
+    "research_only_size_boundary": "inherits issue431 promoted research maximum; operational paper authority unchanged",
+    "fill_rule": "first session open with all selected state inputs actually available",
+    "synthetic_fill_allowed": false
+  },
+  "first_block_active_families": [
+    "market_returns",
+    "trend",
+    "breakout",
+    "mean_reversion",
+    "curve_structure",
+    "seasonality",
+    "volatility_state",
+    "jump_state",
+    "vol_of_vol_state",
+    "cftc_positioning",
+    "timesfm",
+    "kronos",
+    "abstention"
+  ],
+  "nonactive_families_rule": "inventory_every_admissible_family_and_record_explicit_disposition; never silently drop",
+  "source_identity_contract": {
+    "frozen_market_feature_sha256": "b14ae69bd6ec2910f0cf56fe62f481016801308cebc6ef69e536aa7e593d072e",
+    "frozen_session_path_sha256": "0fe87ea79a56f98fb9d445e89e3d65b48ae7bb1175e06ba9b97da68ebe6b01e8",
+    "cftc_2010_archive_sha256": "fef4827fbaa1a2a72ad3fe7ef0ca659ee4c85bc6857fdc096f4320b8a096322b",
+    "timesfm_features_sha256": "692930439b863208b47dbeff246fd9790b4f2239f5434e72448538bc674aedc6",
+    "kronos_features_sha256": "98010ff7329c312cf04dbd4902d3fa6b3fe71ea562054c897eaf338e3f94df6c",
+    "expert_migration_rule": "copy_only_block1_input_rows_from_hash_bound_historical_change_evidence_into_current_governed_issue465_expert_archive_before_preflight; scoring_reads_current_archive_only",
+    "latest_allowed_development_trade_date": "2022-12-31"
+  },
+  "pre_scoring_revision": {
+    "reason": "live issue authority and source inventory review completed before scoring; execution preflight then found 124 structural decisions but only 123 unique executable fills because 2010-12-22 and 2010-12-23 both map to the 2010-12-26 open. The established latest-PIT-signal-per-fill rule is therefore frozen before empirical scoring to prevent double-counting one fill.",
+    "block1_result_evidence_used": false,
+    "prior_programme_evidence_used": true,
+    "scoring_had_started": false,
+    "failed_scoring_attempt_produced_empirical_output": false
+  },
+  "required_outputs": [
+    "issue465-inventory-v1.json",
+    "issue465-block1-manifest-v1.json",
+    "issue465-block1-preflight-v1.json",
+    "issue465-block1-candidates-v1.json",
+    "issue465-block1-expert-archive-v1.jsonl",
+    "issue465-block1-pit-state-v1.jsonl",
+    "issue465-block1-consequences-v1.jsonl",
+    "issue465-block1-ledger-v1.json",
+    "issue465-block1-result-v1.json"
+  ],
+  "freeze_rules": {
+    "block1_outputs_frozen_before_block2": true,
+    "append_future_rows_must_not_change_block1": true,
+    "same_day_or_future_outcome_mutation_must_not_change_decision": true,
+    "protected_2023_plus_remains_sealed": true,
+    "paper_sim_live_remain_sealed": true
+  }
+}

@@ -4,10 +4,29 @@
 # Explicit Windows command-script exceptions.
 *.bat text eol=crlf
 *.cmd text eol=crlf
-
 # Existing binary fixture exception: byte identity is evidence.
 tests/fixtures/mdp3-golden/**/metadata.json -text
-
+# Frozen issue #465 block-1 evidence: byte identity is hash-bound to the scored result.
+# Treat these artifacts as binary for both EOL normalization and diff whitespace checks.
+research/programmes/004-v2-maximum-reproducible-one-month-return/issue465-inventory-v1.json -text -diff
+research/programmes/004-v2-maximum-reproducible-one-month-return/issue465-block1-candidates-v1.json -text -diff
+research/programmes/004-v2-maximum-reproducible-one-month-return/issue465-block1-consequences-v1.jsonl -text -diff
+research/programmes/004-v2-maximum-reproducible-one-month-return/issue465-block1-expert-archive-v1.jsonl -text -diff
+research/programmes/004-v2-maximum-reproducible-one-month-return/issue465-block1-ledger-v1.json -text -diff
+research/programmes/004-v2-maximum-reproducible-one-month-return/issue465-block1-manifest-v1.json -text -diff
+research/programmes/004-v2-maximum-reproducible-one-month-return/issue465-block1-pit-state-v1.jsonl -text -diff
+research/programmes/004-v2-maximum-reproducible-one-month-return/issue465-block1-preflight-v1.json -text -diff
+research/programmes/004-v2-maximum-reproducible-one-month-return/issue465-block1-result-v1.json -text -diff
+# Frozen issue #465 controller-v2/v3 evidence: exact bytes are referenced by result/ledger hashes.
+research/programmes/004-v2-maximum-reproducible-one-month-return/issue465-block1-controller-v2-decision-brain.jsonl -text -diff
+research/programmes/004-v2-maximum-reproducible-one-month-return/issue465-block1-controller-v2-trials.jsonl -text -diff
+research/programmes/004-v2-maximum-reproducible-one-month-return/issue465-block1-controller-v3-attribute-oracle.jsonl -text -diff
+research/programmes/004-v2-maximum-reproducible-one-month-return/issue465-block1-controller-v3-consequences.jsonl -text -diff
+research/programmes/004-v2-maximum-reproducible-one-month-return/issue465-block1-controller-v3-decision-brain.jsonl -text -diff
+research/programmes/004-v2-maximum-reproducible-one-month-return/issue465-block1-controller-v3-oracle-predictor.jsonl -text -diff
+research/programmes/004-v2-maximum-reproducible-one-month-return/issue465-block1-controller-v3-trials.jsonl -text -diff
+# Frozen issue #465 controller-v3 preflight input: byte identity participates in the scoring-input hash.
+research/programmes/004-v2-maximum-reproducible-one-month-return/issue465-block1-controller-v3-execution-sessions.csv -text -diff
 # Binary artifacts.
 *.png binary
 *.jpg binary

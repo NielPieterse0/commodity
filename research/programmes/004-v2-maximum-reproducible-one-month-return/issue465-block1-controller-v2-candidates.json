@@ -1,0 +1,2528 @@
+{
+  "attribute_inventory": [
+    {
+      "attribute": "trade_date",
+      "role": "causal_clock_or_execution_identity",
+      "weighting_permitted": false
+    },
+    {
+      "attribute": "signal_timestamp",
+      "role": "causal_provenance_or_staleness_metadata",
+      "weighting_permitted": false
+    },
+    {
+      "attribute": "fill_timestamp",
+      "role": "causal_clock_or_execution_identity",
+      "weighting_permitted": false
+    },
+    {
+      "attribute": "fill_contract_id",
+      "role": "causal_provenance_or_staleness_metadata",
+      "weighting_permitted": false
+    },
+    {
+      "attribute": "market_available_at",
+      "role": "causal_provenance_or_staleness_metadata",
+      "weighting_permitted": false
+    },
+    {
+      "attribute": "feature_curve_dte_m1",
+      "role": "admissible_context_attribute",
+      "weighting_permitted": true
+    },
+    {
+      "attribute": "feature_curve_dte_m2",
+      "role": "admissible_context_attribute",
+      "weighting_permitted": true
+    },
+    {
+      "attribute": "feature_curve_dte_m3",
+      "role": "admissible_context_attribute",
+      "weighting_permitted": true
+    },
+    {
+      "attribute": "feature_curve_dte_m4",
+      "role": "admissible_context_attribute",
+      "weighting_permitted": true
+    },
+    {
+      "attribute": "feature_curve_log_settle_m1",
+      "role": "admissible_context_attribute",
+      "weighting_permitted": true
+    },
+    {
+      "attribute": "feature_curve_log_settle_m2",
+      "role": "admissible_context_attribute",
+      "weighting_permitted": true
+    },
+    {
+      "attribute": "feature_curve_log_settle_m3",
+      "role": "admissible_context_attribute",
+      "weighting_permitted": true
+    },
+    {
+      "attribute": "feature_curve_log_settle_m4",
+      "role": "admissible_context_attribute",
+      "weighting_permitted": true
+    },
+    {
+      "attribute": "feature_curve_log_volume_m1",
+      "role": "admissible_context_attribute",
+      "weighting_permitted": true
+    },
+    {
+      "attribute": "feature_curve_log_volume_m2",
+      "role": "admissible_context_attribute",
+      "weighting_permitted": true
+    },
+    {
+      "attribute": "feature_curve_log_volume_m3",
+      "role": "admissible_context_attribute",
+      "weighting_permitted": true
+    },
+    {
+      "attribute": "feature_curve_log_volume_m4",
+      "role": "admissible_context_attribute",
+      "weighting_permitted": true
+    },
+    {
+      "attribute": "feature_curve_slope_m1_m4",
+      "role": "admissible_context_attribute",
+      "weighting_permitted": true
+    },
+    {
+      "attribute": "feature_curve_spread_m1_m2",
+      "role": "admissible_context_attribute",
+      "weighting_permitted": true
+    },
+    {
+      "attribute": "feature_curve_spread_m2_m3",
+      "role": "admissible_context_attribute",
+      "weighting_permitted": true
+    },
+    {
+      "attribute": "feature_curve_spread_m3_m4",
+      "role": "admissible_context_attribute",
+      "weighting_permitted": true
+    },
+    {
+      "attribute": "feature_curve_volume_ratio_m1_m2",
+      "role": "admissible_context_attribute",
+      "weighting_permitted": true
+    },
+    {
+      "attribute": "feature_ma_gap_20",
+      "role": "admissible_context_attribute",
+      "weighting_permitted": true
+    },
+    {
+      "attribute": "feature_ma_gap_5",
+      "role": "admissible_context_attribute",
+      "weighting_permitted": true
+    },
+    {
+      "attribute": "feature_range_pct",
+      "role": "admissible_context_attribute",
+      "weighting_permitted": true
+    },
+    {
+      "attribute": "feature_ret_1",
+      "role": "admissible_context_attribute",
+      "weighting_permitted": true
+    },
+    {
+      "attribute": "feature_ret_20",
+      "role": "admissible_context_attribute",
+      "weighting_permitted": true
+    },
+    {
+      "attribute": "feature_ret_5",
+      "role": "admissible_context_attribute",
+      "weighting_permitted": true
+    },
+    {
+      "attribute": "feature_roll_event",
+      "role": "admissible_context_attribute",
+      "weighting_permitted": true
+    },
+    {
+      "attribute": "feature_season_cos",
+      "role": "admissible_context_attribute",
+      "weighting_permitted": true
+    },
+    {
+      "attribute": "feature_season_sin",
+      "role": "admissible_context_attribute",
+      "weighting_permitted": true
+    },
+    {
+      "attribute": "feature_selected_dte",
+      "role": "admissible_context_attribute",
+      "weighting_permitted": true
+    },
+    {
+      "attribute": "feature_vol_20",
+      "role": "admissible_context_attribute",
+      "weighting_permitted": true
+    },
+    {
+      "attribute": "feature_vol_5",
+      "role": "admissible_context_attribute",
+      "weighting_permitted": true
+    },
+    {
+      "attribute": "decision_time",
+      "role": "causal_clock_or_execution_identity",
+      "weighting_permitted": false
+    },
+    {
+      "attribute": "market_observation_time",
+      "role": "causal_provenance_or_staleness_metadata",
+      "weighting_permitted": false
+    },
+    {
+      "attribute": "market_source_id",
+      "role": "causal_provenance_or_staleness_metadata",
+      "weighting_permitted": false
+    },
+    {
+      "attribute": "market_age_seconds",
+      "role": "admissible_context_attribute",
+      "weighting_permitted": true
+    },
+    {
+      "attribute": "market_age_sessions",
+      "role": "admissible_context_attribute",
+      "weighting_permitted": true
+    },
+    {
+      "attribute": "timesfm_prediction_time",
+      "role": "causal_provenance_or_staleness_metadata",
+      "weighting_permitted": false
+    },
+    {
+      "attribute": "timesfm_generated_at",
+      "role": "causal_provenance_or_staleness_metadata",
+      "weighting_permitted": false
+    },
+    {
+      "attribute": "timesfm_point_return",
+      "role": "admissible_context_attribute",
+      "weighting_permitted": true
+    },
+    {
+      "attribute": "timesfm_q10_return",
+      "role": "admissible_context_attribute",
+      "weighting_permitted": true
+    },
+    {
+      "attribute": "timesfm_q90_return",
+      "role": "admissible_context_attribute",
+      "weighting_permitted": true
+    },
+    {
+      "attribute": "timesfm_interval_width",
+      "role": "admissible_context_attribute",
+      "weighting_permitted": true
+    },
+    {
+      "attribute": "kronos_prediction_time",
+      "role": "causal_provenance_or_staleness_metadata",
+      "weighting_permitted": false
+    },
+    {
+      "attribute": "kronos_generated_at",
+      "role": "causal_provenance_or_staleness_metadata",
+      "weighting_permitted": false
+    },
+    {
+      "attribute": "kronos_close_return",
+      "role": "admissible_context_attribute",
+      "weighting_permitted": true
+    },
+    {
+      "attribute": "kronos_range_pct",
+      "role": "admissible_context_attribute",
+      "weighting_permitted": true
+    },
+    {
+      "attribute": "timesfm_source_sha256",
+      "role": "causal_provenance_or_staleness_metadata",
+      "weighting_permitted": false
+    },
+    {
+      "attribute": "kronos_source_sha256",
+      "role": "causal_provenance_or_staleness_metadata",
+      "weighting_permitted": false
+    },
+    {
+      "attribute": "migration_authority",
+      "role": "causal_provenance_or_staleness_metadata",
+      "weighting_permitted": false
+    },
+    {
+      "attribute": "timesfm_age_seconds",
+      "role": "admissible_context_attribute",
+      "weighting_permitted": true
+    },
+    {
+      "attribute": "kronos_age_seconds",
+      "role": "admissible_context_attribute",
+      "weighting_permitted": true
+    },
+    {
+      "attribute": "timesfm_source_id",
+      "role": "causal_provenance_or_staleness_metadata",
+      "weighting_permitted": false
+    },
+    {
+      "attribute": "kronos_source_id",
+      "role": "causal_provenance_or_staleness_metadata",
+      "weighting_permitted": false
+    },
+    {
+      "attribute": "positioning_observation_time",
+      "role": "causal_provenance_or_staleness_metadata",
+      "weighting_permitted": false
+    },
+    {
+      "attribute": "positioning_available_at",
+      "role": "causal_provenance_or_staleness_metadata",
+      "weighting_permitted": false
+    },
+    {
+      "attribute": "positioning_availability_basis",
+      "role": "causal_provenance_or_staleness_metadata",
+      "weighting_permitted": false
+    },
+    {
+      "attribute": "positioning_open_interest",
+      "role": "admissible_context_attribute",
+      "weighting_permitted": true
+    },
+    {
+      "attribute": "managed_money_net",
+      "role": "admissible_context_attribute",
+      "weighting_permitted": true
+    },
+    {
+      "attribute": "producer_merchant_net",
+      "role": "admissible_context_attribute",
+      "weighting_permitted": true
+    },
+    {
+      "attribute": "positioning_source_id",
+      "role": "causal_provenance_or_staleness_metadata",
+      "weighting_permitted": false
+    },
+    {
+      "attribute": "positioning_age_seconds",
+      "role": "admissible_context_attribute",
+      "weighting_permitted": true
+    },
+    {
+      "attribute": "positioning_age_sessions",
+      "role": "admissible_context_attribute",
+      "weighting_permitted": true
+    },
+    {
+      "attribute": "positioning_vintage",
+      "role": "causal_provenance_or_staleness_metadata",
+      "weighting_permitted": false
+    },
+    {
+      "attribute": "positioning_revision",
+      "role": "causal_provenance_or_staleness_metadata",
+      "weighting_permitted": false
+    },
+    {
+      "attribute": "derived_settle_m1",
+      "role": "admissible_context_attribute",
+      "weighting_permitted": true
+    },
+    {
+      "attribute": "derived_prior20_settle_max",
+      "role": "admissible_context_attribute",
+      "weighting_permitted": true
+    },
+    {
+      "attribute": "derived_prior20_settle_min",
+      "role": "admissible_context_attribute",
+      "weighting_permitted": true
+    },
+    {
+      "attribute": "derived_prior60_vol20_median",
+      "role": "admissible_context_attribute",
+      "weighting_permitted": true
+    },
+    {
+      "attribute": "derived_jump_intensity",
+      "role": "admissible_context_attribute",
+      "weighting_permitted": true
+    },
+    {
+      "attribute": "derived_prior60_jump_q67",
+      "role": "admissible_context_attribute",
+      "weighting_permitted": true
+    },
+    {
+      "attribute": "derived_vol_of_vol",
+      "role": "admissible_context_attribute",
+      "weighting_permitted": true
+    },
+    {
+      "attribute": "derived_prior60_vov_q67",
+      "role": "admissible_context_attribute",
+      "weighting_permitted": true
+    },
+    {
+      "attribute": "derived_prior20_log_volume_m1_median",
+      "role": "admissible_context_attribute",
+      "weighting_permitted": true
+    }
+  ],
+  "attribute_specialist_contract": {
+    "all_unselected_weights_exactly_zero": true,
+    "generated_specialist_count": 106,
+    "source_attributes": [
+      "feature_curve_dte_m1",
+      "feature_curve_dte_m2",
+      "feature_curve_dte_m3",
+      "feature_curve_dte_m4",
+      "feature_curve_log_settle_m1",
+      "feature_curve_log_settle_m2",
+      "feature_curve_log_settle_m3",
+      "feature_curve_log_settle_m4",
+      "feature_curve_log_volume_m1",
+      "feature_curve_log_volume_m2",
+      "feature_curve_log_volume_m3",
+      "feature_curve_log_volume_m4",
+      "feature_curve_slope_m1_m4",
+      "feature_curve_spread_m1_m2",
+      "feature_curve_spread_m2_m3",
+      "feature_curve_spread_m3_m4",
+      "feature_curve_volume_ratio_m1_m2",
+      "feature_ma_gap_20",
+      "feature_ma_gap_5",
+      "feature_range_pct",
+      "feature_ret_1",
+      "feature_ret_20",
+      "feature_ret_5",
+      "feature_roll_event",
+      "feature_season_cos",
+      "feature_season_sin",
+      "feature_selected_dte",
+      "feature_vol_20",
+      "feature_vol_5",
+      "market_age_seconds",
+      "market_age_sessions",
+      "timesfm_point_return",
+      "timesfm_q10_return",
+      "timesfm_q90_return",
+      "timesfm_interval_width",
+      "kronos_close_return",
+      "kronos_range_pct",
+      "timesfm_age_seconds",
+      "kronos_age_seconds",
+      "positioning_open_interest",
+      "managed_money_net",
+      "producer_merchant_net",
+      "positioning_age_seconds",
+      "positioning_age_sessions",
+      "derived_settle_m1",
+      "derived_prior20_settle_max",
+      "derived_prior20_settle_min",
+      "derived_prior60_vol20_median",
+      "derived_jump_intensity",
+      "derived_prior60_jump_q67",
+      "derived_vol_of_vol",
+      "derived_prior60_vov_q67",
+      "derived_prior20_log_volume_m1_median"
+    ],
+    "transform": "for_each_numeric_attribute_generate_prior20_median_deviation_direct_and_inverse_specialists_using_shift1_min5; unavailable_history_maps_to_zero",
+    "variants_per_attribute": 2
+  },
+  "candidate_count": 144,
+  "candidate_grid_sha256": "fe6438e66013ee62a8344d694106ed4af0cc756816b7415a0b40bf0f82750292",
+  "candidates": [
+    {
+      "asymmetric": true,
+      "comparable_weight": 0.0,
+      "config_id": "mem=short|cmp=0|k=2|slow=10|asym=1",
+      "memory_profile": [
+        5,
+        10,
+        20
+      ],
+      "slow_cadence": 10,
+      "top_k": 2,
+      "uncertainty_penalty": 0.5
+    },
+    {
+      "asymmetric": false,
+      "comparable_weight": 0.0,
+      "config_id": "mem=short|cmp=0|k=2|slow=10|asym=0",
+      "memory_profile": [
+        5,
+        10,
+        20
+      ],
+      "slow_cadence": 10,
+      "top_k": 2,
+      "uncertainty_penalty": 0.5
+    },
+    {
+      "asymmetric": true,
+      "comparable_weight": 0.0,
+      "config_id": "mem=short|cmp=0|k=2|slow=20|asym=1",
+      "memory_profile": [
+        5,
+        10,
+        20
+      ],
+      "slow_cadence": 20,
+      "top_k": 2,
+      "uncertainty_penalty": 0.5
+    },
+    {
+      "asymmetric": false,
+      "comparable_weight": 0.0,
+      "config_id": "mem=short|cmp=0|k=2|slow=20|asym=0",
+      "memory_profile": [
+        5,
+        10,
+        20
+      ],
+      "slow_cadence": 20,
+      "top_k": 2,
+      "uncertainty_penalty": 0.5
+    },
+    {
+      "asymmetric": true,
+      "comparable_weight": 0.0,
+      "config_id": "mem=short|cmp=0|k=4|slow=10|asym=1",
+      "memory_profile": [
+        5,
+        10,
+        20
+      ],
+      "slow_cadence": 10,
+      "top_k": 4,
+      "uncertainty_penalty": 0.5
+    },
+    {
+      "asymmetric": false,
+      "comparable_weight": 0.0,
+      "config_id": "mem=short|cmp=0|k=4|slow=10|asym=0",
+      "memory_profile": [
+        5,
+        10,
+        20
+      ],
+      "slow_cadence": 10,
+      "top_k": 4,
+      "uncertainty_penalty": 0.5
+    },
+    {
+      "asymmetric": true,
+      "comparable_weight": 0.0,
+      "config_id": "mem=short|cmp=0|k=4|slow=20|asym=1",
+      "memory_profile": [
+        5,
+        10,
+        20
+      ],
+      "slow_cadence": 20,
+      "top_k": 4,
+      "uncertainty_penalty": 0.5
+    },
+    {
+      "asymmetric": false,
+      "comparable_weight": 0.0,
+      "config_id": "mem=short|cmp=0|k=4|slow=20|asym=0",
+      "memory_profile": [
+        5,
+        10,
+        20
+      ],
+      "slow_cadence": 20,
+      "top_k": 4,
+      "uncertainty_penalty": 0.5
+    },
+    {
+      "asymmetric": true,
+      "comparable_weight": 0.0,
+      "config_id": "mem=short|cmp=0|k=6|slow=10|asym=1",
+      "memory_profile": [
+        5,
+        10,
+        20
+      ],
+      "slow_cadence": 10,
+      "top_k": 6,
+      "uncertainty_penalty": 0.5
+    },
+    {
+      "asymmetric": false,
+      "comparable_weight": 0.0,
+      "config_id": "mem=short|cmp=0|k=6|slow=10|asym=0",
+      "memory_profile": [
+        5,
+        10,
+        20
+      ],
+      "slow_cadence": 10,
+      "top_k": 6,
+      "uncertainty_penalty": 0.5
+    },
+    {
+      "asymmetric": true,
+      "comparable_weight": 0.0,
+      "config_id": "mem=short|cmp=0|k=6|slow=20|asym=1",
+      "memory_profile": [
+        5,
+        10,
+        20
+      ],
+      "slow_cadence": 20,
+      "top_k": 6,
+      "uncertainty_penalty": 0.5
+    },
+    {
+      "asymmetric": false,
+      "comparable_weight": 0.0,
+      "config_id": "mem=short|cmp=0|k=6|slow=20|asym=0",
+      "memory_profile": [
+        5,
+        10,
+        20
+      ],
+      "slow_cadence": 20,
+      "top_k": 6,
+      "uncertainty_penalty": 0.5
+    },
+    {
+      "asymmetric": true,
+      "comparable_weight": 0.25,
+      "config_id": "mem=short|cmp=0.25|k=2|slow=10|asym=1",
+      "memory_profile": [
+        5,
+        10,
+        20
+      ],
+      "slow_cadence": 10,
+      "top_k": 2,
+      "uncertainty_penalty": 0.5
+    },
+    {
+      "asymmetric": false,
+      "comparable_weight": 0.25,
+      "config_id": "mem=short|cmp=0.25|k=2|slow=10|asym=0",
+      "memory_profile": [
+        5,
+        10,
+        20
+      ],
+      "slow_cadence": 10,
+      "top_k": 2,
+      "uncertainty_penalty": 0.5
+    },
+    {
+      "asymmetric": true,
+      "comparable_weight": 0.25,
+      "config_id": "mem=short|cmp=0.25|k=2|slow=20|asym=1",
+      "memory_profile": [
+        5,
+        10,
+        20
+      ],
+      "slow_cadence": 20,
+      "top_k": 2,
+      "uncertainty_penalty": 0.5
+    },
+    {
+      "asymmetric": false,
+      "comparable_weight": 0.25,
+      "config_id": "mem=short|cmp=0.25|k=2|slow=20|asym=0",
+      "memory_profile": [
+        5,
+        10,
+        20
+      ],
+      "slow_cadence": 20,
+      "top_k": 2,
+      "uncertainty_penalty": 0.5
+    },
+    {
+      "asymmetric": true,
+      "comparable_weight": 0.25,
+      "config_id": "mem=short|cmp=0.25|k=4|slow=10|asym=1",
+      "memory_profile": [
+        5,
+        10,
+        20
+      ],
+      "slow_cadence": 10,
+      "top_k": 4,
+      "uncertainty_penalty": 0.5
+    },
+    {
+      "asymmetric": false,
+      "comparable_weight": 0.25,
+      "config_id": "mem=short|cmp=0.25|k=4|slow=10|asym=0",
+      "memory_profile": [
+        5,
+        10,
+        20
+      ],
+      "slow_cadence": 10,
+      "top_k": 4,
+      "uncertainty_penalty": 0.5
+    },
+    {
+      "asymmetric": true,
+      "comparable_weight": 0.25,
+      "config_id": "mem=short|cmp=0.25|k=4|slow=20|asym=1",
+      "memory_profile": [
+        5,
+        10,
+        20
+      ],
+      "slow_cadence": 20,
+      "top_k": 4,
+      "uncertainty_penalty": 0.5
+    },
+    {
+      "asymmetric": false,
+      "comparable_weight": 0.25,
+      "config_id": "mem=short|cmp=0.25|k=4|slow=20|asym=0",
+      "memory_profile": [
+        5,
+        10,
+        20
+      ],
+      "slow_cadence": 20,
+      "top_k": 4,
+      "uncertainty_penalty": 0.5
+    },
+    {
+      "asymmetric": true,
+      "comparable_weight": 0.25,
+      "config_id": "mem=short|cmp=0.25|k=6|slow=10|asym=1",
+      "memory_profile": [
+        5,
+        10,
+        20
+      ],
+      "slow_cadence": 10,
+      "top_k": 6,
+      "uncertainty_penalty": 0.5
+    },
+    {
+      "asymmetric": false,
+      "comparable_weight": 0.25,
+      "config_id": "mem=short|cmp=0.25|k=6|slow=10|asym=0",
+      "memory_profile": [
+        5,
+        10,
+        20
+      ],
+      "slow_cadence": 10,
+      "top_k": 6,
+      "uncertainty_penalty": 0.5
+    },
+    {
+      "asymmetric": true,
+      "comparable_weight": 0.25,
+      "config_id": "mem=short|cmp=0.25|k=6|slow=20|asym=1",
+      "memory_profile": [
+        5,
+        10,
+        20
+      ],
+      "slow_cadence": 20,
+      "top_k": 6,
+      "uncertainty_penalty": 0.5
+    },
+    {
+      "asymmetric": false,
+      "comparable_weight": 0.25,
+      "config_id": "mem=short|cmp=0.25|k=6|slow=20|asym=0",
+      "memory_profile": [
+        5,
+        10,
+        20
+      ],
+      "slow_cadence": 20,
+      "top_k": 6,
+      "uncertainty_penalty": 0.5
+    },
+    {
+      "asymmetric": true,
+      "comparable_weight": 0.5,
+      "config_id": "mem=short|cmp=0.5|k=2|slow=10|asym=1",
+      "memory_profile": [
+        5,
+        10,
+        20
+      ],
+      "slow_cadence": 10,
+      "top_k": 2,
+      "uncertainty_penalty": 0.5
+    },
+    {
+      "asymmetric": false,
+      "comparable_weight": 0.5,
+      "config_id": "mem=short|cmp=0.5|k=2|slow=10|asym=0",
+      "memory_profile": [
+        5,
+        10,
+        20
+      ],
+      "slow_cadence": 10,
+      "top_k": 2,
+      "uncertainty_penalty": 0.5
+    },
+    {
+      "asymmetric": true,
+      "comparable_weight": 0.5,
+      "config_id": "mem=short|cmp=0.5|k=2|slow=20|asym=1",
+      "memory_profile": [
+        5,
+        10,
+        20
+      ],
+      "slow_cadence": 20,
+      "top_k": 2,
+      "uncertainty_penalty": 0.5
+    },
+    {
+      "asymmetric": false,
+      "comparable_weight": 0.5,
+      "config_id": "mem=short|cmp=0.5|k=2|slow=20|asym=0",
+      "memory_profile": [
+        5,
+        10,
+        20
+      ],
+      "slow_cadence": 20,
+      "top_k": 2,
+      "uncertainty_penalty": 0.5
+    },
+    {
+      "asymmetric": true,
+      "comparable_weight": 0.5,
+      "config_id": "mem=short|cmp=0.5|k=4|slow=10|asym=1",
+      "memory_profile": [
+        5,
+        10,
+        20
+      ],
+      "slow_cadence": 10,
+      "top_k": 4,
+      "uncertainty_penalty": 0.5
+    },
+    {
+      "asymmetric": false,
+      "comparable_weight": 0.5,
+      "config_id": "mem=short|cmp=0.5|k=4|slow=10|asym=0",
+      "memory_profile": [
+        5,
+        10,
+        20
+      ],
+      "slow_cadence": 10,
+      "top_k": 4,
+      "uncertainty_penalty": 0.5
+    },
+    {
+      "asymmetric": true,
+      "comparable_weight": 0.5,
+      "config_id": "mem=short|cmp=0.5|k=4|slow=20|asym=1",
+      "memory_profile": [
+        5,
+        10,
+        20
+      ],
+      "slow_cadence": 20,
+      "top_k": 4,
+      "uncertainty_penalty": 0.5
+    },
+    {
+      "asymmetric": false,
+      "comparable_weight": 0.5,
+      "config_id": "mem=short|cmp=0.5|k=4|slow=20|asym=0",
+      "memory_profile": [
+        5,
+        10,
+        20
+      ],
+      "slow_cadence": 20,
+      "top_k": 4,
+      "uncertainty_penalty": 0.5
+    },
+    {
+      "asymmetric": true,
+      "comparable_weight": 0.5,
+      "config_id": "mem=short|cmp=0.5|k=6|slow=10|asym=1",
+      "memory_profile": [
+        5,
+        10,
+        20
+      ],
+      "slow_cadence": 10,
+      "top_k": 6,
+      "uncertainty_penalty": 0.5
+    },
+    {
+      "asymmetric": false,
+      "comparable_weight": 0.5,
+      "config_id": "mem=short|cmp=0.5|k=6|slow=10|asym=0",
+      "memory_profile": [
+        5,
+        10,
+        20
+      ],
+      "slow_cadence": 10,
+      "top_k": 6,
+      "uncertainty_penalty": 0.5
+    },
+    {
+      "asymmetric": true,
+      "comparable_weight": 0.5,
+      "config_id": "mem=short|cmp=0.5|k=6|slow=20|asym=1",
+      "memory_profile": [
+        5,
+        10,
+        20
+      ],
+      "slow_cadence": 20,
+      "top_k": 6,
+      "uncertainty_penalty": 0.5
+    },
+    {
+      "asymmetric": false,
+      "comparable_weight": 0.5,
+      "config_id": "mem=short|cmp=0.5|k=6|slow=20|asym=0",
+      "memory_profile": [
+        5,
+        10,
+        20
+      ],
+      "slow_cadence": 20,
+      "top_k": 6,
+      "uncertainty_penalty": 0.5
+    },
+    {
+      "asymmetric": true,
+      "comparable_weight": 0.0,
+      "config_id": "mem=balanced|cmp=0|k=2|slow=10|asym=1",
+      "memory_profile": [
+        10,
+        20,
+        40
+      ],
+      "slow_cadence": 10,
+      "top_k": 2,
+      "uncertainty_penalty": 0.5
+    },
+    {
+      "asymmetric": false,
+      "comparable_weight": 0.0,
+      "config_id": "mem=balanced|cmp=0|k=2|slow=10|asym=0",
+      "memory_profile": [
+        10,
+        20,
+        40
+      ],
+      "slow_cadence": 10,
+      "top_k": 2,
+      "uncertainty_penalty": 0.5
+    },
+    {
+      "asymmetric": true,
+      "comparable_weight": 0.0,
+      "config_id": "mem=balanced|cmp=0|k=2|slow=20|asym=1",
+      "memory_profile": [
+        10,
+        20,
+        40
+      ],
+      "slow_cadence": 20,
+      "top_k": 2,
+      "uncertainty_penalty": 0.5
+    },
+    {
+      "asymmetric": false,
+      "comparable_weight": 0.0,
+      "config_id": "mem=balanced|cmp=0|k=2|slow=20|asym=0",
+      "memory_profile": [
+        10,
+        20,
+        40
+      ],
+      "slow_cadence": 20,
+      "top_k": 2,
+      "uncertainty_penalty": 0.5
+    },
+    {
+      "asymmetric": true,
+      "comparable_weight": 0.0,
+      "config_id": "mem=balanced|cmp=0|k=4|slow=10|asym=1",
+      "memory_profile": [
+        10,
+        20,
+        40
+      ],
+      "slow_cadence": 10,
+      "top_k": 4,
+      "uncertainty_penalty": 0.5
+    },
+    {
+      "asymmetric": false,
+      "comparable_weight": 0.0,
+      "config_id": "mem=balanced|cmp=0|k=4|slow=10|asym=0",
+      "memory_profile": [
+        10,
+        20,
+        40
+      ],
+      "slow_cadence": 10,
+      "top_k": 4,
+      "uncertainty_penalty": 0.5
+    },
+    {
+      "asymmetric": true,
+      "comparable_weight": 0.0,
+      "config_id": "mem=balanced|cmp=0|k=4|slow=20|asym=1",
+      "memory_profile": [
+        10,
+        20,
+        40
+      ],
+      "slow_cadence": 20,
+      "top_k": 4,
+      "uncertainty_penalty": 0.5
+    },
+    {
+      "asymmetric": false,
+      "comparable_weight": 0.0,
+      "config_id": "mem=balanced|cmp=0|k=4|slow=20|asym=0",
+      "memory_profile": [
+        10,
+        20,
+        40
+      ],
+      "slow_cadence": 20,
+      "top_k": 4,
+      "uncertainty_penalty": 0.5
+    },
+    {
+      "asymmetric": true,
+      "comparable_weight": 0.0,
+      "config_id": "mem=balanced|cmp=0|k=6|slow=10|asym=1",
+      "memory_profile": [
+        10,
+        20,
+        40
+      ],
+      "slow_cadence": 10,
+      "top_k": 6,
+      "uncertainty_penalty": 0.5
+    },
+    {
+      "asymmetric": false,
+      "comparable_weight": 0.0,
+      "config_id": "mem=balanced|cmp=0|k=6|slow=10|asym=0",
+      "memory_profile": [
+        10,
+        20,
+        40
+      ],
+      "slow_cadence": 10,
+      "top_k": 6,
+      "uncertainty_penalty": 0.5
+    },
+    {
+      "asymmetric": true,
+      "comparable_weight": 0.0,
+      "config_id": "mem=balanced|cmp=0|k=6|slow=20|asym=1",
+      "memory_profile": [
+        10,
+        20,
+        40
+      ],
+      "slow_cadence": 20,
+      "top_k": 6,
+      "uncertainty_penalty": 0.5
+    },
+    {
+      "asymmetric": false,
+      "comparable_weight": 0.0,
+      "config_id": "mem=balanced|cmp=0|k=6|slow=20|asym=0",
+      "memory_profile": [
+        10,
+        20,
+        40
+      ],
+      "slow_cadence": 20,
+      "top_k": 6,
+      "uncertainty_penalty": 0.5
+    },
+    {
+      "asymmetric": true,
+      "comparable_weight": 0.25,
+      "config_id": "mem=balanced|cmp=0.25|k=2|slow=10|asym=1",
+      "memory_profile": [
+        10,
+        20,
+        40
+      ],
+      "slow_cadence": 10,
+      "top_k": 2,
+      "uncertainty_penalty": 0.5
+    },
+    {
+      "asymmetric": false,
+      "comparable_weight": 0.25,
+      "config_id": "mem=balanced|cmp=0.25|k=2|slow=10|asym=0",
+      "memory_profile": [
+        10,
+        20,
+        40
+      ],
+      "slow_cadence": 10,
+      "top_k": 2,
+      "uncertainty_penalty": 0.5
+    },
+    {
+      "asymmetric": true,
+      "comparable_weight": 0.25,
+      "config_id": "mem=balanced|cmp=0.25|k=2|slow=20|asym=1",
+      "memory_profile": [
+        10,
+        20,
+        40
+      ],
+      "slow_cadence": 20,
+      "top_k": 2,
+      "uncertainty_penalty": 0.5
+    },
+    {
+      "asymmetric": false,
+      "comparable_weight": 0.25,
+      "config_id": "mem=balanced|cmp=0.25|k=2|slow=20|asym=0",
+      "memory_profile": [
+        10,
+        20,
+        40
+      ],
+      "slow_cadence": 20,
+      "top_k": 2,
+      "uncertainty_penalty": 0.5
+    },
+    {
+      "asymmetric": true,
+      "comparable_weight": 0.25,
+      "config_id": "mem=balanced|cmp=0.25|k=4|slow=10|asym=1",
+      "memory_profile": [
+        10,
+        20,
+        40
+      ],
+      "slow_cadence": 10,
+      "top_k": 4,
+      "uncertainty_penalty": 0.5
+    },
+    {
+      "asymmetric": false,
+      "comparable_weight": 0.25,
+      "config_id": "mem=balanced|cmp=0.25|k=4|slow=10|asym=0",
+      "memory_profile": [
+        10,
+        20,
+        40
+      ],
+      "slow_cadence": 10,
+      "top_k": 4,
+      "uncertainty_penalty": 0.5
+    },
+    {
+      "asymmetric": true,
+      "comparable_weight": 0.25,
+      "config_id": "mem=balanced|cmp=0.25|k=4|slow=20|asym=1",
+      "memory_profile": [
+        10,
+        20,
+        40
+      ],
+      "slow_cadence": 20,
+      "top_k": 4,
+      "uncertainty_penalty": 0.5
+    },
+    {
+      "asymmetric": false,
+      "comparable_weight": 0.25,
+      "config_id": "mem=balanced|cmp=0.25|k=4|slow=20|asym=0",
+      "memory_profile": [
+        10,
+        20,
+        40
+      ],
+      "slow_cadence": 20,
+      "top_k": 4,
+      "uncertainty_penalty": 0.5
+    },
+    {
+      "asymmetric": true,
+      "comparable_weight": 0.25,
+      "config_id": "mem=balanced|cmp=0.25|k=6|slow=10|asym=1",
+      "memory_profile": [
+        10,
+        20,
+        40
+      ],
+      "slow_cadence": 10,
+      "top_k": 6,
+      "uncertainty_penalty": 0.5
+    },
+    {
+      "asymmetric": false,
+      "comparable_weight": 0.25,
+      "config_id": "mem=balanced|cmp=0.25|k=6|slow=10|asym=0",
+      "memory_profile": [
+        10,
+        20,
+        40
+      ],
+      "slow_cadence": 10,
+      "top_k": 6,
+      "uncertainty_penalty": 0.5
+    },
+    {
+      "asymmetric": true,
+      "comparable_weight": 0.25,
+      "config_id": "mem=balanced|cmp=0.25|k=6|slow=20|asym=1",
+      "memory_profile": [
+        10,
+        20,
+        40
+      ],
+      "slow_cadence": 20,
+      "top_k": 6,
+      "uncertainty_penalty": 0.5
+    },
+    {
+      "asymmetric": false,
+      "comparable_weight": 0.25,
+      "config_id": "mem=balanced|cmp=0.25|k=6|slow=20|asym=0",
+      "memory_profile": [
+        10,
+        20,
+        40
+      ],
+      "slow_cadence": 20,
+      "top_k": 6,
+      "uncertainty_penalty": 0.5
+    },
+    {
+      "asymmetric": true,
+      "comparable_weight": 0.5,
+      "config_id": "mem=balanced|cmp=0.5|k=2|slow=10|asym=1",
+      "memory_profile": [
+        10,
+        20,
+        40
+      ],
+      "slow_cadence": 10,
+      "top_k": 2,
+      "uncertainty_penalty": 0.5
+    },
+    {
+      "asymmetric": false,
+      "comparable_weight": 0.5,
+      "config_id": "mem=balanced|cmp=0.5|k=2|slow=10|asym=0",
+      "memory_profile": [
+        10,
+        20,
+        40
+      ],
+      "slow_cadence": 10,
+      "top_k": 2,
+      "uncertainty_penalty": 0.5
+    },
+    {
+      "asymmetric": true,
+      "comparable_weight": 0.5,
+      "config_id": "mem=balanced|cmp=0.5|k=2|slow=20|asym=1",
+      "memory_profile": [
+        10,
+        20,
+        40
+      ],
+      "slow_cadence": 20,
+      "top_k": 2,
+      "uncertainty_penalty": 0.5
+    },
+    {
+      "asymmetric": false,
+      "comparable_weight": 0.5,
+      "config_id": "mem=balanced|cmp=0.5|k=2|slow=20|asym=0",
+      "memory_profile": [
+        10,
+        20,
+        40
+      ],
+      "slow_cadence": 20,
+      "top_k": 2,
+      "uncertainty_penalty": 0.5
+    },
+    {
+      "asymmetric": true,
+      "comparable_weight": 0.5,
+      "config_id": "mem=balanced|cmp=0.5|k=4|slow=10|asym=1",
+      "memory_profile": [
+        10,
+        20,
+        40
+      ],
+      "slow_cadence": 10,
+      "top_k": 4,
+      "uncertainty_penalty": 0.5
+    },
+    {
+      "asymmetric": false,
+      "comparable_weight": 0.5,
+      "config_id": "mem=balanced|cmp=0.5|k=4|slow=10|asym=0",
+      "memory_profile": [
+        10,
+        20,
+        40
+      ],
+      "slow_cadence": 10,
+      "top_k": 4,
+      "uncertainty_penalty": 0.5
+    },
+    {
+      "asymmetric": true,
+      "comparable_weight": 0.5,
+      "config_id": "mem=balanced|cmp=0.5|k=4|slow=20|asym=1",
+      "memory_profile": [
+        10,
+        20,
+        40
+      ],
+      "slow_cadence": 20,
+      "top_k": 4,
+      "uncertainty_penalty": 0.5
+    },
+    {
+      "asymmetric": false,
+      "comparable_weight": 0.5,
+      "config_id": "mem=balanced|cmp=0.5|k=4|slow=20|asym=0",
+      "memory_profile": [
+        10,
+        20,
+        40
+      ],
+      "slow_cadence": 20,
+      "top_k": 4,
+      "uncertainty_penalty": 0.5
+    },
+    {
+      "asymmetric": true,
+      "comparable_weight": 0.5,
+      "config_id": "mem=balanced|cmp=0.5|k=6|slow=10|asym=1",
+      "memory_profile": [
+        10,
+        20,
+        40
+      ],
+      "slow_cadence": 10,
+      "top_k": 6,
+      "uncertainty_penalty": 0.5
+    },
+    {
+      "asymmetric": false,
+      "comparable_weight": 0.5,
+      "config_id": "mem=balanced|cmp=0.5|k=6|slow=10|asym=0",
+      "memory_profile": [
+        10,
+        20,
+        40
+      ],
+      "slow_cadence": 10,
+      "top_k": 6,
+      "uncertainty_penalty": 0.5
+    },
+    {
+      "asymmetric": true,
+      "comparable_weight": 0.5,
+      "config_id": "mem=balanced|cmp=0.5|k=6|slow=20|asym=1",
+      "memory_profile": [
+        10,
+        20,
+        40
+      ],
+      "slow_cadence": 20,
+      "top_k": 6,
+      "uncertainty_penalty": 0.5
+    },
+    {
+      "asymmetric": false,
+      "comparable_weight": 0.5,
+      "config_id": "mem=balanced|cmp=0.5|k=6|slow=20|asym=0",
+      "memory_profile": [
+        10,
+        20,
+        40
+      ],
+      "slow_cadence": 20,
+      "top_k": 6,
+      "uncertainty_penalty": 0.5
+    },
+    {
+      "asymmetric": true,
+      "comparable_weight": 0.0,
+      "config_id": "mem=medium|cmp=0|k=2|slow=10|asym=1",
+      "memory_profile": [
+        20,
+        40,
+        60
+      ],
+      "slow_cadence": 10,
+      "top_k": 2,
+      "uncertainty_penalty": 0.5
+    },
+    {
+      "asymmetric": false,
+      "comparable_weight": 0.0,
+      "config_id": "mem=medium|cmp=0|k=2|slow=10|asym=0",
+      "memory_profile": [
+        20,
+        40,
+        60
+      ],
+      "slow_cadence": 10,
+      "top_k": 2,
+      "uncertainty_penalty": 0.5
+    },
+    {
+      "asymmetric": true,
+      "comparable_weight": 0.0,
+      "config_id": "mem=medium|cmp=0|k=2|slow=20|asym=1",
+      "memory_profile": [
+        20,
+        40,
+        60
+      ],
+      "slow_cadence": 20,
+      "top_k": 2,
+      "uncertainty_penalty": 0.5
+    },
+    {
+      "asymmetric": false,
+      "comparable_weight": 0.0,
+      "config_id": "mem=medium|cmp=0|k=2|slow=20|asym=0",
+      "memory_profile": [
+        20,
+        40,
+        60
+      ],
+      "slow_cadence": 20,
+      "top_k": 2,
+      "uncertainty_penalty": 0.5
+    },
+    {
+      "asymmetric": true,
+      "comparable_weight": 0.0,
+      "config_id": "mem=medium|cmp=0|k=4|slow=10|asym=1",
+      "memory_profile": [
+        20,
+        40,
+        60
+      ],
+      "slow_cadence": 10,
+      "top_k": 4,
+      "uncertainty_penalty": 0.5
+    },
+    {
+      "asymmetric": false,
+      "comparable_weight": 0.0,
+      "config_id": "mem=medium|cmp=0|k=4|slow=10|asym=0",
+      "memory_profile": [
+        20,
+        40,
+        60
+      ],
+      "slow_cadence": 10,
+      "top_k": 4,
+      "uncertainty_penalty": 0.5
+    },
+    {
+      "asymmetric": true,
+      "comparable_weight": 0.0,
+      "config_id": "mem=medium|cmp=0|k=4|slow=20|asym=1",
+      "memory_profile": [
+        20,
+        40,
+        60
+      ],
+      "slow_cadence": 20,
+      "top_k": 4,
+      "uncertainty_penalty": 0.5
+    },
+    {
+      "asymmetric": false,
+      "comparable_weight": 0.0,
+      "config_id": "mem=medium|cmp=0|k=4|slow=20|asym=0",
+      "memory_profile": [
+        20,
+        40,
+        60
+      ],
+      "slow_cadence": 20,
+      "top_k": 4,
+      "uncertainty_penalty": 0.5
+    },
+    {
+      "asymmetric": true,
+      "comparable_weight": 0.0,
+      "config_id": "mem=medium|cmp=0|k=6|slow=10|asym=1",
+      "memory_profile": [
+        20,
+        40,
+        60
+      ],
+      "slow_cadence": 10,
+      "top_k": 6,
+      "uncertainty_penalty": 0.5
+    },
+    {
+      "asymmetric": false,
+      "comparable_weight": 0.0,
+      "config_id": "mem=medium|cmp=0|k=6|slow=10|asym=0",
+      "memory_profile": [
+        20,
+        40,
+        60
+      ],
+      "slow_cadence": 10,
+      "top_k": 6,
+      "uncertainty_penalty": 0.5
+    },
+    {
+      "asymmetric": true,
+      "comparable_weight": 0.0,
+      "config_id": "mem=medium|cmp=0|k=6|slow=20|asym=1",
+      "memory_profile": [
+        20,
+        40,
+        60
+      ],
+      "slow_cadence": 20,
+      "top_k": 6,
+      "uncertainty_penalty": 0.5
+    },
+    {
+      "asymmetric": false,
+      "comparable_weight": 0.0,
+      "config_id": "mem=medium|cmp=0|k=6|slow=20|asym=0",
+      "memory_profile": [
+        20,
+        40,
+        60
+      ],
+      "slow_cadence": 20,
+      "top_k": 6,
+      "uncertainty_penalty": 0.5
+    },
+    {
+      "asymmetric": true,
+      "comparable_weight": 0.25,
+      "config_id": "mem=medium|cmp=0.25|k=2|slow=10|asym=1",
+      "memory_profile": [
+        20,
+        40,
+        60
+      ],
+      "slow_cadence": 10,
+      "top_k": 2,
+      "uncertainty_penalty": 0.5
+    },
+    {
+      "asymmetric": false,
+      "comparable_weight": 0.25,
+      "config_id": "mem=medium|cmp=0.25|k=2|slow=10|asym=0",
+      "memory_profile": [
+        20,
+        40,
+        60
+      ],
+      "slow_cadence": 10,
+      "top_k": 2,
+      "uncertainty_penalty": 0.5
+    },
+    {
+      "asymmetric": true,
+      "comparable_weight": 0.25,
+      "config_id": "mem=medium|cmp=0.25|k=2|slow=20|asym=1",
+      "memory_profile": [
+        20,
+        40,
+        60
+      ],
+      "slow_cadence": 20,
+      "top_k": 2,
+      "uncertainty_penalty": 0.5
+    },
+    {
+      "asymmetric": false,
+      "comparable_weight": 0.25,
+      "config_id": "mem=medium|cmp=0.25|k=2|slow=20|asym=0",
+      "memory_profile": [
+        20,
+        40,
+        60
+      ],
+      "slow_cadence": 20,
+      "top_k": 2,
+      "uncertainty_penalty": 0.5
+    },
+    {
+      "asymmetric": true,
+      "comparable_weight": 0.25,
+      "config_id": "mem=medium|cmp=0.25|k=4|slow=10|asym=1",
+      "memory_profile": [
+        20,
+        40,
+        60
+      ],
+      "slow_cadence": 10,
+      "top_k": 4,
+      "uncertainty_penalty": 0.5
+    },
+    {
+      "asymmetric": false,
+      "comparable_weight": 0.25,
+      "config_id": "mem=medium|cmp=0.25|k=4|slow=10|asym=0",
+      "memory_profile": [
+        20,
+        40,
+        60
+      ],
+      "slow_cadence": 10,
+      "top_k": 4,
+      "uncertainty_penalty": 0.5
+    },
+    {
+      "asymmetric": true,
+      "comparable_weight": 0.25,
+      "config_id": "mem=medium|cmp=0.25|k=4|slow=20|asym=1",
+      "memory_profile": [
+        20,
+        40,
+        60
+      ],
+      "slow_cadence": 20,
+      "top_k": 4,
+      "uncertainty_penalty": 0.5
+    },
+    {
+      "asymmetric": false,
+      "comparable_weight": 0.25,
+      "config_id": "mem=medium|cmp=0.25|k=4|slow=20|asym=0",
+      "memory_profile": [
+        20,
+        40,
+        60
+      ],
+      "slow_cadence": 20,
+      "top_k": 4,
+      "uncertainty_penalty": 0.5
+    },
+    {
+      "asymmetric": true,
+      "comparable_weight": 0.25,
+      "config_id": "mem=medium|cmp=0.25|k=6|slow=10|asym=1",
+      "memory_profile": [
+        20,
+        40,
+        60
+      ],
+      "slow_cadence": 10,
+      "top_k": 6,
+      "uncertainty_penalty": 0.5
+    },
+    {
+      "asymmetric": false,
+      "comparable_weight": 0.25,
+      "config_id": "mem=medium|cmp=0.25|k=6|slow=10|asym=0",
+      "memory_profile": [
+        20,
+        40,
+        60
+      ],
+      "slow_cadence": 10,
+      "top_k": 6,
+      "uncertainty_penalty": 0.5
+    },
+    {
+      "asymmetric": true,
+      "comparable_weight": 0.25,
+      "config_id": "mem=medium|cmp=0.25|k=6|slow=20|asym=1",
+      "memory_profile": [
+        20,
+        40,
+        60
+      ],
+      "slow_cadence": 20,
+      "top_k": 6,
+      "uncertainty_penalty": 0.5
+    },
+    {
+      "asymmetric": false,
+      "comparable_weight": 0.25,
+      "config_id": "mem=medium|cmp=0.25|k=6|slow=20|asym=0",
+      "memory_profile": [
+        20,
+        40,
+        60
+      ],
+      "slow_cadence": 20,
+      "top_k": 6,
+      "uncertainty_penalty": 0.5
+    },
+    {
+      "asymmetric": true,
+      "comparable_weight": 0.5,
+      "config_id": "mem=medium|cmp=0.5|k=2|slow=10|asym=1",
+      "memory_profile": [
+        20,
+        40,
+        60
+      ],
+      "slow_cadence": 10,
+      "top_k": 2,
+      "uncertainty_penalty": 0.5
+    },
+    {
+      "asymmetric": false,
+      "comparable_weight": 0.5,
+      "config_id": "mem=medium|cmp=0.5|k=2|slow=10|asym=0",
+      "memory_profile": [
+        20,
+        40,
+        60
+      ],
+      "slow_cadence": 10,
+      "top_k": 2,
+      "uncertainty_penalty": 0.5
+    },
+    {
+      "asymmetric": true,
+      "comparable_weight": 0.5,
+      "config_id": "mem=medium|cmp=0.5|k=2|slow=20|asym=1",
+      "memory_profile": [
+        20,
+        40,
+        60
+      ],
+      "slow_cadence": 20,
+      "top_k": 2,
+      "uncertainty_penalty": 0.5
+    },
+    {
+      "asymmetric": false,
+      "comparable_weight": 0.5,
+      "config_id": "mem=medium|cmp=0.5|k=2|slow=20|asym=0",
+      "memory_profile": [
+        20,
+        40,
+        60
+      ],
+      "slow_cadence": 20,
+      "top_k": 2,
+      "uncertainty_penalty": 0.5
+    },
+    {
+      "asymmetric": true,
+      "comparable_weight": 0.5,
+      "config_id": "mem=medium|cmp=0.5|k=4|slow=10|asym=1",
+      "memory_profile": [
+        20,
+        40,
+        60
+      ],
+      "slow_cadence": 10,
+      "top_k": 4,
+      "uncertainty_penalty": 0.5
+    },
+    {
+      "asymmetric": false,
+      "comparable_weight": 0.5,
+      "config_id": "mem=medium|cmp=0.5|k=4|slow=10|asym=0",
+      "memory_profile": [
+        20,
+        40,
+        60
+      ],
+      "slow_cadence": 10,
+      "top_k": 4,
+      "uncertainty_penalty": 0.5
+    },
+    {
+      "asymmetric": true,
+      "comparable_weight": 0.5,
+      "config_id": "mem=medium|cmp=0.5|k=4|slow=20|asym=1",
+      "memory_profile": [
+        20,
+        40,
+        60
+      ],
+      "slow_cadence": 20,
+      "top_k": 4,
+      "uncertainty_penalty": 0.5
+    },
+    {
+      "asymmetric": false,
+      "comparable_weight": 0.5,
+      "config_id": "mem=medium|cmp=0.5|k=4|slow=20|asym=0",
+      "memory_profile": [
+        20,
+        40,
+        60
+      ],
+      "slow_cadence": 20,
+      "top_k": 4,
+      "uncertainty_penalty": 0.5
+    },
+    {
+      "asymmetric": true,
+      "comparable_weight": 0.5,
+      "config_id": "mem=medium|cmp=0.5|k=6|slow=10|asym=1",
+      "memory_profile": [
+        20,
+        40,
+        60
+      ],
+      "slow_cadence": 10,
+      "top_k": 6,
+      "uncertainty_penalty": 0.5
+    },
+    {
+      "asymmetric": false,
+      "comparable_weight": 0.5,
+      "config_id": "mem=medium|cmp=0.5|k=6|slow=10|asym=0",
+      "memory_profile": [
+        20,
+        40,
+        60
+      ],
+      "slow_cadence": 10,
+      "top_k": 6,
+      "uncertainty_penalty": 0.5
+    },
+    {
+      "asymmetric": true,
+      "comparable_weight": 0.5,
+      "config_id": "mem=medium|cmp=0.5|k=6|slow=20|asym=1",
+      "memory_profile": [
+        20,
+        40,
+        60
+      ],
+      "slow_cadence": 20,
+      "top_k": 6,
+      "uncertainty_penalty": 0.5
+    },
+    {
+      "asymmetric": false,
+      "comparable_weight": 0.5,
+      "config_id": "mem=medium|cmp=0.5|k=6|slow=20|asym=0",
+      "memory_profile": [
+        20,
+        40,
+        60
+      ],
+      "slow_cadence": 20,
+      "top_k": 6,
+      "uncertainty_penalty": 0.5
+    },
+    {
+      "asymmetric": true,
+      "comparable_weight": 0.0,
+      "config_id": "mem=long|cmp=0|k=2|slow=10|asym=1",
+      "memory_profile": [
+        40,
+        60,
+        126,
+        "expanding"
+      ],
+      "slow_cadence": 10,
+      "top_k": 2,
+      "uncertainty_penalty": 0.5
+    },
+    {
+      "asymmetric": false,
+      "comparable_weight": 0.0,
+      "config_id": "mem=long|cmp=0|k=2|slow=10|asym=0",
+      "memory_profile": [
+        40,
+        60,
+        126,
+        "expanding"
+      ],
+      "slow_cadence": 10,
+      "top_k": 2,
+      "uncertainty_penalty": 0.5
+    },
+    {
+      "asymmetric": true,
+      "comparable_weight": 0.0,
+      "config_id": "mem=long|cmp=0|k=2|slow=20|asym=1",
+      "memory_profile": [
+        40,
+        60,
+        126,
+        "expanding"
+      ],
+      "slow_cadence": 20,
+      "top_k": 2,
+      "uncertainty_penalty": 0.5
+    },
+    {
+      "asymmetric": false,
+      "comparable_weight": 0.0,
+      "config_id": "mem=long|cmp=0|k=2|slow=20|asym=0",
+      "memory_profile": [
+        40,
+        60,
+        126,
+        "expanding"
+      ],
+      "slow_cadence": 20,
+      "top_k": 2,
+      "uncertainty_penalty": 0.5
+    },
+    {
+      "asymmetric": true,
+      "comparable_weight": 0.0,
+      "config_id": "mem=long|cmp=0|k=4|slow=10|asym=1",
+      "memory_profile": [
+        40,
+        60,
+        126,
+        "expanding"
+      ],
+      "slow_cadence": 10,
+      "top_k": 4,
+      "uncertainty_penalty": 0.5
+    },
+    {
+      "asymmetric": false,
+      "comparable_weight": 0.0,
+      "config_id": "mem=long|cmp=0|k=4|slow=10|asym=0",
+      "memory_profile": [
+        40,
+        60,
+        126,
+        "expanding"
+      ],
+      "slow_cadence": 10,
+      "top_k": 4,
+      "uncertainty_penalty": 0.5
+    },
+    {
+      "asymmetric": true,
+      "comparable_weight": 0.0,
+      "config_id": "mem=long|cmp=0|k=4|slow=20|asym=1",
+      "memory_profile": [
+        40,
+        60,
+        126,
+        "expanding"
+      ],
+      "slow_cadence": 20,
+      "top_k": 4,
+      "uncertainty_penalty": 0.5
+    },
+    {
+      "asymmetric": false,
+      "comparable_weight": 0.0,
+      "config_id": "mem=long|cmp=0|k=4|slow=20|asym=0",
+      "memory_profile": [
+        40,
+        60,
+        126,
+        "expanding"
+      ],
+      "slow_cadence": 20,
+      "top_k": 4,
+      "uncertainty_penalty": 0.5
+    },
+    {
+      "asymmetric": true,
+      "comparable_weight": 0.0,
+      "config_id": "mem=long|cmp=0|k=6|slow=10|asym=1",
+      "memory_profile": [
+        40,
+        60,
+        126,
+        "expanding"
+      ],
+      "slow_cadence": 10,
+      "top_k": 6,
+      "uncertainty_penalty": 0.5
+    },
+    {
+      "asymmetric": false,
+      "comparable_weight": 0.0,
+      "config_id": "mem=long|cmp=0|k=6|slow=10|asym=0",
+      "memory_profile": [
+        40,
+        60,
+        126,
+        "expanding"
+      ],
+      "slow_cadence": 10,
+      "top_k": 6,
+      "uncertainty_penalty": 0.5
+    },
+    {
+      "asymmetric": true,
+      "comparable_weight": 0.0,
+      "config_id": "mem=long|cmp=0|k=6|slow=20|asym=1",
+      "memory_profile": [
+        40,
+        60,
+        126,
+        "expanding"
+      ],
+      "slow_cadence": 20,
+      "top_k": 6,
+      "uncertainty_penalty": 0.5
+    },
+    {
+      "asymmetric": false,
+      "comparable_weight": 0.0,
+      "config_id": "mem=long|cmp=0|k=6|slow=20|asym=0",
+      "memory_profile": [
+        40,
+        60,
+        126,
+        "expanding"
+      ],
+      "slow_cadence": 20,
+      "top_k": 6,
+      "uncertainty_penalty": 0.5
+    },
+    {
+      "asymmetric": true,
+      "comparable_weight": 0.25,
+      "config_id": "mem=long|cmp=0.25|k=2|slow=10|asym=1",
+      "memory_profile": [
+        40,
+        60,
+        126,
+        "expanding"
+      ],
+      "slow_cadence": 10,
+      "top_k": 2,
+      "uncertainty_penalty": 0.5
+    },
+    {
+      "asymmetric": false,
+      "comparable_weight": 0.25,
+      "config_id": "mem=long|cmp=0.25|k=2|slow=10|asym=0",
+      "memory_profile": [
+        40,
+        60,
+        126,
+        "expanding"
+      ],
+      "slow_cadence": 10,
+      "top_k": 2,
+      "uncertainty_penalty": 0.5
+    },
+    {
+      "asymmetric": true,
+      "comparable_weight": 0.25,
+      "config_id": "mem=long|cmp=0.25|k=2|slow=20|asym=1",
+      "memory_profile": [
+        40,
+        60,
+        126,
+        "expanding"
+      ],
+      "slow_cadence": 20,
+      "top_k": 2,
+      "uncertainty_penalty": 0.5
+    },
+    {
+      "asymmetric": false,
+      "comparable_weight": 0.25,
+      "config_id": "mem=long|cmp=0.25|k=2|slow=20|asym=0",
+      "memory_profile": [
+        40,
+        60,
+        126,
+        "expanding"
+      ],
+      "slow_cadence": 20,
+      "top_k": 2,
+      "uncertainty_penalty": 0.5
+    },
+    {
+      "asymmetric": true,
+      "comparable_weight": 0.25,
+      "config_id": "mem=long|cmp=0.25|k=4|slow=10|asym=1",
+      "memory_profile": [
+        40,
+        60,
+        126,
+        "expanding"
+      ],
+      "slow_cadence": 10,
+      "top_k": 4,
+      "uncertainty_penalty": 0.5
+    },
+    {
+      "asymmetric": false,
+      "comparable_weight": 0.25,
+      "config_id": "mem=long|cmp=0.25|k=4|slow=10|asym=0",
+      "memory_profile": [
+        40,
+        60,
+        126,
+        "expanding"
+      ],
+      "slow_cadence": 10,
+      "top_k": 4,
+      "uncertainty_penalty": 0.5
+    },
+    {
+      "asymmetric": true,
+      "comparable_weight": 0.25,
+      "config_id": "mem=long|cmp=0.25|k=4|slow=20|asym=1",
+      "memory_profile": [
+        40,
+        60,
+        126,
+        "expanding"
+      ],
+      "slow_cadence": 20,
+      "top_k": 4,
+      "uncertainty_penalty": 0.5
+    },
+    {
+      "asymmetric": false,
+      "comparable_weight": 0.25,
+      "config_id": "mem=long|cmp=0.25|k=4|slow=20|asym=0",
+      "memory_profile": [
+        40,
+        60,
+        126,
+        "expanding"
+      ],
+      "slow_cadence": 20,
+      "top_k": 4,
+      "uncertainty_penalty": 0.5
+    },
+    {
+      "asymmetric": true,
+      "comparable_weight": 0.25,
+      "config_id": "mem=long|cmp=0.25|k=6|slow=10|asym=1",
+      "memory_profile": [
+        40,
+        60,
+        126,
+        "expanding"
+      ],
+      "slow_cadence": 10,
+      "top_k": 6,
+      "uncertainty_penalty": 0.5
+    },
+    {
+      "asymmetric": false,
+      "comparable_weight": 0.25,
+      "config_id": "mem=long|cmp=0.25|k=6|slow=10|asym=0",
+      "memory_profile": [
+        40,
+        60,
+        126,
+        "expanding"
+      ],
+      "slow_cadence": 10,
+      "top_k": 6,
+      "uncertainty_penalty": 0.5
+    },
+    {
+      "asymmetric": true,
+      "comparable_weight": 0.25,
+      "config_id": "mem=long|cmp=0.25|k=6|slow=20|asym=1",
+      "memory_profile": [
+        40,
+        60,
+        126,
+        "expanding"
+      ],
+      "slow_cadence": 20,
+      "top_k": 6,
+      "uncertainty_penalty": 0.5
+    },
+    {
+      "asymmetric": false,
+      "comparable_weight": 0.25,
+      "config_id": "mem=long|cmp=0.25|k=6|slow=20|asym=0",
+      "memory_profile": [
+        40,
+        60,
+        126,
+        "expanding"
+      ],
+      "slow_cadence": 20,
+      "top_k": 6,
+      "uncertainty_penalty": 0.5
+    },
+    {
+      "asymmetric": true,
+      "comparable_weight": 0.5,
+      "config_id": "mem=long|cmp=0.5|k=2|slow=10|asym=1",
+      "memory_profile": [
+        40,
+        60,
+        126,
+        "expanding"
+      ],
+      "slow_cadence": 10,
+      "top_k": 2,
+      "uncertainty_penalty": 0.5
+    },
+    {
+      "asymmetric": false,
+      "comparable_weight": 0.5,
+      "config_id": "mem=long|cmp=0.5|k=2|slow=10|asym=0",
+      "memory_profile": [
+        40,
+        60,
+        126,
+        "expanding"
+      ],
+      "slow_cadence": 10,
+      "top_k": 2,
+      "uncertainty_penalty": 0.5
+    },
+    {
+      "asymmetric": true,
+      "comparable_weight": 0.5,
+      "config_id": "mem=long|cmp=0.5|k=2|slow=20|asym=1",
+      "memory_profile": [
+        40,
+        60,
+        126,
+        "expanding"
+      ],
+      "slow_cadence": 20,
+      "top_k": 2,
+      "uncertainty_penalty": 0.5
+    },
+    {
+      "asymmetric": false,
+      "comparable_weight": 0.5,
+      "config_id": "mem=long|cmp=0.5|k=2|slow=20|asym=0",
+      "memory_profile": [
+        40,
+        60,
+        126,
+        "expanding"
+      ],
+      "slow_cadence": 20,
+      "top_k": 2,
+      "uncertainty_penalty": 0.5
+    },
+    {
+      "asymmetric": true,
+      "comparable_weight": 0.5,
+      "config_id": "mem=long|cmp=0.5|k=4|slow=10|asym=1",
+      "memory_profile": [
+        40,
+        60,
+        126,
+        "expanding"
+      ],
+      "slow_cadence": 10,
+      "top_k": 4,
+      "uncertainty_penalty": 0.5
+    },
+    {
+      "asymmetric": false,
+      "comparable_weight": 0.5,
+      "config_id": "mem=long|cmp=0.5|k=4|slow=10|asym=0",
+      "memory_profile": [
+        40,
+        60,
+        126,
+        "expanding"
+      ],
+      "slow_cadence": 10,
+      "top_k": 4,
+      "uncertainty_penalty": 0.5
+    },
+    {
+      "asymmetric": true,
+      "comparable_weight": 0.5,
+      "config_id": "mem=long|cmp=0.5|k=4|slow=20|asym=1",
+      "memory_profile": [
+        40,
+        60,
+        126,
+        "expanding"
+      ],
+      "slow_cadence": 20,
+      "top_k": 4,
+      "uncertainty_penalty": 0.5
+    },
+    {
+      "asymmetric": false,
+      "comparable_weight": 0.5,
+      "config_id": "mem=long|cmp=0.5|k=4|slow=20|asym=0",
+      "memory_profile": [
+        40,
+        60,
+        126,
+        "expanding"
+      ],
+      "slow_cadence": 20,
+      "top_k": 4,
+      "uncertainty_penalty": 0.5
+    },
+    {
+      "asymmetric": true,
+      "comparable_weight": 0.5,
+      "config_id": "mem=long|cmp=0.5|k=6|slow=10|asym=1",
+      "memory_profile": [
+        40,
+        60,
+        126,
+        "expanding"
+      ],
+      "slow_cadence": 10,
+      "top_k": 6,
+      "uncertainty_penalty": 0.5
+    },
+    {
+      "asymmetric": false,
+      "comparable_weight": 0.5,
+      "config_id": "mem=long|cmp=0.5|k=6|slow=10|asym=0",
+      "memory_profile": [
+        40,
+        60,
+        126,
+        "expanding"
+      ],
+      "slow_cadence": 10,
+      "top_k": 6,
+      "uncertainty_penalty": 0.5
+    },
+    {
+      "asymmetric": true,
+      "comparable_weight": 0.5,
+      "config_id": "mem=long|cmp=0.5|k=6|slow=20|asym=1",
+      "memory_profile": [
+        40,
+        60,
+        126,
+        "expanding"
+      ],
+      "slow_cadence": 20,
+      "top_k": 6,
+      "uncertainty_penalty": 0.5
+    },
+    {
+      "asymmetric": false,
+      "comparable_weight": 0.5,
+      "config_id": "mem=long|cmp=0.5|k=6|slow=20|asym=0",
+      "memory_profile": [
+        40,
+        60,
+        126,
+        "expanding"
+      ],
+      "slow_cadence": 20,
+      "top_k": 6,
+      "uncertainty_penalty": 0.5
+    }
+  ],
+  "family_dispositions": [
+    {
+      "block1": "GO",
+      "family": "market_curve_technical",
+      "role": "state_and_specialists"
+    },
+    {
+      "block1": "GO",
+      "family": "timesfm",
+      "role": "timestamped_specialist"
+    },
+    {
+      "block1": "GO",
+      "family": "kronos",
+      "role": "timestamped_specialist"
+    },
+    {
+      "block1": "GO",
+      "family": "cftc_positioning",
+      "role": "state_and_specialist"
+    },
+    {
+      "block1": "HOLD",
+      "family": "futures_open_interest",
+      "reason": "no_valid_referenced_records_2010"
+    },
+    {
+      "block1": "HOLD",
+      "family": "storage",
+      "reason": "PIT_support_starts_2015_06_19"
+    },
+    {
+      "block1": "HOLD",
+      "family": "weather",
+      "reason": "PIT_support_starts_2015_01_15"
+    },
+    {
+      "block1": "HOLD",
+      "family": "power",
+      "reason": "historical_publication_timing_not_promoted"
+    },
+    {
+      "block1": "HOLD",
+      "family": "storage_consensus_surprise",
+      "reason": "source_not_proven"
+    },
+    {
+      "block1": "HOLD",
+      "family": "options_implied",
+      "reason": "activation_gates_not_proven"
+    },
+    {
+      "block1": "HOLD",
+      "family": "event_time",
+      "reason": "historical_release_timing_not_proven"
+    },
+    {
+      "block1": "HOLD",
+      "family": "lng_physical",
+      "reason": "no_registered_PIT_block1_source_through_issue431"
+    }
+  ],
+  "historical_evidence_map": {
+    "all_records_retained_by_reference": true,
+    "classification_counts": {
+      "empirical_negative": 33,
+      "governance_only": 3469,
+      "null_or_inconclusive": 30,
+      "positive_clue": 140,
+      "role_unidentifiable": 24,
+      "source_or_data_hold": 19,
+      "underpowered": 187,
+      "untested_mechanism": 27
+    },
+    "path": "research\\programmes\\004-v2-maximum-reproducible-one-month-return\\issue459-advantage-map-v1.json",
+    "protected_confirmation_accessed": false,
+    "raw_evidence_count": 3929,
+    "sha256": "c375e3f21ca28e3f96a590eeb3245921ddf1897fa93b81966e7c3c33c13cf19f"
+  },
+  "issue": 465,
+  "iteration": "block1-controller-v2",
+  "named_specialist_library": [
+    {
+      "family": "trend",
+      "id": "trend_ret20",
+      "signal": "sign(feature_ret_20)"
+    },
+    {
+      "family": "trend",
+      "id": "trend_ret5",
+      "signal": "sign(feature_ret_5)"
+    },
+    {
+      "family": "mean_reversion",
+      "id": "mean_reversion_ret5",
+      "signal": "-sign(feature_ret_5)"
+    },
+    {
+      "family": "trend",
+      "id": "ma20_trend",
+      "signal": "sign(feature_ma_gap_20)"
+    },
+    {
+      "family": "mean_reversion",
+      "id": "ma5_mean_reversion",
+      "signal": "-sign(feature_ma_gap_5)"
+    },
+    {
+      "family": "curve",
+      "id": "curve_slope_direct",
+      "signal": "sign(feature_curve_slope_m1_m4)"
+    },
+    {
+      "family": "curve",
+      "id": "curve_slope_inverse",
+      "signal": "-sign(feature_curve_slope_m1_m4)"
+    },
+    {
+      "family": "seasonality",
+      "id": "season_sin_direct",
+      "signal": "sign(feature_season_sin)"
+    },
+    {
+      "family": "seasonality",
+      "id": "season_cos_direct",
+      "signal": "sign(feature_season_cos)"
+    },
+    {
+      "family": "positioning",
+      "id": "positioning_producer_direct",
+      "signal": "sign(producer_merchant_net)"
+    },
+    {
+      "family": "positioning",
+      "id": "positioning_producer_inverse",
+      "signal": "-sign(producer_merchant_net)"
+    },
+    {
+      "family": "timesfm",
+      "id": "timesfm_direction",
+      "signal": "sign(timesfm_point_return)"
+    },
+    {
+      "family": "kronos",
+      "id": "kronos_direction",
+      "signal": "sign(kronos_close_return)"
+    },
+    {
+      "family": "breakout",
+      "id": "range_breakout20",
+      "signal": "prior20_settle_breakout"
+    },
+    {
+      "family": "volatility",
+      "id": "low_vol_trend20",
+      "signal": "trend_ret20_when_feature_vol_20_le_prior60_median"
+    },
+    {
+      "family": "jump",
+      "id": "high_jump_mean_reversion",
+      "signal": "mean_reversion_ret5_when_jump_intensity_ge_prior60_q67"
+    },
+    {
+      "family": "vol_of_vol",
+      "id": "vol_of_vol_veto_trend",
+      "signal": "trend_ret20_when_vol_of_vol_le_prior60_q67"
+    }
+  ],
+  "prereg_sha256": "0f9b5d181c3e78238bf3a7869d0134ea63e4ac7397a9fd62c76fc936186646a4",
+  "schema_version": 2,
+  "scoring_performed": false
+}

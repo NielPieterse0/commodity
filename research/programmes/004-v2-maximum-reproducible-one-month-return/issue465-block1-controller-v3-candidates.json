@@ -1,0 +1,6044 @@
+{
+  "candidate_count": 96,
+  "candidate_grid_sha256": "00275de7493afaf840e21b6b05cb3bad5cb31071f5b3eeae7ad2cd33278807c5",
+  "candidates": [
+    {
+      "active_family_cap": 6,
+      "asymmetric": false,
+      "comparable_weight": 0.0,
+      "config_id": "long=balanced|short=balanced|cmp=0|slow=10",
+      "long_policy": {
+        "add_edge_ratio": 1.15,
+        "enter_confidence_floor": 0.4,
+        "enter_support_floor": 0.55,
+        "exit_edge_floor": 0.0,
+        "horizons": [
+          3,
+          5,
+          10
+        ],
+        "max_hold_sessions": 10,
+        "max_vol_ratio": 1.35,
+        "memories": [
+          10,
+          20,
+          40,
+          60
+        ],
+        "profile_id": "balanced",
+        "reduce_edge_ratio": 0.6,
+        "reverse_edge_ratio": 1.25,
+        "size_scale": 1.0,
+        "top_k": 6,
+        "wait_support_floor": 0.4
+      },
+      "short_policy": {
+        "add_edge_ratio": 1.15,
+        "enter_confidence_floor": 0.4,
+        "enter_support_floor": 0.55,
+        "exit_edge_floor": 0.0,
+        "horizons": [
+          3,
+          5,
+          10
+        ],
+        "max_hold_sessions": 10,
+        "max_vol_ratio": 1.35,
+        "memories": [
+          10,
+          20,
+          40,
+          60
+        ],
+        "profile_id": "balanced",
+        "reduce_edge_ratio": 0.6,
+        "reverse_edge_ratio": 1.25,
+        "size_scale": 1.0,
+        "top_k": 6,
+        "wait_support_floor": 0.4
+      },
+      "slow_cadence": 10,
+      "uncertainty_penalty": 0.5
+    },
+    {
+      "active_family_cap": 6,
+      "asymmetric": false,
+      "comparable_weight": 0.0,
+      "config_id": "long=balanced|short=balanced|cmp=0|slow=20",
+      "long_policy": {
+        "add_edge_ratio": 1.15,
+        "enter_confidence_floor": 0.4,
+        "enter_support_floor": 0.55,
+        "exit_edge_floor": 0.0,
+        "horizons": [
+          3,
+          5,
+          10
+        ],
+        "max_hold_sessions": 10,
+        "max_vol_ratio": 1.35,
+        "memories": [
+          10,
+          20,
+          40,
+          60
+        ],
+        "profile_id": "balanced",
+        "reduce_edge_ratio": 0.6,
+        "reverse_edge_ratio": 1.25,
+        "size_scale": 1.0,
+        "top_k": 6,
+        "wait_support_floor": 0.4
+      },
+      "short_policy": {
+        "add_edge_ratio": 1.15,
+        "enter_confidence_floor": 0.4,
+        "enter_support_floor": 0.55,
+        "exit_edge_floor": 0.0,
+        "horizons": [
+          3,
+          5,
+          10
+        ],
+        "max_hold_sessions": 10,
+        "max_vol_ratio": 1.35,
+        "memories": [
+          10,
+          20,
+          40,
+          60
+        ],
+        "profile_id": "balanced",
+        "reduce_edge_ratio": 0.6,
+        "reverse_edge_ratio": 1.25,
+        "size_scale": 1.0,
+        "top_k": 6,
+        "wait_support_floor": 0.4
+      },
+      "slow_cadence": 20,
+      "uncertainty_penalty": 0.5
+    },
+    {
+      "active_family_cap": 6,
+      "asymmetric": false,
+      "comparable_weight": 0.25,
+      "config_id": "long=balanced|short=balanced|cmp=0.25|slow=10",
+      "long_policy": {
+        "add_edge_ratio": 1.15,
+        "enter_confidence_floor": 0.4,
+        "enter_support_floor": 0.55,
+        "exit_edge_floor": 0.0,
+        "horizons": [
+          3,
+          5,
+          10
+        ],
+        "max_hold_sessions": 10,
+        "max_vol_ratio": 1.35,
+        "memories": [
+          10,
+          20,
+          40,
+          60
+        ],
+        "profile_id": "balanced",
+        "reduce_edge_ratio": 0.6,
+        "reverse_edge_ratio": 1.25,
+        "size_scale": 1.0,
+        "top_k": 6,
+        "wait_support_floor": 0.4
+      },
+      "short_policy": {
+        "add_edge_ratio": 1.15,
+        "enter_confidence_floor": 0.4,
+        "enter_support_floor": 0.55,
+        "exit_edge_floor": 0.0,
+        "horizons": [
+          3,
+          5,
+          10
+        ],
+        "max_hold_sessions": 10,
+        "max_vol_ratio": 1.35,
+        "memories": [
+          10,
+          20,
+          40,
+          60
+        ],
+        "profile_id": "balanced",
+        "reduce_edge_ratio": 0.6,
+        "reverse_edge_ratio": 1.25,
+        "size_scale": 1.0,
+        "top_k": 6,
+        "wait_support_floor": 0.4
+      },
+      "slow_cadence": 10,
+      "uncertainty_penalty": 0.5
+    },
+    {
+      "active_family_cap": 6,
+      "asymmetric": false,
+      "comparable_weight": 0.25,
+      "config_id": "long=balanced|short=balanced|cmp=0.25|slow=20",
+      "long_policy": {
+        "add_edge_ratio": 1.15,
+        "enter_confidence_floor": 0.4,
+        "enter_support_floor": 0.55,
+        "exit_edge_floor": 0.0,
+        "horizons": [
+          3,
+          5,
+          10
+        ],
+        "max_hold_sessions": 10,
+        "max_vol_ratio": 1.35,
+        "memories": [
+          10,
+          20,
+          40,
+          60
+        ],
+        "profile_id": "balanced",
+        "reduce_edge_ratio": 0.6,
+        "reverse_edge_ratio": 1.25,
+        "size_scale": 1.0,
+        "top_k": 6,
+        "wait_support_floor": 0.4
+      },
+      "short_policy": {
+        "add_edge_ratio": 1.15,
+        "enter_confidence_floor": 0.4,
+        "enter_support_floor": 0.55,
+        "exit_edge_floor": 0.0,
+        "horizons": [
+          3,
+          5,
+          10
+        ],
+        "max_hold_sessions": 10,
+        "max_vol_ratio": 1.35,
+        "memories": [
+          10,
+          20,
+          40,
+          60
+        ],
+        "profile_id": "balanced",
+        "reduce_edge_ratio": 0.6,
+        "reverse_edge_ratio": 1.25,
+        "size_scale": 1.0,
+        "top_k": 6,
+        "wait_support_floor": 0.4
+      },
+      "slow_cadence": 20,
+      "uncertainty_penalty": 0.5
+    },
+    {
+      "active_family_cap": 6,
+      "asymmetric": false,
+      "comparable_weight": 0.5,
+      "config_id": "long=balanced|short=balanced|cmp=0.5|slow=10",
+      "long_policy": {
+        "add_edge_ratio": 1.15,
+        "enter_confidence_floor": 0.4,
+        "enter_support_floor": 0.55,
+        "exit_edge_floor": 0.0,
+        "horizons": [
+          3,
+          5,
+          10
+        ],
+        "max_hold_sessions": 10,
+        "max_vol_ratio": 1.35,
+        "memories": [
+          10,
+          20,
+          40,
+          60
+        ],
+        "profile_id": "balanced",
+        "reduce_edge_ratio": 0.6,
+        "reverse_edge_ratio": 1.25,
+        "size_scale": 1.0,
+        "top_k": 6,
+        "wait_support_floor": 0.4
+      },
+      "short_policy": {
+        "add_edge_ratio": 1.15,
+        "enter_confidence_floor": 0.4,
+        "enter_support_floor": 0.55,
+        "exit_edge_floor": 0.0,
+        "horizons": [
+          3,
+          5,
+          10
+        ],
+        "max_hold_sessions": 10,
+        "max_vol_ratio": 1.35,
+        "memories": [
+          10,
+          20,
+          40,
+          60
+        ],
+        "profile_id": "balanced",
+        "reduce_edge_ratio": 0.6,
+        "reverse_edge_ratio": 1.25,
+        "size_scale": 1.0,
+        "top_k": 6,
+        "wait_support_floor": 0.4
+      },
+      "slow_cadence": 10,
+      "uncertainty_penalty": 0.5
+    },
+    {
+      "active_family_cap": 6,
+      "asymmetric": false,
+      "comparable_weight": 0.5,
+      "config_id": "long=balanced|short=balanced|cmp=0.5|slow=20",
+      "long_policy": {
+        "add_edge_ratio": 1.15,
+        "enter_confidence_floor": 0.4,
+        "enter_support_floor": 0.55,
+        "exit_edge_floor": 0.0,
+        "horizons": [
+          3,
+          5,
+          10
+        ],
+        "max_hold_sessions": 10,
+        "max_vol_ratio": 1.35,
+        "memories": [
+          10,
+          20,
+          40,
+          60
+        ],
+        "profile_id": "balanced",
+        "reduce_edge_ratio": 0.6,
+        "reverse_edge_ratio": 1.25,
+        "size_scale": 1.0,
+        "top_k": 6,
+        "wait_support_floor": 0.4
+      },
+      "short_policy": {
+        "add_edge_ratio": 1.15,
+        "enter_confidence_floor": 0.4,
+        "enter_support_floor": 0.55,
+        "exit_edge_floor": 0.0,
+        "horizons": [
+          3,
+          5,
+          10
+        ],
+        "max_hold_sessions": 10,
+        "max_vol_ratio": 1.35,
+        "memories": [
+          10,
+          20,
+          40,
+          60
+        ],
+        "profile_id": "balanced",
+        "reduce_edge_ratio": 0.6,
+        "reverse_edge_ratio": 1.25,
+        "size_scale": 1.0,
+        "top_k": 6,
+        "wait_support_floor": 0.4
+      },
+      "slow_cadence": 20,
+      "uncertainty_penalty": 0.5
+    },
+    {
+      "active_family_cap": 6,
+      "asymmetric": true,
+      "comparable_weight": 0.0,
+      "config_id": "long=balanced|short=broad|cmp=0|slow=10",
+      "long_policy": {
+        "add_edge_ratio": 1.15,
+        "enter_confidence_floor": 0.4,
+        "enter_support_floor": 0.55,
+        "exit_edge_floor": 0.0,
+        "horizons": [
+          3,
+          5,
+          10
+        ],
+        "max_hold_sessions": 10,
+        "max_vol_ratio": 1.35,
+        "memories": [
+          10,
+          20,
+          40,
+          60
+        ],
+        "profile_id": "balanced",
+        "reduce_edge_ratio": 0.6,
+        "reverse_edge_ratio": 1.25,
+        "size_scale": 1.0,
+        "top_k": 6,
+        "wait_support_floor": 0.4
+      },
+      "short_policy": {
+        "add_edge_ratio": 1.1,
+        "enter_confidence_floor": 0.35,
+        "enter_support_floor": 0.5,
+        "exit_edge_floor": 0.0,
+        "horizons": [
+          1,
+          3,
+          5,
+          10,
+          20
+        ],
+        "max_hold_sessions": 20,
+        "max_vol_ratio": 1.5,
+        "memories": [
+          5,
+          10,
+          20,
+          40,
+          60,
+          126,
+          252,
+          "expanding"
+        ],
+        "profile_id": "broad",
+        "reduce_edge_ratio": 0.5,
+        "reverse_edge_ratio": 1.15,
+        "size_scale": 1.0,
+        "top_k": 8,
+        "wait_support_floor": 0.35
+      },
+      "slow_cadence": 10,
+      "uncertainty_penalty": 0.5
+    },
+    {
+      "active_family_cap": 6,
+      "asymmetric": true,
+      "comparable_weight": 0.0,
+      "config_id": "long=balanced|short=broad|cmp=0|slow=20",
+      "long_policy": {
+        "add_edge_ratio": 1.15,
+        "enter_confidence_floor": 0.4,
+        "enter_support_floor": 0.55,
+        "exit_edge_floor": 0.0,
+        "horizons": [
+          3,
+          5,
+          10
+        ],
+        "max_hold_sessions": 10,
+        "max_vol_ratio": 1.35,
+        "memories": [
+          10,
+          20,
+          40,
+          60
+        ],
+        "profile_id": "balanced",
+        "reduce_edge_ratio": 0.6,
+        "reverse_edge_ratio": 1.25,
+        "size_scale": 1.0,
+        "top_k": 6,
+        "wait_support_floor": 0.4
+      },
+      "short_policy": {
+        "add_edge_ratio": 1.1,
+        "enter_confidence_floor": 0.35,
+        "enter_support_floor": 0.5,
+        "exit_edge_floor": 0.0,
+        "horizons": [
+          1,
+          3,
+          5,
+          10,
+          20
+        ],
+        "max_hold_sessions": 20,
+        "max_vol_ratio": 1.5,
+        "memories": [
+          5,
+          10,
+          20,
+          40,
+          60,
+          126,
+          252,
+          "expanding"
+        ],
+        "profile_id": "broad",
+        "reduce_edge_ratio": 0.5,
+        "reverse_edge_ratio": 1.15,
+        "size_scale": 1.0,
+        "top_k": 8,
+        "wait_support_floor": 0.35
+      },
+      "slow_cadence": 20,
+      "uncertainty_penalty": 0.5
+    },
+    {
+      "active_family_cap": 6,
+      "asymmetric": true,
+      "comparable_weight": 0.25,
+      "config_id": "long=balanced|short=broad|cmp=0.25|slow=10",
+      "long_policy": {
+        "add_edge_ratio": 1.15,
+        "enter_confidence_floor": 0.4,
+        "enter_support_floor": 0.55,
+        "exit_edge_floor": 0.0,
+        "horizons": [
+          3,
+          5,
+          10
+        ],
+        "max_hold_sessions": 10,
+        "max_vol_ratio": 1.35,
+        "memories": [
+          10,
+          20,
+          40,
+          60
+        ],
+        "profile_id": "balanced",
+        "reduce_edge_ratio": 0.6,
+        "reverse_edge_ratio": 1.25,
+        "size_scale": 1.0,
+        "top_k": 6,
+        "wait_support_floor": 0.4
+      },
+      "short_policy": {
+        "add_edge_ratio": 1.1,
+        "enter_confidence_floor": 0.35,
+        "enter_support_floor": 0.5,
+        "exit_edge_floor": 0.0,
+        "horizons": [
+          1,
+          3,
+          5,
+          10,
+          20
+        ],
+        "max_hold_sessions": 20,
+        "max_vol_ratio": 1.5,
+        "memories": [
+          5,
+          10,
+          20,
+          40,
+          60,
+          126,
+          252,
+          "expanding"
+        ],
+        "profile_id": "broad",
+        "reduce_edge_ratio": 0.5,
+        "reverse_edge_ratio": 1.15,
+        "size_scale": 1.0,
+        "top_k": 8,
+        "wait_support_floor": 0.35
+      },
+      "slow_cadence": 10,
+      "uncertainty_penalty": 0.5
+    },
+    {
+      "active_family_cap": 6,
+      "asymmetric": true,
+      "comparable_weight": 0.25,
+      "config_id": "long=balanced|short=broad|cmp=0.25|slow=20",
+      "long_policy": {
+        "add_edge_ratio": 1.15,
+        "enter_confidence_floor": 0.4,
+        "enter_support_floor": 0.55,
+        "exit_edge_floor": 0.0,
+        "horizons": [
+          3,
+          5,
+          10
+        ],
+        "max_hold_sessions": 10,
+        "max_vol_ratio": 1.35,
+        "memories": [
+          10,
+          20,
+          40,
+          60
+        ],
+        "profile_id": "balanced",
+        "reduce_edge_ratio": 0.6,
+        "reverse_edge_ratio": 1.25,
+        "size_scale": 1.0,
+        "top_k": 6,
+        "wait_support_floor": 0.4
+      },
+      "short_policy": {
+        "add_edge_ratio": 1.1,
+        "enter_confidence_floor": 0.35,
+        "enter_support_floor": 0.5,
+        "exit_edge_floor": 0.0,
+        "horizons": [
+          1,
+          3,
+          5,
+          10,
+          20
+        ],
+        "max_hold_sessions": 20,
+        "max_vol_ratio": 1.5,
+        "memories": [
+          5,
+          10,
+          20,
+          40,
+          60,
+          126,
+          252,
+          "expanding"
+        ],
+        "profile_id": "broad",
+        "reduce_edge_ratio": 0.5,
+        "reverse_edge_ratio": 1.15,
+        "size_scale": 1.0,
+        "top_k": 8,
+        "wait_support_floor": 0.35
+      },
+      "slow_cadence": 20,
+      "uncertainty_penalty": 0.5
+    },
+    {
+      "active_family_cap": 6,
+      "asymmetric": true,
+      "comparable_weight": 0.5,
+      "config_id": "long=balanced|short=broad|cmp=0.5|slow=10",
+      "long_policy": {
+        "add_edge_ratio": 1.15,
+        "enter_confidence_floor": 0.4,
+        "enter_support_floor": 0.55,
+        "exit_edge_floor": 0.0,
+        "horizons": [
+          3,
+          5,
+          10
+        ],
+        "max_hold_sessions": 10,
+        "max_vol_ratio": 1.35,
+        "memories": [
+          10,
+          20,
+          40,
+          60
+        ],
+        "profile_id": "balanced",
+        "reduce_edge_ratio": 0.6,
+        "reverse_edge_ratio": 1.25,
+        "size_scale": 1.0,
+        "top_k": 6,
+        "wait_support_floor": 0.4
+      },
+      "short_policy": {
+        "add_edge_ratio": 1.1,
+        "enter_confidence_floor": 0.35,
+        "enter_support_floor": 0.5,
+        "exit_edge_floor": 0.0,
+        "horizons": [
+          1,
+          3,
+          5,
+          10,
+          20
+        ],
+        "max_hold_sessions": 20,
+        "max_vol_ratio": 1.5,
+        "memories": [
+          5,
+          10,
+          20,
+          40,
+          60,
+          126,
+          252,
+          "expanding"
+        ],
+        "profile_id": "broad",
+        "reduce_edge_ratio": 0.5,
+        "reverse_edge_ratio": 1.15,
+        "size_scale": 1.0,
+        "top_k": 8,
+        "wait_support_floor": 0.35
+      },
+      "slow_cadence": 10,
+      "uncertainty_penalty": 0.5
+    },
+    {
+      "active_family_cap": 6,
+      "asymmetric": true,
+      "comparable_weight": 0.5,
+      "config_id": "long=balanced|short=broad|cmp=0.5|slow=20",
+      "long_policy": {
+        "add_edge_ratio": 1.15,
+        "enter_confidence_floor": 0.4,
+        "enter_support_floor": 0.55,
+        "exit_edge_floor": 0.0,
+        "horizons": [
+          3,
+          5,
+          10
+        ],
+        "max_hold_sessions": 10,
+        "max_vol_ratio": 1.35,
+        "memories": [
+          10,
+          20,
+          40,
+          60
+        ],
+        "profile_id": "balanced",
+        "reduce_edge_ratio": 0.6,
+        "reverse_edge_ratio": 1.25,
+        "size_scale": 1.0,
+        "top_k": 6,
+        "wait_support_floor": 0.4
+      },
+      "short_policy": {
+        "add_edge_ratio": 1.1,
+        "enter_confidence_floor": 0.35,
+        "enter_support_floor": 0.5,
+        "exit_edge_floor": 0.0,
+        "horizons": [
+          1,
+          3,
+          5,
+          10,
+          20
+        ],
+        "max_hold_sessions": 20,
+        "max_vol_ratio": 1.5,
+        "memories": [
+          5,
+          10,
+          20,
+          40,
+          60,
+          126,
+          252,
+          "expanding"
+        ],
+        "profile_id": "broad",
+        "reduce_edge_ratio": 0.5,
+        "reverse_edge_ratio": 1.15,
+        "size_scale": 1.0,
+        "top_k": 8,
+        "wait_support_floor": 0.35
+      },
+      "slow_cadence": 20,
+      "uncertainty_penalty": 0.5
+    },
+    {
+      "active_family_cap": 6,
+      "asymmetric": true,
+      "comparable_weight": 0.0,
+      "config_id": "long=balanced|short=fast|cmp=0|slow=10",
+      "long_policy": {
+        "add_edge_ratio": 1.15,
+        "enter_confidence_floor": 0.4,
+        "enter_support_floor": 0.55,
+        "exit_edge_floor": 0.0,
+        "horizons": [
+          3,
+          5,
+          10
+        ],
+        "max_hold_sessions": 10,
+        "max_vol_ratio": 1.35,
+        "memories": [
+          10,
+          20,
+          40,
+          60
+        ],
+        "profile_id": "balanced",
+        "reduce_edge_ratio": 0.6,
+        "reverse_edge_ratio": 1.25,
+        "size_scale": 1.0,
+        "top_k": 6,
+        "wait_support_floor": 0.4
+      },
+      "short_policy": {
+        "add_edge_ratio": 1.1,
+        "enter_confidence_floor": 0.35,
+        "enter_support_floor": 0.55,
+        "exit_edge_floor": 0.0,
+        "horizons": [
+          1,
+          3,
+          5
+        ],
+        "max_hold_sessions": 5,
+        "max_vol_ratio": 1.5,
+        "memories": [
+          5,
+          10,
+          20
+        ],
+        "profile_id": "fast",
+        "reduce_edge_ratio": 0.55,
+        "reverse_edge_ratio": 1.2,
+        "size_scale": 1.0,
+        "top_k": 4,
+        "wait_support_floor": 0.35
+      },
+      "slow_cadence": 10,
+      "uncertainty_penalty": 0.5
+    },
+    {
+      "active_family_cap": 6,
+      "asymmetric": true,
+      "comparable_weight": 0.0,
+      "config_id": "long=balanced|short=fast|cmp=0|slow=20",
+      "long_policy": {
+        "add_edge_ratio": 1.15,
+        "enter_confidence_floor": 0.4,
+        "enter_support_floor": 0.55,
+        "exit_edge_floor": 0.0,
+        "horizons": [
+          3,
+          5,
+          10
+        ],
+        "max_hold_sessions": 10,
+        "max_vol_ratio": 1.35,
+        "memories": [
+          10,
+          20,
+          40,
+          60
+        ],
+        "profile_id": "balanced",
+        "reduce_edge_ratio": 0.6,
+        "reverse_edge_ratio": 1.25,
+        "size_scale": 1.0,
+        "top_k": 6,
+        "wait_support_floor": 0.4
+      },
+      "short_policy": {
+        "add_edge_ratio": 1.1,
+        "enter_confidence_floor": 0.35,
+        "enter_support_floor": 0.55,
+        "exit_edge_floor": 0.0,
+        "horizons": [
+          1,
+          3,
+          5
+        ],
+        "max_hold_sessions": 5,
+        "max_vol_ratio": 1.5,
+        "memories": [
+          5,
+          10,
+          20
+        ],
+        "profile_id": "fast",
+        "reduce_edge_ratio": 0.55,
+        "reverse_edge_ratio": 1.2,
+        "size_scale": 1.0,
+        "top_k": 4,
+        "wait_support_floor": 0.35
+      },
+      "slow_cadence": 20,
+      "uncertainty_penalty": 0.5
+    },
+    {
+      "active_family_cap": 6,
+      "asymmetric": true,
+      "comparable_weight": 0.25,
+      "config_id": "long=balanced|short=fast|cmp=0.25|slow=10",
+      "long_policy": {
+        "add_edge_ratio": 1.15,
+        "enter_confidence_floor": 0.4,
+        "enter_support_floor": 0.55,
+        "exit_edge_floor": 0.0,
+        "horizons": [
+          3,
+          5,
+          10
+        ],
+        "max_hold_sessions": 10,
+        "max_vol_ratio": 1.35,
+        "memories": [
+          10,
+          20,
+          40,
+          60
+        ],
+        "profile_id": "balanced",
+        "reduce_edge_ratio": 0.6,
+        "reverse_edge_ratio": 1.25,
+        "size_scale": 1.0,
+        "top_k": 6,
+        "wait_support_floor": 0.4
+      },
+      "short_policy": {
+        "add_edge_ratio": 1.1,
+        "enter_confidence_floor": 0.35,
+        "enter_support_floor": 0.55,
+        "exit_edge_floor": 0.0,
+        "horizons": [
+          1,
+          3,
+          5
+        ],
+        "max_hold_sessions": 5,
+        "max_vol_ratio": 1.5,
+        "memories": [
+          5,
+          10,
+          20
+        ],
+        "profile_id": "fast",
+        "reduce_edge_ratio": 0.55,
+        "reverse_edge_ratio": 1.2,
+        "size_scale": 1.0,
+        "top_k": 4,
+        "wait_support_floor": 0.35
+      },
+      "slow_cadence": 10,
+      "uncertainty_penalty": 0.5
+    },
+    {
+      "active_family_cap": 6,
+      "asymmetric": true,
+      "comparable_weight": 0.25,
+      "config_id": "long=balanced|short=fast|cmp=0.25|slow=20",
+      "long_policy": {
+        "add_edge_ratio": 1.15,
+        "enter_confidence_floor": 0.4,
+        "enter_support_floor": 0.55,
+        "exit_edge_floor": 0.0,
+        "horizons": [
+          3,
+          5,
+          10
+        ],
+        "max_hold_sessions": 10,
+        "max_vol_ratio": 1.35,
+        "memories": [
+          10,
+          20,
+          40,
+          60
+        ],
+        "profile_id": "balanced",
+        "reduce_edge_ratio": 0.6,
+        "reverse_edge_ratio": 1.25,
+        "size_scale": 1.0,
+        "top_k": 6,
+        "wait_support_floor": 0.4
+      },
+      "short_policy": {
+        "add_edge_ratio": 1.1,
+        "enter_confidence_floor": 0.35,
+        "enter_support_floor": 0.55,
+        "exit_edge_floor": 0.0,
+        "horizons": [
+          1,
+          3,
+          5
+        ],
+        "max_hold_sessions": 5,
+        "max_vol_ratio": 1.5,
+        "memories": [
+          5,
+          10,
+          20
+        ],
+        "profile_id": "fast",
+        "reduce_edge_ratio": 0.55,
+        "reverse_edge_ratio": 1.2,
+        "size_scale": 1.0,
+        "top_k": 4,
+        "wait_support_floor": 0.35
+      },
+      "slow_cadence": 20,
+      "uncertainty_penalty": 0.5
+    },
+    {
+      "active_family_cap": 6,
+      "asymmetric": true,
+      "comparable_weight": 0.5,
+      "config_id": "long=balanced|short=fast|cmp=0.5|slow=10",
+      "long_policy": {
+        "add_edge_ratio": 1.15,
+        "enter_confidence_floor": 0.4,
+        "enter_support_floor": 0.55,
+        "exit_edge_floor": 0.0,
+        "horizons": [
+          3,
+          5,
+          10
+        ],
+        "max_hold_sessions": 10,
+        "max_vol_ratio": 1.35,
+        "memories": [
+          10,
+          20,
+          40,
+          60
+        ],
+        "profile_id": "balanced",
+        "reduce_edge_ratio": 0.6,
+        "reverse_edge_ratio": 1.25,
+        "size_scale": 1.0,
+        "top_k": 6,
+        "wait_support_floor": 0.4
+      },
+      "short_policy": {
+        "add_edge_ratio": 1.1,
+        "enter_confidence_floor": 0.35,
+        "enter_support_floor": 0.55,
+        "exit_edge_floor": 0.0,
+        "horizons": [
+          1,
+          3,
+          5
+        ],
+        "max_hold_sessions": 5,
+        "max_vol_ratio": 1.5,
+        "memories": [
+          5,
+          10,
+          20
+        ],
+        "profile_id": "fast",
+        "reduce_edge_ratio": 0.55,
+        "reverse_edge_ratio": 1.2,
+        "size_scale": 1.0,
+        "top_k": 4,
+        "wait_support_floor": 0.35
+      },
+      "slow_cadence": 10,
+      "uncertainty_penalty": 0.5
+    },
+    {
+      "active_family_cap": 6,
+      "asymmetric": true,
+      "comparable_weight": 0.5,
+      "config_id": "long=balanced|short=fast|cmp=0.5|slow=20",
+      "long_policy": {
+        "add_edge_ratio": 1.15,
+        "enter_confidence_floor": 0.4,
+        "enter_support_floor": 0.55,
+        "exit_edge_floor": 0.0,
+        "horizons": [
+          3,
+          5,
+          10
+        ],
+        "max_hold_sessions": 10,
+        "max_vol_ratio": 1.35,
+        "memories": [
+          10,
+          20,
+          40,
+          60
+        ],
+        "profile_id": "balanced",
+        "reduce_edge_ratio": 0.6,
+        "reverse_edge_ratio": 1.25,
+        "size_scale": 1.0,
+        "top_k": 6,
+        "wait_support_floor": 0.4
+      },
+      "short_policy": {
+        "add_edge_ratio": 1.1,
+        "enter_confidence_floor": 0.35,
+        "enter_support_floor": 0.55,
+        "exit_edge_floor": 0.0,
+        "horizons": [
+          1,
+          3,
+          5
+        ],
+        "max_hold_sessions": 5,
+        "max_vol_ratio": 1.5,
+        "memories": [
+          5,
+          10,
+          20
+        ],
+        "profile_id": "fast",
+        "reduce_edge_ratio": 0.55,
+        "reverse_edge_ratio": 1.2,
+        "size_scale": 1.0,
+        "top_k": 4,
+        "wait_support_floor": 0.35
+      },
+      "slow_cadence": 20,
+      "uncertainty_penalty": 0.5
+    },
+    {
+      "active_family_cap": 6,
+      "asymmetric": true,
+      "comparable_weight": 0.0,
+      "config_id": "long=balanced|short=slow|cmp=0|slow=10",
+      "long_policy": {
+        "add_edge_ratio": 1.15,
+        "enter_confidence_floor": 0.4,
+        "enter_support_floor": 0.55,
+        "exit_edge_floor": 0.0,
+        "horizons": [
+          3,
+          5,
+          10
+        ],
+        "max_hold_sessions": 10,
+        "max_vol_ratio": 1.35,
+        "memories": [
+          10,
+          20,
+          40,
+          60
+        ],
+        "profile_id": "balanced",
+        "reduce_edge_ratio": 0.6,
+        "reverse_edge_ratio": 1.25,
+        "size_scale": 1.0,
+        "top_k": 6,
+        "wait_support_floor": 0.4
+      },
+      "short_policy": {
+        "add_edge_ratio": 1.2,
+        "enter_confidence_floor": 0.45,
+        "enter_support_floor": 0.6,
+        "exit_edge_floor": 0.0,
+        "horizons": [
+          10,
+          20
+        ],
+        "max_hold_sessions": 20,
+        "max_vol_ratio": 1.2,
+        "memories": [
+          40,
+          60,
+          126,
+          252,
+          "expanding"
+        ],
+        "profile_id": "slow",
+        "reduce_edge_ratio": 0.65,
+        "reverse_edge_ratio": 1.3,
+        "size_scale": 0.75,
+        "top_k": 4,
+        "wait_support_floor": 0.45
+      },
+      "slow_cadence": 10,
+      "uncertainty_penalty": 0.5
+    },
+    {
+      "active_family_cap": 6,
+      "asymmetric": true,
+      "comparable_weight": 0.0,
+      "config_id": "long=balanced|short=slow|cmp=0|slow=20",
+      "long_policy": {
+        "add_edge_ratio": 1.15,
+        "enter_confidence_floor": 0.4,
+        "enter_support_floor": 0.55,
+        "exit_edge_floor": 0.0,
+        "horizons": [
+          3,
+          5,
+          10
+        ],
+        "max_hold_sessions": 10,
+        "max_vol_ratio": 1.35,
+        "memories": [
+          10,
+          20,
+          40,
+          60
+        ],
+        "profile_id": "balanced",
+        "reduce_edge_ratio": 0.6,
+        "reverse_edge_ratio": 1.25,
+        "size_scale": 1.0,
+        "top_k": 6,
+        "wait_support_floor": 0.4
+      },
+      "short_policy": {
+        "add_edge_ratio": 1.2,
+        "enter_confidence_floor": 0.45,
+        "enter_support_floor": 0.6,
+        "exit_edge_floor": 0.0,
+        "horizons": [
+          10,
+          20
+        ],
+        "max_hold_sessions": 20,
+        "max_vol_ratio": 1.2,
+        "memories": [
+          40,
+          60,
+          126,
+          252,
+          "expanding"
+        ],
+        "profile_id": "slow",
+        "reduce_edge_ratio": 0.65,
+        "reverse_edge_ratio": 1.3,
+        "size_scale": 0.75,
+        "top_k": 4,
+        "wait_support_floor": 0.45
+      },
+      "slow_cadence": 20,
+      "uncertainty_penalty": 0.5
+    },
+    {
+      "active_family_cap": 6,
+      "asymmetric": true,
+      "comparable_weight": 0.25,
+      "config_id": "long=balanced|short=slow|cmp=0.25|slow=10",
+      "long_policy": {
+        "add_edge_ratio": 1.15,
+        "enter_confidence_floor": 0.4,
+        "enter_support_floor": 0.55,
+        "exit_edge_floor": 0.0,
+        "horizons": [
+          3,
+          5,
+          10
+        ],
+        "max_hold_sessions": 10,
+        "max_vol_ratio": 1.35,
+        "memories": [
+          10,
+          20,
+          40,
+          60
+        ],
+        "profile_id": "balanced",
+        "reduce_edge_ratio": 0.6,
+        "reverse_edge_ratio": 1.25,
+        "size_scale": 1.0,
+        "top_k": 6,
+        "wait_support_floor": 0.4
+      },
+      "short_policy": {
+        "add_edge_ratio": 1.2,
+        "enter_confidence_floor": 0.45,
+        "enter_support_floor": 0.6,
+        "exit_edge_floor": 0.0,
+        "horizons": [
+          10,
+          20
+        ],
+        "max_hold_sessions": 20,
+        "max_vol_ratio": 1.2,
+        "memories": [
+          40,
+          60,
+          126,
+          252,
+          "expanding"
+        ],
+        "profile_id": "slow",
+        "reduce_edge_ratio": 0.65,
+        "reverse_edge_ratio": 1.3,
+        "size_scale": 0.75,
+        "top_k": 4,
+        "wait_support_floor": 0.45
+      },
+      "slow_cadence": 10,
+      "uncertainty_penalty": 0.5
+    },
+    {
+      "active_family_cap": 6,
+      "asymmetric": true,
+      "comparable_weight": 0.25,
+      "config_id": "long=balanced|short=slow|cmp=0.25|slow=20",
+      "long_policy": {
+        "add_edge_ratio": 1.15,
+        "enter_confidence_floor": 0.4,
+        "enter_support_floor": 0.55,
+        "exit_edge_floor": 0.0,
+        "horizons": [
+          3,
+          5,
+          10
+        ],
+        "max_hold_sessions": 10,
+        "max_vol_ratio": 1.35,
+        "memories": [
+          10,
+          20,
+          40,
+          60
+        ],
+        "profile_id": "balanced",
+        "reduce_edge_ratio": 0.6,
+        "reverse_edge_ratio": 1.25,
+        "size_scale": 1.0,
+        "top_k": 6,
+        "wait_support_floor": 0.4
+      },
+      "short_policy": {
+        "add_edge_ratio": 1.2,
+        "enter_confidence_floor": 0.45,
+        "enter_support_floor": 0.6,
+        "exit_edge_floor": 0.0,
+        "horizons": [
+          10,
+          20
+        ],
+        "max_hold_sessions": 20,
+        "max_vol_ratio": 1.2,
+        "memories": [
+          40,
+          60,
+          126,
+          252,
+          "expanding"
+        ],
+        "profile_id": "slow",
+        "reduce_edge_ratio": 0.65,
+        "reverse_edge_ratio": 1.3,
+        "size_scale": 0.75,
+        "top_k": 4,
+        "wait_support_floor": 0.45
+      },
+      "slow_cadence": 20,
+      "uncertainty_penalty": 0.5
+    },
+    {
+      "active_family_cap": 6,
+      "asymmetric": true,
+      "comparable_weight": 0.5,
+      "config_id": "long=balanced|short=slow|cmp=0.5|slow=10",
+      "long_policy": {
+        "add_edge_ratio": 1.15,
+        "enter_confidence_floor": 0.4,
+        "enter_support_floor": 0.55,
+        "exit_edge_floor": 0.0,
+        "horizons": [
+          3,
+          5,
+          10
+        ],
+        "max_hold_sessions": 10,
+        "max_vol_ratio": 1.35,
+        "memories": [
+          10,
+          20,
+          40,
+          60
+        ],
+        "profile_id": "balanced",
+        "reduce_edge_ratio": 0.6,
+        "reverse_edge_ratio": 1.25,
+        "size_scale": 1.0,
+        "top_k": 6,
+        "wait_support_floor": 0.4
+      },
+      "short_policy": {
+        "add_edge_ratio": 1.2,
+        "enter_confidence_floor": 0.45,
+        "enter_support_floor": 0.6,
+        "exit_edge_floor": 0.0,
+        "horizons": [
+          10,
+          20
+        ],
+        "max_hold_sessions": 20,
+        "max_vol_ratio": 1.2,
+        "memories": [
+          40,
+          60,
+          126,
+          252,
+          "expanding"
+        ],
+        "profile_id": "slow",
+        "reduce_edge_ratio": 0.65,
+        "reverse_edge_ratio": 1.3,
+        "size_scale": 0.75,
+        "top_k": 4,
+        "wait_support_floor": 0.45
+      },
+      "slow_cadence": 10,
+      "uncertainty_penalty": 0.5
+    },
+    {
+      "active_family_cap": 6,
+      "asymmetric": true,
+      "comparable_weight": 0.5,
+      "config_id": "long=balanced|short=slow|cmp=0.5|slow=20",
+      "long_policy": {
+        "add_edge_ratio": 1.15,
+        "enter_confidence_floor": 0.4,
+        "enter_support_floor": 0.55,
+        "exit_edge_floor": 0.0,
+        "horizons": [
+          3,
+          5,
+          10
+        ],
+        "max_hold_sessions": 10,
+        "max_vol_ratio": 1.35,
+        "memories": [
+          10,
+          20,
+          40,
+          60
+        ],
+        "profile_id": "balanced",
+        "reduce_edge_ratio": 0.6,
+        "reverse_edge_ratio": 1.25,
+        "size_scale": 1.0,
+        "top_k": 6,
+        "wait_support_floor": 0.4
+      },
+      "short_policy": {
+        "add_edge_ratio": 1.2,
+        "enter_confidence_floor": 0.45,
+        "enter_support_floor": 0.6,
+        "exit_edge_floor": 0.0,
+        "horizons": [
+          10,
+          20
+        ],
+        "max_hold_sessions": 20,
+        "max_vol_ratio": 1.2,
+        "memories": [
+          40,
+          60,
+          126,
+          252,
+          "expanding"
+        ],
+        "profile_id": "slow",
+        "reduce_edge_ratio": 0.65,
+        "reverse_edge_ratio": 1.3,
+        "size_scale": 0.75,
+        "top_k": 4,
+        "wait_support_floor": 0.45
+      },
+      "slow_cadence": 20,
+      "uncertainty_penalty": 0.5
+    },
+    {
+      "active_family_cap": 6,
+      "asymmetric": true,
+      "comparable_weight": 0.0,
+      "config_id": "long=broad|short=balanced|cmp=0|slow=10",
+      "long_policy": {
+        "add_edge_ratio": 1.1,
+        "enter_confidence_floor": 0.35,
+        "enter_support_floor": 0.5,
+        "exit_edge_floor": 0.0,
+        "horizons": [
+          1,
+          3,
+          5,
+          10,
+          20
+        ],
+        "max_hold_sessions": 20,
+        "max_vol_ratio": 1.5,
+        "memories": [
+          5,
+          10,
+          20,
+          40,
+          60,
+          126,
+          252,
+          "expanding"
+        ],
+        "profile_id": "broad",
+        "reduce_edge_ratio": 0.5,
+        "reverse_edge_ratio": 1.15,
+        "size_scale": 1.0,
+        "top_k": 8,
+        "wait_support_floor": 0.35
+      },
+      "short_policy": {
+        "add_edge_ratio": 1.15,
+        "enter_confidence_floor": 0.4,
+        "enter_support_floor": 0.55,
+        "exit_edge_floor": 0.0,
+        "horizons": [
+          3,
+          5,
+          10
+        ],
+        "max_hold_sessions": 10,
+        "max_vol_ratio": 1.35,
+        "memories": [
+          10,
+          20,
+          40,
+          60
+        ],
+        "profile_id": "balanced",
+        "reduce_edge_ratio": 0.6,
+        "reverse_edge_ratio": 1.25,
+        "size_scale": 1.0,
+        "top_k": 6,
+        "wait_support_floor": 0.4
+      },
+      "slow_cadence": 10,
+      "uncertainty_penalty": 0.5
+    },
+    {
+      "active_family_cap": 6,
+      "asymmetric": true,
+      "comparable_weight": 0.0,
+      "config_id": "long=broad|short=balanced|cmp=0|slow=20",
+      "long_policy": {
+        "add_edge_ratio": 1.1,
+        "enter_confidence_floor": 0.35,
+        "enter_support_floor": 0.5,
+        "exit_edge_floor": 0.0,
+        "horizons": [
+          1,
+          3,
+          5,
+          10,
+          20
+        ],
+        "max_hold_sessions": 20,
+        "max_vol_ratio": 1.5,
+        "memories": [
+          5,
+          10,
+          20,
+          40,
+          60,
+          126,
+          252,
+          "expanding"
+        ],
+        "profile_id": "broad",
+        "reduce_edge_ratio": 0.5,
+        "reverse_edge_ratio": 1.15,
+        "size_scale": 1.0,
+        "top_k": 8,
+        "wait_support_floor": 0.35
+      },
+      "short_policy": {
+        "add_edge_ratio": 1.15,
+        "enter_confidence_floor": 0.4,
+        "enter_support_floor": 0.55,
+        "exit_edge_floor": 0.0,
+        "horizons": [
+          3,
+          5,
+          10
+        ],
+        "max_hold_sessions": 10,
+        "max_vol_ratio": 1.35,
+        "memories": [
+          10,
+          20,
+          40,
+          60
+        ],
+        "profile_id": "balanced",
+        "reduce_edge_ratio": 0.6,
+        "reverse_edge_ratio": 1.25,
+        "size_scale": 1.0,
+        "top_k": 6,
+        "wait_support_floor": 0.4
+      },
+      "slow_cadence": 20,
+      "uncertainty_penalty": 0.5
+    },
+    {
+      "active_family_cap": 6,
+      "asymmetric": true,
+      "comparable_weight": 0.25,
+      "config_id": "long=broad|short=balanced|cmp=0.25|slow=10",
+      "long_policy": {
+        "add_edge_ratio": 1.1,
+        "enter_confidence_floor": 0.35,
+        "enter_support_floor": 0.5,
+        "exit_edge_floor": 0.0,
+        "horizons": [
+          1,
+          3,
+          5,
+          10,
+          20
+        ],
+        "max_hold_sessions": 20,
+        "max_vol_ratio": 1.5,
+        "memories": [
+          5,
+          10,
+          20,
+          40,
+          60,
+          126,
+          252,
+          "expanding"
+        ],
+        "profile_id": "broad",
+        "reduce_edge_ratio": 0.5,
+        "reverse_edge_ratio": 1.15,
+        "size_scale": 1.0,
+        "top_k": 8,
+        "wait_support_floor": 0.35
+      },
+      "short_policy": {
+        "add_edge_ratio": 1.15,
+        "enter_confidence_floor": 0.4,
+        "enter_support_floor": 0.55,
+        "exit_edge_floor": 0.0,
+        "horizons": [
+          3,
+          5,
+          10
+        ],
+        "max_hold_sessions": 10,
+        "max_vol_ratio": 1.35,
+        "memories": [
+          10,
+          20,
+          40,
+          60
+        ],
+        "profile_id": "balanced",
+        "reduce_edge_ratio": 0.6,
+        "reverse_edge_ratio": 1.25,
+        "size_scale": 1.0,
+        "top_k": 6,
+        "wait_support_floor": 0.4
+      },
+      "slow_cadence": 10,
+      "uncertainty_penalty": 0.5
+    },
+    {
+      "active_family_cap": 6,
+      "asymmetric": true,
+      "comparable_weight": 0.25,
+      "config_id": "long=broad|short=balanced|cmp=0.25|slow=20",
+      "long_policy": {
+        "add_edge_ratio": 1.1,
+        "enter_confidence_floor": 0.35,
+        "enter_support_floor": 0.5,
+        "exit_edge_floor": 0.0,
+        "horizons": [
+          1,
+          3,
+          5,
+          10,
+          20
+        ],
+        "max_hold_sessions": 20,
+        "max_vol_ratio": 1.5,
+        "memories": [
+          5,
+          10,
+          20,
+          40,
+          60,
+          126,
+          252,
+          "expanding"
+        ],
+        "profile_id": "broad",
+        "reduce_edge_ratio": 0.5,
+        "reverse_edge_ratio": 1.15,
+        "size_scale": 1.0,
+        "top_k": 8,
+        "wait_support_floor": 0.35
+      },
+      "short_policy": {
+        "add_edge_ratio": 1.15,
+        "enter_confidence_floor": 0.4,
+        "enter_support_floor": 0.55,
+        "exit_edge_floor": 0.0,
+        "horizons": [
+          3,
+          5,
+          10
+        ],
+        "max_hold_sessions": 10,
+        "max_vol_ratio": 1.35,
+        "memories": [
+          10,
+          20,
+          40,
+          60
+        ],
+        "profile_id": "balanced",
+        "reduce_edge_ratio": 0.6,
+        "reverse_edge_ratio": 1.25,
+        "size_scale": 1.0,
+        "top_k": 6,
+        "wait_support_floor": 0.4
+      },
+      "slow_cadence": 20,
+      "uncertainty_penalty": 0.5
+    },
+    {
+      "active_family_cap": 6,
+      "asymmetric": true,
+      "comparable_weight": 0.5,
+      "config_id": "long=broad|short=balanced|cmp=0.5|slow=10",
+      "long_policy": {
+        "add_edge_ratio": 1.1,
+        "enter_confidence_floor": 0.35,
+        "enter_support_floor": 0.5,
+        "exit_edge_floor": 0.0,
+        "horizons": [
+          1,
+          3,
+          5,
+          10,
+          20
+        ],
+        "max_hold_sessions": 20,
+        "max_vol_ratio": 1.5,
+        "memories": [
+          5,
+          10,
+          20,
+          40,
+          60,
+          126,
+          252,
+          "expanding"
+        ],
+        "profile_id": "broad",
+        "reduce_edge_ratio": 0.5,
+        "reverse_edge_ratio": 1.15,
+        "size_scale": 1.0,
+        "top_k": 8,
+        "wait_support_floor": 0.35
+      },
+      "short_policy": {
+        "add_edge_ratio": 1.15,
+        "enter_confidence_floor": 0.4,
+        "enter_support_floor": 0.55,
+        "exit_edge_floor": 0.0,
+        "horizons": [
+          3,
+          5,
+          10
+        ],
+        "max_hold_sessions": 10,
+        "max_vol_ratio": 1.35,
+        "memories": [
+          10,
+          20,
+          40,
+          60
+        ],
+        "profile_id": "balanced",
+        "reduce_edge_ratio": 0.6,
+        "reverse_edge_ratio": 1.25,
+        "size_scale": 1.0,
+        "top_k": 6,
+        "wait_support_floor": 0.4
+      },
+      "slow_cadence": 10,
+      "uncertainty_penalty": 0.5
+    },
+    {
+      "active_family_cap": 6,
+      "asymmetric": true,
+      "comparable_weight": 0.5,
+      "config_id": "long=broad|short=balanced|cmp=0.5|slow=20",
+      "long_policy": {
+        "add_edge_ratio": 1.1,
+        "enter_confidence_floor": 0.35,
+        "enter_support_floor": 0.5,
+        "exit_edge_floor": 0.0,
+        "horizons": [
+          1,
+          3,
+          5,
+          10,
+          20
+        ],
+        "max_hold_sessions": 20,
+        "max_vol_ratio": 1.5,
+        "memories": [
+          5,
+          10,
+          20,
+          40,
+          60,
+          126,
+          252,
+          "expanding"
+        ],
+        "profile_id": "broad",
+        "reduce_edge_ratio": 0.5,
+        "reverse_edge_ratio": 1.15,
+        "size_scale": 1.0,
+        "top_k": 8,
+        "wait_support_floor": 0.35
+      },
+      "short_policy": {
+        "add_edge_ratio": 1.15,
+        "enter_confidence_floor": 0.4,
+        "enter_support_floor": 0.55,
+        "exit_edge_floor": 0.0,
+        "horizons": [
+          3,
+          5,
+          10
+        ],
+        "max_hold_sessions": 10,
+        "max_vol_ratio": 1.35,
+        "memories": [
+          10,
+          20,
+          40,
+          60
+        ],
+        "profile_id": "balanced",
+        "reduce_edge_ratio": 0.6,
+        "reverse_edge_ratio": 1.25,
+        "size_scale": 1.0,
+        "top_k": 6,
+        "wait_support_floor": 0.4
+      },
+      "slow_cadence": 20,
+      "uncertainty_penalty": 0.5
+    },
+    {
+      "active_family_cap": 6,
+      "asymmetric": false,
+      "comparable_weight": 0.0,
+      "config_id": "long=broad|short=broad|cmp=0|slow=10",
+      "long_policy": {
+        "add_edge_ratio": 1.1,
+        "enter_confidence_floor": 0.35,
+        "enter_support_floor": 0.5,
+        "exit_edge_floor": 0.0,
+        "horizons": [
+          1,
+          3,
+          5,
+          10,
+          20
+        ],
+        "max_hold_sessions": 20,
+        "max_vol_ratio": 1.5,
+        "memories": [
+          5,
+          10,
+          20,
+          40,
+          60,
+          126,
+          252,
+          "expanding"
+        ],
+        "profile_id": "broad",
+        "reduce_edge_ratio": 0.5,
+        "reverse_edge_ratio": 1.15,
+        "size_scale": 1.0,
+        "top_k": 8,
+        "wait_support_floor": 0.35
+      },
+      "short_policy": {
+        "add_edge_ratio": 1.1,
+        "enter_confidence_floor": 0.35,
+        "enter_support_floor": 0.5,
+        "exit_edge_floor": 0.0,
+        "horizons": [
+          1,
+          3,
+          5,
+          10,
+          20
+        ],
+        "max_hold_sessions": 20,
+        "max_vol_ratio": 1.5,
+        "memories": [
+          5,
+          10,
+          20,
+          40,
+          60,
+          126,
+          252,
+          "expanding"
+        ],
+        "profile_id": "broad",
+        "reduce_edge_ratio": 0.5,
+        "reverse_edge_ratio": 1.15,
+        "size_scale": 1.0,
+        "top_k": 8,
+        "wait_support_floor": 0.35
+      },
+      "slow_cadence": 10,
+      "uncertainty_penalty": 0.5
+    },
+    {
+      "active_family_cap": 6,
+      "asymmetric": false,
+      "comparable_weight": 0.0,
+      "config_id": "long=broad|short=broad|cmp=0|slow=20",
+      "long_policy": {
+        "add_edge_ratio": 1.1,
+        "enter_confidence_floor": 0.35,
+        "enter_support_floor": 0.5,
+        "exit_edge_floor": 0.0,
+        "horizons": [
+          1,
+          3,
+          5,
+          10,
+          20
+        ],
+        "max_hold_sessions": 20,
+        "max_vol_ratio": 1.5,
+        "memories": [
+          5,
+          10,
+          20,
+          40,
+          60,
+          126,
+          252,
+          "expanding"
+        ],
+        "profile_id": "broad",
+        "reduce_edge_ratio": 0.5,
+        "reverse_edge_ratio": 1.15,
+        "size_scale": 1.0,
+        "top_k": 8,
+        "wait_support_floor": 0.35
+      },
+      "short_policy": {
+        "add_edge_ratio": 1.1,
+        "enter_confidence_floor": 0.35,
+        "enter_support_floor": 0.5,
+        "exit_edge_floor": 0.0,
+        "horizons": [
+          1,
+          3,
+          5,
+          10,
+          20
+        ],
+        "max_hold_sessions": 20,
+        "max_vol_ratio": 1.5,
+        "memories": [
+          5,
+          10,
+          20,
+          40,
+          60,
+          126,
+          252,
+          "expanding"
+        ],
+        "profile_id": "broad",
+        "reduce_edge_ratio": 0.5,
+        "reverse_edge_ratio": 1.15,
+        "size_scale": 1.0,
+        "top_k": 8,
+        "wait_support_floor": 0.35
+      },
+      "slow_cadence": 20,
+      "uncertainty_penalty": 0.5
+    },
+    {
+      "active_family_cap": 6,
+      "asymmetric": false,
+      "comparable_weight": 0.25,
+      "config_id": "long=broad|short=broad|cmp=0.25|slow=10",
+      "long_policy": {
+        "add_edge_ratio": 1.1,
+        "enter_confidence_floor": 0.35,
+        "enter_support_floor": 0.5,
+        "exit_edge_floor": 0.0,
+        "horizons": [
+          1,
+          3,
+          5,
+          10,
+          20
+        ],
+        "max_hold_sessions": 20,
+        "max_vol_ratio": 1.5,
+        "memories": [
+          5,
+          10,
+          20,
+          40,
+          60,
+          126,
+          252,
+          "expanding"
+        ],
+        "profile_id": "broad",
+        "reduce_edge_ratio": 0.5,
+        "reverse_edge_ratio": 1.15,
+        "size_scale": 1.0,
+        "top_k": 8,
+        "wait_support_floor": 0.35
+      },
+      "short_policy": {
+        "add_edge_ratio": 1.1,
+        "enter_confidence_floor": 0.35,
+        "enter_support_floor": 0.5,
+        "exit_edge_floor": 0.0,
+        "horizons": [
+          1,
+          3,
+          5,
+          10,
+          20
+        ],
+        "max_hold_sessions": 20,
+        "max_vol_ratio": 1.5,
+        "memories": [
+          5,
+          10,
+          20,
+          40,
+          60,
+          126,
+          252,
+          "expanding"
+        ],
+        "profile_id": "broad",
+        "reduce_edge_ratio": 0.5,
+        "reverse_edge_ratio": 1.15,
+        "size_scale": 1.0,
+        "top_k": 8,
+        "wait_support_floor": 0.35
+      },
+      "slow_cadence": 10,
+      "uncertainty_penalty": 0.5
+    },
+    {
+      "active_family_cap": 6,
+      "asymmetric": false,
+      "comparable_weight": 0.25,
+      "config_id": "long=broad|short=broad|cmp=0.25|slow=20",
+      "long_policy": {
+        "add_edge_ratio": 1.1,
+        "enter_confidence_floor": 0.35,
+        "enter_support_floor": 0.5,
+        "exit_edge_floor": 0.0,
+        "horizons": [
+          1,
+          3,
+          5,
+          10,
+          20
+        ],
+        "max_hold_sessions": 20,
+        "max_vol_ratio": 1.5,
+        "memories": [
+          5,
+          10,
+          20,
+          40,
+          60,
+          126,
+          252,
+          "expanding"
+        ],
+        "profile_id": "broad",
+        "reduce_edge_ratio": 0.5,
+        "reverse_edge_ratio": 1.15,
+        "size_scale": 1.0,
+        "top_k": 8,
+        "wait_support_floor": 0.35
+      },
+      "short_policy": {
+        "add_edge_ratio": 1.1,
+        "enter_confidence_floor": 0.35,
+        "enter_support_floor": 0.5,
+        "exit_edge_floor": 0.0,
+        "horizons": [
+          1,
+          3,
+          5,
+          10,
+          20
+        ],
+        "max_hold_sessions": 20,
+        "max_vol_ratio": 1.5,
+        "memories": [
+          5,
+          10,
+          20,
+          40,
+          60,
+          126,
+          252,
+          "expanding"
+        ],
+        "profile_id": "broad",
+        "reduce_edge_ratio": 0.5,
+        "reverse_edge_ratio": 1.15,
+        "size_scale": 1.0,
+        "top_k": 8,
+        "wait_support_floor": 0.35
+      },
+      "slow_cadence": 20,
+      "uncertainty_penalty": 0.5
+    },
+    {
+      "active_family_cap": 6,
+      "asymmetric": false,
+      "comparable_weight": 0.5,
+      "config_id": "long=broad|short=broad|cmp=0.5|slow=10",
+      "long_policy": {
+        "add_edge_ratio": 1.1,
+        "enter_confidence_floor": 0.35,
+        "enter_support_floor": 0.5,
+        "exit_edge_floor": 0.0,
+        "horizons": [
+          1,
+          3,
+          5,
+          10,
+          20
+        ],
+        "max_hold_sessions": 20,
+        "max_vol_ratio": 1.5,
+        "memories": [
+          5,
+          10,
+          20,
+          40,
+          60,
+          126,
+          252,
+          "expanding"
+        ],
+        "profile_id": "broad",
+        "reduce_edge_ratio": 0.5,
+        "reverse_edge_ratio": 1.15,
+        "size_scale": 1.0,
+        "top_k": 8,
+        "wait_support_floor": 0.35
+      },
+      "short_policy": {
+        "add_edge_ratio": 1.1,
+        "enter_confidence_floor": 0.35,
+        "enter_support_floor": 0.5,
+        "exit_edge_floor": 0.0,
+        "horizons": [
+          1,
+          3,
+          5,
+          10,
+          20
+        ],
+        "max_hold_sessions": 20,
+        "max_vol_ratio": 1.5,
+        "memories": [
+          5,
+          10,
+          20,
+          40,
+          60,
+          126,
+          252,
+          "expanding"
+        ],
+        "profile_id": "broad",
+        "reduce_edge_ratio": 0.5,
+        "reverse_edge_ratio": 1.15,
+        "size_scale": 1.0,
+        "top_k": 8,
+        "wait_support_floor": 0.35
+      },
+      "slow_cadence": 10,
+      "uncertainty_penalty": 0.5
+    },
+    {
+      "active_family_cap": 6,
+      "asymmetric": false,
+      "comparable_weight": 0.5,
+      "config_id": "long=broad|short=broad|cmp=0.5|slow=20",
+      "long_policy": {
+        "add_edge_ratio": 1.1,
+        "enter_confidence_floor": 0.35,
+        "enter_support_floor": 0.5,
+        "exit_edge_floor": 0.0,
+        "horizons": [
+          1,
+          3,
+          5,
+          10,
+          20
+        ],
+        "max_hold_sessions": 20,
+        "max_vol_ratio": 1.5,
+        "memories": [
+          5,
+          10,
+          20,
+          40,
+          60,
+          126,
+          252,
+          "expanding"
+        ],
+        "profile_id": "broad",
+        "reduce_edge_ratio": 0.5,
+        "reverse_edge_ratio": 1.15,
+        "size_scale": 1.0,
+        "top_k": 8,
+        "wait_support_floor": 0.35
+      },
+      "short_policy": {
+        "add_edge_ratio": 1.1,
+        "enter_confidence_floor": 0.35,
+        "enter_support_floor": 0.5,
+        "exit_edge_floor": 0.0,
+        "horizons": [
+          1,
+          3,
+          5,
+          10,
+          20
+        ],
+        "max_hold_sessions": 20,
+        "max_vol_ratio": 1.5,
+        "memories": [
+          5,
+          10,
+          20,
+          40,
+          60,
+          126,
+          252,
+          "expanding"
+        ],
+        "profile_id": "broad",
+        "reduce_edge_ratio": 0.5,
+        "reverse_edge_ratio": 1.15,
+        "size_scale": 1.0,
+        "top_k": 8,
+        "wait_support_floor": 0.35
+      },
+      "slow_cadence": 20,
+      "uncertainty_penalty": 0.5
+    },
+    {
+      "active_family_cap": 6,
+      "asymmetric": true,
+      "comparable_weight": 0.0,
+      "config_id": "long=broad|short=fast|cmp=0|slow=10",
+      "long_policy": {
+        "add_edge_ratio": 1.1,
+        "enter_confidence_floor": 0.35,
+        "enter_support_floor": 0.5,
+        "exit_edge_floor": 0.0,
+        "horizons": [
+          1,
+          3,
+          5,
+          10,
+          20
+        ],
+        "max_hold_sessions": 20,
+        "max_vol_ratio": 1.5,
+        "memories": [
+          5,
+          10,
+          20,
+          40,
+          60,
+          126,
+          252,
+          "expanding"
+        ],
+        "profile_id": "broad",
+        "reduce_edge_ratio": 0.5,
+        "reverse_edge_ratio": 1.15,
+        "size_scale": 1.0,
+        "top_k": 8,
+        "wait_support_floor": 0.35
+      },
+      "short_policy": {
+        "add_edge_ratio": 1.1,
+        "enter_confidence_floor": 0.35,
+        "enter_support_floor": 0.55,
+        "exit_edge_floor": 0.0,
+        "horizons": [
+          1,
+          3,
+          5
+        ],
+        "max_hold_sessions": 5,
+        "max_vol_ratio": 1.5,
+        "memories": [
+          5,
+          10,
+          20
+        ],
+        "profile_id": "fast",
+        "reduce_edge_ratio": 0.55,
+        "reverse_edge_ratio": 1.2,
+        "size_scale": 1.0,
+        "top_k": 4,
+        "wait_support_floor": 0.35
+      },
+      "slow_cadence": 10,
+      "uncertainty_penalty": 0.5
+    },
+    {
+      "active_family_cap": 6,
+      "asymmetric": true,
+      "comparable_weight": 0.0,
+      "config_id": "long=broad|short=fast|cmp=0|slow=20",
+      "long_policy": {
+        "add_edge_ratio": 1.1,
+        "enter_confidence_floor": 0.35,
+        "enter_support_floor": 0.5,
+        "exit_edge_floor": 0.0,
+        "horizons": [
+          1,
+          3,
+          5,
+          10,
+          20
+        ],
+        "max_hold_sessions": 20,
+        "max_vol_ratio": 1.5,
+        "memories": [
+          5,
+          10,
+          20,
+          40,
+          60,
+          126,
+          252,
+          "expanding"
+        ],
+        "profile_id": "broad",
+        "reduce_edge_ratio": 0.5,
+        "reverse_edge_ratio": 1.15,
+        "size_scale": 1.0,
+        "top_k": 8,
+        "wait_support_floor": 0.35
+      },
+      "short_policy": {
+        "add_edge_ratio": 1.1,
+        "enter_confidence_floor": 0.35,
+        "enter_support_floor": 0.55,
+        "exit_edge_floor": 0.0,
+        "horizons": [
+          1,
+          3,
+          5
+        ],
+        "max_hold_sessions": 5,
+        "max_vol_ratio": 1.5,
+        "memories": [
+          5,
+          10,
+          20
+        ],
+        "profile_id": "fast",
+        "reduce_edge_ratio": 0.55,
+        "reverse_edge_ratio": 1.2,
+        "size_scale": 1.0,
+        "top_k": 4,
+        "wait_support_floor": 0.35
+      },
+      "slow_cadence": 20,
+      "uncertainty_penalty": 0.5
+    },
+    {
+      "active_family_cap": 6,
+      "asymmetric": true,
+      "comparable_weight": 0.25,
+      "config_id": "long=broad|short=fast|cmp=0.25|slow=10",
+      "long_policy": {
+        "add_edge_ratio": 1.1,
+        "enter_confidence_floor": 0.35,
+        "enter_support_floor": 0.5,
+        "exit_edge_floor": 0.0,
+        "horizons": [
+          1,
+          3,
+          5,
+          10,
+          20
+        ],
+        "max_hold_sessions": 20,
+        "max_vol_ratio": 1.5,
+        "memories": [
+          5,
+          10,
+          20,
+          40,
+          60,
+          126,
+          252,
+          "expanding"
+        ],
+        "profile_id": "broad",
+        "reduce_edge_ratio": 0.5,
+        "reverse_edge_ratio": 1.15,
+        "size_scale": 1.0,
+        "top_k": 8,
+        "wait_support_floor": 0.35
+      },
+      "short_policy": {
+        "add_edge_ratio": 1.1,
+        "enter_confidence_floor": 0.35,
+        "enter_support_floor": 0.55,
+        "exit_edge_floor": 0.0,
+        "horizons": [
+          1,
+          3,
+          5
+        ],
+        "max_hold_sessions": 5,
+        "max_vol_ratio": 1.5,
+        "memories": [
+          5,
+          10,
+          20
+        ],
+        "profile_id": "fast",
+        "reduce_edge_ratio": 0.55,
+        "reverse_edge_ratio": 1.2,
+        "size_scale": 1.0,
+        "top_k": 4,
+        "wait_support_floor": 0.35
+      },
+      "slow_cadence": 10,
+      "uncertainty_penalty": 0.5
+    },
+    {
+      "active_family_cap": 6,
+      "asymmetric": true,
+      "comparable_weight": 0.25,
+      "config_id": "long=broad|short=fast|cmp=0.25|slow=20",
+      "long_policy": {
+        "add_edge_ratio": 1.1,
+        "enter_confidence_floor": 0.35,
+        "enter_support_floor": 0.5,
+        "exit_edge_floor": 0.0,
+        "horizons": [
+          1,
+          3,
+          5,
+          10,
+          20
+        ],
+        "max_hold_sessions": 20,
+        "max_vol_ratio": 1.5,
+        "memories": [
+          5,
+          10,
+          20,
+          40,
+          60,
+          126,
+          252,
+          "expanding"
+        ],
+        "profile_id": "broad",
+        "reduce_edge_ratio": 0.5,
+        "reverse_edge_ratio": 1.15,
+        "size_scale": 1.0,
+        "top_k": 8,
+        "wait_support_floor": 0.35
+      },
+      "short_policy": {
+        "add_edge_ratio": 1.1,
+        "enter_confidence_floor": 0.35,
+        "enter_support_floor": 0.55,
+        "exit_edge_floor": 0.0,
+        "horizons": [
+          1,
+          3,
+          5
+        ],
+        "max_hold_sessions": 5,
+        "max_vol_ratio": 1.5,
+        "memories": [
+          5,
+          10,
+          20
+        ],
+        "profile_id": "fast",
+        "reduce_edge_ratio": 0.55,
+        "reverse_edge_ratio": 1.2,
+        "size_scale": 1.0,
+        "top_k": 4,
+        "wait_support_floor": 0.35
+      },
+      "slow_cadence": 20,
+      "uncertainty_penalty": 0.5
+    },
+    {
+      "active_family_cap": 6,
+      "asymmetric": true,
+      "comparable_weight": 0.5,
+      "config_id": "long=broad|short=fast|cmp=0.5|slow=10",
+      "long_policy": {
+        "add_edge_ratio": 1.1,
+        "enter_confidence_floor": 0.35,
+        "enter_support_floor": 0.5,
+        "exit_edge_floor": 0.0,
+        "horizons": [
+          1,
+          3,
+          5,
+          10,
+          20
+        ],
+        "max_hold_sessions": 20,
+        "max_vol_ratio": 1.5,
+        "memories": [
+          5,
+          10,
+          20,
+          40,
+          60,
+          126,
+          252,
+          "expanding"
+        ],
+        "profile_id": "broad",
+        "reduce_edge_ratio": 0.5,
+        "reverse_edge_ratio": 1.15,
+        "size_scale": 1.0,
+        "top_k": 8,
+        "wait_support_floor": 0.35
+      },
+      "short_policy": {
+        "add_edge_ratio": 1.1,
+        "enter_confidence_floor": 0.35,
+        "enter_support_floor": 0.55,
+        "exit_edge_floor": 0.0,
+        "horizons": [
+          1,
+          3,
+          5
+        ],
+        "max_hold_sessions": 5,
+        "max_vol_ratio": 1.5,
+        "memories": [
+          5,
+          10,
+          20
+        ],
+        "profile_id": "fast",
+        "reduce_edge_ratio": 0.55,
+        "reverse_edge_ratio": 1.2,
+        "size_scale": 1.0,
+        "top_k": 4,
+        "wait_support_floor": 0.35
+      },
+      "slow_cadence": 10,
+      "uncertainty_penalty": 0.5
+    },
+    {
+      "active_family_cap": 6,
+      "asymmetric": true,
+      "comparable_weight": 0.5,
+      "config_id": "long=broad|short=fast|cmp=0.5|slow=20",
+      "long_policy": {
+        "add_edge_ratio": 1.1,
+        "enter_confidence_floor": 0.35,
+        "enter_support_floor": 0.5,
+        "exit_edge_floor": 0.0,
+        "horizons": [
+          1,
+          3,
+          5,
+          10,
+          20
+        ],
+        "max_hold_sessions": 20,
+        "max_vol_ratio": 1.5,
+        "memories": [
+          5,
+          10,
+          20,
+          40,
+          60,
+          126,
+          252,
+          "expanding"
+        ],
+        "profile_id": "broad",
+        "reduce_edge_ratio": 0.5,
+        "reverse_edge_ratio": 1.15,
+        "size_scale": 1.0,
+        "top_k": 8,
+        "wait_support_floor": 0.35
+      },
+      "short_policy": {
+        "add_edge_ratio": 1.1,
+        "enter_confidence_floor": 0.35,
+        "enter_support_floor": 0.55,
+        "exit_edge_floor": 0.0,
+        "horizons": [
+          1,
+          3,
+          5
+        ],
+        "max_hold_sessions": 5,
+        "max_vol_ratio": 1.5,
+        "memories": [
+          5,
+          10,
+          20
+        ],
+        "profile_id": "fast",
+        "reduce_edge_ratio": 0.55,
+        "reverse_edge_ratio": 1.2,
+        "size_scale": 1.0,
+        "top_k": 4,
+        "wait_support_floor": 0.35
+      },
+      "slow_cadence": 20,
+      "uncertainty_penalty": 0.5
+    },
+    {
+      "active_family_cap": 6,
+      "asymmetric": true,
+      "comparable_weight": 0.0,
+      "config_id": "long=broad|short=slow|cmp=0|slow=10",
+      "long_policy": {
+        "add_edge_ratio": 1.1,
+        "enter_confidence_floor": 0.35,
+        "enter_support_floor": 0.5,
+        "exit_edge_floor": 0.0,
+        "horizons": [
+          1,
+          3,
+          5,
+          10,
+          20
+        ],
+        "max_hold_sessions": 20,
+        "max_vol_ratio": 1.5,
+        "memories": [
+          5,
+          10,
+          20,
+          40,
+          60,
+          126,
+          252,
+          "expanding"
+        ],
+        "profile_id": "broad",
+        "reduce_edge_ratio": 0.5,
+        "reverse_edge_ratio": 1.15,
+        "size_scale": 1.0,
+        "top_k": 8,
+        "wait_support_floor": 0.35
+      },
+      "short_policy": {
+        "add_edge_ratio": 1.2,
+        "enter_confidence_floor": 0.45,
+        "enter_support_floor": 0.6,
+        "exit_edge_floor": 0.0,
+        "horizons": [
+          10,
+          20
+        ],
+        "max_hold_sessions": 20,
+        "max_vol_ratio": 1.2,
+        "memories": [
+          40,
+          60,
+          126,
+          252,
+          "expanding"
+        ],
+        "profile_id": "slow",
+        "reduce_edge_ratio": 0.65,
+        "reverse_edge_ratio": 1.3,
+        "size_scale": 0.75,
+        "top_k": 4,
+        "wait_support_floor": 0.45
+      },
+      "slow_cadence": 10,
+      "uncertainty_penalty": 0.5
+    },
+    {
+      "active_family_cap": 6,
+      "asymmetric": true,
+      "comparable_weight": 0.0,
+      "config_id": "long=broad|short=slow|cmp=0|slow=20",
+      "long_policy": {
+        "add_edge_ratio": 1.1,
+        "enter_confidence_floor": 0.35,
+        "enter_support_floor": 0.5,
+        "exit_edge_floor": 0.0,
+        "horizons": [
+          1,
+          3,
+          5,
+          10,
+          20
+        ],
+        "max_hold_sessions": 20,
+        "max_vol_ratio": 1.5,
+        "memories": [
+          5,
+          10,
+          20,
+          40,
+          60,
+          126,
+          252,
+          "expanding"
+        ],
+        "profile_id": "broad",
+        "reduce_edge_ratio": 0.5,
+        "reverse_edge_ratio": 1.15,
+        "size_scale": 1.0,
+        "top_k": 8,
+        "wait_support_floor": 0.35
+      },
+      "short_policy": {
+        "add_edge_ratio": 1.2,
+        "enter_confidence_floor": 0.45,
+        "enter_support_floor": 0.6,
+        "exit_edge_floor": 0.0,
+        "horizons": [
+          10,
+          20
+        ],
+        "max_hold_sessions": 20,
+        "max_vol_ratio": 1.2,
+        "memories": [
+          40,
+          60,
+          126,
+          252,
+          "expanding"
+        ],
+        "profile_id": "slow",
+        "reduce_edge_ratio": 0.65,
+        "reverse_edge_ratio": 1.3,
+        "size_scale": 0.75,
+        "top_k": 4,
+        "wait_support_floor": 0.45
+      },
+      "slow_cadence": 20,
+      "uncertainty_penalty": 0.5
+    },
+    {
+      "active_family_cap": 6,
+      "asymmetric": true,
+      "comparable_weight": 0.25,
+      "config_id": "long=broad|short=slow|cmp=0.25|slow=10",
+      "long_policy": {
+        "add_edge_ratio": 1.1,
+        "enter_confidence_floor": 0.35,
+        "enter_support_floor": 0.5,
+        "exit_edge_floor": 0.0,
+        "horizons": [
+          1,
+          3,
+          5,
+          10,
+          20
+        ],
+        "max_hold_sessions": 20,
+        "max_vol_ratio": 1.5,
+        "memories": [
+          5,
+          10,
+          20,
+          40,
+          60,
+          126,
+          252,
+          "expanding"
+        ],
+        "profile_id": "broad",
+        "reduce_edge_ratio": 0.5,
+        "reverse_edge_ratio": 1.15,
+        "size_scale": 1.0,
+        "top_k": 8,
+        "wait_support_floor": 0.35
+      },
+      "short_policy": {
+        "add_edge_ratio": 1.2,
+        "enter_confidence_floor": 0.45,
+        "enter_support_floor": 0.6,
+        "exit_edge_floor": 0.0,
+        "horizons": [
+          10,
+          20
+        ],
+        "max_hold_sessions": 20,
+        "max_vol_ratio": 1.2,
+        "memories": [
+          40,
+          60,
+          126,
+          252,
+          "expanding"
+        ],
+        "profile_id": "slow",
+        "reduce_edge_ratio": 0.65,
+        "reverse_edge_ratio": 1.3,
+        "size_scale": 0.75,
+        "top_k": 4,
+        "wait_support_floor": 0.45
+      },
+      "slow_cadence": 10,
+      "uncertainty_penalty": 0.5
+    },
+    {
+      "active_family_cap": 6,
+      "asymmetric": true,
+      "comparable_weight": 0.25,
+      "config_id": "long=broad|short=slow|cmp=0.25|slow=20",
+      "long_policy": {
+        "add_edge_ratio": 1.1,
+        "enter_confidence_floor": 0.35,
+        "enter_support_floor": 0.5,
+        "exit_edge_floor": 0.0,
+        "horizons": [
+          1,
+          3,
+          5,
+          10,
+          20
+        ],
+        "max_hold_sessions": 20,
+        "max_vol_ratio": 1.5,
+        "memories": [
+          5,
+          10,
+          20,
+          40,
+          60,
+          126,
+          252,
+          "expanding"
+        ],
+        "profile_id": "broad",
+        "reduce_edge_ratio": 0.5,
+        "reverse_edge_ratio": 1.15,
+        "size_scale": 1.0,
+        "top_k": 8,
+        "wait_support_floor": 0.35
+      },
+      "short_policy": {
+        "add_edge_ratio": 1.2,
+        "enter_confidence_floor": 0.45,
+        "enter_support_floor": 0.6,
+        "exit_edge_floor": 0.0,
+        "horizons": [
+          10,
+          20
+        ],
+        "max_hold_sessions": 20,
+        "max_vol_ratio": 1.2,
+        "memories": [
+          40,
+          60,
+          126,
+          252,
+          "expanding"
+        ],
+        "profile_id": "slow",
+        "reduce_edge_ratio": 0.65,
+        "reverse_edge_ratio": 1.3,
+        "size_scale": 0.75,
+        "top_k": 4,
+        "wait_support_floor": 0.45
+      },
+      "slow_cadence": 20,
+      "uncertainty_penalty": 0.5
+    },
+    {
+      "active_family_cap": 6,
+      "asymmetric": true,
+      "comparable_weight": 0.5,
+      "config_id": "long=broad|short=slow|cmp=0.5|slow=10",
+      "long_policy": {
+        "add_edge_ratio": 1.1,
+        "enter_confidence_floor": 0.35,
+        "enter_support_floor": 0.5,
+        "exit_edge_floor": 0.0,
+        "horizons": [
+          1,
+          3,
+          5,
+          10,
+          20
+        ],
+        "max_hold_sessions": 20,
+        "max_vol_ratio": 1.5,
+        "memories": [
+          5,
+          10,
+          20,
+          40,
+          60,
+          126,
+          252,
+          "expanding"
+        ],
+        "profile_id": "broad",
+        "reduce_edge_ratio": 0.5,
+        "reverse_edge_ratio": 1.15,
+        "size_scale": 1.0,
+        "top_k": 8,
+        "wait_support_floor": 0.35
+      },
+      "short_policy": {
+        "add_edge_ratio": 1.2,
+        "enter_confidence_floor": 0.45,
+        "enter_support_floor": 0.6,
+        "exit_edge_floor": 0.0,
+        "horizons": [
+          10,
+          20
+        ],
+        "max_hold_sessions": 20,
+        "max_vol_ratio": 1.2,
+        "memories": [
+          40,
+          60,
+          126,
+          252,
+          "expanding"
+        ],
+        "profile_id": "slow",
+        "reduce_edge_ratio": 0.65,
+        "reverse_edge_ratio": 1.3,
+        "size_scale": 0.75,
+        "top_k": 4,
+        "wait_support_floor": 0.45
+      },
+      "slow_cadence": 10,
+      "uncertainty_penalty": 0.5
+    },
+    {
+      "active_family_cap": 6,
+      "asymmetric": true,
+      "comparable_weight": 0.5,
+      "config_id": "long=broad|short=slow|cmp=0.5|slow=20",
+      "long_policy": {
+        "add_edge_ratio": 1.1,
+        "enter_confidence_floor": 0.35,
+        "enter_support_floor": 0.5,
+        "exit_edge_floor": 0.0,
+        "horizons": [
+          1,
+          3,
+          5,
+          10,
+          20
+        ],
+        "max_hold_sessions": 20,
+        "max_vol_ratio": 1.5,
+        "memories": [
+          5,
+          10,
+          20,
+          40,
+          60,
+          126,
+          252,
+          "expanding"
+        ],
+        "profile_id": "broad",
+        "reduce_edge_ratio": 0.5,
+        "reverse_edge_ratio": 1.15,
+        "size_scale": 1.0,
+        "top_k": 8,
+        "wait_support_floor": 0.35
+      },
+      "short_policy": {
+        "add_edge_ratio": 1.2,
+        "enter_confidence_floor": 0.45,
+        "enter_support_floor": 0.6,
+        "exit_edge_floor": 0.0,
+        "horizons": [
+          10,
+          20
+        ],
+        "max_hold_sessions": 20,
+        "max_vol_ratio": 1.2,
+        "memories": [
+          40,
+          60,
+          126,
+          252,
+          "expanding"
+        ],
+        "profile_id": "slow",
+        "reduce_edge_ratio": 0.65,
+        "reverse_edge_ratio": 1.3,
+        "size_scale": 0.75,
+        "top_k": 4,
+        "wait_support_floor": 0.45
+      },
+      "slow_cadence": 20,
+      "uncertainty_penalty": 0.5
+    },
+    {
+      "active_family_cap": 6,
+      "asymmetric": true,
+      "comparable_weight": 0.0,
+      "config_id": "long=fast|short=balanced|cmp=0|slow=10",
+      "long_policy": {
+        "add_edge_ratio": 1.1,
+        "enter_confidence_floor": 0.35,
+        "enter_support_floor": 0.55,
+        "exit_edge_floor": 0.0,
+        "horizons": [
+          1,
+          3,
+          5
+        ],
+        "max_hold_sessions": 5,
+        "max_vol_ratio": 1.5,
+        "memories": [
+          5,
+          10,
+          20
+        ],
+        "profile_id": "fast",
+        "reduce_edge_ratio": 0.55,
+        "reverse_edge_ratio": 1.2,
+        "size_scale": 1.0,
+        "top_k": 4,
+        "wait_support_floor": 0.35
+      },
+      "short_policy": {
+        "add_edge_ratio": 1.15,
+        "enter_confidence_floor": 0.4,
+        "enter_support_floor": 0.55,
+        "exit_edge_floor": 0.0,
+        "horizons": [
+          3,
+          5,
+          10
+        ],
+        "max_hold_sessions": 10,
+        "max_vol_ratio": 1.35,
+        "memories": [
+          10,
+          20,
+          40,
+          60
+        ],
+        "profile_id": "balanced",
+        "reduce_edge_ratio": 0.6,
+        "reverse_edge_ratio": 1.25,
+        "size_scale": 1.0,
+        "top_k": 6,
+        "wait_support_floor": 0.4
+      },
+      "slow_cadence": 10,
+      "uncertainty_penalty": 0.5
+    },
+    {
+      "active_family_cap": 6,
+      "asymmetric": true,
+      "comparable_weight": 0.0,
+      "config_id": "long=fast|short=balanced|cmp=0|slow=20",
+      "long_policy": {
+        "add_edge_ratio": 1.1,
+        "enter_confidence_floor": 0.35,
+        "enter_support_floor": 0.55,
+        "exit_edge_floor": 0.0,
+        "horizons": [
+          1,
+          3,
+          5
+        ],
+        "max_hold_sessions": 5,
+        "max_vol_ratio": 1.5,
+        "memories": [
+          5,
+          10,
+          20
+        ],
+        "profile_id": "fast",
+        "reduce_edge_ratio": 0.55,
+        "reverse_edge_ratio": 1.2,
+        "size_scale": 1.0,
+        "top_k": 4,
+        "wait_support_floor": 0.35
+      },
+      "short_policy": {
+        "add_edge_ratio": 1.15,
+        "enter_confidence_floor": 0.4,
+        "enter_support_floor": 0.55,
+        "exit_edge_floor": 0.0,
+        "horizons": [
+          3,
+          5,
+          10
+        ],
+        "max_hold_sessions": 10,
+        "max_vol_ratio": 1.35,
+        "memories": [
+          10,
+          20,
+          40,
+          60
+        ],
+        "profile_id": "balanced",
+        "reduce_edge_ratio": 0.6,
+        "reverse_edge_ratio": 1.25,
+        "size_scale": 1.0,
+        "top_k": 6,
+        "wait_support_floor": 0.4
+      },
+      "slow_cadence": 20,
+      "uncertainty_penalty": 0.5
+    },
+    {
+      "active_family_cap": 6,
+      "asymmetric": true,
+      "comparable_weight": 0.25,
+      "config_id": "long=fast|short=balanced|cmp=0.25|slow=10",
+      "long_policy": {
+        "add_edge_ratio": 1.1,
+        "enter_confidence_floor": 0.35,
+        "enter_support_floor": 0.55,
+        "exit_edge_floor": 0.0,
+        "horizons": [
+          1,
+          3,
+          5
+        ],
+        "max_hold_sessions": 5,
+        "max_vol_ratio": 1.5,
+        "memories": [
+          5,
+          10,
+          20
+        ],
+        "profile_id": "fast",
+        "reduce_edge_ratio": 0.55,
+        "reverse_edge_ratio": 1.2,
+        "size_scale": 1.0,
+        "top_k": 4,
+        "wait_support_floor": 0.35
+      },
+      "short_policy": {
+        "add_edge_ratio": 1.15,
+        "enter_confidence_floor": 0.4,
+        "enter_support_floor": 0.55,
+        "exit_edge_floor": 0.0,
+        "horizons": [
+          3,
+          5,
+          10
+        ],
+        "max_hold_sessions": 10,
+        "max_vol_ratio": 1.35,
+        "memories": [
+          10,
+          20,
+          40,
+          60
+        ],
+        "profile_id": "balanced",
+        "reduce_edge_ratio": 0.6,
+        "reverse_edge_ratio": 1.25,
+        "size_scale": 1.0,
+        "top_k": 6,
+        "wait_support_floor": 0.4
+      },
+      "slow_cadence": 10,
+      "uncertainty_penalty": 0.5
+    },
+    {
+      "active_family_cap": 6,
+      "asymmetric": true,
+      "comparable_weight": 0.25,
+      "config_id": "long=fast|short=balanced|cmp=0.25|slow=20",
+      "long_policy": {
+        "add_edge_ratio": 1.1,
+        "enter_confidence_floor": 0.35,
+        "enter_support_floor": 0.55,
+        "exit_edge_floor": 0.0,
+        "horizons": [
+          1,
+          3,
+          5
+        ],
+        "max_hold_sessions": 5,
+        "max_vol_ratio": 1.5,
+        "memories": [
+          5,
+          10,
+          20
+        ],
+        "profile_id": "fast",
+        "reduce_edge_ratio": 0.55,
+        "reverse_edge_ratio": 1.2,
+        "size_scale": 1.0,
+        "top_k": 4,
+        "wait_support_floor": 0.35
+      },
+      "short_policy": {
+        "add_edge_ratio": 1.15,
+        "enter_confidence_floor": 0.4,
+        "enter_support_floor": 0.55,
+        "exit_edge_floor": 0.0,
+        "horizons": [
+          3,
+          5,
+          10
+        ],
+        "max_hold_sessions": 10,
+        "max_vol_ratio": 1.35,
+        "memories": [
+          10,
+          20,
+          40,
+          60
+        ],
+        "profile_id": "balanced",
+        "reduce_edge_ratio": 0.6,
+        "reverse_edge_ratio": 1.25,
+        "size_scale": 1.0,
+        "top_k": 6,
+        "wait_support_floor": 0.4
+      },
+      "slow_cadence": 20,
+      "uncertainty_penalty": 0.5
+    },
+    {
+      "active_family_cap": 6,
+      "asymmetric": true,
+      "comparable_weight": 0.5,
+      "config_id": "long=fast|short=balanced|cmp=0.5|slow=10",
+      "long_policy": {
+        "add_edge_ratio": 1.1,
+        "enter_confidence_floor": 0.35,
+        "enter_support_floor": 0.55,
+        "exit_edge_floor": 0.0,
+        "horizons": [
+          1,
+          3,
+          5
+        ],
+        "max_hold_sessions": 5,
+        "max_vol_ratio": 1.5,
+        "memories": [
+          5,
+          10,
+          20
+        ],
+        "profile_id": "fast",
+        "reduce_edge_ratio": 0.55,
+        "reverse_edge_ratio": 1.2,
+        "size_scale": 1.0,
+        "top_k": 4,
+        "wait_support_floor": 0.35
+      },
+      "short_policy": {
+        "add_edge_ratio": 1.15,
+        "enter_confidence_floor": 0.4,
+        "enter_support_floor": 0.55,
+        "exit_edge_floor": 0.0,
+        "horizons": [
+          3,
+          5,
+          10
+        ],
+        "max_hold_sessions": 10,
+        "max_vol_ratio": 1.35,
+        "memories": [
+          10,
+          20,
+          40,
+          60
+        ],
+        "profile_id": "balanced",
+        "reduce_edge_ratio": 0.6,
+        "reverse_edge_ratio": 1.25,
+        "size_scale": 1.0,
+        "top_k": 6,
+        "wait_support_floor": 0.4
+      },
+      "slow_cadence": 10,
+      "uncertainty_penalty": 0.5
+    },
+    {
+      "active_family_cap": 6,
+      "asymmetric": true,
+      "comparable_weight": 0.5,
+      "config_id": "long=fast|short=balanced|cmp=0.5|slow=20",
+      "long_policy": {
+        "add_edge_ratio": 1.1,
+        "enter_confidence_floor": 0.35,
+        "enter_support_floor": 0.55,
+        "exit_edge_floor": 0.0,
+        "horizons": [
+          1,
+          3,
+          5
+        ],
+        "max_hold_sessions": 5,
+        "max_vol_ratio": 1.5,
+        "memories": [
+          5,
+          10,
+          20
+        ],
+        "profile_id": "fast",
+        "reduce_edge_ratio": 0.55,
+        "reverse_edge_ratio": 1.2,
+        "size_scale": 1.0,
+        "top_k": 4,
+        "wait_support_floor": 0.35
+      },
+      "short_policy": {
+        "add_edge_ratio": 1.15,
+        "enter_confidence_floor": 0.4,
+        "enter_support_floor": 0.55,
+        "exit_edge_floor": 0.0,
+        "horizons": [
+          3,
+          5,
+          10
+        ],
+        "max_hold_sessions": 10,
+        "max_vol_ratio": 1.35,
+        "memories": [
+          10,
+          20,
+          40,
+          60
+        ],
+        "profile_id": "balanced",
+        "reduce_edge_ratio": 0.6,
+        "reverse_edge_ratio": 1.25,
+        "size_scale": 1.0,
+        "top_k": 6,
+        "wait_support_floor": 0.4
+      },
+      "slow_cadence": 20,
+      "uncertainty_penalty": 0.5
+    },
+    {
+      "active_family_cap": 6,
+      "asymmetric": true,
+      "comparable_weight": 0.0,
+      "config_id": "long=fast|short=broad|cmp=0|slow=10",
+      "long_policy": {
+        "add_edge_ratio": 1.1,
+        "enter_confidence_floor": 0.35,
+        "enter_support_floor": 0.55,
+        "exit_edge_floor": 0.0,
+        "horizons": [
+          1,
+          3,
+          5
+        ],
+        "max_hold_sessions": 5,
+        "max_vol_ratio": 1.5,
+        "memories": [
+          5,
+          10,
+          20
+        ],
+        "profile_id": "fast",
+        "reduce_edge_ratio": 0.55,
+        "reverse_edge_ratio": 1.2,
+        "size_scale": 1.0,
+        "top_k": 4,
+        "wait_support_floor": 0.35
+      },
+      "short_policy": {
+        "add_edge_ratio": 1.1,
+        "enter_confidence_floor": 0.35,
+        "enter_support_floor": 0.5,
+        "exit_edge_floor": 0.0,
+        "horizons": [
+          1,
+          3,
+          5,
+          10,
+          20
+        ],
+        "max_hold_sessions": 20,
+        "max_vol_ratio": 1.5,
+        "memories": [
+          5,
+          10,
+          20,
+          40,
+          60,
+          126,
+          252,
+          "expanding"
+        ],
+        "profile_id": "broad",
+        "reduce_edge_ratio": 0.5,
+        "reverse_edge_ratio": 1.15,
+        "size_scale": 1.0,
+        "top_k": 8,
+        "wait_support_floor": 0.35
+      },
+      "slow_cadence": 10,
+      "uncertainty_penalty": 0.5
+    },
+    {
+      "active_family_cap": 6,
+      "asymmetric": true,
+      "comparable_weight": 0.0,
+      "config_id": "long=fast|short=broad|cmp=0|slow=20",
+      "long_policy": {
+        "add_edge_ratio": 1.1,
+        "enter_confidence_floor": 0.35,
+        "enter_support_floor": 0.55,
+        "exit_edge_floor": 0.0,
+        "horizons": [
+          1,
+          3,
+          5
+        ],
+        "max_hold_sessions": 5,
+        "max_vol_ratio": 1.5,
+        "memories": [
+          5,
+          10,
+          20
+        ],
+        "profile_id": "fast",
+        "reduce_edge_ratio": 0.55,
+        "reverse_edge_ratio": 1.2,
+        "size_scale": 1.0,
+        "top_k": 4,
+        "wait_support_floor": 0.35
+      },
+      "short_policy": {
+        "add_edge_ratio": 1.1,
+        "enter_confidence_floor": 0.35,
+        "enter_support_floor": 0.5,
+        "exit_edge_floor": 0.0,
+        "horizons": [
+          1,
+          3,
+          5,
+          10,
+          20
+        ],
+        "max_hold_sessions": 20,
+        "max_vol_ratio": 1.5,
+        "memories": [
+          5,
+          10,
+          20,
+          40,
+          60,
+          126,
+          252,
+          "expanding"
+        ],
+        "profile_id": "broad",
+        "reduce_edge_ratio": 0.5,
+        "reverse_edge_ratio": 1.15,
+        "size_scale": 1.0,
+        "top_k": 8,
+        "wait_support_floor": 0.35
+      },
+      "slow_cadence": 20,
+      "uncertainty_penalty": 0.5
+    },
+    {
+      "active_family_cap": 6,
+      "asymmetric": true,
+      "comparable_weight": 0.25,
+      "config_id": "long=fast|short=broad|cmp=0.25|slow=10",
+      "long_policy": {
+        "add_edge_ratio": 1.1,
+        "enter_confidence_floor": 0.35,
+        "enter_support_floor": 0.55,
+        "exit_edge_floor": 0.0,
+        "horizons": [
+          1,
+          3,
+          5
+        ],
+        "max_hold_sessions": 5,
+        "max_vol_ratio": 1.5,
+        "memories": [
+          5,
+          10,
+          20
+        ],
+        "profile_id": "fast",
+        "reduce_edge_ratio": 0.55,
+        "reverse_edge_ratio": 1.2,
+        "size_scale": 1.0,
+        "top_k": 4,
+        "wait_support_floor": 0.35
+      },
+      "short_policy": {
+        "add_edge_ratio": 1.1,
+        "enter_confidence_floor": 0.35,
+        "enter_support_floor": 0.5,
+        "exit_edge_floor": 0.0,
+        "horizons": [
+          1,
+          3,
+          5,
+          10,
+          20
+        ],
+        "max_hold_sessions": 20,
+        "max_vol_ratio": 1.5,
+        "memories": [
+          5,
+          10,
+          20,
+          40,
+          60,
+          126,
+          252,
+          "expanding"
+        ],
+        "profile_id": "broad",
+        "reduce_edge_ratio": 0.5,
+        "reverse_edge_ratio": 1.15,
+        "size_scale": 1.0,
+        "top_k": 8,
+        "wait_support_floor": 0.35
+      },
+      "slow_cadence": 10,
+      "uncertainty_penalty": 0.5
+    },
+    {
+      "active_family_cap": 6,
+      "asymmetric": true,
+      "comparable_weight": 0.25,
+      "config_id": "long=fast|short=broad|cmp=0.25|slow=20",
+      "long_policy": {
+        "add_edge_ratio": 1.1,
+        "enter_confidence_floor": 0.35,
+        "enter_support_floor": 0.55,
+        "exit_edge_floor": 0.0,
+        "horizons": [
+          1,
+          3,
+          5
+        ],
+        "max_hold_sessions": 5,
+        "max_vol_ratio": 1.5,
+        "memories": [
+          5,
+          10,
+          20
+        ],
+        "profile_id": "fast",
+        "reduce_edge_ratio": 0.55,
+        "reverse_edge_ratio": 1.2,
+        "size_scale": 1.0,
+        "top_k": 4,
+        "wait_support_floor": 0.35
+      },
+      "short_policy": {
+        "add_edge_ratio": 1.1,
+        "enter_confidence_floor": 0.35,
+        "enter_support_floor": 0.5,
+        "exit_edge_floor": 0.0,
+        "horizons": [
+          1,
+          3,
+          5,
+          10,
+          20
+        ],
+        "max_hold_sessions": 20,
+        "max_vol_ratio": 1.5,
+        "memories": [
+          5,
+          10,
+          20,
+          40,
+          60,
+          126,
+          252,
+          "expanding"
+        ],
+        "profile_id": "broad",
+        "reduce_edge_ratio": 0.5,
+        "reverse_edge_ratio": 1.15,
+        "size_scale": 1.0,
+        "top_k": 8,
+        "wait_support_floor": 0.35
+      },
+      "slow_cadence": 20,
+      "uncertainty_penalty": 0.5
+    },
+    {
+      "active_family_cap": 6,
+      "asymmetric": true,
+      "comparable_weight": 0.5,
+      "config_id": "long=fast|short=broad|cmp=0.5|slow=10",
+      "long_policy": {
+        "add_edge_ratio": 1.1,
+        "enter_confidence_floor": 0.35,
+        "enter_support_floor": 0.55,
+        "exit_edge_floor": 0.0,
+        "horizons": [
+          1,
+          3,
+          5
+        ],
+        "max_hold_sessions": 5,
+        "max_vol_ratio": 1.5,
+        "memories": [
+          5,
+          10,
+          20
+        ],
+        "profile_id": "fast",
+        "reduce_edge_ratio": 0.55,
+        "reverse_edge_ratio": 1.2,
+        "size_scale": 1.0,
+        "top_k": 4,
+        "wait_support_floor": 0.35
+      },
+      "short_policy": {
+        "add_edge_ratio": 1.1,
+        "enter_confidence_floor": 0.35,
+        "enter_support_floor": 0.5,
+        "exit_edge_floor": 0.0,
+        "horizons": [
+          1,
+          3,
+          5,
+          10,
+          20
+        ],
+        "max_hold_sessions": 20,
+        "max_vol_ratio": 1.5,
+        "memories": [
+          5,
+          10,
+          20,
+          40,
+          60,
+          126,
+          252,
+          "expanding"
+        ],
+        "profile_id": "broad",
+        "reduce_edge_ratio": 0.5,
+        "reverse_edge_ratio": 1.15,
+        "size_scale": 1.0,
+        "top_k": 8,
+        "wait_support_floor": 0.35
+      },
+      "slow_cadence": 10,
+      "uncertainty_penalty": 0.5
+    },
+    {
+      "active_family_cap": 6,
+      "asymmetric": true,
+      "comparable_weight": 0.5,
+      "config_id": "long=fast|short=broad|cmp=0.5|slow=20",
+      "long_policy": {
+        "add_edge_ratio": 1.1,
+        "enter_confidence_floor": 0.35,
+        "enter_support_floor": 0.55,
+        "exit_edge_floor": 0.0,
+        "horizons": [
+          1,
+          3,
+          5
+        ],
+        "max_hold_sessions": 5,
+        "max_vol_ratio": 1.5,
+        "memories": [
+          5,
+          10,
+          20
+        ],
+        "profile_id": "fast",
+        "reduce_edge_ratio": 0.55,
+        "reverse_edge_ratio": 1.2,
+        "size_scale": 1.0,
+        "top_k": 4,
+        "wait_support_floor": 0.35
+      },
+      "short_policy": {
+        "add_edge_ratio": 1.1,
+        "enter_confidence_floor": 0.35,
+        "enter_support_floor": 0.5,
+        "exit_edge_floor": 0.0,
+        "horizons": [
+          1,
+          3,
+          5,
+          10,
+          20
+        ],
+        "max_hold_sessions": 20,
+        "max_vol_ratio": 1.5,
+        "memories": [
+          5,
+          10,
+          20,
+          40,
+          60,
+          126,
+          252,
+          "expanding"
+        ],
+        "profile_id": "broad",
+        "reduce_edge_ratio": 0.5,
+        "reverse_edge_ratio": 1.15,
+        "size_scale": 1.0,
+        "top_k": 8,
+        "wait_support_floor": 0.35
+      },
+      "slow_cadence": 20,
+      "uncertainty_penalty": 0.5
+    },
+    {
+      "active_family_cap": 6,
+      "asymmetric": false,
+      "comparable_weight": 0.0,
+      "config_id": "long=fast|short=fast|cmp=0|slow=10",
+      "long_policy": {
+        "add_edge_ratio": 1.1,
+        "enter_confidence_floor": 0.35,
+        "enter_support_floor": 0.55,
+        "exit_edge_floor": 0.0,
+        "horizons": [
+          1,
+          3,
+          5
+        ],
+        "max_hold_sessions": 5,
+        "max_vol_ratio": 1.5,
+        "memories": [
+          5,
+          10,
+          20
+        ],
+        "profile_id": "fast",
+        "reduce_edge_ratio": 0.55,
+        "reverse_edge_ratio": 1.2,
+        "size_scale": 1.0,
+        "top_k": 4,
+        "wait_support_floor": 0.35
+      },
+      "short_policy": {
+        "add_edge_ratio": 1.1,
+        "enter_confidence_floor": 0.35,
+        "enter_support_floor": 0.55,
+        "exit_edge_floor": 0.0,
+        "horizons": [
+          1,
+          3,
+          5
+        ],
+        "max_hold_sessions": 5,
+        "max_vol_ratio": 1.5,
+        "memories": [
+          5,
+          10,
+          20
+        ],
+        "profile_id": "fast",
+        "reduce_edge_ratio": 0.55,
+        "reverse_edge_ratio": 1.2,
+        "size_scale": 1.0,
+        "top_k": 4,
+        "wait_support_floor": 0.35
+      },
+      "slow_cadence": 10,
+      "uncertainty_penalty": 0.5
+    },
+    {
+      "active_family_cap": 6,
+      "asymmetric": false,
+      "comparable_weight": 0.0,
+      "config_id": "long=fast|short=fast|cmp=0|slow=20",
+      "long_policy": {
+        "add_edge_ratio": 1.1,
+        "enter_confidence_floor": 0.35,
+        "enter_support_floor": 0.55,
+        "exit_edge_floor": 0.0,
+        "horizons": [
+          1,
+          3,
+          5
+        ],
+        "max_hold_sessions": 5,
+        "max_vol_ratio": 1.5,
+        "memories": [
+          5,
+          10,
+          20
+        ],
+        "profile_id": "fast",
+        "reduce_edge_ratio": 0.55,
+        "reverse_edge_ratio": 1.2,
+        "size_scale": 1.0,
+        "top_k": 4,
+        "wait_support_floor": 0.35
+      },
+      "short_policy": {
+        "add_edge_ratio": 1.1,
+        "enter_confidence_floor": 0.35,
+        "enter_support_floor": 0.55,
+        "exit_edge_floor": 0.0,
+        "horizons": [
+          1,
+          3,
+          5
+        ],
+        "max_hold_sessions": 5,
+        "max_vol_ratio": 1.5,
+        "memories": [
+          5,
+          10,
+          20
+        ],
+        "profile_id": "fast",
+        "reduce_edge_ratio": 0.55,
+        "reverse_edge_ratio": 1.2,
+        "size_scale": 1.0,
+        "top_k": 4,
+        "wait_support_floor": 0.35
+      },
+      "slow_cadence": 20,
+      "uncertainty_penalty": 0.5
+    },
+    {
+      "active_family_cap": 6,
+      "asymmetric": false,
+      "comparable_weight": 0.25,
+      "config_id": "long=fast|short=fast|cmp=0.25|slow=10",
+      "long_policy": {
+        "add_edge_ratio": 1.1,
+        "enter_confidence_floor": 0.35,
+        "enter_support_floor": 0.55,
+        "exit_edge_floor": 0.0,
+        "horizons": [
+          1,
+          3,
+          5
+        ],
+        "max_hold_sessions": 5,
+        "max_vol_ratio": 1.5,
+        "memories": [
+          5,
+          10,
+          20
+        ],
+        "profile_id": "fast",
+        "reduce_edge_ratio": 0.55,
+        "reverse_edge_ratio": 1.2,
+        "size_scale": 1.0,
+        "top_k": 4,
+        "wait_support_floor": 0.35
+      },
+      "short_policy": {
+        "add_edge_ratio": 1.1,
+        "enter_confidence_floor": 0.35,
+        "enter_support_floor": 0.55,
+        "exit_edge_floor": 0.0,
+        "horizons": [
+          1,
+          3,
+          5
+        ],
+        "max_hold_sessions": 5,
+        "max_vol_ratio": 1.5,
+        "memories": [
+          5,
+          10,
+          20
+        ],
+        "profile_id": "fast",
+        "reduce_edge_ratio": 0.55,
+        "reverse_edge_ratio": 1.2,
+        "size_scale": 1.0,
+        "top_k": 4,
+        "wait_support_floor": 0.35
+      },
+      "slow_cadence": 10,
+      "uncertainty_penalty": 0.5
+    },
+    {
+      "active_family_cap": 6,
+      "asymmetric": false,
+      "comparable_weight": 0.25,
+      "config_id": "long=fast|short=fast|cmp=0.25|slow=20",
+      "long_policy": {
+        "add_edge_ratio": 1.1,
+        "enter_confidence_floor": 0.35,
+        "enter_support_floor": 0.55,
+        "exit_edge_floor": 0.0,
+        "horizons": [
+          1,
+          3,
+          5
+        ],
+        "max_hold_sessions": 5,
+        "max_vol_ratio": 1.5,
+        "memories": [
+          5,
+          10,
+          20
+        ],
+        "profile_id": "fast",
+        "reduce_edge_ratio": 0.55,
+        "reverse_edge_ratio": 1.2,
+        "size_scale": 1.0,
+        "top_k": 4,
+        "wait_support_floor": 0.35
+      },
+      "short_policy": {
+        "add_edge_ratio": 1.1,
+        "enter_confidence_floor": 0.35,
+        "enter_support_floor": 0.55,
+        "exit_edge_floor": 0.0,
+        "horizons": [
+          1,
+          3,
+          5
+        ],
+        "max_hold_sessions": 5,
+        "max_vol_ratio": 1.5,
+        "memories": [
+          5,
+          10,
+          20
+        ],
+        "profile_id": "fast",
+        "reduce_edge_ratio": 0.55,
+        "reverse_edge_ratio": 1.2,
+        "size_scale": 1.0,
+        "top_k": 4,
+        "wait_support_floor": 0.35
+      },
+      "slow_cadence": 20,
+      "uncertainty_penalty": 0.5
+    },
+    {
+      "active_family_cap": 6,
+      "asymmetric": false,
+      "comparable_weight": 0.5,
+      "config_id": "long=fast|short=fast|cmp=0.5|slow=10",
+      "long_policy": {
+        "add_edge_ratio": 1.1,
+        "enter_confidence_floor": 0.35,
+        "enter_support_floor": 0.55,
+        "exit_edge_floor": 0.0,
+        "horizons": [
+          1,
+          3,
+          5
+        ],
+        "max_hold_sessions": 5,
+        "max_vol_ratio": 1.5,
+        "memories": [
+          5,
+          10,
+          20
+        ],
+        "profile_id": "fast",
+        "reduce_edge_ratio": 0.55,
+        "reverse_edge_ratio": 1.2,
+        "size_scale": 1.0,
+        "top_k": 4,
+        "wait_support_floor": 0.35
+      },
+      "short_policy": {
+        "add_edge_ratio": 1.1,
+        "enter_confidence_floor": 0.35,
+        "enter_support_floor": 0.55,
+        "exit_edge_floor": 0.0,
+        "horizons": [
+          1,
+          3,
+          5
+        ],
+        "max_hold_sessions": 5,
+        "max_vol_ratio": 1.5,
+        "memories": [
+          5,
+          10,
+          20
+        ],
+        "profile_id": "fast",
+        "reduce_edge_ratio": 0.55,
+        "reverse_edge_ratio": 1.2,
+        "size_scale": 1.0,
+        "top_k": 4,
+        "wait_support_floor": 0.35
+      },
+      "slow_cadence": 10,
+      "uncertainty_penalty": 0.5
+    },
+    {
+      "active_family_cap": 6,
+      "asymmetric": false,
+      "comparable_weight": 0.5,
+      "config_id": "long=fast|short=fast|cmp=0.5|slow=20",
+      "long_policy": {
+        "add_edge_ratio": 1.1,
+        "enter_confidence_floor": 0.35,
+        "enter_support_floor": 0.55,
+        "exit_edge_floor": 0.0,
+        "horizons": [
+          1,
+          3,
+          5
+        ],
+        "max_hold_sessions": 5,
+        "max_vol_ratio": 1.5,
+        "memories": [
+          5,
+          10,
+          20
+        ],
+        "profile_id": "fast",
+        "reduce_edge_ratio": 0.55,
+        "reverse_edge_ratio": 1.2,
+        "size_scale": 1.0,
+        "top_k": 4,
+        "wait_support_floor": 0.35
+      },
+      "short_policy": {
+        "add_edge_ratio": 1.1,
+        "enter_confidence_floor": 0.35,
+        "enter_support_floor": 0.55,
+        "exit_edge_floor": 0.0,
+        "horizons": [
+          1,
+          3,
+          5
+        ],
+        "max_hold_sessions": 5,
+        "max_vol_ratio": 1.5,
+        "memories": [
+          5,
+          10,
+          20
+        ],
+        "profile_id": "fast",
+        "reduce_edge_ratio": 0.55,
+        "reverse_edge_ratio": 1.2,
+        "size_scale": 1.0,
+        "top_k": 4,
+        "wait_support_floor": 0.35
+      },
+      "slow_cadence": 20,
+      "uncertainty_penalty": 0.5
+    },
+    {
+      "active_family_cap": 6,
+      "asymmetric": true,
+      "comparable_weight": 0.0,
+      "config_id": "long=fast|short=slow|cmp=0|slow=10",
+      "long_policy": {
+        "add_edge_ratio": 1.1,
+        "enter_confidence_floor": 0.35,
+        "enter_support_floor": 0.55,
+        "exit_edge_floor": 0.0,
+        "horizons": [
+          1,
+          3,
+          5
+        ],
+        "max_hold_sessions": 5,
+        "max_vol_ratio": 1.5,
+        "memories": [
+          5,
+          10,
+          20
+        ],
+        "profile_id": "fast",
+        "reduce_edge_ratio": 0.55,
+        "reverse_edge_ratio": 1.2,
+        "size_scale": 1.0,
+        "top_k": 4,
+        "wait_support_floor": 0.35
+      },
+      "short_policy": {
+        "add_edge_ratio": 1.2,
+        "enter_confidence_floor": 0.45,
+        "enter_support_floor": 0.6,
+        "exit_edge_floor": 0.0,
+        "horizons": [
+          10,
+          20
+        ],
+        "max_hold_sessions": 20,
+        "max_vol_ratio": 1.2,
+        "memories": [
+          40,
+          60,
+          126,
+          252,
+          "expanding"
+        ],
+        "profile_id": "slow",
+        "reduce_edge_ratio": 0.65,
+        "reverse_edge_ratio": 1.3,
+        "size_scale": 0.75,
+        "top_k": 4,
+        "wait_support_floor": 0.45
+      },
+      "slow_cadence": 10,
+      "uncertainty_penalty": 0.5
+    },
+    {
+      "active_family_cap": 6,
+      "asymmetric": true,
+      "comparable_weight": 0.0,
+      "config_id": "long=fast|short=slow|cmp=0|slow=20",
+      "long_policy": {
+        "add_edge_ratio": 1.1,
+        "enter_confidence_floor": 0.35,
+        "enter_support_floor": 0.55,
+        "exit_edge_floor": 0.0,
+        "horizons": [
+          1,
+          3,
+          5
+        ],
+        "max_hold_sessions": 5,
+        "max_vol_ratio": 1.5,
+        "memories": [
+          5,
+          10,
+          20
+        ],
+        "profile_id": "fast",
+        "reduce_edge_ratio": 0.55,
+        "reverse_edge_ratio": 1.2,
+        "size_scale": 1.0,
+        "top_k": 4,
+        "wait_support_floor": 0.35
+      },
+      "short_policy": {
+        "add_edge_ratio": 1.2,
+        "enter_confidence_floor": 0.45,
+        "enter_support_floor": 0.6,
+        "exit_edge_floor": 0.0,
+        "horizons": [
+          10,
+          20
+        ],
+        "max_hold_sessions": 20,
+        "max_vol_ratio": 1.2,
+        "memories": [
+          40,
+          60,
+          126,
+          252,
+          "expanding"
+        ],
+        "profile_id": "slow",
+        "reduce_edge_ratio": 0.65,
+        "reverse_edge_ratio": 1.3,
+        "size_scale": 0.75,
+        "top_k": 4,
+        "wait_support_floor": 0.45
+      },
+      "slow_cadence": 20,
+      "uncertainty_penalty": 0.5
+    },
+    {
+      "active_family_cap": 6,
+      "asymmetric": true,
+      "comparable_weight": 0.25,
+      "config_id": "long=fast|short=slow|cmp=0.25|slow=10",
+      "long_policy": {
+        "add_edge_ratio": 1.1,
+        "enter_confidence_floor": 0.35,
+        "enter_support_floor": 0.55,
+        "exit_edge_floor": 0.0,
+        "horizons": [
+          1,
+          3,
+          5
+        ],
+        "max_hold_sessions": 5,
+        "max_vol_ratio": 1.5,
+        "memories": [
+          5,
+          10,
+          20
+        ],
+        "profile_id": "fast",
+        "reduce_edge_ratio": 0.55,
+        "reverse_edge_ratio": 1.2,
+        "size_scale": 1.0,
+        "top_k": 4,
+        "wait_support_floor": 0.35
+      },
+      "short_policy": {
+        "add_edge_ratio": 1.2,
+        "enter_confidence_floor": 0.45,
+        "enter_support_floor": 0.6,
+        "exit_edge_floor": 0.0,
+        "horizons": [
+          10,
+          20
+        ],
+        "max_hold_sessions": 20,
+        "max_vol_ratio": 1.2,
+        "memories": [
+          40,
+          60,
+          126,
+          252,
+          "expanding"
+        ],
+        "profile_id": "slow",
+        "reduce_edge_ratio": 0.65,
+        "reverse_edge_ratio": 1.3,
+        "size_scale": 0.75,
+        "top_k": 4,
+        "wait_support_floor": 0.45
+      },
+      "slow_cadence": 10,
+      "uncertainty_penalty": 0.5
+    },
+    {
+      "active_family_cap": 6,
+      "asymmetric": true,
+      "comparable_weight": 0.25,
+      "config_id": "long=fast|short=slow|cmp=0.25|slow=20",
+      "long_policy": {
+        "add_edge_ratio": 1.1,
+        "enter_confidence_floor": 0.35,
+        "enter_support_floor": 0.55,
+        "exit_edge_floor": 0.0,
+        "horizons": [
+          1,
+          3,
+          5
+        ],
+        "max_hold_sessions": 5,
+        "max_vol_ratio": 1.5,
+        "memories": [
+          5,
+          10,
+          20
+        ],
+        "profile_id": "fast",
+        "reduce_edge_ratio": 0.55,
+        "reverse_edge_ratio": 1.2,
+        "size_scale": 1.0,
+        "top_k": 4,
+        "wait_support_floor": 0.35
+      },
+      "short_policy": {
+        "add_edge_ratio": 1.2,
+        "enter_confidence_floor": 0.45,
+        "enter_support_floor": 0.6,
+        "exit_edge_floor": 0.0,
+        "horizons": [
+          10,
+          20
+        ],
+        "max_hold_sessions": 20,
+        "max_vol_ratio": 1.2,
+        "memories": [
+          40,
+          60,
+          126,
+          252,
+          "expanding"
+        ],
+        "profile_id": "slow",
+        "reduce_edge_ratio": 0.65,
+        "reverse_edge_ratio": 1.3,
+        "size_scale": 0.75,
+        "top_k": 4,
+        "wait_support_floor": 0.45
+      },
+      "slow_cadence": 20,
+      "uncertainty_penalty": 0.5
+    },
+    {
+      "active_family_cap": 6,
+      "asymmetric": true,
+      "comparable_weight": 0.5,
+      "config_id": "long=fast|short=slow|cmp=0.5|slow=10",
+      "long_policy": {
+        "add_edge_ratio": 1.1,
+        "enter_confidence_floor": 0.35,
+        "enter_support_floor": 0.55,
+        "exit_edge_floor": 0.0,
+        "horizons": [
+          1,
+          3,
+          5
+        ],
+        "max_hold_sessions": 5,
+        "max_vol_ratio": 1.5,
+        "memories": [
+          5,
+          10,
+          20
+        ],
+        "profile_id": "fast",
+        "reduce_edge_ratio": 0.55,
+        "reverse_edge_ratio": 1.2,
+        "size_scale": 1.0,
+        "top_k": 4,
+        "wait_support_floor": 0.35
+      },
+      "short_policy": {
+        "add_edge_ratio": 1.2,
+        "enter_confidence_floor": 0.45,
+        "enter_support_floor": 0.6,
+        "exit_edge_floor": 0.0,
+        "horizons": [
+          10,
+          20
+        ],
+        "max_hold_sessions": 20,
+        "max_vol_ratio": 1.2,
+        "memories": [
+          40,
+          60,
+          126,
+          252,
+          "expanding"
+        ],
+        "profile_id": "slow",
+        "reduce_edge_ratio": 0.65,
+        "reverse_edge_ratio": 1.3,
+        "size_scale": 0.75,
+        "top_k": 4,
+        "wait_support_floor": 0.45
+      },
+      "slow_cadence": 10,
+      "uncertainty_penalty": 0.5
+    },
+    {
+      "active_family_cap": 6,
+      "asymmetric": true,
+      "comparable_weight": 0.5,
+      "config_id": "long=fast|short=slow|cmp=0.5|slow=20",
+      "long_policy": {
+        "add_edge_ratio": 1.1,
+        "enter_confidence_floor": 0.35,
+        "enter_support_floor": 0.55,
+        "exit_edge_floor": 0.0,
+        "horizons": [
+          1,
+          3,
+          5
+        ],
+        "max_hold_sessions": 5,
+        "max_vol_ratio": 1.5,
+        "memories": [
+          5,
+          10,
+          20
+        ],
+        "profile_id": "fast",
+        "reduce_edge_ratio": 0.55,
+        "reverse_edge_ratio": 1.2,
+        "size_scale": 1.0,
+        "top_k": 4,
+        "wait_support_floor": 0.35
+      },
+      "short_policy": {
+        "add_edge_ratio": 1.2,
+        "enter_confidence_floor": 0.45,
+        "enter_support_floor": 0.6,
+        "exit_edge_floor": 0.0,
+        "horizons": [
+          10,
+          20
+        ],
+        "max_hold_sessions": 20,
+        "max_vol_ratio": 1.2,
+        "memories": [
+          40,
+          60,
+          126,
+          252,
+          "expanding"
+        ],
+        "profile_id": "slow",
+        "reduce_edge_ratio": 0.65,
+        "reverse_edge_ratio": 1.3,
+        "size_scale": 0.75,
+        "top_k": 4,
+        "wait_support_floor": 0.45
+      },
+      "slow_cadence": 20,
+      "uncertainty_penalty": 0.5
+    },
+    {
+      "active_family_cap": 6,
+      "asymmetric": true,
+      "comparable_weight": 0.0,
+      "config_id": "long=slow|short=balanced|cmp=0|slow=10",
+      "long_policy": {
+        "add_edge_ratio": 1.2,
+        "enter_confidence_floor": 0.45,
+        "enter_support_floor": 0.6,
+        "exit_edge_floor": 0.0,
+        "horizons": [
+          10,
+          20
+        ],
+        "max_hold_sessions": 20,
+        "max_vol_ratio": 1.2,
+        "memories": [
+          40,
+          60,
+          126,
+          252,
+          "expanding"
+        ],
+        "profile_id": "slow",
+        "reduce_edge_ratio": 0.65,
+        "reverse_edge_ratio": 1.3,
+        "size_scale": 0.75,
+        "top_k": 4,
+        "wait_support_floor": 0.45
+      },
+      "short_policy": {
+        "add_edge_ratio": 1.15,
+        "enter_confidence_floor": 0.4,
+        "enter_support_floor": 0.55,
+        "exit_edge_floor": 0.0,
+        "horizons": [
+          3,
+          5,
+          10
+        ],
+        "max_hold_sessions": 10,
+        "max_vol_ratio": 1.35,
+        "memories": [
+          10,
+          20,
+          40,
+          60
+        ],
+        "profile_id": "balanced",
+        "reduce_edge_ratio": 0.6,
+        "reverse_edge_ratio": 1.25,
+        "size_scale": 1.0,
+        "top_k": 6,
+        "wait_support_floor": 0.4
+      },
+      "slow_cadence": 10,
+      "uncertainty_penalty": 0.5
+    },
+    {
+      "active_family_cap": 6,
+      "asymmetric": true,
+      "comparable_weight": 0.0,
+      "config_id": "long=slow|short=balanced|cmp=0|slow=20",
+      "long_policy": {
+        "add_edge_ratio": 1.2,
+        "enter_confidence_floor": 0.45,
+        "enter_support_floor": 0.6,
+        "exit_edge_floor": 0.0,
+        "horizons": [
+          10,
+          20
+        ],
+        "max_hold_sessions": 20,
+        "max_vol_ratio": 1.2,
+        "memories": [
+          40,
+          60,
+          126,
+          252,
+          "expanding"
+        ],
+        "profile_id": "slow",
+        "reduce_edge_ratio": 0.65,
+        "reverse_edge_ratio": 1.3,
+        "size_scale": 0.75,
+        "top_k": 4,
+        "wait_support_floor": 0.45
+      },
+      "short_policy": {
+        "add_edge_ratio": 1.15,
+        "enter_confidence_floor": 0.4,
+        "enter_support_floor": 0.55,
+        "exit_edge_floor": 0.0,
+        "horizons": [
+          3,
+          5,
+          10
+        ],
+        "max_hold_sessions": 10,
+        "max_vol_ratio": 1.35,
+        "memories": [
+          10,
+          20,
+          40,
+          60
+        ],
+        "profile_id": "balanced",
+        "reduce_edge_ratio": 0.6,
+        "reverse_edge_ratio": 1.25,
+        "size_scale": 1.0,
+        "top_k": 6,
+        "wait_support_floor": 0.4
+      },
+      "slow_cadence": 20,
+      "uncertainty_penalty": 0.5
+    },
+    {
+      "active_family_cap": 6,
+      "asymmetric": true,
+      "comparable_weight": 0.25,
+      "config_id": "long=slow|short=balanced|cmp=0.25|slow=10",
+      "long_policy": {
+        "add_edge_ratio": 1.2,
+        "enter_confidence_floor": 0.45,
+        "enter_support_floor": 0.6,
+        "exit_edge_floor": 0.0,
+        "horizons": [
+          10,
+          20
+        ],
+        "max_hold_sessions": 20,
+        "max_vol_ratio": 1.2,
+        "memories": [
+          40,
+          60,
+          126,
+          252,
+          "expanding"
+        ],
+        "profile_id": "slow",
+        "reduce_edge_ratio": 0.65,
+        "reverse_edge_ratio": 1.3,
+        "size_scale": 0.75,
+        "top_k": 4,
+        "wait_support_floor": 0.45
+      },
+      "short_policy": {
+        "add_edge_ratio": 1.15,
+        "enter_confidence_floor": 0.4,
+        "enter_support_floor": 0.55,
+        "exit_edge_floor": 0.0,
+        "horizons": [
+          3,
+          5,
+          10
+        ],
+        "max_hold_sessions": 10,
+        "max_vol_ratio": 1.35,
+        "memories": [
+          10,
+          20,
+          40,
+          60
+        ],
+        "profile_id": "balanced",
+        "reduce_edge_ratio": 0.6,
+        "reverse_edge_ratio": 1.25,
+        "size_scale": 1.0,
+        "top_k": 6,
+        "wait_support_floor": 0.4
+      },
+      "slow_cadence": 10,
+      "uncertainty_penalty": 0.5
+    },
+    {
+      "active_family_cap": 6,
+      "asymmetric": true,
+      "comparable_weight": 0.25,
+      "config_id": "long=slow|short=balanced|cmp=0.25|slow=20",
+      "long_policy": {
+        "add_edge_ratio": 1.2,
+        "enter_confidence_floor": 0.45,
+        "enter_support_floor": 0.6,
+        "exit_edge_floor": 0.0,
+        "horizons": [
+          10,
+          20
+        ],
+        "max_hold_sessions": 20,
+        "max_vol_ratio": 1.2,
+        "memories": [
+          40,
+          60,
+          126,
+          252,
+          "expanding"
+        ],
+        "profile_id": "slow",
+        "reduce_edge_ratio": 0.65,
+        "reverse_edge_ratio": 1.3,
+        "size_scale": 0.75,
+        "top_k": 4,
+        "wait_support_floor": 0.45
+      },
+      "short_policy": {
+        "add_edge_ratio": 1.15,
+        "enter_confidence_floor": 0.4,
+        "enter_support_floor": 0.55,
+        "exit_edge_floor": 0.0,
+        "horizons": [
+          3,
+          5,
+          10
+        ],
+        "max_hold_sessions": 10,
+        "max_vol_ratio": 1.35,
+        "memories": [
+          10,
+          20,
+          40,
+          60
+        ],
+        "profile_id": "balanced",
+        "reduce_edge_ratio": 0.6,
+        "reverse_edge_ratio": 1.25,
+        "size_scale": 1.0,
+        "top_k": 6,
+        "wait_support_floor": 0.4
+      },
+      "slow_cadence": 20,
+      "uncertainty_penalty": 0.5
+    },
+    {
+      "active_family_cap": 6,
+      "asymmetric": true,
+      "comparable_weight": 0.5,
+      "config_id": "long=slow|short=balanced|cmp=0.5|slow=10",
+      "long_policy": {
+        "add_edge_ratio": 1.2,
+        "enter_confidence_floor": 0.45,
+        "enter_support_floor": 0.6,
+        "exit_edge_floor": 0.0,
+        "horizons": [
+          10,
+          20
+        ],
+        "max_hold_sessions": 20,
+        "max_vol_ratio": 1.2,
+        "memories": [
+          40,
+          60,
+          126,
+          252,
+          "expanding"
+        ],
+        "profile_id": "slow",
+        "reduce_edge_ratio": 0.65,
+        "reverse_edge_ratio": 1.3,
+        "size_scale": 0.75,
+        "top_k": 4,
+        "wait_support_floor": 0.45
+      },
+      "short_policy": {
+        "add_edge_ratio": 1.15,
+        "enter_confidence_floor": 0.4,
+        "enter_support_floor": 0.55,
+        "exit_edge_floor": 0.0,
+        "horizons": [
+          3,
+          5,
+          10
+        ],
+        "max_hold_sessions": 10,
+        "max_vol_ratio": 1.35,
+        "memories": [
+          10,
+          20,
+          40,
+          60
+        ],
+        "profile_id": "balanced",
+        "reduce_edge_ratio": 0.6,
+        "reverse_edge_ratio": 1.25,
+        "size_scale": 1.0,
+        "top_k": 6,
+        "wait_support_floor": 0.4
+      },
+      "slow_cadence": 10,
+      "uncertainty_penalty": 0.5
+    },
+    {
+      "active_family_cap": 6,
+      "asymmetric": true,
+      "comparable_weight": 0.5,
+      "config_id": "long=slow|short=balanced|cmp=0.5|slow=20",
+      "long_policy": {
+        "add_edge_ratio": 1.2,
+        "enter_confidence_floor": 0.45,
+        "enter_support_floor": 0.6,
+        "exit_edge_floor": 0.0,
+        "horizons": [
+          10,
+          20
+        ],
+        "max_hold_sessions": 20,
+        "max_vol_ratio": 1.2,
+        "memories": [
+          40,
+          60,
+          126,
+          252,
+          "expanding"
+        ],
+        "profile_id": "slow",
+        "reduce_edge_ratio": 0.65,
+        "reverse_edge_ratio": 1.3,
+        "size_scale": 0.75,
+        "top_k": 4,
+        "wait_support_floor": 0.45
+      },
+      "short_policy": {
+        "add_edge_ratio": 1.15,
+        "enter_confidence_floor": 0.4,
+        "enter_support_floor": 0.55,
+        "exit_edge_floor": 0.0,
+        "horizons": [
+          3,
+          5,
+          10
+        ],
+        "max_hold_sessions": 10,
+        "max_vol_ratio": 1.35,
+        "memories": [
+          10,
+          20,
+          40,
+          60
+        ],
+        "profile_id": "balanced",
+        "reduce_edge_ratio": 0.6,
+        "reverse_edge_ratio": 1.25,
+        "size_scale": 1.0,
+        "top_k": 6,
+        "wait_support_floor": 0.4
+      },
+      "slow_cadence": 20,
+      "uncertainty_penalty": 0.5
+    },
+    {
+      "active_family_cap": 6,
+      "asymmetric": true,
+      "comparable_weight": 0.0,
+      "config_id": "long=slow|short=broad|cmp=0|slow=10",
+      "long_policy": {
+        "add_edge_ratio": 1.2,
+        "enter_confidence_floor": 0.45,
+        "enter_support_floor": 0.6,
+        "exit_edge_floor": 0.0,
+        "horizons": [
+          10,
+          20
+        ],
+        "max_hold_sessions": 20,
+        "max_vol_ratio": 1.2,
+        "memories": [
+          40,
+          60,
+          126,
+          252,
+          "expanding"
+        ],
+        "profile_id": "slow",
+        "reduce_edge_ratio": 0.65,
+        "reverse_edge_ratio": 1.3,
+        "size_scale": 0.75,
+        "top_k": 4,
+        "wait_support_floor": 0.45
+      },
+      "short_policy": {
+        "add_edge_ratio": 1.1,
+        "enter_confidence_floor": 0.35,
+        "enter_support_floor": 0.5,
+        "exit_edge_floor": 0.0,
+        "horizons": [
+          1,
+          3,
+          5,
+          10,
+          20
+        ],
+        "max_hold_sessions": 20,
+        "max_vol_ratio": 1.5,
+        "memories": [
+          5,
+          10,
+          20,
+          40,
+          60,
+          126,
+          252,
+          "expanding"
+        ],
+        "profile_id": "broad",
+        "reduce_edge_ratio": 0.5,
+        "reverse_edge_ratio": 1.15,
+        "size_scale": 1.0,
+        "top_k": 8,
+        "wait_support_floor": 0.35
+      },
+      "slow_cadence": 10,
+      "uncertainty_penalty": 0.5
+    },
+    {
+      "active_family_cap": 6,
+      "asymmetric": true,
+      "comparable_weight": 0.0,
+      "config_id": "long=slow|short=broad|cmp=0|slow=20",
+      "long_policy": {
+        "add_edge_ratio": 1.2,
+        "enter_confidence_floor": 0.45,
+        "enter_support_floor": 0.6,
+        "exit_edge_floor": 0.0,
+        "horizons": [
+          10,
+          20
+        ],
+        "max_hold_sessions": 20,
+        "max_vol_ratio": 1.2,
+        "memories": [
+          40,
+          60,
+          126,
+          252,
+          "expanding"
+        ],
+        "profile_id": "slow",
+        "reduce_edge_ratio": 0.65,
+        "reverse_edge_ratio": 1.3,
+        "size_scale": 0.75,
+        "top_k": 4,
+        "wait_support_floor": 0.45
+      },
+      "short_policy": {
+        "add_edge_ratio": 1.1,
+        "enter_confidence_floor": 0.35,
+        "enter_support_floor": 0.5,
+        "exit_edge_floor": 0.0,
+        "horizons": [
+          1,
+          3,
+          5,
+          10,
+          20
+        ],
+        "max_hold_sessions": 20,
+        "max_vol_ratio": 1.5,
+        "memories": [
+          5,
+          10,
+          20,
+          40,
+          60,
+          126,
+          252,
+          "expanding"
+        ],
+        "profile_id": "broad",
+        "reduce_edge_ratio": 0.5,
+        "reverse_edge_ratio": 1.15,
+        "size_scale": 1.0,
+        "top_k": 8,
+        "wait_support_floor": 0.35
+      },
+      "slow_cadence": 20,
+      "uncertainty_penalty": 0.5
+    },
+    {
+      "active_family_cap": 6,
+      "asymmetric": true,
+      "comparable_weight": 0.25,
+      "config_id": "long=slow|short=broad|cmp=0.25|slow=10",
+      "long_policy": {
+        "add_edge_ratio": 1.2,
+        "enter_confidence_floor": 0.45,
+        "enter_support_floor": 0.6,
+        "exit_edge_floor": 0.0,
+        "horizons": [
+          10,
+          20
+        ],
+        "max_hold_sessions": 20,
+        "max_vol_ratio": 1.2,
+        "memories": [
+          40,
+          60,
+          126,
+          252,
+          "expanding"
+        ],
+        "profile_id": "slow",
+        "reduce_edge_ratio": 0.65,
+        "reverse_edge_ratio": 1.3,
+        "size_scale": 0.75,
+        "top_k": 4,
+        "wait_support_floor": 0.45
+      },
+      "short_policy": {
+        "add_edge_ratio": 1.1,
+        "enter_confidence_floor": 0.35,
+        "enter_support_floor": 0.5,
+        "exit_edge_floor": 0.0,
+        "horizons": [
+          1,
+          3,
+          5,
+          10,
+          20
+        ],
+        "max_hold_sessions": 20,
+        "max_vol_ratio": 1.5,
+        "memories": [
+          5,
+          10,
+          20,
+          40,
+          60,
+          126,
+          252,
+          "expanding"
+        ],
+        "profile_id": "broad",
+        "reduce_edge_ratio": 0.5,
+        "reverse_edge_ratio": 1.15,
+        "size_scale": 1.0,
+        "top_k": 8,
+        "wait_support_floor": 0.35
+      },
+      "slow_cadence": 10,
+      "uncertainty_penalty": 0.5
+    },
+    {
+      "active_family_cap": 6,
+      "asymmetric": true,
+      "comparable_weight": 0.25,
+      "config_id": "long=slow|short=broad|cmp=0.25|slow=20",
+      "long_policy": {
+        "add_edge_ratio": 1.2,
+        "enter_confidence_floor": 0.45,
+        "enter_support_floor": 0.6,
+        "exit_edge_floor": 0.0,
+        "horizons": [
+          10,
+          20
+        ],
+        "max_hold_sessions": 20,
+        "max_vol_ratio": 1.2,
+        "memories": [
+          40,
+          60,
+          126,
+          252,
+          "expanding"
+        ],
+        "profile_id": "slow",
+        "reduce_edge_ratio": 0.65,
+        "reverse_edge_ratio": 1.3,
+        "size_scale": 0.75,
+        "top_k": 4,
+        "wait_support_floor": 0.45
+      },
+      "short_policy": {
+        "add_edge_ratio": 1.1,
+        "enter_confidence_floor": 0.35,
+        "enter_support_floor": 0.5,
+        "exit_edge_floor": 0.0,
+        "horizons": [
+          1,
+          3,
+          5,
+          10,
+          20
+        ],
+        "max_hold_sessions": 20,
+        "max_vol_ratio": 1.5,
+        "memories": [
+          5,
+          10,
+          20,
+          40,
+          60,
+          126,
+          252,
+          "expanding"
+        ],
+        "profile_id": "broad",
+        "reduce_edge_ratio": 0.5,
+        "reverse_edge_ratio": 1.15,
+        "size_scale": 1.0,
+        "top_k": 8,
+        "wait_support_floor": 0.35
+      },
+      "slow_cadence": 20,
+      "uncertainty_penalty": 0.5
+    },
+    {
+      "active_family_cap": 6,
+      "asymmetric": true,
+      "comparable_weight": 0.5,
+      "config_id": "long=slow|short=broad|cmp=0.5|slow=10",
+      "long_policy": {
+        "add_edge_ratio": 1.2,
+        "enter_confidence_floor": 0.45,
+        "enter_support_floor": 0.6,
+        "exit_edge_floor": 0.0,
+        "horizons": [
+          10,
+          20
+        ],
+        "max_hold_sessions": 20,
+        "max_vol_ratio": 1.2,
+        "memories": [
+          40,
+          60,
+          126,
+          252,
+          "expanding"
+        ],
+        "profile_id": "slow",
+        "reduce_edge_ratio": 0.65,
+        "reverse_edge_ratio": 1.3,
+        "size_scale": 0.75,
+        "top_k": 4,
+        "wait_support_floor": 0.45
+      },
+      "short_policy": {
+        "add_edge_ratio": 1.1,
+        "enter_confidence_floor": 0.35,
+        "enter_support_floor": 0.5,
+        "exit_edge_floor": 0.0,
+        "horizons": [
+          1,
+          3,
+          5,
+          10,
+          20
+        ],
+        "max_hold_sessions": 20,
+        "max_vol_ratio": 1.5,
+        "memories": [
+          5,
+          10,
+          20,
+          40,
+          60,
+          126,
+          252,
+          "expanding"
+        ],
+        "profile_id": "broad",
+        "reduce_edge_ratio": 0.5,
+        "reverse_edge_ratio": 1.15,
+        "size_scale": 1.0,
+        "top_k": 8,
+        "wait_support_floor": 0.35
+      },
+      "slow_cadence": 10,
+      "uncertainty_penalty": 0.5
+    },
+    {
+      "active_family_cap": 6,
+      "asymmetric": true,
+      "comparable_weight": 0.5,
+      "config_id": "long=slow|short=broad|cmp=0.5|slow=20",
+      "long_policy": {
+        "add_edge_ratio": 1.2,
+        "enter_confidence_floor": 0.45,
+        "enter_support_floor": 0.6,
+        "exit_edge_floor": 0.0,
+        "horizons": [
+          10,
+          20
+        ],
+        "max_hold_sessions": 20,
+        "max_vol_ratio": 1.2,
+        "memories": [
+          40,
+          60,
+          126,
+          252,
+          "expanding"
+        ],
+        "profile_id": "slow",
+        "reduce_edge_ratio": 0.65,
+        "reverse_edge_ratio": 1.3,
+        "size_scale": 0.75,
+        "top_k": 4,
+        "wait_support_floor": 0.45
+      },
+      "short_policy": {
+        "add_edge_ratio": 1.1,
+        "enter_confidence_floor": 0.35,
+        "enter_support_floor": 0.5,
+        "exit_edge_floor": 0.0,
+        "horizons": [
+          1,
+          3,
+          5,
+          10,
+          20
+        ],
+        "max_hold_sessions": 20,
+        "max_vol_ratio": 1.5,
+        "memories": [
+          5,
+          10,
+          20,
+          40,
+          60,
+          126,
+          252,
+          "expanding"
+        ],
+        "profile_id": "broad",
+        "reduce_edge_ratio": 0.5,
+        "reverse_edge_ratio": 1.15,
+        "size_scale": 1.0,
+        "top_k": 8,
+        "wait_support_floor": 0.35
+      },
+      "slow_cadence": 20,
+      "uncertainty_penalty": 0.5
+    },
+    {
+      "active_family_cap": 6,
+      "asymmetric": true,
+      "comparable_weight": 0.0,
+      "config_id": "long=slow|short=fast|cmp=0|slow=10",
+      "long_policy": {
+        "add_edge_ratio": 1.2,
+        "enter_confidence_floor": 0.45,
+        "enter_support_floor": 0.6,
+        "exit_edge_floor": 0.0,
+        "horizons": [
+          10,
+          20
+        ],
+        "max_hold_sessions": 20,
+        "max_vol_ratio": 1.2,
+        "memories": [
+          40,
+          60,
+          126,
+          252,
+          "expanding"
+        ],
+        "profile_id": "slow",
+        "reduce_edge_ratio": 0.65,
+        "reverse_edge_ratio": 1.3,
+        "size_scale": 0.75,
+        "top_k": 4,
+        "wait_support_floor": 0.45
+      },
+      "short_policy": {
+        "add_edge_ratio": 1.1,
+        "enter_confidence_floor": 0.35,
+        "enter_support_floor": 0.55,
+        "exit_edge_floor": 0.0,
+        "horizons": [
+          1,
+          3,
+          5
+        ],
+        "max_hold_sessions": 5,
+        "max_vol_ratio": 1.5,
+        "memories": [
+          5,
+          10,
+          20
+        ],
+        "profile_id": "fast",
+        "reduce_edge_ratio": 0.55,
+        "reverse_edge_ratio": 1.2,
+        "size_scale": 1.0,
+        "top_k": 4,
+        "wait_support_floor": 0.35
+      },
+      "slow_cadence": 10,
+      "uncertainty_penalty": 0.5
+    },
+    {
+      "active_family_cap": 6,
+      "asymmetric": true,
+      "comparable_weight": 0.0,
+      "config_id": "long=slow|short=fast|cmp=0|slow=20",
+      "long_policy": {
+        "add_edge_ratio": 1.2,
+        "enter_confidence_floor": 0.45,
+        "enter_support_floor": 0.6,
+        "exit_edge_floor": 0.0,
+        "horizons": [
+          10,
+          20
+        ],
+        "max_hold_sessions": 20,
+        "max_vol_ratio": 1.2,
+        "memories": [
+          40,
+          60,
+          126,
+          252,
+          "expanding"
+        ],
+        "profile_id": "slow",
+        "reduce_edge_ratio": 0.65,
+        "reverse_edge_ratio": 1.3,
+        "size_scale": 0.75,
+        "top_k": 4,
+        "wait_support_floor": 0.45
+      },
+      "short_policy": {
+        "add_edge_ratio": 1.1,
+        "enter_confidence_floor": 0.35,
+        "enter_support_floor": 0.55,
+        "exit_edge_floor": 0.0,
+        "horizons": [
+          1,
+          3,
+          5
+        ],
+        "max_hold_sessions": 5,
+        "max_vol_ratio": 1.5,
+        "memories": [
+          5,
+          10,
+          20
+        ],
+        "profile_id": "fast",
+        "reduce_edge_ratio": 0.55,
+        "reverse_edge_ratio": 1.2,
+        "size_scale": 1.0,
+        "top_k": 4,
+        "wait_support_floor": 0.35
+      },
+      "slow_cadence": 20,
+      "uncertainty_penalty": 0.5
+    },
+    {
+      "active_family_cap": 6,
+      "asymmetric": true,
+      "comparable_weight": 0.25,
+      "config_id": "long=slow|short=fast|cmp=0.25|slow=10",
+      "long_policy": {
+        "add_edge_ratio": 1.2,
+        "enter_confidence_floor": 0.45,
+        "enter_support_floor": 0.6,
+        "exit_edge_floor": 0.0,
+        "horizons": [
+          10,
+          20
+        ],
+        "max_hold_sessions": 20,
+        "max_vol_ratio": 1.2,
+        "memories": [
+          40,
+          60,
+          126,
+          252,
+          "expanding"
+        ],
+        "profile_id": "slow",
+        "reduce_edge_ratio": 0.65,
+        "reverse_edge_ratio": 1.3,
+        "size_scale": 0.75,
+        "top_k": 4,
+        "wait_support_floor": 0.45
+      },
+      "short_policy": {
+        "add_edge_ratio": 1.1,
+        "enter_confidence_floor": 0.35,
+        "enter_support_floor": 0.55,
+        "exit_edge_floor": 0.0,
+        "horizons": [
+          1,
+          3,
+          5
+        ],
+        "max_hold_sessions": 5,
+        "max_vol_ratio": 1.5,
+        "memories": [
+          5,
+          10,
+          20
+        ],
+        "profile_id": "fast",
+        "reduce_edge_ratio": 0.55,
+        "reverse_edge_ratio": 1.2,
+        "size_scale": 1.0,
+        "top_k": 4,
+        "wait_support_floor": 0.35
+      },
+      "slow_cadence": 10,
+      "uncertainty_penalty": 0.5
+    },
+    {
+      "active_family_cap": 6,
+      "asymmetric": true,
+      "comparable_weight": 0.25,
+      "config_id": "long=slow|short=fast|cmp=0.25|slow=20",
+      "long_policy": {
+        "add_edge_ratio": 1.2,
+        "enter_confidence_floor": 0.45,
+        "enter_support_floor": 0.6,
+        "exit_edge_floor": 0.0,
+        "horizons": [
+          10,
+          20
+        ],
+        "max_hold_sessions": 20,
+        "max_vol_ratio": 1.2,
+        "memories": [
+          40,
+          60,
+          126,
+          252,
+          "expanding"
+        ],
+        "profile_id": "slow",
+        "reduce_edge_ratio": 0.65,
+        "reverse_edge_ratio": 1.3,
+        "size_scale": 0.75,
+        "top_k": 4,
+        "wait_support_floor": 0.45
+      },
+      "short_policy": {
+        "add_edge_ratio": 1.1,
+        "enter_confidence_floor": 0.35,
+        "enter_support_floor": 0.55,
+        "exit_edge_floor": 0.0,
+        "horizons": [
+          1,
+          3,
+          5
+        ],
+        "max_hold_sessions": 5,
+        "max_vol_ratio": 1.5,
+        "memories": [
+          5,
+          10,
+          20
+        ],
+        "profile_id": "fast",
+        "reduce_edge_ratio": 0.55,
+        "reverse_edge_ratio": 1.2,
+        "size_scale": 1.0,
+        "top_k": 4,
+        "wait_support_floor": 0.35
+      },
+      "slow_cadence": 20,
+      "uncertainty_penalty": 0.5
+    },
+    {
+      "active_family_cap": 6,
+      "asymmetric": true,
+      "comparable_weight": 0.5,
+      "config_id": "long=slow|short=fast|cmp=0.5|slow=10",
+      "long_policy": {
+        "add_edge_ratio": 1.2,
+        "enter_confidence_floor": 0.45,
+        "enter_support_floor": 0.6,
+        "exit_edge_floor": 0.0,
+        "horizons": [
+          10,
+          20
+        ],
+        "max_hold_sessions": 20,
+        "max_vol_ratio": 1.2,
+        "memories": [
+          40,
+          60,
+          126,
+          252,
+          "expanding"
+        ],
+        "profile_id": "slow",
+        "reduce_edge_ratio": 0.65,
+        "reverse_edge_ratio": 1.3,
+        "size_scale": 0.75,
+        "top_k": 4,
+        "wait_support_floor": 0.45
+      },
+      "short_policy": {
+        "add_edge_ratio": 1.1,
+        "enter_confidence_floor": 0.35,
+        "enter_support_floor": 0.55,
+        "exit_edge_floor": 0.0,
+        "horizons": [
+          1,
+          3,
+          5
+        ],
+        "max_hold_sessions": 5,
+        "max_vol_ratio": 1.5,
+        "memories": [
+          5,
+          10,
+          20
+        ],
+        "profile_id": "fast",
+        "reduce_edge_ratio": 0.55,
+        "reverse_edge_ratio": 1.2,
+        "size_scale": 1.0,
+        "top_k": 4,
+        "wait_support_floor": 0.35
+      },
+      "slow_cadence": 10,
+      "uncertainty_penalty": 0.5
+    },
+    {
+      "active_family_cap": 6,
+      "asymmetric": true,
+      "comparable_weight": 0.5,
+      "config_id": "long=slow|short=fast|cmp=0.5|slow=20",
+      "long_policy": {
+        "add_edge_ratio": 1.2,
+        "enter_confidence_floor": 0.45,
+        "enter_support_floor": 0.6,
+        "exit_edge_floor": 0.0,
+        "horizons": [
+          10,
+          20
+        ],
+        "max_hold_sessions": 20,
+        "max_vol_ratio": 1.2,
+        "memories": [
+          40,
+          60,
+          126,
+          252,
+          "expanding"
+        ],
+        "profile_id": "slow",
+        "reduce_edge_ratio": 0.65,
+        "reverse_edge_ratio": 1.3,
+        "size_scale": 0.75,
+        "top_k": 4,
+        "wait_support_floor": 0.45
+      },
+      "short_policy": {
+        "add_edge_ratio": 1.1,
+        "enter_confidence_floor": 0.35,
+        "enter_support_floor": 0.55,
+        "exit_edge_floor": 0.0,
+        "horizons": [
+          1,
+          3,
+          5
+        ],
+        "max_hold_sessions": 5,
+        "max_vol_ratio": 1.5,
+        "memories": [
+          5,
+          10,
+          20
+        ],
+        "profile_id": "fast",
+        "reduce_edge_ratio": 0.55,
+        "reverse_edge_ratio": 1.2,
+        "size_scale": 1.0,
+        "top_k": 4,
+        "wait_support_floor": 0.35
+      },
+      "slow_cadence": 20,
+      "uncertainty_penalty": 0.5
+    },
+    {
+      "active_family_cap": 6,
+      "asymmetric": false,
+      "comparable_weight": 0.0,
+      "config_id": "long=slow|short=slow|cmp=0|slow=10",
+      "long_policy": {
+        "add_edge_ratio": 1.2,
+        "enter_confidence_floor": 0.45,
+        "enter_support_floor": 0.6,
+        "exit_edge_floor": 0.0,
+        "horizons": [
+          10,
+          20
+        ],
+        "max_hold_sessions": 20,
+        "max_vol_ratio": 1.2,
+        "memories": [
+          40,
+          60,
+          126,
+          252,
+          "expanding"
+        ],
+        "profile_id": "slow",
+        "reduce_edge_ratio": 0.65,
+        "reverse_edge_ratio": 1.3,
+        "size_scale": 0.75,
+        "top_k": 4,
+        "wait_support_floor": 0.45
+      },
+      "short_policy": {
+        "add_edge_ratio": 1.2,
+        "enter_confidence_floor": 0.45,
+        "enter_support_floor": 0.6,
+        "exit_edge_floor": 0.0,
+        "horizons": [
+          10,
+          20
+        ],
+        "max_hold_sessions": 20,
+        "max_vol_ratio": 1.2,
+        "memories": [
+          40,
+          60,
+          126,
+          252,
+          "expanding"
+        ],
+        "profile_id": "slow",
+        "reduce_edge_ratio": 0.65,
+        "reverse_edge_ratio": 1.3,
+        "size_scale": 0.75,
+        "top_k": 4,
+        "wait_support_floor": 0.45
+      },
+      "slow_cadence": 10,
+      "uncertainty_penalty": 0.5
+    },
+    {
+      "active_family_cap": 6,
+      "asymmetric": false,
+      "comparable_weight": 0.0,
+      "config_id": "long=slow|short=slow|cmp=0|slow=20",
+      "long_policy": {
+        "add_edge_ratio": 1.2,
+        "enter_confidence_floor": 0.45,
+        "enter_support_floor": 0.6,
+        "exit_edge_floor": 0.0,
+        "horizons": [
+          10,
+          20
+        ],
+        "max_hold_sessions": 20,
+        "max_vol_ratio": 1.2,
+        "memories": [
+          40,
+          60,
+          126,
+          252,
+          "expanding"
+        ],
+        "profile_id": "slow",
+        "reduce_edge_ratio": 0.65,
+        "reverse_edge_ratio": 1.3,
+        "size_scale": 0.75,
+        "top_k": 4,
+        "wait_support_floor": 0.45
+      },
+      "short_policy": {
+        "add_edge_ratio": 1.2,
+        "enter_confidence_floor": 0.45,
+        "enter_support_floor": 0.6,
+        "exit_edge_floor": 0.0,
+        "horizons": [
+          10,
+          20
+        ],
+        "max_hold_sessions": 20,
+        "max_vol_ratio": 1.2,
+        "memories": [
+          40,
+          60,
+          126,
+          252,
+          "expanding"
+        ],
+        "profile_id": "slow",
+        "reduce_edge_ratio": 0.65,
+        "reverse_edge_ratio": 1.3,
+        "size_scale": 0.75,
+        "top_k": 4,
+        "wait_support_floor": 0.45
+      },
+      "slow_cadence": 20,
+      "uncertainty_penalty": 0.5
+    },
+    {
+      "active_family_cap": 6,
+      "asymmetric": false,
+      "comparable_weight": 0.25,
+      "config_id": "long=slow|short=slow|cmp=0.25|slow=10",
+      "long_policy": {
+        "add_edge_ratio": 1.2,
+        "enter_confidence_floor": 0.45,
+        "enter_support_floor": 0.6,
+        "exit_edge_floor": 0.0,
+        "horizons": [
+          10,
+          20
+        ],
+        "max_hold_sessions": 20,
+        "max_vol_ratio": 1.2,
+        "memories": [
+          40,
+          60,
+          126,
+          252,
+          "expanding"
+        ],
+        "profile_id": "slow",
+        "reduce_edge_ratio": 0.65,
+        "reverse_edge_ratio": 1.3,
+        "size_scale": 0.75,
+        "top_k": 4,
+        "wait_support_floor": 0.45
+      },
+      "short_policy": {
+        "add_edge_ratio": 1.2,
+        "enter_confidence_floor": 0.45,
+        "enter_support_floor": 0.6,
+        "exit_edge_floor": 0.0,
+        "horizons": [
+          10,
+          20
+        ],
+        "max_hold_sessions": 20,
+        "max_vol_ratio": 1.2,
+        "memories": [
+          40,
+          60,
+          126,
+          252,
+          "expanding"
+        ],
+        "profile_id": "slow",
+        "reduce_edge_ratio": 0.65,
+        "reverse_edge_ratio": 1.3,
+        "size_scale": 0.75,
+        "top_k": 4,
+        "wait_support_floor": 0.45
+      },
+      "slow_cadence": 10,
+      "uncertainty_penalty": 0.5
+    },
+    {
+      "active_family_cap": 6,
+      "asymmetric": false,
+      "comparable_weight": 0.25,
+      "config_id": "long=slow|short=slow|cmp=0.25|slow=20",
+      "long_policy": {
+        "add_edge_ratio": 1.2,
+        "enter_confidence_floor": 0.45,
+        "enter_support_floor": 0.6,
+        "exit_edge_floor": 0.0,
+        "horizons": [
+          10,
+          20
+        ],
+        "max_hold_sessions": 20,
+        "max_vol_ratio": 1.2,
+        "memories": [
+          40,
+          60,
+          126,
+          252,
+          "expanding"
+        ],
+        "profile_id": "slow",
+        "reduce_edge_ratio": 0.65,
+        "reverse_edge_ratio": 1.3,
+        "size_scale": 0.75,
+        "top_k": 4,
+        "wait_support_floor": 0.45
+      },
+      "short_policy": {
+        "add_edge_ratio": 1.2,
+        "enter_confidence_floor": 0.45,
+        "enter_support_floor": 0.6,
+        "exit_edge_floor": 0.0,
+        "horizons": [
+          10,
+          20
+        ],
+        "max_hold_sessions": 20,
+        "max_vol_ratio": 1.2,
+        "memories": [
+          40,
+          60,
+          126,
+          252,
+          "expanding"
+        ],
+        "profile_id": "slow",
+        "reduce_edge_ratio": 0.65,
+        "reverse_edge_ratio": 1.3,
+        "size_scale": 0.75,
+        "top_k": 4,
+        "wait_support_floor": 0.45
+      },
+      "slow_cadence": 20,
+      "uncertainty_penalty": 0.5
+    },
+    {
+      "active_family_cap": 6,
+      "asymmetric": false,
+      "comparable_weight": 0.5,
+      "config_id": "long=slow|short=slow|cmp=0.5|slow=10",
+      "long_policy": {
+        "add_edge_ratio": 1.2,
+        "enter_confidence_floor": 0.45,
+        "enter_support_floor": 0.6,
+        "exit_edge_floor": 0.0,
+        "horizons": [
+          10,
+          20
+        ],
+        "max_hold_sessions": 20,
+        "max_vol_ratio": 1.2,
+        "memories": [
+          40,
+          60,
+          126,
+          252,
+          "expanding"
+        ],
+        "profile_id": "slow",
+        "reduce_edge_ratio": 0.65,
+        "reverse_edge_ratio": 1.3,
+        "size_scale": 0.75,
+        "top_k": 4,
+        "wait_support_floor": 0.45
+      },
+      "short_policy": {
+        "add_edge_ratio": 1.2,
+        "enter_confidence_floor": 0.45,
+        "enter_support_floor": 0.6,
+        "exit_edge_floor": 0.0,
+        "horizons": [
+          10,
+          20
+        ],
+        "max_hold_sessions": 20,
+        "max_vol_ratio": 1.2,
+        "memories": [
+          40,
+          60,
+          126,
+          252,
+          "expanding"
+        ],
+        "profile_id": "slow",
+        "reduce_edge_ratio": 0.65,
+        "reverse_edge_ratio": 1.3,
+        "size_scale": 0.75,
+        "top_k": 4,
+        "wait_support_floor": 0.45
+      },
+      "slow_cadence": 10,
+      "uncertainty_penalty": 0.5
+    },
+    {
+      "active_family_cap": 6,
+      "asymmetric": false,
+      "comparable_weight": 0.5,
+      "config_id": "long=slow|short=slow|cmp=0.5|slow=20",
+      "long_policy": {
+        "add_edge_ratio": 1.2,
+        "enter_confidence_floor": 0.45,
+        "enter_support_floor": 0.6,
+        "exit_edge_floor": 0.0,
+        "horizons": [
+          10,
+          20
+        ],
+        "max_hold_sessions": 20,
+        "max_vol_ratio": 1.2,
+        "memories": [
+          40,
+          60,
+          126,
+          252,
+          "expanding"
+        ],
+        "profile_id": "slow",
+        "reduce_edge_ratio": 0.65,
+        "reverse_edge_ratio": 1.3,
+        "size_scale": 0.75,
+        "top_k": 4,
+        "wait_support_floor": 0.45
+      },
+      "short_policy": {
+        "add_edge_ratio": 1.2,
+        "enter_confidence_floor": 0.45,
+        "enter_support_floor": 0.6,
+        "exit_edge_floor": 0.0,
+        "horizons": [
+          10,
+          20
+        ],
+        "max_hold_sessions": 20,
+        "max_vol_ratio": 1.2,
+        "memories": [
+          40,
+          60,
+          126,
+          252,
+          "expanding"
+        ],
+        "profile_id": "slow",
+        "reduce_edge_ratio": 0.65,
+        "reverse_edge_ratio": 1.3,
+        "size_scale": 0.75,
+        "top_k": 4,
+        "wait_support_floor": 0.45
+      },
+      "slow_cadence": 20,
+      "uncertainty_penalty": 0.5
+    }
+  ],
+  "family_map": {
+    "attr__derived_jump_intensity__direct": "attribute_volatility",
+    "attr__derived_jump_intensity__inverse": "attribute_volatility",
+    "attr__derived_prior20_log_volume_m1_median__direct": "attribute_volatility",
+    "attr__derived_prior20_log_volume_m1_median__inverse": "attribute_volatility",
+    "attr__derived_prior20_settle_max__direct": "attribute_curve",
+    "attr__derived_prior20_settle_max__inverse": "attribute_curve",
+    "attr__derived_prior20_settle_min__direct": "attribute_curve",
+    "attr__derived_prior20_settle_min__inverse": "attribute_curve",
+    "attr__derived_prior60_jump_q67__direct": "attribute_volatility",
+    "attr__derived_prior60_jump_q67__inverse": "attribute_volatility",
+    "attr__derived_prior60_vol20_median__direct": "attribute_volatility",
+    "attr__derived_prior60_vol20_median__inverse": "attribute_volatility",
+    "attr__derived_prior60_vov_q67__direct": "attribute_other",
+    "attr__derived_prior60_vov_q67__inverse": "attribute_other",
+    "attr__derived_settle_m1__direct": "attribute_curve",
+    "attr__derived_settle_m1__inverse": "attribute_curve",
+    "attr__derived_vol_of_vol__direct": "attribute_volatility",
+    "attr__derived_vol_of_vol__inverse": "attribute_volatility",
+    "attr__feature_curve_dte_m1__direct": "attribute_curve",
+    "attr__feature_curve_dte_m1__inverse": "attribute_curve",
+    "attr__feature_curve_dte_m2__direct": "attribute_curve",
+    "attr__feature_curve_dte_m2__inverse": "attribute_curve",
+    "attr__feature_curve_dte_m3__direct": "attribute_curve",
+    "attr__feature_curve_dte_m3__inverse": "attribute_curve",
+    "attr__feature_curve_dte_m4__direct": "attribute_curve",
+    "attr__feature_curve_dte_m4__inverse": "attribute_curve",
+    "attr__feature_curve_log_settle_m1__direct": "attribute_curve",
+    "attr__feature_curve_log_settle_m1__inverse": "attribute_curve",
+    "attr__feature_curve_log_settle_m2__direct": "attribute_curve",
+    "attr__feature_curve_log_settle_m2__inverse": "attribute_curve",
+    "attr__feature_curve_log_settle_m3__direct": "attribute_curve",
+    "attr__feature_curve_log_settle_m3__inverse": "attribute_curve",
+    "attr__feature_curve_log_settle_m4__direct": "attribute_curve",
+    "attr__feature_curve_log_settle_m4__inverse": "attribute_curve",
+    "attr__feature_curve_log_volume_m1__direct": "attribute_volatility",
+    "attr__feature_curve_log_volume_m1__inverse": "attribute_volatility",
+    "attr__feature_curve_log_volume_m2__direct": "attribute_volatility",
+    "attr__feature_curve_log_volume_m2__inverse": "attribute_volatility",
+    "attr__feature_curve_log_volume_m3__direct": "attribute_volatility",
+    "attr__feature_curve_log_volume_m3__inverse": "attribute_volatility",
+    "attr__feature_curve_log_volume_m4__direct": "attribute_volatility",
+    "attr__feature_curve_log_volume_m4__inverse": "attribute_volatility",
+    "attr__feature_curve_slope_m1_m4__direct": "attribute_curve",
+    "attr__feature_curve_slope_m1_m4__inverse": "attribute_curve",
+    "attr__feature_curve_spread_m1_m2__direct": "attribute_curve",
+    "attr__feature_curve_spread_m1_m2__inverse": "attribute_curve",
+    "attr__feature_curve_spread_m2_m3__direct": "attribute_curve",
+    "attr__feature_curve_spread_m2_m3__inverse": "attribute_curve",
+    "attr__feature_curve_spread_m3_m4__direct": "attribute_curve",
+    "attr__feature_curve_spread_m3_m4__inverse": "attribute_curve",
+    "attr__feature_curve_volume_ratio_m1_m2__direct": "attribute_volatility",
+    "attr__feature_curve_volume_ratio_m1_m2__inverse": "attribute_volatility",
+    "attr__feature_ma_gap_20__direct": "attribute_technical",
+    "attr__feature_ma_gap_20__inverse": "attribute_technical",
+    "attr__feature_ma_gap_5__direct": "attribute_technical",
+    "attr__feature_ma_gap_5__inverse": "attribute_technical",
+    "attr__feature_range_pct__direct": "attribute_volatility",
+    "attr__feature_range_pct__inverse": "attribute_volatility",
+    "attr__feature_ret_1__direct": "attribute_technical",
+    "attr__feature_ret_1__inverse": "attribute_technical",
+    "attr__feature_ret_20__direct": "attribute_technical",
+    "attr__feature_ret_20__inverse": "attribute_technical",
+    "attr__feature_ret_5__direct": "attribute_technical",
+    "attr__feature_ret_5__inverse": "attribute_technical",
+    "attr__feature_roll_event__direct": "attribute_other",
+    "attr__feature_roll_event__inverse": "attribute_other",
+    "attr__feature_season_cos__direct": "attribute_seasonality",
+    "attr__feature_season_cos__inverse": "attribute_seasonality",
+    "attr__feature_season_sin__direct": "attribute_seasonality",
+    "attr__feature_season_sin__inverse": "attribute_seasonality",
+    "attr__feature_selected_dte__direct": "attribute_curve",
+    "attr__feature_selected_dte__inverse": "attribute_curve",
+    "attr__feature_vol_20__direct": "attribute_volatility",
+    "attr__feature_vol_20__inverse": "attribute_volatility",
+    "attr__feature_vol_5__direct": "attribute_volatility",
+    "attr__feature_vol_5__inverse": "attribute_volatility",
+    "attr__kronos_age_seconds__direct": "attribute_kronos",
+    "attr__kronos_age_seconds__inverse": "attribute_kronos",
+    "attr__kronos_close_return__direct": "attribute_kronos",
+    "attr__kronos_close_return__inverse": "attribute_kronos",
+    "attr__kronos_range_pct__direct": "attribute_kronos",
+    "attr__kronos_range_pct__inverse": "attribute_kronos",
+    "attr__managed_money_net__direct": "attribute_positioning",
+    "attr__managed_money_net__inverse": "attribute_positioning",
+    "attr__market_age_seconds__direct": "attribute_staleness",
+    "attr__market_age_seconds__inverse": "attribute_staleness",
+    "attr__market_age_sessions__direct": "attribute_staleness",
+    "attr__market_age_sessions__inverse": "attribute_staleness",
+    "attr__positioning_age_seconds__direct": "attribute_positioning",
+    "attr__positioning_age_seconds__inverse": "attribute_positioning",
+    "attr__positioning_age_sessions__direct": "attribute_positioning",
+    "attr__positioning_age_sessions__inverse": "attribute_positioning",
+    "attr__positioning_open_interest__direct": "attribute_positioning",
+    "attr__positioning_open_interest__inverse": "attribute_positioning",
+    "attr__producer_merchant_net__direct": "attribute_positioning",
+    "attr__producer_merchant_net__inverse": "attribute_positioning",
+    "attr__timesfm_age_seconds__direct": "attribute_timesfm",
+    "attr__timesfm_age_seconds__inverse": "attribute_timesfm",
+    "attr__timesfm_interval_width__direct": "attribute_timesfm",
+    "attr__timesfm_interval_width__inverse": "attribute_timesfm",
+    "attr__timesfm_point_return__direct": "attribute_timesfm",
+    "attr__timesfm_point_return__inverse": "attribute_timesfm",
+    "attr__timesfm_q10_return__direct": "attribute_timesfm",
+    "attr__timesfm_q10_return__inverse": "attribute_timesfm",
+    "attr__timesfm_q90_return__direct": "attribute_timesfm",
+    "attr__timesfm_q90_return__inverse": "attribute_timesfm",
+    "curve_slope_direct": "curve",
+    "curve_slope_inverse": "curve",
+    "high_jump_mean_reversion": "jump",
+    "kronos_direction": "kronos",
+    "low_vol_trend20": "volatility",
+    "ma20_trend": "trend",
+    "ma5_mean_reversion": "mean_reversion",
+    "mean_reversion_ret5": "mean_reversion",
+    "positioning_producer_direct": "positioning",
+    "positioning_producer_inverse": "positioning",
+    "range_breakout20": "breakout",
+    "season_cos_direct": "seasonality",
+    "season_sin_direct": "seasonality",
+    "timesfm_direction": "timesfm",
+    "trend_ret20": "trend",
+    "trend_ret5": "trend",
+    "vol_of_vol_veto_trend": "vol_of_vol"
+  },
+  "full_memory_bank": [
+    5,
+    10,
+    20,
+    40,
+    60,
+    126,
+    252,
+    "expanding"
+  ],
+  "generated_attribute_specialist_count": 106,
+  "issue": 465,
+  "iteration": "block1-controller-v3-oracle-lifecycle-output-hardening",
+  "named_specialist_library": [
+    {
+      "family": "trend",
+      "id": "trend_ret20",
+      "signal": "sign(feature_ret_20)"
+    },
+    {
+      "family": "trend",
+      "id": "trend_ret5",
+      "signal": "sign(feature_ret_5)"
+    },
+    {
+      "family": "mean_reversion",
+      "id": "mean_reversion_ret5",
+      "signal": "-sign(feature_ret_5)"
+    },
+    {
+      "family": "trend",
+      "id": "ma20_trend",
+      "signal": "sign(feature_ma_gap_20)"
+    },
+    {
+      "family": "mean_reversion",
+      "id": "ma5_mean_reversion",
+      "signal": "-sign(feature_ma_gap_5)"
+    },
+    {
+      "family": "curve",
+      "id": "curve_slope_direct",
+      "signal": "sign(feature_curve_slope_m1_m4)"
+    },
+    {
+      "family": "curve",
+      "id": "curve_slope_inverse",
+      "signal": "-sign(feature_curve_slope_m1_m4)"
+    },
+    {
+      "family": "seasonality",
+      "id": "season_sin_direct",
+      "signal": "sign(feature_season_sin)"
+    },
+    {
+      "family": "seasonality",
+      "id": "season_cos_direct",
+      "signal": "sign(feature_season_cos)"
+    },
+    {
+      "family": "positioning",
+      "id": "positioning_producer_direct",
+      "signal": "sign(producer_merchant_net)"
+    },
+    {
+      "family": "positioning",
+      "id": "positioning_producer_inverse",
+      "signal": "-sign(producer_merchant_net)"
+    },
+    {
+      "family": "timesfm",
+      "id": "timesfm_direction",
+      "signal": "sign(timesfm_point_return)"
+    },
+    {
+      "family": "kronos",
+      "id": "kronos_direction",
+      "signal": "sign(kronos_close_return)"
+    },
+    {
+      "family": "breakout",
+      "id": "range_breakout20",
+      "signal": "prior20_settle_breakout"
+    },
+    {
+      "family": "volatility",
+      "id": "low_vol_trend20",
+      "signal": "trend_ret20_when_feature_vol_20_le_prior60_median"
+    },
+    {
+      "family": "jump",
+      "id": "high_jump_mean_reversion",
+      "signal": "mean_reversion_ret5_when_jump_intensity_ge_prior60_q67"
+    },
+    {
+      "family": "vol_of_vol",
+      "id": "vol_of_vol_veto_trend",
+      "signal": "trend_ret20_when_vol_of_vol_le_prior60_q67"
+    }
+  ],
+  "prereg_sha256": "6a404260ee58cb726f5fbf16ac45b33df67586fbb708e982f6d7cafdf3727722",
+  "schema_version": 4,
+  "scoring_performed": false,
+  "total_specialist_count": 123,
+  "zero_weight_legal": true
+}

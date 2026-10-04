@@ -1,0 +1,505 @@
+{
+  "attribute_weight_oracle": {
+    "attribute_count": 53,
+    "attributes": "exact_individually_weightable_PIT_numeric_attributes",
+    "daily_action_set": [
+      "short",
+      "flat",
+      "long"
+    ],
+    "horizons_sessions": [1, 3, 5, 10, 20],
+    "exposure_step_contracts": 0.25,
+    "max_abs_contracts": 1.5,
+    "objective": "horizon_specific_realized_after_cost_return_including_roll_turnover",
+    "dense_solution": "exact_after_cost_exposure_lattice_optimum_then_minimum_L2_norm_53_attribute_weight_vector_reconstructing_optimal_exposure",
+    "development_only_nontradable": true,
+    "predictor": "strictly_prior_matured_oracle_labels_inverse_distance_comparable_state_weight_average",
+    "predictor_neighbors": 10,
+    "predictor_selection_use": false,
+    "predictor_targets": ["side", "exposure", "sparse_attribute_set", "weight_vector"],
+    "required": true,
+    "round_trip_cost_included": true,
+    "selection_use": false,
+    "sparse_k": 8,
+    "sparse_ks": [1, 2, 4, 8, 16],
+    "sparse_solution": "canonical minimum_L2 exposure-reconstructing solution over top-k absolute prior-standardized current attributes for k=1,2,4,8,16"
+  },
+  "block_contract": {
+    "block_id": "block-001",
+    "end_exclusive": "2011-01-06T00:00:00Z",
+    "expected_executable_decision_rows": 123,
+    "later_blocks_available": false,
+    "start_inclusive": "2010-07-06T00:00:00Z",
+    "warmup_completed_trading_sessions": 30
+  },
+  "consequence_horizons_sessions": [
+    1,
+    2,
+    3,
+    5,
+    10,
+    20
+  ],
+  "consequence_store": {
+    "fields": [
+      "forward_returns_1_2_3_5_10_20",
+      "mfe_mae",
+      "future_realized_volatility_tail",
+      "best_entry_diagnostics",
+      "holding_policy_economics",
+      "size_counterfactuals",
+      "action_counterfactuals",
+      "long_short_economics",
+      "slippage_and_missed_fill_degradation"
+    ],
+    "logically_separate_from_pit_state": true
+  },
+  "context_columns": [
+    "feature_ret_20",
+    "feature_curve_slope_m1_m4",
+    "feature_vol_20",
+    "derived_jump_intensity",
+    "derived_vol_of_vol",
+    "producer_merchant_net",
+    "timesfm_interval_width",
+    "kronos_range_pct",
+    "feature_season_sin",
+    "feature_season_cos"
+  ],
+  "dynamic_sizing": {
+    "hard_cap_rule": "minimum_of_contract_margin_notional_leverage_caps; flat_at_or_beyond_drawdown_cap",
+    "inputs": [
+      "estimated_edge",
+      "confidence",
+      "regime_quality",
+      "volatility",
+      "liquidity",
+      "drawdown",
+      "risk_capacity",
+      "side_profile"
+    ],
+    "max_abs_contracts": 1.5,
+    "max_drawdown_fraction": 0.25,
+    "max_margin_fraction": 0.15,
+    "max_notional_leverage": 1.0
+  },
+  "event_time": {
+    "reason": "no defensible event-time execution timestamp source is available for 2010 block1",
+    "status": "HOLD_SOURCE_TIMING_NOT_PROVEN_IN_BLOCK1"
+  },
+  "evidence_class": "development_only_scope_completion_not_independent_confirmation",
+  "execution_contract": {
+    "contract_multiplier_mmbtu": 10000.0,
+    "fill_rule": "same_frozen_earliest_executable_fill_contract_as_v1",
+    "initial_margin_usd_per_contract": 5000.0,
+    "roll_close_reopen_turnover_charged": true,
+    "starting_capital_usd": 100000.0
+  },
+  "execution_sensitivity": {
+    "base_cost_usd_per_contract_side": 15.0,
+    "scenarios": [
+      {
+        "extra_slippage_usd_per_contract_side": 0.0,
+        "id": "base",
+        "miss_increase_when_below_prior_volume": false
+      },
+      {
+        "extra_slippage_usd_per_contract_side": 15.0,
+        "id": "moderate",
+        "miss_increase_when_below_prior_volume": true
+      },
+      {
+        "extra_slippage_usd_per_contract_side": 30.0,
+        "id": "severe",
+        "miss_increase_when_below_prior_volume": true
+      }
+    ]
+  },
+  "expert_effectiveness_contract": {
+    "by_specialist_horizon_direction_memory_and_comparable_state": true,
+    "memories": [
+      5,
+      10,
+      20,
+      40,
+      60,
+      126,
+      252,
+      "expanding"
+    ],
+    "metrics": [
+      "realized_net_return",
+      "direction_hit_rate",
+      "direction_error",
+      "forecast_mae_return",
+      "forecast_rmse_return",
+      "forecast_bias_return",
+      "interval_coverage",
+      "interval_sharpness"
+    ],
+    "selection_reliability_formula": {
+      "forecast_mae_multiplier": "1/(1+10*MAE) when quantitative forecast exists else 1",
+      "hit_multiplier": "clip(0.5 + hit_rate, 0.5, 1.5)",
+      "interval_calibration_multiplier": "clip(1-abs(coverage-0.80),0.5,1) when probabilistic interval exists else 1"
+    },
+    "forecast_target_semantics": {
+      "timesfm": "same-contract canonical settlement return from the decision trade date to the forecast session",
+      "kronos": "same-contract OHLCV close return from the decision trade date to the forecast session"
+    },
+    "forecast_metric_availability_rule": "forecast-error/calibration observations enter effectiveness only after the matching native target value is known strictly before the decision timestamp",
+    "memory_scale_selection": {
+      "eligible_memories": [5, 10, 20, 40, 60, 126, 252, "expanding"],
+      "granularity": "independent_per_specialist_horizon_direction",
+      "profile_memory_role": "deterministic_tie_break_preference_only_not_eligibility_filter",
+      "selection_score": "diagnostic_reliability_times_strict_prior_state_value_minus_uncertainty_penalty_times_memory_standard_error",
+      "strict_prior": true
+    },
+    "strict_prior_outcomes_only": true
+  },
+  "expert_path_contract": {
+    "block_end_truncation_only": false,
+    "full_native_horizon_for_every_decision": true,
+    "future_calendar_semantics": "known Block1 decision dates then synthetic UTC business-day continuation after block end; no later-block market data",
+    "hash_bound": true,
+    "manifest": "issue465-block1-controller-v3-expert-paths-manifest.json",
+    "models": [
+      "timesfm_2_5",
+      "kronos_base"
+    ],
+    "native_horizon_sessions": 20,
+    "reported_horizons_sessions": [
+      1,
+      3,
+      5,
+      10,
+      20
+    ],
+    "required_fields": [
+      "full_point_paths",
+      "timesfm_q10_q90_paths",
+      "forecast_slope",
+      "forecast_acceleration",
+      "model_disagreement_by_horizon",
+      "model_sign_disagreement_rate"
+    ],
+    "controller_context_fields": [
+      "expert_timesfm_slope",
+      "expert_timesfm_acceleration",
+      "expert_kronos_slope",
+      "expert_kronos_acceleration",
+      "expert_timesfm_interval_width_h1",
+      "expert_timesfm_interval_width_h3",
+      "expert_timesfm_interval_width_h5",
+      "expert_timesfm_interval_width_h10",
+      "expert_timesfm_interval_width_h20",
+      "expert_model_disagreement_h1",
+      "expert_model_disagreement_h3",
+      "expert_model_disagreement_h5",
+      "expert_model_disagreement_h10",
+      "expert_model_disagreement_h20",
+      "expert_model_disagreement_mean_abs",
+      "expert_model_sign_disagreement_rate"
+    ],
+    "selection_use": "horizon_specific_direction_and_comparable_state_context_with_strict_prior_effectiveness",
+    "source": "issue465-block1-controller-v3-expert-paths.jsonl"
+  },
+  "freeze_rules": {
+    "append_future_rows_must_not_change_block1_v3": true,
+    "paper_sim_live_remain_sealed": true,
+    "protected_2023_plus_remains_sealed": true,
+    "same_day_or_future_outcome_mutation_must_not_change_current_decision": true,
+    "v1_and_v2_outputs_immutable": true
+  },
+  "hierarchy": [
+    "market_state",
+    "experts",
+    "meta_controller",
+    "multi_horizon_economic_value",
+    "timing_entry",
+    "position_policy",
+    "risk_execution",
+    "adaptation"
+  ],
+  "historical_negative_binding": {
+    "all_source_records_receive_explicit_reentry_disposition": true,
+    "distinct_contextual_meta_roles_permitted": true,
+    "exact_empirical_negative_roles_blocked": true,
+    "source": "issue459-advantage-map-v1.json"
+  },
+  "inventory_contract": {
+    "per_input_metadata_required": [
+      "source_dataset_identity",
+      "original_role",
+      "historical_result",
+      "pit_status",
+      "availability_semantics",
+      "admissible_current_roles",
+      "exclusion_reason",
+      "derivation_identity",
+      "family_identity",
+      "individual_weighting_permitted",
+      "group_weighting_permitted",
+      "historical_role_binding"
+    ]
+  },
+  "issue": 465,
+  "iteration": "block1-controller-v3-oracle-lifecycle-output-hardening",
+  "memory_bank": [
+    5,
+    10,
+    20,
+    40,
+    60,
+    126,
+    252,
+    "expanding"
+  ],
+  "meta_controller": {
+    "ensemble_size": 5,
+    "execution_robustness_gate": "base_score_positive_and_stress_floor_not_breached",
+    "flat_if_none_eligible": true,
+    "objective_window_sessions": 30,
+    "positive_history_required": true,
+    "primary_objective": "preceding_30_completed_sessions_realized_net_return_after_costs",
+    "stress_floor_30_session_net_return": -0.05,
+    "structural_ensemble_cadence_sessions": 10
+  },
+  "opportunity_horizons_sessions": [
+    1,
+    3,
+    5,
+    10,
+    20
+  ],
+  "oracle_first": {
+    "development_only_nontradable": true,
+    "library": "primitive_specialist_x_horizon_x_direction_actions_plus_full_53_attribute_daily_weight_oracle",
+    "required_before_structural_candidate_replay": true,
+    "selection_use": false
+  },
+  "primitive_oracle_winner_predictor": {
+    "development_only_nontradable": true,
+    "features": "exact_individually_weightable_PIT_numeric_attributes_with_strict_prior_causal_standardization",
+    "label_availability_rule": "winning_primitive_label_may_train_only_when_its_outcome_available_at_is_strictly_before_current_decision_timestamp",
+    "predictor": "inverse_distance_comparable_prior_state_vote_over_strictly_prior_matured_winner_labels",
+    "predictor_neighbors": 10,
+    "required": true,
+    "selection_use": false,
+    "target": "daily_hindsight_winning_primitive_policy_identity",
+    "target_components": ["policy_id", "specialist", "horizon", "direction"]
+  },
+  "outputs": [
+    "issue465-block1-controller-v3-inventory.json",
+    "issue465-block1-controller-v3-historical-reentry.json",
+    "issue465-block1-controller-v3-preflight.json",
+    "issue465-block1-controller-v3-candidates.json",
+    "issue465-block1-controller-v3-oracle-first.json",
+    "issue465-block1-controller-v3-trials.jsonl",
+    "issue465-block1-controller-v3-decision-brain.jsonl",
+    "issue465-block1-controller-v3-consequences.jsonl",
+    "issue465-block1-controller-v3-ledger.json",
+    "issue465-block1-controller-v3-result.json",
+    "issue465-block1-controller-v3-expert-paths.jsonl",
+    "issue465-block1-controller-v3-expert-paths-manifest.json",
+    "issue465-block1-controller-v3-attribute-oracle.jsonl",
+    "issue465-block1-controller-v3-oracle-predictor.jsonl",
+    "issue465-block1-controller-v3-primitive-oracle-predictor.jsonl"
+  ],
+  "pit_contract": {
+    "carry_forward_latest_known_only": true,
+    "future_invariance_required_for_state_weights_structure_actions_and_block_boundary": true,
+    "protected_start": "2023-01-01T00:00:00Z",
+    "retain_age_vintage_revision": true,
+    "same_day_or_future_outcomes_forbidden": true,
+    "source": "issue465-block1-pit-state-v1.jsonl"
+  },
+  "position_state": {
+    "add_requires_future_marginal_edge_and_risk_capacity": true,
+    "mfe_mae_semantics": "decision_timestamp_mark_to_market_extrema_not_intraday_extremes",
+    "states": [
+      "FLAT",
+      "STARTER",
+      "FULL",
+      "ADD",
+      "REDUCE",
+      "EXIT",
+      "REVERSE"
+    ],
+    "time_in_position_semantics": "eligible_trading_decision_sessions_not_calendar_days",
+    "track_current_contract_and_execution_basis": true,
+    "track_entry_price_time_contract": true,
+    "track_remaining_edge_and_edge_change": true,
+    "unrealized_pnl_semantics": "decision_time_mark_to_market_from_current_execution_basis"
+  },
+  "predecessor_v2": {
+    "candidates_sha256": "068cd9cf2058b0949843eca11c6e9179085f3f768faf22fb8e3d1767f78d1695",
+    "decision_brain_sha256": "64faaadb7b16f53e3c6642e80fc69f512cdf4b3cea6e0201960b69919abe29b7",
+    "ledger_sha256": "537b85e06c61266d36ba02ac7ee106899ab8df98fddac7a20f934a11d0f353a4",
+    "preflight_sha256": "b6165c851babb6dbce3d619e9ea11373b36dd2c2be91896370c6fcfc498aebbf",
+    "prereg_sha256": "0f9b5d181c3e78238bf3a7869d0134ea63e4ac7397a9fd62c76fc936186646a4",
+    "result_sha256": "9bc5dca2e8ceaa4a70f6ee9598563f01b5cb5cd128ac57c896e4d3a04e194ae2",
+    "selection_use": false,
+    "trials_sha256": "6ae396789909878b21c4483023cdd8aeb6949fd27dbd54aeb605a407569c5bac"
+  },
+  "reporting_required": [
+    "trailing30_history",
+    "block_and_cumulative_net_return",
+    "drawdown",
+    "losses",
+    "costs",
+    "turnover",
+    "trade_count",
+    "active_months",
+    "long_short_contribution",
+    "concentration",
+    "exposure",
+    "realized_leverage",
+    "execution_degradation",
+    "adaptation_cadence",
+    "oracle_gap",
+    "expert_error_hit_calibration_history",
+    "expert_path_shape_and_disagreement",
+    "per_quantity_memory_scale_selection",
+    "primitive_oracle_winner_predictability",
+    "attribute_weight_oracle_predictability"
+  ],
+  "research_reentry_reason": "post-v2 source audit found issue465 scope omissions; v2 evidence remains immutable and v3 changes are restricted to closing those pre-existing requirements",
+  "schema_version": 4,
+  "scientific_authority": "live_github_issue_465_and_l2_optimization_line",
+  "scope_completion_amendment": {
+    "block_scope_unchanged": true,
+    "prior_partial_v3_outputs_superseded": true,
+    "protected_boundary_unchanged": true,
+    "reason": "complete every agreed V3 Block1 feature after literal architecture audit; correct REDUCE edge semantics; independently select the useful strict-prior memory scale per specialist-horizon-direction across the full memory bank; predict the primitive hindsight winning policy identity from strictly prior matured labels; retain the richer 53-attribute oracle; checkpoint every structural candidate before continuing",
+    "v1_and_v2_predecessor_evidence_immutable": true
+  },
+  "search_governance": {
+    "execution_scenarios_per_candidate": 3,
+    "meta_controller_attempts": 1,
+    "multiplicity_accounting_required_in_trial_ledger": true,
+    "outcome_dependent_pruning": false,
+    "structural_candidate_attempts": 96,
+    "total_candidate_scenario_replays": 288
+  },
+  "side_policy_profiles": {
+    "balanced": {
+      "add_edge_ratio": 1.15,
+      "enter_confidence_floor": 0.4,
+      "enter_support_floor": 0.55,
+      "exit_edge_floor": 0.0,
+      "horizons": [
+        3,
+        5,
+        10
+      ],
+      "max_hold_sessions": 10,
+      "max_vol_ratio": 1.35,
+      "memories": [
+        10,
+        20,
+        40,
+        60
+      ],
+      "reduce_edge_ratio": 0.6,
+      "reverse_edge_ratio": 1.25,
+      "size_scale": 1.0,
+      "top_k": 6,
+      "wait_support_floor": 0.4
+    },
+    "broad": {
+      "add_edge_ratio": 1.1,
+      "enter_confidence_floor": 0.35,
+      "enter_support_floor": 0.5,
+      "exit_edge_floor": 0.0,
+      "horizons": [
+        1,
+        3,
+        5,
+        10,
+        20
+      ],
+      "max_hold_sessions": 20,
+      "max_vol_ratio": 1.5,
+      "memories": [
+        5,
+        10,
+        20,
+        40,
+        60,
+        126,
+        252,
+        "expanding"
+      ],
+      "reduce_edge_ratio": 0.5,
+      "reverse_edge_ratio": 1.15,
+      "size_scale": 1.0,
+      "top_k": 8,
+      "wait_support_floor": 0.35
+    },
+    "fast": {
+      "add_edge_ratio": 1.1,
+      "enter_confidence_floor": 0.35,
+      "enter_support_floor": 0.55,
+      "exit_edge_floor": 0.0,
+      "horizons": [
+        1,
+        3,
+        5
+      ],
+      "max_hold_sessions": 5,
+      "max_vol_ratio": 1.5,
+      "memories": [
+        5,
+        10,
+        20
+      ],
+      "reduce_edge_ratio": 0.55,
+      "reverse_edge_ratio": 1.2,
+      "size_scale": 1.0,
+      "top_k": 4,
+      "wait_support_floor": 0.35
+    },
+    "slow": {
+      "add_edge_ratio": 1.2,
+      "enter_confidence_floor": 0.45,
+      "enter_support_floor": 0.6,
+      "exit_edge_floor": 0.0,
+      "horizons": [
+        10,
+        20
+      ],
+      "max_hold_sessions": 20,
+      "max_vol_ratio": 1.2,
+      "memories": [
+        40,
+        60,
+        126,
+        252,
+        "expanding"
+      ],
+      "reduce_edge_ratio": 0.65,
+      "reverse_edge_ratio": 1.3,
+      "size_scale": 0.75,
+      "top_k": 4,
+      "wait_support_floor": 0.45
+    }
+  },
+  "status": "frozen_before_block1_controller_v3_scoring",
+  "structural_search": {
+    "active_family_cap": 6,
+    "comparable_state_weights": [
+      0.0,
+      0.25,
+      0.5
+    ],
+    "expected_candidate_count": 96,
+    "pruning": "none_outcome_dependent",
+    "side_profile_pairing": "all_4x4_long_short_pairs_including_4_symmetric_controls",
+    "slow_cadence_sessions": [
+      10,
+      20
+    ],
+    "stopping_rule": "evaluate_all_96_frozen_structural_candidates",
+    "uncertainty_penalty": 0.5
+  }
+}

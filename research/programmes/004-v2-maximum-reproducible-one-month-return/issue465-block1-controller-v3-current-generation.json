@@ -1,0 +1,10 @@
+{
+  "block_id": "block-001",
+  "candidate_grid_sha256": "00275de7493afaf840e21b6b05cb3bad5cb31071f5b3eeae7ad2cd33278807c5",
+  "issue": 465,
+  "previous_generation_id": null,
+  "previous_generation_is_current": false,
+  "schema_version": 1,
+  "scoring_input_identity_sha256": "bbee004fefa7f0c07c32a14ad0e6c165d19544096e3bc9d34b1403db10200fef",
+  "status": "PREFLIGHT_FROZEN_REPLAY_REQUIRED"
+}

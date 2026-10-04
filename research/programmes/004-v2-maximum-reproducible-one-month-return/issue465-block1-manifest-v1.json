@@ -1,0 +1,31 @@
+{
+  "block_id": "block-001",
+  "eligible_decision_rows": 123,
+  "end_exclusive": "2011-01-06T00:00:00Z",
+  "first_decision_time": "2010-07-07 00:01:43.586000+00:00",
+  "issue": 465,
+  "last_decision_time": "2011-01-02 23:14:28.828000+00:00",
+  "later_blocks_available_to_search": false,
+  "policy_count": 1126,
+  "prereg_sha256": "545f67b1541d19b4fd6c3e9b89cfca981474ae6ac2a6a85d9ca419bcca5ee88f",
+  "schema_version": 1,
+  "source_evidence": {
+    "cftc": {
+      "accepted_target_rows": 52,
+      "raw_rows": 5547,
+      "sha256": "fef4827fbaa1a2a72ad3fe7ef0ca659ee4c85bc6857fdc096f4320b8a096322b",
+      "source_id": "cftc_disaggregated_futures_only_023651_historical",
+      "url": "https://www.cftc.gov/files/dea/history/fut_disagg_txt_2010.zip"
+    },
+    "collapsed_duplicate_fill_origins": 1,
+    "issue465_expert_archive_sha256": "a5081146c43c57dc26427460396c8d2f0644373a57d11ac0c27175a7172e6ce2",
+    "kronos_historical_source_sha256": "98010ff7329c312cf04dbd4902d3fa6b3fe71ea562054c897eaf338e3f94df6c",
+    "market_feature_sha256": "b14ae69bd6ec2910f0cf56fe62f481016801308cebc6ef69e536aa7e593d072e",
+    "raw_structural_origin_count": 124,
+    "session_path_sha256": "0fe87ea79a56f98fb9d445e89e3d65b48ae7bb1175e06ba9b97da68ebe6b01e8",
+    "structural_origin_count": 123,
+    "timesfm_historical_source_sha256": "692930439b863208b47dbeff246fd9790b4f2239f5434e72448538bc674aedc6"
+  },
+  "start_inclusive": "2010-07-06T00:00:00Z",
+  "warmup_completed_trading_sessions": 30
+}
