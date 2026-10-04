@@ -1,0 +1,34 @@
+{
+  "schema_version": 1,
+  "review_type": "manual_exact_diff_fallback",
+  "source_base": "cc3422fd0f0350b7b19d1509d19b2575caba0ee2",
+  "source_head": "working_tree_final_verified",
+  "reason": "Code-quality and architecture reviewers completed on the implementation surface with no blocking findings. The final code-quality projection omitted the compact replay-result evidence file and therefore declared exact-diff fallback; test-quality reviewer routes also returned unusable provider output. Repository-declared manual exact-diff fallback closes those evidence-projection lanes.",
+  "reviewed_surfaces": [
+    "src/commodity/v2_adaptive_controller_v3.py",
+    "src/commodity/v3_replay_engine.py",
+    "scripts/research/run_issue465_block1_controller_v3.py",
+    "tests/test_issue470_negative_position_increase_guard.py"
+  ],
+  "review_checks": [
+    "same-side absolute exposure increase only",
+    "matured current-position-instance economic path only",
+    "strict outcome_available_at < decision_time boundary",
+    "prior-position-instance isolation",
+    "hard-risk reduction precedence",
+    "starter/reversal/reduction/exit/hold preservation",
+    "reference/meta/optimized-kernel semantic parity",
+    "replay-engine code identity binding"
+  ],
+  "focused_verification": "73 passed",
+  "canonical_verification": "1191 passed, 12 skipped; repository checks, Ruff and git-whitespace passed",
+  "scope_audit": "66/66 PASS",
+  "full_future_invariance": "PASS; 288/288 structural candidate scenarios replayed",
+  "reviewer_code_quality": "implementation-surface review completed with no findings; final evidence projection required exact-diff fallback because replay-result evidence was omitted by projector",
+  "reviewer_architecture": "completed; informational findings only; no changes required",
+  "reviewer_test_quality": "manual exact-diff fallback required after qualified reviewer routes returned invalid/unavailable output",
+  "ruff": "PASS",
+  "git_diff_check": "PASS",
+  "blocking_findings": [],
+  "result": "NO_BLOCKING_FINDINGS"
+}

@@ -679,6 +679,8 @@ def lifecycle_target(
         required = max(0.0, float(position.edge_at_entry) * policy.add_edge_ratio)
         if edge < required or risk_capacity <= 0.0:
             return current, "hold_add_requires_future_marginal_edge"
+        if float(mark["economic_path_pnl_fraction"]) < 0.0:
+            return current, "hold_add_negative_matured_position_path"
         return target, "add_future_marginal_edge_and_capacity"
     if abs(target) < abs(current):
         effective_hard_cap = (
@@ -1707,6 +1709,9 @@ def run_meta_controller(
                 if remaining_edge < required:
                     target = current
                     meta_lifecycle_reason = "hold_add_requires_future_marginal_edge"
+                elif float(mark["economic_path_pnl_fraction"]) < 0.0:
+                    target = current
+                    meta_lifecycle_reason = "hold_add_negative_matured_position_path"
             elif abs(target) < abs(current):
                 hard_risk_reduction = hard_cap < abs(current) - 1e-12
                 deterioration_level = max(

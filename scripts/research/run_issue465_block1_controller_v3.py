@@ -454,6 +454,7 @@ def current_code_identity() -> dict[str, str]:
     return {
         "runner_sha256": sha256_file(Path(__file__).resolve()),
         "controller_v3_sha256": sha256_file(REPO / "src/commodity/v2_adaptive_controller_v3.py"),
+        "v3_replay_engine_sha256": sha256_file(REPO / "src/commodity/v3_replay_engine.py"),
         "controller_v3_diagnostics_sha256": sha256_file(REPO / "src/commodity/v2_adaptive_controller_v3_diagnostics.py"),
         "expert_path_generator_sha256": sha256_file(REPO / "scripts/research/generate_issue465_block1_expert_paths_v3.py"),
         "controller_v2_dependency_sha256": sha256_file(V2_CONTROLLER),

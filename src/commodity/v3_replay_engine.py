@@ -26,6 +26,7 @@ LIFECYCLE_REASON_LABELS = (
     "reduce_edge_deterioration",
     "hold_reduction_requires_edge_or_hard_risk_deterioration",
     "hold_or_full_positive_remaining_edge",
+    "hold_add_negative_matured_position_path",
 )
 
 
@@ -331,6 +332,7 @@ def _lifecycle_target(
     reduce_edge_ratio: float,
     reverse_edge_ratio: float,
     exit_edge_floor: float,
+    economic_path_pnl: float,
 ) -> tuple[float, int]:
     if not selected:
         return 0.0, 0
@@ -362,6 +364,8 @@ def _lifecycle_target(
         required = max(0.0, float(edge_at_entry) * add_edge_ratio)
         if edge < required or risk_capacity <= 0.0:
             return float(current), 11
+        if float(economic_path_pnl) < 0.0:
+            return float(current), 16
         return target, 12
     if abs(target) < abs(current):
         if hard_exposure_cap < abs(current) - 1e-12:
@@ -585,6 +589,7 @@ def run_replay_kernel_serial(
             reduce_edge_ratio=float(inputs.reduce_edge_ratio[index]),
             reverse_edge_ratio=float(inputs.reverse_edge_ratio[index]),
             exit_edge_floor=float(inputs.exit_edge_floor[index]),
+            economic_path_pnl=economic_path_pnl,
         )
         decision_target, missed_fill = _execution_adjusted_target(
             exposure,
