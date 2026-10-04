@@ -31,7 +31,7 @@ The exact Block-1 replay completed all **96 structural candidates × 3 execution
 
 Final Block-1 net return is **+1.46%** (`$1,460` on `$100,000` initial capital). Transition-aware side contribution is **+3.695% short / -2.235% long**. Base post-warmup return is **+1.475%**; moderate and severe execution stresses are **-0.195%** and **-0.300%** respectively. The frozen decision-brain SHA is `561f853da7a9815e936775ed059b4df93861c7ab597bfd5c92b94967a57d264b`.
 
-The replay cache and generation staging (~644 MB) were moved to `C:\Projects\commodity\.work\temp\470-closeout-cache` rather than committed. The PR retains only the compact final replay result and 66-check completeness audit.
+The replay cache and generation staging (~644 MB) were moved to repository-local ignored temp storage under `.work/temp/470-closeout-cache` rather than committed. The PR retains only the compact final replay result and 66-check completeness audit.
 
 ## Scope exclusions
 
