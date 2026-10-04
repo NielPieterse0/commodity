@@ -1,0 +1,1474 @@
+{
+  "attribute_count": 76,
+  "attributes": [
+    {
+      "admissible_current_roles": [
+        "causal_clock_or_execution_identity"
+      ],
+      "attribute": "trade_date",
+      "availability_semantics": "latest_known_as_of_decision_time; no pre-availability backfill",
+      "derivation_identity": "retained_as_recorded",
+      "exclusion_reason": "non-numeric_or_provenance_identity_not_weighted",
+      "family_identity": "metadata_or_identity",
+      "group_weighting_permitted": false,
+      "historical_result": "retained_or_admitted_by_block1_v1_PIT_inventory; detailed prior evidence retained in historical_reentry ledger",
+      "historical_role_binding": "metadata_only",
+      "individual_weighting_permitted": false,
+      "original_role": "causal_clock_or_execution_identity",
+      "pit_status": "explicit_timestamp_identity",
+      "source_dataset_identity": "execution_clock_and_contract_identity"
+    },
+    {
+      "admissible_current_roles": [
+        "causal_provenance_or_staleness_metadata"
+      ],
+      "attribute": "signal_timestamp",
+      "availability_semantics": "latest_known_as_of_decision_time; no pre-availability backfill",
+      "derivation_identity": "retained_as_recorded",
+      "exclusion_reason": "non-numeric_or_provenance_identity_not_weighted",
+      "family_identity": "metadata_or_identity",
+      "group_weighting_permitted": false,
+      "historical_result": "retained_or_admitted_by_block1_v1_PIT_inventory; detailed prior evidence retained in historical_reentry ledger",
+      "historical_role_binding": "metadata_only",
+      "individual_weighting_permitted": false,
+      "original_role": "causal_provenance_or_staleness_metadata",
+      "pit_status": "explicit_timestamp_identity",
+      "source_dataset_identity": "execution_clock_and_contract_identity"
+    },
+    {
+      "admissible_current_roles": [
+        "causal_clock_or_execution_identity"
+      ],
+      "attribute": "fill_timestamp",
+      "availability_semantics": "latest_known_as_of_decision_time; no pre-availability backfill",
+      "derivation_identity": "retained_as_recorded",
+      "exclusion_reason": "non-numeric_or_provenance_identity_not_weighted",
+      "family_identity": "metadata_or_identity",
+      "group_weighting_permitted": false,
+      "historical_result": "retained_or_admitted_by_block1_v1_PIT_inventory; detailed prior evidence retained in historical_reentry ledger",
+      "historical_role_binding": "metadata_only",
+      "individual_weighting_permitted": false,
+      "original_role": "causal_clock_or_execution_identity",
+      "pit_status": "explicit_timestamp_identity",
+      "source_dataset_identity": "execution_clock_and_contract_identity"
+    },
+    {
+      "admissible_current_roles": [
+        "causal_provenance_or_staleness_metadata"
+      ],
+      "attribute": "fill_contract_id",
+      "availability_semantics": "latest_known_as_of_decision_time; no pre-availability backfill",
+      "derivation_identity": "retained_as_recorded",
+      "exclusion_reason": "non-numeric_or_provenance_identity_not_weighted",
+      "family_identity": "metadata_or_identity",
+      "group_weighting_permitted": false,
+      "historical_result": "retained_or_admitted_by_block1_v1_PIT_inventory; detailed prior evidence retained in historical_reentry ledger",
+      "historical_role_binding": "metadata_only",
+      "individual_weighting_permitted": false,
+      "original_role": "causal_provenance_or_staleness_metadata",
+      "pit_status": "value_bound_to_row_decision_time_by_source_availability_checks",
+      "source_dataset_identity": "execution_clock_and_contract_identity"
+    },
+    {
+      "admissible_current_roles": [
+        "causal_provenance_or_staleness_metadata"
+      ],
+      "attribute": "market_available_at",
+      "availability_semantics": "latest_known_as_of_decision_time; no pre-availability backfill",
+      "derivation_identity": "retained_as_recorded",
+      "exclusion_reason": "non-numeric_or_provenance_identity_not_weighted",
+      "family_identity": "metadata_or_identity",
+      "group_weighting_permitted": false,
+      "historical_result": "retained_or_admitted_by_block1_v1_PIT_inventory; detailed prior evidence retained in historical_reentry ledger",
+      "historical_role_binding": "metadata_only",
+      "individual_weighting_permitted": false,
+      "original_role": "causal_provenance_or_staleness_metadata",
+      "pit_status": "explicit_timestamp_identity",
+      "source_dataset_identity": "issue465_block1_pit_state_v1"
+    },
+    {
+      "admissible_current_roles": [
+        "context_attribute",
+        "direct_specialist",
+        "inverse_specialist"
+      ],
+      "attribute": "feature_curve_dte_m1",
+      "availability_semantics": "latest_known_as_of_decision_time; no pre-availability backfill",
+      "derivation_identity": "prior20_median_deviation_direct_and_inverse_shift1_min5",
+      "exclusion_reason": null,
+      "family_identity": "attribute_curve",
+      "group_weighting_permitted": true,
+      "historical_result": "retained_or_admitted_by_block1_v1_PIT_inventory; detailed prior evidence retained in historical_reentry ledger",
+      "historical_role_binding": "controller_v3_contextual_attribute/feature_curve_dte_m1",
+      "individual_weighting_permitted": true,
+      "original_role": "admissible_context_attribute",
+      "pit_status": "value_bound_to_row_decision_time_by_source_availability_checks",
+      "source_dataset_identity": "canonical_ng_market_feature_state"
+    },
+    {
+      "admissible_current_roles": [
+        "context_attribute",
+        "direct_specialist",
+        "inverse_specialist"
+      ],
+      "attribute": "feature_curve_dte_m2",
+      "availability_semantics": "latest_known_as_of_decision_time; no pre-availability backfill",
+      "derivation_identity": "prior20_median_deviation_direct_and_inverse_shift1_min5",
+      "exclusion_reason": null,
+      "family_identity": "attribute_curve",
+      "group_weighting_permitted": true,
+      "historical_result": "retained_or_admitted_by_block1_v1_PIT_inventory; detailed prior evidence retained in historical_reentry ledger",
+      "historical_role_binding": "controller_v3_contextual_attribute/feature_curve_dte_m2",
+      "individual_weighting_permitted": true,
+      "original_role": "admissible_context_attribute",
+      "pit_status": "value_bound_to_row_decision_time_by_source_availability_checks",
+      "source_dataset_identity": "canonical_ng_market_feature_state"
+    },
+    {
+      "admissible_current_roles": [
+        "context_attribute",
+        "direct_specialist",
+        "inverse_specialist"
+      ],
+      "attribute": "feature_curve_dte_m3",
+      "availability_semantics": "latest_known_as_of_decision_time; no pre-availability backfill",
+      "derivation_identity": "prior20_median_deviation_direct_and_inverse_shift1_min5",
+      "exclusion_reason": null,
+      "family_identity": "attribute_curve",
+      "group_weighting_permitted": true,
+      "historical_result": "retained_or_admitted_by_block1_v1_PIT_inventory; detailed prior evidence retained in historical_reentry ledger",
+      "historical_role_binding": "controller_v3_contextual_attribute/feature_curve_dte_m3",
+      "individual_weighting_permitted": true,
+      "original_role": "admissible_context_attribute",
+      "pit_status": "value_bound_to_row_decision_time_by_source_availability_checks",
+      "source_dataset_identity": "canonical_ng_market_feature_state"
+    },
+    {
+      "admissible_current_roles": [
+        "context_attribute",
+        "direct_specialist",
+        "inverse_specialist"
+      ],
+      "attribute": "feature_curve_dte_m4",
+      "availability_semantics": "latest_known_as_of_decision_time; no pre-availability backfill",
+      "derivation_identity": "prior20_median_deviation_direct_and_inverse_shift1_min5",
+      "exclusion_reason": null,
+      "family_identity": "attribute_curve",
+      "group_weighting_permitted": true,
+      "historical_result": "retained_or_admitted_by_block1_v1_PIT_inventory; detailed prior evidence retained in historical_reentry ledger",
+      "historical_role_binding": "controller_v3_contextual_attribute/feature_curve_dte_m4",
+      "individual_weighting_permitted": true,
+      "original_role": "admissible_context_attribute",
+      "pit_status": "value_bound_to_row_decision_time_by_source_availability_checks",
+      "source_dataset_identity": "canonical_ng_market_feature_state"
+    },
+    {
+      "admissible_current_roles": [
+        "context_attribute",
+        "direct_specialist",
+        "inverse_specialist"
+      ],
+      "attribute": "feature_curve_log_settle_m1",
+      "availability_semantics": "latest_known_as_of_decision_time; no pre-availability backfill",
+      "derivation_identity": "prior20_median_deviation_direct_and_inverse_shift1_min5",
+      "exclusion_reason": null,
+      "family_identity": "attribute_curve",
+      "group_weighting_permitted": true,
+      "historical_result": "retained_or_admitted_by_block1_v1_PIT_inventory; detailed prior evidence retained in historical_reentry ledger",
+      "historical_role_binding": "controller_v3_contextual_attribute/feature_curve_log_settle_m1",
+      "individual_weighting_permitted": true,
+      "original_role": "admissible_context_attribute",
+      "pit_status": "value_bound_to_row_decision_time_by_source_availability_checks",
+      "source_dataset_identity": "canonical_ng_market_feature_state"
+    },
+    {
+      "admissible_current_roles": [
+        "context_attribute",
+        "direct_specialist",
+        "inverse_specialist"
+      ],
+      "attribute": "feature_curve_log_settle_m2",
+      "availability_semantics": "latest_known_as_of_decision_time; no pre-availability backfill",
+      "derivation_identity": "prior20_median_deviation_direct_and_inverse_shift1_min5",
+      "exclusion_reason": null,
+      "family_identity": "attribute_curve",
+      "group_weighting_permitted": true,
+      "historical_result": "retained_or_admitted_by_block1_v1_PIT_inventory; detailed prior evidence retained in historical_reentry ledger",
+      "historical_role_binding": "controller_v3_contextual_attribute/feature_curve_log_settle_m2",
+      "individual_weighting_permitted": true,
+      "original_role": "admissible_context_attribute",
+      "pit_status": "value_bound_to_row_decision_time_by_source_availability_checks",
+      "source_dataset_identity": "canonical_ng_market_feature_state"
+    },
+    {
+      "admissible_current_roles": [
+        "context_attribute",
+        "direct_specialist",
+        "inverse_specialist"
+      ],
+      "attribute": "feature_curve_log_settle_m3",
+      "availability_semantics": "latest_known_as_of_decision_time; no pre-availability backfill",
+      "derivation_identity": "prior20_median_deviation_direct_and_inverse_shift1_min5",
+      "exclusion_reason": null,
+      "family_identity": "attribute_curve",
+      "group_weighting_permitted": true,
+      "historical_result": "retained_or_admitted_by_block1_v1_PIT_inventory; detailed prior evidence retained in historical_reentry ledger",
+      "historical_role_binding": "controller_v3_contextual_attribute/feature_curve_log_settle_m3",
+      "individual_weighting_permitted": true,
+      "original_role": "admissible_context_attribute",
+      "pit_status": "value_bound_to_row_decision_time_by_source_availability_checks",
+      "source_dataset_identity": "canonical_ng_market_feature_state"
+    },
+    {
+      "admissible_current_roles": [
+        "context_attribute",
+        "direct_specialist",
+        "inverse_specialist"
+      ],
+      "attribute": "feature_curve_log_settle_m4",
+      "availability_semantics": "latest_known_as_of_decision_time; no pre-availability backfill",
+      "derivation_identity": "prior20_median_deviation_direct_and_inverse_shift1_min5",
+      "exclusion_reason": null,
+      "family_identity": "attribute_curve",
+      "group_weighting_permitted": true,
+      "historical_result": "retained_or_admitted_by_block1_v1_PIT_inventory; detailed prior evidence retained in historical_reentry ledger",
+      "historical_role_binding": "controller_v3_contextual_attribute/feature_curve_log_settle_m4",
+      "individual_weighting_permitted": true,
+      "original_role": "admissible_context_attribute",
+      "pit_status": "value_bound_to_row_decision_time_by_source_availability_checks",
+      "source_dataset_identity": "canonical_ng_market_feature_state"
+    },
+    {
+      "admissible_current_roles": [
+        "context_attribute",
+        "direct_specialist",
+        "inverse_specialist"
+      ],
+      "attribute": "feature_curve_log_volume_m1",
+      "availability_semantics": "latest_known_as_of_decision_time; no pre-availability backfill",
+      "derivation_identity": "prior20_median_deviation_direct_and_inverse_shift1_min5",
+      "exclusion_reason": null,
+      "family_identity": "attribute_volatility",
+      "group_weighting_permitted": true,
+      "historical_result": "retained_or_admitted_by_block1_v1_PIT_inventory; detailed prior evidence retained in historical_reentry ledger",
+      "historical_role_binding": "controller_v3_contextual_attribute/feature_curve_log_volume_m1",
+      "individual_weighting_permitted": true,
+      "original_role": "admissible_context_attribute",
+      "pit_status": "value_bound_to_row_decision_time_by_source_availability_checks",
+      "source_dataset_identity": "canonical_ng_market_feature_state"
+    },
+    {
+      "admissible_current_roles": [
+        "context_attribute",
+        "direct_specialist",
+        "inverse_specialist"
+      ],
+      "attribute": "feature_curve_log_volume_m2",
+      "availability_semantics": "latest_known_as_of_decision_time; no pre-availability backfill",
+      "derivation_identity": "prior20_median_deviation_direct_and_inverse_shift1_min5",
+      "exclusion_reason": null,
+      "family_identity": "attribute_volatility",
+      "group_weighting_permitted": true,
+      "historical_result": "retained_or_admitted_by_block1_v1_PIT_inventory; detailed prior evidence retained in historical_reentry ledger",
+      "historical_role_binding": "controller_v3_contextual_attribute/feature_curve_log_volume_m2",
+      "individual_weighting_permitted": true,
+      "original_role": "admissible_context_attribute",
+      "pit_status": "value_bound_to_row_decision_time_by_source_availability_checks",
+      "source_dataset_identity": "canonical_ng_market_feature_state"
+    },
+    {
+      "admissible_current_roles": [
+        "context_attribute",
+        "direct_specialist",
+        "inverse_specialist"
+      ],
+      "attribute": "feature_curve_log_volume_m3",
+      "availability_semantics": "latest_known_as_of_decision_time; no pre-availability backfill",
+      "derivation_identity": "prior20_median_deviation_direct_and_inverse_shift1_min5",
+      "exclusion_reason": null,
+      "family_identity": "attribute_volatility",
+      "group_weighting_permitted": true,
+      "historical_result": "retained_or_admitted_by_block1_v1_PIT_inventory; detailed prior evidence retained in historical_reentry ledger",
+      "historical_role_binding": "controller_v3_contextual_attribute/feature_curve_log_volume_m3",
+      "individual_weighting_permitted": true,
+      "original_role": "admissible_context_attribute",
+      "pit_status": "value_bound_to_row_decision_time_by_source_availability_checks",
+      "source_dataset_identity": "canonical_ng_market_feature_state"
+    },
+    {
+      "admissible_current_roles": [
+        "context_attribute",
+        "direct_specialist",
+        "inverse_specialist"
+      ],
+      "attribute": "feature_curve_log_volume_m4",
+      "availability_semantics": "latest_known_as_of_decision_time; no pre-availability backfill",
+      "derivation_identity": "prior20_median_deviation_direct_and_inverse_shift1_min5",
+      "exclusion_reason": null,
+      "family_identity": "attribute_volatility",
+      "group_weighting_permitted": true,
+      "historical_result": "retained_or_admitted_by_block1_v1_PIT_inventory; detailed prior evidence retained in historical_reentry ledger",
+      "historical_role_binding": "controller_v3_contextual_attribute/feature_curve_log_volume_m4",
+      "individual_weighting_permitted": true,
+      "original_role": "admissible_context_attribute",
+      "pit_status": "value_bound_to_row_decision_time_by_source_availability_checks",
+      "source_dataset_identity": "canonical_ng_market_feature_state"
+    },
+    {
+      "admissible_current_roles": [
+        "context_attribute",
+        "direct_specialist",
+        "inverse_specialist"
+      ],
+      "attribute": "feature_curve_slope_m1_m4",
+      "availability_semantics": "latest_known_as_of_decision_time; no pre-availability backfill",
+      "derivation_identity": "prior20_median_deviation_direct_and_inverse_shift1_min5",
+      "exclusion_reason": null,
+      "family_identity": "attribute_curve",
+      "group_weighting_permitted": true,
+      "historical_result": "retained_or_admitted_by_block1_v1_PIT_inventory; detailed prior evidence retained in historical_reentry ledger",
+      "historical_role_binding": "controller_v3_contextual_attribute/feature_curve_slope_m1_m4",
+      "individual_weighting_permitted": true,
+      "original_role": "admissible_context_attribute",
+      "pit_status": "value_bound_to_row_decision_time_by_source_availability_checks",
+      "source_dataset_identity": "canonical_ng_market_feature_state"
+    },
+    {
+      "admissible_current_roles": [
+        "context_attribute",
+        "direct_specialist",
+        "inverse_specialist"
+      ],
+      "attribute": "feature_curve_spread_m1_m2",
+      "availability_semantics": "latest_known_as_of_decision_time; no pre-availability backfill",
+      "derivation_identity": "prior20_median_deviation_direct_and_inverse_shift1_min5",
+      "exclusion_reason": null,
+      "family_identity": "attribute_curve",
+      "group_weighting_permitted": true,
+      "historical_result": "retained_or_admitted_by_block1_v1_PIT_inventory; detailed prior evidence retained in historical_reentry ledger",
+      "historical_role_binding": "controller_v3_contextual_attribute/feature_curve_spread_m1_m2",
+      "individual_weighting_permitted": true,
+      "original_role": "admissible_context_attribute",
+      "pit_status": "value_bound_to_row_decision_time_by_source_availability_checks",
+      "source_dataset_identity": "canonical_ng_market_feature_state"
+    },
+    {
+      "admissible_current_roles": [
+        "context_attribute",
+        "direct_specialist",
+        "inverse_specialist"
+      ],
+      "attribute": "feature_curve_spread_m2_m3",
+      "availability_semantics": "latest_known_as_of_decision_time; no pre-availability backfill",
+      "derivation_identity": "prior20_median_deviation_direct_and_inverse_shift1_min5",
+      "exclusion_reason": null,
+      "family_identity": "attribute_curve",
+      "group_weighting_permitted": true,
+      "historical_result": "retained_or_admitted_by_block1_v1_PIT_inventory; detailed prior evidence retained in historical_reentry ledger",
+      "historical_role_binding": "controller_v3_contextual_attribute/feature_curve_spread_m2_m3",
+      "individual_weighting_permitted": true,
+      "original_role": "admissible_context_attribute",
+      "pit_status": "value_bound_to_row_decision_time_by_source_availability_checks",
+      "source_dataset_identity": "canonical_ng_market_feature_state"
+    },
+    {
+      "admissible_current_roles": [
+        "context_attribute",
+        "direct_specialist",
+        "inverse_specialist"
+      ],
+      "attribute": "feature_curve_spread_m3_m4",
+      "availability_semantics": "latest_known_as_of_decision_time; no pre-availability backfill",
+      "derivation_identity": "prior20_median_deviation_direct_and_inverse_shift1_min5",
+      "exclusion_reason": null,
+      "family_identity": "attribute_curve",
+      "group_weighting_permitted": true,
+      "historical_result": "retained_or_admitted_by_block1_v1_PIT_inventory; detailed prior evidence retained in historical_reentry ledger",
+      "historical_role_binding": "controller_v3_contextual_attribute/feature_curve_spread_m3_m4",
+      "individual_weighting_permitted": true,
+      "original_role": "admissible_context_attribute",
+      "pit_status": "value_bound_to_row_decision_time_by_source_availability_checks",
+      "source_dataset_identity": "canonical_ng_market_feature_state"
+    },
+    {
+      "admissible_current_roles": [
+        "context_attribute",
+        "direct_specialist",
+        "inverse_specialist"
+      ],
+      "attribute": "feature_curve_volume_ratio_m1_m2",
+      "availability_semantics": "latest_known_as_of_decision_time; no pre-availability backfill",
+      "derivation_identity": "prior20_median_deviation_direct_and_inverse_shift1_min5",
+      "exclusion_reason": null,
+      "family_identity": "attribute_volatility",
+      "group_weighting_permitted": true,
+      "historical_result": "retained_or_admitted_by_block1_v1_PIT_inventory; detailed prior evidence retained in historical_reentry ledger",
+      "historical_role_binding": "controller_v3_contextual_attribute/feature_curve_volume_ratio_m1_m2",
+      "individual_weighting_permitted": true,
+      "original_role": "admissible_context_attribute",
+      "pit_status": "value_bound_to_row_decision_time_by_source_availability_checks",
+      "source_dataset_identity": "canonical_ng_market_feature_state"
+    },
+    {
+      "admissible_current_roles": [
+        "context_attribute",
+        "direct_specialist",
+        "inverse_specialist"
+      ],
+      "attribute": "feature_ma_gap_20",
+      "availability_semantics": "latest_known_as_of_decision_time; no pre-availability backfill",
+      "derivation_identity": "prior20_median_deviation_direct_and_inverse_shift1_min5",
+      "exclusion_reason": null,
+      "family_identity": "attribute_technical",
+      "group_weighting_permitted": true,
+      "historical_result": "retained_or_admitted_by_block1_v1_PIT_inventory; detailed prior evidence retained in historical_reentry ledger",
+      "historical_role_binding": "controller_v3_contextual_attribute/feature_ma_gap_20",
+      "individual_weighting_permitted": true,
+      "original_role": "admissible_context_attribute",
+      "pit_status": "value_bound_to_row_decision_time_by_source_availability_checks",
+      "source_dataset_identity": "canonical_ng_market_feature_state"
+    },
+    {
+      "admissible_current_roles": [
+        "context_attribute",
+        "direct_specialist",
+        "inverse_specialist"
+      ],
+      "attribute": "feature_ma_gap_5",
+      "availability_semantics": "latest_known_as_of_decision_time; no pre-availability backfill",
+      "derivation_identity": "prior20_median_deviation_direct_and_inverse_shift1_min5",
+      "exclusion_reason": null,
+      "family_identity": "attribute_technical",
+      "group_weighting_permitted": true,
+      "historical_result": "retained_or_admitted_by_block1_v1_PIT_inventory; detailed prior evidence retained in historical_reentry ledger",
+      "historical_role_binding": "controller_v3_contextual_attribute/feature_ma_gap_5",
+      "individual_weighting_permitted": true,
+      "original_role": "admissible_context_attribute",
+      "pit_status": "value_bound_to_row_decision_time_by_source_availability_checks",
+      "source_dataset_identity": "canonical_ng_market_feature_state"
+    },
+    {
+      "admissible_current_roles": [
+        "context_attribute",
+        "direct_specialist",
+        "inverse_specialist"
+      ],
+      "attribute": "feature_range_pct",
+      "availability_semantics": "latest_known_as_of_decision_time; no pre-availability backfill",
+      "derivation_identity": "prior20_median_deviation_direct_and_inverse_shift1_min5",
+      "exclusion_reason": null,
+      "family_identity": "attribute_volatility",
+      "group_weighting_permitted": true,
+      "historical_result": "retained_or_admitted_by_block1_v1_PIT_inventory; detailed prior evidence retained in historical_reentry ledger",
+      "historical_role_binding": "controller_v3_contextual_attribute/feature_range_pct",
+      "individual_weighting_permitted": true,
+      "original_role": "admissible_context_attribute",
+      "pit_status": "value_bound_to_row_decision_time_by_source_availability_checks",
+      "source_dataset_identity": "canonical_ng_market_feature_state"
+    },
+    {
+      "admissible_current_roles": [
+        "context_attribute",
+        "direct_specialist",
+        "inverse_specialist"
+      ],
+      "attribute": "feature_ret_1",
+      "availability_semantics": "latest_known_as_of_decision_time; no pre-availability backfill",
+      "derivation_identity": "prior20_median_deviation_direct_and_inverse_shift1_min5",
+      "exclusion_reason": null,
+      "family_identity": "attribute_technical",
+      "group_weighting_permitted": true,
+      "historical_result": "retained_or_admitted_by_block1_v1_PIT_inventory; detailed prior evidence retained in historical_reentry ledger",
+      "historical_role_binding": "controller_v3_contextual_attribute/feature_ret_1",
+      "individual_weighting_permitted": true,
+      "original_role": "admissible_context_attribute",
+      "pit_status": "value_bound_to_row_decision_time_by_source_availability_checks",
+      "source_dataset_identity": "canonical_ng_market_feature_state"
+    },
+    {
+      "admissible_current_roles": [
+        "context_attribute",
+        "direct_specialist",
+        "inverse_specialist"
+      ],
+      "attribute": "feature_ret_20",
+      "availability_semantics": "latest_known_as_of_decision_time; no pre-availability backfill",
+      "derivation_identity": "prior20_median_deviation_direct_and_inverse_shift1_min5",
+      "exclusion_reason": null,
+      "family_identity": "attribute_technical",
+      "group_weighting_permitted": true,
+      "historical_result": "retained_or_admitted_by_block1_v1_PIT_inventory; detailed prior evidence retained in historical_reentry ledger",
+      "historical_role_binding": "controller_v3_contextual_attribute/feature_ret_20",
+      "individual_weighting_permitted": true,
+      "original_role": "admissible_context_attribute",
+      "pit_status": "value_bound_to_row_decision_time_by_source_availability_checks",
+      "source_dataset_identity": "canonical_ng_market_feature_state"
+    },
+    {
+      "admissible_current_roles": [
+        "context_attribute",
+        "direct_specialist",
+        "inverse_specialist"
+      ],
+      "attribute": "feature_ret_5",
+      "availability_semantics": "latest_known_as_of_decision_time; no pre-availability backfill",
+      "derivation_identity": "prior20_median_deviation_direct_and_inverse_shift1_min5",
+      "exclusion_reason": null,
+      "family_identity": "attribute_technical",
+      "group_weighting_permitted": true,
+      "historical_result": "retained_or_admitted_by_block1_v1_PIT_inventory; detailed prior evidence retained in historical_reentry ledger",
+      "historical_role_binding": "controller_v3_contextual_attribute/feature_ret_5",
+      "individual_weighting_permitted": true,
+      "original_role": "admissible_context_attribute",
+      "pit_status": "value_bound_to_row_decision_time_by_source_availability_checks",
+      "source_dataset_identity": "canonical_ng_market_feature_state"
+    },
+    {
+      "admissible_current_roles": [
+        "context_attribute",
+        "direct_specialist",
+        "inverse_specialist"
+      ],
+      "attribute": "feature_roll_event",
+      "availability_semantics": "latest_known_as_of_decision_time; no pre-availability backfill",
+      "derivation_identity": "prior20_median_deviation_direct_and_inverse_shift1_min5",
+      "exclusion_reason": null,
+      "family_identity": "attribute_other",
+      "group_weighting_permitted": true,
+      "historical_result": "retained_or_admitted_by_block1_v1_PIT_inventory; detailed prior evidence retained in historical_reentry ledger",
+      "historical_role_binding": "controller_v3_contextual_attribute/feature_roll_event",
+      "individual_weighting_permitted": true,
+      "original_role": "admissible_context_attribute",
+      "pit_status": "value_bound_to_row_decision_time_by_source_availability_checks",
+      "source_dataset_identity": "canonical_ng_market_feature_state"
+    },
+    {
+      "admissible_current_roles": [
+        "context_attribute",
+        "direct_specialist",
+        "inverse_specialist"
+      ],
+      "attribute": "feature_season_cos",
+      "availability_semantics": "latest_known_as_of_decision_time; no pre-availability backfill",
+      "derivation_identity": "prior20_median_deviation_direct_and_inverse_shift1_min5",
+      "exclusion_reason": null,
+      "family_identity": "attribute_seasonality",
+      "group_weighting_permitted": true,
+      "historical_result": "retained_or_admitted_by_block1_v1_PIT_inventory; detailed prior evidence retained in historical_reentry ledger",
+      "historical_role_binding": "controller_v3_contextual_attribute/feature_season_cos",
+      "individual_weighting_permitted": true,
+      "original_role": "admissible_context_attribute",
+      "pit_status": "value_bound_to_row_decision_time_by_source_availability_checks",
+      "source_dataset_identity": "canonical_ng_market_feature_state"
+    },
+    {
+      "admissible_current_roles": [
+        "context_attribute",
+        "direct_specialist",
+        "inverse_specialist"
+      ],
+      "attribute": "feature_season_sin",
+      "availability_semantics": "latest_known_as_of_decision_time; no pre-availability backfill",
+      "derivation_identity": "prior20_median_deviation_direct_and_inverse_shift1_min5",
+      "exclusion_reason": null,
+      "family_identity": "attribute_seasonality",
+      "group_weighting_permitted": true,
+      "historical_result": "retained_or_admitted_by_block1_v1_PIT_inventory; detailed prior evidence retained in historical_reentry ledger",
+      "historical_role_binding": "controller_v3_contextual_attribute/feature_season_sin",
+      "individual_weighting_permitted": true,
+      "original_role": "admissible_context_attribute",
+      "pit_status": "value_bound_to_row_decision_time_by_source_availability_checks",
+      "source_dataset_identity": "canonical_ng_market_feature_state"
+    },
+    {
+      "admissible_current_roles": [
+        "context_attribute",
+        "direct_specialist",
+        "inverse_specialist"
+      ],
+      "attribute": "feature_selected_dte",
+      "availability_semantics": "latest_known_as_of_decision_time; no pre-availability backfill",
+      "derivation_identity": "prior20_median_deviation_direct_and_inverse_shift1_min5",
+      "exclusion_reason": null,
+      "family_identity": "attribute_curve",
+      "group_weighting_permitted": true,
+      "historical_result": "retained_or_admitted_by_block1_v1_PIT_inventory; detailed prior evidence retained in historical_reentry ledger",
+      "historical_role_binding": "controller_v3_contextual_attribute/feature_selected_dte",
+      "individual_weighting_permitted": true,
+      "original_role": "admissible_context_attribute",
+      "pit_status": "value_bound_to_row_decision_time_by_source_availability_checks",
+      "source_dataset_identity": "canonical_ng_market_feature_state"
+    },
+    {
+      "admissible_current_roles": [
+        "context_attribute",
+        "direct_specialist",
+        "inverse_specialist"
+      ],
+      "attribute": "feature_vol_20",
+      "availability_semantics": "latest_known_as_of_decision_time; no pre-availability backfill",
+      "derivation_identity": "prior20_median_deviation_direct_and_inverse_shift1_min5",
+      "exclusion_reason": null,
+      "family_identity": "attribute_volatility",
+      "group_weighting_permitted": true,
+      "historical_result": "retained_or_admitted_by_block1_v1_PIT_inventory; detailed prior evidence retained in historical_reentry ledger",
+      "historical_role_binding": "controller_v3_contextual_attribute/feature_vol_20",
+      "individual_weighting_permitted": true,
+      "original_role": "admissible_context_attribute",
+      "pit_status": "value_bound_to_row_decision_time_by_source_availability_checks",
+      "source_dataset_identity": "canonical_ng_market_feature_state"
+    },
+    {
+      "admissible_current_roles": [
+        "context_attribute",
+        "direct_specialist",
+        "inverse_specialist"
+      ],
+      "attribute": "feature_vol_5",
+      "availability_semantics": "latest_known_as_of_decision_time; no pre-availability backfill",
+      "derivation_identity": "prior20_median_deviation_direct_and_inverse_shift1_min5",
+      "exclusion_reason": null,
+      "family_identity": "attribute_volatility",
+      "group_weighting_permitted": true,
+      "historical_result": "retained_or_admitted_by_block1_v1_PIT_inventory; detailed prior evidence retained in historical_reentry ledger",
+      "historical_role_binding": "controller_v3_contextual_attribute/feature_vol_5",
+      "individual_weighting_permitted": true,
+      "original_role": "admissible_context_attribute",
+      "pit_status": "value_bound_to_row_decision_time_by_source_availability_checks",
+      "source_dataset_identity": "canonical_ng_market_feature_state"
+    },
+    {
+      "admissible_current_roles": [
+        "causal_clock_or_execution_identity"
+      ],
+      "attribute": "decision_time",
+      "availability_semantics": "latest_known_as_of_decision_time; no pre-availability backfill",
+      "derivation_identity": "retained_as_recorded",
+      "exclusion_reason": "non-numeric_or_provenance_identity_not_weighted",
+      "family_identity": "metadata_or_identity",
+      "group_weighting_permitted": false,
+      "historical_result": "retained_or_admitted_by_block1_v1_PIT_inventory; detailed prior evidence retained in historical_reentry ledger",
+      "historical_role_binding": "metadata_only",
+      "individual_weighting_permitted": false,
+      "original_role": "causal_clock_or_execution_identity",
+      "pit_status": "explicit_timestamp_identity",
+      "source_dataset_identity": "execution_clock_and_contract_identity"
+    },
+    {
+      "admissible_current_roles": [
+        "causal_provenance_or_staleness_metadata"
+      ],
+      "attribute": "market_observation_time",
+      "availability_semantics": "latest_known_as_of_decision_time; no pre-availability backfill",
+      "derivation_identity": "retained_as_recorded",
+      "exclusion_reason": "non-numeric_or_provenance_identity_not_weighted",
+      "family_identity": "metadata_or_identity",
+      "group_weighting_permitted": false,
+      "historical_result": "retained_or_admitted_by_block1_v1_PIT_inventory; detailed prior evidence retained in historical_reentry ledger",
+      "historical_role_binding": "metadata_only",
+      "individual_weighting_permitted": false,
+      "original_role": "causal_provenance_or_staleness_metadata",
+      "pit_status": "explicit_timestamp_identity",
+      "source_dataset_identity": "issue465_block1_pit_state_v1"
+    },
+    {
+      "admissible_current_roles": [
+        "causal_provenance_or_staleness_metadata"
+      ],
+      "attribute": "market_source_id",
+      "availability_semantics": "latest_known_as_of_decision_time; no pre-availability backfill",
+      "derivation_identity": "retained_as_recorded",
+      "exclusion_reason": "non-numeric_or_provenance_identity_not_weighted",
+      "family_identity": "metadata_or_identity",
+      "group_weighting_permitted": false,
+      "historical_result": "retained_or_admitted_by_block1_v1_PIT_inventory; detailed prior evidence retained in historical_reentry ledger",
+      "historical_role_binding": "metadata_only",
+      "individual_weighting_permitted": false,
+      "original_role": "causal_provenance_or_staleness_metadata",
+      "pit_status": "value_bound_to_row_decision_time_by_source_availability_checks",
+      "source_dataset_identity": "issue465_block1_pit_state_v1"
+    },
+    {
+      "admissible_current_roles": [
+        "context_attribute",
+        "direct_specialist",
+        "inverse_specialist"
+      ],
+      "attribute": "market_age_seconds",
+      "availability_semantics": "latest_known_as_of_decision_time; no pre-availability backfill",
+      "derivation_identity": "prior20_median_deviation_direct_and_inverse_shift1_min5",
+      "exclusion_reason": null,
+      "family_identity": "attribute_staleness",
+      "group_weighting_permitted": true,
+      "historical_result": "retained_or_admitted_by_block1_v1_PIT_inventory; detailed prior evidence retained in historical_reentry ledger",
+      "historical_role_binding": "controller_v3_contextual_attribute/market_age_seconds",
+      "individual_weighting_permitted": true,
+      "original_role": "admissible_context_attribute",
+      "pit_status": "explicit_staleness_attribute",
+      "source_dataset_identity": "issue465_block1_pit_state_v1"
+    },
+    {
+      "admissible_current_roles": [
+        "context_attribute",
+        "direct_specialist",
+        "inverse_specialist"
+      ],
+      "attribute": "market_age_sessions",
+      "availability_semantics": "latest_known_as_of_decision_time; no pre-availability backfill",
+      "derivation_identity": "prior20_median_deviation_direct_and_inverse_shift1_min5",
+      "exclusion_reason": null,
+      "family_identity": "attribute_staleness",
+      "group_weighting_permitted": true,
+      "historical_result": "retained_or_admitted_by_block1_v1_PIT_inventory; detailed prior evidence retained in historical_reentry ledger",
+      "historical_role_binding": "controller_v3_contextual_attribute/market_age_sessions",
+      "individual_weighting_permitted": true,
+      "original_role": "admissible_context_attribute",
+      "pit_status": "explicit_staleness_attribute",
+      "source_dataset_identity": "issue465_block1_pit_state_v1"
+    },
+    {
+      "admissible_current_roles": [
+        "causal_provenance_or_staleness_metadata"
+      ],
+      "attribute": "timesfm_prediction_time",
+      "availability_semantics": "latest_known_as_of_decision_time; no pre-availability backfill",
+      "derivation_identity": "retained_as_recorded",
+      "exclusion_reason": "non-numeric_or_provenance_identity_not_weighted",
+      "family_identity": "metadata_or_identity",
+      "group_weighting_permitted": false,
+      "historical_result": "retained_or_admitted_by_block1_v1_PIT_inventory; detailed prior evidence retained in historical_reentry ledger",
+      "historical_role_binding": "metadata_only",
+      "individual_weighting_permitted": false,
+      "original_role": "causal_provenance_or_staleness_metadata",
+      "pit_status": "explicit_timestamp_identity",
+      "source_dataset_identity": "timesfm_frozen_feature_archive"
+    },
+    {
+      "admissible_current_roles": [
+        "causal_provenance_or_staleness_metadata"
+      ],
+      "attribute": "timesfm_generated_at",
+      "availability_semantics": "latest_known_as_of_decision_time; no pre-availability backfill",
+      "derivation_identity": "retained_as_recorded",
+      "exclusion_reason": "non-numeric_or_provenance_identity_not_weighted",
+      "family_identity": "metadata_or_identity",
+      "group_weighting_permitted": false,
+      "historical_result": "retained_or_admitted_by_block1_v1_PIT_inventory; detailed prior evidence retained in historical_reentry ledger",
+      "historical_role_binding": "metadata_only",
+      "individual_weighting_permitted": false,
+      "original_role": "causal_provenance_or_staleness_metadata",
+      "pit_status": "explicit_timestamp_identity",
+      "source_dataset_identity": "timesfm_frozen_feature_archive"
+    },
+    {
+      "admissible_current_roles": [
+        "context_attribute",
+        "direct_specialist",
+        "inverse_specialist"
+      ],
+      "attribute": "timesfm_point_return",
+      "availability_semantics": "latest_known_as_of_decision_time; no pre-availability backfill",
+      "derivation_identity": "prior20_median_deviation_direct_and_inverse_shift1_min5",
+      "exclusion_reason": null,
+      "family_identity": "attribute_timesfm",
+      "group_weighting_permitted": true,
+      "historical_result": "retained_or_admitted_by_block1_v1_PIT_inventory; detailed prior evidence retained in historical_reentry ledger",
+      "historical_role_binding": "controller_v3_contextual_attribute/timesfm_point_return",
+      "individual_weighting_permitted": true,
+      "original_role": "admissible_context_attribute",
+      "pit_status": "value_bound_to_row_decision_time_by_source_availability_checks",
+      "source_dataset_identity": "timesfm_frozen_feature_archive"
+    },
+    {
+      "admissible_current_roles": [
+        "context_attribute",
+        "direct_specialist",
+        "inverse_specialist"
+      ],
+      "attribute": "timesfm_q10_return",
+      "availability_semantics": "latest_known_as_of_decision_time; no pre-availability backfill",
+      "derivation_identity": "prior20_median_deviation_direct_and_inverse_shift1_min5",
+      "exclusion_reason": null,
+      "family_identity": "attribute_timesfm",
+      "group_weighting_permitted": true,
+      "historical_result": "retained_or_admitted_by_block1_v1_PIT_inventory; detailed prior evidence retained in historical_reentry ledger",
+      "historical_role_binding": "controller_v3_contextual_attribute/timesfm_q10_return",
+      "individual_weighting_permitted": true,
+      "original_role": "admissible_context_attribute",
+      "pit_status": "value_bound_to_row_decision_time_by_source_availability_checks",
+      "source_dataset_identity": "timesfm_frozen_feature_archive"
+    },
+    {
+      "admissible_current_roles": [
+        "context_attribute",
+        "direct_specialist",
+        "inverse_specialist"
+      ],
+      "attribute": "timesfm_q90_return",
+      "availability_semantics": "latest_known_as_of_decision_time; no pre-availability backfill",
+      "derivation_identity": "prior20_median_deviation_direct_and_inverse_shift1_min5",
+      "exclusion_reason": null,
+      "family_identity": "attribute_timesfm",
+      "group_weighting_permitted": true,
+      "historical_result": "retained_or_admitted_by_block1_v1_PIT_inventory; detailed prior evidence retained in historical_reentry ledger",
+      "historical_role_binding": "controller_v3_contextual_attribute/timesfm_q90_return",
+      "individual_weighting_permitted": true,
+      "original_role": "admissible_context_attribute",
+      "pit_status": "value_bound_to_row_decision_time_by_source_availability_checks",
+      "source_dataset_identity": "timesfm_frozen_feature_archive"
+    },
+    {
+      "admissible_current_roles": [
+        "context_attribute",
+        "direct_specialist",
+        "inverse_specialist"
+      ],
+      "attribute": "timesfm_interval_width",
+      "availability_semantics": "latest_known_as_of_decision_time; no pre-availability backfill",
+      "derivation_identity": "prior20_median_deviation_direct_and_inverse_shift1_min5",
+      "exclusion_reason": null,
+      "family_identity": "attribute_timesfm",
+      "group_weighting_permitted": true,
+      "historical_result": "retained_or_admitted_by_block1_v1_PIT_inventory; detailed prior evidence retained in historical_reentry ledger",
+      "historical_role_binding": "controller_v3_contextual_attribute/timesfm_interval_width",
+      "individual_weighting_permitted": true,
+      "original_role": "admissible_context_attribute",
+      "pit_status": "value_bound_to_row_decision_time_by_source_availability_checks",
+      "source_dataset_identity": "timesfm_frozen_feature_archive"
+    },
+    {
+      "admissible_current_roles": [
+        "causal_provenance_or_staleness_metadata"
+      ],
+      "attribute": "kronos_prediction_time",
+      "availability_semantics": "latest_known_as_of_decision_time; no pre-availability backfill",
+      "derivation_identity": "retained_as_recorded",
+      "exclusion_reason": "non-numeric_or_provenance_identity_not_weighted",
+      "family_identity": "metadata_or_identity",
+      "group_weighting_permitted": false,
+      "historical_result": "retained_or_admitted_by_block1_v1_PIT_inventory; detailed prior evidence retained in historical_reentry ledger",
+      "historical_role_binding": "metadata_only",
+      "individual_weighting_permitted": false,
+      "original_role": "causal_provenance_or_staleness_metadata",
+      "pit_status": "explicit_timestamp_identity",
+      "source_dataset_identity": "kronos_frozen_feature_archive"
+    },
+    {
+      "admissible_current_roles": [
+        "causal_provenance_or_staleness_metadata"
+      ],
+      "attribute": "kronos_generated_at",
+      "availability_semantics": "latest_known_as_of_decision_time; no pre-availability backfill",
+      "derivation_identity": "retained_as_recorded",
+      "exclusion_reason": "non-numeric_or_provenance_identity_not_weighted",
+      "family_identity": "metadata_or_identity",
+      "group_weighting_permitted": false,
+      "historical_result": "retained_or_admitted_by_block1_v1_PIT_inventory; detailed prior evidence retained in historical_reentry ledger",
+      "historical_role_binding": "metadata_only",
+      "individual_weighting_permitted": false,
+      "original_role": "causal_provenance_or_staleness_metadata",
+      "pit_status": "explicit_timestamp_identity",
+      "source_dataset_identity": "kronos_frozen_feature_archive"
+    },
+    {
+      "admissible_current_roles": [
+        "context_attribute",
+        "direct_specialist",
+        "inverse_specialist"
+      ],
+      "attribute": "kronos_close_return",
+      "availability_semantics": "latest_known_as_of_decision_time; no pre-availability backfill",
+      "derivation_identity": "prior20_median_deviation_direct_and_inverse_shift1_min5",
+      "exclusion_reason": null,
+      "family_identity": "attribute_kronos",
+      "group_weighting_permitted": true,
+      "historical_result": "retained_or_admitted_by_block1_v1_PIT_inventory; detailed prior evidence retained in historical_reentry ledger",
+      "historical_role_binding": "controller_v3_contextual_attribute/kronos_close_return",
+      "individual_weighting_permitted": true,
+      "original_role": "admissible_context_attribute",
+      "pit_status": "value_bound_to_row_decision_time_by_source_availability_checks",
+      "source_dataset_identity": "kronos_frozen_feature_archive"
+    },
+    {
+      "admissible_current_roles": [
+        "context_attribute",
+        "direct_specialist",
+        "inverse_specialist"
+      ],
+      "attribute": "kronos_range_pct",
+      "availability_semantics": "latest_known_as_of_decision_time; no pre-availability backfill",
+      "derivation_identity": "prior20_median_deviation_direct_and_inverse_shift1_min5",
+      "exclusion_reason": null,
+      "family_identity": "attribute_kronos",
+      "group_weighting_permitted": true,
+      "historical_result": "retained_or_admitted_by_block1_v1_PIT_inventory; detailed prior evidence retained in historical_reentry ledger",
+      "historical_role_binding": "controller_v3_contextual_attribute/kronos_range_pct",
+      "individual_weighting_permitted": true,
+      "original_role": "admissible_context_attribute",
+      "pit_status": "value_bound_to_row_decision_time_by_source_availability_checks",
+      "source_dataset_identity": "kronos_frozen_feature_archive"
+    },
+    {
+      "admissible_current_roles": [
+        "causal_provenance_or_staleness_metadata"
+      ],
+      "attribute": "timesfm_source_sha256",
+      "availability_semantics": "latest_known_as_of_decision_time; no pre-availability backfill",
+      "derivation_identity": "retained_as_recorded",
+      "exclusion_reason": "non-numeric_or_provenance_identity_not_weighted",
+      "family_identity": "metadata_or_identity",
+      "group_weighting_permitted": false,
+      "historical_result": "retained_or_admitted_by_block1_v1_PIT_inventory; detailed prior evidence retained in historical_reentry ledger",
+      "historical_role_binding": "metadata_only",
+      "individual_weighting_permitted": false,
+      "original_role": "causal_provenance_or_staleness_metadata",
+      "pit_status": "value_bound_to_row_decision_time_by_source_availability_checks",
+      "source_dataset_identity": "timesfm_frozen_feature_archive"
+    },
+    {
+      "admissible_current_roles": [
+        "causal_provenance_or_staleness_metadata"
+      ],
+      "attribute": "kronos_source_sha256",
+      "availability_semantics": "latest_known_as_of_decision_time; no pre-availability backfill",
+      "derivation_identity": "retained_as_recorded",
+      "exclusion_reason": "non-numeric_or_provenance_identity_not_weighted",
+      "family_identity": "metadata_or_identity",
+      "group_weighting_permitted": false,
+      "historical_result": "retained_or_admitted_by_block1_v1_PIT_inventory; detailed prior evidence retained in historical_reentry ledger",
+      "historical_role_binding": "metadata_only",
+      "individual_weighting_permitted": false,
+      "original_role": "causal_provenance_or_staleness_metadata",
+      "pit_status": "value_bound_to_row_decision_time_by_source_availability_checks",
+      "source_dataset_identity": "kronos_frozen_feature_archive"
+    },
+    {
+      "admissible_current_roles": [
+        "causal_provenance_or_staleness_metadata"
+      ],
+      "attribute": "migration_authority",
+      "availability_semantics": "latest_known_as_of_decision_time; no pre-availability backfill",
+      "derivation_identity": "retained_as_recorded",
+      "exclusion_reason": "non-numeric_or_provenance_identity_not_weighted",
+      "family_identity": "metadata_or_identity",
+      "group_weighting_permitted": false,
+      "historical_result": "retained_or_admitted_by_block1_v1_PIT_inventory; detailed prior evidence retained in historical_reentry ledger",
+      "historical_role_binding": "metadata_only",
+      "individual_weighting_permitted": false,
+      "original_role": "causal_provenance_or_staleness_metadata",
+      "pit_status": "value_bound_to_row_decision_time_by_source_availability_checks",
+      "source_dataset_identity": "issue465_block1_pit_state_v1"
+    },
+    {
+      "admissible_current_roles": [
+        "context_attribute",
+        "direct_specialist",
+        "inverse_specialist"
+      ],
+      "attribute": "timesfm_age_seconds",
+      "availability_semantics": "latest_known_as_of_decision_time; no pre-availability backfill",
+      "derivation_identity": "prior20_median_deviation_direct_and_inverse_shift1_min5",
+      "exclusion_reason": null,
+      "family_identity": "attribute_timesfm",
+      "group_weighting_permitted": true,
+      "historical_result": "retained_or_admitted_by_block1_v1_PIT_inventory; detailed prior evidence retained in historical_reentry ledger",
+      "historical_role_binding": "controller_v3_contextual_attribute/timesfm_age_seconds",
+      "individual_weighting_permitted": true,
+      "original_role": "admissible_context_attribute",
+      "pit_status": "explicit_staleness_attribute",
+      "source_dataset_identity": "timesfm_frozen_feature_archive"
+    },
+    {
+      "admissible_current_roles": [
+        "context_attribute",
+        "direct_specialist",
+        "inverse_specialist"
+      ],
+      "attribute": "kronos_age_seconds",
+      "availability_semantics": "latest_known_as_of_decision_time; no pre-availability backfill",
+      "derivation_identity": "prior20_median_deviation_direct_and_inverse_shift1_min5",
+      "exclusion_reason": null,
+      "family_identity": "attribute_kronos",
+      "group_weighting_permitted": true,
+      "historical_result": "retained_or_admitted_by_block1_v1_PIT_inventory; detailed prior evidence retained in historical_reentry ledger",
+      "historical_role_binding": "controller_v3_contextual_attribute/kronos_age_seconds",
+      "individual_weighting_permitted": true,
+      "original_role": "admissible_context_attribute",
+      "pit_status": "explicit_staleness_attribute",
+      "source_dataset_identity": "kronos_frozen_feature_archive"
+    },
+    {
+      "admissible_current_roles": [
+        "causal_provenance_or_staleness_metadata"
+      ],
+      "attribute": "timesfm_source_id",
+      "availability_semantics": "latest_known_as_of_decision_time; no pre-availability backfill",
+      "derivation_identity": "retained_as_recorded",
+      "exclusion_reason": "non-numeric_or_provenance_identity_not_weighted",
+      "family_identity": "metadata_or_identity",
+      "group_weighting_permitted": false,
+      "historical_result": "retained_or_admitted_by_block1_v1_PIT_inventory; detailed prior evidence retained in historical_reentry ledger",
+      "historical_role_binding": "metadata_only",
+      "individual_weighting_permitted": false,
+      "original_role": "causal_provenance_or_staleness_metadata",
+      "pit_status": "value_bound_to_row_decision_time_by_source_availability_checks",
+      "source_dataset_identity": "timesfm_frozen_feature_archive"
+    },
+    {
+      "admissible_current_roles": [
+        "causal_provenance_or_staleness_metadata"
+      ],
+      "attribute": "kronos_source_id",
+      "availability_semantics": "latest_known_as_of_decision_time; no pre-availability backfill",
+      "derivation_identity": "retained_as_recorded",
+      "exclusion_reason": "non-numeric_or_provenance_identity_not_weighted",
+      "family_identity": "metadata_or_identity",
+      "group_weighting_permitted": false,
+      "historical_result": "retained_or_admitted_by_block1_v1_PIT_inventory; detailed prior evidence retained in historical_reentry ledger",
+      "historical_role_binding": "metadata_only",
+      "individual_weighting_permitted": false,
+      "original_role": "causal_provenance_or_staleness_metadata",
+      "pit_status": "value_bound_to_row_decision_time_by_source_availability_checks",
+      "source_dataset_identity": "kronos_frozen_feature_archive"
+    },
+    {
+      "admissible_current_roles": [
+        "causal_provenance_or_staleness_metadata"
+      ],
+      "attribute": "positioning_observation_time",
+      "availability_semantics": "latest_known_as_of_decision_time; no pre-availability backfill",
+      "derivation_identity": "retained_as_recorded",
+      "exclusion_reason": "non-numeric_or_provenance_identity_not_weighted",
+      "family_identity": "metadata_or_identity",
+      "group_weighting_permitted": false,
+      "historical_result": "retained_or_admitted_by_block1_v1_PIT_inventory; detailed prior evidence retained in historical_reentry ledger",
+      "historical_role_binding": "metadata_only",
+      "individual_weighting_permitted": false,
+      "original_role": "causal_provenance_or_staleness_metadata",
+      "pit_status": "explicit_timestamp_identity",
+      "source_dataset_identity": "cftc_positioning_pit_archive"
+    },
+    {
+      "admissible_current_roles": [
+        "causal_provenance_or_staleness_metadata"
+      ],
+      "attribute": "positioning_available_at",
+      "availability_semantics": "latest_known_as_of_decision_time; no pre-availability backfill",
+      "derivation_identity": "retained_as_recorded",
+      "exclusion_reason": "non-numeric_or_provenance_identity_not_weighted",
+      "family_identity": "metadata_or_identity",
+      "group_weighting_permitted": false,
+      "historical_result": "retained_or_admitted_by_block1_v1_PIT_inventory; detailed prior evidence retained in historical_reentry ledger",
+      "historical_role_binding": "metadata_only",
+      "individual_weighting_permitted": false,
+      "original_role": "causal_provenance_or_staleness_metadata",
+      "pit_status": "explicit_timestamp_identity",
+      "source_dataset_identity": "cftc_positioning_pit_archive"
+    },
+    {
+      "admissible_current_roles": [
+        "causal_provenance_or_staleness_metadata"
+      ],
+      "attribute": "positioning_availability_basis",
+      "availability_semantics": "latest_known_as_of_decision_time; no pre-availability backfill",
+      "derivation_identity": "retained_as_recorded",
+      "exclusion_reason": "non-numeric_or_provenance_identity_not_weighted",
+      "family_identity": "metadata_or_identity",
+      "group_weighting_permitted": false,
+      "historical_result": "retained_or_admitted_by_block1_v1_PIT_inventory; detailed prior evidence retained in historical_reentry ledger",
+      "historical_role_binding": "metadata_only",
+      "individual_weighting_permitted": false,
+      "original_role": "causal_provenance_or_staleness_metadata",
+      "pit_status": "value_bound_to_row_decision_time_by_source_availability_checks",
+      "source_dataset_identity": "cftc_positioning_pit_archive"
+    },
+    {
+      "admissible_current_roles": [
+        "context_attribute",
+        "direct_specialist",
+        "inverse_specialist"
+      ],
+      "attribute": "positioning_open_interest",
+      "availability_semantics": "latest_known_as_of_decision_time; no pre-availability backfill",
+      "derivation_identity": "prior20_median_deviation_direct_and_inverse_shift1_min5",
+      "exclusion_reason": null,
+      "family_identity": "attribute_positioning",
+      "group_weighting_permitted": true,
+      "historical_result": "retained_or_admitted_by_block1_v1_PIT_inventory; detailed prior evidence retained in historical_reentry ledger",
+      "historical_role_binding": "controller_v3_contextual_attribute/positioning_open_interest",
+      "individual_weighting_permitted": true,
+      "original_role": "admissible_context_attribute",
+      "pit_status": "value_bound_to_row_decision_time_by_source_availability_checks",
+      "source_dataset_identity": "cftc_positioning_pit_archive"
+    },
+    {
+      "admissible_current_roles": [
+        "context_attribute",
+        "direct_specialist",
+        "inverse_specialist"
+      ],
+      "attribute": "managed_money_net",
+      "availability_semantics": "latest_known_as_of_decision_time; no pre-availability backfill",
+      "derivation_identity": "prior20_median_deviation_direct_and_inverse_shift1_min5",
+      "exclusion_reason": null,
+      "family_identity": "attribute_positioning",
+      "group_weighting_permitted": true,
+      "historical_result": "retained_or_admitted_by_block1_v1_PIT_inventory; detailed prior evidence retained in historical_reentry ledger",
+      "historical_role_binding": "controller_v3_contextual_attribute/managed_money_net",
+      "individual_weighting_permitted": true,
+      "original_role": "admissible_context_attribute",
+      "pit_status": "value_bound_to_row_decision_time_by_source_availability_checks",
+      "source_dataset_identity": "cftc_positioning_pit_archive"
+    },
+    {
+      "admissible_current_roles": [
+        "context_attribute",
+        "direct_specialist",
+        "inverse_specialist"
+      ],
+      "attribute": "producer_merchant_net",
+      "availability_semantics": "latest_known_as_of_decision_time; no pre-availability backfill",
+      "derivation_identity": "prior20_median_deviation_direct_and_inverse_shift1_min5",
+      "exclusion_reason": null,
+      "family_identity": "attribute_positioning",
+      "group_weighting_permitted": true,
+      "historical_result": "retained_or_admitted_by_block1_v1_PIT_inventory; detailed prior evidence retained in historical_reentry ledger",
+      "historical_role_binding": "controller_v3_contextual_attribute/producer_merchant_net",
+      "individual_weighting_permitted": true,
+      "original_role": "admissible_context_attribute",
+      "pit_status": "value_bound_to_row_decision_time_by_source_availability_checks",
+      "source_dataset_identity": "cftc_positioning_pit_archive"
+    },
+    {
+      "admissible_current_roles": [
+        "causal_provenance_or_staleness_metadata"
+      ],
+      "attribute": "positioning_source_id",
+      "availability_semantics": "latest_known_as_of_decision_time; no pre-availability backfill",
+      "derivation_identity": "retained_as_recorded",
+      "exclusion_reason": "non-numeric_or_provenance_identity_not_weighted",
+      "family_identity": "metadata_or_identity",
+      "group_weighting_permitted": false,
+      "historical_result": "retained_or_admitted_by_block1_v1_PIT_inventory; detailed prior evidence retained in historical_reentry ledger",
+      "historical_role_binding": "metadata_only",
+      "individual_weighting_permitted": false,
+      "original_role": "causal_provenance_or_staleness_metadata",
+      "pit_status": "value_bound_to_row_decision_time_by_source_availability_checks",
+      "source_dataset_identity": "cftc_positioning_pit_archive"
+    },
+    {
+      "admissible_current_roles": [
+        "context_attribute",
+        "direct_specialist",
+        "inverse_specialist"
+      ],
+      "attribute": "positioning_age_seconds",
+      "availability_semantics": "latest_known_as_of_decision_time; no pre-availability backfill",
+      "derivation_identity": "prior20_median_deviation_direct_and_inverse_shift1_min5",
+      "exclusion_reason": null,
+      "family_identity": "attribute_positioning",
+      "group_weighting_permitted": true,
+      "historical_result": "retained_or_admitted_by_block1_v1_PIT_inventory; detailed prior evidence retained in historical_reentry ledger",
+      "historical_role_binding": "controller_v3_contextual_attribute/positioning_age_seconds",
+      "individual_weighting_permitted": true,
+      "original_role": "admissible_context_attribute",
+      "pit_status": "explicit_staleness_attribute",
+      "source_dataset_identity": "cftc_positioning_pit_archive"
+    },
+    {
+      "admissible_current_roles": [
+        "context_attribute",
+        "direct_specialist",
+        "inverse_specialist"
+      ],
+      "attribute": "positioning_age_sessions",
+      "availability_semantics": "latest_known_as_of_decision_time; no pre-availability backfill",
+      "derivation_identity": "prior20_median_deviation_direct_and_inverse_shift1_min5",
+      "exclusion_reason": null,
+      "family_identity": "attribute_positioning",
+      "group_weighting_permitted": true,
+      "historical_result": "retained_or_admitted_by_block1_v1_PIT_inventory; detailed prior evidence retained in historical_reentry ledger",
+      "historical_role_binding": "controller_v3_contextual_attribute/positioning_age_sessions",
+      "individual_weighting_permitted": true,
+      "original_role": "admissible_context_attribute",
+      "pit_status": "explicit_staleness_attribute",
+      "source_dataset_identity": "cftc_positioning_pit_archive"
+    },
+    {
+      "admissible_current_roles": [
+        "causal_provenance_or_staleness_metadata"
+      ],
+      "attribute": "positioning_vintage",
+      "availability_semantics": "latest_known_as_of_decision_time; no pre-availability backfill",
+      "derivation_identity": "retained_as_recorded",
+      "exclusion_reason": "non-numeric_or_provenance_identity_not_weighted",
+      "family_identity": "metadata_or_identity",
+      "group_weighting_permitted": false,
+      "historical_result": "retained_or_admitted_by_block1_v1_PIT_inventory; detailed prior evidence retained in historical_reentry ledger",
+      "historical_role_binding": "metadata_only",
+      "individual_weighting_permitted": false,
+      "original_role": "causal_provenance_or_staleness_metadata",
+      "pit_status": "explicit_vintage_revision_identity",
+      "source_dataset_identity": "cftc_positioning_pit_archive"
+    },
+    {
+      "admissible_current_roles": [
+        "causal_provenance_or_staleness_metadata"
+      ],
+      "attribute": "positioning_revision",
+      "availability_semantics": "latest_known_as_of_decision_time; no pre-availability backfill",
+      "derivation_identity": "retained_as_recorded",
+      "exclusion_reason": "non-numeric_or_provenance_identity_not_weighted",
+      "family_identity": "metadata_or_identity",
+      "group_weighting_permitted": false,
+      "historical_result": "retained_or_admitted_by_block1_v1_PIT_inventory; detailed prior evidence retained in historical_reentry ledger",
+      "historical_role_binding": "metadata_only",
+      "individual_weighting_permitted": false,
+      "original_role": "causal_provenance_or_staleness_metadata",
+      "pit_status": "explicit_vintage_revision_identity",
+      "source_dataset_identity": "cftc_positioning_pit_archive"
+    },
+    {
+      "admissible_current_roles": [
+        "context_attribute",
+        "direct_specialist",
+        "inverse_specialist"
+      ],
+      "attribute": "derived_settle_m1",
+      "availability_semantics": "latest_known_as_of_decision_time; no pre-availability backfill",
+      "derivation_identity": "prior20_median_deviation_direct_and_inverse_shift1_min5",
+      "exclusion_reason": null,
+      "family_identity": "attribute_curve",
+      "group_weighting_permitted": true,
+      "historical_result": "retained_or_admitted_by_block1_v1_PIT_inventory; detailed prior evidence retained in historical_reentry ledger",
+      "historical_role_binding": "controller_v3_contextual_attribute/derived_settle_m1",
+      "individual_weighting_permitted": true,
+      "original_role": "admissible_context_attribute",
+      "pit_status": "value_bound_to_row_decision_time_by_source_availability_checks",
+      "source_dataset_identity": "canonical_ng_market_feature_state"
+    },
+    {
+      "admissible_current_roles": [
+        "context_attribute",
+        "direct_specialist",
+        "inverse_specialist"
+      ],
+      "attribute": "derived_prior20_settle_max",
+      "availability_semantics": "latest_known_as_of_decision_time; no pre-availability backfill",
+      "derivation_identity": "prior20_median_deviation_direct_and_inverse_shift1_min5",
+      "exclusion_reason": null,
+      "family_identity": "attribute_curve",
+      "group_weighting_permitted": true,
+      "historical_result": "retained_or_admitted_by_block1_v1_PIT_inventory; detailed prior evidence retained in historical_reentry ledger",
+      "historical_role_binding": "controller_v3_contextual_attribute/derived_prior20_settle_max",
+      "individual_weighting_permitted": true,
+      "original_role": "admissible_context_attribute",
+      "pit_status": "value_bound_to_row_decision_time_by_source_availability_checks",
+      "source_dataset_identity": "canonical_ng_market_feature_state"
+    },
+    {
+      "admissible_current_roles": [
+        "context_attribute",
+        "direct_specialist",
+        "inverse_specialist"
+      ],
+      "attribute": "derived_prior20_settle_min",
+      "availability_semantics": "latest_known_as_of_decision_time; no pre-availability backfill",
+      "derivation_identity": "prior20_median_deviation_direct_and_inverse_shift1_min5",
+      "exclusion_reason": null,
+      "family_identity": "attribute_curve",
+      "group_weighting_permitted": true,
+      "historical_result": "retained_or_admitted_by_block1_v1_PIT_inventory; detailed prior evidence retained in historical_reentry ledger",
+      "historical_role_binding": "controller_v3_contextual_attribute/derived_prior20_settle_min",
+      "individual_weighting_permitted": true,
+      "original_role": "admissible_context_attribute",
+      "pit_status": "value_bound_to_row_decision_time_by_source_availability_checks",
+      "source_dataset_identity": "canonical_ng_market_feature_state"
+    },
+    {
+      "admissible_current_roles": [
+        "context_attribute",
+        "direct_specialist",
+        "inverse_specialist"
+      ],
+      "attribute": "derived_prior60_vol20_median",
+      "availability_semantics": "latest_known_as_of_decision_time; no pre-availability backfill",
+      "derivation_identity": "prior20_median_deviation_direct_and_inverse_shift1_min5",
+      "exclusion_reason": null,
+      "family_identity": "attribute_volatility",
+      "group_weighting_permitted": true,
+      "historical_result": "retained_or_admitted_by_block1_v1_PIT_inventory; detailed prior evidence retained in historical_reentry ledger",
+      "historical_role_binding": "controller_v3_contextual_attribute/derived_prior60_vol20_median",
+      "individual_weighting_permitted": true,
+      "original_role": "admissible_context_attribute",
+      "pit_status": "value_bound_to_row_decision_time_by_source_availability_checks",
+      "source_dataset_identity": "canonical_ng_market_feature_state"
+    },
+    {
+      "admissible_current_roles": [
+        "context_attribute",
+        "direct_specialist",
+        "inverse_specialist"
+      ],
+      "attribute": "derived_jump_intensity",
+      "availability_semantics": "latest_known_as_of_decision_time; no pre-availability backfill",
+      "derivation_identity": "prior20_median_deviation_direct_and_inverse_shift1_min5",
+      "exclusion_reason": null,
+      "family_identity": "attribute_volatility",
+      "group_weighting_permitted": true,
+      "historical_result": "retained_or_admitted_by_block1_v1_PIT_inventory; detailed prior evidence retained in historical_reentry ledger",
+      "historical_role_binding": "controller_v3_contextual_attribute/derived_jump_intensity",
+      "individual_weighting_permitted": true,
+      "original_role": "admissible_context_attribute",
+      "pit_status": "value_bound_to_row_decision_time_by_source_availability_checks",
+      "source_dataset_identity": "canonical_ng_market_feature_state"
+    },
+    {
+      "admissible_current_roles": [
+        "context_attribute",
+        "direct_specialist",
+        "inverse_specialist"
+      ],
+      "attribute": "derived_prior60_jump_q67",
+      "availability_semantics": "latest_known_as_of_decision_time; no pre-availability backfill",
+      "derivation_identity": "prior20_median_deviation_direct_and_inverse_shift1_min5",
+      "exclusion_reason": null,
+      "family_identity": "attribute_volatility",
+      "group_weighting_permitted": true,
+      "historical_result": "retained_or_admitted_by_block1_v1_PIT_inventory; detailed prior evidence retained in historical_reentry ledger",
+      "historical_role_binding": "controller_v3_contextual_attribute/derived_prior60_jump_q67",
+      "individual_weighting_permitted": true,
+      "original_role": "admissible_context_attribute",
+      "pit_status": "value_bound_to_row_decision_time_by_source_availability_checks",
+      "source_dataset_identity": "canonical_ng_market_feature_state"
+    },
+    {
+      "admissible_current_roles": [
+        "context_attribute",
+        "direct_specialist",
+        "inverse_specialist"
+      ],
+      "attribute": "derived_vol_of_vol",
+      "availability_semantics": "latest_known_as_of_decision_time; no pre-availability backfill",
+      "derivation_identity": "prior20_median_deviation_direct_and_inverse_shift1_min5",
+      "exclusion_reason": null,
+      "family_identity": "attribute_volatility",
+      "group_weighting_permitted": true,
+      "historical_result": "retained_or_admitted_by_block1_v1_PIT_inventory; detailed prior evidence retained in historical_reentry ledger",
+      "historical_role_binding": "controller_v3_contextual_attribute/derived_vol_of_vol",
+      "individual_weighting_permitted": true,
+      "original_role": "admissible_context_attribute",
+      "pit_status": "value_bound_to_row_decision_time_by_source_availability_checks",
+      "source_dataset_identity": "canonical_ng_market_feature_state"
+    },
+    {
+      "admissible_current_roles": [
+        "context_attribute",
+        "direct_specialist",
+        "inverse_specialist"
+      ],
+      "attribute": "derived_prior60_vov_q67",
+      "availability_semantics": "latest_known_as_of_decision_time; no pre-availability backfill",
+      "derivation_identity": "prior20_median_deviation_direct_and_inverse_shift1_min5",
+      "exclusion_reason": null,
+      "family_identity": "attribute_other",
+      "group_weighting_permitted": true,
+      "historical_result": "retained_or_admitted_by_block1_v1_PIT_inventory; detailed prior evidence retained in historical_reentry ledger",
+      "historical_role_binding": "controller_v3_contextual_attribute/derived_prior60_vov_q67",
+      "individual_weighting_permitted": true,
+      "original_role": "admissible_context_attribute",
+      "pit_status": "value_bound_to_row_decision_time_by_source_availability_checks",
+      "source_dataset_identity": "canonical_ng_market_feature_state"
+    },
+    {
+      "admissible_current_roles": [
+        "context_attribute",
+        "direct_specialist",
+        "inverse_specialist"
+      ],
+      "attribute": "derived_prior20_log_volume_m1_median",
+      "availability_semantics": "latest_known_as_of_decision_time; no pre-availability backfill",
+      "derivation_identity": "prior20_median_deviation_direct_and_inverse_shift1_min5",
+      "exclusion_reason": null,
+      "family_identity": "attribute_volatility",
+      "group_weighting_permitted": true,
+      "historical_result": "retained_or_admitted_by_block1_v1_PIT_inventory; detailed prior evidence retained in historical_reentry ledger",
+      "historical_role_binding": "controller_v3_contextual_attribute/derived_prior20_log_volume_m1_median",
+      "individual_weighting_permitted": true,
+      "original_role": "admissible_context_attribute",
+      "pit_status": "value_bound_to_row_decision_time_by_source_availability_checks",
+      "source_dataset_identity": "canonical_ng_market_feature_state"
+    }
+  ],
+  "family_dispositions": [
+    {
+      "block1": "GO",
+      "family": "market_curve_technical",
+      "role": "state_and_specialists"
+    },
+    {
+      "block1": "GO",
+      "family": "timesfm",
+      "role": "timestamped_specialist"
+    },
+    {
+      "block1": "GO",
+      "family": "kronos",
+      "role": "timestamped_specialist"
+    },
+    {
+      "block1": "GO",
+      "family": "cftc_positioning",
+      "role": "state_and_specialist"
+    },
+    {
+      "block1": "HOLD",
+      "family": "futures_open_interest",
+      "reason": "no_valid_referenced_records_2010"
+    },
+    {
+      "block1": "HOLD",
+      "family": "storage",
+      "reason": "PIT_support_starts_2015_06_19"
+    },
+    {
+      "block1": "HOLD",
+      "family": "weather",
+      "reason": "PIT_support_starts_2015_01_15"
+    },
+    {
+      "block1": "HOLD",
+      "family": "power",
+      "reason": "historical_publication_timing_not_promoted"
+    },
+    {
+      "block1": "HOLD",
+      "family": "storage_consensus_surprise",
+      "reason": "source_not_proven"
+    },
+    {
+      "block1": "HOLD",
+      "family": "options_implied",
+      "reason": "activation_gates_not_proven"
+    },
+    {
+      "block1": "HOLD",
+      "family": "event_time",
+      "reason": "historical_release_timing_not_proven"
+    },
+    {
+      "block1": "HOLD",
+      "family": "lng_physical",
+      "reason": "no_registered_PIT_block1_source_through_issue431"
+    }
+  ],
+  "issue": 465,
+  "iteration": "block1-controller-v3-oracle-lifecycle-output-hardening",
+  "later_blocks_accessed": false,
+  "no_admissible_family_silently_dropped": true,
+  "pit_state_sha256": "ba91a8c4880a4427c34dc9b906d1bd4ce5670aeca45a297b26428c9bf00e81c2",
+  "pit_state_source": "research\\programmes\\004-v2-maximum-reproducible-one-month-return\\issue465-block1-pit-state-v1.jsonl",
+  "protected_confirmation_accessed": false,
+  "schema_version": 4,
+  "weightable_attribute_count": 53
+}

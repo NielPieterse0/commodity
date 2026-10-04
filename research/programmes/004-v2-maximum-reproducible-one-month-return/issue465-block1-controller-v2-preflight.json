@@ -1,0 +1,54 @@
+{
+  "candidate_count": 144,
+  "candidate_grid_sha256": "fe6438e66013ee62a8344d694106ed4af0cc756816b7415a0b40bf0f82750292",
+  "candidates_sha256": "068cd9cf2058b0949843eca11c6e9179085f3f768faf22fb8e3d1767f78d1695",
+  "checks": {
+    "block1_rows_match": true,
+    "complete_weightable_attributes_transformed": true,
+    "context_columns_numeric": true,
+    "context_columns_present": true,
+    "kronos_available_by_decision": true,
+    "later_blocks_not_accessed": true,
+    "market_available_by_decision": true,
+    "positioning_available_by_decision": true,
+    "protected_confirmation_not_accessed": true,
+    "specialist_count_matches_prereg": true,
+    "structural_candidate_count_144": true,
+    "timesfm_available_by_decision": true,
+    "unique_decision_times": true
+  },
+  "code_identity": {
+    "controller_v2_sha256": "1452ae802235e943aa75ec3dfd441b8b0b6ead47c9dcc91ddc7e4d67677628ac",
+    "runner_sha256": "ed6ed538e537cdad6b7f95790fc0eb14f1f32ddb33f909162e3e93b7eb92f51a",
+    "v1_runner_dependency_sha256": "b762322f1c83bd9709abe43e9f2e48e28377c80673e7586126f6b64a105bfb7c"
+  },
+  "historical_evidence_map": {
+    "all_records_retained_by_reference": true,
+    "classification_counts": {
+      "empirical_negative": 33,
+      "governance_only": 3469,
+      "null_or_inconclusive": 30,
+      "positive_clue": 140,
+      "role_unidentifiable": 24,
+      "source_or_data_hold": 19,
+      "underpowered": 187,
+      "untested_mechanism": 27
+    },
+    "path": "research\\programmes\\004-v2-maximum-reproducible-one-month-return\\issue459-advantage-map-v1.json",
+    "protected_confirmation_accessed": false,
+    "raw_evidence_count": 3929,
+    "sha256": "c375e3f21ca28e3f96a590eeb3245921ddf1897fa93b81966e7c3c33c13cf19f"
+  },
+  "issue": 465,
+  "iteration": "block1-controller-v2",
+  "later_blocks_accessed": false,
+  "pit_attribute_count": 76,
+  "predecessor_pit_state_sha256": "ba91a8c4880a4427c34dc9b906d1bd4ce5670aeca45a297b26428c9bf00e81c2",
+  "prereg_sha256": "0f9b5d181c3e78238bf3a7869d0134ea63e4ac7397a9fd62c76fc936186646a4",
+  "protected_confirmation_accessed": false,
+  "schema_version": 2,
+  "scoring_performed": false,
+  "specialist_count": 123,
+  "status": "PASS",
+  "weightable_attribute_count": 53
+}

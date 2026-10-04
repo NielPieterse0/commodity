@@ -1,0 +1,61 @@
+{
+  "schema_version": 1,
+  "issue": 465,
+  "scope": "V3 Block1 audit closeout without scoring replay",
+  "date": "2026-10-03",
+  "status": "NON_REPLAY_CLOSEOUT_COMPLETE",
+  "replay_started": false,
+  "frozen_preflight": {
+    "status": "PASS",
+    "scoring_performed": false,
+    "scoring_input_identity_sha256": "bbee004fefa7f0c07c32a14ad0e6c165d19544096e3bc9d34b1403db10200fef",
+    "current_generation_status": "PREFLIGHT_FROZEN_REPLAY_REQUIRED"
+  },
+  "verification": {
+    "focused_v3_tests": "44 passed",
+    "repository_verification": "PASS: 1162 passed, 12 skipped; repository checks, Ruff, and git-whitespace passed",
+    "agent_review": "whole-change projector incomplete; repository-mandated exact-diff manual fallback used"
+  },
+  "findings": [
+    {"id":"F-001","status":"REPLAY_REQUIRED","evidence":"Current scored result predates frozen scoring identity; current-generation pointer explicitly requires replay."},
+    {"id":"F-002","status":"REPLAY_REQUIRED","evidence":"Primitive-oracle predictor and completeness-audit outputs are score-generation artifacts and remain absent until replay."},
+    {"id":"F-003","status":"CLOSED_VERIFIED","evidence":"Meta structural membership is held between slow updates; dedicated regression passes."},
+    {"id":"F-004","status":"CLOSED_VERIFIED","evidence":"Completeness audit now derives PIT, lifecycle, risk, causality and generation checks from artifacts rather than result implementation_evidence self-claims."},
+    {"id":"F-005","status":"CLOSED_VERIFIED","evidence":"Pre-entry stale marks are rejected from MTM; dedicated regression passes."},
+    {"id":"F-006","status":"CLOSED_VERIFIED","evidence":"Scoring writes to generation staging and publishes one manifest/current pointer only after all score artifacts exist; publication regression passes."},
+    {"id":"F-007","status":"CLOSED_VERIFIED","evidence":"Binding hard-risk cap is evaluated before WAIT hold behavior; dedicated regression passes."},
+    {"id":"F-008","status":"CLOSED_VERIFIED","evidence":"Unobserved oracle outcomes produce null evaluation metrics; dedicated regression passes."},
+    {"id":"F-009","status":"CLOSED_VERIFIED","evidence":"Completeness audit historical classification keys match source vocabulary: null_or_inconclusive and source_or_data_hold."},
+    {"id":"F-010","status":"REPLAY_REQUIRED","evidence":"Candidate replay evidence now targets durable programme storage with scoring-identity-bound checkpoints, but no current-generation candidate replay archive exists until replay."},
+    {"id":"F-011","status":"REPLAY_REQUIRED","evidence":"Risk-specific synthetic integration coverage is materially expanded, but the complete score_block/full future-invariance execution path is intentionally not executed without replay."},
+    {"id":"F-012","status":"CLOSED_VERIFIED","evidence":"Preflight computes semantic historical-negative/current-role bindings and exact_empirical_negative_roles_semantically_bound passes."},
+    {"id":"F-013","status":"CLOSED_VERIFIED","evidence":"Expert generator verifies TimesFM/Kronos source git revisions and checkpoint hashes before inference."},
+    {"id":"F-014","status":"CLOSED_VERIFIED","evidence":"Stress eligibility fails closed when any required stress scenario lacks a mature score; dedicated regression passes."},
+    {"id":"F-015","status":"CLOSED_VERIFIED","evidence":"Frozen code identity includes base controller, V1 runner, V2 controller/runner, V3 runner/controller/diagnostics and generator; identity regression passes."},
+    {"id":"F-016","status":"CLOSED_VERIFIED","evidence":"Scoring input identity binds expert archive, manifest, histories, execution sessions and other material inputs; frozen preflight PASS confirms hashes."},
+    {"id":"F-017","status":"CLOSED_VERIFIED","evidence":"V3 execution path reads the Block1-only execution-session archive; frozen preflight block1_execution_archive_physically_isolated=true and later_blocks_not_loaded=true."},
+    {"id":"F-018","status":"CLOSED_VERIFIED","evidence":"Checkpoint namespace and checkpoint manifests bind the complete scoring_input_identity_sha256; namespace regression passes."},
+    {"id":"F-019","status":"CLOSED_VERIFIED","evidence":"score_block emits SCORED_PENDING_SCOPE_AUDIT; publication unit test confirms pending-audit generation status."},
+    {"id":"F-020","status":"CLOSED_VERIFIED","evidence":"Completeness audit resolves one published generation, validates the full score-artifact manifest plus frozen code/environment/input identity and result hash bindings."},
+    {"id":"F-021","status":"CLOSED_VERIFIED","evidence":"Oracle weight output is explicitly labelled exposure-reconstruction representation, feature_importance_inference=false, and selection_use=false."},
+    {"id":"F-022","status":"CLOSED_VERIFIED","evidence":"Execution hard cap is recomputed using actual fill price; dedicated regression passes."},
+    {"id":"F-023","status":"CLOSED_VERIFIED","evidence":"Marked equity and marked-equity drawdown drive risk capacity; dedicated regression passes."},
+    {"id":"F-024","status":"CLOSED_VERIFIED","evidence":"Side contribution uses transition-aware gross/cost attribution; exit-cost regression reconciles cost to the closed side."},
+    {"id":"F-025","status":"REPLAY_REQUIRED","evidence":"Future-invariance implementation now compares full persisted rows and all structural cadence phases, but the complete mutation replay proof is produced only during scoring replay."},
+    {"id":"F-026","status":"CLOSED_VERIFIED","evidence":"Oracle diagnostic is explicitly non-comparable to controller P&L; pnl_gap_reported=false and overlapping-horizon opportunity score is separately labelled."},
+    {"id":"F-027","status":"CLOSED_VERIFIED","evidence":"Execution path accrues every held session from each fill until the next fill; new two-session gap regression passes and candidate/meta/stress paths consume holding_move_per_mmbtu."},
+    {"id":"F-028","status":"CLOSED_VERIFIED","evidence":"Frozen environment identity binds Python/platform/package versions plus pyproject and lockfile hashes; identity regression passes."}
+  ],
+  "summary": {
+    "closed_verified": 23,
+    "replay_required": 5,
+    "replay_required_ids": ["F-001","F-002","F-010","F-011","F-025"],
+    "new_material_non_replay_defects_open": 0
+  },
+  "notes": [
+    "No full V3 scoring replay was started.",
+    "Stale preflight-era reentry/preflight files were moved to recoverable .work/tmp backup before regeneration because Windows denied atomic replacement of the existing files; regeneration succeeded with the originals absent.",
+    "The stale scored V3 result remains historical evidence only and is not the current generation.",
+    "Completeness audit is intentionally not run against stale score artifacts; it must run against the next published scored generation."
+  ]
+}

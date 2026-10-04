@@ -1,0 +1,106 @@
+{
+  "authority_result_sha256": {
+    "issue425-result-v1.json": "0558e45397d1efb95638ddc833f7ef5944dfb4835a92489195781b9a90445592",
+    "issue426-result-v1.json": "3e62ace9ae519aa87eec0818cd1087ff61f0e896f138bb0bc0da57230e738e42",
+    "issue427-result-v1.json": "0f2c6b3b66c631331f9a0f7f3e3f87d0f22d0d492ae31db8aeacd996c9b41771",
+    "issue428-result-v1.json": "ade2e1a17b8f170e28973788cd2be686587f38794661ff06a499d9fee82919fb",
+    "issue429-result-v1.json": "89134b272b4d9f2d6fe73ee1721abe5e18e2b688b7bda57d4c3a95687d38d699",
+    "issue430-result-v1.json": "d8e01cd6e7e9f980b171fc33eb66c27d4c593965361c59640eb79b5c38e5a690",
+    "issue431-result-v1.json": "c1b4b1ed582b8e88c32e190b8993c596dad6a1c0da0a982bb57b33b102ddc3b8"
+  },
+  "block1_result_evidence_used": false,
+  "family_dispositions": [
+    {
+      "block1": "GO",
+      "family": "market_curve_technical",
+      "role": "state_and_specialists"
+    },
+    {
+      "block1": "GO",
+      "family": "timesfm",
+      "role": "timestamped_specialist"
+    },
+    {
+      "block1": "GO",
+      "family": "kronos",
+      "role": "timestamped_specialist"
+    },
+    {
+      "block1": "GO",
+      "family": "cftc_positioning",
+      "role": "state_and_specialist"
+    },
+    {
+      "block1": "HOLD",
+      "family": "futures_open_interest",
+      "reason": "no_valid_referenced_records_2010"
+    },
+    {
+      "block1": "HOLD",
+      "family": "storage",
+      "reason": "PIT_support_starts_2015_06_19"
+    },
+    {
+      "block1": "HOLD",
+      "family": "weather",
+      "reason": "PIT_support_starts_2015_01_15"
+    },
+    {
+      "block1": "HOLD",
+      "family": "power",
+      "reason": "historical_publication_timing_not_promoted"
+    },
+    {
+      "block1": "HOLD",
+      "family": "storage_consensus_surprise",
+      "reason": "source_not_proven"
+    },
+    {
+      "block1": "HOLD",
+      "family": "options_implied",
+      "reason": "activation_gates_not_proven"
+    },
+    {
+      "block1": "HOLD",
+      "family": "event_time",
+      "reason": "historical_release_timing_not_proven"
+    },
+    {
+      "block1": "HOLD",
+      "family": "lng_physical",
+      "reason": "no_registered_PIT_block1_source_through_issue431"
+    }
+  ],
+  "historical_reentry_rule": {
+    "classifications": [
+      "positive_clue",
+      "negative",
+      "underpowered",
+      "role_unidentifiable",
+      "source_hold",
+      "untested",
+      "governance_only"
+    ],
+    "prior_records_are_hard_discarded": false,
+    "rule": "all admissible prior development findings through issue431 remain inventory metadata; zero weight is legal and no prior result is treated as confirmation evidence"
+  },
+  "issue": 465,
+  "prior_evidence_map": {
+    "classification_counts": {
+      "empirical_negative": 33,
+      "governance_only": 3469,
+      "null_or_inconclusive": 30,
+      "positive_clue": 140,
+      "role_unidentifiable": 24,
+      "source_or_data_hold": 19,
+      "underpowered": 187,
+      "untested_mechanism": 27
+    },
+    "path": "research\\programmes\\004-v2-maximum-reproducible-one-month-return\\issue459-advantage-map-v1.json",
+    "raw_evidence_count": 3929,
+    "sha256": "c375e3f21ca28e3f96a590eeb3245921ddf1897fa93b81966e7c3c33c13cf19f"
+  },
+  "protected_confirmation_accessed": false,
+  "schema_version": 1,
+  "scope": "block1_only"
+}

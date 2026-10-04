@@ -65,3 +65,7 @@ data/processed/*
 !tests/fixtures/mdp3-golden/sample.parquet
 *.pkl
 *.joblib
+
+# Frozen issue #465 decision-brain artifacts are stored as deterministic gzip sidecars.
+research/programmes/004-v2-maximum-reproducible-one-month-return/issue465-block1-controller-v2-decision-brain.jsonl
+research/programmes/004-v2-maximum-reproducible-one-month-return/issue465-block1-controller-v3-decision-brain.jsonl
