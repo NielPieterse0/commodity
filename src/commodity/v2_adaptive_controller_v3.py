@@ -17,6 +17,14 @@ from commodity.v2_adaptive_controller_v2 import (
     serializable_state_snapshot,
     serializable_value,
 )
+from commodity.v3_replay_engine import (
+    LIFECYCLE_REASON_LABELS,
+    NAT_INT64,
+    ReplayKernelInputs,
+    ReplayKernelLimits,
+    prepare_replay_kernel_inputs,
+    run_replay_kernel_serial,
+)
 
 
 @dataclass(frozen=True)
@@ -110,6 +118,29 @@ class CandidateReplay:
     decisions: pd.DataFrame
     consequences: pd.DataFrame
     summary: dict[str, Any] = field(default_factory=dict)
+
+
+@dataclass(frozen=True)
+class CandidateDecisionPlan:
+    config_id: str
+    decision_times: tuple[pd.Timestamp, ...]
+    structural_update: np.ndarray
+    selected_horizon: np.ndarray
+    selected_direction: np.ndarray
+    timing: np.ndarray
+    edge: np.ndarray
+    uncertainty: np.ndarray
+    support: np.ndarray
+    active_families: tuple[tuple[str, ...], ...]
+    selected_weights: tuple[dict[str, float], ...]
+    selected_group_weights: tuple[dict[str, float], ...]
+    opportunity_tables: tuple[list[dict[str, Any]], ...]
+
+
+def _readonly_array(values: Any, dtype: Any) -> np.ndarray:
+    array = np.asarray(values, dtype=dtype)
+    array.setflags(write=False)
+    return array
 
 
 def _side_policy(profile_id: str, payload: dict[str, Any]) -> SidePolicy:
@@ -231,6 +262,56 @@ def score_surface_for_side(
     ])
 
 
+def profile_score_cache_key(
+    decision_time: pd.Timestamp,
+    config: ControllerConfig,
+    direction: str,
+) -> tuple[Any, ...]:
+    policy = config.policy_for(direction)
+    return (
+        pd.Timestamp(decision_time), str(direction), str(policy.profile_id),
+        tuple(str(value) for value in policy.memories),
+        tuple(int(value) for value in policy.horizons),
+        float(config.comparable_weight), float(config.uncertainty_penalty),
+    )
+
+
+def precompute_profile_score_cache(
+    surfaces: dict[pd.Timestamp, pd.DataFrame],
+    configs: list[ControllerConfig],
+) -> dict[tuple[Any, ...], pd.DataFrame]:
+    """Precompute candidate-independent side/profile scoring exactly once."""
+    representatives: dict[tuple[Any, ...], tuple[ControllerConfig, str]] = {}
+    reference_time = pd.Timestamp("1970-01-01", tz="UTC")
+    for config in configs:
+        for direction in ("long", "short"):
+            semantic_key = profile_score_cache_key(reference_time, config, direction)[1:]
+            representatives.setdefault(semantic_key, (config, direction))
+    cache: dict[tuple[Any, ...], pd.DataFrame] = {}
+    for raw_stamp, surface in surfaces.items():
+        stamp = pd.Timestamp(raw_stamp)
+        for config, direction in representatives.values():
+            cache[profile_score_cache_key(stamp, config, direction)] = score_surface_for_side(
+                surface, config, direction
+            )
+    return cache
+
+
+def _profile_score_for_day(
+    surface: pd.DataFrame,
+    decision_time: pd.Timestamp,
+    config: ControllerConfig,
+    direction: str,
+    cache: dict[tuple[Any, ...], pd.DataFrame] | None,
+) -> pd.DataFrame:
+    if cache is None:
+        return score_surface_for_side(surface, config, direction)
+    key = profile_score_cache_key(decision_time, config, direction)
+    if key not in cache:
+        raise AdaptiveContractError("controller-v3 profile score cache is incomplete or stale")
+    return cache[key]
+
+
 def _normalized_weights(frame: pd.DataFrame, top_k: int) -> dict[str, float]:
     ranked = frame.loc[frame["rank_score"] > 0.0].sort_values(
         ["rank_score", "specialist"], ascending=[False, True], kind="stable"
@@ -254,13 +335,18 @@ def opportunity_table(
     config: ControllerConfig,
     *,
     horizon_signal_overrides: dict[int, dict[str, float]] | None = None,
+    scored_sides: dict[str, pd.DataFrame] | None = None,
 ) -> pd.DataFrame:
     if surface.empty or not active_families:
         return pd.DataFrame()
     rows: list[dict[str, Any]] = []
     for direction in ("long", "short"):
         policy = config.policy_for(direction)
-        scored = score_surface_for_side(surface, config, direction)
+        cached = scored_sides.get(direction) if scored_sides is not None else None
+        scored = (
+            score_surface_for_side(surface, config, direction)
+            if cached is None else cached.copy()
+        )
         if scored.empty:
             continue
         scored["family"] = scored["specialist"].map(family_by_specialist)
@@ -717,12 +803,115 @@ def _active_family_candidates(
     surface: pd.DataFrame,
     config: ControllerConfig,
     family_by_specialist: dict[str, str],
+    *,
+    scored_sides: dict[str, pd.DataFrame] | None = None,
 ) -> pd.DataFrame:
-    parts = [score_surface_for_side(surface, config, direction) for direction in ("long", "short")]
+    parts = [
+        (
+            scored_sides[direction].copy()
+            if scored_sides is not None and direction in scored_sides
+            else score_surface_for_side(surface, config, direction)
+        )
+        for direction in ("long", "short")
+    ]
     parts = [part for part in parts if not part.empty]
     if not parts:
         return pd.DataFrame()
     return pd.concat(parts, ignore_index=True)
+
+
+def prepare_candidate_decision_plan(
+    config: ControllerConfig,
+    state: pd.DataFrame,
+    specialists: pd.DataFrame,
+    surfaces: dict[pd.Timestamp, pd.DataFrame],
+    family_by_specialist: dict[str, str],
+    *,
+    horizon_signals_by_time: dict[pd.Timestamp, dict[int, dict[str, float]]] | None = None,
+    profile_score_cache: dict[tuple[Any, ...], pd.DataFrame] | None = None,
+) -> CandidateDecisionPlan:
+    state = state.copy().reset_index(drop=True)
+    specialists = specialists.copy().reset_index(drop=True)
+    for frame in (state, specialists):
+        frame["decision_time"] = pd.to_datetime(frame["decision_time"], utc=True)
+        if (frame["decision_time"] >= PROTECTED_START).any():
+            raise AdaptiveContractError("controller-v3 crossed protected boundary")
+    if not state["decision_time"].is_unique:
+        raise AdaptiveContractError("controller-v3 state requires unique decision_time")
+    specialist_by_time = specialists.set_index("decision_time")
+    active_families: tuple[str, ...] = ()
+    structural_updates: list[bool] = []
+    horizons: list[int] = []
+    directions: list[int] = []
+    timings: list[int] = []
+    edges: list[float] = []
+    uncertainties: list[float] = []
+    supports: list[float] = []
+    family_rows: list[tuple[str, ...]] = []
+    weight_rows: list[dict[str, float]] = []
+    group_rows: list[dict[str, float]] = []
+    opportunity_rows: list[list[dict[str, Any]]] = []
+    timing_codes = {"ABSTAIN": 0, "WAIT": 1, "ENTER_NOW": 2}
+    direction_codes = {"short": -1, "flat": 0, "long": 1}
+    for index, state_row in state.iterrows():
+        decision_time = pd.Timestamp(state_row["decision_time"])
+        surface = surfaces[decision_time]
+        structural_update = index % config.slow_cadence == 0
+        scored_sides: dict[str, pd.DataFrame] | None = None
+        if structural_update or active_families:
+            scored_sides = {
+                direction: _profile_score_for_day(
+                    surface, decision_time, config, direction, profile_score_cache
+                )
+                for direction in ("long", "short")
+            }
+        if structural_update:
+            family_scores = _active_family_candidates(
+                surface, config, family_by_specialist, scored_sides=scored_sides
+            )
+            active_families = choose_active_families(
+                family_scores.rename(columns={"rank_score": "score"}),
+                family_by_specialist,
+                cap=config.active_family_cap,
+            ) if not family_scores.empty else ()
+        current_signals = specialist_by_time.loc[decision_time]
+        opportunities = opportunity_table(
+            surface, current_signals, family_by_specialist, active_families, config,
+            horizon_signal_overrides=(
+                horizon_signals_by_time.get(decision_time, {})
+                if horizon_signals_by_time is not None else None
+            ),
+            scored_sides=scored_sides,
+        )
+        selected, timing = select_timed_opportunity(opportunities, state_row, config)
+        selected_weights = {} if selected is None else dict(selected["weights"])
+        selected_direction = "flat" if selected is None else str(selected["direction"])
+        structural_updates.append(bool(structural_update))
+        horizons.append(-1 if selected is None else int(selected["horizon"]))
+        directions.append(direction_codes[selected_direction])
+        timings.append(timing_codes[str(timing)])
+        edges.append(0.0 if selected is None else float(selected["edge"]))
+        uncertainties.append(0.0 if selected is None else float(selected["uncertainty"]))
+        supports.append(0.0 if selected is None else float(selected["support"]))
+        family_rows.append(tuple(active_families))
+        weight_rows.append(selected_weights)
+        group_rows.append(group_weights(selected_weights, family_by_specialist))
+        opportunity_rows.append(opportunities.to_dict(orient="records"))
+    return CandidateDecisionPlan(
+        config_id=config.config_id,
+        decision_times=tuple(pd.Timestamp(value) for value in state["decision_time"]),
+        structural_update=_readonly_array(structural_updates, np.bool_),
+        selected_horizon=_readonly_array(horizons, np.int16),
+        selected_direction=_readonly_array(directions, np.int8),
+        timing=_readonly_array(timings, np.int8),
+        edge=_readonly_array(edges, np.float64),
+        uncertainty=_readonly_array(uncertainties, np.float64),
+        support=_readonly_array(supports, np.float64),
+        active_families=tuple(family_rows),
+        selected_weights=tuple(weight_rows),
+        selected_group_weights=tuple(group_rows),
+        opportunity_tables=tuple(opportunity_rows),
+    )
 
 
 def replay_candidate(
@@ -744,6 +933,8 @@ def replay_candidate(
     max_margin_fraction: float = 0.15,
     max_notional_leverage: float = 1.0,
     max_drawdown_fraction: float = 0.25,
+    profile_score_cache: dict[tuple[Any, ...], pd.DataFrame] | None = None,
+    decision_plan: CandidateDecisionPlan | None = None,
 ) -> CandidateReplay:
     state = state.copy().reset_index(drop=True)
     specialists = specialists.copy().reset_index(drop=True)
@@ -754,7 +945,15 @@ def replay_candidate(
             raise AdaptiveContractError("controller-v3 crossed protected boundary")
     if not state["decision_time"].is_unique:
         raise AdaptiveContractError("controller-v3 state requires unique decision_time")
-    specialist_by_time = specialists.set_index("decision_time")
+    if decision_plan is None:
+        decision_plan = prepare_candidate_decision_plan(
+            config, state, specialists, surfaces, family_by_specialist,
+            horizon_signals_by_time=horizon_signals_by_time,
+            profile_score_cache=profile_score_cache,
+        )
+    state_times = tuple(pd.Timestamp(value) for value in state["decision_time"])
+    if decision_plan.config_id != config.config_id or decision_plan.decision_times != state_times:
+        raise AdaptiveContractError("controller-v3 candidate decision plan identity mismatch")
     path_by_time = path.set_index("decision_time")
     position = PositionState(
         equity_usd=initial_capital,
@@ -765,10 +964,11 @@ def replay_candidate(
     pending: list[tuple[pd.Timestamp, float, int, float, str]] = []
     decisions: list[dict[str, Any]] = []
     consequences: list[dict[str, Any]] = []
-    active_families: tuple[str, ...] = ()
     extra_slippage = float(execution_scenario.get("extra_slippage_usd_per_contract_side", 0.0))
     miss_low_liquidity = bool(execution_scenario.get("miss_increase_when_below_prior_volume", False))
     scenario_id = str(execution_scenario["id"])
+    timing_labels = ("ABSTAIN", "WAIT", "ENTER_NOW")
+    direction_labels = {-1: "short", 0: "flat", 1: "long"}
     for index, state_row in state.iterrows():
         decision_time = pd.Timestamp(state_row["decision_time"])
         matured = [item for item in pending if item[0] < decision_time]
@@ -791,33 +991,29 @@ def replay_candidate(
                 else None
             ),
         )
-        surface = surfaces[decision_time]
-        structural_update = index % config.slow_cadence == 0
-        if structural_update:
-            family_scores = _active_family_candidates(surface, config, family_by_specialist)
-            active_families = choose_active_families(
-                family_scores.rename(columns={"rank_score": "score"}),
-                family_by_specialist,
-                cap=config.active_family_cap,
-            ) if not family_scores.empty else ()
-        current_signals = specialist_by_time.loc[decision_time]
-        opportunities = opportunity_table(
-            surface, current_signals, family_by_specialist, active_families, config,
-            horizon_signal_overrides=(
-                horizon_signals_by_time.get(decision_time, {})
-                if horizon_signals_by_time is not None else None
-            ),
-        )
-        selected, timing = select_timed_opportunity(opportunities, state_row, config)
+        structural_update = bool(decision_plan.structural_update[index])
+        active_families = decision_plan.active_families[index]
+        selected_horizon_code = int(decision_plan.selected_horizon[index])
+        selected_horizon = None if selected_horizon_code < 0 else selected_horizon_code
+        selected_direction = direction_labels[int(decision_plan.selected_direction[index])]
+        timing = timing_labels[int(decision_plan.timing[index])]
+        selected_edge = float(decision_plan.edge[index])
+        selected_uncertainty = float(decision_plan.uncertainty[index])
+        selected_weights = dict(decision_plan.selected_weights[index])
+        selected: pd.Series | None = None
+        if selected_direction in {"long", "short"}:
+            selected = pd.Series({
+                "direction": selected_direction,
+                "edge": selected_edge,
+                "uncertainty": selected_uncertainty,
+                "support": float(decision_plan.support[index]),
+                "weights": selected_weights,
+                "horizon": selected_horizon,
+            })
         desired_target = 0.0
         sizing: dict[str, float] = {"risk_capacity": max(0.0, 1.0 - position.drawdown_fraction)}
-        selected_weights: dict[str, float] = {}
-        selected_edge = 0.0
-        selected_uncertainty = 0.0
-        selected_horizon: int | None = None
-        selected_direction = "flat"
         if selected is not None:
-            side_policy = config.policy_for(str(selected["direction"]))
+            side_policy = config.policy_for(selected_direction)
             desired_target, sizing = dynamic_target_exposure(
                 selected, state_row, position, side_policy,
                 max_abs_contracts=max_abs_contracts,
@@ -827,24 +1023,18 @@ def replay_candidate(
                 max_notional_leverage=max_notional_leverage,
                 max_drawdown_fraction=max_drawdown_fraction,
             )
-            selected_weights = dict(selected["weights"])
-            selected_edge = float(selected["edge"])
-            selected_uncertainty = float(selected["uncertainty"])
-            selected_horizon = int(selected["horizon"])
-            selected_direction = str(selected["direction"])
         target, lifecycle_reason = lifecycle_target(
             position, selected, timing, desired_target, mark, config,
             risk_capacity=float(sizing.get("risk_capacity", 0.0)),
             hard_exposure_cap=float(sizing.get("hard_exposure_cap", max_abs_contracts)),
         )
         outcome = path_by_time.loc[decision_time]
-        target, missed_fill = _execution_adjusted_target(
+        decision_target, missed_fill = _execution_adjusted_target(
             position.exposure, target, state_row,
             miss_increase_when_below_prior_volume=miss_low_liquidity,
         )
-        target_before_execution_cap = float(target)
-        target, execution_hard_cap = enforce_execution_hard_cap(
-            target,
+        executed_target, execution_hard_cap = enforce_execution_hard_cap(
+            decision_target,
             state_row,
             position,
             fill_price=float(outcome["fill_price"]),
@@ -855,23 +1045,26 @@ def replay_candidate(
             max_notional_leverage=max_notional_leverage,
             max_drawdown_fraction=max_drawdown_fraction,
         )
-        if abs(target) < abs(target_before_execution_cap) - 1e-12:
-            lifecycle_reason = "reduce_execution_price_hard_risk_cap"
+        execution_adjustment_reason = (
+            "reduce_execution_price_hard_risk_cap"
+            if abs(executed_target) < abs(decision_target) - 1e-12 else None
+        )
         target_contract_id = str(outcome["fill_contract_id"])
         transition_turnover = execution_turnover(
-            position.exposure, target,
+            position.exposure, executed_target,
             current_contract_id=position.current_contract_id,
             target_contract_id=target_contract_id,
         )
-        roll_turnover = 2.0 * abs(float(target)) * float(outcome.get("holding_roll_count", 0.0))
+        roll_turnover = 2.0 * abs(float(executed_target)) * float(outcome.get("holding_roll_count", 0.0))
         turnover = float(transition_turnover + roll_turnover)
-        action = transition_action(position.exposure, target)
-        gross_pnl = float(target) * float(outcome["holding_move_per_mmbtu"]) * multiplier
+        action = transition_action(position.exposure, decision_target)
+        executed_action = transition_action(position.exposure, executed_target)
+        gross_pnl = float(executed_target) * float(outcome["holding_move_per_mmbtu"]) * multiplier
         execution_cost = turnover * (base_cost_per_side + extra_slippage)
         realized_return = (gross_pnl - execution_cost) / initial_capital
         risk_equity = max(float(position.marked_equity_usd), 1e-12)
-        leverage = abs(float(target)) * float(outcome["fill_price"]) * multiplier / risk_equity
-        margin_fraction = abs(float(target)) * initial_margin_usd_per_contract / risk_equity
+        leverage = abs(float(executed_target)) * float(outcome["fill_price"]) * multiplier / risk_equity
+        margin_fraction = abs(float(executed_target)) * initial_margin_usd_per_contract / risk_equity
         decisions.append({
             "decision_time": decision_time,
             "config_id": config.config_id,
@@ -886,23 +1079,28 @@ def replay_candidate(
                 if selected_direction in {"long", "short"} else None
             ),
             "selected_weights": selected_weights,
-            "selected_group_weights": group_weights(selected_weights, family_by_specialist),
-            "opportunity_table": opportunities.to_dict(orient="records"),
+            "selected_group_weights": dict(decision_plan.selected_group_weights[index]),
+            "opportunity_table": decision_plan.opportunity_tables[index],
             "timing_decision": timing,
             "remaining_edge": selected_edge,
             "edge_change_since_entry": selected_edge - float(position.edge_at_entry),
             "uncertainty": selected_uncertainty,
-            "sizing_inputs": {
-                **sizing,
-                "execution_price_hard_exposure_cap": float(execution_hard_cap),
-            },
+            "sizing_inputs": sizing,
             "position_before": mark,
             "action": action,
-            "target_exposure": float(target),
+            "target_exposure": float(decision_target),
             "lifecycle_reason": lifecycle_reason,
             "missed_fill": missed_fill,
             "planned_fill_time": pd.Timestamp(outcome["fill_timestamp"]),
             "planned_contract_id": target_contract_id,
+            "executed_target_exposure": float(executed_target),
+            "execution_audit": {
+                "available_at": pd.Timestamp(outcome["fill_timestamp"]),
+                "fill_price": float(outcome["fill_price"]),
+                "execution_price_hard_exposure_cap": float(execution_hard_cap),
+                "adjustment_reason": execution_adjustment_reason,
+                "executed_action": executed_action,
+            },
         })
         consequences.append({
             "decision_time": decision_time,
@@ -916,7 +1114,7 @@ def replay_candidate(
             "config_id": config.config_id,
             "execution_scenario": scenario_id,
             "exposure_before": float(position.exposure),
-            "signal": float(target),
+            "signal": float(executed_target),
             "turnover": float(turnover),
             "gross_return": float(gross_pnl / initial_capital),
             "execution_cost_return": float(execution_cost / initial_capital),
@@ -924,11 +1122,14 @@ def replay_candidate(
             "missed_fill": missed_fill,
             "notional_leverage": float(leverage),
             "margin_fraction": float(margin_fraction),
-            "action": action,
-            "direction": "long" if target > 0.0 else ("short" if target < 0.0 else "flat"),
+            "action": executed_action,
+            "direction": (
+                "long" if executed_target > 0.0
+                else ("short" if executed_target < 0.0 else "flat")
+            ),
         })
         apply_fill(
-            position, target=float(target), fill_price=float(outcome["fill_price"]),
+            position, target=float(executed_target), fill_price=float(outcome["fill_price"]),
             fill_time=pd.Timestamp(outcome["fill_timestamp"]), decision_index=index,
             remaining_edge=selected_edge, contract_id=target_contract_id,
         )
@@ -955,6 +1156,53 @@ def replay_candidate(
             "max_margin_fraction": float(consequence_frame["margin_fraction"].max()),
         },
     )
+
+
+def replay_candidate_scenarios(
+    config: ControllerConfig,
+    state: pd.DataFrame,
+    specialists: pd.DataFrame,
+    path: pd.DataFrame,
+    surfaces: dict[pd.Timestamp, pd.DataFrame],
+    refs_by_time: dict[pd.Timestamp, list[pd.Timestamp]],
+    family_by_specialist: dict[str, str],
+    *,
+    execution_scenarios: tuple[dict[str, Any], ...],
+    horizon_signals_by_time: dict[pd.Timestamp, dict[int, dict[str, float]]] | None = None,
+    max_abs_contracts: float = 1.5,
+    initial_capital: float = 100000.0,
+    multiplier: float = 10000.0,
+    base_cost_per_side: float = 15.0,
+    initial_margin_usd_per_contract: float = 5000.0,
+    max_margin_fraction: float = 0.15,
+    max_notional_leverage: float = 1.0,
+    max_drawdown_fraction: float = 0.25,
+    profile_score_cache: dict[tuple[Any, ...], pd.DataFrame] | None = None,
+) -> dict[str, CandidateReplay]:
+    decision_plan = prepare_candidate_decision_plan(
+        config, state, specialists, surfaces, family_by_specialist,
+        horizon_signals_by_time=horizon_signals_by_time,
+        profile_score_cache=profile_score_cache,
+    )
+    kernel_inputs = prepare_replay_kernel_inputs(config, state, path, decision_plan)
+    replays: dict[str, CandidateReplay] = {}
+    for execution_scenario in execution_scenarios:
+        scenario_id = str(execution_scenario["id"])
+        if scenario_id in replays:
+            raise AdaptiveContractError("controller-v3 duplicate execution scenario id")
+        replays[scenario_id] = _replay_candidate_compact(
+            config, state, path, refs_by_time, decision_plan, kernel_inputs,
+            execution_scenario=execution_scenario,
+            max_abs_contracts=max_abs_contracts,
+            initial_capital=initial_capital,
+            multiplier=multiplier,
+            base_cost_per_side=base_cost_per_side,
+            initial_margin_usd_per_contract=initial_margin_usd_per_contract,
+            max_margin_fraction=max_margin_fraction,
+            max_notional_leverage=max_notional_leverage,
+            max_drawdown_fraction=max_drawdown_fraction,
+        )
+    return replays
 
 
 def _matured_candidate_score(
@@ -995,6 +1243,121 @@ def _replay_map(replays: list[CandidateReplay]) -> dict[str, CandidateReplay]:
     if len(mapping) != len(replays):
         raise AdaptiveContractError("duplicate controller-v3 replay config")
     return mapping
+
+
+@dataclass(frozen=True)
+class MetaScoreTensor:
+    candidate_ids: tuple[str, ...]
+    scenario_ids: tuple[str, ...]
+    decision_times: tuple[pd.Timestamp, ...]
+    trailing_net: np.ndarray
+    used_at_ns: np.ndarray
+    valid: np.ndarray
+
+    def score_at(
+        self, scenario_id: str, config_id: str, decision_index: int,
+    ) -> tuple[float, pd.Timestamp] | None:
+        try:
+            scenario_index = self.scenario_ids.index(str(scenario_id))
+            candidate_index = self.candidate_ids.index(str(config_id))
+        except ValueError as exc:
+            raise AdaptiveContractError("meta score tensor identity lookup failed") from exc
+        if not bool(self.valid[scenario_index, candidate_index, int(decision_index)]):
+            return None
+        used_ns = int(self.used_at_ns[scenario_index, candidate_index, int(decision_index)])
+        return (
+            float(self.trailing_net[scenario_index, candidate_index, int(decision_index)]),
+            pd.Timestamp(used_ns, unit="ns", tz="UTC"),
+        )
+
+
+def _meta_score_arrays(
+    consequences: pd.DataFrame,
+    decision_ns: np.ndarray,
+    *,
+    window: int,
+) -> tuple[np.ndarray, np.ndarray, np.ndarray]:
+    available_ns = pd.to_datetime(
+        consequences["outcome_available_at"], utc=True, errors="raise"
+    ).astype("int64").to_numpy(copy=True)
+    returns = pd.to_numeric(
+        consequences["realized_net_return"], errors="raise"
+    ).to_numpy(dtype=np.float64, copy=True)
+    keep = available_ns != int(pd.NaT.value)
+    available_ns = available_ns[keep]
+    returns = returns[keep]
+    order = np.argsort(available_ns, kind="stable")
+    available_ns = available_ns[order]
+    returns = returns[order]
+    ends = np.searchsorted(available_ns, decision_ns, side="left")
+    scores = np.full(len(decision_ns), np.nan, dtype=np.float64)
+    used_at_ns = np.full(len(decision_ns), int(pd.NaT.value), dtype=np.int64)
+    valid = np.zeros(len(decision_ns), dtype=np.bool_)
+    if "holding_session_count" in consequences:
+        sessions = pd.to_numeric(
+            consequences.loc[keep, "holding_session_count"], errors="raise"
+        ).astype(int).to_numpy(dtype=np.int64, copy=True)[order]
+        prefix_sessions = np.concatenate((np.array([0], dtype=np.int64), np.cumsum(sessions)))
+    else:
+        prefix_sessions = None
+    for decision_index, end in enumerate(ends):
+        end = int(end)
+        if end <= 0:
+            continue
+        if prefix_sessions is not None:
+            total_sessions = int(prefix_sessions[end])
+            if total_sessions < int(window):
+                continue
+            target = total_sessions - int(window)
+            start = int(np.searchsorted(prefix_sessions[:end], target, side="right") - 1)
+        else:
+            if end < int(window):
+                continue
+            start = end - int(window)
+        scores[decision_index] = float(np.nansum(returns[start:end], dtype=np.float64))
+        used_at_ns[decision_index] = int(available_ns[end - 1])
+        valid[decision_index] = True
+    return scores, used_at_ns, valid
+
+
+def build_meta_score_tensor(
+    base_replays: list[CandidateReplay],
+    stress_replays: dict[str, list[CandidateReplay]],
+    decision_times: Any,
+    *,
+    window: int,
+) -> MetaScoreTensor:
+    base_map = _replay_map(base_replays)
+    stress_maps = {name: _replay_map(rows) for name, rows in stress_replays.items()}
+    if any(set(mapping) != set(base_map) for mapping in stress_maps.values()):
+        raise AdaptiveContractError("execution stress replay identities differ from base")
+    if "base" in stress_maps:
+        raise AdaptiveContractError("execution stress scenario id 'base' is reserved")
+    times = pd.to_datetime(decision_times, utc=True, errors="raise")
+    decision_ns = np.asarray(times.astype("int64"), dtype=np.int64)
+    candidate_ids = tuple(base_map)
+    scenario_ids = ("base", *tuple(stress_maps))
+    shape = (len(scenario_ids), len(candidate_ids), len(decision_ns))
+    trailing_net = np.full(shape, np.nan, dtype=np.float64)
+    used_at_ns = np.full(shape, int(pd.NaT.value), dtype=np.int64)
+    valid = np.zeros(shape, dtype=np.bool_)
+    scenario_maps = (base_map, *tuple(stress_maps[name] for name in stress_maps))
+    for scenario_index, mapping in enumerate(scenario_maps):
+        for candidate_index, config_id in enumerate(candidate_ids):
+            scores, used, mask = _meta_score_arrays(
+                mapping[config_id].consequences, decision_ns, window=window,
+            )
+            trailing_net[scenario_index, candidate_index, :] = scores
+            used_at_ns[scenario_index, candidate_index, :] = used
+            valid[scenario_index, candidate_index, :] = mask
+    return MetaScoreTensor(
+        candidate_ids=candidate_ids,
+        scenario_ids=scenario_ids,
+        decision_times=tuple(pd.Timestamp(value) for value in times),
+        trailing_net=trailing_net,
+        used_at_ns=used_at_ns,
+        valid=valid,
+    )
 
 
 def _weighted_dict(items: list[tuple[float, dict[str, float]]]) -> dict[str, float]:
@@ -1112,13 +1475,11 @@ def run_meta_controller(
     max_margin_fraction: float = 0.15,
     max_notional_leverage: float = 1.0,
     max_drawdown_fraction: float = 0.25,
+    embed_effectiveness_surface: bool = True,
 ) -> tuple[pd.DataFrame, pd.DataFrame, str]:
     if not base_replays:
         raise AdaptiveContractError("meta-controller requires structural candidates")
     base_map = _replay_map(base_replays)
-    stress_maps = {name: _replay_map(rows) for name, rows in stress_replays.items()}
-    if any(set(mapping) != set(base_map) for mapping in stress_maps.values()):
-        raise AdaptiveContractError("execution stress replay identities differ from base")
     decision_maps = {
         config_id: replay.decisions.set_index("decision_time")
         for config_id, replay in base_map.items()
@@ -1131,6 +1492,10 @@ def run_meta_controller(
     specialist_by_time = specialist_frame.set_index("decision_time")
     state = state.copy().reset_index(drop=True)
     state["decision_time"] = pd.to_datetime(state["decision_time"], utc=True)
+    score_tensor = build_meta_score_tensor(
+        base_replays, stress_replays, state["decision_time"], window=objective_window,
+    )
+    expected_stress = set(score_tensor.scenario_ids[1:])
     position = PositionState(
         equity_usd=initial_capital,
         peak_equity_usd=initial_capital,
@@ -1167,23 +1532,22 @@ def run_meta_controller(
         eligible: list[tuple[float, str, pd.Timestamp, float]] = []
         candidate_scores: list[dict[str, Any]] = []
         if index >= int(objective_window):
-            for config_id, replay in base_map.items():
-                base_score = _matured_candidate_score(
-                    replay.consequences, decision_time, window=objective_window
-                )
-                if base_score is None:
+            for candidate_index, config_id in enumerate(score_tensor.candidate_ids):
+                if not bool(score_tensor.valid[0, candidate_index, index]):
                     continue
-                base_value, used_at = base_score
+                base_value = float(score_tensor.trailing_net[0, candidate_index, index])
+                used_at = pd.Timestamp(
+                    int(score_tensor.used_at_ns[0, candidate_index, index]),
+                    unit="ns", tz="UTC",
+                )
                 stress_values: dict[str, float] = {}
-                for scenario_id, mapping in stress_maps.items():
-                    stress_score = _matured_candidate_score(
-                        mapping[config_id].consequences,
-                        decision_time,
-                        window=objective_window,
-                    )
-                    if stress_score is not None:
-                        stress_values[scenario_id] = float(stress_score[0])
-                expected_stress = set(stress_maps)
+                for scenario_index, scenario_id in enumerate(
+                    score_tensor.scenario_ids[1:], start=1,
+                ):
+                    if bool(score_tensor.valid[scenario_index, candidate_index, index]):
+                        stress_values[scenario_id] = float(
+                            score_tensor.trailing_net[scenario_index, candidate_index, index]
+                        )
                 missing_stress = sorted(expected_stress.difference(stress_values))
                 stress_complete = not missing_stress
                 worst_stress = (
@@ -1363,9 +1727,9 @@ def run_meta_controller(
             target = 0.0
             meta_lifecycle_reason = "exit_blended_max_hold_without_edge_improvement"
         outcome = path_by_time.loc[decision_time]
-        target_before_execution_cap = float(target)
-        target, execution_hard_cap = enforce_execution_hard_cap(
-            target,
+        decision_target = float(target)
+        executed_target, execution_hard_cap = enforce_execution_hard_cap(
+            decision_target,
             state_row,
             position,
             fill_price=float(outcome["fill_price"]),
@@ -1376,27 +1740,39 @@ def run_meta_controller(
             max_notional_leverage=max_notional_leverage,
             max_drawdown_fraction=max_drawdown_fraction,
         )
-        if abs(target) < abs(target_before_execution_cap) - 1e-12:
-            meta_lifecycle_reason = "reduce_execution_price_hard_risk_cap"
+        execution_adjustment_reason = (
+            "reduce_execution_price_hard_risk_cap"
+            if abs(executed_target) < abs(decision_target) - 1e-12 else None
+        )
         target_contract_id = str(outcome["fill_contract_id"])
         transition_turnover = execution_turnover(
-            position.exposure, target,
+            position.exposure, executed_target,
             current_contract_id=position.current_contract_id,
             target_contract_id=target_contract_id,
         )
-        roll_turnover = 2.0 * abs(float(target)) * float(outcome.get("holding_roll_count", 0.0))
+        roll_turnover = 2.0 * abs(float(executed_target)) * float(
+            outcome.get("holding_roll_count", 0.0)
+        )
         turnover = float(transition_turnover + roll_turnover)
-        action = transition_action(position.exposure, target)
-        gross_pnl = float(target) * float(outcome["holding_move_per_mmbtu"]) * multiplier
+        action = transition_action(position.exposure, decision_target)
+        executed_action = transition_action(position.exposure, executed_target)
+        gross_pnl = float(executed_target) * float(outcome["holding_move_per_mmbtu"]) * multiplier
         execution_cost = turnover * cost_per_side
         realized_return = (gross_pnl - execution_cost) / initial_capital
         risk_equity = max(float(position.marked_equity_usd), 1e-12)
-        leverage = abs(float(target)) * float(outcome["fill_price"]) * multiplier / risk_equity
-        margin_fraction = abs(float(target)) * initial_margin_usd_per_contract / risk_equity
+        leverage = abs(float(executed_target)) * float(outcome["fill_price"]) * multiplier / risk_equity
+        margin_fraction = abs(float(executed_target)) * initial_margin_usd_per_contract / risk_equity
         current_signals = serializable_state_snapshot(specialist_by_time.loc[decision_time])
         comparable_refs = [
             pd.Timestamp(value).isoformat() for value in refs_by_time[decision_time]
         ]
+        surface = surfaces[decision_time]
+        surface_record: dict[str, Any] = {
+            "effectiveness_surface_id": decision_time.isoformat(),
+            "effectiveness_surface_row_count": len(surface),
+        }
+        if embed_effectiveness_surface:
+            surface_record["effectiveness_surface"] = serializable_frame_records(surface)
         reason_code = (
             "positive_prior30_robust_ensemble"
             if any(float(row["blend_weight"]) > 0.0 for row in ensemble)
@@ -1408,7 +1784,7 @@ def run_meta_controller(
             "specialist_signals": current_signals,
             "specialist_signal_count": len(current_signals),
             "comparable_state_refs": comparable_refs,
-            "effectiveness_surface": serializable_frame_records(surfaces[decision_time]),
+            **surface_record,
             "objective_window_sessions": int(objective_window),
             "candidate_objective_scores": serializable_value(candidate_scores),
             "eligible_candidate_count": len(eligible),
@@ -1447,7 +1823,6 @@ def run_meta_controller(
             "hard_exposure_cap": float(hard_cap),
             "risk_state": {
                 "hard_exposure_cap": float(hard_cap),
-                "execution_price_hard_exposure_cap": float(execution_hard_cap),
                 "max_abs_contracts": float(max_abs_contracts),
                 "max_margin_fraction": float(max_margin_fraction),
                 "max_notional_leverage": float(max_notional_leverage),
@@ -1459,8 +1834,6 @@ def run_meta_controller(
                 "peak_marked_equity_usd": float(position.peak_marked_equity_usd),
                 "drawdown_fraction": float(position.drawdown_fraction),
                 "risk_drawdown_fraction": float(position.risk_drawdown_fraction),
-                "notional_leverage_after_action": float(leverage),
-                "margin_fraction_after_action": float(margin_fraction),
             },
             "position_before": serializable_value(mark),
             "meta_lifecycle_policy": {
@@ -1476,8 +1849,18 @@ def run_meta_controller(
             "meta_lifecycle_reason": meta_lifecycle_reason,
             "lifecycle_reason": meta_lifecycle_reason,
             "action": action,
-            "target_exposure": float(target),
+            "target_exposure": float(decision_target),
             "timing_decision": primary_timing,
+            "executed_target_exposure": float(executed_target),
+            "execution_audit": {
+                "available_at": pd.Timestamp(outcome["fill_timestamp"]),
+                "fill_price": float(outcome["fill_price"]),
+                "execution_price_hard_exposure_cap": float(execution_hard_cap),
+                "adjustment_reason": execution_adjustment_reason,
+                "executed_action": executed_action,
+                "notional_leverage_after_action": float(leverage),
+                "margin_fraction_after_action": float(margin_fraction),
+            },
             "max_outcome_available_at_used": max_used,
             "reason_code": reason_code,
             "reason_codes": [reason_code, meta_lifecycle_reason],
@@ -1502,18 +1885,21 @@ def run_meta_controller(
             "transition_turnover": float(transition_turnover),
             "roll_turnover": float(roll_turnover),
             "exposure_before": float(position.exposure),
-            "signal": float(target),
+            "signal": float(executed_target),
             "turnover": float(turnover),
             "gross_return": float(gross_pnl / initial_capital),
             "execution_cost_return": float(execution_cost / initial_capital),
             "realized_net_return": float(realized_return),
             "notional_leverage": float(leverage),
             "margin_fraction": float(margin_fraction),
-            "action": action,
-            "direction": "long" if target > 0.0 else ("short" if target < 0.0 else "flat"),
+            "action": executed_action,
+            "direction": (
+                "long" if executed_target > 0.0
+                else ("short" if executed_target < 0.0 else "flat")
+            ),
         })
         apply_fill(
-            position, target=float(target), fill_price=float(outcome["fill_price"]),
+            position, target=float(executed_target), fill_price=float(outcome["fill_price"]),
             fill_time=pd.Timestamp(outcome["fill_timestamp"]), decision_index=index,
             remaining_edge=float(remaining_edge), contract_id=target_contract_id,
         )
@@ -1582,15 +1968,25 @@ def oracle_first_diagnostic(
         ).iloc[0]
         total += float(best["net_return"])
         raw_available = best.get("outcome_available_at")
+        if "outcome_available_at" in group:
+            group_available = pd.to_datetime(
+                group["outcome_available_at"], utc=True, errors="coerce"
+            ).dropna()
+            label_available = group_available.max() if len(group_available) else pd.NaT
+        else:
+            label_available = pd.NaT
         winners[pd.Timestamp(decision_time).isoformat()] = {
             "policy_id": str(best["policy_id"]),
             "specialist": str(best["specialist"]),
             "horizon": int(best["horizon"]),
             "direction": str(best["direction"]),
             "net_return": float(best["net_return"]),
-            "outcome_available_at": (
+            "winner_outcome_available_at": (
                 None if raw_available is None or pd.isna(raw_available)
                 else pd.Timestamp(raw_available)
+            ),
+            "outcome_available_at": (
+                None if pd.isna(label_available) else pd.Timestamp(label_available)
             ),
         }
     winner_ids = [row["policy_id"] for row in winners.values()]
@@ -1661,3 +2057,249 @@ def replay_targets_under_execution_stress(
             if current != 0.0 else None
         )
     return pd.DataFrame(rows)
+
+def _compact_timestamp(raw_ns: int) -> pd.Timestamp | None:
+    if int(raw_ns) == NAT_INT64:
+        return None
+    return pd.Timestamp(int(raw_ns), unit="ns", tz="UTC")
+
+
+def _compact_contract(inputs: ReplayKernelInputs, code: int) -> str | None:
+    if int(code) < 0:
+        return None
+    return inputs.contract_labels[int(code)]
+
+
+def _compact_optional_float(value: float) -> float | None:
+    return None if np.isnan(float(value)) else float(value)
+
+
+def _compact_sizing(result: Any, index: int) -> dict[str, float]:
+    if not bool(result.sizing_selected[index]):
+        return {"risk_capacity": float(result.sizing_risk_capacity[index])}
+    return {
+        "estimated_edge": float(result.sizing_estimated_edge[index]),
+        "confidence": float(result.sizing_confidence[index]),
+        "support": float(result.sizing_support[index]),
+        "regime_quality": float(result.sizing_regime_quality[index]),
+        "volatility_factor": float(result.sizing_volatility_factor[index]),
+        "volatility_ratio": float(result.sizing_volatility_ratio[index]),
+        "liquidity_factor": float(result.sizing_liquidity_factor[index]),
+        "drawdown_factor": float(result.sizing_drawdown_factor[index]),
+        "side_size_scale": float(result.sizing_side_size_scale[index]),
+        "hard_exposure_cap": float(result.sizing_hard_exposure_cap[index]),
+        "risk_capacity": float(result.sizing_risk_capacity[index]),
+    }
+
+
+def _compact_position_mark(
+    inputs: ReplayKernelInputs,
+    result: Any,
+    index: int,
+    decision_time: pd.Timestamp,
+) -> dict[str, Any]:
+    exposure = float(result.position_exposure_before[index])
+    direction = "long" if exposure > 0.0 else ("short" if exposure < 0.0 else "flat")
+    mark_observation_time = _compact_timestamp(
+        int(inputs.market_observation_time_ns[index])
+    )
+    mark_valid = bool(result.position_mark_valid_before[index])
+    return {
+        "direction": direction,
+        "exposure": exposure,
+        "entry_price": _compact_optional_float(result.position_entry_price_before[index]),
+        "current_execution_basis_price": _compact_optional_float(
+            result.position_basis_price_before[index]
+        ),
+        "entry_time": _compact_timestamp(result.position_entry_time_ns_before[index]),
+        "entry_contract_id": _compact_contract(
+            inputs, int(result.position_entry_contract_code_before[index])
+        ),
+        "current_contract_id": _compact_contract(
+            inputs, int(result.position_contract_code_before[index])
+        ),
+        "time_in_position_sessions": int(result.position_age_before[index]),
+        "edge_at_entry": float(result.position_edge_at_entry_before[index]),
+        "unrealized_pnl_fraction": float(result.position_unrealized_pnl_before[index]),
+        "current_contract_mtm_fraction": float(result.position_current_mtm_before[index]),
+        "economic_path_pnl_fraction": float(result.position_economic_pnl_before[index]),
+        "mfe_to_date_fraction": float(result.position_mfe_before[index]),
+        "mae_to_date_fraction": float(result.position_mae_before[index]),
+        "position_instance_id": int(result.position_instance_before[index]),
+        "mark_observation_time": mark_observation_time,
+        "mark_valid_for_position": mark_valid,
+        "mark_rejection_reason": (
+            None if mark_valid else "mark_observation_precedes_position_entry"
+        ),
+        "equity_usd": float(result.position_equity_before[index]),
+        "peak_equity_usd": float(result.position_peak_equity_before[index]),
+        "marked_equity_usd": float(result.position_marked_equity_before[index]),
+        "peak_marked_equity_usd": float(
+            result.position_peak_marked_equity_before[index]
+        ),
+        "drawdown_fraction": float(result.position_drawdown_before[index]),
+        "risk_drawdown_fraction": float(result.position_risk_drawdown_before[index]),
+        "decision_time": pd.Timestamp(decision_time),
+    }
+
+
+def _replay_candidate_compact(
+    config: ControllerConfig,
+    state: pd.DataFrame,
+    path: pd.DataFrame,
+    refs_by_time: dict[pd.Timestamp, list[pd.Timestamp]],
+    decision_plan: CandidateDecisionPlan,
+    kernel_inputs: ReplayKernelInputs,
+    *,
+    execution_scenario: dict[str, Any],
+    max_abs_contracts: float,
+    initial_capital: float,
+    multiplier: float,
+    base_cost_per_side: float,
+    initial_margin_usd_per_contract: float,
+    max_margin_fraction: float,
+    max_notional_leverage: float,
+    max_drawdown_fraction: float,
+) -> CandidateReplay:
+    limits = ReplayKernelLimits(
+        max_abs_contracts=max_abs_contracts,
+        initial_capital=initial_capital,
+        multiplier=multiplier,
+        base_cost_per_side=base_cost_per_side,
+        initial_margin_usd_per_contract=initial_margin_usd_per_contract,
+        max_margin_fraction=max_margin_fraction,
+        max_notional_leverage=max_notional_leverage,
+        max_drawdown_fraction=max_drawdown_fraction,
+    )
+    result = run_replay_kernel_serial(
+        kernel_inputs,
+        limits,
+        extra_slippage_usd_per_contract_side=float(
+            execution_scenario.get("extra_slippage_usd_per_contract_side", 0.0)
+        ),
+        miss_increase_when_below_prior_volume=bool(
+            execution_scenario.get("miss_increase_when_below_prior_volume", False)
+        ),
+    )
+    scenario_id = str(execution_scenario["id"])
+    state = state.reset_index(drop=True)
+    path = path.reset_index(drop=True)
+    decisions: list[dict[str, Any]] = []
+    consequences: list[dict[str, Any]] = []
+    timing_labels = ("ABSTAIN", "WAIT", "ENTER_NOW")
+    direction_labels = {-1: "short", 0: "flat", 1: "long"}
+    for index in range(len(state)):
+        decision_time = pd.Timestamp(decision_plan.decision_times[index])
+        direction = direction_labels[int(decision_plan.selected_direction[index])]
+        horizon_code = int(decision_plan.selected_horizon[index])
+        selected_horizon = None if horizon_code < 0 else horizon_code
+        selected_edge = float(decision_plan.edge[index])
+        selected_uncertainty = float(decision_plan.uncertainty[index])
+        current_exposure = float(result.position_exposure_before[index])
+        decision_target = float(result.decision_target[index])
+        executed_target = float(result.executed_target[index])
+        action = transition_action(current_exposure, decision_target)
+        executed_action = transition_action(current_exposure, executed_target)
+        target_contract_id = _compact_contract(
+            kernel_inputs, int(kernel_inputs.fill_contract_code[index])
+        )
+        if target_contract_id is None:
+            raise AdaptiveContractError("controller-v3 compact replay missing fill contract")
+        fill_time = _compact_timestamp(int(kernel_inputs.fill_time_ns[index]))
+        outcome_available = _compact_timestamp(int(kernel_inputs.outcome_available_ns[index]))
+        if fill_time is None or outcome_available is None:
+            raise AdaptiveContractError("controller-v3 compact replay missing execution timestamp")
+        execution_adjustment_reason = (
+            "reduce_execution_price_hard_risk_cap"
+            if abs(executed_target) < abs(decision_target) - 1e-12 else None
+        )
+        sizing = _compact_sizing(result, index)
+        position_before = _compact_position_mark(
+            kernel_inputs, result, index, decision_time
+        )
+        decisions.append({
+            "decision_time": decision_time,
+            "config_id": config.config_id,
+            "execution_scenario": scenario_id,
+            "structural_update": bool(decision_plan.structural_update[index]),
+            "active_families": decision_plan.active_families[index],
+            "comparable_state_refs": refs_by_time[decision_time],
+            "selected_horizon": selected_horizon,
+            "selected_direction": direction,
+            "selected_side_profile": (
+                config.policy_for(direction).profile_id
+                if direction in {"long", "short"} else None
+            ),
+            "selected_weights": dict(decision_plan.selected_weights[index]),
+            "selected_group_weights": dict(decision_plan.selected_group_weights[index]),
+            "opportunity_table": decision_plan.opportunity_tables[index],
+            "timing_decision": timing_labels[int(decision_plan.timing[index])],
+            "remaining_edge": selected_edge,
+            "edge_change_since_entry": (
+                selected_edge - float(result.position_edge_at_entry_before[index])
+            ),
+            "uncertainty": selected_uncertainty,
+            "sizing_inputs": sizing,
+            "position_before": position_before,
+            "action": action,
+            "target_exposure": decision_target,
+            "lifecycle_reason": LIFECYCLE_REASON_LABELS[
+                int(result.lifecycle_reason[index])
+            ],
+            "missed_fill": bool(result.missed_fill[index]),
+
+            "planned_fill_time": fill_time,
+            "planned_contract_id": target_contract_id,
+            "executed_target_exposure": executed_target,
+            "execution_audit": {
+                "available_at": fill_time,
+                "fill_price": float(kernel_inputs.fill_price[index]),
+                "execution_price_hard_exposure_cap": float(
+                    result.execution_hard_cap[index]
+                ),
+                "adjustment_reason": execution_adjustment_reason,
+                "executed_action": executed_action,
+            },
+        })
+        consequences.append({
+            "decision_time": decision_time,
+            "fill_timestamp": fill_time,
+            "fill_contract_id": target_contract_id,
+            "outcome_available_at": outcome_available,
+            "holding_session_count": int(kernel_inputs.holding_session_count[index]),
+            "holding_roll_count": int(kernel_inputs.holding_roll_count[index]),
+            "transition_turnover": float(result.transition_turnover[index]),
+            "roll_turnover": float(result.roll_turnover[index]),
+            "config_id": config.config_id,
+            "execution_scenario": scenario_id,
+            "exposure_before": current_exposure,
+            "signal": executed_target,
+            "turnover": float(result.turnover[index]),
+            "gross_return": float(result.gross_return[index]),
+            "execution_cost_return": float(result.execution_cost_return[index]),
+            "realized_net_return": float(result.realized_net_return[index]),            "missed_fill": bool(result.missed_fill[index]),
+            "notional_leverage": float(result.notional_leverage[index]),
+            "margin_fraction": float(result.margin_fraction[index]),
+            "action": executed_action,
+            "direction": (
+                "long" if executed_target > 0.0
+                else ("short" if executed_target < 0.0 else "flat")
+            ),
+        })
+    decision_frame = pd.DataFrame(decisions)
+    consequence_frame = pd.DataFrame(consequences)
+    return CandidateReplay(
+        config=config,
+        decisions=decision_frame,
+        consequences=consequence_frame,
+        summary={
+            "execution_scenario": scenario_id,
+            "total_net_return": float(consequence_frame["realized_net_return"].sum()),
+            "turnover": float(consequence_frame["turnover"].sum()),
+            "active_decisions": int(consequence_frame["signal"].ne(0.0).sum()),
+            "missed_fill_count": int(consequence_frame["missed_fill"].sum()),
+            "slow_structural_updates": int(decision_frame["structural_update"].sum()),
+            "max_notional_leverage": float(consequence_frame["notional_leverage"].max()),
+            "max_margin_fraction": float(consequence_frame["margin_fraction"].max()),
+        },
+    )

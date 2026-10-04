@@ -127,6 +127,65 @@ def test_v3_candidate_checkpoint_round_trips_atomically(tmp_path) -> None:
     assert loaded[scenario_ids[0]].summary["execution_scenario"] == scenario_ids[0]
 
 
+def test_v3_candidate_causal_prefix_is_stable_across_checkpoint_round_trip(tmp_path) -> None:
+    runner = _load_runner()
+    prereg = runner.load_prereg()
+    config = runner.structural_grid(prereg)[0]
+    scenario_ids = ("base",)
+    decision_time = pd.Timestamp("2010-07-06T00:00:00Z")
+    decisions = pd.DataFrame([{
+        "decision_time": decision_time,
+        "active_families": ("trend",),
+        "position_before": {
+            "decision_time": decision_time,
+            "mark_observation_time": pd.Timestamp("2010-07-05T23:00:00Z"),
+        },
+        "target_exposure": 0.04144196217119536,
+        "executed_target_exposure": 0.04144196217119536,
+        "execution_audit": {
+            "available_at": pd.Timestamp("2010-07-06T01:00:00Z"),
+            "fill_price": 4.123456789012345,
+        },
+    }])
+    consequences = pd.DataFrame([{
+        "decision_time": decision_time,
+        "outcome_available_at": pd.Timestamp("2010-07-07T00:00:00Z"),
+        "realized_net_return": 0.001,
+    }])
+    original = runner.CandidateReplay(config, decisions, consequences, {"execution_scenario": "base"})
+    runner._write_candidate_checkpoint(tmp_path, 1, config, {"base": original})
+    loaded = runner._load_candidate_checkpoint(tmp_path, 1, config, scenario_ids)
+    assert loaded is not None
+    cutoff = pd.Timestamp("2010-07-06T00:30:00Z")
+    assert runner._candidate_prefix_payload(original, cutoff) == runner._candidate_prefix_payload(
+        loaded["base"], cutoff
+    )
+    audit_cutoff = pd.Timestamp("2010-07-06T02:00:00Z")
+    assert runner._matured_execution_audit_prefix_payload(
+        original.decisions, audit_cutoff
+    ) == runner._matured_execution_audit_prefix_payload(loaded["base"].decisions, audit_cutoff)
+
+
+def test_v3_meta_causal_prefix_excludes_post_controller_diagnostic_enrichment() -> None:
+    runner = _load_runner()
+    decision_time = pd.Timestamp("2010-07-06T00:00:00Z")
+    core = pd.DataFrame([{
+        "decision_time": decision_time,
+        "active_structural_configs": ("c1",),
+        "target_exposure": 0.5,
+    }])
+    enriched = core.copy(deep=True)
+    enriched["expert_context_state"] = [{"x": 1.0}]
+    enriched["expert_multi_horizon_opinions"] = [{"h1": 0.01}]
+    enriched["oracle_weight_predictor"] = [{"selection_use": False}]
+    enriched["primitive_oracle_winner_predictor"] = [{"selection_use": False}]
+    cutoff = decision_time
+    assert runner._decision_causal_prefix_payload(enriched, cutoff) == (
+        runner._decision_causal_prefix_payload(core, cutoff)
+    )
+    assert runner._prefix_payload(enriched, cutoff) == runner._prefix_payload(core, cutoff)
+
+
 def test_v3_scoring_identity_binds_runtime_code_data_and_environment() -> None:
     runner = _load_runner()
     identity = runner.scoring_input_identity()

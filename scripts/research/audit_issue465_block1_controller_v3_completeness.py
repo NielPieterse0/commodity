@@ -18,6 +18,7 @@ PREFLIGHT = PROGRAMME / "issue465-block1-controller-v3-preflight.json"
 INVENTORY = PROGRAMME / "issue465-block1-controller-v3-inventory.json"
 REENTRY = PROGRAMME / "issue465-block1-controller-v3-historical-reentry.json"
 BRAIN = PROGRAMME / "issue465-block1-controller-v3-decision-brain.jsonl"
+EFFECTIVENESS_SURFACES = PROGRAMME / "issue465-block1-controller-v3-effectiveness-surfaces.parquet"
 CONSEQUENCES = PROGRAMME / "issue465-block1-controller-v3-consequences.jsonl"
 RESULT = PROGRAMME / "issue465-block1-controller-v3-result.json"
 EXPERT_PATHS = PROGRAMME / "issue465-block1-controller-v3-expert-paths.jsonl"
@@ -44,6 +45,7 @@ SCORE_ARTIFACT_NAMES = {
     "issue465-block1-controller-v3-oracle-first.json",
     "issue465-block1-controller-v3-trials.jsonl",
     "issue465-block1-controller-v3-decision-brain.jsonl",
+    "issue465-block1-controller-v3-effectiveness-surfaces.parquet",
     "issue465-block1-controller-v3-consequences.jsonl",
     "issue465-block1-controller-v3-ledger.json",
     "issue465-block1-controller-v3-result.json",
@@ -94,6 +96,7 @@ def main() -> int:
     reentry = json.loads(REENTRY.read_text(encoding="utf-8"))
     result_path = generation_paths[RESULT.name]
     brain_path = generation_paths[BRAIN.name]
+    effectiveness_surface_path = generation_paths[EFFECTIVENESS_SURFACES.name]
     consequences_path = generation_paths[CONSEQUENCES.name]
     attribute_oracle_path = generation_paths[ATTRIBUTE_ORACLE.name]
     oracle_predictor_path = generation_paths[ORACLE_PREDICTOR.name]
@@ -106,6 +109,7 @@ def main() -> int:
     selected_consequences = pd.DataFrame(ledger.get("selected_consequences", []))
     candidates = json.loads(CANDIDATES.read_text(encoding="utf-8"))
     brain = pd.read_json(brain_path, lines=True)
+    effectiveness_surfaces = pd.read_parquet(effectiveness_surface_path)
     consequences = pd.read_json(consequences_path, lines=True)
     _trials = pd.read_json(generation_paths[TRIALS.name], lines=True)
     expert_paths = pd.read_json(EXPERT_PATHS, lines=True)
@@ -117,6 +121,17 @@ def main() -> int:
     expert_history_canonical = pd.read_csv(EXPERT_HISTORY_CANONICAL)
     expert_history_ohlcv = pd.read_csv(EXPERT_HISTORY_OHLCV)
     brain["decision_time"] = pd.to_datetime(brain["decision_time"], utc=True)
+    effectiveness_surfaces["surface_decision_time"] = pd.to_datetime(
+        effectiveness_surfaces["surface_decision_time"], utc=True, errors="raise"
+    )
+    for column in (
+        "max_outcome_available_at_used",
+        "max_forecast_outcome_available_at_used",
+    ):
+        if column in effectiveness_surfaces:
+            effectiveness_surfaces[column] = pd.to_datetime(
+                effectiveness_surfaces[column], utc=True, errors="coerce"
+            )
     predictor["decision_time"] = pd.to_datetime(predictor["decision_time"], utc=True)
     primitive_predictor["decision_time"] = pd.to_datetime(
         primitive_predictor["decision_time"], utc=True
@@ -228,16 +243,39 @@ def main() -> int:
                     "decision_time": decision_time.isoformat(), "reference": ref.isoformat()
                 })
     required_surface_fields = {
+        "effectiveness_surface_id", "surface_decision_time",
         "specialist", "horizon", "direction", "memory", "count",
         "mean_net_return", "objective_30_net_return_sum", "comparable_count",
         "comparable_mean_net_return",
     }
+    surface_counts = effectiveness_surfaces.groupby(
+        "effectiveness_surface_id", sort=False
+    ).size().to_dict()
+    surface_reference_violations: list[dict[str, Any]] = []
+    for row in brain.itertuples(index=False):
+        surface_id = str(row.effectiveness_surface_id)
+        expected_count = int(row.effectiveness_surface_row_count)
+        observed_count = int(surface_counts.get(surface_id, 0))
+        if surface_id != pd.Timestamp(row.decision_time).isoformat() or expected_count != observed_count:
+            surface_reference_violations.append({
+                "decision_time": pd.Timestamp(row.decision_time).isoformat(),
+                "surface_id": surface_id,
+                "expected_row_count": expected_count,
+                "observed_row_count": observed_count,
+            })
+    surface_identity_mismatch = bool((
+        effectiveness_surfaces["effectiveness_surface_id"].astype(str)
+        != effectiveness_surfaces["surface_decision_time"].map(
+            lambda value: pd.Timestamp(value).isoformat()
+        )
+    ).any())
+    warmup = int(prereg["block_contract"]["warmup_completed_trading_sessions"])
     effectiveness_surface_complete = bool(
-        brain["effectiveness_surface"].map(
-            lambda rows: isinstance(rows, list)
-            and bool(rows)
-            and all(required_surface_fields.issubset(row) for row in rows)
-        ).all()
+        required_surface_fields.issubset(effectiveness_surfaces.columns)
+        and "effectiveness_surface" not in brain.columns
+        and not surface_reference_violations
+        and not surface_identity_mismatch
+        and brain.iloc[warmup:]["effectiveness_surface_row_count"].gt(0).all()
     )
     candidate_rows = list(candidates.get("candidates", []))
     independent_long_short_profiles = bool(
@@ -387,16 +425,35 @@ def main() -> int:
     future_proof = result["future_invariance_proof"]
     checks["full_future_mutation_invariance"] = check(
         future_proof["status"] == "PASS"
-        and future_proof.get("full_persisted_row_prefix_comparison") is True
+        and future_proof.get("persisted_row_prefix_comparison")
+        == "causal_fields_plus_matured_execution_audit"
+        and future_proof.get("all_structural_candidate_matured_execution_audits_identical") is True
+        and future_proof.get("meta_matured_execution_audit_prefix_identical") is True
         and future_proof.get("structural_phase_prefixes_identical") is True
         and int(future_proof.get("structural_phase_cutoff_count", 0))
         >= int(prereg["meta_controller"]["structural_ensemble_cadence_sessions"]),
         future_proof,
     )
+    surface_sidecar_metadata = ledger.get("effectiveness_surface_sidecar", {})
+    surface_sidecar_hash = sha256_file(effectiveness_surface_path)
+    checks["effectiveness_surface_sidecar_integrity"] = check(
+        surface_sidecar_metadata.get("path") == EFFECTIVENESS_SURFACES.name
+        and surface_sidecar_metadata.get("sha256") == surface_sidecar_hash
+        and result.get("effectiveness_surface_sidecar_sha256") == surface_sidecar_hash
+        and int(surface_sidecar_metadata.get("row_count", -1)) == len(effectiveness_surfaces)
+        and int(surface_sidecar_metadata.get("surface_count", -1)) == len(brain),
+        {
+            "ledger": surface_sidecar_metadata,
+            "observed_sha256": surface_sidecar_hash,
+            "surface_reference_violations": surface_reference_violations[:5],
+        },
+    )
     checks["context_dependent_expert_effectiveness"] = check(
         effectiveness_surface_complete and not comparable_ref_violations,
         {
             "surface_rows_complete": effectiveness_surface_complete,
+            "surface_reference_violations": surface_reference_violations[:5],
+            "surface_identity_mismatch": surface_identity_mismatch,
             "comparable_ref_violations": comparable_ref_violations[:5],
         },
     )
@@ -414,9 +471,11 @@ def main() -> int:
         prereg["expert_effectiveness_contract"]["memories"],
     )
     memory_contract = prereg["expert_effectiveness_contract"]["memory_scale_selection"]
-    final_surface_memories = {
-        str(row.get("memory")) for row in brain.iloc[-1]["effectiveness_surface"]
-    }
+    final_surface_id = str(brain.iloc[-1]["effectiveness_surface_id"])
+    final_surface = effectiveness_surfaces.loc[
+        effectiveness_surfaces["effectiveness_surface_id"].astype(str).eq(final_surface_id)
+    ]
+    final_surface_memories = set(final_surface["memory"].astype(str))
     checks["independent_memory_scale_per_quantity"] = check(
         memory_contract["granularity"] == "independent_per_specialist_horizon_direction"
         and set(map(str, memory_contract["eligible_memories"]))
@@ -431,30 +490,34 @@ def main() -> int:
         "direction_hit_rate", "forecast_mae_return", "interval_coverage",
         "max_forecast_outcome_available_at_used",
     }
-    forecast_metric_rows = [
-        row for rows in brain["effectiveness_surface"] for row in rows
-        if str(row.get("specialist")) in {"timesfm_direction", "kronos_direction"}
+    forecast_metric_rows = effectiveness_surfaces.loc[
+        effectiveness_surfaces["specialist"].astype(str).isin(
+            {"timesfm_direction", "kronos_direction"}
+        )
     ]
     checks["forecast_error_hit_calibration_first_class"] = check(
-        bool(forecast_metric_rows)
-        and all(forecast_metric_fields.issubset(row) for row in forecast_metric_rows),
+        not forecast_metric_rows.empty
+        and forecast_metric_fields.issubset(forecast_metric_rows.columns),
         {"row_count": len(forecast_metric_rows), "required_fields": sorted(forecast_metric_fields)},
     )
-    forecast_surface_violations: list[dict[str, Any]] = []
-    for brain_row in brain.itertuples(index=False):
-        decision_time = pd.Timestamp(brain_row.decision_time)
-        for surface_row in brain_row.effectiveness_surface:
-            raw_used = surface_row.get("max_forecast_outcome_available_at_used")
-            if raw_used is None or pd.isna(raw_used):
-                continue
-            used_at = pd.Timestamp(raw_used)
-            if used_at >= decision_time:
-                forecast_surface_violations.append({
-                    "decision_time": decision_time.isoformat(),
-                    "used_at": used_at.isoformat(),
-                    "specialist": surface_row.get("specialist"),
-                    "horizon": surface_row.get("horizon"),
-                })
+    forecast_used = pd.to_datetime(
+        effectiveness_surfaces["max_forecast_outcome_available_at_used"],
+        utc=True,
+        errors="coerce",
+    )
+    forecast_surface_violations_frame = effectiveness_surfaces.loc[
+        forecast_used.notna()
+        & (forecast_used >= effectiveness_surfaces["surface_decision_time"])
+    ]
+    forecast_surface_violations = [
+        {
+            "decision_time": pd.Timestamp(row.surface_decision_time).isoformat(),
+            "used_at": pd.Timestamp(row.max_forecast_outcome_available_at_used).isoformat(),
+            "specialist": row.specialist,
+            "horizon": row.horizon,
+        }
+        for row in forecast_surface_violations_frame.head(5).itertuples(index=False)
+    ]
     checks["forecast_diagnostics_native_target_and_strict_prior"] = check(
         not forecast_surface_violations
         and bool(prereg["expert_effectiveness_contract"].get("forecast_target_semantics"))
@@ -558,16 +621,28 @@ def main() -> int:
         sorted(observed_timing),
     )
     risk_states = [value for value in brain["risk_state"] if isinstance(value, dict)]
+    execution_audits = [
+        value for value in brain["execution_audit"] if isinstance(value, dict)
+    ]
     max_leverage = float(pd.to_numeric(selected_consequences["notional_leverage"], errors="raise").max())
     max_margin = float(pd.to_numeric(selected_consequences["margin_fraction"], errors="raise").max())
     max_exposure = float(pd.to_numeric(selected_consequences["signal"], errors="raise").abs().max())
+    execution_audit_fields = {
+        "available_at", "execution_price_hard_exposure_cap",
+        "notional_leverage_after_action", "margin_fraction_after_action",
+    }
     checks["dynamic_sizing"] = check(
         len(risk_states) == len(brain)
+        and len(execution_audits) == len(brain)
         and all(
-            {"hard_exposure_cap", "execution_price_hard_exposure_cap", "risk_drawdown_fraction"}.issubset(row)
+            {"hard_exposure_cap", "risk_drawdown_fraction"}.issubset(row)
             for row in risk_states
-        ),
-        {"risk_state_rows": len(risk_states)},
+        )
+        and all(execution_audit_fields.issubset(row) for row in execution_audits),
+        {
+            "risk_state_rows": len(risk_states),
+            "execution_audit_rows": len(execution_audits),
+        },
     )
     checks["hard_leverage_margin_drawdown_caps"] = check(
         max_exposure <= float(prereg["dynamic_sizing"]["max_abs_contracts"]) + 1e-12
@@ -642,7 +717,8 @@ def main() -> int:
         ],
     )
     brain_fields = {
-        "pit_state", "specialist_signals", "effectiveness_surface", "comparable_state_refs",
+        "pit_state", "specialist_signals", "effectiveness_surface_id",
+        "effectiveness_surface_row_count", "comparable_state_refs",
         "selected_weights", "selected_group_weights", "candidate_objective_scores",
         "opportunity_table", "action", "target_exposure", "lifecycle_reason",
         "execution_assumptions", "expert_context_state", "expert_multi_horizon_opinions",

@@ -354,6 +354,180 @@ def precompute_rich_surfaces(
         for stamp in pd.to_datetime(context_state["decision_time"], utc=True)
     }
 
+
+def _array_mean(values: np.ndarray) -> float | None:
+    valid = values[~np.isnan(values)]
+    return None if not len(valid) else float(valid.mean())
+
+
+def _array_rmse(values: np.ndarray) -> float | None:
+    valid = values[~np.isnan(values)]
+    return None if not len(valid) else float(np.sqrt(np.mean(np.square(valid))))
+
+
+def _masked_window_values(
+    values: np.ndarray | None,
+    start: int,
+    stop: int,
+    mask: np.ndarray,
+) -> np.ndarray:
+    if values is None:
+        return np.asarray([], dtype=float)
+    return values[start:stop][mask]
+
+
+def precompute_rich_surfaces_incremental(
+    consequences: pd.DataFrame,
+    context_state: pd.DataFrame,
+    refs_by_time: dict[pd.Timestamp, list[pd.Timestamp]],
+    *,
+    memories: tuple[int | str, ...] = MEMORY_BANK,
+) -> dict[pd.Timestamp, pd.DataFrame]:
+    """Build all causal rich surfaces from groups prepared once per input generation."""
+    keys = ["specialist", "horizon", "direction"]
+    metric_columns = (
+        "direction_hit", "direction_error", "abs_forecast_error_return",
+        "forecast_error_return", "interval_covered", "interval_width",
+    )
+    prepared: list[tuple[tuple[Any, Any, Any], dict[str, Any]]] = []
+    for identity, raw_group in consequences.groupby(keys, sort=False):
+        group = raw_group.copy()
+        group["outcome_available_at"] = pd.to_datetime(
+            group["outcome_available_at"], utc=True, errors="coerce"
+        )
+        group = group.loc[group["outcome_available_at"].notna()].sort_values(
+            "outcome_available_at", kind="stable"
+        )
+        if group.empty:
+            continue
+        arrays: dict[str, Any] = {
+            "decision_ns": pd.to_datetime(group["decision_time"], utc=True).astype("int64").to_numpy(),
+            "outcome_ns": group["outcome_available_at"].astype("int64").to_numpy(),
+            "net_return": pd.to_numeric(group["net_return"], errors="raise").to_numpy(dtype=float),
+        }
+        if "forecast_outcome_available_at" in group:
+            arrays["forecast_ns"] = pd.to_datetime(
+                group["forecast_outcome_available_at"], utc=True, errors="coerce"
+            ).astype("int64").to_numpy()
+        else:
+            arrays["forecast_ns"] = None
+        for column in metric_columns:
+            arrays[column] = (
+                pd.to_numeric(group[column], errors="coerce").to_numpy(dtype=float)
+                if column in group else None
+            )
+        prepared.append((identity, arrays))
+
+    surfaces: dict[pd.Timestamp, pd.DataFrame] = {}
+    nat_ns = pd.NaT.value
+    for raw_stamp in pd.to_datetime(context_state["decision_time"], utc=True):
+        stamp = pd.Timestamp(raw_stamp)
+        stamp_ns = stamp.value
+        refs_ns = np.asarray(
+            [pd.Timestamp(value).value for value in refs_by_time[stamp]], dtype=np.int64
+        )
+        rows: list[dict[str, Any]] = []
+        for (specialist, horizon, direction), arrays in prepared:
+            outcome_ns = arrays["outcome_ns"]
+            stop = int(np.searchsorted(outcome_ns, stamp_ns, side="left"))
+            if stop <= 0:
+                continue
+            decision_ns = arrays["decision_ns"]
+            net = arrays["net_return"]
+            objective_start = max(0, stop - 30)
+            objective = net[objective_start:stop]
+            comparable_mask = (
+                np.isin(decision_ns[:stop], refs_ns)
+                if len(refs_ns) else np.zeros(stop, dtype=bool)
+            )
+            comparable = net[:stop][comparable_mask]
+            objective_count = len(objective)
+            objective_sum = float(objective.sum()) if objective_count else 0.0
+            objective_mean = float(objective.mean()) if objective_count else 0.0
+            objective_std = float(objective.std(ddof=0)) if objective_count else 0.0
+            comparable_count = len(comparable)
+            comparable_mean = float(comparable.mean()) if comparable_count else 0.0
+            comparable_std = float(comparable.std(ddof=0)) if comparable_count else 0.0
+            direction_hit = arrays["direction_hit"]
+            direction_error = arrays["direction_error"]
+            comparable_hits = (
+                np.asarray([], dtype=float)
+                if direction_hit is None
+                else direction_hit[:stop][comparable_mask]
+            )
+            comparable_hit_rate = _array_mean(comparable_hits)
+            max_outcome_used = pd.Timestamp(
+                outcome_ns[stop - 1], unit="ns", tz="UTC"
+            )
+            forecast_ns = arrays["forecast_ns"]
+            window_stats: dict[int, dict[str, Any]] = {}
+            for memory in memories:
+                start = 0 if memory == "expanding" else max(0, stop - int(memory))
+                cached = window_stats.get(start)
+                if cached is None:
+                    sample = net[start:stop]
+                    if forecast_ns is None:
+                        diagnostic_mask = np.ones(stop - start, dtype=bool)
+                    else:
+                        diagnostic_times = forecast_ns[start:stop]
+                        diagnostic_mask = (
+                            (diagnostic_times != nat_ns) & (diagnostic_times < stamp_ns)
+                        )
+                    forecast_error = _masked_window_values(
+                        arrays["forecast_error_return"], start, stop, diagnostic_mask
+                    )
+                    cached = {
+                        "count": len(sample),
+                        "mean": float(sample.mean()) if len(sample) else 0.0,
+                        "std": float(sample.std(ddof=0)) if len(sample) else 0.0,
+                        "hit": None if direction_hit is None else _array_mean(direction_hit[start:stop]),
+                        "direction_error": None if direction_error is None else _array_mean(direction_error[start:stop]),
+                        "diagnostic_count": int(diagnostic_mask.sum()),
+                        "forecast_mae": _array_mean(_masked_window_values(
+                            arrays["abs_forecast_error_return"], start, stop, diagnostic_mask
+                        )),
+                        "forecast_rmse": _array_rmse(forecast_error),
+                        "forecast_bias": _array_mean(forecast_error),
+                        "interval_coverage": _array_mean(_masked_window_values(
+                            arrays["interval_covered"], start, stop, diagnostic_mask
+                        )),
+                        "interval_sharpness": _array_mean(_masked_window_values(
+                            arrays["interval_width"], start, stop, diagnostic_mask
+                        )),
+                        "max_forecast_used": (
+                            pd.Timestamp(forecast_ns[start:stop][diagnostic_mask].max(), unit="ns", tz="UTC")
+                            if forecast_ns is not None and diagnostic_mask.any() else None
+                        ),
+                    }
+                    window_stats[start] = cached
+                rows.append({
+                    "specialist": str(specialist), "horizon": int(horizon),
+                    "direction": str(direction), "memory": memory,
+                    "count": int(cached["count"]),
+                    "mean_net_return": float(cached["mean"]),
+                    "std_net_return": float(cached["std"]),
+                    "objective_30_count": objective_count,
+                    "objective_30_net_return_sum": objective_sum,
+                    "objective_30_mean_net_return": objective_mean,
+                    "objective_30_std_net_return": objective_std,
+                    "comparable_count": comparable_count,
+                    "comparable_mean_net_return": comparable_mean,
+                    "comparable_std_net_return": comparable_std,
+                    "direction_hit_rate": cached["hit"],
+                    "direction_error_mean": cached["direction_error"],
+                    "forecast_diagnostic_count": int(cached["diagnostic_count"]),
+                    "forecast_mae_return": cached["forecast_mae"],
+                    "forecast_rmse_return": cached["forecast_rmse"],
+                    "forecast_bias_return": cached["forecast_bias"],
+                    "interval_coverage": cached["interval_coverage"],
+                    "interval_sharpness": cached["interval_sharpness"],
+                    "comparable_hit_rate": comparable_hit_rate,
+                    "max_outcome_available_at_used": max_outcome_used,
+                    "max_forecast_outcome_available_at_used": cached["max_forecast_used"],
+                })
+        surfaces[stamp] = pd.DataFrame(rows)
+    return surfaces
+
 def causal_standardized_attributes(state: pd.DataFrame, attributes: list[str]) -> pd.DataFrame:
     frame = state[["decision_time", *attributes]].copy()
     out = pd.DataFrame({"decision_time": pd.to_datetime(frame["decision_time"], utc=True)})
@@ -767,6 +941,46 @@ def causal_oracle_weight_predictor(
             "selection_use": False,
         })
     return pd.DataFrame(rows)
+
+
+_ORACLE_WEIGHT_CAUSAL_FIELDS: tuple[str, ...] = (
+    "decision_time", "training_label_count", "max_label_available_at",
+    "predicted_weights", "predicted_exposure", "weight_implied_exposure",
+    "weight_exposure_consistency_error_abs", "predicted_direction", "predicted_side",
+    "predicted_top_attribute",
+)
+_ORACLE_WEIGHT_CAUSAL_HORIZON_FIELDS: tuple[str, ...] = (
+    "training_label_count", "max_label_available_at", "predicted_weights",
+    "predicted_exposure", "weight_implied_exposure",
+    "weight_exposure_consistency_error_abs", "predicted_direction", "predicted_side",
+    "predicted_top_attribute",
+)
+
+
+def oracle_weight_predictor_causal_projection(frame: pd.DataFrame) -> pd.DataFrame:
+    """Return only fields knowable at each predictor decision timestamp."""
+    projected = frame.loc[:, list(_ORACLE_WEIGHT_CAUSAL_FIELDS)].copy()
+    projected["horizon_predictions"] = frame["horizon_predictions"].map(
+        lambda horizons: {
+            str(horizon): {
+                key: payload.get(key) for key in _ORACLE_WEIGHT_CAUSAL_HORIZON_FIELDS
+            }
+            for horizon, payload in dict(horizons).items()
+        }
+    )
+    return projected
+
+
+_PRIMITIVE_ORACLE_CAUSAL_FIELDS: tuple[str, ...] = (
+    "decision_time", "training_label_count", "neighbor_count",
+    "max_label_available_at", "predicted_policy_id", "predicted_specialist",
+    "predicted_horizon", "predicted_direction", "class_probabilities",
+)
+
+
+def primitive_oracle_predictor_causal_projection(frame: pd.DataFrame) -> pd.DataFrame:
+    """Return only primitive-oracle predictor fields knowable at decision time."""
+    return frame.loc[:, list(_PRIMITIVE_ORACLE_CAUSAL_FIELDS)].copy()
 
 
 def oracle_predictor_causal_check(frame: pd.DataFrame) -> bool:

@@ -1,0 +1,12 @@
+{
+  "candidate_all_seconds": 135.12209199997596,
+  "candidate_count": 96,
+  "candidate_max_seconds": 2.00290279998444,
+  "candidate_mean_seconds": 1.4075137635457697,
+  "candidate_median_seconds": 1.3699800999602303,
+  "issue": 468,
+  "prep_seconds": 96.57524319982622,
+  "profile_score_cache_all_configs_seconds": 29.183550899964757,
+  "scenario_count": 3,
+  "schema_version": 1
+}

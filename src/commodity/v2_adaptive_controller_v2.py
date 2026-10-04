@@ -234,6 +234,26 @@ def effectiveness_surface_for_day(
     return pd.DataFrame(rows)
 
 
+def precompute_comparable_refs(
+    context_state: pd.DataFrame,
+    *,
+    context_columns: list[str],
+    k: int,
+) -> dict[pd.Timestamp, list[pd.Timestamp]]:
+    """Precompute comparable-state references without constructing effectiveness surfaces."""
+    context = context_state[["decision_time", *context_columns]].copy()
+    context["decision_time"] = pd.to_datetime(context["decision_time"], utc=True)
+    return {
+        pd.Timestamp(decision_time): comparable_state_refs(
+            context,
+            pd.Timestamp(decision_time),
+            k=int(k),
+            feature_columns=context_columns,
+        )
+        for decision_time in context["decision_time"]
+    }
+
+
 def precompute_surfaces(
     base_consequences: pd.DataFrame,
     context_state: pd.DataFrame,
@@ -241,20 +261,13 @@ def precompute_surfaces(
     context_columns: list[str],
     k: int,
 ) -> tuple[dict[pd.Timestamp, pd.DataFrame], dict[pd.Timestamp, list[pd.Timestamp]]]:
-    context = context_state.copy()
-    context["decision_time"] = pd.to_datetime(context["decision_time"], utc=True)
-    surfaces: dict[pd.Timestamp, pd.DataFrame] = {}
-    refs_by_time: dict[pd.Timestamp, list[pd.Timestamp]] = {}
-    for decision_time in context["decision_time"]:
-        stamp = pd.Timestamp(decision_time)
-        refs = comparable_state_refs(
-            context[["decision_time", *context_columns]],
-            stamp,
-            k=int(k),
-            feature_columns=context_columns,
-        )
-        refs_by_time[stamp] = refs
-        surfaces[stamp] = effectiveness_surface_for_day(base_consequences, stamp, refs)
+    refs_by_time = precompute_comparable_refs(
+        context_state, context_columns=context_columns, k=k
+    )
+    surfaces = {
+        stamp: effectiveness_surface_for_day(base_consequences, stamp, refs)
+        for stamp, refs in refs_by_time.items()
+    }
     return surfaces, refs_by_time
 
 
