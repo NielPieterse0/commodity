@@ -10,6 +10,7 @@
     "src/commodity/v2_adaptive_controller_v3.py",
     "src/commodity/v3_replay_engine.py",
     "scripts/research/run_issue465_block1_controller_v3.py",
+    "scripts/research/audit_issue465_block1_controller_v3_completeness.py",
     "tests/test_issue470_negative_position_increase_guard.py",
     ".work/changes/470-v238-adverse-path-add-guard/**"
   ],
