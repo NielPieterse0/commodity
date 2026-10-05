@@ -12,6 +12,8 @@
     "research/programmes/004-v2-maximum-reproducible-one-month-return/inference-ledger.json",
     "research/programmes/004-v2-maximum-reproducible-one-month-return/evidence-map.json",
     "research/programmes/004-v2-maximum-reproducible-one-month-return/decisions.json",
+    "docs/reference/research/programmes/004-v2-maximum-reproducible-one-month-return/**",
+    "docs/reference/README.md",
     ".work/changes/474-v239-jump-curve-short-regime/**"
   ],
   "shared_paths": [],
