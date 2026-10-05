@@ -1,0 +1,149 @@
+{
+  "schema_version": 1,
+  "issue": 474,
+  "freeze_id": "issue474-blocks2-4-ab-freeze-v1",
+  "status": "FROZEN_BEFORE_BLOCKS_2_4",
+  "programme_id": "004-v2-maximum-reproducible-one-month-return",
+  "research_line_id": "001-v2-optimization-execution",
+  "experiment_id": "474-jump-curve-short-regime",
+  "program_handoff_id": "block1-v3-edge-discovery-post470",
+  "source_generation": "e3e221b3c9d945813e92cef9dbef8fd0",
+  "landed_post470_main_sha": "0fd0acf1415d2174c842ff0f3f8c30f13748f448",
+  "source_generation_binding": {
+    "generation_manifest_sha256": "964e675276e3f94ccafa385a0a8fe8b1e86c3fd39625c066cd3e8074ca06b3de",
+    "candidate_grid_sha256": "00275de7493afaf840e21b6b05cb3bad5cb31071f5b3eeae7ad2cd33278807c5",
+    "scoring_input_identity_sha256": "96d9cb1801bf8ca80cbe78b8d47de1f10ab5c82b91cbcd25fc732720aaa31a51",
+    "result_sha256": "0412642be0a86fcc26eb2ba32e0ece0721ae2a73ebbd2dc94388b96592902f34",
+    "decision_brain_sha256": "561f853da7a9815e936775ed059b4df93861c7ab597bfd5c92b94967a57d264b",
+    "consequence_store_sha256": "506bfd915626fffcbd4343feb1b7133cedf77540e9e1abc779ada6674157a1ff",
+    "trial_ledger_sha256": "d782aef4b1553db436248ad045d9792e0b0581f68a1b4f3433aae4f0829f5f89",
+    "v3_replay_engine_sha256": "516674f8749e5df232e9f3157f56cbcde732fbfee4e3f9539142ddf18569437e",
+    "future_invariance_status": "PASS"
+  },
+  "pre_oos_implementation_evidence": {
+    "runner_sha256": "369e7750777d95d1369a2a76b1e8cba426859f7b6576a12304bf1ab1d0b5ab0a",
+    "block1_reproduction_sha256": "3755823feec3b4b3e4bca904c1e3f8ff68182c863aa151712eac942c30263f6c",
+    "family_inference_sha256": "a8bade09787f5aadb695430458c0e82692991eff9679d18932b72b52f6d38e44",
+    "hash_rebind_reason": "Pre-OOS identity audit found stale runner/evidence hashes; rebound to the freshly verified current runner and Block-1 evidence before any Blocks 2-4 outcomes were scored.",
+    "block1_reproduction_status": "PASS",
+    "implementation_future_invariance_status": "PASS"
+  },
+  "exploratory_source_package": {
+    "authority": "L5 exploratory inputs only; every promoted conclusion rebound to the exact post-#470 generation or frozen OOS evaluator",
+    "deep_dive_report.md": "b1c4f154cb498e4e14386a6eb7dc20f8323076114b0f1615a6ebd364cffe10f9",
+    "edge_program.json": "a4804659d159fbbc0c1077ca8a9a3f162cbd154513352bc7be0dc34425b68dc9",
+    "literature_snapshot.md": "cba8329dca4cfa9aa41b9298589b1da771fbf40f09cebf33b635a6a5320efedc",
+    "pre_cleanup_observations.json": "983d3dc15d7fe9183d803556bf4fc376f9a9678272564c629e7083f600bde176",
+    "causal_resolver_probe.json": "42fa85dd8cd6ddf064b15e580f0994716c9080215c6823164e4e65adadb30735",
+    "analysis_manifest.json": "aae5a11eeee8e67709ec3a60833c60927042f18ae12e1341c21f75cba7afda47"
+  },
+  "material_post470_exploratory_bindings": {
+    "post470_generation_binding.json": "8356f31105e21fb752eba01348f54caebbf14b5e2652a44d3b19762abb1aaa10",
+    "post470_baseline_scorecard.json": "ab51443f130142e6a874306a9f54617c6e6f9f02128e6ec09539b25480af27da",
+    "post470_trajectory_oracle.json": "b26e63b8444fefb7e2f61017165bf11a9de3479e3652ed850c0ad750dddd0c90",
+    "post470_stage_regret.json": "8595e79bccd09351fb31ba38f1c7ada041365b21a6bae9b9955346944c0ea260",
+    "post470_p2_interaction_decomposition.json": "971bfcbf2324381e2359daa97b2dbd325510eb5582a405da62f5f0ec664c7c3a",
+    "post470_engineering_rank_v2.json": "775bd2d077bf6826956f8542c38a980cb94f8241dd1e9f95e919c1fc0456bdf6",
+    "post470_p3_resolver_duration_baselines.json": "280040911e75e28c8e2bb3c0d14ce35bfa22491a1ac555bccb61cd21615e37ee",
+    "post470_p3_paired_validation.json": "dee965caf736433822faf24779ac2f74d8e7b5c32a8d274fae3fdb2a5cea1c5e",
+    "post470_p3i_duration_increment_audit.json": "2a2dff35b5bf4ca1d2186f97e0643fbeb68b6e89123036abd92899d7f513ea71",
+    "post470_p4_input_feasibility.json": "6553071afec9fa27d8ffb7a10a6045135db3cf46a851b8f52d96d60f62ffe792",
+    "post470_p5b_consensus_transition_throttle.json": "9b1dbebb05deac4001902ecc46df20da03058477b4f0fb336d74dba8ef95450a",
+    "post470_candidate_architecture_v1.json": "09560f9979340bf3a952dbe2daf13b1878cc202e7dc8baaff5f8f5d9b49b95b1"
+  },
+  "scientific_boundary": {
+    "block1_role": "development_diagnostics_bounded_model_selection",
+    "blocks2_4_role": "chronological_research_oos_not_pristine_confirmation",
+    "protected_2023_plus_role": "sealed_confirmation_authority",
+    "ordinary_tuning_on_blocks2_4": false,
+    "protected_confirmation_accessed": false
+  },
+  "north_star": "Identify a causal, after-cost, execution-robust short-vs-flat edge mechanism and freeze the smallest architecture that survives untouched chronological research-OOS.",
+  "candidate_A": {
+    "role": "primary_minimal_core_rule",
+    "rule": "short iff high_jump AND contango; otherwise flat"
+  },
+  "candidate_B": {
+    "role": "bounded_interaction_challenger",
+    "rule": "short iff (high_jump AND contango) OR (low_jump AND backwardation); otherwise flat",
+    "extra_leg_caveat": "low_jump AND backwardation had only 10 active Block-1 rows concentrated in one late-November/December episode and must independently reproduce in more than one untouched block before B may outrank A"
+  },
+  "observable_state": {
+    "derived_jump_intensity": "abs(feature_ret_1) / feature_vol_20",
+    "derived_prior60_jump_q67": "derived_jump_intensity.shift(1).rolling(60,min_periods=20).quantile(0.67)",
+    "high_jump": "finite(q67) AND derived_jump_intensity > q67",
+    "low_jump": "finite(q67) AND NOT high_jump",
+    "contango": "feature_curve_slope_m1_m4 > 0",
+    "backwardation": "feature_curve_slope_m1_m4 <= 0",
+    "block_state_initialization": "each six-month block is evaluated as an independent standalone block; lagged jump and liquidity state warm up causally inside that block"
+  },
+  "execution_contract": {
+    "starting_capital_usd": 100000.0,
+    "contract_multiplier_mmbtu": 10000.0,
+    "base_cost_usd_per_contract_side": 15.0,
+    "continuous_position_state": true,
+    "roll_close_reopen_turnover_charged": true,
+    "exposure_diagnostics_contracts": [1.0, 1.5],
+    "scenarios": {
+      "base": {"extra_slippage_usd_per_contract_side": 0.0, "miss_low_liquidity_increases": false},
+      "moderate": {"extra_slippage_usd_per_contract_side": 15.0, "miss_low_liquidity_increases": true},
+      "severe": {"extra_slippage_usd_per_contract_side": 30.0, "miss_low_liquidity_increases": true}
+    }
+  },
+  "block_contract": {
+    "block1": ["2010-07-06T00:00:00Z", "2011-01-06T00:00:00Z"],
+    "block2": ["2011-01-06T00:00:00Z", "2011-07-06T00:00:00Z"],
+    "block3": ["2011-07-06T00:00:00Z", "2012-01-06T00:00:00Z"],
+    "block4": ["2012-01-06T00:00:00Z", "2012-07-06T00:00:00Z"]
+  },
+  "p0_p9_accounting": {
+    "P0": "complete: exact post-#470 generation rebound and baseline scorecard; full Block1 +1.46%, post-warm base +1.475%, moderate -0.195%, severe -0.300%, short positive/long negative, future-invariance PASS",
+    "P1": "complete: feasible same-constraint non-overlapping trajectory oracle +93.15% base / +46.56% moderate / +45.84% severe; old ~+241.5% overlapping primitive oracle explicitly non-achievable",
+    "P2": "complete: factorial/Shapley regret attribution ranks opportunity-entry-skip/state resolution first, duration second, direction third, with global lifecycle residual and execution attrition separately retained",
+    "P3": "complete and stopped where required: chronological/matured resolver and duration baselines tested; direction collapsed effectively to short-only, direct Jump direction/duration incremental value failed, and no learned resolver is carried into frozen OOS",
+    "P4": "complete by feasibility disposition: governed 2010 Block1 PIT storage/weather unavailable; power out of period; positioning already present; no fabricated/backfilled fundamentals",
+    "P5": "complete and stopped: transition throttle tested; stricter consensus throttle worsened moderate/severe execution and was demoted",
+    "P6": "not promoted: failed/demoted direction-duration-transition components were not coupled into a larger lifecycle architecture; #470 causal add guard remains intact",
+    "P7": "complete for surviving A/B rules: base/moderate/severe continuous-position after-cost evaluation plus 1.0/1.5 exposure diagnostics",
+    "P8": "complete as a conservative claim boundary: concentration/perturbation/causality diagnostics retained; family-level significance is not claimed because Block1 was adaptively searched; independent frozen research-OOS supplies promotion authority",
+    "P9": "complete freeze: Candidate A primary and Candidate B challenger are the only eligible identities; no further Block1 search is allowed before Blocks2-4 are interpreted"
+  },
+  "block1_frozen_economics_1p5": {
+    "A": {"full": {"base": 0.12645, "moderate": 0.05010, "severe": 0.04425}, "post_warmup_reset_flat": {"base": 0.07425, "moderate": 0.03000, "severe": 0.02460}},
+    "B": {"full": {"base": 0.20700, "moderate": 0.11730, "severe": 0.11010}, "post_warmup_reset_flat": {"base": 0.15480, "moderate": 0.09720, "severe": 0.09045}}
+  },
+  "post_warmup_semantics": "The Block-1 post-warmup A/B diagnostic starts flat after the first 30 decision rows; the full-block path may carry a pre-warmup position across that boundary. This convention is frozen and not normalized after results.",
+  "notable_edge_gate": {
+    "canonical_exposure_contracts": 1.5,
+    "all_base_moderate_severe_aggregate_returns_positive": true,
+    "severe_positive_in_at_least_two_untouched_blocks": true,
+    "one_contract_severe_aggregate_positive": true,
+    "signals_span_at_least_two_untouched_blocks": true,
+    "minimum_total_signal_episodes": 2,
+    "minimum_aggregate_severe_net_return": 0.03,
+    "maximum_block_severe_drawdown": 0.10,
+    "stress_drawdown_not_worse_than_always_short": true,
+    "stress_return_to_drawdown_beats_always_short": true,
+    "maximum_positive_block_contribution_share": 0.80
+  },
+  "candidate_B_extra_promotion_gate": {
+    "low_jump_backwardation_positive_in_more_than_one_untouched_block": true,
+    "minimum_moderate_increment_vs_A": 0.02,
+    "minimum_severe_increment_vs_A": 0.02,
+    "maximum_severe_drawdown_penalty_vs_A": 0.01
+  },
+  "terminal_dispositions": [
+    "FREEZE_CANDIDATE_B if B passes notable-edge gates and every extra B promotion gate",
+    "FREEZE_CANDIDATE_A if A passes notable-edge gates and B does not clear its extra promotion gate",
+    "REJECT_OR_MATERIALLY_WEAKEN_SHORT_REGIME_THESIS if neither eligible frozen identity passes"
+  ],
+  "stop_and_no_rescue_rules": [
+    "No new feature, threshold, deadband, holding rule, sizing rule, learned model, direction exception, or state definition may be selected from Blocks2-4 before this comparison is interpreted.",
+    "No long-side rule is eligible in this frozen slice.",
+    "No direct Jump sign rule is eligible.",
+    "No overlapping horizon oracle score may be represented as executable PnL.",
+    "No protected 2023+ outcome may be accessed.",
+    "A weak or failed OOS result is a falsification result, not authorization for rescue tuning."
+  ],
+  "runner_sha256": "369e7750777d95d1369a2a76b1e8cba426859f7b6576a12304bf1ab1d0b5ab0a"
+}
