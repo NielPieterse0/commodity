@@ -1,0 +1,46 @@
+{
+  "schema_version": 4,
+  "change_id": "474-v239-jump-curve-short-regime",
+  "status": "active",
+  "branch": "change/474-v239-jump-curve-short-regime",
+  "worktree": ".work/worktrees/474-v239-jump-curve-short-regime",
+  "base": "main",
+  "outcome": "Govern and freeze the complete post-#470 Block-1 edge-discovery provenance, close remaining family-level inference and future-invariance gates, and execute the frozen short-vs-flat candidates on untouched Blocks 2-4 without retuning.",
+  "owned_paths": [
+    "research/programmes/004-v2-maximum-reproducible-one-month-return/lines/001-v2-optimization-execution/experiments/474-jump-curve-short-regime/**",
+    "research/programmes/004-v2-maximum-reproducible-one-month-return/lines/001-v2-optimization-execution/line.json",
+    "research/programmes/004-v2-maximum-reproducible-one-month-return/inference-ledger.json",
+    "research/programmes/004-v2-maximum-reproducible-one-month-return/evidence-map.json",
+    "research/programmes/004-v2-maximum-reproducible-one-month-return/decisions.json",
+    "docs/reference/research/programmes/004-v2-maximum-reproducible-one-month-return/**",
+    "docs/reference/README.md",
+    ".work/changes/474-v239-jump-curve-short-regime/**"
+  ],
+  "shared_paths": [],
+  "excluded_paths": [],
+  "dependencies": [],
+  "integration_owner": null,
+  "complexity": "medium",
+  "risk_triggers": [
+    "money",
+    "persistent_state"
+  ],
+  "base_evidence": {
+    "local_sha": "0fd0acf1415d2174c842ff0f3f8c30f13748f448",
+    "local_tree": "b05d1453514f2f1bed7e20f51495e64e77b75665",
+    "upstream_sha": "0fd0acf1415d2174c842ff0f3f8c30f13748f448",
+    "upstream_tree": "b05d1453514f2f1bed7e20f51495e64e77b75665",
+    "upstream_ref": "refs/remotes/origin/main",
+    "evidence_source": "local_remote_tracking_ref",
+    "relation": "same_sha"
+  },
+  "work_management": {
+    "project_id": "commodity",
+    "record_id": "WORK-474",
+    "source_repository": "NielPieterse0/commodity",
+    "source_number": 474,
+    "source_kind": "issue",
+    "documentation_impact": "none",
+    "execution_owner": "codex"
+  }
+}

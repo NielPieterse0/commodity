@@ -19,5 +19,5 @@ Source: `research/programmes/004-v2-maximum-reproducible-one-month-return/infere
 | `schema_version` | int |
 | `zoom_level` | str |
 | `programme_id` | str |
-| `entries` | array (0 items) |
-| `family_inference` | array (0 items) |
+| `entries` | array (1 items) |
+| `family_inference` | array (1 items) |

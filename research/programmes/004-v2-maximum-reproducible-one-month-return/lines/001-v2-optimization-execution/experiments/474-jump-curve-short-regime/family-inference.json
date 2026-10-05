@@ -1,0 +1,39 @@
+{
+  "schema_version": 1,
+  "issue": 474,
+  "experiment_id": "474-jump-curve-short-regime",
+  "evidence_scope": "Block 1 development only",
+  "status": "SELECTION_ADJUSTED_PROMOTION_AUTHORITY_WITHHELD",
+  "source_generation": "e3e221b3c9d945813e92cef9dbef8fd0",
+  "purpose": "Close the P8 family-level inference gate without misrepresenting heavily searched Block-1 development evidence as independent confirmation.",
+  "search_families_accounted_for": [
+    "original 96 structural V3 configurations across three execution scenarios",
+    "feasible non-overlapping trajectory-oracle and stage-substitution diagnostics",
+    "direction and duration resolver baselines and matured-label/shrinkage variants",
+    "observable opportunity-entry/state gates",
+    "PIT storage/weather feasibility screen",
+    "transition-throttle and stricter consensus-transition variants",
+    "jump-threshold perturbations",
+    "curve deadband perturbations",
+    "start-index perturbations",
+    "exposure-scale diagnostics",
+    "delete-one-active-observation diagnostics",
+    "four jump-by-curve state quadrants",
+    "Candidate A and Candidate B frozen short-vs-flat rules"
+  ],
+  "dependence_and_multiplicity": {
+    "same_block_reuse": true,
+    "serial_adaptive_search": true,
+    "correlated_variants": true,
+    "dependent_daily_observations": true,
+    "exact_global_trial_count_claimed": false,
+    "reason_exact_global_trial_count_not_claimed": "The exploratory programme evolved through sequential diagnostics and bounded follow-ups; inventing a nominal independent-test count would understate dependence and search adaptivity.",
+    "confirmatory_p_value_claimed": false,
+    "familywise_significance_claimed": false
+  },
+  "selection_adjusted_conclusion": "Block-1 returns, robustness perturbations, and attribution support mechanism discovery and candidate freezing only. They cannot independently establish statistical significance after the complete adaptive search history. The frozen candidate identity must earn promotion through chronological untouched Blocks 2-4 under the predeclared no-retuning rule.",
+  "block1_evidence_role": "development_mechanism_discovery_not_independent_confirmation",
+  "promotion_authority": "frozen_untouched_oos_only",
+  "p8_gate": "PASS_AS_CLAIM_BOUNDARY_NOT_AS_SIGNIFICANCE_CLAIM",
+  "no_rescue_rule": "No threshold, feature, holding, sizing, deadband, learned model, or state-definition change may be selected from Blocks 2-4 before the frozen A/B comparison is interpreted."
+}

@@ -1,0 +1,218 @@
+{
+  "schema_version": 3,
+  "programme_id": "004-v2-maximum-reproducible-one-month-return",
+  "research_line_id": "001-v2-optimization-execution",
+  "experiment_id": "474-jump-curve-short-regime",
+  "lineage": {
+    "programme_ref": "research/programmes/004-v2-maximum-reproducible-one-month-return/programme.json",
+    "research_line_ref": "research/programmes/004-v2-maximum-reproducible-one-month-return/lines/001-v2-optimization-execution/line.json",
+    "predecessor_experiment_id": "issue465-block1-controller-v3",
+    "successor_experiment_ids": []
+  },
+  "workflow": [
+    {
+      "step": 1,
+      "stage_id": "helicopter_view",
+      "status": "complete",
+      "summary": "Post-#470 Block-1 evidence showed positive short contribution, negative long contribution, a large feasible oracle gap, and jump intensity as an opportunity-state marker.",
+      "evidence_refs": [
+        {
+          "ref": "research/programmes/004-v2-maximum-reproducible-one-month-return/lines/001-v2-optimization-execution/experiments/474-jump-curve-short-regime/design-freeze.json",
+          "sha256": "964baf43a9988b44a85b54f334471e3c2ae508b5522f04cd53920f41c8986f0f"
+        }
+      ]
+    },
+    {
+      "step": 2,
+      "stage_id": "gap",
+      "status": "complete",
+      "summary": "The bounded gap was whether prior-only observable state could identify when short exposure has positive after-cost expectancy and otherwise stay flat.",
+      "evidence_refs": [
+        {
+          "ref": "research/programmes/004-v2-maximum-reproducible-one-month-return/lines/001-v2-optimization-execution/experiments/474-jump-curve-short-regime/design-freeze.json",
+          "sha256": "964baf43a9988b44a85b54f334471e3c2ae508b5522f04cd53920f41c8986f0f"
+        }
+      ]
+    },
+    {
+      "step": 3,
+      "stage_id": "evidence_led_zoom_in",
+      "status": "complete",
+      "summary": "P0-P9 diagnostics narrowed the search to two frozen short-vs-flat jump-by-curve rules after direction, duration, fundamentals feasibility, and transition-throttle branches failed or were demoted.",
+      "evidence_refs": [
+        {
+          "ref": "research/programmes/004-v2-maximum-reproducible-one-month-return/lines/001-v2-optimization-execution/experiments/474-jump-curve-short-regime/design-freeze.json",
+          "sha256": "964baf43a9988b44a85b54f334471e3c2ae508b5522f04cd53920f41c8986f0f"
+        },
+        {
+          "ref": "research/programmes/004-v2-maximum-reproducible-one-month-return/lines/001-v2-optimization-execution/experiments/474-jump-curve-short-regime/family-inference.json",
+          "sha256": "a8bade09787f5aadb695430458c0e82692991eff9679d18932b72b52f6d38e44"
+        }
+      ]
+    },
+    {
+      "step": 4,
+      "stage_id": "quality_literature",
+      "status": "complete",
+      "summary": "The frozen package retained the prior literature/source snapshot as exploratory support only; no literature claim was allowed to override causal replay evidence.",
+      "evidence_refs": [
+        {
+          "ref": "research/programmes/004-v2-maximum-reproducible-one-month-return/lines/001-v2-optimization-execution/experiments/474-jump-curve-short-regime/design-freeze.json",
+          "sha256": "964baf43a9988b44a85b54f334471e3c2ae508b5522f04cd53920f41c8986f0f"
+        }
+      ]
+    },
+    {
+      "step": 5,
+      "stage_id": "mechanism",
+      "status": "complete",
+      "summary": "The surviving mechanism hypothesis was that jump intensity marks opportunity while curve shape resolves a short-favorable state; Candidate B added one sparse interaction leg.",
+      "evidence_refs": [
+        {
+          "ref": "research/programmes/004-v2-maximum-reproducible-one-month-return/lines/001-v2-optimization-execution/experiments/474-jump-curve-short-regime/design-freeze.json",
+          "sha256": "964baf43a9988b44a85b54f334471e3c2ae508b5522f04cd53920f41c8986f0f"
+        }
+      ]
+    },
+    {
+      "step": 6,
+      "stage_id": "hypothesis",
+      "status": "complete",
+      "summary": "Candidate A shorted high-jump contango; Candidate B added low-jump backwardation. Both otherwise stayed flat, with no long-side or rescue rule eligible.",
+      "evidence_refs": [
+        {
+          "ref": "research/programmes/004-v2-maximum-reproducible-one-month-return/lines/001-v2-optimization-execution/experiments/474-jump-curve-short-regime/design-freeze.json",
+          "sha256": "964baf43a9988b44a85b54f334471e3c2ae508b5522f04cd53920f41c8986f0f"
+        }
+      ]
+    },
+    {
+      "step": 7,
+      "stage_id": "expected_and_disconfirming_observations",
+      "status": "complete",
+      "summary": "Promotion required positive after-cost stress returns, support across untouched blocks, bounded concentration/drawdown, scale robustness, and better stress return/drawdown than always-short; failure of these gates was explicitly disconfirming.",
+      "evidence_refs": [
+        {
+          "ref": "research/programmes/004-v2-maximum-reproducible-one-month-return/lines/001-v2-optimization-execution/experiments/474-jump-curve-short-regime/design-freeze.json",
+          "sha256": "964baf43a9988b44a85b54f334471e3c2ae508b5522f04cd53920f41c8986f0f"
+        }
+      ]
+    },
+    {
+      "step": 8,
+      "stage_id": "feasibility",
+      "status": "complete",
+      "summary": "Exact source hashes, a frozen runner, Block-1 reconstruction, and detector/lifecycle future-invariance established a feasible causal evaluation; unavailable PIT fundamentals were not fabricated.",
+      "evidence_refs": [
+        {
+          "ref": ".work/changes/474-v239-jump-curve-short-regime/evidence/block1-reproduction.json",
+          "sha256": "3755823feec3b4b3e4bca904c1e3f8ff68182c863aa151712eac942c30263f6c"
+        },
+        {
+          "ref": "research/programmes/004-v2-maximum-reproducible-one-month-return/lines/001-v2-optimization-execution/experiments/474-jump-curve-short-regime/design-freeze.json",
+          "sha256": "964baf43a9988b44a85b54f334471e3c2ae508b5522f04cd53920f41c8986f0f"
+        }
+      ]
+    },
+    {
+      "step": 9,
+      "stage_id": "preregister_and_freeze_if_applicable",
+      "status": "complete",
+      "summary": "The immutable pre-OOS design freeze was committed at e17884ecfae500c37a12e76460ee9c20313f2b25 before Blocks 2-4 were scored; this record does not retroactively create a new preregistration.",
+      "evidence_refs": [
+        {
+          "ref": "research/programmes/004-v2-maximum-reproducible-one-month-return/lines/001-v2-optimization-execution/experiments/474-jump-curve-short-regime/design-freeze.json",
+          "sha256": "964baf43a9988b44a85b54f334471e3c2ae508b5522f04cd53920f41c8986f0f"
+        }
+      ]
+    },
+    {
+      "step": 10,
+      "stage_id": "execute",
+      "status": "complete",
+      "summary": "Frozen Blocks 2-4 were scored once with the frozen evaluator. No ordinary tuning occurred and protected 2023+ confirmation remained sealed.",
+      "evidence_refs": [
+        {
+          "ref": "research/programmes/004-v2-maximum-reproducible-one-month-return/lines/001-v2-optimization-execution/experiments/474-jump-curve-short-regime/results.json",
+          "sha256": "6b3893f3274e430e2c1331ef41c39ce964bb4e5317caf9b8b88044b7da157699"
+        }
+      ]
+    },
+    {
+      "step": 11,
+      "stage_id": "verify",
+      "status": "complete",
+      "summary": "Source identity, Block-1 exact reconstruction/economics, and implementation future-invariance passed before OOS scoring; the final result binds the frozen runner and design hashes.",
+      "evidence_refs": [
+        {
+          "ref": ".work/changes/474-v239-jump-curve-short-regime/evidence/block1-reproduction.json",
+          "sha256": "3755823feec3b4b3e4bca904c1e3f8ff68182c863aa151712eac942c30263f6c"
+        },
+        {
+          "ref": "research/programmes/004-v2-maximum-reproducible-one-month-return/lines/001-v2-optimization-execution/experiments/474-jump-curve-short-regime/results.json",
+          "sha256": "6b3893f3274e430e2c1331ef41c39ce964bb4e5317caf9b8b88044b7da157699"
+        }
+      ]
+    },
+    {
+      "step": 12,
+      "stage_id": "compare_observed_vs_expected",
+      "status": "complete",
+      "summary": "A and B were identical out of sample. At 1.5 contracts base return was +4.935%, but moderate was -5.25% and severe was -7.68%; B's extra leg never activated, while always-short severe return was +27.0075%. The notable-edge gates failed.",
+      "evidence_refs": [
+        {
+          "ref": "research/programmes/004-v2-maximum-reproducible-one-month-return/lines/001-v2-optimization-execution/experiments/474-jump-curve-short-regime/results.json",
+          "sha256": "6b3893f3274e430e2c1331ef41c39ce964bb4e5317caf9b8b88044b7da157699"
+        }
+      ]
+    },
+    {
+      "step": 13,
+      "stage_id": "external_post_result_triangulation",
+      "status": "not_applicable",
+      "summary": "Not applicable for promotion: the frozen candidates failed their predeclared gates, so no external narrative or additional search is permitted to rescue this experiment.",
+      "evidence_refs": []
+    },
+    {
+      "step": 14,
+      "stage_id": "programme_conclusion",
+      "status": "complete",
+      "summary": "Reject or materially weaken the exact A/B jump-by-curve short-regime thesis. The always-short benchmark is a separate research lead, not a promoted edge from this experiment.",
+      "evidence_refs": [
+        {
+          "ref": "research/programmes/004-v2-maximum-reproducible-one-month-return/lines/001-v2-optimization-execution/experiments/474-jump-curve-short-regime/results.json",
+          "sha256": "6b3893f3274e430e2c1331ef41c39ce964bb4e5317caf9b8b88044b7da157699"
+        },
+        {
+          "ref": "research/programmes/004-v2-maximum-reproducible-one-month-return/lines/001-v2-optimization-execution/experiments/474-jump-curve-short-regime/family-inference.json",
+          "sha256": "a8bade09787f5aadb695430458c0e82692991eff9679d18932b72b52f6d38e44"
+        }
+      ]
+    },
+    {
+      "step": 15,
+      "stage_id": "active_revisit_triggers",
+      "status": "complete",
+      "summary": "Do not retune #474 from Blocks 2-4. Any successor must be scientifically distinct, frozen before its own evaluation, and keep protected 2023+ evidence sealed until the programme's confirmation gate.",
+      "evidence_refs": [
+        {
+          "ref": "research/programmes/004-v2-maximum-reproducible-one-month-return/lines/001-v2-optimization-execution/experiments/474-jump-curve-short-regime/design-freeze.json",
+          "sha256": "964baf43a9988b44a85b54f334471e3c2ae508b5522f04cd53920f41c8986f0f"
+        },
+        {
+          "ref": "research/programmes/004-v2-maximum-reproducible-one-month-return/lines/001-v2-optimization-execution/experiments/474-jump-curve-short-regime/results.json",
+          "sha256": "6b3893f3274e430e2c1331ef41c39ce964bb4e5317caf9b8b88044b7da157699"
+        }
+      ]
+    }
+  ],
+  "decisions": [
+    {
+      "id": "issue-474-frozen-short-regime-oos-rejection",
+      "decision": "Reject or materially weaken the exact frozen Candidate A/B jump-by-curve short-regime thesis after Blocks 2-4 failed the predeclared stress and benchmark gates. No rescue tuning is authorized; the always-short benchmark is only a separate research lead.",
+      "status": "active"
+    }
+  ],
+  "recommendations": [],
+  "open_questions": []
+}
