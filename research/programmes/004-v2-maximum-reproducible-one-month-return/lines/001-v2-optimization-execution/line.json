@@ -5,32 +5,30 @@
   "research_line_id": "001-v2-optimization-execution",
   "legacy_research_line_ids": [],
   "status": "active",
-  "big_picture": "Execute Programme #393 as a chronological, auditable optimization campaign for reproducible one-month net trading return. The current pre-freeze problem is to replace history-wide fixed parameter selection with a causal adaptive procedure that can choose experts, horizons, sizing, position actions and execution behavior from point-in-time state.",
-  "why_zoomed_in": "Issues #459/#429/#430/#431 established that V2 contains material but conditional and time-sensitive development value: joint side-specific policy gains, state-dependent sizing, fast adaptation value, and strong execution-latency sensitivity. #465 therefore becomes the final broad discovery stage before #414 champion simplification and freeze.",
-  "tested_role_target_horizon": "Completed development work through #431 tested joint signal/side/regime policies, lifecycle/position structure, sizing/risk, and execution/adaptation over chronological pre-2023 outers. #465 will test a point-in-time time-instance representation and causal adaptive whole-system controller without accessing protected confirmation.",
+  "big_picture": "Execute Programme #393 as a chronological, auditable optimization campaign for reproducible one-month net trading return. After #474, the immediate research problem is no longer broad Block-1 discovery but whether the strong broad short exposure seen in Blocks 2-4 reflects a durable causal opportunity that can be selected and executed robustly without rescuing the failed jump-by-curve A/B rule.",
+  "why_zoomed_in": "#465/#470 produced the causal V3 Block-1 controller evidence and #474 froze the surviving jump-by-curve short-regime thesis before opening Blocks 2-4. That frozen selector failed its stress and always-short comparison gates, so any next branch must be scientifically distinct and must not treat #474 outcomes as fresh confirmation.",
+  "tested_role_target_horizon": "Through #474, the programme has tested the V3 short-regime mechanism on Block 1 development evidence and one frozen chronological research-OOS extension across Blocks 2-4. The unresolved target is to separate structural short exposure, state-selection value, and execution robustness using a new pre-frozen successor while keeping protected 2023+ confirmation sealed.",
   "historical_facts": {
-    "observed": "#459 promoted a joint development policy at +0.324275 percentage points/month mean outer improvement; #429 found no promoted static lifecycle variant but confirmed material contribution from strength gating, loss cooldown and the long specialist veto; #430 promoted state-dependent sizing at +0.1276375 percentage points/month; #431 selected decay20 at +0.4456875 percentage points/month versus fixed adaptation but the advantage failed under every tested one-session execution delay.",
-    "rules_out": "The completed evidence rules out the exact failed static lifecycle variants, the tested incremental Stage-2 risk controls, and claims that the selected #431 adaptation is robust to a full-session execution delay. It does not permit protected-confirmation or paper claims.",
-    "does_not_rule_out": "Previously underpowered, role-unidentifiable, null or exact-role-negative inputs may still have value in scientifically distinct regime, confidence, veto, horizon-selection, sizing, position-management or expert-weighting roles. Dynamic policy selection through time remains untested and is owned by #465."
+    "observed": "#459 promoted a joint development policy at +0.324275 percentage points/month mean outer improvement; #429 found no promoted static lifecycle variant but confirmed material contribution from strength gating, loss cooldown and the long specialist veto; #430 promoted state-dependent sizing at +0.1276375 percentage points/month; #431 selected decay20 at +0.4456875 percentage points/month versus fixed adaptation but the advantage failed under every tested one-session execution delay. #474 then froze two jump-by-curve short-vs-flat candidates and scored untouched chronological Blocks 2-4: both produced +4.935% base at 1.5 contracts but -5.25% moderate and -7.68% severe; Candidate B never differed from A, while always-short returned +27.0075% severe.",
+    "rules_out": "The completed evidence rules out the exact failed static lifecycle variants, the tested incremental Stage-2 risk controls, and claims that the selected #431 adaptation is robust to a full-session execution delay. It does not permit protected-confirmation or paper claims. The exact #474 A/B state-selection thesis is rejected or materially weakened because it failed the pre-frozen stress/benchmark gates on chronological research-OOS; no rescue tuning is authorized.",
+    "does_not_rule_out": "Previously underpowered, role-unidentifiable, null or exact-role-negative inputs may still have value in scientifically distinct regime, confidence, veto, horizon-selection, sizing, position-management or expert-weighting roles. The strong always-short benchmark is not a promoted edge and may only motivate a scientifically distinct successor that separates structural short exposure from state selection without reusing #474 outcomes as confirmation."
   },
   "useful_secondary_observations": [
     "The #459 repository-wide advantage map distinguishes empirical negatives from underpowered, role-unidentifiable, source/data-held, untested and positive clues; non-promotion is not automatically evidence of no information.",
     "#429 contribution ablations show the promoted parent materially depends on strength gating and loss cooldown, with a smaller positive long-specialist-veto contribution.",
     "#430 shows that changing exposure can create value conditionally, while uniform fixed scaling is exposure amplification rather than a new source of directional information.",
-    "#431 shows a sharp timing boundary: same-session cost/roll/missed-fill stresses preserve the adaptation increment, while a one-session delay removes it."
+    "#431 shows a sharp timing boundary: same-session cost/roll/missed-fill stresses preserve the adaptation increment, while a one-session delay removes it.",
+    "#474's B-only low-jump/backwardation leg never activated in Blocks 2-4, so the broader interaction rule supplied zero incremental OOS value over Candidate A."
   ],
   "remaining_untested_roles": [
-    "Deterministic PIT time-instance state representation across the complete admissible V2 information set",
-    "Timestamped TimesFM, Kronos and specialist expert-output archive across admissible horizons",
-    "Multiple trailing memory lengths and state-conditional expert effectiveness",
-    "Causal expert/feature weighting and model/horizon selection through time",
-    "Dynamic existing-position actions: initiate, add, hold, reduce, exit, reverse and abstain",
-    "Slow model/parameter adaptation versus fast trade/size adaptation",
-    "Development-only hindsight oracle and measurable oracle-to-causal selection gap",
-    "Final simplification and freeze of the adaptive procedure under #414"
+    "Whether the strong always-short Blocks 2-4 benchmark reflects a durable structural short premium, a period-specific market beta, or an execution artifact",
+    "Whether a strictly prior causal selector can improve stress return/drawdown versus always-short without reusing #474 Blocks 2-4 as fresh confirmation",
+    "Whether momentum, term structure/carry, volatility, jump state, calendar state, or their interactions add robust state-selection value in a scientifically distinct pre-frozen successor",
+    "Whether any successor remains positive after realistic moderate/severe execution and across more than one independent chronological period",
+    "Final simplification and champion freeze under #414 only after a successor clears its own frozen research-OOS gates"
   ],
-  "revisit_trigger": "Return to upstream research design if #465 cannot reconstruct a candidate field at its true availability timestamp, if an alternative role is not scientifically distinct from a prior negative, or if adaptive selection requires protected outcomes or future-derived diagnostics.",
-  "programme_interpretation": "V2 development has moved from isolated family optimization to whole-system causal adaptation. The next scientific object is not one fixed fifteen-year parameter vector but a frozen procedure that selects bounded parameters and actions from information available at each timestamp; #414 remains the simplification/freeze gate after #465.",
+  "revisit_trigger": "Do not reopen or rescue #474 from Blocks 2-4 outcomes. Re-enter only through a scientifically distinct successor with explicit evidence reclassification, prior-only feature construction, a fresh pre-outcome freeze, and an evaluation set not already consumed as confirmation by the successor design. Protected 2023+ confirmation remains sealed.",
+  "programme_interpretation": "#474 falsified the proposed jump-by-curve short-vs-flat state selector under frozen chronological research-OOS stress. The programme should stop treating that selector as the current edge candidate; unconditional short exposure is a new research lead only, requiring separate causal decomposition and pre-outcome freezing before any promotion claim.",
   "evidence_refs": [
     "config/v2_variable_registry.json",
     "research/programmes/004-v2-maximum-reproducible-one-month-return/issue448-result-v1.json",
@@ -39,7 +37,11 @@
     "research/programmes/004-v2-maximum-reproducible-one-month-return/issue429-result-v1.json",
     "research/programmes/004-v2-maximum-reproducible-one-month-return/issue430-result-v1.json",
     "research/programmes/004-v2-maximum-reproducible-one-month-return/issue431-result-v1.json",
-    "https://github.com/NielPieterse0/commodity/issues/465"
+    "https://github.com/NielPieterse0/commodity/issues/465",
+    "research/programmes/004-v2-maximum-reproducible-one-month-return/lines/001-v2-optimization-execution/experiments/474-jump-curve-short-regime/design-freeze.json",
+    "research/programmes/004-v2-maximum-reproducible-one-month-return/lines/001-v2-optimization-execution/experiments/474-jump-curve-short-regime/family-inference.json",
+    "research/programmes/004-v2-maximum-reproducible-one-month-return/lines/001-v2-optimization-execution/experiments/474-jump-curve-short-regime/results.json",
+    "research/programmes/004-v2-maximum-reproducible-one-month-return/lines/001-v2-optimization-execution/experiments/474-jump-curve-short-regime/record.json"
   ],
   "experiment_history": [
     {
@@ -93,17 +95,29 @@
       "selected_adaptation": "decay20",
       "disposition": "HOLD_ADAPTATION_CROSS_EXECUTION_NOT_ROBUST",
       "result_ref": "research/programmes/004-v2-maximum-reproducible-one-month-return/issue431-result-v1.json"
+    },
+    {
+      "run_id": "issue474-blocks2-4-ab-freeze-v1",
+      "kind": "frozen_jump_curve_short_regime_research_oos",
+      "evidence_class": "rolling_research_oos",
+      "window": "2011-01-06/2012-07-06 chronological Blocks 2-4",
+      "status": "complete",
+      "candidate_count": 2,
+      "selected_candidate": null,
+      "disposition": "REJECT_OR_MATERIALLY_WEAKEN_SHORT_REGIME_THESIS",
+      "protected_confirmation_accessed": false,
+      "result_ref": "research/programmes/004-v2-maximum-reproducible-one-month-return/lines/001-v2-optimization-execution/experiments/474-jump-curve-short-regime/results.json"
     }
   ],
   "experiment_refs": [],
-  "selection_basis": "Primary objective remains chronological net percentage return after realistic costs. #465 may search aggressively, but every model, parameter, weight, memory, threshold and action must be selected from prior/inner evidence only and must satisfy minimum executability, sample, concentration, drawdown and stability constraints before #414 can freeze it.",
+  "selection_basis": "Primary objective remains chronological net percentage return after realistic costs. After #474, Blocks 2-4 are consumed research-OOS for hypotheses informed by their outcomes and cannot be reused as fresh confirmation. Any successor must declare its evidence class, select every feature/rule/threshold from prior evidence only, freeze before evaluation, and beat realistic execution and benchmark gates before #414 can freeze a champion.",
   "stopping_rules": {
-    "issue_465": [
-      "Use only development or rolling_research_oos evidence through 2022-12-31.",
-      "Keep protected 2023+ confirmation, prospective paper, Saxo SIM and LIVE outcomes unread.",
-      "Preserve historical negatives for the exact roles tested; reopen only scientifically distinct roles.",
-      "Never present the hindsight oracle as tradable performance.",
-      "Stop broad discovery only when a bounded causal adaptive candidate/control set is ready for #414, or when the declared adaptive search cannot causally capture material oracle opportunity."
+    "post_issue_474": [
+      "Do not tune, threshold-search, or add rescue features to the failed #474 A/B rules using Blocks 2-4.",
+      "Treat Blocks 2-4 as research-trained evidence for any successor whose design was influenced by #474 outcomes.",
+      "Keep protected 2023+ confirmation, prospective paper, Saxo SIM and LIVE outcomes unread until their declared gates.",
+      "Preserve historical negatives for the exact roles tested and reopen only scientifically distinct mechanisms.",
+      "Do not promote an always-short benchmark or successor state selector without positive after-cost stress performance, temporal support, concentration/drawdown control, and a fresh evaluation boundary."
     ]
   }
 }

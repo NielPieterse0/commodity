@@ -2,6 +2,50 @@
   "schema_version": 1,
   "zoom_level": "L1",
   "programme_id": "004-v2-maximum-reproducible-one-month-return",
-  "entries": [],
-  "family_inference": []
+  "entries": [
+    {
+      "entry_id": "issue474-frozen-oos-short-regime",
+      "programme_test_id": "issue474-blocks2-4-ab-freeze-v1",
+      "family_id": "jump-curve-short-regime",
+      "research_line_id": "001-v2-optimization-execution",
+      "experiment_id": "474-jump-curve-short-regime",
+      "mode": "exploratory",
+      "target": "after-cost short-vs-flat trading usefulness",
+      "horizon": "chronological Blocks 2-4",
+      "information_family": "jump intensity x front-curve shape",
+      "model_family": "deterministic short-vs-flat state rules",
+      "primary_metric": "aggregate after-cost net return under base/moderate/severe execution",
+      "windows_touched": [
+        "block1-development",
+        "block2-research-oos",
+        "block3-research-oos",
+        "block4-research-oos"
+      ],
+      "sealed_window_history": [],
+      "exploratory_ancestry": [
+        "block1-v3-edge-discovery-post470"
+      ],
+      "outcome": "REJECT_OR_MATERIALLY_WEAKEN_SHORT_REGIME_THESIS",
+      "influenced_later_design": true,
+      "governance_generation": "current_15_step",
+      "source_record": "research/programmes/004-v2-maximum-reproducible-one-month-return/lines/001-v2-optimization-execution/experiments/474-jump-curve-short-regime/record.json"
+    }
+  ],
+  "family_inference": [
+    {
+      "family_id": "jump-curve-short-regime",
+      "procedure": "justified_alternative",
+      "inputs_sha256": "a8bade09787f5aadb695430458c0e82692991eff9679d18932b72b52f6d38e44",
+      "implementation_ref": "research/programmes/004-v2-maximum-reproducible-one-month-return/lines/001-v2-optimization-execution/experiments/474-jump-curve-short-regime/family-inference.json",
+      "result": {
+        "block1_promotion_authority_withheld": true,
+        "frozen_oos_disposition": "REJECT_OR_MATERIALLY_WEAKEN_SHORT_REGIME_THESIS",
+        "candidate_a_pass": false,
+        "candidate_b_pass": false,
+        "candidate_b_incremental_value": 0.0,
+        "protected_confirmation_accessed": false
+      },
+      "justification": "Block 1 was adaptively searched, so no confirmatory significance is claimed. Promotion authority came from a frozen chronological Blocks 2-4 comparison with no retuning, which failed the declared gates."
+    }
+  ]
 }

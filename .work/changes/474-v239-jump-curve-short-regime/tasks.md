@@ -7,10 +7,10 @@
 - [x] Prove A/B detector/lifecycle future-invariance.
 - [x] Close P8 with an explicit selection-adjusted inference claim boundary.
 - [x] Freeze candidates, execution mechanics, blocks, edge gates, B-extra gates, and no-rescue rules.
-- [ ] Commit immutable pre-OOS freeze before scoring Block 2.
-- [ ] Execute frozen Blocks 2-4 once.
-- [ ] Apply automatic B/A/reject disposition with no retuning.
-- [ ] Persist final 15-step experiment/run/evidence/decision records.
-- [ ] Update Programme 004 line and ledgers.
-- [ ] Run KIS check, focused verification, and full required verification/review.
+- [x] Commit immutable pre-OOS freeze before scoring Block 2.
+- [x] Execute frozen Blocks 2-4 once.
+- [x] Apply automatic B/A/reject disposition with no retuning.
+- [x] Persist final 15-step experiment/run/evidence/decision records.
+- [x] Update Programme 004 line and ledgers.
+- [x] Run KIS check, focused verification, and full required verification/review.
 - [ ] Prepare PR, exact-head Actions, merge, reconcile Work state, and governed cleanup.
