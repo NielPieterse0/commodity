@@ -28,6 +28,7 @@
 - `scripts/verify.ps1` passed on the closeout state: research schema, freeze-integrity, experiment verification, programme inference, research memory, quantitative-research knowledge, documentation generation/authority, data/source checks, and public hygiene all passed.
 - Full repository tests: `1191 passed, 12 skipped`; Ruff passed; Git whitespace passed.
 - Fresh deterministic rerun reproduced Block-1 evidence SHA-256 `3755823feec3b4b3e4bca904c1e3f8ff68182c863aa151712eac942c30263f6c` and frozen Blocks 2-4 result SHA-256 `6b3893f3274e430e2c1331ef41c39ce964bb4e5317caf9b8b88044b7da157699` exactly.
+- The pre-OOS runner is byte-hash-bound by `design-freeze.json`; after outcome access its source bytes are immutable. A change-local Ruff configuration therefore exempts only `PLC0206` and `SIM114` for this frozen runner instead of rewriting equivalent control flow post-outcome.
 - Independent agent review could not consume the complete large result artifact in one bounded pass; manual exact-diff/result review plus the complete verifier found no blocking defect. Provider Actions, merge, Work reconciliation, and cleanup remain governed KIS promotion evidence rather than self-asserted fields in this file.
 
 ## Residual boundary
