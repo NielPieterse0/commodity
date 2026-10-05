@@ -1,0 +1,702 @@
+{
+  "check_count": 66,
+  "checks": {
+    "123_specialists": {
+      "evidence": 123,
+      "pass": true
+    },
+    "action_counterfactuals": {
+      "evidence": "consequence store",
+      "pass": true
+    },
+    "all_53_pit_attributes_weightable": {
+      "evidence": 53,
+      "pass": true
+    },
+    "availability_age_vintage_revision_retained": {
+      "evidence": {
+        "metadata_keys": [
+          "kronos_age_seconds",
+          "market_age_seconds",
+          "market_age_sessions",
+          "market_available_at",
+          "market_observation_time",
+          "positioning_age_seconds",
+          "positioning_age_sessions",
+          "positioning_available_at",
+          "positioning_observation_time",
+          "positioning_revision",
+          "positioning_vintage",
+          "timesfm_age_seconds"
+        ],
+        "timestamp_violations": []
+      },
+      "pass": true
+    },
+    "best_executable_entry": {
+      "evidence": "consequence store",
+      "pass": true
+    },
+    "block1_only": {
+      "evidence": "2011-01-02 23:14:28.828000+00:00",
+      "pass": true
+    },
+    "causal_oracle_weight_predictor": {
+      "evidence": {
+        "used_rows": 121
+      },
+      "pass": true
+    },
+    "causal_primitive_oracle_winner_predictor": {
+      "evidence": {
+        "used_rows": 105
+      },
+      "pass": true
+    },
+    "cftc_positioning_go": {
+      "evidence": "cftc_positioning GO",
+      "pass": true
+    },
+    "chronological_causal_replay": {
+      "evidence": {
+        "comparable_ref_violations": [],
+        "max_outcome_available_at_violations": 0
+      },
+      "pass": true
+    },
+    "complete_generation_and_scoring_identity_bound": {
+      "evidence": {
+        "generation_id": "e3e221b3c9d945813e92cef9dbef8fd0",
+        "generation_identity_ok": true,
+        "input_identity_ok": true,
+        "result_bindings_ok": true
+      },
+      "pass": true
+    },
+    "complete_historical_brain_archive": {
+      "evidence": [],
+      "pass": true
+    },
+    "context_dependent_expert_effectiveness": {
+      "evidence": {
+        "comparable_ref_violations": [],
+        "surface_identity_mismatch": false,
+        "surface_reference_violations": [],
+        "surface_rows_complete": true
+      },
+      "pass": true
+    },
+    "controller_weights_and_attribution_archived": {
+      "evidence": "brain controller state",
+      "pass": true
+    },
+    "dynamic_sizing": {
+      "evidence": {
+        "execution_audit_rows": 123,
+        "risk_state_rows": 123
+      },
+      "pass": true
+    },
+    "effectiveness_surface_sidecar_integrity": {
+      "evidence": {
+        "ledger": {
+          "path": "issue465-block1-controller-v3-effectiveness-surfaces.parquet",
+          "populated_surface_count": 121,
+          "row_count": 1135536,
+          "sha256": "7b266f49eeb57183915a1f655d9b4c23e79a281faa1603e5fdc69913a287fa2f",
+          "surface_count": 123
+        },
+        "observed_sha256": "7b266f49eeb57183915a1f655d9b4c23e79a281faa1603e5fdc69913a287fa2f",
+        "surface_reference_violations": []
+      },
+      "pass": true
+    },
+    "exact_empirical_negative_roles_only_blocked": {
+      "evidence": {
+        "blocked_current_role_ids": [],
+        "current_role_binding_count": 123,
+        "historical_negative_count": 33
+      },
+      "pass": true
+    },
+    "expert_predictions_archived": {
+      "evidence": "123 specialist signals + foundation paths per timestamp",
+      "pass": true
+    },
+    "fills_and_later_outcomes_archived_separately": {
+      "evidence": "brain + separate consequence store",
+      "pass": true
+    },
+    "forecast_diagnostics_native_target_and_strict_prior": {
+      "evidence": {
+        "availability_rule": "forecast-error/calibration observations enter effectiveness only after the matching native target value is known strictly before the decision timestamp",
+        "target_semantics": {
+          "kronos": "same-contract OHLCV close return from the decision trade date to the forecast session",
+          "timesfm": "same-contract canonical settlement return from the decision trade date to the forecast session"
+        },
+        "violations": []
+      },
+      "pass": true
+    },
+    "forecast_error_hit_calibration_first_class": {
+      "evidence": {
+        "required_fields": [
+          "direction_hit_rate",
+          "forecast_mae_return",
+          "interval_coverage",
+          "max_forecast_outcome_available_at_used"
+        ],
+        "row_count": 18464
+      },
+      "pass": true
+    },
+    "forecast_slope_acceleration_disagreement": {
+      "evidence": [
+        "kronos_path_features",
+        "model_disagreement_returns",
+        "model_sign_disagreement_rate",
+        "timesfm_path_features"
+      ],
+      "pass": true
+    },
+    "foundation_path_context_live_in_controller": {
+      "evidence": {
+        "archived_context_rows": 123,
+        "context_field_count": 16,
+        "selection_use": "horizon_specific_direction_and_comparable_state_context"
+      },
+      "pass": true
+    },
+    "full_53_attribute_weight_oracle": {
+      "evidence": {
+        "dense_weight_count_first": 53,
+        "rows": 123
+      },
+      "pass": true
+    },
+    "full_future_mutation_invariance": {
+      "evidence": {
+        "all_structural_candidate_decision_prefixes_identical": true,
+        "all_structural_candidate_matured_execution_audits_identical": true,
+        "all_structural_candidate_scenarios_replayed": 288,
+        "baseline_meta_prefix_sha256": "93f6b3ec994460be788a0ebfa03ea1928dc105e679eb8e1750f44bd7c57bd27a",
+        "comparable_state_refs_prefix_identical": true,
+        "cutoff_decision_time": "2010-09-16T00:11:53.098000+00:00",
+        "effectiveness_surfaces_prefix_identical": true,
+        "first_structural_mismatch": null,
+        "future_expert_opinions_and_context_corrupted": true,
+        "future_fill_prices_corrupted": true,
+        "future_outcomes_by_true_availability_corrupted": true,
+        "future_state_attributes_corrupted": true,
+        "later_block_source_accessed": false,
+        "meta_matured_execution_audit_prefix_identical": true,
+        "meta_state_weights_structure_actions_pruning_prefix_identical": true,
+        "mutated_meta_prefix_sha256": "93f6b3ec994460be788a0ebfa03ea1928dc105e679eb8e1750f44bd7c57bd27a",
+        "oracle_weight_predictor_prefix_identical": true,
+        "persisted_row_prefix_comparison": "causal_fields_plus_matured_execution_audit",
+        "primitive_oracle_winner_predictor_prefix_identical": true,
+        "protected_confirmation_accessed": false,
+        "specialist_prefix_identical": true,
+        "status": "PASS",
+        "structural_phase_cutoff_count": 11,
+        "structural_phase_prefixes_identical": true,
+        "structural_phase_proofs": [
+          {
+            "baseline_prefix_sha256": "ec26a73ffd151c71a3096302b8d3d3c4687af0a7644319ec2a46d3439531825b",
+            "block_boundary_source": "research\\programmes\\004-v2-maximum-reproducible-one-month-return\\issue465-block1-pit-state-v1.jsonl",
+            "cutoff_decision_time": "2010-08-18T00:01:39.569000+00:00",
+            "future_candidate_decisions_corrupted": true,
+            "future_candidate_outcomes_corrupted": true,
+            "later_block_source_accessed": false,
+            "mutated_prefix_sha256": "ec26a73ffd151c71a3096302b8d3d3c4687af0a7644319ec2a46d3439531825b",
+            "prefix_state_weights_structure_actions_pruning_identical": true,
+            "protected_confirmation_accessed": false,
+            "state_and_execution_inputs_for_prefix_held_identical": true
+          },
+          {
+            "baseline_prefix_sha256": "b6e59bd3685dc7028eaf000175bfb3e373ece9726ff4800d88393be70d0f66cc",
+            "block_boundary_source": "research\\programmes\\004-v2-maximum-reproducible-one-month-return\\issue465-block1-pit-state-v1.jsonl",
+            "cutoff_decision_time": "2010-08-19T00:01:10.304000+00:00",
+            "future_candidate_decisions_corrupted": true,
+            "future_candidate_outcomes_corrupted": true,
+            "later_block_source_accessed": false,
+            "mutated_prefix_sha256": "b6e59bd3685dc7028eaf000175bfb3e373ece9726ff4800d88393be70d0f66cc",
+            "prefix_state_weights_structure_actions_pruning_identical": true,
+            "protected_confirmation_accessed": false,
+            "state_and_execution_inputs_for_prefix_held_identical": true
+          },
+          {
+            "baseline_prefix_sha256": "f2b02dc25fd682559f2cf3283f6d4be0e91187f6a90b37501a8e851618dd8826",
+            "block_boundary_source": "research\\programmes\\004-v2-maximum-reproducible-one-month-return\\issue465-block1-pit-state-v1.jsonl",
+            "cutoff_decision_time": "2010-08-20T00:01:21.191000+00:00",
+            "future_candidate_decisions_corrupted": true,
+            "future_candidate_outcomes_corrupted": true,
+            "later_block_source_accessed": false,
+            "mutated_prefix_sha256": "f2b02dc25fd682559f2cf3283f6d4be0e91187f6a90b37501a8e851618dd8826",
+            "prefix_state_weights_structure_actions_pruning_identical": true,
+            "protected_confirmation_accessed": false,
+            "state_and_execution_inputs_for_prefix_held_identical": true
+          },
+          {
+            "baseline_prefix_sha256": "d255679e7285cdf267e468dcf1664268a8a437224391a5304abb6eee569344fb",
+            "block_boundary_source": "research\\programmes\\004-v2-maximum-reproducible-one-month-return\\issue465-block1-pit-state-v1.jsonl",
+            "cutoff_decision_time": "2010-08-22T23:02:55.734000+00:00",
+            "future_candidate_decisions_corrupted": true,
+            "future_candidate_outcomes_corrupted": true,
+            "later_block_source_accessed": false,
+            "mutated_prefix_sha256": "d255679e7285cdf267e468dcf1664268a8a437224391a5304abb6eee569344fb",
+            "prefix_state_weights_structure_actions_pruning_identical": true,
+            "protected_confirmation_accessed": false,
+            "state_and_execution_inputs_for_prefix_held_identical": true
+          },
+          {
+            "baseline_prefix_sha256": "2f8db2751f754d540690b3e88781c109b4f05988afc3be412911b76eefe2ca32",
+            "block_boundary_source": "research\\programmes\\004-v2-maximum-reproducible-one-month-return\\issue465-block1-pit-state-v1.jsonl",
+            "cutoff_decision_time": "2010-08-24T00:01:40.038000+00:00",
+            "future_candidate_decisions_corrupted": true,
+            "future_candidate_outcomes_corrupted": true,
+            "later_block_source_accessed": false,
+            "mutated_prefix_sha256": "2f8db2751f754d540690b3e88781c109b4f05988afc3be412911b76eefe2ca32",
+            "prefix_state_weights_structure_actions_pruning_identical": true,
+            "protected_confirmation_accessed": false,
+            "state_and_execution_inputs_for_prefix_held_identical": true
+          },
+          {
+            "baseline_prefix_sha256": "9ebd49aa18d61b5779d52377705fa7e2bd2c2cbbaaafdd48d30b6298d35ddb2a",
+            "block_boundary_source": "research\\programmes\\004-v2-maximum-reproducible-one-month-return\\issue465-block1-pit-state-v1.jsonl",
+            "cutoff_decision_time": "2010-08-25T00:01:08.446000+00:00",
+            "future_candidate_decisions_corrupted": true,
+            "future_candidate_outcomes_corrupted": true,
+            "later_block_source_accessed": false,
+            "mutated_prefix_sha256": "9ebd49aa18d61b5779d52377705fa7e2bd2c2cbbaaafdd48d30b6298d35ddb2a",
+            "prefix_state_weights_structure_actions_pruning_identical": true,
+            "protected_confirmation_accessed": false,
+            "state_and_execution_inputs_for_prefix_held_identical": true
+          },
+          {
+            "baseline_prefix_sha256": "14d81a65bbd19f505bd5d00e1469224b28c5b307d4c25c87924cb107902bfd61",
+            "block_boundary_source": "research\\programmes\\004-v2-maximum-reproducible-one-month-return\\issue465-block1-pit-state-v1.jsonl",
+            "cutoff_decision_time": "2010-08-26T00:16:12.163000+00:00",
+            "future_candidate_decisions_corrupted": true,
+            "future_candidate_outcomes_corrupted": true,
+            "later_block_source_accessed": false,
+            "mutated_prefix_sha256": "14d81a65bbd19f505bd5d00e1469224b28c5b307d4c25c87924cb107902bfd61",
+            "prefix_state_weights_structure_actions_pruning_identical": true,
+            "protected_confirmation_accessed": false,
+            "state_and_execution_inputs_for_prefix_held_identical": true
+          },
+          {
+            "baseline_prefix_sha256": "90e7f896ebccad66abd3fac284978e9c7b1f9c20846f71708dce78adef6a20d5",
+            "block_boundary_source": "research\\programmes\\004-v2-maximum-reproducible-one-month-return\\issue465-block1-pit-state-v1.jsonl",
+            "cutoff_decision_time": "2010-08-27T00:05:47.998000+00:00",
+            "future_candidate_decisions_corrupted": true,
+            "future_candidate_outcomes_corrupted": true,
+            "later_block_source_accessed": false,
+            "mutated_prefix_sha256": "90e7f896ebccad66abd3fac284978e9c7b1f9c20846f71708dce78adef6a20d5",
+            "prefix_state_weights_structure_actions_pruning_identical": true,
+            "protected_confirmation_accessed": false,
+            "state_and_execution_inputs_for_prefix_held_identical": true
+          },
+          {
+            "baseline_prefix_sha256": "1c8468bace70ef6386e70716360d612ae45ca624c77323faf930ecf21eb79293",
+            "block_boundary_source": "research\\programmes\\004-v2-maximum-reproducible-one-month-return\\issue465-block1-pit-state-v1.jsonl",
+            "cutoff_decision_time": "2010-08-29T23:30:11.142000+00:00",
+            "future_candidate_decisions_corrupted": true,
+            "future_candidate_outcomes_corrupted": true,
+            "later_block_source_accessed": false,
+            "mutated_prefix_sha256": "1c8468bace70ef6386e70716360d612ae45ca624c77323faf930ecf21eb79293",
+            "prefix_state_weights_structure_actions_pruning_identical": true,
+            "protected_confirmation_accessed": false,
+            "state_and_execution_inputs_for_prefix_held_identical": true
+          },
+          {
+            "baseline_prefix_sha256": "d5df888e328b1b5b382ee4d76351945611b770aea79a05562449346a26c2e30a",
+            "block_boundary_source": "research\\programmes\\004-v2-maximum-reproducible-one-month-return\\issue465-block1-pit-state-v1.jsonl",
+            "cutoff_decision_time": "2010-08-31T00:44:53.796000+00:00",
+            "future_candidate_decisions_corrupted": true,
+            "future_candidate_outcomes_corrupted": true,
+            "later_block_source_accessed": false,
+            "mutated_prefix_sha256": "d5df888e328b1b5b382ee4d76351945611b770aea79a05562449346a26c2e30a",
+            "prefix_state_weights_structure_actions_pruning_identical": true,
+            "protected_confirmation_accessed": false,
+            "state_and_execution_inputs_for_prefix_held_identical": true
+          },
+          {
+            "baseline_prefix_sha256": "e751c91e0001110374d4da8e240e1b158118f793a77ac38f26774e0838432d5c",
+            "block_boundary_source": "research\\programmes\\004-v2-maximum-reproducible-one-month-return\\issue465-block1-pit-state-v1.jsonl",
+            "cutoff_decision_time": "2010-12-31T01:00:35.557000+00:00",
+            "future_candidate_decisions_corrupted": true,
+            "future_candidate_outcomes_corrupted": true,
+            "later_block_source_accessed": false,
+            "mutated_prefix_sha256": "e751c91e0001110374d4da8e240e1b158118f793a77ac38f26774e0838432d5c",
+            "prefix_state_weights_structure_actions_pruning_identical": true,
+            "protected_confirmation_accessed": false,
+            "state_and_execution_inputs_for_prefix_held_identical": true
+          }
+        ]
+      },
+      "pass": true
+    },
+    "full_native_foundation_paths_every_decision": {
+      "evidence": {
+        "horizon": 20,
+        "rows": 123
+      },
+      "pass": true
+    },
+    "future_returns_1_2_3_5_10_20": {
+      "evidence": [
+        1,
+        2,
+        3,
+        5,
+        10,
+        20
+      ],
+      "pass": true
+    },
+    "hard_leverage_margin_drawdown_caps": {
+      "evidence": {
+        "max_exposure": 1.0,
+        "max_leverage": 0.4021665034765688,
+        "max_margin": 0.049576738594251574
+      },
+      "pass": true
+    },
+    "historical_evidence_classes_reentered": {
+      "evidence": {
+        "empirical_negative": 33,
+        "governance_only": 3469,
+        "null_or_inconclusive": 30,
+        "positive_clue": 140,
+        "role_unidentifiable": 24,
+        "source_or_data_hold": 19,
+        "underpowered": 187,
+        "untested_mechanism": 27
+      },
+      "pass": true
+    },
+    "historical_repository_record_coverage": {
+      "evidence": {
+        "record_count": 3929,
+        "source_record_count": 3929
+      },
+      "pass": true
+    },
+    "hold_futures_open_interest": {
+      "evidence": "no_valid_referenced_records_2010",
+      "pass": true
+    },
+    "hold_lng_physical": {
+      "evidence": "no_registered_PIT_block1_source_through_issue431",
+      "pass": true
+    },
+    "hold_power": {
+      "evidence": "historical_publication_timing_not_promoted",
+      "pass": true
+    },
+    "hold_storage": {
+      "evidence": "PIT_support_starts_2015_06_19",
+      "pass": true
+    },
+    "hold_storage_consensus_surprise": {
+      "evidence": "source_not_proven",
+      "pass": true
+    },
+    "hold_weather": {
+      "evidence": "PIT_support_starts_2015_01_15",
+      "pass": true
+    },
+    "holding_and_size_counterfactuals": {
+      "evidence": "consequence store",
+      "pass": true
+    },
+    "independent_long_short_effectiveness": {
+      "evidence": {
+        "candidate_count": 96
+      },
+      "pass": true
+    },
+    "independent_memory_scale_per_quantity": {
+      "evidence": {
+        "contract": {
+          "eligible_memories": [
+            5,
+            10,
+            20,
+            40,
+            60,
+            126,
+            252,
+            "expanding"
+          ],
+          "granularity": "independent_per_specialist_horizon_direction",
+          "profile_memory_role": "deterministic_tie_break_preference_only_not_eligibility_filter",
+          "selection_score": "diagnostic_reliability_times_strict_prior_state_value_minus_uncertainty_penalty_times_memory_standard_error",
+          "strict_prior": true
+        },
+        "observed_final_memories": [
+          "10",
+          "126",
+          "20",
+          "252",
+          "40",
+          "5",
+          "60",
+          "expanding"
+        ]
+      },
+      "pass": true
+    },
+    "latest_known_carry_forward_only": {
+      "evidence": {
+        "minimum_age": 0.0,
+        "timestamp_violations": []
+      },
+      "pass": true
+    },
+    "lifecycle_state_machine_complete": {
+      "evidence": {
+        "observed_actions": [
+          "ADD",
+          "EXIT",
+          "FLAT",
+          "FULL",
+          "REDUCE",
+          "STARTER"
+        ]
+      },
+      "pass": true
+    },
+    "long_short_economics": {
+      "evidence": "consequence store",
+      "pass": true
+    },
+    "market_curve_technical_go": {
+      "evidence": "market_curve_technical GO",
+      "pass": true
+    },
+    "memory_bank_complete": {
+      "evidence": [
+        5,
+        10,
+        20,
+        40,
+        60,
+        126,
+        252,
+        "expanding"
+      ],
+      "pass": true
+    },
+    "mfe_mae_future_realized_vol": {
+      "evidence": "consequence store",
+      "pass": true
+    },
+    "one_brain_per_decision_timestamp": {
+      "evidence": 123,
+      "pass": true
+    },
+    "opportunity_horizons_1_3_5_10_20": {
+      "evidence": [
+        1,
+        3,
+        5,
+        10,
+        20
+      ],
+      "pass": true
+    },
+    "oracle_before_search_and_diagnostic_only": {
+      "evidence": {
+        "oracle_nontradable": true,
+        "oracle_selection_use": false
+      },
+      "pass": true
+    },
+    "oracle_predictor_future_invariance": {
+      "evidence": true,
+      "pass": true
+    },
+    "pit_state_snapshot_archived_every_timestamp": {
+      "evidence": "brain.pit_state",
+      "pass": true
+    },
+    "position_is_first_class_state": {
+      "evidence": [
+        "current_contract_id",
+        "current_contract_mtm_fraction",
+        "current_execution_basis_price",
+        "decision_time",
+        "direction",
+        "drawdown_fraction",
+        "economic_path_pnl_fraction",
+        "edge_at_entry",
+        "entry_contract_id",
+        "entry_price",
+        "entry_time",
+        "equity_usd",
+        "exposure",
+        "mae_to_date_fraction",
+        "mark_observation_time",
+        "mark_rejection_reason",
+        "mark_valid_for_position",
+        "marked_equity_usd",
+        "mfe_to_date_fraction",
+        "peak_equity_usd",
+        "peak_marked_equity_usd",
+        "position_instance_id",
+        "risk_drawdown_fraction",
+        "time_in_position_sessions",
+        "unrealized_pnl_fraction"
+      ],
+      "pass": true
+    },
+    "prediction_action_separated_eight_stages": {
+      "evidence": [
+        "market_state",
+        "experts",
+        "meta_controller",
+        "multi_horizon_economic_value",
+        "timing_entry",
+        "position_policy",
+        "risk_execution",
+        "adaptation"
+      ],
+      "pass": true
+    },
+    "preflight_pass": {
+      "evidence": {
+        "all_material_families_have_explicit_disposition": true,
+        "all_weightable_attributes_transformed": true,
+        "asymmetric_candidates_present": true,
+        "block1_execution_archive_physically_isolated": true,
+        "block1_rows_match": true,
+        "complete_memory_bank_participates": true,
+        "eight_stage_hierarchy": true,
+        "exact_empirical_negative_roles_semantically_bound": true,
+        "expert_effectiveness_metrics_complete": true,
+        "expert_history_hashes_match_manifest": true,
+        "expert_native_path_archive_hash_bound_and_block1_only": true,
+        "expert_path_features_are_live_controller_context": true,
+        "foundation_forecast_target_semantics_frozen": true,
+        "full_attribute_weight_oracle_and_causal_predictor_frozen": true,
+        "historical_reentry_covers_every_source_record": true,
+        "independent_memory_scale_selection_frozen": true,
+        "later_blocks_not_loaded": true,
+        "primitive_oracle_winner_predictor_frozen": true,
+        "protected_confirmation_not_accessed": true,
+        "structural_candidate_count_matches": true,
+        "symmetric_controls_present": true,
+        "unique_decision_times": true,
+        "weightable_attribute_oracle_is_exactly_complete": true
+      },
+      "pass": true
+    },
+    "primitive_oracle_present": {
+      "evidence": "primitive specialist x horizon x direction",
+      "pass": true
+    },
+    "primitive_oracle_winner_predictor_future_invariance": {
+      "evidence": true,
+      "pass": true
+    },
+    "protected_2023_plus_sealed": {
+      "evidence": {
+        "canonical_history_max": "2010-12-31 00:00:00+00:00",
+        "execution_session_max": "2011-01-05 00:00:00+00:00",
+        "ohlcv_history_max": "2010-12-31 00:00:00+00:00",
+        "v1_state_max": "2011-01-02 23:14:28.828000+00:00"
+      },
+      "pass": true
+    },
+    "remaining_edge_add_reduce_reverse_rules": {
+      "evidence": [
+        "blended_add_edge_ratio",
+        "blended_exit_edge_floor",
+        "blended_max_hold_sessions",
+        "blended_reduce_edge_ratio",
+        "blended_reverse_edge_ratio"
+      ],
+      "pass": true
+    },
+    "remaining_edge_and_edge_change": {
+      "evidence": [
+        "edge_change_since_entry",
+        "remaining_edge"
+      ],
+      "pass": true
+    },
+    "research_consequence_store_separate": {
+      "evidence": {
+        "brain": "issue465-block1-controller-v3-decision-brain.jsonl",
+        "consequences": "issue465-block1-controller-v3-consequences.jsonl"
+      },
+      "pass": true
+    },
+    "risk_execution_layer": {
+      "evidence": {
+        "expected_scenarios": [
+          "base",
+          "moderate",
+          "severe"
+        ],
+        "observed_scenarios": [
+          "base",
+          "moderate",
+          "severe"
+        ]
+      },
+      "pass": true
+    },
+    "same_timestamp_consequence_never_used": {
+      "evidence": true,
+      "pass": true
+    },
+    "scored_result_pending_scope_audit": {
+      "evidence": {
+        "generation": "SCORED_PENDING_SCOPE_AUDIT",
+        "result": "BLOCK1_CONTROLLER_V3_SCORED_PENDING_SCOPE_AUDIT"
+      },
+      "pass": true
+    },
+    "slippage_missed_fill_diagnostics": {
+      "evidence": "consequence store",
+      "pass": true
+    },
+    "timesfm_and_kronos_timestamped_experts": {
+      "evidence": [
+        "timesfm",
+        "kronos"
+      ],
+      "pass": true
+    },
+    "wait_enter_abstain": {
+      "evidence": [
+        "ABSTAIN",
+        "ENTER_NOW",
+        "WAIT"
+      ],
+      "pass": true
+    },
+    "zero_sparse_weights_legal": {
+      "evidence": {
+        "minimum_nonzero_weight_count": 4
+      },
+      "pass": true
+    }
+  },
+  "failed_checks": [],
+  "failed_count": 0,
+  "generation_id": "e3e221b3c9d945813e92cef9dbef8fd0",
+  "generation_manifest_sha256": "964e675276e3f94ccafa385a0a8fe8b1e86c3fd39625c066cd3e8074ca06b3de",
+  "issue": 465,
+  "later_blocks_accessed": false,
+  "passed_count": 66,
+  "protected_confirmation_accessed": false,
+  "schema_version": 2,
+  "scope": "V3 Block1 literal agreed-feature completeness double-check",
+  "scoring_input_identity_sha256": "96d9cb1801bf8ca80cbe78b8d47de1f10ab5c82b91cbcd25fc732720aaa31a51",
+  "source_isolation_verified": true,
+  "status": "PASS"
+}

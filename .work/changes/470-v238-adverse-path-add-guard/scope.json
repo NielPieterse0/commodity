@@ -1,0 +1,43 @@
+{
+  "schema_version": 4,
+  "change_id": "470-v238-adverse-path-add-guard",
+  "status": "active",
+  "branch": "change/470-v238-adverse-path-add-guard",
+  "worktree": ".work/worktrees/470-v238-adverse-path-add-guard",
+  "base": "main",
+  "outcome": "Prevent increases in absolute exposure on an already-open same-side V3 position when matured current-position-instance economic_path_pnl_fraction is negative, without changing hard-risk reductions/exits, ordinary reductions, holds, starter entries, reversals, or PIT semantics.",
+  "owned_paths": [
+    "src/commodity/v2_adaptive_controller_v3.py",
+    "src/commodity/v3_replay_engine.py",
+    "scripts/research/run_issue465_block1_controller_v3.py",
+    "scripts/research/audit_issue465_block1_controller_v3_completeness.py",
+    "tests/test_issue470_negative_position_increase_guard.py",
+    ".work/changes/470-v238-adverse-path-add-guard/**"
+  ],
+  "shared_paths": [],
+  "excluded_paths": [],
+  "dependencies": [],
+  "integration_owner": null,
+  "complexity": "medium",
+  "risk_triggers": [
+    "money"
+  ],
+  "base_evidence": {
+    "local_sha": "cc3422fd0f0350b7b19d1509d19b2575caba0ee2",
+    "local_tree": "267ba9655425444f09ea1b8978b37c26adaec7a1",
+    "upstream_sha": "cc3422fd0f0350b7b19d1509d19b2575caba0ee2",
+    "upstream_tree": "267ba9655425444f09ea1b8978b37c26adaec7a1",
+    "upstream_ref": "refs/remotes/origin/main",
+    "evidence_source": "local_remote_tracking_ref",
+    "relation": "same_sha"
+  },
+  "work_management": {
+    "project_id": "commodity",
+    "record_id": "WORK-470",
+    "source_repository": "NielPieterse0/commodity",
+    "source_number": 470,
+    "source_kind": "issue",
+    "documentation_impact": "none",
+    "execution_owner": "codex"
+  }
+}

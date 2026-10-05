@@ -60,6 +60,11 @@ def check(condition: Any, evidence: Any) -> dict[str, Any]:
     return {"pass": bool(condition), "evidence": evidence}
 
 
+def _is_age_metadata_key(key: Any) -> bool:
+    normalized = str(key).lower()
+    return normalized.endswith("_age") or "_age_" in normalized
+
+
 def _write_json_atomic(path: Path, payload: Any) -> None:
     temporary = path.with_name(f".{path.name}.tmp-{os.getpid()}")
     with temporary.open("w", encoding="utf-8", newline="\n") as handle:
@@ -164,7 +169,11 @@ def main() -> int:
     pit_samples = [value for value in brain["pit_state"] if isinstance(value, dict)]
     pit_metadata_keys = sorted({
         str(key) for sample in pit_samples for key in sample
-        if any(token in str(key).lower() for token in ("age", "vintage", "revision", "available_at", "observation_time"))
+        if _is_age_metadata_key(key)
+        or any(
+            token in str(key).lower()
+            for token in ("vintage", "revision", "available_at", "observation_time")
+        )
     })
     pit_timestamp_violations: list[dict[str, Any]] = []
     for brain_row in brain.itertuples(index=False):
@@ -192,7 +201,7 @@ def main() -> int:
     age_values: list[float] = []
     for sample in pit_samples:
         for key, value in sample.items():
-            if "age" not in str(key).lower() or value is None or pd.isna(value):
+            if not _is_age_metadata_key(key) or value is None or pd.isna(value):
                 continue
             try:
                 age_values.append(float(value))
@@ -214,7 +223,7 @@ def main() -> int:
         ) < protected_start
     )
     pit_metadata_complete = bool(
-        any("age" in key.lower() for key in pit_metadata_keys)
+        any(_is_age_metadata_key(key) for key in pit_metadata_keys)
         and any("vintage" in key.lower() or "revision" in key.lower() for key in pit_metadata_keys)
         and any(
             "available_at" in key.lower() or "observation_time" in key.lower()

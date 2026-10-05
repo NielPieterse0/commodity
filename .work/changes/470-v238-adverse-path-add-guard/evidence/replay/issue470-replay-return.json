@@ -1,0 +1,1604 @@
+{
+  "adaptation_reporting": {
+    "candidate_slow_cadences_tested": [
+      10,
+      20
+    ],
+    "fast_daily_decision_count_post_warmup": 93,
+    "meta_structural_cadence_sessions": 10,
+    "meta_structural_update_count": 10
+  },
+  "attribute_weight_oracle_reporting": {
+    "attribute_count": 53,
+    "diagnostic_interpretation": "exposure_reconstruction_representation_not_feature_importance",
+    "exposure_step_contracts": 0.25,
+    "feature_importance_inference": false,
+    "horizon_predictability": {
+      "1": {
+        "evaluated_rows": 93,
+        "exposure_mae_contracts": 1.4811827956989247,
+        "mean_weight_cosine_similarity": 0.023048987797932432,
+        "mean_weight_exposure_consistency_error_contracts": 0.17186955654544922,
+        "side_hit_rate": 0.44086021505376344,
+        "top_attribute_hit_rate": 0.021505376344086023
+      },
+      "10": {
+        "evaluated_rows": 93,
+        "exposure_mae_contracts": 1.8918918918918919,
+        "mean_weight_cosine_similarity": -0.12710477797481434,
+        "mean_weight_exposure_consistency_error_contracts": 0.3851408526594024,
+        "side_hit_rate": 0.25675675675675674,
+        "top_attribute_hit_rate": 0.02702702702702703
+      },
+      "20": {
+        "evaluated_rows": 93,
+        "exposure_mae_contracts": 1.75,
+        "mean_weight_cosine_similarity": -0.14233403514141701,
+        "mean_weight_exposure_consistency_error_contracts": 0.6702604106357505,
+        "side_hit_rate": 0.3898305084745763,
+        "top_attribute_hit_rate": 0.01694915254237288
+      },
+      "3": {
+        "evaluated_rows": 93,
+        "exposure_mae_contracts": 1.5393258426966292,
+        "mean_weight_cosine_similarity": -0.05342408436301338,
+        "mean_weight_exposure_consistency_error_contracts": 0.2529551780790423,
+        "side_hit_rate": 0.3707865168539326,
+        "top_attribute_hit_rate": 0.033707865168539325
+      },
+      "5": {
+        "evaluated_rows": 93,
+        "exposure_mae_contracts": 1.5150602409638554,
+        "mean_weight_cosine_similarity": 0.014461668674062792,
+        "mean_weight_exposure_consistency_error_contracts": 0.33058830698901,
+        "side_hit_rate": 0.42168674698795183,
+        "top_attribute_hit_rate": 0.024096385542168676
+      }
+    },
+    "horizons_sessions": [
+      1,
+      3,
+      5,
+      10,
+      20
+    ],
+    "max_abs_contracts": 1.5,
+    "optimizer": "exact_after_cost_exposure_lattice_plus_analytic_minimum_L2_weight_solution",
+    "oracle_row_count": 123,
+    "post_warmup_mean_weight_cosine_similarity": 0.023048987797932432,
+    "post_warmup_side_hit_rate": 0.44086021505376344,
+    "post_warmup_top_attribute_hit_rate": 0.021505376344086023,
+    "predictor_row_count": 123,
+    "selection_use": false,
+    "sparse_ks": [
+      1,
+      2,
+      4,
+      8,
+      16
+    ],
+    "strict_prior_predictor_check": true
+  },
+  "attribute_weight_oracle_sha256": "7f6bab8693963f453bce9d4b5ac983edce41924377348f61e8aa672d51b4b94c",
+  "block1_candidate_control_set": {
+    "adaptive_controller": "controller-v3 meta-controller",
+    "best_fixed_candidate": {
+      "active_family_cap": 6,
+      "asymmetric": false,
+      "attempt_ordinal": 91,
+      "comparable_weight": 0.0,
+      "config_id": "long=slow|short=slow|cmp=0|slow=10",
+      "execution_scenario": "base",
+      "long_policy": {
+        "add_edge_ratio": 1.2,
+        "enter_confidence_floor": 0.45,
+        "enter_support_floor": 0.6,
+        "exit_edge_floor": 0.0,
+        "horizons": [
+          10,
+          20
+        ],
+        "max_hold_sessions": 20,
+        "max_vol_ratio": 1.2,
+        "memories": [
+          40,
+          60,
+          126,
+          252,
+          "expanding"
+        ],
+        "profile_id": "slow",
+        "reduce_edge_ratio": 0.65,
+        "reverse_edge_ratio": 1.3,
+        "size_scale": 0.75,
+        "top_k": 4,
+        "wait_support_floor": 0.45
+      },
+      "max_margin_fraction": 0.03844724397339451,
+      "max_notional_leverage": 0.32136453826109823,
+      "outcome_dependent_pruned": false,
+      "post_warmup_active_decisions": 65,
+      "post_warmup_missed_fills": 0,
+      "post_warmup_net_return": 0.016574999999999965,
+      "post_warmup_turnover": 11.5,
+      "short_policy": {
+        "add_edge_ratio": 1.2,
+        "enter_confidence_floor": 0.45,
+        "enter_support_floor": 0.6,
+        "exit_edge_floor": 0.0,
+        "horizons": [
+          10,
+          20
+        ],
+        "max_hold_sessions": 20,
+        "max_vol_ratio": 1.2,
+        "memories": [
+          40,
+          60,
+          126,
+          252,
+          "expanding"
+        ],
+        "profile_id": "slow",
+        "reduce_edge_ratio": 0.65,
+        "reverse_edge_ratio": 1.3,
+        "size_scale": 0.75,
+        "top_k": 4,
+        "wait_support_floor": 0.45
+      },
+      "slow_cadence": 10,
+      "structural_candidate_ordinal": 91,
+      "uncertainty_penalty": 0.5
+    },
+    "best_symmetric_control": {
+      "active_family_cap": 6,
+      "asymmetric": false,
+      "attempt_ordinal": 91,
+      "comparable_weight": 0.0,
+      "config_id": "long=slow|short=slow|cmp=0|slow=10",
+      "execution_scenario": "base",
+      "long_policy": {
+        "add_edge_ratio": 1.2,
+        "enter_confidence_floor": 0.45,
+        "enter_support_floor": 0.6,
+        "exit_edge_floor": 0.0,
+        "horizons": [
+          10,
+          20
+        ],
+        "max_hold_sessions": 20,
+        "max_vol_ratio": 1.2,
+        "memories": [
+          40,
+          60,
+          126,
+          252,
+          "expanding"
+        ],
+        "profile_id": "slow",
+        "reduce_edge_ratio": 0.65,
+        "reverse_edge_ratio": 1.3,
+        "size_scale": 0.75,
+        "top_k": 4,
+        "wait_support_floor": 0.45
+      },
+      "max_margin_fraction": 0.03844724397339451,
+      "max_notional_leverage": 0.32136453826109823,
+      "outcome_dependent_pruned": false,
+      "post_warmup_active_decisions": 65,
+      "post_warmup_missed_fills": 0,
+      "post_warmup_net_return": 0.016574999999999965,
+      "post_warmup_turnover": 11.5,
+      "short_policy": {
+        "add_edge_ratio": 1.2,
+        "enter_confidence_floor": 0.45,
+        "enter_support_floor": 0.6,
+        "exit_edge_floor": 0.0,
+        "horizons": [
+          10,
+          20
+        ],
+        "max_hold_sessions": 20,
+        "max_vol_ratio": 1.2,
+        "memories": [
+          40,
+          60,
+          126,
+          252,
+          "expanding"
+        ],
+        "profile_id": "slow",
+        "reduce_edge_ratio": 0.65,
+        "reverse_edge_ratio": 1.3,
+        "size_scale": 0.75,
+        "top_k": 4,
+        "wait_support_floor": 0.45
+      },
+      "slow_cadence": 10,
+      "structural_candidate_ordinal": 91,
+      "uncertainty_penalty": 0.5
+    },
+    "final_issue465_to_414_handoff_ready": false,
+    "handoff_blocker": "later six-month development blocks intentionally not run under current Block1-only instruction"
+  },
+  "block_and_cumulative_net_return": {
+    "block1_net_return": 0.014599999999999974,
+    "cumulative_through_block1_net_return": 0.014599999999999974
+  },
+  "candidates_sha256": "44fa6f9102e0c26e732a95e4a37333327b04448f052a065d5b12eb93d91b2bac",
+  "causal_checks": {
+    "all_meta_selection_outcomes_strictly_prior": true,
+    "oracle_used_in_selection": false,
+    "research_consequence_store_used_in_selection": false,
+    "same_day_or_future_outcomes_used_in_selection": false
+  },
+  "consequence_store_sha256": "506bfd915626fffcbd4343feb1b7133cedf77540e9e1abc779ada6674157a1ff",
+  "decision_brain_freeze_sha256": "561f853da7a9815e936775ed059b4df93861c7ab597bfd5c92b94967a57d264b",
+  "decision_brain_sha256": "561f853da7a9815e936775ed059b4df93861c7ab597bfd5c92b94967a57d264b",
+  "effectiveness_surface_sidecar": {
+    "path": "issue465-block1-controller-v3-effectiveness-surfaces.parquet",
+    "populated_surface_count": 121,
+    "row_count": 1135536,
+    "sha256": "7b266f49eeb57183915a1f655d9b4c23e79a281faa1603e5fdc69913a287fa2f",
+    "surface_count": 123
+  },
+  "effectiveness_surface_sidecar_sha256": "7b266f49eeb57183915a1f655d9b4c23e79a281faa1603e5fdc69913a287fa2f",
+  "execution_degradation": {
+    "base": {
+      "delta_vs_base": 0.0,
+      "missed_fill_count": 0,
+      "post_warmup_net_return": 0.014749999999999975,
+      "turnover": 7.5
+    },
+    "moderate": {
+      "delta_vs_base": -0.016699999999999916,
+      "missed_fill_count": 8,
+      "post_warmup_net_return": -0.0019499999999999405,
+      "turnover": 7.0
+    },
+    "severe": {
+      "delta_vs_base": -0.01774999999999992,
+      "missed_fill_count": 8,
+      "post_warmup_net_return": -0.002999999999999943,
+      "turnover": 7.0
+    }
+  },
+  "expert_effectiveness_reporting": {
+    "diagnostic_reliability_used_in_ranking": true,
+    "effectiveness_surface_sidecar_sha256": "7b266f49eeb57183915a1f655d9b4c23e79a281faa1603e5fdc69913a287fa2f",
+    "effectiveness_surface_storage": "hash_bound_parquet_sidecar",
+    "final_surface_row_count": 9840,
+    "forecast_metric_availability_rule": "forecast-error/calibration observations enter effectiveness only after the matching native target value is known strictly before the decision timestamp",
+    "forecast_metrics_strict_prior_native_target": true,
+    "forecast_target_semantics": {
+      "kronos": "same-contract OHLCV close return from the decision trade date to the forecast session",
+      "timesfm": "same-contract canonical settlement return from the decision trade date to the forecast session"
+    },
+    "full_history_in_decision_brain": false,
+    "independent_memory_selection_per_specialist_horizon_direction": true,
+    "memory_scale_selection": {
+      "eligible_memories": [
+        5,
+        10,
+        20,
+        40,
+        60,
+        126,
+        252,
+        "expanding"
+      ],
+      "granularity": "independent_per_specialist_horizon_direction",
+      "profile_memory_role": "deterministic_tie_break_preference_only_not_eligibility_filter",
+      "selection_score": "diagnostic_reliability_times_strict_prior_state_value_minus_uncertainty_penalty_times_memory_standard_error",
+      "strict_prior": true
+    },
+    "metrics": [
+      "realized_net_return",
+      "direction_hit_rate",
+      "direction_error",
+      "forecast_mae_return",
+      "forecast_rmse_return",
+      "forecast_bias_return",
+      "interval_coverage",
+      "interval_sharpness"
+    ],
+    "profile_memory_sets_are_tie_break_preferences_only": true
+  },
+  "expert_path_archive_sha256": "f71fe3c9ec7a8bb2863caf33710f9532ae780cf9bc531e907d080111d2b7979b",
+  "expert_path_manifest_sha256": "a46f9436b9fed0b78ab6cd500b0211346dc546c67222d5cd794d6eb38e337ab9",
+  "expert_path_reporting": {
+    "controller_context_fields": [
+      "expert_timesfm_slope",
+      "expert_timesfm_acceleration",
+      "expert_kronos_slope",
+      "expert_kronos_acceleration",
+      "expert_timesfm_interval_width_h1",
+      "expert_timesfm_interval_width_h3",
+      "expert_timesfm_interval_width_h5",
+      "expert_timesfm_interval_width_h10",
+      "expert_timesfm_interval_width_h20",
+      "expert_model_disagreement_h1",
+      "expert_model_disagreement_h3",
+      "expert_model_disagreement_h5",
+      "expert_model_disagreement_h10",
+      "expert_model_disagreement_h20",
+      "expert_model_disagreement_mean_abs",
+      "expert_model_sign_disagreement_rate"
+    ],
+    "full_native_horizon_for_every_decision": true,
+    "full_paths_and_slope_acceleration_disagreement_archived_in_brain": true,
+    "history_max_trade_date": "2010-12-31 00:00:00+00:00",
+    "later_block_market_data_accessed": false,
+    "maximum_native_horizon_sessions": 20,
+    "path_shape_interval_and_disagreement_used_in_comparable_state_retrieval": true,
+    "row_count": 123,
+    "selection_use": "horizon_specific_direction_and_comparable_state_context"
+  },
+  "future_invariance_proof": {
+    "all_structural_candidate_decision_prefixes_identical": true,
+    "all_structural_candidate_matured_execution_audits_identical": true,
+    "all_structural_candidate_scenarios_replayed": 288,
+    "baseline_meta_prefix_sha256": "93f6b3ec994460be788a0ebfa03ea1928dc105e679eb8e1750f44bd7c57bd27a",
+    "comparable_state_refs_prefix_identical": true,
+    "cutoff_decision_time": "2010-09-16T00:11:53.098000+00:00",
+    "effectiveness_surfaces_prefix_identical": true,
+    "first_structural_mismatch": null,
+    "future_expert_opinions_and_context_corrupted": true,
+    "future_fill_prices_corrupted": true,
+    "future_outcomes_by_true_availability_corrupted": true,
+    "future_state_attributes_corrupted": true,
+    "later_block_source_accessed": false,
+    "meta_matured_execution_audit_prefix_identical": true,
+    "meta_state_weights_structure_actions_pruning_prefix_identical": true,
+    "mutated_meta_prefix_sha256": "93f6b3ec994460be788a0ebfa03ea1928dc105e679eb8e1750f44bd7c57bd27a",
+    "oracle_weight_predictor_prefix_identical": true,
+    "persisted_row_prefix_comparison": "causal_fields_plus_matured_execution_audit",
+    "primitive_oracle_winner_predictor_prefix_identical": true,
+    "protected_confirmation_accessed": false,
+    "specialist_prefix_identical": true,
+    "status": "PASS",
+    "structural_phase_cutoff_count": 11,
+    "structural_phase_prefixes_identical": true,
+    "structural_phase_proofs": [
+      {
+        "baseline_prefix_sha256": "ec26a73ffd151c71a3096302b8d3d3c4687af0a7644319ec2a46d3439531825b",
+        "block_boundary_source": "research\\programmes\\004-v2-maximum-reproducible-one-month-return\\issue465-block1-pit-state-v1.jsonl",
+        "cutoff_decision_time": "2010-08-18T00:01:39.569000+00:00",
+        "future_candidate_decisions_corrupted": true,
+        "future_candidate_outcomes_corrupted": true,
+        "later_block_source_accessed": false,
+        "mutated_prefix_sha256": "ec26a73ffd151c71a3096302b8d3d3c4687af0a7644319ec2a46d3439531825b",
+        "prefix_state_weights_structure_actions_pruning_identical": true,
+        "protected_confirmation_accessed": false,
+        "state_and_execution_inputs_for_prefix_held_identical": true
+      },
+      {
+        "baseline_prefix_sha256": "b6e59bd3685dc7028eaf000175bfb3e373ece9726ff4800d88393be70d0f66cc",
+        "block_boundary_source": "research\\programmes\\004-v2-maximum-reproducible-one-month-return\\issue465-block1-pit-state-v1.jsonl",
+        "cutoff_decision_time": "2010-08-19T00:01:10.304000+00:00",
+        "future_candidate_decisions_corrupted": true,
+        "future_candidate_outcomes_corrupted": true,
+        "later_block_source_accessed": false,
+        "mutated_prefix_sha256": "b6e59bd3685dc7028eaf000175bfb3e373ece9726ff4800d88393be70d0f66cc",
+        "prefix_state_weights_structure_actions_pruning_identical": true,
+        "protected_confirmation_accessed": false,
+        "state_and_execution_inputs_for_prefix_held_identical": true
+      },
+      {
+        "baseline_prefix_sha256": "f2b02dc25fd682559f2cf3283f6d4be0e91187f6a90b37501a8e851618dd8826",
+        "block_boundary_source": "research\\programmes\\004-v2-maximum-reproducible-one-month-return\\issue465-block1-pit-state-v1.jsonl",
+        "cutoff_decision_time": "2010-08-20T00:01:21.191000+00:00",
+        "future_candidate_decisions_corrupted": true,
+        "future_candidate_outcomes_corrupted": true,
+        "later_block_source_accessed": false,
+        "mutated_prefix_sha256": "f2b02dc25fd682559f2cf3283f6d4be0e91187f6a90b37501a8e851618dd8826",
+        "prefix_state_weights_structure_actions_pruning_identical": true,
+        "protected_confirmation_accessed": false,
+        "state_and_execution_inputs_for_prefix_held_identical": true
+      },
+      {
+        "baseline_prefix_sha256": "d255679e7285cdf267e468dcf1664268a8a437224391a5304abb6eee569344fb",
+        "block_boundary_source": "research\\programmes\\004-v2-maximum-reproducible-one-month-return\\issue465-block1-pit-state-v1.jsonl",
+        "cutoff_decision_time": "2010-08-22T23:02:55.734000+00:00",
+        "future_candidate_decisions_corrupted": true,
+        "future_candidate_outcomes_corrupted": true,
+        "later_block_source_accessed": false,
+        "mutated_prefix_sha256": "d255679e7285cdf267e468dcf1664268a8a437224391a5304abb6eee569344fb",
+        "prefix_state_weights_structure_actions_pruning_identical": true,
+        "protected_confirmation_accessed": false,
+        "state_and_execution_inputs_for_prefix_held_identical": true
+      },
+      {
+        "baseline_prefix_sha256": "2f8db2751f754d540690b3e88781c109b4f05988afc3be412911b76eefe2ca32",
+        "block_boundary_source": "research\\programmes\\004-v2-maximum-reproducible-one-month-return\\issue465-block1-pit-state-v1.jsonl",
+        "cutoff_decision_time": "2010-08-24T00:01:40.038000+00:00",
+        "future_candidate_decisions_corrupted": true,
+        "future_candidate_outcomes_corrupted": true,
+        "later_block_source_accessed": false,
+        "mutated_prefix_sha256": "2f8db2751f754d540690b3e88781c109b4f05988afc3be412911b76eefe2ca32",
+        "prefix_state_weights_structure_actions_pruning_identical": true,
+        "protected_confirmation_accessed": false,
+        "state_and_execution_inputs_for_prefix_held_identical": true
+      },
+      {
+        "baseline_prefix_sha256": "9ebd49aa18d61b5779d52377705fa7e2bd2c2cbbaaafdd48d30b6298d35ddb2a",
+        "block_boundary_source": "research\\programmes\\004-v2-maximum-reproducible-one-month-return\\issue465-block1-pit-state-v1.jsonl",
+        "cutoff_decision_time": "2010-08-25T00:01:08.446000+00:00",
+        "future_candidate_decisions_corrupted": true,
+        "future_candidate_outcomes_corrupted": true,
+        "later_block_source_accessed": false,
+        "mutated_prefix_sha256": "9ebd49aa18d61b5779d52377705fa7e2bd2c2cbbaaafdd48d30b6298d35ddb2a",
+        "prefix_state_weights_structure_actions_pruning_identical": true,
+        "protected_confirmation_accessed": false,
+        "state_and_execution_inputs_for_prefix_held_identical": true
+      },
+      {
+        "baseline_prefix_sha256": "14d81a65bbd19f505bd5d00e1469224b28c5b307d4c25c87924cb107902bfd61",
+        "block_boundary_source": "research\\programmes\\004-v2-maximum-reproducible-one-month-return\\issue465-block1-pit-state-v1.jsonl",
+        "cutoff_decision_time": "2010-08-26T00:16:12.163000+00:00",
+        "future_candidate_decisions_corrupted": true,
+        "future_candidate_outcomes_corrupted": true,
+        "later_block_source_accessed": false,
+        "mutated_prefix_sha256": "14d81a65bbd19f505bd5d00e1469224b28c5b307d4c25c87924cb107902bfd61",
+        "prefix_state_weights_structure_actions_pruning_identical": true,
+        "protected_confirmation_accessed": false,
+        "state_and_execution_inputs_for_prefix_held_identical": true
+      },
+      {
+        "baseline_prefix_sha256": "90e7f896ebccad66abd3fac284978e9c7b1f9c20846f71708dce78adef6a20d5",
+        "block_boundary_source": "research\\programmes\\004-v2-maximum-reproducible-one-month-return\\issue465-block1-pit-state-v1.jsonl",
+        "cutoff_decision_time": "2010-08-27T00:05:47.998000+00:00",
+        "future_candidate_decisions_corrupted": true,
+        "future_candidate_outcomes_corrupted": true,
+        "later_block_source_accessed": false,
+        "mutated_prefix_sha256": "90e7f896ebccad66abd3fac284978e9c7b1f9c20846f71708dce78adef6a20d5",
+        "prefix_state_weights_structure_actions_pruning_identical": true,
+        "protected_confirmation_accessed": false,
+        "state_and_execution_inputs_for_prefix_held_identical": true
+      },
+      {
+        "baseline_prefix_sha256": "1c8468bace70ef6386e70716360d612ae45ca624c77323faf930ecf21eb79293",
+        "block_boundary_source": "research\\programmes\\004-v2-maximum-reproducible-one-month-return\\issue465-block1-pit-state-v1.jsonl",
+        "cutoff_decision_time": "2010-08-29T23:30:11.142000+00:00",
+        "future_candidate_decisions_corrupted": true,
+        "future_candidate_outcomes_corrupted": true,
+        "later_block_source_accessed": false,
+        "mutated_prefix_sha256": "1c8468bace70ef6386e70716360d612ae45ca624c77323faf930ecf21eb79293",
+        "prefix_state_weights_structure_actions_pruning_identical": true,
+        "protected_confirmation_accessed": false,
+        "state_and_execution_inputs_for_prefix_held_identical": true
+      },
+      {
+        "baseline_prefix_sha256": "d5df888e328b1b5b382ee4d76351945611b770aea79a05562449346a26c2e30a",
+        "block_boundary_source": "research\\programmes\\004-v2-maximum-reproducible-one-month-return\\issue465-block1-pit-state-v1.jsonl",
+        "cutoff_decision_time": "2010-08-31T00:44:53.796000+00:00",
+        "future_candidate_decisions_corrupted": true,
+        "future_candidate_outcomes_corrupted": true,
+        "later_block_source_accessed": false,
+        "mutated_prefix_sha256": "d5df888e328b1b5b382ee4d76351945611b770aea79a05562449346a26c2e30a",
+        "prefix_state_weights_structure_actions_pruning_identical": true,
+        "protected_confirmation_accessed": false,
+        "state_and_execution_inputs_for_prefix_held_identical": true
+      },
+      {
+        "baseline_prefix_sha256": "e751c91e0001110374d4da8e240e1b158118f793a77ac38f26774e0838432d5c",
+        "block_boundary_source": "research\\programmes\\004-v2-maximum-reproducible-one-month-return\\issue465-block1-pit-state-v1.jsonl",
+        "cutoff_decision_time": "2010-12-31T01:00:35.557000+00:00",
+        "future_candidate_decisions_corrupted": true,
+        "future_candidate_outcomes_corrupted": true,
+        "later_block_source_accessed": false,
+        "mutated_prefix_sha256": "e751c91e0001110374d4da8e240e1b158118f793a77ac38f26774e0838432d5c",
+        "prefix_state_weights_structure_actions_pruning_identical": true,
+        "protected_confirmation_accessed": false,
+        "state_and_execution_inputs_for_prefix_held_identical": true
+      }
+    ]
+  },
+  "historical_reentry_sha256": "a5379df32515731b0ab0509986e937a0a0b8de24a466818eda0a41342f377a65",
+  "implementation_evidence": {
+    "all_admissible_numeric_pit_attributes_individually_weightable": true,
+    "availability_age_vintage_revision_retained": true,
+    "complete_historical_decision_brain_persisted": true,
+    "complete_input_inventory_and_reentry_ledger": true,
+    "comprehensive_reporting_including_realized_leverage": true,
+    "concurrent_1_3_5_10_20_session_opportunity_horizons": true,
+    "conditional_specialist_effectiveness_surface_complete": true,
+    "dynamic_sizing_and_hard_caps": true,
+    "eight_stage_hierarchy_implemented": true,
+    "event_time_explicitly_held_for_unproven_block1_source_timing": true,
+    "exact_zero_individual_and_group_weights_legal": true,
+    "execution_slippage_and_missed_fill_sensitivity": true,
+    "explicit_forecast_error_hit_rate_calibration_sharpness_history": true,
+    "explicit_forecast_slope_acceleration_and_model_disagreement": true,
+    "first_class_mark_to_market_position_state": true,
+    "forecast_error_targets_model_native_and_strict_prior": true,
+    "foundation_path_shape_interval_and_disagreement_are_live_comparable_state_context": true,
+    "full_53_attribute_daily_hindsight_weight_oracle": true,
+    "full_future_invariance_mutation_replay_passed": true,
+    "full_position_lifecycle_scored": true,
+    "future_consequence_store_logically_and_physically_separate": true,
+    "historical_exact_negative_roles_binding": true,
+    "independent_long_short_profiles_and_symmetric_controls": true,
+    "independent_memory_scale_selection_per_specialist_horizon_direction": true,
+    "latest_known_carry_forward_only": true,
+    "memory_bank_includes_5_10_20_40_60_126_252_expanding": true,
+    "native_foundation_paths_drive_horizon_specific_economics_and_support": true,
+    "native_timesfm_and_kronos_20_session_paths_every_decision": true,
+    "oracle_computed_before_unrestricted_structural_search": true,
+    "oracle_weight_predictor_future_invariance_proven": true,
+    "primitive_oracle_winner_predictor_future_invariance_proven": true,
+    "prior_only_comparable_state_retrieval": true,
+    "search_preregistered_ledgered_and_multiplicity_counted": true,
+    "six_month_block_boundary_enforced": true,
+    "slow_and_fast_adaptation_separated": true,
+    "sparse_prior30_after_cost_objective": true,
+    "strict_prior_oracle_weight_predictor": true,
+    "strict_prior_outcome_selection": true,
+    "strict_prior_primitive_oracle_winner_predictor": true,
+    "wait_enter_abstain_timing_layer": true
+  },
+  "inventory_sha256": "4676141d871eda87c13cfc9101157b352c80315823bc0ad18cdf52a2bb191074",
+  "issue": 465,
+  "iteration": "block1-controller-v3-oracle-lifecycle-output-hardening",
+  "later_blocks_accessed": false,
+  "ledger_sha256": "a7234fb2edab849b122e44adf710ebc1b0dac1e9213dbc72d5c5f895c2a1133c",
+  "loss_diagnostics": {
+    "losing_decision_count": 28,
+    "mean_losing_decision_net_return": -0.003285714285714284,
+    "worst_decision_net_return": -0.012250000000000004
+  },
+  "oracle_diagnostic": {
+    "attribute_weight_oracle": {
+      "attribute_count": 53,
+      "attribute_oracle_sha256": "7f6bab8693963f453bce9d4b5ac983edce41924377348f61e8aa672d51b4b94c",
+      "diagnostic_interpretation": "exposure_reconstruction_representation_not_feature_importance",
+      "exposure_step_contracts": 0.25,
+      "feature_importance_inference": false,
+      "horizons_sessions": [
+        1,
+        3,
+        5,
+        10,
+        20
+      ],
+      "max_abs_contracts": 1.5,
+      "optimizer": "exact_after_cost_exposure_lattice_plus_analytic_minimum_L2_weight_solution",
+      "oracle_predictor_sha256": "c69e0856a1b06334f65b258c762eb716d89d2ea3117491281d0d413bfb8f6242",
+      "predictor_strict_prior_check": true,
+      "row_count": 123,
+      "selection_use": false,
+      "sparse_k": 8,
+      "sparse_ks": [
+        1,
+        2,
+        4,
+        8,
+        16
+      ]
+    },
+    "classification": "POSITIVE_HINDSIGHT_OPPORTUNITY_SCORE_AND_POSITIVE_CAUSAL_PNL",
+    "computed_before_structural_candidate_replay": true,
+    "decision_count": 93,
+    "development_only_nontradable": true,
+    "economically_comparable_to_controller_pnl": false,
+    "noncomparability_reason": "primitive oracle aggregates overlapping 1/3/5/10/20-session hindsight opportunities",
+    "oracle_net_return": 2.4151999999999982,
+    "overlapping_horizon_opportunity_score": 2.4151999999999982,
+    "pnl_gap_reported": false,
+    "primitive_winner_predictor": {
+      "predictor_sha256": "4522578395b3e4ff4623c1cdbf1ebbc1f91722e5afdf9558c543cea25d035fc8",
+      "predictor_strict_prior_check": true,
+      "row_count": 123,
+      "selection_use": false,
+      "source_winner_label_count": 123,
+      "target": "policy_id_plus_specialist_horizon_direction_identity"
+    },
+    "selection_use": false,
+    "stage": "oracle_first_before_structural_candidate_replay",
+    "top_winner_share": 0.10752688172043011,
+    "unique_winning_primitive_count": 19,
+    "winner_by_day": {
+      "2010-08-18T00:01:39.569000+00:00": {
+        "direction": "short",
+        "horizon": 20,
+        "net_return": 0.041699999999999966,
+        "outcome_available_at": "2010-09-12 00:00:00+00:00",
+        "policy_id": "attr__derived_jump_intensity__direct|h=20|dir=short",
+        "specialist": "attr__derived_jump_intensity__direct",
+        "winner_outcome_available_at": "2010-09-12 00:00:00+00:00"
+      },
+      "2010-08-19T00:01:10.304000+00:00": {
+        "direction": "short",
+        "horizon": 10,
+        "net_return": 0.04209999999999997,
+        "outcome_available_at": "2010-09-13 00:00:00+00:00",
+        "policy_id": "attr__derived_jump_intensity__direct|h=10|dir=short",
+        "specialist": "attr__derived_jump_intensity__direct",
+        "winner_outcome_available_at": "2010-09-01 00:00:00+00:00"
+      },
+      "2010-08-20T00:01:21.191000+00:00": {
+        "direction": "short",
+        "horizon": 10,
+        "net_return": 0.0351,
+        "outcome_available_at": "2010-09-14 00:00:00+00:00",
+        "policy_id": "attr__derived_jump_intensity__inverse|h=10|dir=short",
+        "specialist": "attr__derived_jump_intensity__inverse",
+        "winner_outcome_available_at": "2010-09-02 00:00:00+00:00"
+      },
+      "2010-08-22T23:02:55.734000+00:00": {
+        "direction": "short",
+        "horizon": 5,
+        "net_return": 0.03259999999999997,
+        "outcome_available_at": "2010-09-15 00:00:00+00:00",
+        "policy_id": "attr__derived_jump_intensity__inverse|h=5|dir=short",
+        "specialist": "attr__derived_jump_intensity__inverse",
+        "winner_outcome_available_at": "2010-08-29 00:00:00+00:00"
+      },
+      "2010-08-24T00:01:40.038000+00:00": {
+        "direction": "short",
+        "horizon": 3,
+        "net_return": 0.03179999999999997,
+        "outcome_available_at": "2010-09-17 00:00:00+00:00",
+        "policy_id": "attr__derived_jump_intensity__direct|h=3|dir=short",
+        "specialist": "attr__derived_jump_intensity__direct",
+        "winner_outcome_available_at": "2010-08-29 00:00:00+00:00"
+      },
+      "2010-08-25T00:01:08.446000+00:00": {
+        "direction": "short",
+        "horizon": 3,
+        "net_return": 0.01840000000000002,
+        "outcome_available_at": "2010-09-19 00:00:00+00:00",
+        "policy_id": "attr__derived_jump_intensity__direct|h=3|dir=short",
+        "specialist": "attr__derived_jump_intensity__direct",
+        "winner_outcome_available_at": "2010-08-30 00:00:00+00:00"
+      },
+      "2010-08-26T00:16:12.163000+00:00": {
+        "direction": "short",
+        "horizon": 5,
+        "net_return": 0.010999999999999989,
+        "outcome_available_at": "2010-09-20 00:00:00+00:00",
+        "policy_id": "attr__derived_jump_intensity__inverse|h=5|dir=short",
+        "specialist": "attr__derived_jump_intensity__inverse",
+        "winner_outcome_available_at": "2010-09-02 00:00:00+00:00"
+      },
+      "2010-08-27T00:05:47.998000+00:00": {
+        "direction": "long",
+        "horizon": 20,
+        "net_return": 0.008400000000000012,
+        "outcome_available_at": "2010-09-21 00:00:00+00:00",
+        "policy_id": "attr__derived_jump_intensity__direct|h=20|dir=long",
+        "specialist": "attr__derived_jump_intensity__direct",
+        "winner_outcome_available_at": "2010-09-21 00:00:00+00:00"
+      },
+      "2010-08-29T23:30:11.142000+00:00": {
+        "direction": "long",
+        "horizon": 20,
+        "net_return": 0.016999999999999998,
+        "outcome_available_at": "2010-09-22 00:00:00+00:00",
+        "policy_id": "attr__derived_jump_intensity__direct|h=20|dir=long",
+        "specialist": "attr__derived_jump_intensity__direct",
+        "winner_outcome_available_at": "2010-09-22 00:00:00+00:00"
+      },
+      "2010-08-31T00:44:53.796000+00:00": {
+        "direction": "long",
+        "horizon": 20,
+        "net_return": 0.026499999999999968,
+        "outcome_available_at": "2010-09-24 00:00:00+00:00",
+        "policy_id": "attr__derived_jump_intensity__direct|h=20|dir=long",
+        "specialist": "attr__derived_jump_intensity__direct",
+        "winner_outcome_available_at": "2010-09-24 00:00:00+00:00"
+      },
+      "2010-09-01T00:33:24.068000+00:00": {
+        "direction": "long",
+        "horizon": 10,
+        "net_return": 0.01989999999999999,
+        "outcome_available_at": "2010-09-26 00:00:00+00:00",
+        "policy_id": "attr__derived_jump_intensity__inverse|h=10|dir=long",
+        "specialist": "attr__derived_jump_intensity__inverse",
+        "winner_outcome_available_at": "2010-09-14 00:00:00+00:00"
+      },
+      "2010-09-02T01:19:32.072000+00:00": {
+        "direction": "long",
+        "horizon": 10,
+        "net_return": 0.0186,
+        "outcome_available_at": "2010-09-27 00:00:00+00:00",
+        "policy_id": "attr__derived_jump_intensity__direct|h=10|dir=long",
+        "specialist": "attr__derived_jump_intensity__direct",
+        "winner_outcome_available_at": "2010-09-15 00:00:00+00:00"
+      },
+      "2010-09-03T00:02:36.246000+00:00": {
+        "direction": "short",
+        "horizon": 20,
+        "net_return": 0.013699999999999959,
+        "outcome_available_at": "2010-09-28 00:00:00+00:00",
+        "policy_id": "attr__derived_jump_intensity__direct|h=20|dir=short",
+        "specialist": "attr__derived_jump_intensity__direct",
+        "winner_outcome_available_at": "2010-09-28 00:00:00+00:00"
+      },
+      "2010-09-05T23:16:53.774000+00:00": {
+        "direction": "long",
+        "horizon": 10,
+        "net_return": 0.016399999999999967,
+        "outcome_available_at": "2010-09-17 00:00:00+00:00",
+        "policy_id": "attr__derived_jump_intensity__direct|h=10|dir=long",
+        "specialist": "attr__derived_jump_intensity__direct",
+        "winner_outcome_available_at": "2010-09-17 00:00:00+00:00"
+      },
+      "2010-09-08T00:37:55.552000+00:00": {
+        "direction": "long",
+        "horizon": 5,
+        "net_return": 0.01419999999999999,
+        "outcome_available_at": "2010-09-21 00:00:00+00:00",
+        "policy_id": "attr__derived_jump_intensity__direct|h=5|dir=long",
+        "specialist": "attr__derived_jump_intensity__direct",
+        "winner_outcome_available_at": "2010-09-15 00:00:00+00:00"
+      },
+      "2010-09-09T00:07:35.172000+00:00": {
+        "direction": "long",
+        "horizon": 5,
+        "net_return": 0.0197,
+        "outcome_available_at": "2010-09-22 00:00:00+00:00",
+        "policy_id": "attr__derived_jump_intensity__inverse|h=5|dir=long",
+        "specialist": "attr__derived_jump_intensity__inverse",
+        "winner_outcome_available_at": "2010-09-16 00:00:00+00:00"
+      },
+      "2010-09-10T00:04:59.248000+00:00": {
+        "direction": "long",
+        "horizon": 5,
+        "net_return": 0.02289999999999996,
+        "outcome_available_at": "2010-09-23 00:00:00+00:00",
+        "policy_id": "attr__derived_jump_intensity__inverse|h=5|dir=long",
+        "specialist": "attr__derived_jump_intensity__inverse",
+        "winner_outcome_available_at": "2010-09-17 00:00:00+00:00"
+      },
+      "2010-09-12T23:43:23.717000+00:00": {
+        "direction": "long",
+        "horizon": 10,
+        "net_return": 0.018899999999999962,
+        "outcome_available_at": "2010-09-24 00:00:00+00:00",
+        "policy_id": "attr__derived_jump_intensity__direct|h=10|dir=long",
+        "specialist": "attr__derived_jump_intensity__direct",
+        "winner_outcome_available_at": "2010-09-24 00:00:00+00:00"
+      },
+      "2010-09-14T00:06:47.395000+00:00": {
+        "direction": "short",
+        "horizon": 10,
+        "net_return": 0.015899999999999987,
+        "outcome_available_at": "2010-09-27 00:00:00+00:00",
+        "policy_id": "attr__derived_jump_intensity__direct|h=10|dir=short",
+        "specialist": "attr__derived_jump_intensity__direct",
+        "winner_outcome_available_at": "2010-09-27 00:00:00+00:00"
+      },
+      "2010-09-15T00:00:40.260000+00:00": {
+        "direction": "short",
+        "horizon": 10,
+        "net_return": 0.020299999999999978,
+        "outcome_available_at": "2010-09-28 00:00:00+00:00",
+        "policy_id": "attr__derived_jump_intensity__direct|h=10|dir=short",
+        "specialist": "attr__derived_jump_intensity__direct",
+        "winner_outcome_available_at": "2010-09-28 00:00:00+00:00"
+      },
+      "2010-09-16T00:11:53.098000+00:00": {
+        "direction": "short",
+        "horizon": 3,
+        "net_return": 0.02299999999999995,
+        "outcome_available_at": "2010-09-23 00:00:00+00:00",
+        "policy_id": "attr__derived_jump_intensity__direct|h=3|dir=short",
+        "specialist": "attr__derived_jump_intensity__direct",
+        "winner_outcome_available_at": "2010-09-21 00:00:00+00:00"
+      },
+      "2010-09-17T00:57:03.959000+00:00": {
+        "direction": "long",
+        "horizon": 5,
+        "net_return": 0.0060999999999999605,
+        "outcome_available_at": "2010-09-24 00:00:00+00:00",
+        "policy_id": "attr__derived_jump_intensity__direct|h=5|dir=long",
+        "specialist": "attr__derived_jump_intensity__direct",
+        "winner_outcome_available_at": "2010-09-24 00:00:00+00:00"
+      },
+      "2010-09-19T23:50:46.296000+00:00": {
+        "direction": "short",
+        "horizon": 5,
+        "net_return": 0.01079999999999998,
+        "outcome_available_at": "2010-09-26 00:00:00+00:00",
+        "policy_id": "attr__derived_jump_intensity__direct|h=5|dir=short",
+        "specialist": "attr__derived_jump_intensity__direct",
+        "winner_outcome_available_at": "2010-09-26 00:00:00+00:00"
+      },
+      "2010-09-21T01:06:09.041000+00:00": {
+        "direction": "short",
+        "horizon": 5,
+        "net_return": 0.01399999999999997,
+        "outcome_available_at": "2010-09-28 00:00:00+00:00",
+        "policy_id": "attr__derived_jump_intensity__inverse|h=5|dir=short",
+        "specialist": "attr__derived_jump_intensity__inverse",
+        "winner_outcome_available_at": "2010-09-28 00:00:00+00:00"
+      },
+      "2010-09-22T00:36:00.517000+00:00": {
+        "direction": "short",
+        "horizon": 3,
+        "net_return": 0.01800000000000002,
+        "outcome_available_at": "2010-09-27 00:00:00+00:00",
+        "policy_id": "attr__derived_jump_intensity__inverse|h=3|dir=short",
+        "specialist": "attr__derived_jump_intensity__inverse",
+        "winner_outcome_available_at": "2010-09-27 00:00:00+00:00"
+      },
+      "2010-09-23T00:01:49.732000+00:00": {
+        "direction": "short",
+        "horizon": 3,
+        "net_return": 0.02379999999999995,
+        "outcome_available_at": "2010-09-28 00:00:00+00:00",
+        "policy_id": "attr__derived_jump_intensity__direct|h=3|dir=short",
+        "specialist": "attr__derived_jump_intensity__direct",
+        "winner_outcome_available_at": "2010-09-28 00:00:00+00:00"
+      },
+      "2010-09-24T00:04:12.422000+00:00": {
+        "direction": "short",
+        "horizon": 1,
+        "net_return": 0.0012000000000000099,
+        "outcome_available_at": "2010-09-27 00:00:00+00:00",
+        "policy_id": "attr__derived_jump_intensity__direct|h=1|dir=short",
+        "specialist": "attr__derived_jump_intensity__direct",
+        "winner_outcome_available_at": "2010-09-27 00:00:00+00:00"
+      },
+      "2010-09-26T23:44:37.613000+00:00": {
+        "direction": "short",
+        "horizon": 1,
+        "net_return": 0.0006999999999999701,
+        "outcome_available_at": "2010-09-28 00:00:00+00:00",
+        "policy_id": "attr__derived_jump_intensity__inverse|h=1|dir=short",
+        "specialist": "attr__derived_jump_intensity__inverse",
+        "winner_outcome_available_at": "2010-09-28 00:00:00+00:00"
+      },
+      "2010-09-28T00:28:03.890000+00:00": {
+        "direction": "short",
+        "horizon": 20,
+        "net_return": 0.05559999999999998,
+        "outcome_available_at": "2010-10-22 00:00:00+00:00",
+        "policy_id": "attr__derived_jump_intensity__inverse|h=20|dir=short",
+        "specialist": "attr__derived_jump_intensity__inverse",
+        "winner_outcome_available_at": "2010-10-22 00:00:00+00:00"
+      },
+      "2010-09-30T00:32:28.322000+00:00": {
+        "direction": "short",
+        "horizon": 20,
+        "net_return": 0.0586,
+        "outcome_available_at": "2010-10-25 00:00:00+00:00",
+        "policy_id": "attr__derived_jump_intensity__direct|h=20|dir=short",
+        "specialist": "attr__derived_jump_intensity__direct",
+        "winner_outcome_available_at": "2010-10-25 00:00:00+00:00"
+      },
+      "2010-10-01T00:15:23.701000+00:00": {
+        "direction": "short",
+        "horizon": 20,
+        "net_return": 0.04059999999999998,
+        "outcome_available_at": "2010-10-26 00:00:00+00:00",
+        "policy_id": "attr__derived_jump_intensity__inverse|h=20|dir=short",
+        "specialist": "attr__derived_jump_intensity__inverse",
+        "winner_outcome_available_at": "2010-10-26 00:00:00+00:00"
+      },
+      "2010-10-03T23:30:55.291000+00:00": {
+        "direction": "short",
+        "horizon": 20,
+        "net_return": 0.04389999999999999,
+        "outcome_available_at": "2010-10-27 00:00:00+00:00",
+        "policy_id": "attr__derived_jump_intensity__inverse|h=20|dir=short",
+        "specialist": "attr__derived_jump_intensity__inverse",
+        "winner_outcome_available_at": "2010-10-27 00:00:00+00:00"
+      },
+      "2010-10-05T00:03:25.711000+00:00": {
+        "direction": "short",
+        "horizon": 10,
+        "net_return": 0.028700000000000003,
+        "outcome_available_at": "2010-10-29 00:00:00+00:00",
+        "policy_id": "attr__derived_jump_intensity__inverse|h=10|dir=short",
+        "specialist": "attr__derived_jump_intensity__inverse",
+        "winner_outcome_available_at": "2010-10-18 00:00:00+00:00"
+      },
+      "2010-10-06T00:00:37.617000+00:00": {
+        "direction": "short",
+        "horizon": 10,
+        "net_return": 0.04579999999999997,
+        "outcome_available_at": "2010-10-31 00:00:00+00:00",
+        "policy_id": "attr__derived_jump_intensity__direct|h=10|dir=short",
+        "specialist": "attr__derived_jump_intensity__direct",
+        "winner_outcome_available_at": "2010-10-19 00:00:00+00:00"
+      },
+      "2010-10-07T00:00:48.818000+00:00": {
+        "direction": "short",
+        "horizon": 10,
+        "net_return": 0.008600000000000042,
+        "outcome_available_at": "2010-11-01 00:00:00+00:00",
+        "policy_id": "attr__derived_jump_intensity__inverse|h=10|dir=short",
+        "specialist": "attr__derived_jump_intensity__inverse",
+        "winner_outcome_available_at": "2010-10-20 00:00:00+00:00"
+      },
+      "2010-10-08T00:00:30.565000+00:00": {
+        "direction": "short",
+        "horizon": 20,
+        "net_return": 0.02360000000000001,
+        "outcome_available_at": "2010-11-02 00:00:00+00:00",
+        "policy_id": "attr__derived_jump_intensity__inverse|h=20|dir=short",
+        "specialist": "attr__derived_jump_intensity__inverse",
+        "winner_outcome_available_at": "2010-11-02 00:00:00+00:00"
+      },
+      "2010-10-10T23:34:50.664000+00:00": {
+        "direction": "short",
+        "horizon": 10,
+        "net_return": 0.022999999999999972,
+        "outcome_available_at": "2010-11-03 00:00:00+00:00",
+        "policy_id": "attr__derived_jump_intensity__direct|h=10|dir=short",
+        "specialist": "attr__derived_jump_intensity__direct",
+        "winner_outcome_available_at": "2010-10-22 00:00:00+00:00"
+      },
+      "2010-10-12T00:00:37.236000+00:00": {
+        "direction": "short",
+        "horizon": 10,
+        "net_return": 0.03719999999999999,
+        "outcome_available_at": "2010-11-05 00:00:00+00:00",
+        "policy_id": "attr__derived_jump_intensity__direct|h=10|dir=short",
+        "specialist": "attr__derived_jump_intensity__direct",
+        "winner_outcome_available_at": "2010-10-25 00:00:00+00:00"
+      },
+      "2010-10-13T00:00:37.664000+00:00": {
+        "direction": "short",
+        "horizon": 10,
+        "net_return": 0.0327,
+        "outcome_available_at": "2010-11-07 00:00:00+00:00",
+        "policy_id": "attr__derived_jump_intensity__direct|h=10|dir=short",
+        "specialist": "attr__derived_jump_intensity__direct",
+        "winner_outcome_available_at": "2010-10-26 00:00:00+00:00"
+      },
+      "2010-10-14T00:00:38.321000+00:00": {
+        "direction": "short",
+        "horizon": 10,
+        "net_return": 0.030099999999999995,
+        "outcome_available_at": "2010-11-08 00:00:00+00:00",
+        "policy_id": "attr__derived_jump_intensity__inverse|h=10|dir=short",
+        "specialist": "attr__derived_jump_intensity__inverse",
+        "winner_outcome_available_at": "2010-10-27 00:00:00+00:00"
+      },
+      "2010-10-15T00:09:09.601000+00:00": {
+        "direction": "long",
+        "horizon": 20,
+        "net_return": 0.021399999999999995,
+        "outcome_available_at": "2010-11-09 00:00:00+00:00",
+        "policy_id": "attr__derived_jump_intensity__inverse|h=20|dir=long",
+        "specialist": "attr__derived_jump_intensity__inverse",
+        "winner_outcome_available_at": "2010-11-09 00:00:00+00:00"
+      },
+      "2010-10-17T22:24:04.878000+00:00": {
+        "direction": "long",
+        "horizon": 20,
+        "net_return": 0.030199999999999994,
+        "outcome_available_at": "2010-11-10 00:00:00+00:00",
+        "policy_id": "attr__derived_jump_intensity__direct|h=20|dir=long",
+        "specialist": "attr__derived_jump_intensity__direct",
+        "winner_outcome_available_at": "2010-11-10 00:00:00+00:00"
+      },
+      "2010-10-19T00:18:35.052000+00:00": {
+        "direction": "short",
+        "horizon": 3,
+        "net_return": 0.0227,
+        "outcome_available_at": "2010-11-12 00:00:00+00:00",
+        "policy_id": "attr__derived_jump_intensity__inverse|h=3|dir=short",
+        "specialist": "attr__derived_jump_intensity__inverse",
+        "winner_outcome_available_at": "2010-10-24 00:00:00+00:00"
+      },
+      "2010-10-20T00:10:21.001000+00:00": {
+        "direction": "short",
+        "horizon": 3,
+        "net_return": 0.0254,
+        "outcome_available_at": "2010-11-14 00:00:00+00:00",
+        "policy_id": "attr__derived_jump_intensity__inverse|h=3|dir=short",
+        "specialist": "attr__derived_jump_intensity__inverse",
+        "winner_outcome_available_at": "2010-10-25 00:00:00+00:00"
+      },
+      "2010-10-21T00:00:36.706000+00:00": {
+        "direction": "short",
+        "horizon": 1,
+        "net_return": 0.01030000000000003,
+        "outcome_available_at": "2010-11-15 00:00:00+00:00",
+        "policy_id": "attr__derived_jump_intensity__direct|h=1|dir=short",
+        "specialist": "attr__derived_jump_intensity__direct",
+        "winner_outcome_available_at": "2010-10-24 00:00:00+00:00"
+      },
+      "2010-10-22T00:00:41.420000+00:00": {
+        "direction": "long",
+        "horizon": 5,
+        "net_return": 0.01930000000000003,
+        "outcome_available_at": "2010-11-16 00:00:00+00:00",
+        "policy_id": "attr__derived_jump_intensity__direct|h=5|dir=long",
+        "specialist": "attr__derived_jump_intensity__direct",
+        "winner_outcome_available_at": "2010-10-29 00:00:00+00:00"
+      },
+      "2010-10-24T22:58:53.442000+00:00": {
+        "direction": "long",
+        "horizon": 5,
+        "net_return": 0.03269999999999996,
+        "outcome_available_at": "2010-11-17 00:00:00+00:00",
+        "policy_id": "attr__derived_jump_intensity__inverse|h=5|dir=long",
+        "specialist": "attr__derived_jump_intensity__inverse",
+        "winner_outcome_available_at": "2010-10-31 00:00:00+00:00"
+      },
+      "2010-10-26T00:02:43.914000+00:00": {
+        "direction": "long",
+        "horizon": 3,
+        "net_return": 0.026099999999999967,
+        "outcome_available_at": "2010-11-19 00:00:00+00:00",
+        "policy_id": "attr__derived_jump_intensity__inverse|h=3|dir=long",
+        "specialist": "attr__derived_jump_intensity__inverse",
+        "winner_outcome_available_at": "2010-10-31 00:00:00+00:00"
+      },
+      "2010-10-27T00:00:51.619000+00:00": {
+        "direction": "long",
+        "horizon": 20,
+        "net_return": 0.03719999999999997,
+        "outcome_available_at": "2010-11-21 00:00:00+00:00",
+        "policy_id": "attr__derived_jump_intensity__inverse|h=20|dir=long",
+        "specialist": "attr__derived_jump_intensity__inverse",
+        "winner_outcome_available_at": "2010-11-21 00:00:00+00:00"
+      },
+      "2010-10-28T00:21:20.372000+00:00": {
+        "direction": "long",
+        "horizon": 10,
+        "net_return": 0.029399999999999985,
+        "outcome_available_at": "2010-11-22 00:00:00+00:00",
+        "policy_id": "attr__derived_jump_intensity__inverse|h=10|dir=long",
+        "specialist": "attr__derived_jump_intensity__inverse",
+        "winner_outcome_available_at": "2010-11-10 00:00:00+00:00"
+      },
+      "2010-10-29T00:05:32.587000+00:00": {
+        "direction": "long",
+        "horizon": 20,
+        "net_return": 0.024300000000000006,
+        "outcome_available_at": "2010-11-23 00:00:00+00:00",
+        "policy_id": "attr__derived_jump_intensity__direct|h=20|dir=long",
+        "specialist": "attr__derived_jump_intensity__direct",
+        "winner_outcome_available_at": "2010-11-23 00:00:00+00:00"
+      },
+      "2010-10-31T23:46:58.559000+00:00": {
+        "direction": "short",
+        "horizon": 3,
+        "net_return": 0.0231,
+        "outcome_available_at": "2010-11-24 00:00:00+00:00",
+        "policy_id": "attr__derived_jump_intensity__inverse|h=3|dir=short",
+        "specialist": "attr__derived_jump_intensity__inverse",
+        "winner_outcome_available_at": "2010-11-04 00:00:00+00:00"
+      },
+      "2010-11-02T00:07:14.620000+00:00": {
+        "direction": "long",
+        "horizon": 20,
+        "net_return": 0.03829999999999987,
+        "outcome_available_at": "2010-11-26 00:00:00+00:00",
+        "policy_id": "attr__derived_jump_intensity__direct|h=20|dir=long",
+        "specialist": "attr__derived_jump_intensity__direct",
+        "winner_outcome_available_at": "2010-11-26 00:00:00+00:00"
+      },
+      "2010-11-03T00:00:51.065000+00:00": {
+        "direction": "long",
+        "horizon": 20,
+        "net_return": 0.041099999999999866,
+        "outcome_available_at": "2010-11-28 00:00:00+00:00",
+        "policy_id": "attr__derived_jump_intensity__inverse|h=20|dir=long",
+        "specialist": "attr__derived_jump_intensity__inverse",
+        "winner_outcome_available_at": "2010-11-28 00:00:00+00:00"
+      },
+      "2010-11-04T00:07:35.050000+00:00": {
+        "direction": "long",
+        "horizon": 20,
+        "net_return": 0.03789999999999995,
+        "outcome_available_at": "2010-11-29 00:00:00+00:00",
+        "policy_id": "attr__derived_jump_intensity__inverse|h=20|dir=long",
+        "specialist": "attr__derived_jump_intensity__inverse",
+        "winner_outcome_available_at": "2010-11-29 00:00:00+00:00"
+      },
+      "2010-11-05T00:16:27.850000+00:00": {
+        "direction": "long",
+        "horizon": 3,
+        "net_return": 0.025899999999999992,
+        "outcome_available_at": "2010-11-30 00:00:00+00:00",
+        "policy_id": "attr__derived_jump_intensity__inverse|h=3|dir=long",
+        "specialist": "attr__derived_jump_intensity__inverse",
+        "winner_outcome_available_at": "2010-11-10 00:00:00+00:00"
+      },
+      "2010-11-07T23:59:04.267000+00:00": {
+        "direction": "short",
+        "horizon": 5,
+        "net_return": 0.020100000000000017,
+        "outcome_available_at": "2010-12-01 00:00:00+00:00",
+        "policy_id": "attr__derived_jump_intensity__inverse|h=5|dir=short",
+        "specialist": "attr__derived_jump_intensity__inverse",
+        "winner_outcome_available_at": "2010-11-14 00:00:00+00:00"
+      },
+      "2010-11-09T01:00:50.329000+00:00": {
+        "direction": "short",
+        "horizon": 3,
+        "net_return": 0.043300000000000026,
+        "outcome_available_at": "2010-12-03 00:00:00+00:00",
+        "policy_id": "attr__derived_jump_intensity__inverse|h=3|dir=short",
+        "specialist": "attr__derived_jump_intensity__inverse",
+        "winner_outcome_available_at": "2010-11-14 00:00:00+00:00"
+      },
+      "2010-11-10T01:10:14.114000+00:00": {
+        "direction": "short",
+        "horizon": 3,
+        "net_return": 0.026099999999999977,
+        "outcome_available_at": "2010-12-05 00:00:00+00:00",
+        "policy_id": "attr__derived_jump_intensity__inverse|h=3|dir=short",
+        "specialist": "attr__derived_jump_intensity__inverse",
+        "winner_outcome_available_at": "2010-11-15 00:00:00+00:00"
+      },
+      "2010-11-11T01:00:37.111000+00:00": {
+        "direction": "long",
+        "horizon": 20,
+        "net_return": 0.0322999999999999,
+        "outcome_available_at": "2010-12-06 00:00:00+00:00",
+        "policy_id": "attr__derived_jump_intensity__direct|h=20|dir=long",
+        "specialist": "attr__derived_jump_intensity__direct",
+        "winner_outcome_available_at": "2010-12-06 00:00:00+00:00"
+      },
+      "2010-11-12T01:00:52.156000+00:00": {
+        "direction": "long",
+        "horizon": 20,
+        "net_return": 0.0572999999999999,
+        "outcome_available_at": "2010-12-07 00:00:00+00:00",
+        "policy_id": "attr__derived_jump_intensity__direct|h=20|dir=long",
+        "specialist": "attr__derived_jump_intensity__direct",
+        "winner_outcome_available_at": "2010-12-07 00:00:00+00:00"
+      },
+      "2010-11-14T23:37:53.184000+00:00": {
+        "direction": "long",
+        "horizon": 10,
+        "net_return": 0.04259999999999989,
+        "outcome_available_at": "2010-12-08 00:00:00+00:00",
+        "policy_id": "attr__derived_jump_intensity__direct|h=10|dir=long",
+        "specialist": "attr__derived_jump_intensity__direct",
+        "winner_outcome_available_at": "2010-11-26 00:00:00+00:00"
+      },
+      "2010-11-16T01:34:51.812000+00:00": {
+        "direction": "long",
+        "horizon": 5,
+        "net_return": 0.04489999999999998,
+        "outcome_available_at": "2010-12-10 00:00:00+00:00",
+        "policy_id": "attr__derived_jump_intensity__inverse|h=5|dir=long",
+        "specialist": "attr__derived_jump_intensity__inverse",
+        "winner_outcome_available_at": "2010-11-23 00:00:00+00:00"
+      },
+      "2010-11-17T02:49:26.166000+00:00": {
+        "direction": "long",
+        "horizon": 20,
+        "net_return": 0.025399999999999867,
+        "outcome_available_at": "2010-12-12 00:00:00+00:00",
+        "policy_id": "attr__derived_jump_intensity__inverse|h=20|dir=long",
+        "specialist": "attr__derived_jump_intensity__inverse",
+        "winner_outcome_available_at": "2010-12-12 00:00:00+00:00"
+      },
+      "2010-11-18T01:01:24.689000+00:00": {
+        "direction": "long",
+        "horizon": 20,
+        "net_return": 0.029599999999999932,
+        "outcome_available_at": "2010-12-13 00:00:00+00:00",
+        "policy_id": "attr__derived_jump_intensity__direct|h=20|dir=long",
+        "specialist": "attr__derived_jump_intensity__direct",
+        "winner_outcome_available_at": "2010-12-13 00:00:00+00:00"
+      },
+      "2010-11-19T01:04:35.084000+00:00": {
+        "direction": "long",
+        "horizon": 20,
+        "net_return": 0.00989999999999993,
+        "outcome_available_at": "2010-12-14 00:00:00+00:00",
+        "policy_id": "attr__derived_jump_intensity__inverse|h=20|dir=long",
+        "specialist": "attr__derived_jump_intensity__inverse",
+        "winner_outcome_available_at": "2010-12-14 00:00:00+00:00"
+      },
+      "2010-11-21T23:59:08.911000+00:00": {
+        "direction": "short",
+        "horizon": 20,
+        "net_return": 0.009900000000000148,
+        "outcome_available_at": "2010-12-15 00:00:00+00:00",
+        "policy_id": "attr__derived_jump_intensity__inverse|h=20|dir=short",
+        "specialist": "attr__derived_jump_intensity__inverse",
+        "winner_outcome_available_at": "2010-12-15 00:00:00+00:00"
+      },
+      "2010-11-23T01:00:51.863000+00:00": {
+        "direction": "short",
+        "horizon": 20,
+        "net_return": 0.037900000000000066,
+        "outcome_available_at": "2010-12-17 00:00:00+00:00",
+        "policy_id": "attr__derived_jump_intensity__direct|h=20|dir=short",
+        "specialist": "attr__derived_jump_intensity__direct",
+        "winner_outcome_available_at": "2010-12-17 00:00:00+00:00"
+      },
+      "2010-11-24T23:45:17.562000+00:00": {
+        "direction": "short",
+        "horizon": 20,
+        "net_return": 0.036300000000000054,
+        "outcome_available_at": "2010-12-19 00:00:00+00:00",
+        "policy_id": "attr__derived_jump_intensity__direct|h=20|dir=short",
+        "specialist": "attr__derived_jump_intensity__direct",
+        "winner_outcome_available_at": "2010-12-19 00:00:00+00:00"
+      },
+      "2010-11-25T23:00:00.344000+00:00": {
+        "direction": "short",
+        "horizon": 20,
+        "net_return": 0.03779999999999994,
+        "outcome_available_at": "2010-12-20 00:00:00+00:00",
+        "policy_id": "attr__derived_jump_intensity__direct|h=20|dir=short",
+        "specialist": "attr__derived_jump_intensity__direct",
+        "winner_outcome_available_at": "2010-12-20 00:00:00+00:00"
+      },
+      "2010-11-28T23:56:49.497000+00:00": {
+        "direction": "short",
+        "horizon": 20,
+        "net_return": 0.031900000000000005,
+        "outcome_available_at": "2010-12-22 00:00:00+00:00",
+        "policy_id": "attr__derived_jump_intensity__direct|h=20|dir=short",
+        "specialist": "attr__derived_jump_intensity__direct",
+        "winner_outcome_available_at": "2010-12-22 00:00:00+00:00"
+      },
+      "2010-11-30T01:01:25.026000+00:00": {
+        "direction": "long",
+        "horizon": 5,
+        "net_return": 0.030899999999999917,
+        "outcome_available_at": "2010-12-26 00:00:00+00:00",
+        "policy_id": "attr__derived_jump_intensity__direct|h=5|dir=long",
+        "specialist": "attr__derived_jump_intensity__direct",
+        "winner_outcome_available_at": "2010-12-07 00:00:00+00:00"
+      },
+      "2010-12-01T01:00:49.551000+00:00": {
+        "direction": "short",
+        "horizon": 20,
+        "net_return": 0.025199999999999997,
+        "outcome_available_at": "2010-12-27 00:00:00+00:00",
+        "policy_id": "attr__derived_jump_intensity__direct|h=20|dir=short",
+        "specialist": "attr__derived_jump_intensity__direct",
+        "winner_outcome_available_at": "2010-12-27 00:00:00+00:00"
+      },
+      "2010-12-02T01:08:17.940000+00:00": {
+        "direction": "short",
+        "horizon": 20,
+        "net_return": 0.025500000000000005,
+        "outcome_available_at": "2010-12-28 00:00:00+00:00",
+        "policy_id": "attr__derived_jump_intensity__inverse|h=20|dir=short",
+        "specialist": "attr__derived_jump_intensity__inverse",
+        "winner_outcome_available_at": "2010-12-28 00:00:00+00:00"
+      },
+      "2010-12-03T01:05:15.241000+00:00": {
+        "direction": "short",
+        "horizon": 10,
+        "net_return": 0.01519999999999994,
+        "outcome_available_at": "2010-12-16 00:00:00+00:00",
+        "policy_id": "attr__derived_jump_intensity__direct|h=10|dir=short",
+        "specialist": "attr__derived_jump_intensity__direct",
+        "winner_outcome_available_at": "2010-12-16 00:00:00+00:00"
+      },
+      "2010-12-05T23:59:47.756000+00:00": {
+        "direction": "short",
+        "horizon": 10,
+        "net_return": 0.0388,
+        "outcome_available_at": "2010-12-17 00:00:00+00:00",
+        "policy_id": "attr__derived_jump_intensity__direct|h=10|dir=short",
+        "specialist": "attr__derived_jump_intensity__direct",
+        "winner_outcome_available_at": "2010-12-17 00:00:00+00:00"
+      },
+      "2010-12-07T01:00:46.285000+00:00": {
+        "direction": "short",
+        "horizon": 10,
+        "net_return": 0.03419999999999996,
+        "outcome_available_at": "2010-12-20 00:00:00+00:00",
+        "policy_id": "attr__derived_jump_intensity__inverse|h=10|dir=short",
+        "specialist": "attr__derived_jump_intensity__inverse",
+        "winner_outcome_available_at": "2010-12-20 00:00:00+00:00"
+      },
+      "2010-12-08T01:00:36.236000+00:00": {
+        "direction": "short",
+        "horizon": 5,
+        "net_return": 0.03730000000000003,
+        "outcome_available_at": "2010-12-21 00:00:00+00:00",
+        "policy_id": "attr__derived_jump_intensity__direct|h=5|dir=short",
+        "specialist": "attr__derived_jump_intensity__direct",
+        "winner_outcome_available_at": "2010-12-15 00:00:00+00:00"
+      },
+      "2010-12-09T01:00:47.309000+00:00": {
+        "direction": "short",
+        "horizon": 10,
+        "net_return": 0.03309999999999996,
+        "outcome_available_at": "2010-12-22 00:00:00+00:00",
+        "policy_id": "attr__derived_jump_intensity__inverse|h=10|dir=short",
+        "specialist": "attr__derived_jump_intensity__inverse",
+        "winner_outcome_available_at": "2010-12-22 00:00:00+00:00"
+      },
+      "2010-12-10T01:01:03.410000+00:00": {
+        "direction": "short",
+        "horizon": 5,
+        "net_return": 0.04230000000000001,
+        "outcome_available_at": "2010-12-23 00:00:00+00:00",
+        "policy_id": "attr__derived_jump_intensity__inverse|h=5|dir=short",
+        "specialist": "attr__derived_jump_intensity__inverse",
+        "winner_outcome_available_at": "2010-12-17 00:00:00+00:00"
+      },
+      "2010-12-12T23:52:21.496000+00:00": {
+        "direction": "short",
+        "horizon": 10,
+        "net_return": 0.04470000000000001,
+        "outcome_available_at": "2010-12-26 00:00:00+00:00",
+        "policy_id": "attr__derived_jump_intensity__direct|h=10|dir=short",
+        "specialist": "attr__derived_jump_intensity__direct",
+        "winner_outcome_available_at": "2010-12-26 00:00:00+00:00"
+      },
+      "2010-12-14T01:10:11.481000+00:00": {
+        "direction": "short",
+        "horizon": 3,
+        "net_return": 0.018100000000000012,
+        "outcome_available_at": "2010-12-28 00:00:00+00:00",
+        "policy_id": "attr__derived_jump_intensity__direct|h=3|dir=short",
+        "specialist": "attr__derived_jump_intensity__direct",
+        "winner_outcome_available_at": "2010-12-19 00:00:00+00:00"
+      },
+      "2010-12-15T01:00:35.630000+00:00": {
+        "direction": "short",
+        "horizon": 1,
+        "net_return": 0.020900000000000057,
+        "outcome_available_at": "2010-12-22 00:00:00+00:00",
+        "policy_id": "attr__derived_jump_intensity__inverse|h=1|dir=short",
+        "specialist": "attr__derived_jump_intensity__inverse",
+        "winner_outcome_available_at": "2010-12-17 00:00:00+00:00"
+      },
+      "2010-12-16T01:00:35.218000+00:00": {
+        "direction": "long",
+        "horizon": 3,
+        "net_return": 0.02170000000000006,
+        "outcome_available_at": "2010-12-23 00:00:00+00:00",
+        "policy_id": "attr__derived_jump_intensity__inverse|h=3|dir=long",
+        "specialist": "attr__derived_jump_intensity__inverse",
+        "winner_outcome_available_at": "2010-12-21 00:00:00+00:00"
+      },
+      "2010-12-17T03:18:24.572000+00:00": {
+        "direction": "short",
+        "horizon": 1,
+        "net_return": 0.0023999999999999204,
+        "outcome_available_at": "2010-12-26 00:00:00+00:00",
+        "policy_id": "attr__derived_jump_intensity__inverse|h=1|dir=short",
+        "specialist": "attr__derived_jump_intensity__inverse",
+        "winner_outcome_available_at": "2010-12-20 00:00:00+00:00"
+      },
+      "2010-12-19T23:52:07.950000+00:00": {
+        "direction": "long",
+        "horizon": 1,
+        "net_return": 0.021,
+        "outcome_available_at": "2010-12-27 00:00:00+00:00",
+        "policy_id": "attr__derived_jump_intensity__inverse|h=1|dir=long",
+        "specialist": "attr__derived_jump_intensity__inverse",
+        "winner_outcome_available_at": "2010-12-21 00:00:00+00:00"
+      },
+      "2010-12-21T01:43:08.434000+00:00": {
+        "direction": "long",
+        "horizon": 1,
+        "net_return": 0.0034999999999999303,
+        "outcome_available_at": "2010-12-27 00:00:00+00:00",
+        "policy_id": "attr__derived_jump_intensity__direct|h=1|dir=long",
+        "specialist": "attr__derived_jump_intensity__direct",
+        "winner_outcome_available_at": "2010-12-23 00:00:00+00:00"
+      },
+      "2010-12-22T01:25:39.876000+00:00": {
+        "direction": "short",
+        "horizon": 1,
+        "net_return": 0.00819999999999999,
+        "outcome_available_at": "2010-12-28 00:00:00+00:00",
+        "policy_id": "attr__derived_jump_intensity__inverse|h=1|dir=short",
+        "specialist": "attr__derived_jump_intensity__inverse",
+        "winner_outcome_available_at": "2010-12-26 00:00:00+00:00"
+      },
+      "2010-12-24T01:47:19.762000+00:00": {
+        "direction": "long",
+        "horizon": 1,
+        "net_return": 0.0013,
+        "outcome_available_at": "2010-12-27 00:00:00+00:00",
+        "policy_id": "attr__derived_jump_intensity__inverse|h=1|dir=long",
+        "specialist": "attr__derived_jump_intensity__inverse",
+        "winner_outcome_available_at": "2010-12-27 00:00:00+00:00"
+      },
+      "2010-12-28T01:00:35.048000+00:00": {
+        "direction": "long",
+        "horizon": 5,
+        "net_return": 0.0357,
+        "outcome_available_at": "2011-01-04 00:00:00+00:00",
+        "policy_id": "attr__derived_jump_intensity__inverse|h=5|dir=long",
+        "specialist": "attr__derived_jump_intensity__inverse",
+        "winner_outcome_available_at": "2011-01-04 00:00:00+00:00"
+      },
+      "2010-12-30T01:00:35.091000+00:00": {
+        "direction": "long",
+        "horizon": 3,
+        "net_return": 0.028800000000000013,
+        "outcome_available_at": "2011-01-04 00:00:00+00:00",
+        "policy_id": "attr__derived_jump_intensity__inverse|h=3|dir=long",
+        "specialist": "attr__derived_jump_intensity__inverse",
+        "winner_outcome_available_at": "2011-01-04 00:00:00+00:00"
+      },
+      "2010-12-31T01:00:35.557000+00:00": {
+        "direction": "long",
+        "horizon": 3,
+        "net_return": 0.013900000000000018,
+        "outcome_available_at": "2011-01-05 00:00:00+00:00",
+        "policy_id": "attr__derived_jump_intensity__inverse|h=3|dir=long",
+        "specialist": "attr__derived_jump_intensity__inverse",
+        "winner_outcome_available_at": "2011-01-05 00:00:00+00:00"
+      },
+      "2011-01-02T23:14:28.828000+00:00": {
+        "direction": "long",
+        "horizon": 1,
+        "net_return": 0.01080000000000006,
+        "outcome_available_at": "2011-01-04 00:00:00+00:00",
+        "policy_id": "attr__derived_jump_intensity__inverse|h=1|dir=long",
+        "specialist": "attr__derived_jump_intensity__inverse",
+        "winner_outcome_available_at": "2011-01-04 00:00:00+00:00"
+      }
+    }
+  },
+  "oracle_first_sha256": "279c0dc1951a6f0cf91421d2fcc6ee9eccbb7398daba53850f65094a3b9ab4b3",
+  "oracle_weight_predictor_sha256": "c69e0856a1b06334f65b258c762eb716d89d2ea3117491281d0d413bfb8f6242",
+  "post_warmup_performance": {
+    "active_month_count": 3,
+    "calendar_month_count": 6,
+    "ending_equity_usd": 101460.0,
+    "flat_net_return": -0.0004125,
+    "long_net_return": -0.02220000000000001,
+    "max_abs_exposure_contracts": 1.0,
+    "max_drawdown_fraction": 0.030019390515404688,
+    "max_margin_utilization_fraction": 0.04966722956193503,
+    "mean_calendar_month_net_return": 0.0024333333333333277,
+    "median_calendar_month_net_return": 0.0,
+    "profitable_calendar_month_rate": 0.3333333333333333,
+    "short_net_return": 0.03721249999999999,
+    "total_net_pnl_usd": 1459.9999999999968,
+    "total_net_return": 0.014599999999999974,
+    "trade_count": 19,
+    "transaction_cost_usd": 127.5,
+    "turnover_contracts": 8.5
+  },
+  "preflight_sha256": "a22cad2dd5c5257e2d0a0f1be8ecc8a945f2e054082f2667e98b19fb606c8d6d",
+  "prereg_sha256": "6a404260ee58cb726f5fbf16ac45b33df67586fbb708e982f6d7cafdf3727722",
+  "primitive_oracle_winner_predictor_sha256": "4522578395b3e4ff4623c1cdbf1ebbc1f91722e5afdf9558c543cea25d035fc8",
+  "primitive_oracle_winner_reporting": {
+    "post_warmup_policy_id_hit_rate": 0.010752688172043012,
+    "predictor_row_count": 123,
+    "selection_use": false,
+    "strict_prior_predictor_check": true,
+    "target_components": [
+      "policy_id",
+      "specialist",
+      "horizon",
+      "direction"
+    ],
+    "target_type": "primitive_policy_id"
+  },
+  "protected_confirmation_accessed": false,
+  "published_generation": {
+    "block_id": "block-001",
+    "candidate_grid_sha256": "00275de7493afaf840e21b6b05cb3bad5cb31071f5b3eeae7ad2cd33278807c5",
+    "generation_id": "e3e221b3c9d945813e92cef9dbef8fd0",
+    "generation_manifest_sha256": "964e675276e3f94ccafa385a0a8fe8b1e86c3fd39625c066cd3e8074ca06b3de",
+    "generation_path": ".work\\changes\\470-v238-adverse-path-add-guard\\evidence\\replay\\generations\\e3e221b3c9d945813e92cef9dbef8fd0",
+    "issue": 465,
+    "schema_version": 1,
+    "scoring_input_identity_sha256": "96d9cb1801bf8ca80cbe78b8d47de1f10ab5c82b91cbcd25fc732720aaa31a51",
+    "status": "SCORED_PENDING_SCOPE_AUDIT"
+  },
+  "realized_exposure_and_leverage": {
+    "max_abs_exposure_contracts": 1.0,
+    "max_margin_fraction": 0.049576738594251574,
+    "max_notional_leverage": 0.4021665034765688,
+    "mean_abs_exposure_contracts": 0.25268817204301075,
+    "mean_notional_leverage": 0.09678135587068612,
+    "p95_notional_leverage": 0.2849293088568712
+  },
+  "schema_version": 4,
+  "scope_audit_required_before_verification": true,
+  "scoring_code_identity": {
+    "base_controller_dependency_sha256": "b726888239069f236a6db5e92dfebbee5e5004a1de4404f95c07538cfb2ef106",
+    "controller_v2_dependency_sha256": "aa9d63b7815fc2224a16b7ca6604c6a88ee00b521c2f17af4f136becddcef833",
+    "controller_v3_diagnostics_sha256": "2e76afc47531a4bfcfba21acfc05a3124c324f92989b317b2e7fb8bfb61e1fd8",
+    "controller_v3_sha256": "a8cd580e4d779949e0eb2fdeb0054f8b7eb390f69086924d2090396abd3a8f91",
+    "expert_path_generator_sha256": "7aa2c0dd870d231e318fb5da5dbbe2e22815fb337c1689a85ace651a2681c845",
+    "runner_sha256": "6f8a33974a6e45359afb03045b1382186a9aa3e88ba9c27792b77bca452823e7",
+    "v1_runner_dependency_sha256": "b762322f1c83bd9709abe43e9f2e48e28377c80673e7586126f6b64a105bfb7c",
+    "v2_runner_dependency_sha256": "8abeb7e2783705fd0f1de46a6ed0776335771c022218551572e3541d518b2ab7",
+    "v3_replay_engine_sha256": "516674f8749e5df232e9f3157f56cbcde732fbfee4e3f9539142ddf18569437e"
+  },
+  "scoring_environment_identity": {
+    "kronos_requirements_lock_sha256": "74b6d2e9d855522837afb73728eb55f9a1eba4d7a77b5f90ee39285b5d8fc08a",
+    "packages": {
+      "numpy": "2.4.6",
+      "pandas": "2.3.3",
+      "pyarrow": "25.0.1",
+      "scikit-learn": "1.9.0",
+      "scipy": "1.17.1"
+    },
+    "platform_machine": "AMD64",
+    "platform_release": "10",
+    "platform_system": "Windows",
+    "pyproject_sha256": "1465e84d06ad070dc5a1e4a09c0fdff60513b59e510f1c8e2f5db174dea631cc",
+    "python_implementation": "CPython",
+    "python_version": "3.11.9",
+    "requirements_lock_sha256": "4784d9d0037f308ea64b4e790c4894b9f06747eece8711029b12ddcbc09ac418"
+  },
+  "scoring_input_identity_sha256": "96d9cb1801bf8ca80cbe78b8d47de1f10ab5c82b91cbcd25fc732720aaa31a51",
+  "search_governance": {
+    "execution_scenarios_per_candidate": 3,
+    "meta_controller_attempts": 1,
+    "multiplicity_accounting_required_in_trial_ledger": true,
+    "observed_candidate_scenario_attempt_count": 288,
+    "observed_structural_candidate_count": 96,
+    "outcome_dependent_pruning": false,
+    "stopping_rule_triggered_after_all_frozen_attempts": true,
+    "structural_candidate_attempts": 96,
+    "total_candidate_scenario_replays": 288,
+    "trial_attempt_ordinals_complete": true
+  },
+  "selection_concentration": {
+    "effective_selection_weight_total": 53.999999999999915,
+    "top_config_weight_share": 0.11111111111111134,
+    "top_config_weights": [
+      [
+        "long=balanced|short=broad|cmp=0|slow=10",
+        6.000000000000003
+      ],
+      [
+        "long=balanced|short=broad|cmp=0|slow=20",
+        6.000000000000003
+      ],
+      [
+        "long=broad|short=broad|cmp=0|slow=10",
+        6.000000000000003
+      ],
+      [
+        "long=broad|short=broad|cmp=0|slow=20",
+        6.000000000000003
+      ],
+      [
+        "long=fast|short=broad|cmp=0|slow=10",
+        6.000000000000003
+      ],
+      [
+        "long=balanced|short=slow|cmp=0.5|slow=20",
+        4.699900718426787
+      ],
+      [
+        "long=slow|short=slow|cmp=0.25|slow=10",
+        3.908624464040205
+      ],
+      [
+        "long=fast|short=slow|cmp=0|slow=10",
+        3.642893843764705
+      ],
+      [
+        "long=balanced|short=slow|cmp=0.5|slow=10",
+        2.3679967840954235
+      ],
+      [
+        "long=slow|short=slow|cmp=0.25|slow=20",
+        2.1946857042929535
+      ]
+    ],
+    "unique_selected_config_count": 17
+  },
+  "side_contribution": {
+    "by_side_net_return": {
+      "flat": 0.0,
+      "long": -0.022350000000000012,
+      "short": 0.03694999999999998
+    },
+    "method": "transition_aware_gross_and_cost_attribution",
+    "reconciles_to_total_net_return": 0.01459999999999997
+  },
+  "status": "BLOCK1_CONTROLLER_V3_SCORED_PENDING_SCOPE_AUDIT",
+  "trailing_30_history": {
+    "full_history_in_decision_brain": true,
+    "max_best_available_candidate_trailing30_net_return": 0.08454999999999994,
+    "mean_best_available_candidate_trailing30_net_return": 0.017343010752688168,
+    "post_warmup_decision_count": 93
+  },
+  "trials_sha256": "d782aef4b1553db436248ad045d9792e0b0581f68a1b4f3433aae4f0829f5f89"
+}
