@@ -11,8 +11,8 @@ Source: `research/programmes/004-v2-maximum-reproducible-one-month-return/eviden
 | `schema_version` | 2 |
 | `zoom_level` | L1 |
 | `programme_id` | 004-v2-maximum-reproducible-one-month-return |
-| `current_scan_id` | issue-474-frozen-oos-reconciliation-2026-10-05 |
-| `previous_scan_id` | issue-466-v2-pre-freeze-reconciliation-2026-10-02 |
+| `current_scan_id` | issue-475-authoritative-pre2023-reconciliation-2026-10-06 |
+| `previous_scan_id` | issue-475-prequential-preflight-freeze-2026-10-05 |
 
 ## Structure
 
@@ -27,5 +27,5 @@ Source: `research/programmes/004-v2-maximum-reproducible-one-month-return/eviden
 | `refresh_triggers` | array (2 items) |
 | `current_helicopter_view` | object (6 keys) |
 | `research_line_refs` | array (1 items) |
-| `feasibility_map` | array (7 items) |
+| `feasibility_map` | array (8 items) |
 | `semantics` | object (15 keys) |

@@ -29,6 +29,32 @@
       "influenced_later_design": true,
       "governance_generation": "current_15_step",
       "source_record": "research/programmes/004-v2-maximum-reproducible-one-month-return/lines/001-v2-optimization-execution/experiments/474-jump-curve-short-regime/record.json"
+    },
+    {
+      "entry_id": "issue475-full-history-prequential",
+      "programme_test_id": "issue475-full-history-prequential-v1",
+      "family_id": "adaptive-broad-short-edge",
+      "research_line_id": "001-v2-optimization-execution",
+      "experiment_id": "475-full-history-adaptive-edge",
+      "mode": "exploratory",
+      "target": "persistent parent-relative after-cost adaptive trading edge",
+      "horizon": "complete eligible pre-2023 chronology",
+      "information_family": "trend, curve, model challengers, volatility/jump risk vetoes and adaptive specialist evidence",
+      "model_family": "bounded prequential champion/challenger tree",
+      "primary_metric": "recurring incremental severe-stress net return versus immediate simpler parent",
+      "windows_touched": [
+        "all-inspected-pre2023-development-and-rolling-research-oos"
+      ],
+      "sealed_window_history": [
+        "programme004-databento-2023-plus-protected-v1"
+      ],
+      "exploratory_ancestry": [
+        "issue474-frozen-oos-short-regime"
+      ],
+      "outcome": "NO_SUFFICIENTLY_ROBUST_EDGE",
+      "influenced_later_design": false,
+      "governance_generation": "current_15_step",
+      "source_record": "research/programmes/004-v2-maximum-reproducible-one-month-return/lines/001-v2-optimization-execution/experiments/475-full-history-adaptive-edge/record.json"
     }
   ],
   "family_inference": [

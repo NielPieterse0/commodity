@@ -1,0 +1,180 @@
+{
+  "authority_identity": {
+    "research/programmes/004-v2-maximum-reproducible-one-month-return/decisions.json": "7ce1f206f291596f297c85cfb994c713ced440ba8efe031bbe4ca77f3ae8ad77",
+    "research/programmes/004-v2-maximum-reproducible-one-month-return/evidence-map.json": "2b42499d4f068e052fc31f428864185566b289f63abc60ff9ebd9b21b6e1a158",
+    "research/programmes/004-v2-maximum-reproducible-one-month-return/inference-ledger.json": "bad7bcda85bd2680bd0bfce9fb46c120464b9dbe080803b35da6590535b82d25",
+    "research/programmes/004-v2-maximum-reproducible-one-month-return/lines/001-v2-optimization-execution/line.json": "6169142ebda5b12f16a312c594f78c1c33d1bd0df6e4e9085dd53e1f2bf3a3b3"
+  },
+  "benchmark_contract": [
+    "flat",
+    "always_short",
+    "trend_short",
+    "curve_short",
+    "trend_curve_short",
+    "current_v3",
+    "negative_control_inverted_trend"
+  ],
+  "candidate_specs": [
+    {
+      "candidate_id": "flat",
+      "complexity": 0,
+      "parent_id": null,
+      "role": "baseline",
+      "signal_column": "signal_flat"
+    },
+    {
+      "candidate_id": "always_short",
+      "complexity": 0,
+      "parent_id": "flat",
+      "role": "baseline",
+      "signal_column": "signal_always_short"
+    },
+    {
+      "candidate_id": "trend_short",
+      "complexity": 1,
+      "parent_id": "always_short",
+      "role": "baseline",
+      "signal_column": "signal_trend_short"
+    },
+    {
+      "candidate_id": "curve_short",
+      "complexity": 1,
+      "parent_id": "always_short",
+      "role": "baseline",
+      "signal_column": "signal_curve_short"
+    },
+    {
+      "candidate_id": "trend_curve_short",
+      "complexity": 2,
+      "parent_id": "trend_short",
+      "role": "baseline",
+      "signal_column": "signal_trend_curve_short"
+    },
+    {
+      "candidate_id": "timesfm_short",
+      "complexity": 1,
+      "parent_id": "always_short",
+      "role": "challenger",
+      "signal_column": "signal_timesfm_short"
+    },
+    {
+      "candidate_id": "trend_timesfm_short",
+      "complexity": 2,
+      "parent_id": "trend_short",
+      "role": "challenger",
+      "signal_column": "signal_trend_timesfm_short"
+    },
+    {
+      "candidate_id": "kronos_short",
+      "complexity": 1,
+      "parent_id": "always_short",
+      "role": "challenger",
+      "signal_column": "signal_kronos_short"
+    },
+    {
+      "candidate_id": "low_vol_trend_short",
+      "complexity": 2,
+      "parent_id": "trend_short",
+      "role": "risk_veto_challenger",
+      "signal_column": "signal_low_vol_trend_short"
+    },
+    {
+      "candidate_id": "jump_veto_trend_short",
+      "complexity": 2,
+      "parent_id": "trend_short",
+      "role": "risk_veto_challenger",
+      "signal_column": "signal_jump_veto_trend_short"
+    },
+    {
+      "candidate_id": "timesfm_long_challenger",
+      "complexity": 1,
+      "parent_id": "flat",
+      "role": "long_challenger",
+      "signal_column": "signal_timesfm_long_challenger"
+    },
+    {
+      "candidate_id": "current_v3",
+      "complexity": 4,
+      "parent_id": "trend_curve_short",
+      "role": "legacy_v3_reference",
+      "signal_column": "signal_current_v3"
+    },
+    {
+      "candidate_id": "negative_control_inverted_trend",
+      "complexity": 1,
+      "parent_id": "flat",
+      "role": "negative_control",
+      "signal_column": "signal_negative_control_inverted_trend"
+    }
+  ],
+  "identity": {
+    "engine_sha256": "50c685418e0d0bc890118d2d9b78d2a0f2bb8f420ac4088d5fda9bf0d60329d3",
+    "features_sha256": "b14ae69bd6ec2910f0cf56fe62f481016801308cebc6ef69e536aa7e593d072e",
+    "kronos_features_sha256": "98010ff7329c312cf04dbd4902d3fa6b3fe71ea562054c897eaf338e3f94df6c",
+    "runner_sha256": "f0eda000acf7be25cd1300bb6a28574a567f20c16df3c4f04b30e434e1a4741d",
+    "sealed_registry_sha256": "d9fb5da1b861124b38191a73af335324c3b4ff4b1f5e55063fa46388bf43b73e",
+    "session_path_sha256": "0fe87ea79a56f98fb9d445e89e3d65b48ae7bb1175e06ba9b97da68ebe6b01e8",
+    "timesfm_features_sha256": "692930439b863208b47dbeff246fd9790b4f2239f5434e72448538bc674aedc6"
+  },
+  "issue": 475,
+  "no_rescue_rules": [
+    "No feature, threshold, candidate, cadence, memory, execution assumption, or risk gate may change during the authoritative chronological traversal.",
+    "No protected 2023+ file may be decoded, scored, visualized, summarized, or used for redesign.",
+    "A profitable candidate receives no credit unless it improves on its declared simpler parent under severe execution and recurrence gates.",
+    "Failed specialists remain registered and may decay to zero weight rather than being manually deleted mid-run."
+  ],
+  "preflight_sha256": "6a0d4af91597646fd35f8b7bc9d2257124b58b2a4b56dc2bc90af5966b8c57af",
+  "prequential_config": {
+    "base_cost_per_side_usd": 15.0,
+    "capital_usd": 100000.0,
+    "contract_multiplier": 10000.0,
+    "fast_window_rows": 20,
+    "initial_train_rows": 252,
+    "memory_bank": [
+      5,
+      10,
+      20,
+      40,
+      60,
+      126,
+      252,
+      "expanding"
+    ],
+    "minimum_incremental_severe_return": 0.0,
+    "minimum_matured_rows": 20,
+    "protected_start": "2023-01-01 00:00:00+00:00",
+    "retrain_every_rows": 5,
+    "severe_extra_cost_per_side_usd": 30.0,
+    "severe_miss_increase_when_low_liquidity": true,
+    "slow_update_every_rows": 20,
+    "slow_window_rows": 60
+  },
+  "protected_confirmation_accessed": false,
+  "protected_start": "2023-01-01T00:00:00+00:00",
+  "robustness_config": {
+    "max_best_period_concentration": 0.7,
+    "max_drawdown_fraction": 0.25,
+    "minimum_incremental_severe_return": 0.0,
+    "minimum_leave_best_period_incremental_return": 0.0,
+    "minimum_positive_periods": 3,
+    "minimum_recurrence_rate": 0.6,
+    "multiplicity_alpha": 0.05
+  },
+  "role_dispositions": {
+    "current_v3": "legacy directional reference only; not represented as an exact full-history replay of the Block-1-only 96-candidate meta-controller",
+    "fundamentals": "held_no_complete_bound_full_history_PIT_source_in_issue475_runner",
+    "kronos": "challenger_only_prior_short_side_evidence_negative",
+    "long": "TimesFM long lane is a challenger and receives no symmetric default privilege",
+    "seasonality": "retained_as_available_context_but_no_standalone_directional_rule_without_predeclared_mechanism",
+    "timesfm": "challenger_only_prior_phase4_direct_promotion_failed",
+    "volatility_jump": "risk_veto_challengers_not_assumed_directional_edges"
+  },
+  "schema_version": 1,
+  "search_budget": {
+    "bounded_tree_only": true,
+    "candidate_count": 13,
+    "manual_midrun_changes": 0
+  },
+  "selection_rule": "smallest architecture passing all frozen robustness gates",
+  "status": "FROZEN_BEFORE_AUTHORITATIVE_TRAVERSAL"
+}

@@ -19,4 +19,4 @@ Source: `research/programmes/004-v2-maximum-reproducible-one-month-return/sealed
 | `schema_version` | int |
 | `zoom_level` | str |
 | `programme_id` | str |
-| `windows` | array (0 items) |
+| `windows` | array (1 items) |

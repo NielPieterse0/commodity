@@ -1,0 +1,19 @@
+{
+  "checks": [
+    {
+      "cut_decision_time": "2014-08-28 23:59:00+00:00",
+      "cut_index": 1024,
+      "mutated_row_count": 2047,
+      "prefix_equal": true
+    },
+    {
+      "cut_decision_time": "2018-10-31 13:34:39.805227198+00:00",
+      "cut_index": 2048,
+      "mutated_row_count": 1023,
+      "prefix_equal": true
+    }
+  ],
+  "cut_count": 2,
+  "mutation_scale": -37.0,
+  "status": "PASS"
+}

@@ -1,0 +1,214 @@
+{
+  "schema_version": 3,
+  "programme_id": "004-v2-maximum-reproducible-one-month-return",
+  "research_line_id": "001-v2-optimization-execution",
+  "experiment_id": "475-full-history-adaptive-edge",
+  "lineage": {
+    "programme_ref": "research/programmes/004-v2-maximum-reproducible-one-month-return/programme.json",
+    "research_line_ref": "research/programmes/004-v2-maximum-reproducible-one-month-return/lines/001-v2-optimization-execution/line.json",
+    "predecessor_experiment_id": "474-jump-curve-short-regime",
+    "successor_experiment_ids": []
+  },
+  "workflow": [
+    {
+      "step": 1,
+      "stage_id": "helicopter_view",
+      "status": "complete",
+      "summary": "#474 rejected its frozen jump-by-curve selector while leaving broad short exposure as a research lead. #475 therefore evaluated the complete eligible 2010-2022 chronology with a frozen prequential procedure rather than tuning another short-regime rule.",
+      "evidence_refs": [
+        {
+          "ref": "research/programmes/004-v2-maximum-reproducible-one-month-return/lines/001-v2-optimization-execution/experiments/475-full-history-adaptive-edge/design-freeze.json",
+          "sha256": "42c34e231305e2cb46e0e128690b0cbac54870a0bb6d30e288a6a811c7778e82"
+        }
+      ]
+    },
+    {
+      "step": 2,
+      "stage_id": "gap",
+      "status": "complete",
+      "summary": "The bounded gap was whether persistent after-cost value came from unconditional short exposure itself or from causal state selection, adaptive specialist weighting, model challengers, and risk vetoes that could improve on a simpler parent.",
+      "evidence_refs": [
+        {
+          "ref": "research/programmes/004-v2-maximum-reproducible-one-month-return/lines/001-v2-optimization-execution/experiments/475-full-history-adaptive-edge/design-freeze.json",
+          "sha256": "42c34e231305e2cb46e0e128690b0cbac54870a0bb6d30e288a6a811c7778e82"
+        }
+      ]
+    },
+    {
+      "step": 3,
+      "stage_id": "evidence_led_zoom_in",
+      "status": "complete",
+      "summary": "The search was bounded before scoring to 13 lanes: flat, always-short, trend/curve baselines, TimesFM/Kronos challengers, volatility/jump vetoes, one long challenger, a legacy-V3 reference, and a negative control. Parent-relative gates prevented complex lanes from receiving credit merely for positive absolute return.",
+      "evidence_refs": [
+        {
+          "ref": "research/programmes/004-v2-maximum-reproducible-one-month-return/lines/001-v2-optimization-execution/experiments/475-full-history-adaptive-edge/design-freeze.json",
+          "sha256": "42c34e231305e2cb46e0e128690b0cbac54870a0bb6d30e288a6a811c7778e82"
+        }
+      ]
+    },
+    {
+      "step": 4,
+      "stage_id": "quality_literature",
+      "status": "complete",
+      "summary": "Repository quantitative-research authority supported chronological point-in-time learning, fixed search budgets, baseline ladders, execution-aware evaluation, and multiplicity control. No post-result literature or narrative was permitted to rescue a failed frozen candidate.",
+      "evidence_refs": [
+        {
+          "ref": "research/programmes/004-v2-maximum-reproducible-one-month-return/lines/001-v2-optimization-execution/experiments/475-full-history-adaptive-edge/design-freeze.json",
+          "sha256": "42c34e231305e2cb46e0e128690b0cbac54870a0bb6d30e288a6a811c7778e82"
+        }
+      ]
+    },
+    {
+      "step": 5,
+      "stage_id": "mechanism",
+      "status": "complete",
+      "summary": "The mechanism hypothesis separated a possible structural short premium from timing value: trend, curve, model forecasts, volatility/jump state, and adaptive lifetime evidence were allowed to add value only if they improved severe-stress performance relative to their declared simpler parent.",
+      "evidence_refs": [
+        {
+          "ref": "research/programmes/004-v2-maximum-reproducible-one-month-return/lines/001-v2-optimization-execution/experiments/475-full-history-adaptive-edge/design-freeze.json",
+          "sha256": "42c34e231305e2cb46e0e128690b0cbac54870a0bb6d30e288a6a811c7778e82"
+        }
+      ]
+    },
+    {
+      "step": 6,
+      "stage_id": "hypothesis",
+      "status": "complete",
+      "summary": "At least one eligible architecture would need positive base and severe after-cost return, recurring positive incremental severe return versus its parent, bounded concentration and drawdown, leave-best-period support, and multiplicity-adjusted evidence. The smallest architecture passing every frozen gate would be selected.",
+      "evidence_refs": [
+        {
+          "ref": "research/programmes/004-v2-maximum-reproducible-one-month-return/lines/001-v2-optimization-execution/experiments/475-full-history-adaptive-edge/design-freeze.json",
+          "sha256": "42c34e231305e2cb46e0e128690b0cbac54870a0bb6d30e288a6a811c7778e82"
+        }
+      ]
+    },
+    {
+      "step": 7,
+      "stage_id": "expected_and_disconfirming_observations",
+      "status": "complete",
+      "summary": "A passing result required recurring parent-relative edge rather than one-period concentration. Disconfirming outcomes included a strong simple benchmark with no statistically adequate recurrence, complex children that underperformed their parent, a losing adaptive path, or any future-invariance/protected-boundary failure.",
+      "evidence_refs": [
+        {
+          "ref": "research/programmes/004-v2-maximum-reproducible-one-month-return/lines/001-v2-optimization-execution/experiments/475-full-history-adaptive-edge/design-freeze.json",
+          "sha256": "42c34e231305e2cb46e0e128690b0cbac54870a0bb6d30e288a6a811c7778e82"
+        }
+      ]
+    },
+    {
+      "step": 8,
+      "stage_id": "feasibility",
+      "status": "complete",
+      "summary": "The final no-scoring preflight aligned 3,072 unique eligible decisions from July 2010 through December 2022, verified strict future outcomes and PIT source identities, and confirmed the protected 2023+ reserve remained registered but unopened.",
+      "evidence_refs": [
+        {
+          "ref": "research/programmes/004-v2-maximum-reproducible-one-month-return/lines/001-v2-optimization-execution/experiments/475-full-history-adaptive-edge/preflight.json",
+          "sha256": "6a0d4af91597646fd35f8b7bc9d2257124b58b2a4b56dc2bc90af5966b8c57af"
+        }
+      ]
+    },
+    {
+      "step": 9,
+      "stage_id": "preregister_and_freeze_if_applicable",
+      "status": "complete",
+      "summary": "The exact design freeze was committed before scoring at 81066f40912b7c4aadcfde9152b5d717c286718e. The freeze bound engine, runner, market/session inputs, TimesFM/Kronos features, Programme 004 authority, candidate tree, cadences, costs, robustness gates, selection rule, and no-rescue rules.",
+      "evidence_refs": [
+        {
+          "ref": "research/programmes/004-v2-maximum-reproducible-one-month-return/lines/001-v2-optimization-execution/experiments/475-full-history-adaptive-edge/design-freeze.json",
+          "sha256": "42c34e231305e2cb46e0e128690b0cbac54870a0bb6d30e288a6a811c7778e82"
+        }
+      ]
+    },
+    {
+      "step": 10,
+      "stage_id": "execute",
+      "status": "complete",
+      "summary": "The authoritative traversal ran once from the clean committed freeze across all 3,072 eligible rows, produced 564 learning events and 117,312 specialist-evidence rows, and persisted the complete decision, learning, candidate, adaptive, attribution, robustness, and invariance artifacts.",
+      "evidence_refs": [
+        {
+          "ref": "research/programmes/004-v2-maximum-reproducible-one-month-return/lines/001-v2-optimization-execution/experiments/475-full-history-adaptive-edge/research-result.json",
+          "sha256": "699dce16b666f32e7ac129720b5933c27c4d8ad19ff0555563719776b9468c80"
+        }
+      ]
+    },
+    {
+      "step": 11,
+      "stage_id": "verify",
+      "status": "complete",
+      "summary": "Adversarial future-invariance passed at both frozen cut points under a -37x suffix mutation; each mutated suffix left the earlier decision prefix unchanged. protected_confirmation_accessed remained false and the runtime result was bound to the immutable freeze commit.",
+      "evidence_refs": [
+        {
+          "ref": "research/programmes/004-v2-maximum-reproducible-one-month-return/lines/001-v2-optimization-execution/experiments/475-full-history-adaptive-edge/future-invariance.json",
+          "sha256": "c5d4295eb8199202aa732fa7ac27b39480b3e7ac20793c766099a8a865633f43"
+        },
+        {
+          "ref": "research/programmes/004-v2-maximum-reproducible-one-month-return/lines/001-v2-optimization-execution/experiments/475-full-history-adaptive-edge/research-result.json",
+          "sha256": "699dce16b666f32e7ac129720b5933c27c4d8ad19ff0555563719776b9468c80"
+        }
+      ]
+    },
+    {
+      "step": 12,
+      "stage_id": "compare_observed_vs_expected",
+      "status": "complete",
+      "summary": "No architecture passed all frozen gates. Always-short was the strongest raw lane at +112.775% base and +112.745% severe with 9/13 positive incremental years, bounded concentration, and +85.435% leave-best-year incremental severe return, but its sign-test evidence (p=0.1334; multiplicity-adjusted p=1.0 across 11 tests) failed the multiplicity gate. The adaptive learned path returned -16.55% base and -3.04% severe; every more complex child failed to establish positive parent-relative severe edge.",
+      "evidence_refs": [
+        {
+          "ref": "research/programmes/004-v2-maximum-reproducible-one-month-return/lines/001-v2-optimization-execution/experiments/475-full-history-adaptive-edge/research-result.json",
+          "sha256": "699dce16b666f32e7ac129720b5933c27c4d8ad19ff0555563719776b9468c80"
+        },
+        {
+          "ref": "research/programmes/004-v2-maximum-reproducible-one-month-return/lines/001-v2-optimization-execution/experiments/475-full-history-adaptive-edge/robustness.json",
+          "sha256": "66b8bebd9cf9226e55fefc8a965f0306101b411cb00107f41117f072e0b4687d"
+        }
+      ]
+    },
+    {
+      "step": 13,
+      "stage_id": "external_post_result_triangulation",
+      "status": "not_applicable",
+      "summary": "Not applicable for promotion or rescue: no frozen candidate cleared all gates. Additional narrative, feature search, threshold changes, or literature-driven reinterpretation is prohibited inside #475 after observing the authoritative path.",
+      "evidence_refs": []
+    },
+    {
+      "step": 14,
+      "stage_id": "programme_conclusion",
+      "status": "complete",
+      "summary": "Conclude #475 with NO_SUFFICIENTLY_ROBUST_EDGE. The unconditional short lane remains a material structural-premium research lead, not a promoted edge; trend/curve timing, TimesFM/Kronos challengers, volatility/jump vetoes, the long challenger, legacy V3, and the adaptive controller did not establish incremental robust value over their simpler parents. Protected 2023+ confirmation remains sealed.",
+      "evidence_refs": [
+        {
+          "ref": "research/programmes/004-v2-maximum-reproducible-one-month-return/lines/001-v2-optimization-execution/experiments/475-full-history-adaptive-edge/research-result.json",
+          "sha256": "699dce16b666f32e7ac129720b5933c27c4d8ad19ff0555563719776b9468c80"
+        },
+        {
+          "ref": "research/programmes/004-v2-maximum-reproducible-one-month-return/lines/001-v2-optimization-execution/experiments/475-full-history-adaptive-edge/robustness.json",
+          "sha256": "66b8bebd9cf9226e55fefc8a965f0306101b411cb00107f41117f072e0b4687d"
+        }
+      ]
+    },
+    {
+      "step": 15,
+      "stage_id": "active_revisit_triggers",
+      "status": "complete",
+      "summary": "Do not rescue-tune #475 on the consumed 2010-2022 path. Any successor must be scientifically distinct, declare a new mechanism and bounded search before its own evaluation, preserve #475 negatives for the exact tested roles, and keep protected 2023+ evidence sealed until a separately authorized confirmation gate.",
+      "evidence_refs": [
+        {
+          "ref": "research/programmes/004-v2-maximum-reproducible-one-month-return/lines/001-v2-optimization-execution/experiments/475-full-history-adaptive-edge/design-freeze.json",
+          "sha256": "42c34e231305e2cb46e0e128690b0cbac54870a0bb6d30e288a6a811c7778e82"
+        },
+        {
+          "ref": "research/programmes/004-v2-maximum-reproducible-one-month-return/lines/001-v2-optimization-execution/experiments/475-full-history-adaptive-edge/research-result.json",
+          "sha256": "699dce16b666f32e7ac129720b5933c27c4d8ad19ff0555563719776b9468c80"
+        }
+      ]
+    }
+  ],
+  "decisions": [
+    {
+      "id": "issue-475-no-sufficiently-robust-edge",
+      "decision": "Report no sufficiently robust promoted edge from the frozen #475 full-history prequential traversal. Retain always-short only as an unconfirmed structural-premium lead because it failed the multiplicity gate; do not rescue-tune the consumed 2010-2022 chronology and do not open protected 2023+ evidence.",
+      "status": "active"
+    }
+  ],
+  "recommendations": [],
+  "open_questions": []
+}

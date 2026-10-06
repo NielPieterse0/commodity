@@ -2,5 +2,16 @@
   "schema_version": 1,
   "zoom_level": "L1",
   "programme_id": "004-v2-maximum-reproducible-one-month-return",
-  "windows": []
+  "windows": [
+    {
+      "sealed_window_id": "programme004-databento-2023-plus-protected-v1",
+      "dataset_id": "databento-ng-full-history-protected-2023-plus-v1",
+      "start": "2023-01-01T00:00:00Z",
+      "end": "2026-09-11T23:59:59Z",
+      "content_sha256": "c52cc89f3dd212a82db7f2cbc3d1c1e45924781971fe7213bcf6a21305a94b00",
+      "eligibility": "ineligible",
+      "permitted_openings": 1,
+      "openings": []
+    }
+  ]
 }
