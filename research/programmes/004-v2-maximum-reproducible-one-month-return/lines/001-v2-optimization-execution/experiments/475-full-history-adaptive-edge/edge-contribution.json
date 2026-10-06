@@ -1,0 +1,80 @@
+[
+  {
+    "candidate_id": "flat",
+    "incremental_severe_net_return": 0.0,
+    "parent_id": null,
+    "severe_net_return": 0.0
+  },
+  {
+    "candidate_id": "always_short",
+    "incremental_severe_net_return": 1.12745,
+    "parent_id": "flat",
+    "severe_net_return": 1.12745
+  },
+  {
+    "candidate_id": "trend_short",
+    "incremental_severe_net_return": -0.6271000000000001,
+    "parent_id": "always_short",
+    "severe_net_return": 0.50035
+  },
+  {
+    "candidate_id": "curve_short",
+    "incremental_severe_net_return": -0.8402500000000002,
+    "parent_id": "always_short",
+    "severe_net_return": 0.2871999999999999
+  },
+  {
+    "candidate_id": "trend_curve_short",
+    "incremental_severe_net_return": -0.2089499999999997,
+    "parent_id": "trend_short",
+    "severe_net_return": 0.29140000000000027
+  },
+  {
+    "candidate_id": "timesfm_short",
+    "incremental_severe_net_return": -1.456849999999999,
+    "parent_id": "always_short",
+    "severe_net_return": -0.3293999999999991
+  },
+  {
+    "candidate_id": "trend_timesfm_short",
+    "incremental_severe_net_return": -0.7521499999999997,
+    "parent_id": "trend_short",
+    "severe_net_return": -0.2517999999999997
+  },
+  {
+    "candidate_id": "kronos_short",
+    "incremental_severe_net_return": -1.1344499999999997,
+    "parent_id": "always_short",
+    "severe_net_return": -0.006999999999999742
+  },
+  {
+    "candidate_id": "low_vol_trend_short",
+    "incremental_severe_net_return": -0.18074999999999974,
+    "parent_id": "trend_short",
+    "severe_net_return": 0.3196000000000002
+  },
+  {
+    "candidate_id": "jump_veto_trend_short",
+    "incremental_severe_net_return": -0.3383499999999995,
+    "parent_id": "trend_short",
+    "severe_net_return": 0.1620000000000005
+  },
+  {
+    "candidate_id": "timesfm_long_challenger",
+    "incremental_severe_net_return": -0.7238499999999993,
+    "parent_id": "flat",
+    "severe_net_return": -0.7238499999999993
+  },
+  {
+    "candidate_id": "current_v3",
+    "incremental_severe_net_return": -1.4565,
+    "parent_id": "trend_curve_short",
+    "severe_net_return": -1.1650999999999996
+  },
+  {
+    "candidate_id": "negative_control_inverted_trend",
+    "incremental_severe_net_return": -0.71905,
+    "parent_id": "flat",
+    "severe_net_return": -0.71905
+  }
+]

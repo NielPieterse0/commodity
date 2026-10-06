@@ -2,13 +2,13 @@
   "schema_version": 2,
   "zoom_level": "L1",
   "programme_id": "004-v2-maximum-reproducible-one-month-return",
-  "current_scan_id": "issue-474-frozen-oos-reconciliation-2026-10-05",
-  "previous_scan_id": "issue-466-v2-pre-freeze-reconciliation-2026-10-02",
+  "current_scan_id": "issue-475-authoritative-pre2023-reconciliation-2026-10-06",
+  "previous_scan_id": "issue-475-prequential-preflight-freeze-2026-10-05",
   "retrospective_synthesis": {
-    "as_of": "2026-10-05",
-    "purpose": "Reconcile the frozen #474 jump-by-curve short-regime Blocks 2-4 result without rescue tuning and preserve the boundary to protected 2023+ confirmation.",
-    "historical_fact_rule": "Preserve every historical result for the exact role and configuration tested; a negative may be revisited only under a scientifically distinct role that the prior evidence did not rule out.",
-    "state_rule": "At each historical decision timestamp, future outcomes remain unavailable; any adaptive selection, weighting, fitting, sizing, lifecycle or execution choice must be derived from prior or inner-validation evidence only."
+    "as_of": "2026-10-06",
+    "purpose": "Reconcile the completed frozen #475 full-history pre-2023 traversal without rescue tuning and without opening protected 2023+ confirmation.",
+    "historical_fact_rule": "All #475 2010-2022 outcomes are now consumed exploratory/research-OOS evidence. They may inform only scientifically distinct future research; they are not pristine confirmation.",
+    "state_rule": "The completed #475 path learned only from outcomes whose outcome_available_at was strictly earlier than each decision; adversarial future-invariance passed and protected 2023+ remained unopened."
   },
   "refresh_triggers": [
     "A scientifically distinct post-#474 successor is authorized with explicit evidence reclassification and a fresh pre-outcome freeze.",
@@ -20,13 +20,20 @@
       "#429 did not promote a tested static lifecycle variant, while its ablations confirmed material contribution from strength gating, loss cooldown and the long specialist veto.",
       "#430 promoted state-dependent sizing `regime_favored1_50_other0_75` with +0.1276375 percentage points/month mean outer improvement and no promoted incremental Stage-2 risk-control rule.",
       "#431 selected `decay20` with +0.4456875 percentage points/month versus fixed adaptation; same-session stress remained positive, but every tested one-session-delay cross-execution configuration failed.",
-      "#474 froze Candidate A (high-jump contango short) and Candidate B (A plus low-jump backwardation) before Blocks 2-4. At 1.5 contracts both returned +4.935% base but -5.25% moderate and -7.68% severe; always-short returned +27.0075% severe."
+      "#474 froze Candidate A (high-jump contango short) and Candidate B (A plus low-jump backwardation) before Blocks 2-4. At 1.5 contracts both returned +4.935% base but -5.25% moderate and -7.68% severe; always-short returned +27.0075% severe.",
+      "#475 preflight aligns 3,072 executable pre-2023 decisions/outcomes from July 2010 through December 2022 and hard-binds market, session-path, TimesFM and Kronos source hashes without scoring.",
+      "Programme 004 now registers the physically present 2023+ Databento reserve by raw-byte identity only; the reserve remains ineligible and unopened for #475.",
+      "Prior Phase-4 evidence retained TimesFM short-side modification as a clue but did not promote direct TimesFM/Kronos specialist trading roles; #475 therefore keeps model signals as challengers rather than assumptions.",
+      "#475 completed 3,072 authoritative pre-2023 decisions from immutable commit 81066f40912b7c4aadcfde9152b5d717c286718e; future-invariance passed at both adversarial cut points and protected_confirmation_accessed remained false.",
+      "#475 selected no architecture. Always-short returned +112.775% base and +112.745% severe with 9/13 positive incremental years, but sign-test p=0.1334 and multiplicity-adjusted p=1.0 failed the frozen multiplicity gate.",
+      "#475 adaptive learned exposure returned -16.55% base and -3.04% severe. Every tested more-complex child failed to establish positive robust parent-relative severe edge over its declared simpler parent."
     ],
     "repeatedly_failed": [
       "Treating one static lifecycle parameterization as a universal improvement across development periods.",
       "Adding the tested Stage-2 stop, drawdown, take-profit, time-stop or extra-cooldown controls on top of the #430 sizing parent.",
       "Preserving the #431 adaptation advantage after one full session of execution delay.",
-      "The exact #474 jump-by-curve short-vs-flat selector failed stress positivity and return/drawdown improvement over always-short on frozen Blocks 2-4; Candidate B's extra leg never activated."
+      "The exact #474 jump-by-curve short-vs-flat selector failed stress positivity and return/drawdown improvement over always-short on frozen Blocks 2-4; Candidate B's extra leg never activated.",
+      "The exact #475 adaptive/state-selection candidate tree produced no gate-passing architecture; complex trend/curve, model, volatility/jump-veto and legacy-V3 additions did not establish robust incremental severe edge over their simpler parents."
     ],
     "mechanisms_still_alive": [
       "Side-conditional TimesFM/Kronos and specialist-model roles.",
@@ -34,7 +41,7 @@
       "Adaptive memory, training-window and expert-weight selection.",
       "State-dependent sizing and dynamic existing-position management.",
       "Mechanism-aligned horizons and execution clocks where point-in-time timing is provable.",
-      "Unconditional short exposure across Blocks 2-4 is a research lead only; its structural persistence, causal state dependence, and execution robustness remain unproven."
+      "Broad short exposure across the full 2010-2022 #475 chronology is a material structural-premium lead only: its economics were strong and recurrent, but multiplicity-adjusted evidence was insufficient for promotion."
     ],
     "missing_not_negative": [
       "Event-time source timing remains held because authoritative publication-time semantics are not yet proven.",
@@ -49,7 +56,7 @@
       "A development-only oracle-gap diagnostic that separates underlying opportunity from causal selection ability.",
       "A successor must distinguish broad short market exposure from genuine state-selection value and must be frozen before evaluation rather than tuned to #474 outcomes."
     ],
-    "next_branch_reason": "#474 rejected/materially weakened the frozen A/B jump-by-curve selector. Any continuation should be a distinct pre-frozen investigation of why broad short exposure dominated and whether a causal selector can improve its risk/execution profile without reusing Blocks 2-4 as fresh confirmation."
+    "next_branch_reason": "No #475 candidate is automatically eligible to advance. Any successor must be scientifically distinct and pre-frozen, and should explain why broad short exposure was strong while the tested state-selection/adaptive additions failed; protected 2023+ remains sealed."
   },
   "research_line_refs": [
     {
@@ -198,13 +205,43 @@
       },
       "hold_reason": "Both frozen candidates failed execution-stress and benchmark gates; ordinary tuning on Blocks 2-4 is prohibited.",
       "feasibility": "redesign"
+    },
+    {
+      "target": "persistent incremental after-cost edge from a bounded full-history prequential V3 successor",
+      "horizon": "2010-07-07 through 2022-12-30 consumed pre-2023 research chronology",
+      "information_family": "broad short benchmark, trend/curve, TimesFM/Kronos challengers, volatility/jump risk vetoes and adaptive selection",
+      "scientific_mepi": null,
+      "economic_mepi": 0.0,
+      "raw_information": 3072,
+      "effective_information_method": {
+        "programme_test_id": "issue475-full-history-prequential-v1",
+        "method": "single committed 3,072-row chronological prequential traversal with 252-row initialization, 5-row fast retraining, 20-row structural updates, complete matured-outcome evidence, parent-relative robustness gates, and adversarial future-invariance",
+        "preflight_ref": "research/programmes/004-v2-maximum-reproducible-one-month-return/lines/001-v2-optimization-execution/experiments/475-full-history-adaptive-edge/preflight.json",
+        "result_ref": "research/programmes/004-v2-maximum-reproducible-one-month-return/lines/001-v2-optimization-execution/experiments/475-full-history-adaptive-edge/research-result.json",
+        "scoring_performed": true,
+        "selected_candidate": null,
+        "disposition": "NO_SUFFICIENTLY_ROBUST_EDGE",
+        "always_short_base_net_return": 1.12775,
+        "always_short_severe_net_return": 1.12745,
+        "adaptive_base_net_return": -0.1655,
+        "adaptive_severe_net_return": -0.0304
+      },
+      "detectable_effect": null,
+      "expected_snr": null,
+      "costs": {
+        "base_round_trip_usd": 30.0,
+        "severe_extra_cost_usd_per_contract_side": 30.0,
+        "severe_low_liquidity_increase_miss": true
+      },
+      "feasibility": "redesign",
+      "hold_reason": "No candidate passed all frozen anti-false-edge gates; always-short failed multiplicity and all complex children failed robust parent-relative promotion."
     }
   ],
   "semantics": {
     "protected_confirmation_accessed": false,
     "development_only": true,
     "v1_immutable": true,
-    "issue": 474,
+    "issue": 475,
     "reconciled_through_issues": [
       459,
       429,
@@ -213,10 +250,11 @@
       465,
       468,
       470,
-      474
+      474,
+      475
     ],
-    "next_development_issue": null,
-    "next_development_state": "successor_not_yet_authorized",
+    "next_development_issue": 475,
+    "next_development_state": "complete_no_sufficiently_robust_edge",
     "champion_freeze_issue": 414,
     "v3_programme_issue": 449,
     "latest_allowed_trade_date": "2022-12-31",
@@ -224,6 +262,6 @@
     "prospective_paper_accessed": false,
     "saxo_sim_accessed": false,
     "live_accessed": false,
-    "latest_frozen_oos_disposition": "REJECT_OR_MATERIALLY_WEAKEN_SHORT_REGIME_THESIS"
+    "latest_frozen_oos_disposition": "NO_SUFFICIENTLY_ROBUST_EDGE"
   }
 }

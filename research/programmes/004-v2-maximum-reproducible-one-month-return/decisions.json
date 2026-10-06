@@ -69,6 +69,24 @@
       "decision": "Reject or materially weaken the exact frozen Candidate A/B jump-by-curve short-regime thesis after Blocks 2-4: both candidates failed execution-stress and always-short comparison gates, Candidate B added no OOS behavior, and no rescue tuning is authorized. Treat the always-short benchmark only as a separate research lead requiring a scientifically distinct frozen successor.",
       "status": "active",
       "source_record": "research/programmes/004-v2-maximum-reproducible-one-month-return/lines/001-v2-optimization-execution/experiments/474-jump-curve-short-regime/record.json"
+    },
+    {
+      "id": "issue-475-authorize-full-history-prequential",
+      "decision": "Authorize one committed-design full-history pre-2023 prequential V3 successor under #475. All inspected pre-2023 outcomes are consumed exploratory/research-OOS evidence; decisions learn only from outcomes with outcome_available_at strictly before the current decision, and no mid-run rescue changes are permitted.",
+      "status": "active",
+      "source_record": "https://github.com/NielPieterse0/commodity/issues/475"
+    },
+    {
+      "id": "issue-475-bind-protected-2023-plus-registry",
+      "decision": "Bind the physically present Databento 2023+ reserve in Programme 004 sealed-windows.json by raw-byte identity only. Keep it ineligible and unopened throughout #475; decoding, scoring, visualization or redesign from 2023+ remains prohibited.",
+      "status": "active",
+      "source_record": "research/programmes/004-v2-maximum-reproducible-one-month-return/sealed-windows.json"
+    },
+    {
+      "id": "issue-475-no-sufficiently-robust-edge",
+      "decision": "Conclude the frozen #475 full-history prequential traversal with NO_SUFFICIENTLY_ROBUST_EDGE. Always-short was the strongest raw economic lane (+112.775% base, +112.745% severe) but failed the frozen multiplicity gate; every more complex child failed to establish robust parent-relative severe edge and the adaptive learned path was negative. No rescue tuning is authorized and protected 2023+ remains sealed.",
+      "status": "active",
+      "source_record": "research/programmes/004-v2-maximum-reproducible-one-month-return/lines/001-v2-optimization-execution/experiments/475-full-history-adaptive-edge/record.json"
     }
   ]
 }

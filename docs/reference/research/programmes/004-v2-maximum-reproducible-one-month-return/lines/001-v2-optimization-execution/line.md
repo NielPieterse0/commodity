@@ -13,12 +13,12 @@ Source: `research/programmes/004-v2-maximum-reproducible-one-month-return/lines/
 | `programme_id` | 004-v2-maximum-reproducible-one-month-return |
 | `research_line_id` | 001-v2-optimization-execution |
 | `status` | active |
-| `big_picture` | Execute Programme #393 as a chronological, auditable optimization campaign for reproducible one-month net trading return. After #474, the immediate research problem is no longer broad Block-1 discovery but whether the strong broad short exposure seen in Blocks 2-4 reflects a durable causal opportunity that can be selected and executed robustly without rescuing the failed jump-by-curve A/B rule. |
-| `why_zoomed_in` | #465/#470 produced the causal V3 Block-1 controller evidence and #474 froze the surviving jump-by-curve short-regime thesis before opening Blocks 2-4. That frozen selector failed its stress and always-short comparison gates, so any next branch must be scientifically distinct and must not treat #474 outcomes as fresh confirmation. |
-| `tested_role_target_horizon` | Through #474, the programme has tested the V3 short-regime mechanism on Block 1 development evidence and one frozen chronological research-OOS extension across Blocks 2-4. The unresolved target is to separate structural short exposure, state-selection value, and execution robustness using a new pre-frozen successor while keeping protected 2023+ confirmation sealed. |
-| `revisit_trigger` | Do not reopen or rescue #474 from Blocks 2-4 outcomes. Re-enter only through a scientifically distinct successor with explicit evidence reclassification, prior-only feature construction, a fresh pre-outcome freeze, and an evaluation set not already consumed as confirmation by the successor design. Protected 2023+ confirmation remains sealed. |
-| `programme_interpretation` | #474 falsified the proposed jump-by-curve short-vs-flat state selector under frozen chronological research-OOS stress. The programme should stop treating that selector as the current edge candidate; unconditional short exposure is a new research lead only, requiring separate causal decomposition and pre-outcome freezing before any promotion claim. |
-| `selection_basis` | Primary objective remains chronological net percentage return after realistic costs. After #474, Blocks 2-4 are consumed research-OOS for hypotheses informed by their outcomes and cannot be reused as fresh confirmation. Any successor must declare its evidence class, select every feature/rule/threshold from prior evidence only, freeze before evaluation, and beat realistic execution and benchmark gates before #414 can freeze a champion. |
+| `big_picture` | Execute Programme #393 as a chronological, auditable optimization campaign for reproducible one-month net trading return. #474 rejected its frozen jump-by-curve selector. #475 then completed the governed full-history pre-2023 prequential successor and found no architecture that cleared all frozen anti-false-edge gates; the broad always-short lane remains an unconfirmed structural-premium lead, while protected 2023+ remains sealed. |
+| `why_zoomed_in` | #474 showed that a profitable Block-1 jump-by-curve selector did not generalize under untouched Blocks 2-4 execution stress, while broad short exposure remained a strong lead. #475 therefore decomposed structural short exposure, simple trend/curve baselines, model challengers, causal adaptation and risk-veto roles in one frozen chronological pre-2023 traversal rather than rescuing #474. |
+| `tested_role_target_horizon` | Through #475, the programme has evaluated the complete eligible July-2010 through December-2022 pre-2023 chronology under one committed prequential design. No candidate passed every frozen robustness gate. Always-short produced strong raw after-cost returns but failed multiplicity-adjusted evidence; the adaptive path and all more-complex parent-relative additions failed promotion. |
+| `revisit_trigger` | Do not reopen or rescue #474 or #475 from their observed historical outcomes. Re-enter only through a scientifically distinct successor with explicit evidence reclassification, a new pre-outcome freeze, and an evaluation boundary appropriate to that successor. Protected 2023+ confirmation remains sealed until separately authorized. |
+| `programme_interpretation` | #475 found no sufficiently robust promoted edge in its frozen 13-lane prequential tree. Broad always-short exposure is the strongest remaining research lead because its raw base/severe economics were positive and recurrent, but it failed the multiplicity gate and is not a champion. The tested adaptive/state-selection additions did not improve robustly on simpler parents. |
+| `selection_basis` | #475 is exploratory full-history research over consumed pre-2023 evidence, not fresh confirmation. The adaptive procedure, candidate tree, memories, cadences, costs, risk gates and stopping rules must be committed before traversal. Selection is the smallest architecture that shows recurring parent-relative severe-stress edge with drawdown, concentration, negative-control and multiplicity gates; protected 2023+ remains a separate later confirmation. |
 
 ## Structure
 
@@ -34,12 +34,12 @@ Source: `research/programmes/004-v2-maximum-reproducible-one-month-return/lines/
 | `why_zoomed_in` | str |
 | `tested_role_target_horizon` | str |
 | `historical_facts` | object (3 keys) |
-| `useful_secondary_observations` | array (5 items) |
-| `remaining_untested_roles` | array (5 items) |
+| `useful_secondary_observations` | array (6 items) |
+| `remaining_untested_roles` | array (4 items) |
 | `revisit_trigger` | str |
 | `programme_interpretation` | str |
-| `evidence_refs` | array (12 items) |
-| `experiment_history` | array (6 items) |
+| `evidence_refs` | array (18 items) |
+| `experiment_history` | array (7 items) |
 | `experiment_refs` | array (0 items) |
 | `selection_basis` | str |
-| `stopping_rules` | object (1 keys) |
+| `stopping_rules` | object (2 keys) |
