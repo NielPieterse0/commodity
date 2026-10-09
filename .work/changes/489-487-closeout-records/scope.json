@@ -1,0 +1,29 @@
+{
+  "schema_version": 4,
+  "change_id": "489-487-closeout-records",
+  "status": "active",
+  "branch": "change/489-487-closeout-records",
+  "worktree": ".work/worktrees/489-487-closeout-records",
+  "base": "main",
+  "outcome": "Reconcile #487 closeout and task evidence with merged PR #488, CI and Work Management truth without changing runtime behavior.",
+  "owned_paths": [
+    ".work/changes/487-docker-native-fallback/closeout.md",
+    ".work/changes/487-docker-native-fallback/tasks.md",
+    ".work/changes/489-487-closeout-records/**"
+  ],
+  "shared_paths": [],
+  "excluded_paths": [],
+  "dependencies": [],
+  "integration_owner": null,
+  "complexity": "small",
+  "risk_triggers": [],
+  "base_evidence": {
+    "local_sha": "a1d8da618f4f1ebe60aa1a64802cdd89832254e5",
+    "local_tree": "5a66791e8e9fea277b3045a5328b05009342b0aa",
+    "upstream_sha": "a1d8da618f4f1ebe60aa1a64802cdd89832254e5",
+    "upstream_tree": "5a66791e8e9fea277b3045a5328b05009342b0aa",
+    "upstream_ref": "refs/remotes/origin/main",
+    "evidence_source": "local_remote_tracking_ref",
+    "relation": "same_sha"
+  }
+}
