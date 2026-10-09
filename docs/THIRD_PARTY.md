@@ -19,6 +19,7 @@ Source: `config/third_party.json`
 | `google-research/timesfm` | `approved_dependency` | bounded forecasting adapter |
 | `SalesforceAIResearch/uni2ts` | `approved_dependency` | bounded research-only Moirai comparator; model weights remain non-commercial and non-promotable |
 | `amazon-science/chronos-forecasting` | `approved_dependency` | bounded Chronos-2 deployment-compatible specialist adapter |
+| `boto/boto3` | `approved_dependency` | provider-neutral S3-compatible raw archive transport and restore verification |
 | `databento/databento-python` | `approved_dependency` | local Databento decoding |
 | `databento/dbn` | `approved_dependency` | local DBN decoding and fixtures |
 | `open-meteo/open-meteo` | `primary_technical_source` | official weather API/model-routing reference |

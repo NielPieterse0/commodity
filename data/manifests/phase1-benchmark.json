@@ -1,0 +1,57 @@
+{
+  "benchmark_id": "issue-479-ng-local-platform-v1",
+  "dataset": {
+    "columns": 10,
+    "compression": "zstd",
+    "kind": "synthetic_ng_shaped_non_evidence",
+    "parquet_bytes": 85249533,
+    "parquet_files": 1,
+    "parquet_sha256": "3589634177ef922ffc1fbf82146d31e699722a3077a612253175bf8b72c4f5c0",
+    "row_group_target_rows": 250000,
+    "row_groups": 6,
+    "rows": 1500000
+  },
+  "engine": {
+    "duckdb_version": "1.5.6",
+    "input_file_to_memory_limit_ratio": 4.065014505386353,
+    "memory_limit_mb": 20,
+    "polars_version": "1.44.2",
+    "pyarrow_version": "25.0.1",
+    "python_version": "3.11.9"
+  },
+  "layout_decision": {
+    "decision": "retain workload-tuned Parquet layout; do not encode one universal partition/file-size rule",
+    "measured_file_bytes": 85249533,
+    "measured_row_group_rows": 250000,
+    "tiny_file_fragmentation_observed": false,
+    "tuning_basis": "local synthetic representative scan/window/join workload"
+  },
+  "protected_confirmation_accessed": false,
+  "schema_version": 1,
+  "workloads": {
+    "asof_join": {
+      "joined_rows": 4383,
+      "seconds": 0.17932909994851798
+    },
+    "constrained_memory_scan": {
+      "input_exceeds_configured_memory": true,
+      "observed_spill_bytes_after_query": 0,
+      "result": 1125000750000,
+      "seconds": 0.2087786999763921
+    },
+    "parquet_projection_filter": {
+      "plan_has_filters": true,
+      "plan_has_projection": true,
+      "result": 2.999813557446691,
+      "seconds": 0.013017699937336147
+    },
+    "sparse_join": {
+      "null_rows": 3756,
+      "seconds": 0.00765570008661598
+    },
+    "window": {
+      "result": 4499610.645909173,
+      "seconds": 0.24471770005766302
+    }
+  }
+}

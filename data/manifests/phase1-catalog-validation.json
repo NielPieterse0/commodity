@@ -1,0 +1,51 @@
+{
+  "schema_version": 1,
+  "validation_id": "issue-479-postgresql-catalog-v1",
+  "protected_confirmation_accessed": false,
+  "ddl_sha256": "59a297a8a94a18b048a7cb53e29683a8ee86baede7bab90d0f4c2b6c1fc85d18",
+  "expected_tables": [
+    "commodity",
+    "venue",
+    "unit",
+    "currency",
+    "location",
+    "instrument",
+    "futures_contract",
+    "data_source",
+    "series_definition",
+    "raw_artifact",
+    "source_vintage",
+    "feature_definition",
+    "model_definition",
+    "dataset_snapshot",
+    "lineage_edge",
+    "quality_result",
+    "policy_record"
+  ],
+  "static_contract_status": "passed",
+  "static_checks": {
+    "all_expected_create_table_statements_present": true,
+    "commodity_specific_tokens_absent": true,
+    "jsonb_metadata_supported_by_ddl": true,
+    "revision_foreign_key_present": true,
+    "foreign_key_covering_indexes_present": true
+  },
+  "postgres_server_validation_status": "passed",
+  "environment_evidence": {
+    "validated_at": "2026-10-07T18:52:44Z",
+    "provider": "supabase",
+    "project_ref": "qbugfnuzjbmdtgrqznxw",
+    "region": "eu-central-1",
+    "postgres_schema": "commodity_control",
+    "table_count": 17,
+    "transactional_probe": "passed_and_rolled_back",
+    "jsonb_probe": "passed",
+    "foreign_key_probe": "passed",
+    "temporal_field_probe": "passed",
+    "security_advisor_lints": 0,
+    "foreign_key_index_advisor_findings_after_fix": 0,
+    "residual_performance_advisor_note": "new empty catalog indexes are reported unused until workload traffic exists"
+  },
+  "configuration_rule": "Commodity KIS/DBHub may bind only to a validated PostgreSQL catalog; Supabase server validation passed",
+  "incremental_recurring_spend_usd_per_month": 0
+}

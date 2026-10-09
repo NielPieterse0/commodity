@@ -1,0 +1,57 @@
+{
+  "schema_version": 1,
+  "registry_id": "ng-phase1-feature-registry-v1",
+  "authority": "versioned_existing_feature_materializations",
+  "configuration_sha256": "4ea610d1f0b42e8cf8d77efd787d0a8a45d4bb2744318c2ba43be2a40c5239d7",
+  "protected_confirmation_accessed": false,
+  "families": [
+    {
+      "family_id": "technical",
+      "declared_feature_count": 28,
+      "implementation_refs": [
+        "src/commodity/v2_coverage.py",
+        "src/commodity/features.py"
+      ],
+      "configuration_refs": [
+        "research/programmes/004-v2-maximum-reproducible-one-month-return/issue448-prereg-v2.json"
+      ],
+      "implementation_sha256": "8ee7ee6171f480effe854987e1d9c31f294bba0cf6497c6e6f3263aa0c6b9b16",
+      "availability_semantics": "strictly_prior_market_inputs_at_decision_time",
+      "materialization_status": "versioned_existing_implementation",
+      "reimplementation_required": false,
+      "transform_identity_sha256": "82e033cef8468170232cf5c200190dec60857f17314185d9298e70bd90799504"
+    },
+    {
+      "family_id": "volatility_tail",
+      "declared_feature_count": 6,
+      "implementation_refs": [
+        "src/commodity/v2_model_optimization.py"
+      ],
+      "configuration_refs": [
+        "research/programmes/004-v2-maximum-reproducible-one-month-return/issue448-prereg-v2.json"
+      ],
+      "implementation_sha256": "3934a1f4a0bc69163eae1c19998d161f72b6a89c315a306fa6fcf23913fcbd63",
+      "availability_semantics": "strictly_prior_market_inputs_at_decision_time",
+      "materialization_status": "versioned_existing_implementation",
+      "reimplementation_required": false,
+      "transform_identity_sha256": "cfe188f64feeac6c04f8e1a9b3a8af38b4829280ba16f2e036e8c1186936e675"
+    },
+    {
+      "family_id": "market_structure_positioning",
+      "declared_feature_count": 17,
+      "implementation_refs": [
+        "src/commodity/v2_coverage.py",
+        "src/commodity/roll_safe_market.py"
+      ],
+      "configuration_refs": [
+        "research/programmes/004-v2-maximum-reproducible-one-month-return/issue448-prereg-v2.json",
+        "config/data_sources.json"
+      ],
+      "implementation_sha256": "8ee7ee6171f480effe854987e1d9c31f294bba0cf6497c6e6f3263aa0c6b9b16",
+      "availability_semantics": "contract_exact_and_source_available_at_asof_decision_time",
+      "materialization_status": "versioned_existing_implementation",
+      "reimplementation_required": false,
+      "transform_identity_sha256": "598e2c36e92deaa55e8135daf0e701c6922bfd4f85b50095c4a9942d8e6a59f7"
+    }
+  ]
+}

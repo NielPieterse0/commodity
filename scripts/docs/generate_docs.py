@@ -15,7 +15,12 @@ REFERENCE_GLOBS = (
     "research/**/*.json",
     "artifacts/**/*.json",
 )
-SKIP_REFERENCE = {"config/documentation.json"}
+SKIP_REFERENCE = {
+    "config/documentation.json",
+    "config/data_platform.json",
+    "contracts/data_platform.schema.json",
+    "contracts/raw_artifact_manifest.schema.json",
+}
 GENERATED_HEADER = "<!-- GENERATED FILE. DO NOT EDIT. Source: {source} -->\n\n"
 
 
@@ -423,10 +428,70 @@ def render_quantitative_research_knowledge(payload: dict[str, Any]) -> str:
     return "\n".join(lines)
 
 
+def render_data_platform() -> str:
+    platform = load_json(ROOT / "config" / "data_platform.json")
+    atlas = load_json(ROOT / "data" / "manifests" / "ng-phase1-atlas.json")
+    features = load_json(ROOT / "data" / "manifests" / "ng-phase1-feature-registry.json")
+    benchmark = load_json(ROOT / "data" / "manifests" / "phase1-benchmark.json")
+    costs = load_json(ROOT / "data" / "manifests" / "phase1-cost-ledger.json")
+    catalog = load_json(ROOT / "data" / "manifests" / "phase1-catalog-validation.json")
+    raw = load_json(ROOT / "data" / "manifests" / "raw-artifacts.json")
+    phase1 = platform["stages"]["phase_1"]
+    feature_names = ", ".join(f"`{item['family_id']}`" for item in features["families"])
+    lines = [
+        "# Commodity Data Platform",
+        "",
+        "Source authority: `config/data_platform.json`. This page is generated and is not a competing architecture owner.",
+        "",
+        "## Phase 1 boundary",
+        "",
+        f"- Required stack: {', '.join(f'`{item}`' for item in phase1['required_stack'])}.",
+        f"- Scope: `{phase1['scope']}`.",
+        f"- Incremental recurring infrastructure target: **${phase1['incremental_recurring_spend_target_usd']}**.",
+        "- Bulk analytical observations remain Parquet/Zstd; PostgreSQL is the small identity/lineage/quality/catalog plane.",
+        "- Optional DuckLake, TimescaleDB, ClickHouse, Iceberg, streaming, catalogs, and remote services remain deferred until measured need.",
+        "",
+        "## Point-in-time contract",
+        "",
+        f"- Causal rule: `{platform['temporal_contract']['causal_rule']}`.",
+        "- Source/economic vintages and revisions are explicit and are not database-snapshot substitutes.",
+        "- Sparse families stay sparse; experiment-specific wide matrices are reproducible projections.",
+        "- Protected-confirmation evidence is isolated by namespace and credential, and development may not enumerate it.",
+        "",
+        "## Natural Gas Phase 1",
+        "",
+        f"- Reconciled source families: **{atlas['counts']['total']}** ({atlas['counts']['us_henry_hub']} U.S./Henry Hub, {atlas['counts']['global_interconnect']} global/interconnect, {atlas['counts']['norway_europe']} Norway/Europe).",
+        f"- Versioned existing feature families: {feature_names}.",
+        f"- BHLR real-time/vintage predictor audit: `{atlas['bhlr_realtime_vintage_audit']['source_id']}`, development PIT eligible through {atlas['bhlr_realtime_vintage_audit']['last_allowed_trade_date']}; outcome member excluded.",
+        "",
+        "## Measured local evidence",
+        "",
+        f"- Benchmark: {benchmark['dataset']['rows']:,} synthetic NG-shaped rows, {benchmark['dataset']['parquet_bytes']:,} Parquet bytes, {benchmark['dataset']['row_groups']} row groups.",
+        f"- Constrained-memory ratio: {benchmark['engine']['input_file_to_memory_limit_ratio']:.2f}x input file / configured DuckDB memory.",
+        f"- PostgreSQL catalog static validation: `{catalog['static_contract_status']}`; server validation: `{catalog['postgres_server_validation_status']}`.",
+        f"- Raw archive namespace: `{raw['archive_namespace']['status']}`; representative byte durability remains governed by the raw-artifact manifest.",
+        f"- Actual incremental recurring infrastructure spend: **${costs['actual_incremental_recurring_usd_per_month']} / month**.",
+        "",
+        "## Canonical evidence",
+        "",
+        "- Architecture: `config/data_platform.json`.",
+        "- Raw byte identity/durability: `data/manifests/raw-artifacts.json`.",
+        "- NG family disposition: `data/manifests/ng-phase1-atlas.json`.",
+        "- Existing feature versions: `data/manifests/ng-phase1-feature-registry.json`.",
+        "- Performance/layout evidence: `data/manifests/phase1-benchmark.json`.",
+        "- Cost evidence: `data/manifests/phase1-cost-ledger.json`.",
+        "- PostgreSQL validation evidence: `data/manifests/phase1-catalog-validation.json`.",
+        "",
+    ]
+    return "\n".join(lines)
+
+
 def render_page(page: dict[str, Any]) -> str:
     kind = page["kind"]
     if kind == "repository_index":
-        body = "# Repository Documentation\n\nAll Markdown under `docs/` is generated. Edit the machine-readable source artifacts, then run `scripts/docs/generate_docs.py`.\n\nGoverned change records remain under `.work/changes/` for their full lifecycle, and retained implementation worktrees belong under `.work/worktrees/`. `.work/historical/` is reserved for pre-governance, non-governed, or otherwise non-authoritative legacy material. `docs/` is a generated projection, not an archive or authority source.\n\n## Human-facing pages\n\n- `big-picture.md` — programme state and direction\n- `data-manifest.md` — data architecture and source state\n- `research-methodology.md` — governed research lifecycle\n- `quantitative-research-knowledge.md` — external knowledge routes, playbooks, and methodology gaps\n- `roadmap.md` — maturity progression\n- `THIRD_PARTY.md` — third-party trust and licensing policy\n- `reference/` — direct artifact reference pages\n"
+        body = "# Repository Documentation\n\nAll Markdown under `docs/` is generated. Edit the machine-readable source artifacts, then run `scripts/docs/generate_docs.py`.\n\nGoverned change records remain under `.work/changes/` for their full lifecycle, and retained implementation worktrees belong under `.work/worktrees/`. `.work/historical/` is reserved for pre-governance, non-governed, or otherwise non-authoritative legacy material. `docs/` is a generated projection, not an archive or authority source.\n\n## Human-facing pages\n\n- `big-picture.md` — programme state and direction\n- `data-platform.md` — modular data-platform architecture and Phase-1 evidence\n- `data-manifest.md` — data architecture and source state\n- `research-methodology.md` — governed research lifecycle\n- `quantitative-research-knowledge.md` — external knowledge routes, playbooks, and methodology gaps\n- `roadmap.md` — maturity progression\n- `THIRD_PARTY.md` — third-party trust and licensing policy\n- `reference/` — direct artifact reference pages\n"
+    elif kind == "data_platform":
+        body = render_data_platform()
     elif kind == "repository_big_picture":
         agents = (ROOT / "AGENTS.md").read_text(encoding="utf-8")
         commodity_start = agents.index("# Commodity")

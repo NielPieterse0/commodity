@@ -1,0 +1,212 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://commodity.local/contracts/data_platform.schema.json",
+  "title": "Commodity data platform architecture contract",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "platform_id", "title", "authority", "philosophy", "stages",
+    "shared_core", "temporal_contract", "fact_families", "storage_contract",
+    "raw_evidence", "protected_confirmation", "quality_contract", "natural_gas_phase_1",
+    "commodity_module_examples", "cost_policy", "benchmark_contract",
+    "future_optional_infrastructure", "future_adoption_rule", "experiment_export_contract"
+  ],
+  "properties": {
+    "schema_version": {"const": 1},
+    "platform_id": {"const": "commodity-data-platform-v1"},
+    "title": {"type": "string", "minLength": 1},
+    "authority": {"$ref": "#/$defs/authority"},
+    "philosophy": {"type": "object", "minProperties": 5},
+    "stages": {"$ref": "#/$defs/stages"},
+    "shared_core": {"$ref": "#/$defs/sharedCore"},
+    "temporal_contract": {"$ref": "#/$defs/temporal"},
+    "fact_families": {"type": "array", "minItems": 10, "uniqueItems": true, "items": {"type": "string"}},
+    "storage_contract": {"$ref": "#/$defs/storage"},
+    "raw_evidence": {"$ref": "#/$defs/rawEvidence"},
+    "protected_confirmation": {"$ref": "#/$defs/protected"},
+    "quality_contract": {"type": "object", "required": ["required_checks", "join_policy", "missingness_classes"]},
+    "natural_gas_phase_1": {"type": "object", "required": ["module_id", "source_status_owner", "source_feature_atlas", "market_core", "required_pit_source_bindings", "miso_required_coverage", "norway_rule"]},
+    "commodity_module_examples": {
+      "type": "object",
+      "required": ["crude_oil", "power", "metals", "agriculture", "carbon"],
+      "additionalProperties": {"$ref": "#/$defs/moduleExample"}
+    },
+    "cost_policy": {"$ref": "#/$defs/costPolicy"},
+    "benchmark_contract": {"type": "object", "required": ["evidence_path", "required_workloads", "protected_data_allowed", "layout_decisions_must_reference_measurement"]},
+    "future_optional_infrastructure": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {"enum": ["ducklake", "timescaledb", "clickhouse", "iceberg", "object_store_catalog", "streaming", "remote_multi_user_services"]}
+    },
+    "future_adoption_rule": {"type": "string", "minLength": 1},
+    "experiment_export_contract": {"type": "object", "required": ["required_identity", "required_flags", "wide_exports_are_reproducible_projections"]}
+  },
+  "$defs": {
+    "authority": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["owner", "schema", "generated_docs_are_authority", "amendment_rule"],
+      "properties": {
+        "owner": {"const": "config/data_platform.json"},
+        "schema": {"const": "contracts/data_platform.schema.json"},
+        "generated_docs_are_authority": {"const": false},
+        "amendment_rule": {"type": "string", "minLength": 1}
+      }
+    },
+    "stages": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": ["phase_0", "phase_1"],
+      "properties": {
+        "phase_0": {"type": "object", "required": ["name", "required_outputs"]},
+        "phase_1": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["name", "required_stack", "scope", "incremental_recurring_spend_target_usd"],
+          "properties": {
+            "name": {"const": "natural_gas_local_foundation"},
+            "required_stack": {
+              "type": "array",
+              "prefixItems": [
+                {"const": "postgresql"}, {"const": "parquet_zstd"},
+                {"const": "duckdb"}, {"const": "polars_arrow"}
+              ],
+              "items": false,
+              "minItems": 4,
+              "maxItems": 4
+            },
+            "scope": {"type": "string", "minLength": 1},
+            "incremental_recurring_spend_target_usd": {"const": 0}
+          }
+        }
+      }
+    },
+    "sharedCore": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["identity_types", "catalog_plane", "analytical_plane", "generic_catalog_entities"],
+      "properties": {
+        "identity_types": {"type": "array", "minItems": 12, "uniqueItems": true, "items": {"type": "string"}},
+        "catalog_plane": {"type": "object", "required": ["engine", "role", "bulk_observation_storage_allowed_by_default"]},
+        "analytical_plane": {"type": "object", "required": ["canonical_storage", "primary_sql", "dataframe_and_transform", "natural_grain_required"]},
+        "generic_catalog_entities": {"type": "array", "minItems": 12, "uniqueItems": true, "items": {"type": "string"}}
+      }
+    },
+    "temporal": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "supported_clocks", "causal_rule", "timestamp_precision",
+        "source_vintage_is_database_snapshot", "revision_storage", "asof_tie_break",
+        "unknown_availability_rule"
+      ],
+      "properties": {
+        "supported_clocks": {
+          "type": "array",
+          "uniqueItems": true,
+          "allOf": [
+            {"contains": {"const": "available_at"}},
+            {"contains": {"const": "outcome_available_at"}},
+            {"contains": {"const": "issued_at"}},
+            {"contains": {"const": "published_at"}},
+            {"contains": {"const": "ingested_at"}}
+          ],
+          "items": {"type": "string"}
+        },
+        "causal_rule": {"const": "available_at <= decision_time"},
+        "timestamp_precision": {"type": "string"},
+        "source_vintage_is_database_snapshot": {"const": false},
+        "revision_storage": {"type": "string"},
+        "asof_tie_break": {"type": "array", "minItems": 2, "items": {"type": "string"}},
+        "unknown_availability_rule": {"type": "string"}
+      }
+    },
+    "storage": {
+      "type": "object",
+      "required": [
+        "raw_working_root", "normalized_root", "canonical_format", "compression",
+        "partition_rule", "file_layout_rule", "row_group_tuning_start_rows",
+        "file_size_tuning_start_bytes", "tuning_ranges_are_schema_rules",
+        "projection_filter_pushdown_required", "larger_than_memory_path_required"
+      ]
+    },
+    "rawEvidence": {
+      "type": "object",
+      "required": [
+        "manifest", "manifest_schema", "content_identity",
+        "local_working_copy_is_canonical_archive", "durably_acquired_rule",
+        "archive_interface", "phase_1_archive_ladder",
+        "github_or_git_lfs_bulk_archive_allowed", "restore_drill_required"
+      ],
+      "properties": {
+        "manifest": {"const": "data/manifests/raw-artifacts.json"},
+        "manifest_schema": {"const": "contracts/raw_artifact_manifest.schema.json"},
+        "content_identity": {"const": "sha256_original_downloaded_bytes"},
+        "local_working_copy_is_canonical_archive": {"const": false},
+        "archive_interface": {"type": "string"},
+        "phase_1_archive_ladder": {"type": "array", "minItems": 2},
+        "github_or_git_lfs_bulk_archive_allowed": {"const": false},
+        "restore_drill_required": {"const": true},
+        "durably_acquired_rule": {"type": "string"}
+      }
+    },
+    "protected": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source_policy_owner", "separate_namespace_required", "separate_credentials_required",
+        "development_may_enumerate_protected_assets", "development_may_read_protected_outcomes",
+        "development_manifest_may_list_protected_object_keys", "required_dataset_export_flag"
+      ],
+      "properties": {
+        "source_policy_owner": {"const": "config/research_dataset.json"},
+        "separate_namespace_required": {"const": true},
+        "separate_credentials_required": {"const": true},
+        "development_may_enumerate_protected_assets": {"const": false},
+        "development_may_read_protected_outcomes": {"const": false},
+        "development_manifest_may_list_protected_object_keys": {"const": false},
+        "required_dataset_export_flag": {"const": "protected_confirmation_accessed=false"}
+      }
+    },
+    "moduleExample": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["uses_shared_identity_types", "module_specific_families", "requires_shared_core_schema_change"],
+      "properties": {
+        "uses_shared_identity_types": {
+          "type": "array",
+          "minItems": 5,
+          "uniqueItems": true,
+          "items": {"type": "string"}
+        },
+        "module_specific_families": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {"type": "string"}
+        },
+        "requires_shared_core_schema_change": {"const": false}
+      }
+    },
+    "costPolicy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "phase_1_incremental_recurring_spend_target_usd", "local_open_source_first",
+        "existing_owned_capacity_first", "new_paid_data_default",
+        "paid_change_requires_operator_approval", "approval_record_requires",
+        "managed_database_default", "paid_cloud_compute_default"
+      ],
+      "properties": {
+        "phase_1_incremental_recurring_spend_target_usd": {"const": 0},
+        "local_open_source_first": {"const": true},
+        "existing_owned_capacity_first": {"const": true},
+        "new_paid_data_default": {"const": "disabled"},
+        "paid_change_requires_operator_approval": {"const": true},
+        "approval_record_requires": {"type": "array", "minItems": 5, "uniqueItems": true},
+        "managed_database_default": {"const": "deferred"},
+        "paid_cloud_compute_default": {"const": "deferred"}
+      }
+    }
+  }
+}

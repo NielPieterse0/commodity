@@ -19,6 +19,13 @@ dependencies = [
 [project.optional-dependencies]
 market = ["yfinance>=1.0,<2"]
 databento = ["databento>=0.83,<0.84", "pyarrow>=25,<26"]
+data-platform = [
+  "boto3>=1.43,<2",
+  "duckdb>=1.5,<2",
+  "pyarrow>=25,<26",
+  "polars>=1,<2",
+  "psycopg[binary]>=3.2,<4",
+]
 kronos = ["torch>=2.3", "huggingface-hub>=0.33,<1", "einops>=0.8,<1", "safetensors>=0.6,<1", "tqdm>=4.67,<5"]
 dev = ["pytest>=8.2", "ruff>=0.6", "jsonschema>=4.23"]
 

@@ -65,6 +65,7 @@ Until the repository ownership model is deliberately simplified and migrated, re
 | 39 | Human onboarding/orientation | `README.md` |
 | 40 | Binding repository rule-to-verifier registry and generated verification projection | `config/rule_verification.json`; projected through the documentation generator as `docs/rule-verification.md` |
 | 41 | Quantitative-research external knowledge routing, distilled playbooks, methodology coverage map, and deferred control gaps | `config/quantitative_research_knowledge.json`, constrained by `contracts/quantitative_research_knowledge.schema.json`; projected as generated `docs/quantitative-research-knowledge.md` |
+| 42 | Commodity data-platform architecture, storage staging, generic catalog identities, raw-evidence durability policy, protected archive boundary, cost policy, and future infrastructure triggers | `config/data_platform.json`, constrained by `contracts/data_platform.schema.json` and `contracts/raw_artifact_manifest.schema.json`; source-specific operational status remains owned by `config/data_sources.json`, research/protected timing by `config/research_dataset.json`, and the human projection is generated as `docs/data-platform.md` |
 
 When information changes, update its canonical owner first. Do not create another competing ownership registry elsewhere.
 

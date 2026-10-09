@@ -51,6 +51,11 @@
       "use": "bounded Chronos-2 deployment-compatible specialist adapter"
     },
     {
+      "source": "boto/boto3",
+      "class": "approved_dependency",
+      "use": "provider-neutral S3-compatible raw archive transport and restore verification"
+    },
+    {
       "source": "databento/databento-python",
       "class": "approved_dependency",
       "use": "local Databento decoding"
