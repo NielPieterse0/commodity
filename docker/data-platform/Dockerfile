@@ -7,7 +7,7 @@ ENV PYTHONDONTWRITEBYTECODE=1 PYTHONNOUSERSITE=1 PYTHONUNBUFFERED=1
 WORKDIR /workspace
 RUN mkdir -p /workspace/scripts/data /workspace/src /workspace/config /outputs /worktmp /input
 COPY requirements.txt /tmp/requirements.txt
-RUN python -m pip install --no-cache-dir --disable-pip-version-check --only-binary=:all: --no-deps -r /tmp/requirements.txt
+RUN python -m pip install --no-cache-dir --disable-pip-version-check --only-binary=:all: --require-hashes --no-deps -r /tmp/requirements.txt
 RUN python -c "import duckdb, numpy, polars, pyarrow; assert duckdb.__version__ == '1.5.6'; assert numpy.__version__ == '2.4.6'; assert polars.__version__ == '1.44.2'; assert pyarrow.__version__ == '25.0.1'"
 USER 65532:65532
 CMD ["python", "--version"]

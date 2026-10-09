@@ -13,6 +13,6 @@
 - [x] Expand tests for host, policy-block, no-Docker, digest, mounts, bounded arguments and fatal-error conditions; add independent repeated-benchmark CI checks.
 - [ ] Reconcile registered KIS verification and reviews.
 - [x] Run actual Docker benchmark twice, reproduce six-byte difference, preserve both SHA-256 identities and document unresolved binary cause.
-- [ ] Capture wheel-file hashes and complete supply-chain security evidence (image ID and build-input SHA-256 verified).
+- [x] Capture and enforce Linux/amd64 CPython 3.11 wheel-file SHA-256 hashes; rebuild the image and verify immutable image ID and build-input hashes.
 - [ ] Confirm exact-head CI and source parity.
 - [ ] Complete PR, merge, Work reconciliation and cleanup via KIS.

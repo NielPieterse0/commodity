@@ -74,9 +74,13 @@ calculations. Phase 1's window query sorted by a non-unique trade_date,
 so its result varied across runs; #487 adds settle and feature_6 tie breaks.
 Repeated corrected window totals agree within floating-point tolerance.
 See data/manifests/issue487-docker-benchmark.json for immutable snapshots
-and CI's repeated-run checks. Exact versions are pinned, but the wheel-file
-SHA-256 hashes are not yet locked. The pinned Python 3.11.17 base image must be security-reviewed
-before production. No new paid subscription is required.
+and CI's repeated-run checks. Exact wheels for Linux amd64 CPython 3.11
+are SHA-256 locked in requirements.txt, and pip enforces --require-hashes at
+build time. Wheels were downloaded in the digest-pinned Linux build environment
+and their bytes hashed independently before inclusion. To update, download and
+verify every new wheel for the target architecture before changing the lock;
+never remove --require-hashes to make a build pass. The pinned Python 3.11.17
+base image must be security-reviewed before production. No new paid subscription is required.
 
 For a bounded data script, pass --script scripts/data/<name>.py and each
 script argument with --arg=VALUE. In Docker mode use /input for explicitly
