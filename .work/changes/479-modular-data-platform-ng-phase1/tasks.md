@@ -15,5 +15,5 @@
 - [x] Register architecture/documentation/rule-verification authority and regenerate owned documentation.
 - [x] Complete representative off-machine upload, independent remote SHA-256 verification, and local-loss restore drill against the private Supabase S3-compatible development bucket.
 - [x] Final strict data-platform verification is green (archive 7/7; `--require-durable-raw --require-postgres` passed) and exact-commit specialist review is closed through the KIS-declared `manual_fallback=exact-diff`; use exact-head provider CI for the full suite because local Windows Application Control currently blocks DuckDB's native DLL.
-- [ ] Commit through KIS and project the change classification to WORK-479.
+- [x] Commit through KIS and project the authoritative change classification to WORK-479.
 - [ ] Prepare reviewable PR, require exact-head Actions, merge/reconcile Work/documentation, and clean worktree through KIS.
