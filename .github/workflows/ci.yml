@@ -73,3 +73,49 @@ jobs:
           PR_BASE_SHA: ${{ github.event.pull_request.base.sha }}
           PR_HEAD_SHA: ${{ github.event.pull_request.head.sha }}
         run: .venv/bin/python scripts/checks/check_git_whitespace.py
+
+  docker-data-runtime:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5.6.0
+        with:
+          python-version: "3.11"
+      - name: Create checkout-local virtual environment
+        run: python -m venv .venv
+      - name: Build digest-pinned data runtime
+        run: .venv/bin/python scripts/environment/docker_data_runtime.py --build-image
+      - name: Execute isolated synthetic 1.5M-row benchmark
+        run: .venv/bin/python scripts/environment/docker_data_runtime.py --mode docker
+      - name: Retain first ignored benchmark for repeat check
+        run: cp .work/runtime/docker-data-platform/outputs/benchmark.json .work/runtime/docker-data-platform/outputs/benchmark-first.json
+      - name: Repeat isolated synthetic benchmark
+        run: .venv/bin/python scripts/environment/docker_data_runtime.py --mode docker
+      - name: Assert benchmark parity and protected boundary
+        run: |
+          .venv/bin/python - <<'PY'
+          import json
+          import math
+          from pathlib import Path
+          current = json.loads(Path(".work/runtime/docker-data-platform/outputs/benchmark.json").read_text())
+          first = json.loads(Path(".work/runtime/docker-data-platform/outputs/benchmark-first.json").read_text())
+          baseline = json.loads(Path("data/manifests/phase1-benchmark.json").read_text())
+          expected = json.loads(Path("data/manifests/issue487-docker-benchmark.json").read_text())
+          assert current["protected_confirmation_accessed"] is False
+          assert current["dataset"]["rows"] == 1_500_000
+          assert current["workloads"]["constrained_memory_scan"]["result"] == baseline["workloads"]["constrained_memory_scan"]["result"]
+          assert current["workloads"]["asof_join"]["joined_rows"] == baseline["workloads"]["asof_join"]["joined_rows"]
+          assert current["workloads"]["sparse_join"]["null_rows"] == baseline["workloads"]["sparse_join"]["null_rows"]
+          assert current["workloads"]["parquet_projection_filter"]["plan_has_filters"]
+          assert current["workloads"]["parquet_projection_filter"]["plan_has_projection"]
+          assert math.isclose(current["workloads"]["parquet_projection_filter"]["result"], baseline["workloads"]["parquet_projection_filter"]["result"], rel_tol=1e-12)
+          assert math.isclose(current["workloads"]["window"]["result"], expected["docker"]["logical_results"]["window_run_1"], rel_tol=1e-12)
+          assert current["dataset"]["row_groups"] == expected["docker"]["dataset"]["row_groups"]
+          assert current["dataset"]["parquet_sha256"] == first["dataset"]["parquet_sha256"]
+          assert math.isclose(current["workloads"]["window"]["result"], first["workloads"]["window"]["result"], rel_tol=1e-12)
+          assert current["engine"]["input_file_to_memory_limit_ratio"] > 1
+          print("parquet_sha256:", current["dataset"]["parquet_sha256"])
+          print("parquet_delta_bytes:", current["dataset"]["parquet_bytes"] - baseline["dataset"]["parquet_bytes"])
+          print("synthetic-workload-parity: PASS")
+          PY
