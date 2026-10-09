@@ -16,6 +16,7 @@ htmlcov/
 .work/worktrees/
 .work/historical/
 .work/scratch/
+.work/runtime/
 .work/quarantine/
 .work/checkpoints/
 .work/integration-backups/

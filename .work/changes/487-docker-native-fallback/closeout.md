@@ -21,4 +21,5 @@ Status: OPEN — not PromotionReady.
 - No claim of original wheel-content hash reproducibility or production security review; base and dependency versions and build-input SHA-256 are pinned.
 - Staged KIS/Codex security reviews of runtime source identified and drove fixes for writable symlink mounts, effective Dockerfile FROM pinning, nested-script aliasing, mutable image tag execution and benchmark policy aliasing. A residual local TOCTOU race requires write access to the worktree's runtime directories; hardened checks and atomic image-lock replacement are implemented, but fully atomic directory-handle mounts are not available and the trust assumption remains explicit.
 - KIS review closure: pending full surface review/risk disposition; exact-head GitHub Actions: pending; PR/merge/cleanup: pending.
+- KIS lifecycle discovered .work/runtime was not Git-ignored, making the worktree dirty after commit. Added an explicit .work/runtime/ ignore rule and updated owned_paths to keep generated image locks and benchmark outputs out of the governed tree.
 - No Supabase data-plane modifications or protected data access.

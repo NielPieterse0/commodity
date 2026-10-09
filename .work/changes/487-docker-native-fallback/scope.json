@@ -13,6 +13,7 @@
     "src/commodity/data_runtime.py",
     "scripts/data/benchmark_data_platform.py",
     "config/rule_verification.json",
+    ".gitignore",
     ".github/workflows/ci.yml",
     "data/manifests/issue487-docker-benchmark.json",
     ".work/changes/487-docker-native-fallback/**"
