@@ -1,6 +1,6 @@
 # #489 Closeout-record reconciliation
 
-Documentation level: Small. Owner: `.work/changes/487-docker-native-fallback/`.
+Documentation level: Small. Follow-up owner: `.work/changes/489-487-closeout-records/`. Reconciled source records: `.work/changes/487-docker-native-fallback/{tasks.md,closeout.md}`.
 
 - Purpose: align retained #487 tasks and closeout history with independently observed GitHub, CI and KIS Work Management state.
 - Sources: issue #487 (closed), PR #488 (merged at `a1d8da618f4f1ebe60aa1a64802cdd89832254e5`), exact-head CI run `37967937868` (both jobs passed), and KIS Work Management `done`.
