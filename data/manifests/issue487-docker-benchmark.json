@@ -1,0 +1,75 @@
+{
+  "schema_version": 2,
+  "issue": 487,
+  "change_id": "487-docker-native-fallback",
+  "benchmark_kind": "synthetic_ng_shaped_non_evidence",
+  "protected_confirmation_accessed": false,
+  "reference": {
+    "manifest": "data/manifests/phase1-benchmark.json",
+    "python_version": "3.11.9",
+    "rows": 1500000,
+    "parquet_bytes": 85249533,
+    "parquet_sha256": "3589634177ef922ffc1fbf82146d31e699722a3077a612253175bf8b72c4f5c0",
+    "legacy_nonunique_window_result": 4499610.645909173
+  },
+  "docker": {
+    "image_id": "sha256:a78a5644cce5213e445d3206d753295f87e764851f65a03750d72c529c09ea72",
+    "base_digest": "sha256:0a310eeecf4e1f5a0743f9a6520c90c88d089c903ca5fd283f501e3a805f5f89",
+    "dockerfile_sha256": "50a86c6bb26a14538d89078c15cd110d782a320ac717dc03f9b683ce7cd2cb9e",
+    "lock_sha256": "f1e43986803f99ae95278accdf477696e16b4216ab140188665d4ae2b1c824c2",
+    "engine_versions": {
+      "python": "3.11.17",
+      "duckdb": "1.5.6",
+      "numpy": "2.4.6",
+      "polars": "1.44.2",
+      "pyarrow": "25.0.1"
+    },
+    "limits": {
+      "cpu": 2,
+      "memory_gib": 2,
+      "network": "none",
+      "filesystem": "read_only_root_and_source",
+      "writable": "isolated_ignored_outputs_and_tmp",
+      "privilege_escalation": false
+    },
+    "dataset": {
+      "rows": 1500000,
+      "columns": 10,
+      "row_groups": 6,
+      "parquet_bytes": 85249539,
+      "parquet_sha256": "fb6901a038911c8d757ab376abc66b7e71d190fec9560e0e77dc38abe562cb37",
+      "input_to_memory_ratio": 4.065014791488648
+    },
+    "logical_results": {
+      "parquet_projection_filter": 2.999813557446691,
+      "asof_join_rows": 4383,
+      "sparse_join_null_rows": 3756,
+      "constrained_memory_scan": 1125000750000,
+      "window_ordering": "trade_date, settle, feature_6",
+      "window_run_1": 4499521.356808823,
+      "window_run_2": 4499521.356808826,
+      "window_relative_tolerance": 1e-12
+    },
+    "last_run_timing_seconds": {
+      "parquet_projection_filter": 0.5771860940000124,
+      "window": 2.723461260000022,
+      "asof_join": 0.04426144399997156,
+      "sparse_join": 0.005690726000011637,
+      "constrained_memory_scan": 3.4823126370000637
+    }
+  },
+  "comparison": {
+    "docker_minus_reference_parquet_bytes": 6,
+    "byte_level_identical": false,
+    "same_parquet_sha_across_docker_replays": true,
+    "same_projection_asof_sparse_and_constrained_scan_as_reference": true,
+    "window_reference_not_directly_comparable": "Phase 1 used non-unique trade_date order, so its rolling aggregate was nondeterministic; #487 adds settle and feature_6 as deterministic tie breakers",
+    "window_replay_variation": "At most floating point reduction-order rounding across repeats",
+    "parquet_binary_difference_root_cause": "undetermined; original platform-encoded Parquet file not retained, so no stronger causal attribution is supported"
+  },
+  "remaining_supply_chain_gap": "Pinned distribution versions and built image ID, but original wheel-file hashes are not yet recorded",
+  "local_simulated_tests": {
+    "suite": "tests/environment/test_docker_data_runtime.py",
+    "passed": 19
+  }
+}

@@ -3,6 +3,7 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import os
 import platform
 import tempfile
 import time
@@ -52,7 +53,7 @@ def _build_table(rows: int) -> pa.Table:
 
 
 def run_benchmark(rows: int) -> dict[str, object]:
-    temp_root = ROOT / ".work" / "tmp"
+    temp_root = Path(os.environ.get("COMMODITY_RUNTIME_TMP", str(ROOT / ".work" / "tmp")))
     temp_root.mkdir(parents=True, exist_ok=True)
     with tempfile.TemporaryDirectory(prefix="issue479-benchmark-", dir=temp_root) as temp_dir:
         temp = Path(temp_dir)
@@ -107,7 +108,7 @@ def run_benchmark(rows: int) -> dict[str, object]:
                 FROM (
                     SELECT avg(settle) OVER (
                         PARTITION BY contract_rank
-                        ORDER BY trade_date
+                        ORDER BY trade_date, settle, feature_6
                         ROWS BETWEEN 20 PRECEDING AND CURRENT ROW
                     ) AS rolling_mean
                     FROM read_parquet(?)
@@ -239,7 +240,7 @@ def main() -> int:
         newline="\n",
     )
     print(json.dumps({
-        "output": str(args.output.relative_to(ROOT)),
+        "output": str(args.output),
         "rows": args.rows,
         "parquet_bytes": evidence["dataset"]["parquet_bytes"],
         "input_file_to_memory_limit_ratio": evidence["engine"]["input_file_to_memory_limit_ratio"],

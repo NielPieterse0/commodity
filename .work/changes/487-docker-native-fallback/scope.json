@@ -1,0 +1,39 @@
+{
+  "schema_version": 4,
+  "change_id": "487-docker-native-fallback",
+  "status": "active",
+  "branch": "change/487-docker-native-fallback",
+  "worktree": ".work/worktrees/487-docker-native-fallback",
+  "base": "main",
+  "outcome": "Secure reusable digest-pinned Linux Docker fallback for Windows-blocked data runtimes, with verification and operator guidance.",
+  "owned_paths": [
+    "scripts/environment/**",
+    "tests/environment/**",
+    "docker/data-platform/**",
+    "src/commodity/data_runtime.py",
+    "scripts/data/benchmark_data_platform.py",
+    "config/rule_verification.json",
+    ".github/workflows/ci.yml",
+    "data/manifests/issue487-docker-benchmark.json",
+    ".work/changes/487-docker-native-fallback/**"
+  ],
+  "shared_paths": [],
+  "excluded_paths": [],
+  "dependencies": [],
+  "integration_owner": null,
+  "complexity": "medium",
+  "risk_triggers": [
+    "architecture_boundary",
+    "external_action",
+    "security"
+  ],
+  "base_evidence": {
+    "local_sha": "a4f095c6cb693084406b67a4c4fca74bb3cc1b67",
+    "local_tree": "6fb1bcc9a6edc49cc5d3a9121b6d53f1bb28420c",
+    "upstream_sha": "a4f095c6cb693084406b67a4c4fca74bb3cc1b67",
+    "upstream_tree": "6fb1bcc9a6edc49cc5d3a9121b6d53f1bb28420c",
+    "upstream_ref": "refs/remotes/origin/main",
+    "evidence_source": "local_remote_tracking_ref",
+    "relation": "same_sha"
+  }
+}
