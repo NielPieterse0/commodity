@@ -52,6 +52,13 @@
       "status": "active",
       "source_record": "research/programmes/002-henry-hub-fresh/phase1-mechanism-scorecard.json",
       "superseded_by": null
+    },
+    {
+      "id": "target-matched-physical-bottleneck-hold",
+      "decision": "Hold #348's intended target-matched physical-bottleneck mapping. Before further investment, validate the capacity rule and GO criterion; then establish exact target/futures mapping and an eligible-month manifest, specify the simplest defensible target-month PIT physical forecasts, and preserve prospective or independently untouched confirmation. The current 1% capacity result is conditional on the stated planning assumptions and does not establish impossibility. No scored successor is authorized by the #351 feasibility slice.",
+      "status": "active",
+      "source_record": "research/programmes/002-henry-hub-fresh/lines/005-fundamental-balance/experiments/feas-022-target-matched-physical-bottleneck/feasibility.json",
+      "superseded_by": null
     }
   ]
 }

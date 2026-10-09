@@ -2,7 +2,7 @@
   "canonical_feasibility_owner": "research/programmes/002-henry-hub-fresh/evidence-map.json",
   "decision_counts": {
     "GO": 14,
-    "HOLD": 7,
+    "HOLD": 8,
     "REDESIGN": 0
   },
   "empirical_execution_authority": false,
@@ -466,6 +466,32 @@
       "semantic_fidelity_class": "exploratory_issued_vintage_route_ready_not_a_literature_reproduction",
       "source_identities": [
         "open_meteo_v1 immutable issued forecast runs"
+      ]
+    },
+    {
+      "decision": "HOLD",
+      "dependence_structure": "Monthly paired forecast losses are serially dependent; the primary feasibility screen uses three-month blocks and paired-error-correlation sensitivity without reading outcomes.",
+      "design_id": "feas-022-target-matched-physical-bottleneck",
+      "detectable_effect_screen": "At the current exposure-restricted upper bound N=136, the primary three-month MDE is 2.10% at paired-error correlation 0.999 and 1.49% even at 0.9995. A 1% MDE requires 599 or 301 OOS months respectively.",
+      "effective_information": "161 gross target months from 2010-07 through 2023-11 fall to 136 after preserving the union of existing sealed windows. Any development allocation, lag burn-in, mapping failure or missing target-month physical forecast reduces executable OOS N further.",
+      "eligible_raw_n": "Databento exact-contract history plus BHLR realized target-period physical truth provide 161 gross target months; 136 remain after sealed-window exposure exclusions. A theoretical extension to the 1997-02 target boundary provides 297 exposure-restricted months before development allocation.",
+      "empirical_execution_authority": false,
+      "freeze_ready": false,
+      "mepi_derivation": "Issue #351 fixes the material-effect decision at 1% relative RMSE improvement. Capacity review must distinguish conditional power to detect a true 1% improvement versus zero, the probability of satisfying the complete survivor rule, and the precision needed to rule out improvements of 1% or more before any scored successor is drafted.",
+      "power_sensitivity": "Under the stated Gaussian planning approximation, current capacity is insufficient for a 1% MDE versus zero under the primary three-month dependence screen. Even the full exposure-restricted 1997-02 through 2023-11 upper bound remains below the 301-month requirement at the rho=0.9995 sensitivity before development allocation. This is conditional planning evidence, not proof of impossibility or an assessment of the full survivor rule.",
+      "remaining_blockers": [
+        "validate the capacity rule and GO criterion for detection versus zero, the complete survivor rule, and precision to rule out improvements of 1% or more",
+        "implement and verify exact target-calendar-month to delivery-month futures mapping and training-only calibration and emit an eligible-month manifest",
+        "specify the simplest defensible origin-available forecasts of target-month dry production, working storage and total consumption under the same feature identity as realized B inputs; defer full construction until justified",
+        "recompute exact aligned OOS capacity after development, lag, exposure, missingness and contract-calendar rules",
+        "consider additional history only against the remaining quantified capacity gap",
+        "reserve prospective confirmation or independently prove an untouched historical block under the exact new mapping"
+      ],
+      "semantic_fidelity_class": "intended_issue348_mapping_defined_but_target_period_pit_and_capacity_hold",
+      "source_identities": [
+        "databento_henry_hub",
+        "EIA Henry Hub spot/reference target truth",
+        "LIT-BHLR-RTDB final and real-time vintages"
       ]
     }
   ],
