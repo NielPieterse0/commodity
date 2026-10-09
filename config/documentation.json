@@ -18,6 +18,21 @@
       ]
     },
     {
+      "path": "docs/data-platform.md",
+      "kind": "data_platform",
+      "sources": [
+        "config/data_platform.json",
+        "contracts/data_platform.schema.json",
+        "contracts/raw_artifact_manifest.schema.json",
+        "data/manifests/ng-phase1-atlas.json",
+        "data/manifests/ng-phase1-feature-registry.json",
+        "data/manifests/phase1-benchmark.json",
+        "data/manifests/phase1-cost-ledger.json",
+        "data/manifests/phase1-catalog-validation.json",
+        "data/manifests/raw-artifacts.json"
+      ]
+    },
+    {
       "path": "docs/data-manifest.md",
       "kind": "data_architecture",
       "sources": [

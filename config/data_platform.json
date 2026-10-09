@@ -1,0 +1,212 @@
+{
+  "schema_version": 1,
+  "platform_id": "commodity-data-platform-v1",
+  "title": "Commodity modular data platform",
+  "authority": {
+    "owner": "config/data_platform.json",
+    "schema": "contracts/data_platform.schema.json",
+    "generated_docs_are_authority": false,
+    "amendment_rule": "material architecture changes require benchmark evidence and an explicit governed amendment"
+  },
+  "philosophy": {
+    "research_goal": "reconstruct the largest defensible point-in-time information set at each decision timestamp",
+    "storage_rule": "store immutable source evidence and natural-grain normalized facts; build causal wide views on demand",
+    "modularity_rule": "shared core owns generic identities, clocks, provenance and quality; commodity modules own domain-specific semantics",
+    "revision_rule": "source/economic revisions are explicit facts and are not replaced by database snapshot history",
+    "sparsity_rule": "sparse families remain sparse and never force complete-case deletion of otherwise valid sessions"
+  },
+  "stages": {
+    "phase_0": {
+      "name": "contract_freeze",
+      "required_outputs": ["architecture_contract", "raw_manifest_contract", "source_feature_atlas"]
+    },
+    "phase_1": {
+      "name": "natural_gas_local_foundation",
+      "required_stack": ["postgresql", "parquet_zstd", "duckdb", "polars_arrow"],
+      "scope": "natural_gas_only_with_commodity_neutral_shared_core",
+      "incremental_recurring_spend_target_usd": 0
+    }
+  },
+  "shared_core": {
+    "identity_types": [
+      "commodity", "venue", "instrument", "futures_contract", "series", "source",
+      "location", "unit", "currency", "feature", "model", "dataset"
+    ],
+    "catalog_plane": {
+      "engine": "postgresql",
+      "role": "small relational control plane for identity, lineage, quality, policy and dataset references",
+      "bulk_observation_storage_allowed_by_default": false
+    },
+    "analytical_plane": {
+      "canonical_storage": "parquet_zstd",
+      "primary_sql": "duckdb",
+      "dataframe_and_transform": "polars_arrow",
+      "natural_grain_required": true
+    },
+    "generic_catalog_entities": [
+      "commodity", "venue", "unit", "currency", "location", "instrument",
+      "futures_contract", "data_source", "series_definition", "raw_artifact",
+      "source_vintage", "feature_definition", "model_definition", "dataset_snapshot",
+      "lineage_edge", "quality_result", "policy_record"
+    ]
+  },
+  "temporal_contract": {
+    "supported_clocks": [
+      "event_time", "observed_for", "issued_at", "published_at", "available_at",
+      "forecast_valid_at", "valid_from", "valid_to", "ingested_at", "outcome_available_at"
+    ],
+    "causal_rule": "available_at <= decision_time",
+    "timestamp_precision": "nanosecond_capable_when_source_requires",
+    "source_vintage_is_database_snapshot": false,
+    "revision_storage": "append_new_revision_never_destructive_overwrite",
+    "asof_tie_break": ["available_at", "published_at", "issued_at", "ingested_at", "source_vintage_id"],
+    "unknown_availability_rule": "fail_closed_for_strict_pit_research"
+  },
+  "fact_families": [
+    "market_bar", "market_statistic", "curve_point", "open_interest",
+    "observation", "forecast_value", "weather_forecast", "positioning",
+    "event_revision", "physical_flow", "technical_feature", "fundamental_feature",
+    "model_feature", "outcome", "session_spine"
+  ],
+  "storage_contract": {
+    "raw_working_root": "data/raw",
+    "normalized_root": "data/processed/platform",
+    "canonical_format": "parquet",
+    "compression": "zstd",
+    "partition_rule": "partition only on stable high-value pruning keys; avoid high-cardinality directory explosions",
+    "file_layout_rule": "measure representative workloads and compact pathological tiny files",
+    "row_group_tuning_start_rows": {"minimum": 100000, "maximum": 1000000},
+    "file_size_tuning_start_bytes": {"minimum": 100000000, "maximum": 10000000000},
+    "tuning_ranges_are_schema_rules": false,
+    "projection_filter_pushdown_required": true,
+    "larger_than_memory_path_required": true
+  },
+  "raw_evidence": {
+    "manifest": "data/manifests/raw-artifacts.json",
+    "manifest_schema": "contracts/raw_artifact_manifest.schema.json",
+    "content_identity": "sha256_original_downloaded_bytes",
+    "local_working_copy_is_canonical_archive": false,
+    "durably_acquired_rule": "local sha256 recorded plus offsite copy independently hash-verified unless licensing forbids replication",
+    "archive_interface": "provider_portable_private_object_or_file_archive",
+    "phase_1_archive_ladder": [
+      {
+        "order": 1,
+        "provider": "existing_private_google_drive_capacity",
+        "cost_trigger": "use only when incremental recurring cost remains zero",
+        "role": "initial off-machine archive when hash/upload/restore requirements are satisfied"
+      },
+      {
+        "order": 2,
+        "provider": "free_s3_compatible_capacity",
+        "examples": ["backblaze_b2", "cloudflare_r2"],
+        "cost_trigger": "remain within verified free capacity"
+      },
+      {
+        "order": 3,
+        "provider": "backblaze_b2_eu_central",
+        "cost_trigger": "first paid fallback only after explicit operator approval",
+        "role": "preferred paid private S3-compatible archive"
+      }
+    ],
+    "github_or_git_lfs_bulk_archive_allowed": false,
+    "restore_drill_required": true
+  },
+  "protected_confirmation": {
+    "source_policy_owner": "config/research_dataset.json",
+    "separate_namespace_required": true,
+    "separate_credentials_required": true,
+    "development_may_enumerate_protected_assets": false,
+    "development_may_read_protected_outcomes": false,
+    "development_manifest_may_list_protected_object_keys": false,
+    "required_dataset_export_flag": "protected_confirmation_accessed=false"
+  },
+  "quality_contract": {
+    "required_checks": [
+      "grain", "uniqueness", "coverage", "missingness_provenance", "timestamp_semantics",
+      "unit_semantics", "revision_chain", "point_in_time_eligibility", "raw_hash",
+      "join_cardinality", "lineage_resolvability"
+    ],
+    "join_policy": "declare expected cardinality before join and reject multiplicative surprises",
+    "missingness_classes": [
+      "not_yet_published", "structurally_absent", "source_missing", "filtered_by_policy", "not_applicable"
+    ]
+  },
+  "natural_gas_phase_1": {
+    "module_id": "natural_gas",
+    "source_status_owner": "config/data_sources.json",
+    "research_dataset_owner": "config/research_dataset.json",
+    "source_feature_atlas": "data/manifests/ng-phase1-atlas.json",
+    "market_core": {
+      "exact_contract_identity_required": true,
+      "curve_rank_capacity": "M1-M12_where_licensed_or_acquired_coverage_permits",
+      "synthetic_continuous_series_is_raw_authority": false
+    },
+    "required_pit_source_bindings": [
+      "cftc_cot", "miso_load_forecast"
+    ],
+    "miso_required_coverage": {
+      "start": "2011-01-01",
+      "end": "2022-12-31",
+      "months": 144
+    },
+    "norway_rule": "revised NOD SSB ENTSOG or Gassco history is not PIT evidence without vintage/publication proof"
+  },
+  "commodity_module_examples": {
+    "crude_oil": {
+      "uses_shared_identity_types": ["commodity", "venue", "instrument", "futures_contract", "series", "source", "location", "unit", "currency"],
+      "module_specific_families": ["wti_brent_curves", "inventories", "refinery_runs", "opec", "tanker_physical_flows"],
+      "requires_shared_core_schema_change": false
+    },
+    "power": {
+      "uses_shared_identity_types": ["commodity", "venue", "instrument", "series", "source", "location", "unit", "currency"],
+      "module_specific_families": ["nodes_zones", "generation", "outages", "renewables", "load", "weather"],
+      "requires_shared_core_schema_change": false
+    },
+    "metals": {
+      "uses_shared_identity_types": ["commodity", "venue", "instrument", "futures_contract", "series", "source", "location", "unit", "currency"],
+      "module_specific_families": ["inventories", "mine_refined_supply", "fx", "industrial_demand"],
+      "requires_shared_core_schema_change": false
+    },
+    "agriculture": {
+      "uses_shared_identity_types": ["commodity", "venue", "instrument", "futures_contract", "series", "source", "location", "unit", "currency"],
+      "module_specific_families": ["crop_progress", "weather", "wasde", "exports", "seasonality"],
+      "requires_shared_core_schema_change": false
+    },
+    "carbon": {
+      "uses_shared_identity_types": ["commodity", "venue", "instrument", "futures_contract", "series", "source", "location", "unit", "currency"],
+      "module_specific_families": ["allowance_supply", "auctions", "emissions", "fuel_switching"],
+      "requires_shared_core_schema_change": false
+    }
+  },
+  "cost_policy": {
+    "phase_1_incremental_recurring_spend_target_usd": 0,
+    "local_open_source_first": true,
+    "existing_owned_capacity_first": true,
+    "new_paid_data_default": "disabled",
+    "paid_change_requires_operator_approval": true,
+    "approval_record_requires": [
+      "free_alternative", "trigger", "expected_cost", "research_gap",
+      "licensing_and_retention_implications", "justification"
+    ],
+    "managed_database_default": "deferred",
+    "paid_cloud_compute_default": "deferred"
+  },
+  "benchmark_contract": {
+    "evidence_path": "data/manifests/phase1-benchmark.json",
+    "required_workloads": [
+      "parquet_projection_filter", "window", "asof_join", "sparse_join", "constrained_memory_scan"
+    ],
+    "protected_data_allowed": false,
+    "layout_decisions_must_reference_measurement": true
+  },
+  "future_optional_infrastructure": [
+    "ducklake", "timescaledb", "clickhouse", "iceberg",
+    "object_store_catalog", "streaming", "remote_multi_user_services"
+  ],
+  "future_adoption_rule": "optional infrastructure requires measured workload need, benchmark evidence, stable-interface compatibility and an explicit architecture amendment",
+  "experiment_export_contract": {
+    "required_identity": ["dataset_id", "dataset_snapshot_id", "content_sha256", "lineage_sha256"],
+    "required_flags": {"protected_confirmation_accessed": false},
+    "wide_exports_are_reproducible_projections": true
+  }
+}

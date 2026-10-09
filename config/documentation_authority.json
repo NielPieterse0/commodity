@@ -26,6 +26,7 @@
     {"authority": "provider_operational_status", "owner": "config/data_sources.json"},
     {"authority": "model_runtime_settings", "owner": "config/models.json"},
     {"authority": "research_methodology_activation", "owner": "config/research_methodology.json"},
+    {"authority": "data_platform_architecture", "owner": "config/data_platform.json"},
     {"authority": "generated_documentation_source", "owner": "config/documentation.json"}
   ]
 }

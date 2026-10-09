@@ -8,6 +8,7 @@
 | --- | --- | --- | --- |
 | `public-repository-hygiene` | repository/publication hygiene (`scripts/checks/check_public_hygiene.py`) | `scripts/checks/check_public_hygiene.py` | pre-ci+ci |
 | `documentation-authority` | maintained-document ownership and boundaries (`config/documentation_authority.json`) | `scripts/checks/check_documentation_authority.py` | pre-ci+ci |
+| `data-platform-contract` | commodity data-platform architecture, PIT, raw durability, protected isolation, atlas, benchmark, and cost contract (`config/data_platform.json`) | `scripts/data/verify_data_platform.py` | pre-ci+ci |
 | `python-environment-boundary` | active checkout/worktree Python environment boundary (`AGENTS.md`) | `scripts/checks/check_python_environment.py` | pre-ci+ci |
 | `durable-evidence-references` | durable research evidence reference resolvability (`artifacts/research-metrics/longitudinal-ledger.json`) | `scripts/checks/check_durable_evidence_refs.py` | pre-ci+ci |
 | `market-source-authority` | canonical market source selection, retained integrity, and evaluation/promotion boundary (`config/data_sources.json`) | `scripts/checks/check_market_source_authority.py` | pre-ci+ci |

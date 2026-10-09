@@ -9,6 +9,7 @@ Governed change records remain under `.work/changes/` for their full lifecycle, 
 ## Human-facing pages
 
 - `big-picture.md` — programme state and direction
+- `data-platform.md` — modular data-platform architecture and Phase-1 evidence
 - `data-manifest.md` — data architecture and source state
 - `research-methodology.md` — governed research lifecycle
 - `quantitative-research-knowledge.md` — external knowledge routes, playbooks, and methodology gaps

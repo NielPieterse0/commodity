@@ -23,6 +23,15 @@
       "enforcement": "pre-ci+ci"
     },
     {
+      "id": "data-platform-contract",
+      "authority": "commodity data-platform architecture, PIT, raw durability, protected isolation, atlas, benchmark, and cost contract",
+      "source": "config/data_platform.json",
+      "verifier": [
+        "scripts/data/verify_data_platform.py"
+      ],
+      "enforcement": "pre-ci+ci"
+    },
+    {
       "id": "python-environment-boundary",
       "authority": "active checkout/worktree Python environment boundary",
       "source": "AGENTS.md",

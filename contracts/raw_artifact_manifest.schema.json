@@ -1,0 +1,107 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://commodity.local/contracts/raw_artifact_manifest.schema.json",
+  "title": "Commodity raw artifact manifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "manifest_id", "authority", "artifacts"],
+  "properties": {
+    "schema_version": {"const": 1},
+    "manifest_id": {"type": "string", "minLength": 1},
+    "authority": {"const": "raw_bytes_identity_and_durability_only"},
+    "archive_namespace": {
+      "type": "object",
+      "required": ["provider", "development_namespace", "development_namespace_id", "protected_namespace_accessible_from_development", "status"],
+      "additionalProperties": false,
+      "properties": {
+        "provider": {"type": "string"},
+        "development_namespace": {"type": "string"},
+        "development_namespace_id": {"type": ["string", "null"]},
+        "protected_namespace_accessible_from_development": {"const": false},
+        "status": {"enum": ["not_configured", "namespace_ready_transfer_bridge_pending", "operational"]}
+      }
+    },
+    "inventory_gaps": {"type": "array", "items": {"type": "string"}},
+    "artifacts": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/artifact"}
+    }
+  },
+  "$defs": {
+    "sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "artifact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "raw_artifact_id", "source_id", "provider", "retrieved_at", "original_filename",
+        "byte_size", "sha256", "local", "licensing_class", "evidence_class",
+        "durability_status", "offsite", "restore"
+      ],
+      "properties": {
+        "raw_artifact_id": {"type": "string", "pattern": "^raw-sha256:[0-9a-f]{64}$"},
+        "source_id": {"type": "string", "minLength": 1},
+        "provider": {"type": "string", "minLength": 1},
+        "source_vintage_id": {"type": ["string", "null"]},
+        "source_revision_id": {"type": ["string", "null"]},
+        "acquisition_recipe_id": {"type": ["string", "null"]},
+        "source_uri": {"type": ["string", "null"]},
+        "retrieved_at": {"type": "string", "format": "date-time"},
+        "original_filename": {"type": "string", "minLength": 1},
+        "media_type": {"type": ["string", "null"]},
+        "compression": {"type": ["string", "null"]},
+        "byte_size": {"type": "integer", "minimum": 0},
+        "sha256": {"$ref": "#/$defs/sha256"},
+        "local": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["relative_path", "hash_verified"],
+          "properties": {
+            "relative_path": {"type": "string", "minLength": 1},
+            "hash_verified": {"type": "boolean"}
+          }
+        },
+        "licensing_class": {"type": "string", "minLength": 1},
+        "cloud_replication_allowed": {"type": "boolean"},
+        "evidence_class": {"enum": ["development", "protected_confirmation"]},
+        "durability_status": {
+          "enum": ["local_only", "offsite_pending_verification", "durably_acquired", "replication_prohibited_by_license"]
+        },
+        "offsite": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "archive_provider", "remote_object_id", "portable_uri", "uploaded_at",
+            "verified_sha256", "verified_at", "verification_status"
+          ],
+          "properties": {
+            "archive_provider": {"type": ["string", "null"]},
+            "remote_object_id": {"type": ["string", "null"]},
+            "portable_uri": {"type": ["string", "null"]},
+            "uploaded_at": {"type": ["string", "null"], "format": "date-time"},
+            "verified_sha256": {
+              "anyOf": [{"$ref": "#/$defs/sha256"}, {"type": "null"}]
+            },
+            "verified_at": {"type": ["string", "null"], "format": "date-time"},
+            "verification_status": {"enum": ["not_uploaded", "uploaded_unverified", "verified", "replication_prohibited"]}
+          }
+        },
+        "restore": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["status", "verified_at", "verified_sha256"],
+          "properties": {
+            "status": {"enum": ["not_tested", "verified", "failed", "not_applicable"]},
+            "verified_at": {"type": ["string", "null"], "format": "date-time"},
+            "verified_sha256": {
+              "anyOf": [{"$ref": "#/$defs/sha256"}, {"type": "null"}]
+            }
+          }
+        },
+        "notes": {"type": ["string", "null"]}
+      }
+    }
+  }
+}

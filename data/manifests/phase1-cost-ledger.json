@@ -1,0 +1,43 @@
+{
+  "schema_version": 1,
+  "ledger_id": "issue-479-phase1-cost-ledger-v1",
+  "as_of": "2026-10-07",
+  "target_incremental_recurring_usd_per_month": 0,
+  "actual_incremental_recurring_usd_per_month": 0,
+  "components": [
+    {
+      "component": "postgresql",
+      "phase1_mode": "local_disposable_or_existing_local_runtime",
+      "incremental_recurring_usd_per_month": 0
+    },
+    {
+      "component": "parquet_zstd_duckdb_polars_arrow",
+      "phase1_mode": "local_open_source",
+      "incremental_recurring_usd_per_month": 0
+    },
+    {
+      "component": "raw_offsite_archive",
+      "phase1_mode": "existing_private_google_drive_capacity",
+      "incremental_recurring_usd_per_month": 0,
+      "status": "namespace_ready_transfer_bridge_pending"
+    }
+  ],
+  "deferred_paid_items": [
+    {
+      "item": "backblaze_b2_eu_central",
+      "trigger": "existing owned/free archive capacity is insufficient",
+      "approval_required": true
+    },
+    {
+      "item": "managed_postgresql_or_warehouse",
+      "trigger": "measured local workload or collaboration need exceeds the local stack",
+      "approval_required": true
+    },
+    {
+      "item": "new_paid_data",
+      "trigger": "public/free evidence cannot close a documented research gap with sufficient expected value",
+      "approval_required": true
+    }
+  ],
+  "protected_confirmation_accessed": false
+}

@@ -1,0 +1,57 @@
+{
+  "schema_version": 1,
+  "manifest_id": "commodity-raw-artifacts-v1",
+  "authority": "raw_bytes_identity_and_durability_only",
+  "archive_namespace": {
+    "provider": "supabase_storage_s3",
+    "development_namespace": "commodity-raw-development",
+    "development_namespace_id": "commodity-raw-development",
+    "protected_namespace_accessible_from_development": false,
+    "status": "operational"
+  },
+  "inventory_gaps": [
+    "Historical MISO raw archive referenced by source authority is not present in this checkout and must be reacquired or located before it can be declared durable.",
+    "Historical weather raw archive referenced by prior research is not present in this checkout and must be reacquired or located before it can be declared durable.",
+    "Representative development raw artifact upload, independent remote SHA-256 verification, and local-loss restore drill passed against the private Supabase S3-compatible bucket."
+  ],
+  "artifacts": [
+    {
+      "raw_artifact_id": "raw-sha256:5fc38277e39dd644dfa0ac1f06621c5a1f7966824c92c536739e29b043e2ab1b",
+      "source_id": "market_bootstrap",
+      "provider": "yfinance",
+      "source_vintage_id": "retrieval_snapshot:2026-08-12T13:29:34.033409+00:00",
+      "source_revision_id": null,
+      "acquisition_recipe_id": null,
+      "source_uri": null,
+      "retrieved_at": "2026-08-12T13:29:34.033409Z",
+      "original_filename": "ng_f_daily.csv",
+      "media_type": "text/csv",
+      "compression": null,
+      "byte_size": 447149,
+      "sha256": "5fc38277e39dd644dfa0ac1f06621c5a1f7966824c92c536739e29b043e2ab1b",
+      "local": {
+        "relative_path": "data/raw/ng_f_daily.csv",
+        "hash_verified": true
+      },
+      "licensing_class": "reacquirable_public_bootstrap_non_authoritative",
+      "cloud_replication_allowed": true,
+      "evidence_class": "development",
+      "durability_status": "durably_acquired",
+      "offsite": {
+        "archive_provider": "supabase_storage_s3",
+        "remote_object_id": "commodity-raw-development/raw/market_bootstrap/5fc38277e39dd644dfa0ac1f06621c5a1f7966824c92c536739e29b043e2ab1b/ng_f_daily.csv",
+        "portable_uri": "s3://commodity-raw-development/raw/market_bootstrap/5fc38277e39dd644dfa0ac1f06621c5a1f7966824c92c536739e29b043e2ab1b/ng_f_daily.csv",
+        "uploaded_at": "2026-10-09T09:59:17Z",
+        "verified_sha256": "5fc38277e39dd644dfa0ac1f06621c5a1f7966824c92c536739e29b043e2ab1b",
+        "verified_at": "2026-10-09T09:59:17Z",
+        "verification_status": "verified"
+      },
+      "restore": {
+        "status": "verified",
+        "verified_at": "2026-10-09T09:59:17Z",
+        "verified_sha256": "5fc38277e39dd644dfa0ac1f06621c5a1f7966824c92c536739e29b043e2ab1b"
+      },
+      "notes": "Bootstrap market proxy only; authoritative_for_execution=false in source metadata."
+    }
+  ]
+}
