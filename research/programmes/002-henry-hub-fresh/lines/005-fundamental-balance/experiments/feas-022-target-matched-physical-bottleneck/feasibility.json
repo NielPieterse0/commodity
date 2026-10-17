@@ -1,0 +1,196 @@
+{
+  "schema_version": 1,
+  "zoom_level": "L3",
+  "design_id": "feas-022-target-matched-physical-bottleneck",
+  "issue": 351,
+  "parent_issue": 348,
+  "programme_id": "002-henry-hub-fresh",
+  "research_line_id": "005-fundamental-balance",
+  "assessed_on": "2026-09-09",
+  "assessment_class": "outcome_blind_unscored_data_and_capacity_feasibility",
+  "scientific_disposition": "HOLD pending named data/capacity remedies",
+  "empirical_execution_authority": false,
+  "preregistration_authority": false,
+  "outcome_access": {
+    "a_b_c_model_fitting_performed": false,
+    "a_b_c_prediction_scoring_performed": false,
+    "protected_confirmation_opened": false,
+    "rep021_result_reinterpreted": false
+  },
+  "source_evidence": {
+    "data_sources_sha256": "211871b69bcb136e5878f87a238c4657591ac5af3029ec0935605a184d5ac5b5",
+    "feasibility_source_scan_sha256": "9b8acea861c8b0108d6f699164c19c778dbc5e0dff7fe1d69cff21c995118831",
+    "sealed_windows_sha256": "7a8b4fd11ef7799a8f163590420859b5c0c707a0b988ef444c2920ab130e1cdd",
+    "rep021_acceptance_review_sha256": "a0c8812db7c7b1790ef078b97207e30eab4665be9328f5d4c81589bbcbf56a7c",
+    "bhlr_manifest_sha256": "3d8ad1e8e3226fd22924b298ce08ddb71b2133200e8c6cba785d5bf55fbf172f",
+    "bhlr_database_sha256": "1878146b58bcbd368e362d6a33d8b7a909d3d2703ffd79094c2d1276ce211862"
+  },
+  "target_and_benchmark": {
+    "status": "feasible_mapping_candidate_requires_implementation_freeze",
+    "target": "Arithmetic mean of published daily Henry Hub spot prices within the target calendar month, used only as ex-post outcome truth.",
+    "benchmark_contract": "Exact NYMEX NG futures contract whose delivery month equals the target calendar month.",
+    "forecast_cutoff": "Use the final eligible official Databento settlement for that exact delivery contract strictly before target-month delivery begins; freeze the exact contract-calendar rule before any scoring.",
+    "calibration": "Any market-only mapping from the futures settlement to the calendar-average spot target must be fitted on prior training months only.",
+    "market_source": "databento_henry_hub",
+    "market_coverage_start": "2010-06-06",
+    "market_coverage_end": "2026-08-12",
+    "market_capabilities": [
+      "exact contract identity",
+      "expiration metadata",
+      "official settlement statistics",
+      "historical volume and open interest"
+    ],
+    "target_source_candidate": "EIA Henry Hub spot/reference history; current historical values are admissible as ex-post target truth, not as forecast-time predictors.",
+    "remaining_implementation_gate": "Prove month-by-month contract-delivery identity, cutoff availability, target daily-price completeness, and training-only calibration construction without reading forecast performance."
+  },
+  "physical_and_pit_inputs": {
+    "status": "hold_target_period_pit_forecasts_absent",
+    "required_feature_identity": [
+      "target-month dry natural gas production",
+      "target-month working natural gas storage",
+      "target-month total natural gas consumption"
+    ],
+    "b_realized_target_period": {
+      "source": "BHLR final 2024M2 database vintage",
+      "latest_common_nonmissing_target_month": "2023-11",
+      "role": "retrospective realized target-period physical truth"
+    },
+    "c_forecast_time_counterpart_audit": {
+      "audit_window": ["2010-07", "2024-02"],
+      "candidate_target_months": 164,
+      "prior_month_vintage_next_target_values_present": {
+        "dry_natural_gas_production": 0,
+        "working_natural_gas_storage": 0,
+        "total_natural_gas_consumption": 0
+      },
+      "finding": "BHLR source-study vintages/nowcasts do not directly contain the next target month's physical state at the prior-month forecast origin. Origin-month substitution is therefore not admissible for the intended #348 B-to-C comparison."
+    },
+    "required_remedy": "Freeze one-step target-month physical forecasts built only from information available at each origin, or qualify an external historical forecast-vintage source with equivalent feature identity and timing. B and C must then differ only by realized versus forecast target-period physical inputs under the same downstream fitted coefficients."
+  },
+  "usable_sample": {
+    "status": "upper_bound_only_until_exact_mapping_and_forecast_construction",
+    "existing_exact_market_and_realized_target_overlap": {
+      "target_start": "2010-07",
+      "target_end": "2023-11",
+      "gross_target_months": 161
+    },
+    "sealed_window_exposure_exclusions": {
+      "union_months": 25,
+      "ranges": [
+        {"start": "2020-09", "end": "2022-02", "months": 18},
+        {"start": "2023-05", "end": "2023-11", "months": 7}
+      ],
+      "rule": "Exclude the union of existing Programme-002 sealed market-outcome windows from this feasibility slice; do not open or repurpose them."
+    },
+    "exposure_restricted_candidate_months": 136,
+    "candidate_segments": [
+      {"start": "2010-07", "end": "2020-08", "months": 122},
+      {"start": "2022-03", "end": "2023-04", "months": 14}
+    ],
+    "final_executable_oos_n_rule": "Final OOS N is at most 136 and must decrease for any development/training allocation, lag burn-in, failed target/futures mapping, or missing target-period physical forecast.",
+    "pre2010_extension_screen": {
+      "earliest_target_supported_by_current_henry_hub_and_bhlr_semantics": "1997-02",
+      "gross_months_through_2023_11": 322,
+      "exposure_restricted_months_before_development_split": 297,
+      "if_1997_through_2002_is_development_then_exposure_restricted_oos_months": 226,
+      "interpretation": "A pre-2010 futures extension can improve mapping/training depth but cannot by itself establish the required 1% precision under the primary planning bound."
+    }
+  },
+  "statistical_precision": {
+    "status": "hold_one_percent_insufficient_under_stated_planning_assumptions",
+    "method": "Outcome-blind Gaussian paired-loss planning approximation inherited from rep-021: 80% power, two-sided 5% size, OOS months divided by dependence block length as effective independent blocks. This is a conditional planning model, not a demonstrated impossibility result and not an evaluation of the complete survivor rule or the ability to rule out effects of 1% or more.",
+    "material_effect_threshold_relative_rmse": 0.01,
+    "mde_at_current_upper_bound_n_136": {
+      "block_1_month": {
+        "rho_0_95": 0.0801,
+        "rho_0_99": 0.0374,
+        "rho_0_999": 0.0121,
+        "rho_0_9995": 0.0086
+      },
+      "block_3_months": {
+        "rho_0_95": 0.1387,
+        "rho_0_99": 0.0648,
+        "rho_0_999": 0.0210,
+        "rho_0_9995": 0.0149
+      },
+      "block_6_months": {
+        "rho_0_95": 0.1962,
+        "rho_0_99": 0.0916,
+        "rho_0_999": 0.0297,
+        "rho_0_9995": 0.0210
+      }
+    },
+    "required_oos_months_for_one_percent_mde": {
+      "block_1_month": {"rho_0_95": 8723, "rho_0_99": 1904, "rho_0_999": 200, "rho_0_9995": 101},
+      "block_3_months": {"rho_0_95": 26168, "rho_0_99": 5711, "rho_0_999": 599, "rho_0_9995": 301},
+      "block_6_months": {"rho_0_95": 52336, "rho_0_99": 11421, "rho_0_999": 1197, "rho_0_9995": 601}
+    },
+    "binding_conclusion": "Under the stated Gaussian planning approximation and primary three-month dependence screen, N=136 is insufficient to attain a 1% MDE versus zero even at paired-error correlation 0.9995. The full exposure-restricted 1997-02 through 2023-11 historical upper bound is 297 months before any development split, below the 301-month requirement under that same extreme-correlation sensitivity. This is conditional planning evidence; it does not prove that a 1% effect is intrinsically undetectable, does not evaluate the complete survivor rule, and does not establish the precision needed to rule out effects of 1% or more."
+  },
+  "confirmation": {
+    "status": "future_confirmation_required_unless_new_exposure_audit_proves_otherwise",
+    "existing_sealed_windows_opened": false,
+    "existing_sealed_windows_reused": false,
+    "genuinely_untouched_historical_block_established": false,
+    "policy": "Keep every existing Programme-002 sealed window unchanged. If a later successor reaches GO and is frozen before scoring, reserve genuinely future observations for confirmation unless a fresh programme-wide exposure audit proves an untouched historical block for the exact new mapping."
+  },
+  "investment": [
+    {
+      "remedy_id": "capacity-reassessment",
+      "type": "statistics_engineering",
+      "incremental_data_cost_usd": 0,
+      "work": "Before committing to the more expensive remedies, validate the capacity rule and GO criterion. Distinguish conditional power to detect a true 1% improvement versus zero, the probability of satisfying the complete survivor rule, and the precision needed to rule out improvements of 1% or more. A preregistered outcome-blind simulation may evaluate the full decision rule across plausible effect sizes and dependence assumptions; its conclusions remain conditional on those assumptions."
+    },
+    {
+      "remedy_id": "target-futures-mapping",
+      "type": "engineering",
+      "incremental_data_cost_usd": 0,
+      "authority": "existing Databento purchase and EIA target history",
+      "work": "Implement and verify exact delivery-month contract mapping, fixed pre-delivery settlement cutoff, target calendar-average construction, and training-only market calibration, and emit an auditable eligible-month coverage manifest."
+    },
+    {
+      "remedy_id": "target-month-physical-pit-forecast",
+      "type": "engineering",
+      "incremental_data_cost_usd": 0,
+      "authority": "existing BHLR real-time database and nowcast package",
+      "work": "Specify the simplest defensible one-step target-month forecasts for dry production, working storage, and total consumption using origin-available information only. Defer full implementation until the capacity review and exact mapping manifest show that C remains worth constructing; an external forecast-vintage source may substitute only after equivalent timing and feature identity are proven."
+    },
+    {
+      "remedy_id": "pre2010-futures-extension",
+      "type": "acquisition_or_source_qualification",
+      "public_candidate": "EIA natural-gas/pri/fut prompt-contract ranks 1-4",
+      "public_candidate_incremental_data_cost_usd": 0,
+      "public_candidate_limitation": "No exact contract IDs; history depth and target-delivery/cutoff equivalence must be proven before use.",
+      "paid_exact_contract_candidate": "pre-2010 exact NYMEX NG contract history from an approved provider",
+      "paid_candidate_cost": "unknown_not_quoted_or_authorized",
+      "paid_reacquisition_authorized": false,
+      "capacity_warning": "Under the stated Gaussian planning approximation, a complete extension to the 1997-02 target boundary yields 297 exposure-restricted months before development allocation versus 301 months required in the primary three-month, rho=0.9995 sensitivity. Consider added history only against the quantified gap after the capacity rule is validated; this comparison does not establish impossibility."
+    },
+    {
+      "remedy_id": "prospective-confirmation",
+      "type": "future_data_policy",
+      "incremental_data_cost_usd": 0,
+      "work": "If a later successor reaches GO, freeze a prospective confirmation window before any successor scoring and leave existing sealed windows untouched."
+    }
+  ],
+  "reentry_requirements": [
+    "exact target-month futures mapping and training-only calibration implemented and verified",
+    "target-month realized physical feature identity fixed and complete over the intended sample",
+    "forecast-time target-month physical counterparts available under the same feature identity and origin cutoff",
+    "exact aligned candidate count recomputed after development, lag, missingness, exposure, and contract-calendar rules",
+    "the capacity rule and GO criterion are explicitly validated for the intended decision rule, with conditional planning or simulation evidence covering detection versus zero, the complete survivor rule, and precision to rule out improvements of 1% or more",
+    "confirmation policy identifies genuinely future or independently proven untouched observations",
+    "all source identities, timing rules, calibration rules, and capacity assumptions are frozen under a new scored-experiment identity before any outcome scoring"
+  ],
+  "interpretation": {
+    "supported": "The intended #348 mapping is technically definable with existing exact-contract market data. Required target-month PIT physical forecasts are absent, and the current OOS upper bound is insufficient for a 1% MDE versus zero under the stated Gaussian planning approximation and primary dependence screen. That capacity conclusion is conditional on the planning assumptions and does not establish impossibility, the probability of passing the full survivor rule, or the precision needed to rule out improvements of 1% or more.",
+    "not_supported": [
+      "GO to a scored successor",
+      "claim that pre-2010 futures acquisition alone solves capacity",
+      "reuse of origin-month BHLR physical states as target-month PIT forecasts",
+      "reuse or opening of existing Programme-002 sealed confirmation windows",
+      "reinterpretation of rep-021 as the intended #348 diagnostic"
+    ],
+    "next_scientific_action": "First validate the capacity rule and GO criterion; then implement and verify the exact target/futures mapping with an eligible-month manifest; then specify the simplest defensible target-month PIT physical forecasts and defer full construction until justified; consider additional history only against the remaining quantified gap. Rerun the feasibility gate without outcome scoring before any scored successor is drafted or frozen."
+  }
+}

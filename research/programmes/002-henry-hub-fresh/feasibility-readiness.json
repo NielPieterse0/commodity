@@ -29,6 +29,10 @@
     "rep010": {
       "ready": false,
       "reason": "Programme synthesis cannot release until component reproductions have been separately executed and verified."
+    },
+    "feas022": {
+      "ready": false,
+      "reason": "Target-month PIT physical forecasts are not available. Under the stated outcome-blind Gaussian planning approximation, the current defensible OOS upper bound is insufficient for a 1% MDE versus zero under the primary dependence screen; the capacity rule still requires methodological validation for the complete survivor rule and for ruling out improvements of 1% or more."
     }
   }
 }

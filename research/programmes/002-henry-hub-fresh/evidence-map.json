@@ -351,6 +351,31 @@
       "raw_information": 723,
       "scientific_mepi": null,
       "target": "same-valid-time issued forecast revision mechanism"
+    },
+    {
+      "costs": {
+        "existing_data_incremental_usd": 0,
+        "public_pre2010_candidate_incremental_usd": 0,
+        "paid_exact_pre2010_history": "unknown_not_authorized"
+      },
+      "design_id": "feas-022-target-matched-physical-bottleneck",
+      "detectable_effect": null,
+      "effective_information_method": {
+        "current_exposure_restricted_upper_bound_months": 136,
+        "primary_block_months": 3,
+        "one_percent_required_months_at_rho_0_9995": 301,
+        "one_percent_required_months_at_rho_0_999": 599,
+        "method": "outcome-blind paired-loss planning sensitivity"
+      },
+      "expected_snr": null,
+      "feasibility": "hold",
+      "hold_reason": "The target-matched market mapping is constructible, but BHLR prior-month vintages contain no next-target-month values for the three physical families. Under the stated Gaussian planning approximation and primary dependence screen, the current exposure-restricted sample is insufficient for a 1% MDE versus zero; this is a conditional planning result, not a demonstrated impossibility or a full survivor-rule assessment.",
+      "horizon": "one target calendar month",
+      "information_family": "target-period physical information bottleneck",
+      "raw_information": 136,
+      "result_ref": "research/programmes/002-henry-hub-fresh/lines/005-fundamental-balance/experiments/feas-022-target-matched-physical-bottleneck/feasibility.json",
+      "scientific_mepi": 0.01,
+      "target": "calendar-average Henry Hub spot level versus target-delivery NG futures plus realized/forecast target-month physical inputs"
     }
   ],
   "programme_id": "002-henry-hub-fresh",
@@ -394,7 +419,7 @@
   "semantics": {
     "decision_counts": {
       "go": 14,
-      "hold": 7,
+      "hold": 8,
       "redesign": 0
     },
     "empirical_execution_authority": false,

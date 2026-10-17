@@ -21,5 +21,5 @@ Source: `research/programmes/002-henry-hub-fresh/revisit-triggers.json`
 | `zoom_level` | str |
 | `programme_id` | str |
 | `registry_id` | str |
-| `triggers` | array (7 items) |
-| `evaluation_history` | array (7 items) |
+| `triggers` | array (8 items) |
+| `evaluation_history` | array (8 items) |

@@ -1,0 +1,37 @@
+{
+  "schema_version": 4,
+  "change_id": "351-target-matched-physical-bottleneck-feasibility",
+  "status": "active",
+  "branch": "change/351-target-matched-physical-bottleneck-feasibility",
+  "worktree": ".work/worktrees/351-target-matched-physical-bottleneck-feasibility",
+  "base": "main",
+  "outcome": "Execute an outcome-blind, unscored feasibility assessment for issue #351 covering target/futures mapping, PIT physical inputs, usable aligned origins, statistical precision for a 1% benefit, untouched confirmation availability, and named acquisition/engineering remedies, ending GO, HOLD pending named remedies, or STOP without scoring A/B/C outcomes.",
+  "owned_paths": [
+    ".work/changes/351-target-matched-physical-bottleneck-feasibility/**",
+    "research/programmes/002-henry-hub-fresh/evidence-map.json",
+    "research/programmes/002-henry-hub-fresh/feasibility-ledger.json",
+    "research/programmes/002-henry-hub-fresh/experiment-setup.json",
+    "research/programmes/002-henry-hub-fresh/feasibility-readiness.json",
+    "research/programmes/002-henry-hub-fresh/revisit-triggers.json",
+    "research/programmes/002-henry-hub-fresh/decisions.json",
+    "research/programmes/002-henry-hub-fresh/backlog.json",
+    "research/programmes/002-henry-hub-fresh/lines/005-fundamental-balance/**",
+    "docs/reference/README.md",
+    "docs/reference/research/programmes/002-henry-hub-fresh/**"
+  ],
+  "shared_paths": [],
+  "excluded_paths": [],
+  "dependencies": [],
+  "integration_owner": null,
+  "complexity": "medium",
+  "risk_triggers": [],
+  "base_evidence": {
+    "local_sha": "2ac561c2aeee1493440915dbd0cd4bc392e69945",
+    "local_tree": "f26eedbc61f18b6a26c4a93e2410c53663b8317f",
+    "upstream_sha": "2ac561c2aeee1493440915dbd0cd4bc392e69945",
+    "upstream_tree": "f26eedbc61f18b6a26c4a93e2410c53663b8317f",
+    "upstream_ref": "refs/remotes/origin/main",
+    "evidence_source": "explicit_worktree_rebase_to_verified_tracking_ref",
+    "relation": "exact"
+  }
+}

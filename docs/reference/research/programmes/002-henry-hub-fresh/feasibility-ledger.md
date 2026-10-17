@@ -26,7 +26,7 @@ Source: `research/programmes/002-henry-hub-fresh/feasibility-ledger.json`
 | `canonical_feasibility_owner` | str |
 | `decision_counts` | object (3 keys) |
 | `empirical_execution_authority` | bool |
-| `entries` | array (21 items) |
+| `entries` | array (22 items) |
 | `outcome_effect_testing_performed` | bool |
 | `preregistration_freeze_authority` | bool |
 | `programme_id` | str |

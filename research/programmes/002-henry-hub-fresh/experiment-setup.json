@@ -156,6 +156,11 @@
       "design_id": "exp-021-issued-weather-revisions",
       "reason": "Open-Meteo issued vintages are available with gaps; NOAA fallback remains on source-audit hold. This cannot enter the strict reproduction ledger.",
       "source_readiness": "EXPLORATORY_FEASIBILITY_ONLY"
+    },
+    {
+      "design_id": "feas-022-target-matched-physical-bottleneck",
+      "reason": "Issue #351's intended #348 mapping is technically definable, but BHLR prior-month vintages contain no next-target-month values for the three required physical families. Under the stated Gaussian planning approximation and primary dependence screen, the current exposure-restricted upper bound is insufficient for a 1% MDE versus zero; that result is conditional and does not establish impossibility or full survivor-rule performance.",
+      "source_readiness": "HOLD_TARGET_PERIOD_PIT_FORECASTS_AND_CAPACITY"
     }
   ],
   "feasibility_authority_ref": "evidence-map.json",
@@ -196,7 +201,7 @@
     "authority_ref": "evidence-map.json",
     "decision_counts": {
       "GO": 14,
-      "HOLD": 7,
+      "HOLD": 8,
       "REDESIGN": 0
     },
     "go": [
@@ -222,7 +227,8 @@
       "rep-013-lng-export-demand-channel",
       "ctx-017-connectedness-congestion",
       "rep-018-announcement-day-return-puzzle",
-      "rep-019-friday-attention-effect"
+      "rep-019-friday-attention-effect",
+      "feas-022-target-matched-physical-bottleneck"
     ],
     "redesign": []
   },
@@ -304,13 +310,25 @@
       ],
       "rule": "Use the authors' RepOD replication package for exact first-pass reproduction. A later independent reconstruction may use official ICE TTF plus ENTSOG/GIE controls, but ICE historical market-data entitlement must be verified.",
       "status": "exact_replication_archive_found_independent_route_partly_licensed"
+    },
+    {
+      "candidate_source_ids": [
+        "LIT-BHLR-RTDB",
+        "EIA-STEO-OPTIONAL"
+      ],
+      "input_id": "target_month_physical_pit_forecasts",
+      "required_by": [
+        "feas-022-target-matched-physical-bottleneck"
+      ],
+      "rule": "The intended #348 B-to-C comparison requires target-month dry production, working storage and total consumption under identical feature identity. B uses realized target-period truth; C must use forecasts available at the prior-month cutoff. Origin-month BHLR nowcasts cannot substitute for target-month forecasts.",
+      "status": "missing_requires_frozen_one_step_forecast_construction_or_qualified_external_vintages"
     }
   ],
-  "next_action": "Acquire and hash the governed NOAA Tier C reconstruction inputs for rep-007/008; resolve entitled Bloomberg PiT/ECOS legacy keys and last-pre-release survey states for rep-003/018/019; preserve all empirical execution and protected-evidence gates.",
+  "next_action": "Preserve all empirical execution/protected-evidence gates. For feas-022, first validate the capacity rule and GO criterion; then implement and verify the exact target/futures mapping with an eligible-month manifest; then specify the simplest defensible target-month PIT physical forecasts and defer full construction until justified. Recompute exact aligned capacity under the reviewed rule, and consider additional history only against the quantified remaining gap. Re-evaluate conditional capacity before any scored successor is drafted; other programme acquisition/HOLD work retains its own revisit triggers.",
   "post_feasibility_work_order": [
     "Implement and verify the fourteen GO source/estimand/power constructions without executing literature outcomes.",
     "Keep rep-010 synthesis held until component reproductions are separately executed and verified.",
-    "Resolve the six source/context/power HOLD gates through revisit-triggers.json.",
+    "Resolve active source/context/power HOLD gates through revisit-triggers.json, including feas-022 target-period PIT and capacity remedies.",
     "Return to the operator before any empirical literature-result execution, preregistration freeze, sealing, protected-evidence opening or confirmation transition."
   ],
   "programme_id": "002-henry-hub-fresh",
