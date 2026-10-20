@@ -1,0 +1,22 @@
+{
+  "CME_original_blocker_closed": false,
+  "affected_rank12_selected_dates": 2564,
+  "affected_rank12_selected_slots": 3156,
+  "all_affected_selected_slots_policy_classified": true,
+  "frozen_decision_dates_checked": 3088,
+  "independent_CME_intraday_verified": false,
+  "issue": 482,
+  "production_admission": false,
+  "ranked_slots_checked": 37056,
+  "result": "PASS_AFFECTED_FROZEN_RANK12_POLICY_CLASSIFICATION",
+  "schema_version": 1,
+  "selected_slots_fenced_terminal": 69,
+  "selected_slots_marked_unverified_nonterminal": 3087,
+  "selected_unaffected_fields_recomputed": false,
+  "source_2023plus_protected_accessed": false,
+  "source_pins": {
+    "definitions": "b803deb0b88d7c0f57625fd46cfa4537e902dd3951cf04aeeba84f95f5dbf4d8",
+    "features": "b14ae69bd6ec2910f0cf56fe62f481016801308cebc6ef69e536aa7e593d072e",
+    "manifest": "6d3093305c0ae2c6a313be13151b0810bf208c1cb8f429e1bbf58a17e7d89605"
+  }
+}

@@ -1,0 +1,74 @@
+{
+  "schema_version": 1,
+  "issue": 482,
+  "recorded_date": "2026-10-11",
+  "status": "official_documentation_confirmed_contract_level_independent_reference_evidence_absent",
+  "source_cohort": {
+    "provider": "Databento GLBX.MDP3 reconstructed CME legacy FIX/FAST MDP2",
+    "raw_pre2023_files_pinned": 39,
+    "raw_date_range": "2010-2022",
+    "undated_2010_2015_type6_type9_records": 807034,
+    "candidate_reference_assignments": 803830,
+    "diagnostic_exceptions": 3204,
+    "cross_year_contract_identity_candidates_confirmed": 1130,
+    "official_date_values_recovered_in_this_checkpoint": 0
+  },
+  "official_documentation": [
+    {
+      "url": "https://www.cmegroup.com/rulebook/NYMEX/2/220.pdf",
+      "finding": "NYMEX Chapter 220.102.F: termination on the third exchange business day before delivery; originally listed expiry is retained if official holiday calendar later changes, except when that expiry itself becomes a holiday",
+      "proof_class": "official_expiration_rule_not_per_contract_listed_date_or_2010_2022_holiday_calendar"
+    },
+    {
+      "url": "https://www.cmegroup.com/tools-information/lookups/advisories/clearing/ChAdv09141.html",
+      "finding": "CME historically changed an exchange-business-day determination for December 31, 2010, showing why a generic weekday or federal holiday calendar does not independently establish listed NG contract expiry",
+      "proof_class": "official_change_precedent_not_full_historical_expiry_table"
+    },
+    {
+      "url": "https://databento.com/docs/knowledge-base/datasets/glbx-mdp3",
+      "finding": "CME FIX tag 5796 TradingReferenceDate becomes ts_ref; MDP2 ts_recv is not an independently measured capture clock; multiple statistic messages may include preliminary and final values",
+      "proof_class": "field_semantics_not_historical_contract_data"
+    },
+    {
+      "url": "https://databento.com/docs/release-notes",
+      "finding": "2025-07-25 update mentions missing reference fixes for 2015-11-20 to 2017-05-21 and pre-2017 statistic ordering; 2025-09-23 specifically fixes settlement ts_ref before 2015, not type6/9",
+      "proof_class": "provider_release_history_not_row_level_reference_truth"
+    },
+    {
+      "url": "https://www.cmegroup.com/market-data/daily-bulletin.html",
+      "finding": "CME publishes preliminary and final daily bulletins on distinct following-business-day schedules",
+      "proof_class": "publication_policy_not_historical_row_data"
+    },
+    {
+      "url": "https://www.cmegroup.com/notices/clearing/2023/09/Chadv23-272.html",
+      "finding": "CME retired old bulletin/settlement FTP delivery in January 2024 and moved settlement files to DataMine",
+      "proof_class": "source_location_policy_not_historical_row_data"
+    }
+  ],
+  "requirements_before_promoting_any_unreferenced_statistics": [
+    "Access independently dated CME or provider-authoritative daily final bulletin or exchange-native trading reference for each contract/session without inferring date from ts_event or ts_recv",
+    "Match official NG futures venue, contract expiration, time-valid symbol, year-specific instrument identity and source quantity for stat types 6 and 9",
+    "Reconcile published/preliminary/final revisions and verify availability strictly before each model decision",
+    "Reconcile 3204 exceptions separately, including 1870 same-clock conflicts, 1144 annual-only no-prior and 190 publication-lag outliers",
+    "Preserve original source bytes and SHA-256 evidence, versioned exclusions and no fabricated timestamps",
+    "Retain 2010-2014 sparse official open interest/cleared volume when independently dated facts are not proven"
+  ],
+  "provider_questions": [
+    "Databento: Can corrected or exchange-native TradingReferenceDate for the exact 2010-2015 NG statistic types 6 and 9 be recovered from original historical purchases without a new paid acquisition?",
+    "Databento: What do pre-2015 type6/9 timestamp and revision-finality fields mean in MDP2 and what is the corrected dataset version identity?",
+    "CME: Is a license-permitted, free historical contract-level final Daily Bulletin archive for 2010-2015 accessible with trade date, volume and open interest?",
+    "CME: What official calendar and last-trade fields resolve contract expiration/holiday session alignment for NG in the requested years?"
+  ],
+  "cme_bulletin_use_rights_caveat": {
+    "url": "https://www.cmegroup.com/market-data/daily-bulletin.html",
+    "historical_archive": "https://datamine.new.cmegroup.com/catalog?category=F001",
+    "restriction": "CME bulletin webpage is reference-only and expressly disclaims use as validation against or a complement to its MDP feed",
+    "effect": "Do not treat public bulletin data as independent approval of Databento MDP-derived history without separate permitted-use authority from CME or the applicable license owner"
+  },
+  "independent_historical_record_evidence_collected": false,
+  "source_fitness_approved": false,
+  "candidate_dates_promoted": 0,
+  "protected_2023_plus_accessed": false,
+  "paid_acquisition": false,
+  "next_action": "Acquire authorized official historical reports or written source-owner mapping, independently hash-pin bytes, and only then run contract/date/quantity and finality matching; otherwise retain quarantined null date and sparse-family status"
+}

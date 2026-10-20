@@ -32,6 +32,13 @@
       "enforcement": "pre-ci+ci"
     },
     {
+      "id": "ng-market-truth-contract",
+      "authority": "Phase 2 development-only NG source identity, schema, PIT and zero-spend invariants",
+      "source": "config/data_platform.json",
+      "verifier": ["scripts/data/verify_ng_market_truth.py"],
+      "enforcement": "pre-ci+ci"
+    },
+    {
       "id": "python-environment-boundary",
       "authority": "active checkout/worktree Python environment boundary",
       "source": "AGENTS.md",

@@ -1,0 +1,38 @@
+{
+  "schema_version": 1,
+  "issue": 482,
+  "reviewed_source_commit": "3b98cbcef3c22a213bd5603aaf6004ed2c99b521",
+  "change_id": "482-data-phase2-market-truth",
+  "scope": "synthetic_V3_interface_test_and_change_local_records_only",
+  "independent_test_quality": {
+    "backend": "codex-cli",
+    "review_type": "test-quality",
+    "source": "exact_commit",
+    "source_fingerprint": "dee2a24e92167f1aeaebed64fb38bffcc7259117b5f923b4b1d29580618f94aa",
+    "completed": true,
+    "actionable_findings": 0
+  },
+  "documentation_review": {
+    "automatic_review": "FAILED_CODEX_CLI_OUTPUT_LIMIT",
+    "kis_declared_fallback": "manual_exact_diff",
+    "manual_source": "git_show_exact_commit_changed_documentation_scope_and_evidence",
+    "manual_diff_sha256": "5afe3c83ef4eaf0d4413a3ea310e7ef9841ec9fe92828c8fb17d1befebd5d728",
+    "manual_diff_bytes": 6962,
+    "manual_comparison": [
+      "synthetic_21_feature_interface_distinct_from_legacy_29_source_columns",
+      "live_test_owned_by_same_change_scope",
+      "9_new_unittests_75_market_truth_and_98_data_platform_with_three_platform_skips_each",
+      "pytest_exactly_9_collected",
+      "no_legacy_V1_or_protected_confirmation_access",
+      "historical_missing_reference_dates_and_source_owner_release_gates_still_open"
+    ],
+    "bounded_manual_findings": 0,
+    "not_a_completed_independent_documentation_agent_review": true
+  },
+  "research_fitness_approved": false,
+  "source_owner_provenance_approved": false,
+  "issue_wide_security_review_closed": false,
+  "official_reference_dates_promoted": 0,
+  "protected_confirmation_accessed": false,
+  "promotion_ready": false
+}

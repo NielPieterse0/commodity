@@ -1,0 +1,58 @@
+{
+  "schema_version": 1,
+  "issue": 482,
+  "recorded_date": "2026-10-17",
+  "original_blocker": "independent_immutable_storage",
+  "status": "operator_reports_bucket_object_lock_enabled_remote_version_retention_unverified",
+  "bucket_object_lock": {
+    "operator_reported_enabled_at_creation": true,
+    "independently_verified": false,
+    "default_compliance_retention_verified": false,
+    "default_retention_approved_by_owner": {
+      "mode": "COMPLIANCE",
+      "days": 365,
+      "approved_on": "2026-10-17",
+      "issue_comment_url": "https://github.com/NielPieterse0/commodity/issues/482#issuecomment-6234178555",
+      "applied": false,
+      "live_readback_verified": false
+    }
+  },
+  "account_created": "operator_reported",
+  "local_configuration": {
+    "source": "primary_checkout_ignored_env",
+    "required_settings": 5,
+    "nonempty_settings": 5,
+    "endpoint_is_allowlisted_eu_central": true,
+    "application_key_present": true,
+    "secret_values_recorded": false
+  },
+  "governed_preflight": {
+    "script": ".work/changes/482-data-phase2-market-truth/backblaze_b2_preflight.py",
+    "test": ".work/changes/482-data-phase2-market-truth/test_backblaze_b2_preflight.py",
+    "offline_preflight": "passed",
+    "offline_tests_passed": 14,
+    "read_only_live_checks_implemented": [
+      "bucket_object_lock_configuration",
+      "exact_object_version_compliance_retention",
+      "exact_object_version_remote_bytes_sha256"
+    ],
+    "restricted_application_key_may_not_have_retention_read_capability": true,
+    "ruff": "passed",
+    "retention_policy_script": ".work/changes/482-data-phase2-market-truth/backblaze_b2_retention_setup.py",
+    "retention_policy_tests": ".work/changes/482-data-phase2-market-truth/test_backblaze_b2_retention_setup.py",
+    "retention_policy_regression_tests_passed": 12,
+    "all_backblaze_focused_tests_passed": 26,
+    "external_calls_performed": 0,
+    "mutation_calls_performed": 0
+  },
+  "verified_archival_versions": 0,
+  "verified_compliance_retentions": 0,
+  "verified_delete_rejections": 0,
+  "verified_restorations": 0,
+  "approved_dataset_catalog_entries": 0,
+  "research_admission_granted": false,
+  "protected_2023plus_accessed": false,
+  "supabase_mutated": false,
+  "remaining_external_gate": "Approved 365-day Compliance default must be applied using an authorized Backblaze network path and verified by readback; then verify free capacity, pin source/final object VersionIds, prove retention/delete denial and SHA-256 restoration before independent owner approval.",
+  "note": "This is progress on the existing immutable-storage blocker, not a new blocker or a claim that storage has been commissioned."
+}

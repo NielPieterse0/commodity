@@ -42,6 +42,8 @@ try {
     if ($LASTEXITCODE -ne 0) { throw 'VERIFY_QUANTITATIVE_RESEARCH_KNOWLEDGE_FAILED' }
     & $RepositoryPython scripts/data/verify_data_platform.py
     if ($LASTEXITCODE -ne 0) { throw 'VERIFY_DATA_PLATFORM_FAILED' }
+    & $RepositoryPython scripts/data/verify_ng_market_truth.py
+    if ($LASTEXITCODE -ne 0) { throw 'VERIFY_NG_MARKET_TRUTH_FAILED' }
     & $RepositoryPython -m pytest -q
     if ($LASTEXITCODE -ne 0) { throw 'VERIFY_TESTS_FAILED' }
     & $RepositoryPython -m ruff check .

@@ -25,6 +25,22 @@
       "required_stack": ["postgresql", "parquet_zstd", "duckdb", "polars_arrow"],
       "scope": "natural_gas_only_with_commodity_neutral_shared_core",
       "incremental_recurring_spend_target_usd": 0
+    },
+    "phase_2": {
+      "name": "natural_gas_market_truth",
+      "implementation_issue": 482,
+      "source_authority": "config/data_sources.json#sources.databento_henry_hub",
+      "source_attestation_schema": "contracts/ng_market_truth.schema.json",
+      "build_entrypoint": "scripts/data/build_ng_market_truth.py",
+      "module": "commodity.market_truth",
+      "development_max_session": "2022-12-31",
+      "curve_ranks": 12,
+      "no_synthetic_continuous_authority": true,
+      "source_revision_policy": "append_only",
+      "development_input_root": ".work/runtime/market_truth_development",
+      "source_license": "private_project_research_only",
+      "real_history_completion_rule": "blocked_until_development_only_original_source_and_processed_parquet_identities_are_verified_and_owner_approved",
+      "incremental_recurring_spend_target_usd": 0
     }
   },
   "shared_core": {
@@ -60,7 +76,21 @@
     "source_vintage_is_database_snapshot": false,
     "revision_storage": "append_new_revision_never_destructive_overwrite",
     "asof_tie_break": ["available_at", "published_at", "issued_at", "ingested_at", "source_vintage_id"],
-    "unknown_availability_rule": "fail_closed_for_strict_pit_research"
+    "unknown_availability_rule": "fail_closed_for_strict_pit_research",
+    "independent_cadence_alignment": {
+      "implementation": "src/commodity/temporal_alignment.py",
+      "source_grain": "preserve_native_observation_reference_publication_and_ingestion_clocks",
+      "decision_join": "asof_latest_verified_observation_or_forecast_issue_with_available_at_not_after_decision",
+      "age_rule": "explicit_source_series_max_age_from_available_at_not_ingested_at",
+      "revision_rule": "latest_available_publication_per_observed_period_without_future_vintages",
+      "forecast_rule": "forecast_issue_and_target_validity_are_distinct; target_is_part_of_series_identity",
+      "unreferenced_rule": "keep_unresolved_source_values_out_of_dated_features_until_independently_validated",
+      "missingness_rule": "report_source_missing_source_value_missing_not_yet_published_stale_and_reference_unresolved_separately",
+      "fitness_rule": "assess_market_session_spine_and_each_source_feature_family_independently",
+      "published_time_rule": "source_adapter_must_not_set_available_at_earlier_than_publication_or_issue",
+      "protected_rule": "never_access_2023_plus_confirmation_for_development_alignment",
+      "cost_rule": "no_new_paid_acquisition_without_operator_approval"
+    }
   },
   "fact_families": [
     "market_bar", "market_statistic", "curve_point", "open_interest",
@@ -85,31 +115,12 @@
     "manifest": "data/manifests/raw-artifacts.json",
     "manifest_schema": "contracts/raw_artifact_manifest.schema.json",
     "content_identity": "sha256_original_downloaded_bytes",
-    "local_working_copy_is_canonical_archive": false,
-    "durably_acquired_rule": "local sha256 recorded plus offsite copy independently hash-verified unless licensing forbids replication",
-    "archive_interface": "provider_portable_private_object_or_file_archive",
-    "phase_1_archive_ladder": [
-      {
-        "order": 1,
-        "provider": "existing_private_google_drive_capacity",
-        "cost_trigger": "use only when incremental recurring cost remains zero",
-        "role": "initial off-machine archive when hash/upload/restore requirements are satisfied"
-      },
-      {
-        "order": 2,
-        "provider": "free_s3_compatible_capacity",
-        "examples": ["backblaze_b2", "cloudflare_r2"],
-        "cost_trigger": "remain within verified free capacity"
-      },
-      {
-        "order": 3,
-        "provider": "backblaze_b2_eu_central",
-        "cost_trigger": "first paid fallback only after explicit operator approval",
-        "role": "preferred paid private S3-compatible archive"
-      }
-    ],
+    "local_working_copy_is_canonical_archive": true,
+    "durably_acquired_rule": "private_owner_controlled_C_drive_original_source_and_processed_parquet_files_with_stable_manifest_paths_sizes_sha256_and_reopen_validation; no mandatory external_backup",
+    "archive_interface": "local_original_source_and_parquet_manifest_with_sha256; external_archival_optional",
+    "phase_1_archive_ladder": [],
     "github_or_git_lfs_bulk_archive_allowed": false,
-    "restore_drill_required": true
+    "restore_drill_required": false
   },
   "protected_confirmation": {
     "source_policy_owner": "config/research_dataset.json",
