@@ -1,0 +1,100 @@
+{
+  "schema_version": 1,
+  "issue": 482,
+  "recorded_date": "2026-10-11",
+  "baseline_commit": "e8ff79b",
+  "state": "windows_guard_includes_ancestor_directories_linux_unprotected_reader_fail_closed_source_owner_immutability_not_yet_attested",
+  "owned_authority": "data/manifests/ng-phase2-market-truth.json",
+  "reader_implementation": "src/commodity/market_truth/query.py",
+  "catalog_verifier": "scripts/data/verify_ng_market_truth.py",
+  "source_owner_rule": "a build-produced manifest and caller-supplied content digest are never sufficient research admission",
+  "admission_record_identity": [
+    "content_sha256",
+    "source_manifest_sha256",
+    "source_sha256",
+    "tables_sha256",
+    "source_review_id",
+    "immutable_storage_verified"
+  ],
+  "initial_approved_dataset_count": 0,
+  "read_behavior": [
+    "reject unknown content even with matching caller digest and valid source flags",
+    "require exact independently governed source and parquet byte identities",
+    "reject missing or duplicate approval and mismatched claimed evidence",
+    "recheck approval on each snapshot, including revocation after opening",
+    "retain 2022-12-31 protected development boundary and source path restrictions"
+  ],
+  "focused_regression": {
+    "command": ".venv/Scripts/python.exe -m pytest -q tests/data_platform/test_ng_market_truth.py",
+    "passed": 54,
+    "subtests_passed": 17,
+    "failed": 0
+  },
+  "phase2_manifest_verifier": "passed",
+  "ruff": "passed",
+  "full_repository_verification": "2026-10-11_scripts/verify.ps1_exit0_1330_passed_17_skipped_17_subtests_ruff_git_whitespace_pass",
+  "security_review": "independent_Codex_CLI_80d5825..df473b0_found_high_nonwindows_failopen_medium_windows_ancestor_retarget; followup_exact_worktree_security_review_completed_zero_new_findings_both_exploit_paths_closed; upstream_source_owner_immutable_storage_high_gate_OPEN",
+  "narrow_security_followup_review": {
+    "backend": "codex-cli",
+    "review_type": "safety-security",
+    "source": "working_tree_after_df473b0",
+    "source_fingerprint": "e55b0eca595532a65ebdfc4511b77928c46db15c04bfef216a546b90d654bb64",
+    "status": "completed",
+    "findings": [],
+    "scope": "Linux fail-closed and Windows ancestor-directory retarget fixes only",
+    "not_approved": ["upstream source-owner truth", "archive immutable storage", "non-Windows supported market-truth runtime", "issue-wide security closure"]
+  },
+  "remaining_high_risks": [
+    "generic streaming writer still accepts constructible SourceBuildAttestation; build metadata is not authoritative but refactoring of its misleading scope claims remains open",
+    "Windows reader now holds Win32 no-write/no-delete-sharing handles for complete ancestor-directory paths plus manifest, catalog and Parquet inputs; tests reject file and directory replacement. Non-Windows snapshots reject by default until kernel-enforced immutable storage is integrated; Docker/Linux feature unavailable in current release.",
+    "source-owner approval evidence and release-level code security review must be independent of build output",
+    "no development dataset may be admitted until actual original-source identity, immutability and approval evidence are verified"
+  ],
+  "signed_source_owner_admission_2026_10_12": {
+    "status": "implemented_and_local_verification_passed_release_approval_open",
+    "patch_parent_commit": "21943cf0fdae50267f6f6723edc804a1c718e680",
+    "independent_signer_keys_registered": 0,
+    "approved_datasets": 0,
+    "signature_algorithm": "Ed25519",
+    "signed_scope": "full_owner_catalog_canonical_payload_with_domain_separator",
+    "replay_defense": "externally_trusted_exact_catalog_sha256_per_signer",
+    "revocation_defense": "every_snapshot_resolves_current_trusted_signers_and_catalog",
+    "focused_tests": {
+      "passed": 77,
+      "skipped": 5,
+      "subtests_passed": 200
+    },
+    "canonical_verification": {
+      "command": "scripts/verify.ps1",
+      "exit_code": 0,
+      "passed": 1353,
+      "skipped": 21,
+      "subtests_passed": 200,
+      "ruff": "passed",
+      "git_whitespace": "passed",
+      "warning": "preexisting_MISO_duplicate_ZIP_entry"
+    },
+    "independent_security_review": {
+      "status": "failed_unusable_output_not_qualified",
+      "source_fingerprint": "c3e4b56d3ce6692629ee69d71ade85f8026f3896cc6fe54ac2e664be0ce8492b",
+      "fallback": "exact_diff_manual_review_required",
+      "review_not_a_security_approval": true
+    },
+    "manual_bounded_inspection": "source_trust_pinning_and_existing_reader_revocation_paths_inspected_no_confirmed_bypass_not_independent_signoff",
+    "remaining_gates": [
+      "independent_source_owner_key_and_exact_catalog_approval",
+      "evidenced_immutable_research_storage",
+      "source_verified_date_and_exchange_calendar_exceptions",
+      "real_data_admitted_V3_validation",
+      "integrated_independent_security_qualification",
+      "new_exact_head_CI_and_merge_readiness"
+    ],
+    "protected_confirmation_accessed": false,
+    "supabase_changes": false
+  },
+  "historical_candidate_dates_promoted": 0,
+  "research_fitness_approved": false,
+  "protected_confirmation_accessed": false,
+  "supabase_changes": false,
+  "paid_acquisitions": false
+}

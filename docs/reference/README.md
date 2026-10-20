@@ -30,6 +30,7 @@ This directory is generated from current machine-readable repository artifacts.
 - [`contracts/interpretation_metadata.schema.json`](contracts/interpretation_metadata.schema.md)
 - [`contracts/legacy_experiment_record.schema.json`](contracts/legacy_experiment_record.schema.md)
 - [`contracts/literature_snapshot.schema.json`](contracts/literature_snapshot.schema.md)
+- [`contracts/ng_market_truth.schema.json`](contracts/ng_market_truth.schema.md)
 - [`contracts/prereg.schema.json`](contracts/prereg.schema.md)
 - [`contracts/programme.schema.json`](contracts/programme.schema.md)
 - [`contracts/programme_decisions.schema.json`](contracts/programme_decisions.schema.md)

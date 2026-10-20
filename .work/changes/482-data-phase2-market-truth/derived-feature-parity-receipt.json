@@ -1,0 +1,48 @@
+{
+  "schema_version": 1,
+  "issue": 482,
+  "recorded_date": "2026-10-11",
+  "audit": ".work/changes/482-data-phase2-market-truth/audit_derived_parity.py",
+  "audit_script_sha256": "bfe919031f96b6fcd9ae69f2e8ed1a7e78171c6faaf4201a7d428250df55ba8f",
+  "execution": {
+    "runtime": "commodity-data-platform:issue487-v1",
+    "network": "disabled",
+    "cpus": 2,
+    "memory_limit_bytes": 2147483648,
+    "repository_mount": "read_only",
+    "legacy_checkpoint_mount": "read_only",
+    "exit_code": 0,
+    "elapsed_seconds": 32.56
+  },
+  "source": {
+    "frozen_feature_rows": 3088,
+    "frozen_session_path_rows": 3897,
+    "frozen_feature_parquet_sha256": "b14ae69bd6ec2910f0cf56fe62f481016801308cebc6ef69e536aa7e593d072e",
+    "frozen_session_path_parquet_sha256": "0fe87ea79a56f98fb9d445e89e3d65b48ae7bb1175e06ba9b97da68ebe6b01e8",
+    "curated_dataset": "market-truth-full-2010-2022-refactor-v3",
+    "curated_manifest_sha256": "6d3093305c0ae2c6a313be13151b0810bf208c1cb8f429e1bbf58a17e7d89605",
+    "curated_content_sha256": "943780ea8eaa7315157385c687e3939777089420c186fd7d8d4b7d781a1f5d94"
+  },
+  "checks": {
+    "execution_open_contract_days": {"tested": 3897, "matched": 3897},
+    "curve_base_fields": {
+      "settlement": {"tested": 12352, "matched": 12352},
+      "bar_volume": {"tested": 12352, "matched": 12352},
+      "days_to_expiry": {"tested": 12352, "matched": 12352}
+    },
+    "derived_features": {
+      "feature_curve_spread_m1_m2": {"tested": 3088, "matched": 3088, "max_abs_error": 0.0},
+      "feature_curve_spread_m2_m3": {"tested": 3088, "matched": 3088, "max_abs_error": 0.0},
+      "feature_curve_spread_m3_m4": {"tested": 3088, "matched": 3088, "max_abs_error": 0.0},
+      "feature_curve_slope_m1_m4": {"tested": 3088, "matched": 3088, "max_abs_error": 0.0},
+      "feature_curve_volume_ratio_m1_m2": {"tested": 3088, "matched": 3088, "max_abs_error": 0.0}
+    },
+    "derived_observations_matched": 15440,
+    "derived_observations_mismatched": 0
+  },
+  "scope_limitation": "Five additional V2/V3 curve-derived features verified. Technical rolling indicators, calendar and roll-event features, full feature-warmup, last-trade exchange calendar and missing type6/type9 historical reference truth remain unverified.",
+  "historical_candidate_dates_promoted": 0,
+  "research_fitness_approved": false,
+  "protected_confirmation_accessed": false,
+  "new_paid_acquisition": false
+}

@@ -1,0 +1,35 @@
+{
+  "schema_version": 1,
+  "issue": 482,
+  "date": "2026-10-19",
+  "authority": "explicit_private_owner_decision",
+  "decision": "remove_mandatory_additional_backups_and_external_WORM_storage_for_private_single_owner_commodity_research",
+  "scope": "original pre2023 Databento acquisition files and existing 2010-2022 normalized Parquet stored on local C drive",
+  "required": [
+    "stable source file paths and dataset manifest references",
+    "exact SHA-256 and byte sizes already pinned",
+    "preapproval read-only reopen existence and exact-path checks",
+    "preserve point-in-time timestamp semantics",
+    "preserve source-versus-processed visual evidence and owner final approval",
+    "no protected 2023plus access"
+  ],
+  "not_required": [
+    "B2 uploads",
+    "Google Drive",
+    "SD card or external SSD",
+    "WORM/compliance retention",
+    "cloud restoration drill",
+    "offsite backup",
+    "new storage provider account"
+  ],
+  "risk_accepted": "Single-laptop disk failure, accidental local destruction or loss could lose all historical files; source re-download cannot guarantee same vendor vintage. This risk is knowingly accepted by owner.",
+  "current_pins": {
+    "source_archive_files": 39,
+    "source_bytes": 1211127256,
+    "processed_parquet_tables": 3,
+    "normalized_dataset_sha256": "943780ea8eaa7315157385c687e3939777089420c186fd7d8d4b7d781a1f5d94"
+  },
+  "archive_state": "B2 bucket configured with 365-day compliance default but no dataset versions uploaded. Leave existing bucket configuration untouched; no further cloud action required.",
+  "status": "approved_scope_change_local_storage_only",
+  "security_limits": "No weakening of model/source correctness, independent reviewer or owner approval gates."
+}

@@ -1,0 +1,133 @@
+{
+  "schema_version": 1,
+  "issue": 482,
+  "artifact": "local-owner-review-site",
+  "status": "implemented_local_diagnostic_only_not_research_admitted",
+  "launch": ".venv/Scripts/python.exe -m commodity.market_truth.review_site --port 8765",
+  "url": "http://127.0.0.1:8765/",
+  "owned_source": [
+    "src/commodity/market_truth/review_site.py",
+    "src/commodity/market_truth/review_site_assets/index.html",
+    "src/commodity/market_truth/review_site_assets/styles.css",
+    "src/commodity/market_truth/review_site_assets/app.js",
+    "tests/data_platform/test_ng_market_truth_review_site.py"
+  ],
+  "selection_scope": "All three source families retain hash-verified source/final inventory. OHLCV supports exact contract/date source/final overlays and a separate 20-session actual production V3 rank-selected pre-approval diagnostic (M1-M12, as-of UTC time) with selected instrument identity, roll changes, unverified expiry boundaries and unscaled deltas. Statistics final-table value/exclusion accounting is exhaustive, but V3-selected full-history all-family reconciliation, CME intraday expiry qualification, settlement-finality proof and signed admission remain open.",
+  "main_chart": {
+    "x_axis": "trading_date",
+    "left_y_axis": [
+      "original_csv",
+      "final_parquet"
+    ],
+    "right_y_axis": "(final_parquet - original_csv) * selected_factor",
+    "default_scale": 10,
+    "missing_data": "explicit_status_no_imputation"
+  },
+  "v3_selected_diagnostic": {
+    "endpoint": "GET /api/v3-series",
+    "selector": "MarketTruthDataset._curve_from_parquet (unmodified production selector)",
+    "admission_state": "pre_approval_diagnostic_only",
+    "review_window": "last 20 available source sessions up to selected end date",
+    "filters": ["year_2010_to_2022", "end_session", "decision_clock_utc", "rank_M1_to_M12", "OHLCV_field"],
+    "comparison": "same selected instrument_id and session day in SHA-256-verified original CSV",
+    "source_point_in_time_qualified": false,
+    "retains_roll_and_unverified_expiry_indicators": true,
+    "real_sample": {
+      "year": 2022,
+      "end_session": "2022-12-30",
+      "decision_clock_utc": "23:59",
+      "rank": 1,
+      "metric": "close",
+      "compared": 20,
+      "value_mismatches": 0,
+      "roll_transitions": 1,
+      "unverified_expiry_boundary_observations": 20,
+      "max_abs_unscaled_delta": 0
+    },
+    "research_admitted": false,
+    "signed_approval": false,
+    "session_membership_filters_future_only_bars_at_selected_clock": true,
+    "unpatched_v3_synthetic_parquet_rank_and_revision_cutoff_test": true,
+    "rank_two_source_selection_checked": true,
+    "present_null_vs_missing_rows_distinguished": true,
+    "unavailable_rank_transitions_not_mislabelled_rolls": true,
+    "full_history_evidence": false
+  },
+  "inventory_reconciliation": {
+    "basis": "both SHA-256 and actual CSV/Parquet logical row counts, compared with manifest",
+    "bars": {"source": 103793, "final": 103793, "excluded_or_exact_retransmissions": 0},
+    "definitions": {
+      "source": 525810,
+      "final": 525810,
+      "excluded_or_exact_retransmissions": 0,
+      "mapped_source_to_final_field_audit": {
+        "endpoint": "GET /api/definitions-audit",
+        "original_rows": 525810,
+        "final_rows": 525810,
+        "fields_compared": 11,
+        "original_only_field_tuples": 0,
+        "final_only_field_tuples": 0,
+        "duplicate_final_revision_grains": 0,
+        "result": "exact_match_mapped_fields_preapproval_only",
+        "derived_evidence_id_recomputed": false,
+        "independent_CME_expiry_qualified": false
+      }
+    },
+    "statistics": {"source": 2282697, "final": 1177700, "excluded_or_exact_retransmissions": 1104997},
+    "limitation": "Statistics source-to-final values and raw-policy exclusions are accounted for separately; aggregate inventory is not V3-selected parity or validated CME expiry chronology."
+  },
+  "source_csv_sha256": "a1758c009428ae83c1c6b8a5f898ffde687c2fe70b363abc094bab9e3d74eb8d",
+  "final_parquet_sha256": "d7b72c4295e67a2c60f64cc1e23c9904885724b096d59d949ea6729e18f9a5ec",
+  "dataset_content_sha256": "943780ea8eaa7315157385c687e3939777089420c186fd7d8d4b7d781a1f5d94",
+  "crosscheck": {
+    "original_bar_rows": 103793,
+    "final_bar_rows": 103793,
+    "matched_keys": 103793,
+    "value_mismatches": 0,
+    "missing_or_extra_keys": 0
+  },
+  "statistics_value_reconciliation": {
+    "receipt": "statistics-source-final-value-receipt.json",
+    "source_rows": 2282697,
+    "final_rows": 1177700,
+    "exact_source_matched_final_rows": 1177700,
+    "unmatched_final_rows": 0,
+    "key": ["instrument_id", "trade_date", "stat_type", "event_at", "available_at", "value"],
+    "source_final_table_only_not_V3_selected_view": true,
+    "source_side_exclusion_reconciliation_pending": false,
+    "source_side_exclusion_total": 1104997,
+    "source_side_exclusion_policy_rejected": 1104466,
+    "source_side_economic_equivalent_retransmissions": 531,
+    "source_side_exact_full_tuple_retransmissions": 160,
+    "source_side_different_event_time_retransmissions": 371,
+    "source_side_exclusion_unaccounted": 0,
+    "independent_settlement_finality_verified": false,
+    "owner_research_approval_issued": false
+  },
+  "review_intent": {
+    "allowed_decisions": [
+      "approve",
+      "needs_review",
+      "reject"
+    ],
+    "saved_local_only": true,
+    "requires_acknowledgement": true,
+    "signed_catalog_modified": false,
+    "production_admission_granted": false
+  },
+  "models_results": "placeholder_tabs_no_model_results_included",
+  "verification": {
+    "targeted_pytest": "15 passed, 21 subtests passed on Windows checkout-local venv including future-only-session-membership fail-closed, unpatched V3 M1/M2 selection, null/missing, roll and HTTP/2023 boundaries",
+    "docker_offline_linux_unittest": "8 tests passed, exit 0, includes private real dataset count checks",
+    "ruff": "pass",
+    "javascript_syntax": "node --check passed after all changes",
+    "local_endpoints": "HTTP 200 root/css/js/meta/contracts/series; HTTP 422 protected 2023",
+    "chrome_preview": "headless localhost render completed",
+    "full_windows_repository": "2026-10-15 canonical scripts/verify.ps1 exact implementation (before receipt-only verification string update): 1,368 passed, 21 skipped, 1 known duplicate-ZIP fixture warning, 221 subtests passed, zero failures; all deterministic and Git whitespace checks passed.",
+    "independent_review": "2026-10-15 narrow Codex security review found no evidence-backed defect in earlier four-file diagnostic. Independent Codex test/code reviewers then found missing M2 rank coverage, source NULL-versus-absent conflation and unavailable-rank roll misclassification; all were repaired with targeted tests. Exact-final-tree independent reviews still required. This is NOT integrated Phase 2 security signoff."
+  },
+  "protected_2023plus_confirmation_accessed": false,
+  "supabase_mutated": false,
+  "original_source_modified": false,
+  "original_blocker_ledger_changed": false
+}

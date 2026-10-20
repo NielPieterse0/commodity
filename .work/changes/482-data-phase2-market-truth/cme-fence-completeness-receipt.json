@@ -1,0 +1,21 @@
+{
+  "bar_sha256": "d7b72c4295e67a2c60f64cc1e23c9904885724b096d59d949ea6729e18f9a5ec",
+  "contracts_with_fenced_historical_session": 14,
+  "frozen_3088_feature_dates_full_replay": false,
+  "historical_observed_session_dates": 3900,
+  "issue": 482,
+  "observed_contract_session_windows_denied": 179,
+  "official_exchange_expiry_qualified": false,
+  "policy_contracts": 14,
+  "previous_receipt_for_frozen_date_subset": "frozen-v2-v3-feature-parity-receipt.json",
+  "production_parquet_expiry_checks_denied": 14,
+  "protected_confirmation_accessed": false,
+  "research_admission": false,
+  "result": "PASS_SOURCE_COHORT_TERMINAL_FENCE_ONLY",
+  "schema_version": 1,
+  "source_pins": {
+    "definitions.parquet": "b803deb0b88d7c0f57625fd46cfa4537e902dd3951cf04aeeba84f95f5dbf4d8",
+    "manifest.json": "6d3093305c0ae2c6a313be13151b0810bf208c1cb8f429e1bbf58a17e7d89605"
+  },
+  "source_scope": "development_pre2023"
+}

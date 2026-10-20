@@ -1,0 +1,59 @@
+{
+  "schema_version": 4,
+  "change_id": "482-data-phase2-market-truth",
+  "status": "active",
+  "branch": "change/482-data-phase2-market-truth",
+  "worktree": ".work/worktrees/482-data-phase2-market-truth",
+  "base": "main",
+  "outcome": "Build reproducible PIT natural-gas market truth, M1-M12 curves, features and V3 as-of API with protected holdout isolation",
+  "owned_paths": [
+    "src/commodity/market_truth/**",
+    "tests/data_platform/test_ng_market_truth.py",
+    "tests/data_platform/test_ng_market_truth_v3_contract.py",
+    "tests/data_platform/test_ng_market_truth_review_site.py",
+    "tests/data_platform/test_ng_market_truth_cme_fence.py",
+    "scripts/data/build_ng_market_truth.py",
+    "scripts/data/verify_ng_market_truth.py",
+    "scripts/verify.ps1",
+    ".github/workflows/ci.yml",
+    "docs/rule-verification.md",
+    "docs/reference/config/rule_verification.md",
+    "contracts/ng_market_truth.schema.json",
+    "contracts/data_platform.schema.json",
+    "docs/reference/contracts/ng_market_truth.schema.md",
+    "docs/reference/README.md",
+    "config/data_platform.json",
+    "config/rule_verification.json",
+    "data/manifests/ng-phase2-market-truth.json",
+    ".work/changes/482-data-phase2-market-truth/**"
+  ],
+  "shared_paths": [],
+  "excluded_paths": [],
+  "dependencies": [],
+  "integration_owner": null,
+  "complexity": "large",
+  "risk_triggers": [
+    "architecture_boundary",
+    "persistent_state",
+    "public_contract",
+    "security"
+  ],
+  "base_evidence": {
+    "local_sha": "a1d8da618f4f1ebe60aa1a64802cdd89832254e5",
+    "local_tree": "5a66791e8e9fea277b3045a5328b05009342b0aa",
+    "upstream_sha": "a1d8da618f4f1ebe60aa1a64802cdd89832254e5",
+    "upstream_tree": "5a66791e8e9fea277b3045a5328b05009342b0aa",
+    "upstream_ref": "refs/remotes/origin/main",
+    "evidence_source": "local_remote_tracking_ref",
+    "relation": "same_sha"
+  },
+  "work_management": {
+    "project_id": "commodity",
+    "record_id": "WORK-482",
+    "source_repository": "NielPieterse0/commodity",
+    "source_number": 482,
+    "source_kind": "issue",
+    "documentation_impact": "planned",
+    "execution_owner": "kis-dev-phase2-482"
+  }
+}

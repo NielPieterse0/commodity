@@ -1,0 +1,35 @@
+{
+  "schema_version": 1,
+  "issue": 482,
+  "result": "PASS_SYNTHETIC_CME_MODEL_OUTPUT_EXCLUSION",
+  "historical_rank_classification_receipt": "cme-rank-output-safety-receipt.json",
+  "historical_frozen_rank_slots_previously_classified": 37056,
+  "historical_selected_unverified_nonterminal_previously_classified": 3087,
+  "historical_rank_source_audit_reexecuted": false,
+  "new_verification": {
+    "model_safe_rank_positions_exercised": 12,
+    "terminal_fence_identity_count": 14,
+    "synthetic_eager_and_parquet_output_masks_tested": true,
+    "public_ng_curve_rank_mask_tested": true,
+    "preserves_underlying_source_observations": true,
+    "targeted_cme_tests_passed": 9,
+    "v3_interface_tests_passed": 8,
+    "v3_interface_tests_skipped": 1,
+    "ruff_passed": true,
+    "git_diff_check_passed": true
+  },
+  "qualification": {
+    "source_rank_to_output_invariant_established_in_code": true,
+    "real_admitted_dataset_replay_completed": false,
+    "historical_CME_intraday_exchange_proof": false,
+    "source_owner_approval": false,
+    "immutable_storage_verified": false,
+    "independent_exact_current_diff_review_completed": false,
+    "independent_review_failure": "AGENT_REVIEW_DEADLINE_EXCEEDED",
+    "whole_issue_security_qualification_completed": false
+  },
+  "original_CME_blocker_closed": false,
+  "production_research_admission": false,
+  "protected_2023plus_accessed": false,
+  "supabase_production_mutated": false
+}

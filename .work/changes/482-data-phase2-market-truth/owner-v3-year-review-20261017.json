@@ -1,0 +1,57 @@
+{
+  "schema_version": 1,
+  "issue": 482,
+  "recorded_date": "2026-10-17",
+  "original_blocker": "owner_approval_dashboard",
+  "status": "full_year_selector_drilldown_verified_preapproval_only",
+  "implementation": {
+    "endpoint": "GET /api/v3-series?window=year",
+    "path": "src/commodity/market_truth/review_site.py",
+    "frontend": "src/commodity/market_truth/review_site_assets/",
+    "default_window": "20",
+    "new_window": "year",
+    "max_calendar_sessions_per_year": 400,
+    "uses": "MarketTruthDataset._curve_from_parquet and model_safe_ng_curve",
+    "year_bounds": [
+      2010,
+      2022
+    ],
+    "no_protected_access": true,
+    "delta_scale_default": 10
+  },
+  "real_data_2010": {
+    "rank": 1,
+    "metric": "close",
+    "decision_clock_utc": "23:59",
+    "end_day": "2010-12-31",
+    "returned_sessions": 179,
+    "numeric_comparisons": 123,
+    "value_mismatches": 0,
+    "source_only": 0,
+    "final_only": 0,
+    "roll_transitions": 4,
+    "excluded_unverified_expiry_rank": 34,
+    "excluded_unverified_expiry_window": 22,
+    "max_abs_delta": 0,
+    "mean_abs_delta": 0,
+    "elapsed_seconds": 25.97,
+    "research_admitted": false
+  },
+  "pinned_dataset_content_sha256": "943780ea8eaa7315157385c687e3939777089420c186fd7d8d4b7d781a1f5d94",
+  "verification": {
+    "targeted_owner_review_tests": "24 passed",
+    "ruff": "passed_changed_files",
+    "javascript_syntax": "passed",
+    "diff_whitespace": "passed",
+    "independent_review": "KIS independent narrow code-quality review completed with zero findings; independent safety-security review timed out, NOT signoff"
+  },
+  "boundaries": {
+    "all_13_years_all_12_ranks_all_5_fields_audited": false,
+    "source_pit_qualified": false,
+    "owner_signed_admission": false,
+    "immutable_storage_verified": false,
+    "integrated_security_qualified": false,
+    "protected_2023plus_accessed": false,
+    "supabase_mutated": false
+  }
+}

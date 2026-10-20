@@ -1,0 +1,62 @@
+{
+  "schema_version": 1,
+  "issue": 482,
+  "recorded_date": "2026-10-19",
+  "original_blocker": "independent_immutable_storage",
+  "status": "archive_execution_ready_locally_provider_proof_not_yet_available",
+  "implementation_commit": "2559e6c47ca14d4fcf81167a5f787438e1bf649f",
+  "plan": {
+    "path": ".work/runtime/market_truth_development/backblaze-b2-archive-plan.json",
+    "sha256": "befe4d5d1e8fc42abfcc77aab30e2f87151ca274f7a84851645594f0e8c3cdcd",
+    "count": 43,
+    "source_versions": 39,
+    "final_parquet_tables": 3,
+    "final_manifest": 1,
+    "total_bytes": 1294782635,
+    "scope": "pre2023_only"
+  },
+  "helpers": [
+    "backblaze_b2_archive_plan.py",
+    "backblaze_b2_archive_apply.py",
+    "backblaze_b2_retention_setup.py",
+    "backblaze_b2_preflight.py"
+  ],
+  "safeguards": [
+    "offline_archive_plan",
+    "exact_sha256_source_and_final_manifest_pins",
+    "no_2023plus_enumeration",
+    "object_key_prefix_pre2023",
+    "require_365_day_compliance_default_before_upload",
+    "require_operator_verified_free_storage_bytes",
+    "require_operator_verified_free_egress_bytes",
+    "reject_existing_object_key",
+    "fail_closed_on_missing_nonnull_versionid",
+    "checkpoint_exact_version_before_remote_readback",
+    "readback_sha256_and_exact_version_retention",
+    "no_owner_admission"
+  ],
+  "verification": {
+    "targeted_tests_passed": 10,
+    "targeted_tests_skipped_windows_symlink_privilege": 2,
+    "ruff": "passed",
+    "operator_dry_run": "passed",
+    "remote_archive_versions_uploaded": 0,
+    "live_provider_retention_verified": false,
+    "independent_restore_verified": false,
+    "delete_rejection_verified": false,
+    "full_security_signoff": false
+  },
+  "review": {
+    "status": "manual_exact_diff_fallback_required",
+    "independent_reviewer": "unqualified_backend_output",
+    "bounded_source_fingerprint": "4c87f018aea5d867d049e05fc9cc0825b68540fd8c4b8b5f22d128996f6d2252"
+  },
+  "release": {
+    "owner_approval": false,
+    "production_admission": false,
+    "pr_merge_authorized": false,
+    "protected_2023plus_accessed": false,
+    "supabase_mutated": false
+  },
+  "operator_gate": "Read-only bucket retention verification from an authorized external-network lane must succeed with the local ignored .env; then confirm available no-cost storage and egress before optional upload. Local KIS Work disallows external-network calls."
+}

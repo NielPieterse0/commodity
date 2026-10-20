@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "issue": 482,
+  "result": "PASS_OWNER_V3_CHART_CME_MASK_AND_TERMINAL_FENCE_VISIBILITY",
+  "source_path": "src/commodity/market_truth/review_site.py",
+  "model_safe_contract": "src/commodity/market_truth/ng_expiry.py:model_safe_ng_curve",
+  "tests": [
+    "test_v3_owner_chart_marks_cme_rank_exclusion_not_false_match",
+    "test_v3_review_records_fenced_cme_session_without_failing_chart"
+  ],
+  "model_facing_disputed_rank": "excluded_unverified_expiry_rank",
+  "source_fenced_terminal_date": "excluded_unverified_expiry_window",
+  "false_matched_numeric_values": 0,
+  "owner_decision_signed": false,
+  "research_admitted": false,
+  "prior_review_site_suite_passed": 16,
+  "new_terminal_case_passed": true,
+  "full_suite_rerun": false,
+  "original_source_modified": false,
+  "protected_2023plus_accessed": false
+}

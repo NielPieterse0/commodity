@@ -1,0 +1,43 @@
+{
+  "schema_version": 1,
+  "issue": 482,
+  "review_date": "2026-10-14",
+  "scope": "Source-side statistics exclusion reconciliation only",
+  "source_worktree": "change/482-data-phase2-market-truth",
+  "code_review": {
+    "backend": "codex-cli",
+    "source": "working_tree",
+    "fingerprint": "b2126f428872fe30ce1f5e643d15ca901a27be17a749397d9880d8fcdfb3fcd3",
+    "status": "completed",
+    "findings": [],
+    "qualification": "bounded_four_file_code_quality_only_not_independent_integrated_security"
+  },
+  "recorded_counts": {
+    "source": 2282697,
+    "final": 1177700,
+    "policy_rejected": 1104466,
+    "economic_equivalent_retransmissions": 531,
+    "exact_full_tuple": 160,
+    "different_event_at": 371,
+    "unexplained_source_side": 0,
+    "conflicting_eligible_values": 0
+  },
+  "verification": {
+    "pinned_linux_audit": "exit_0",
+    "linux_unittest": "7_passed_0_failed_network_none_read_only_mount",
+    "windows_pytest": "6_passed_1_platform_skip",
+    "ruff": "passed",
+    "git_diff_check": "passed"
+  },
+  "limitations": [
+    "V3-selected owner plots and decision cutoffs remain unverified",
+    "Independent CME expiry intraday clocks and notice bytes not qualified",
+    "Settlement finality policy not independently confirmed as CME historical truth",
+    "Quarantined undated statistics remain excluded",
+    "Owner signature, independent WORM proof, production V3 admission and integrated security signoff remain open"
+  ],
+  "release": "blocked",
+  "protected_2023plus_accessed": false,
+  "supabase_mutated": false,
+  "owner_approval_issued": false
+}
