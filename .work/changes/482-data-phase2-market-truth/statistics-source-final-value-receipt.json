@@ -1,0 +1,79 @@
+{
+  "duplicate_final_natural_grains": 0,
+  "eligible_source_revision_grains_by_type": {
+    "cleared_volume": {
+      "conflicting_eligible_values": 0,
+      "different_event_time_retransmissions": 0,
+      "economic_equivalent_retransmissions": 2,
+      "eligible_distinct_revision_grains": 344243,
+      "eligible_original_occurrences": 344245,
+      "exact_full_tuple_retransmissions": 2
+    },
+    "open_interest": {
+      "conflicting_eligible_values": 0,
+      "different_event_time_retransmissions": 0,
+      "economic_equivalent_retransmissions": 2,
+      "eligible_distinct_revision_grains": 344243,
+      "eligible_original_occurrences": 344245,
+      "exact_full_tuple_retransmissions": 2
+    },
+    "settle": {
+      "conflicting_eligible_values": 0,
+      "different_event_time_retransmissions": 371,
+      "economic_equivalent_retransmissions": 527,
+      "eligible_distinct_revision_grains": 489214,
+      "eligible_original_occurrences": 489741,
+      "exact_full_tuple_retransmissions": 156
+    }
+  },
+  "excess_final_source_occurrences": 0,
+  "final_manifest_sha256": "6d3093305c0ae2c6a313be13151b0810bf208c1cb8f429e1bbf58a17e7d89605",
+  "final_rows": 1177700,
+  "final_rows_by_type": {
+    "cleared_volume": 344243,
+    "open_interest": 344243,
+    "settle": 489214
+  },
+  "final_sha256": "08238152f29f5e6c2296e098671448b0cb36470626faa421c6a461140f034e8b",
+  "issue": 482,
+  "not_verified": [
+    "V3 snapshot selected as-of subset, curve rank, owner plotted comparison",
+    "quarantined undated statistic rows and independent finality semantics",
+    "independent CME expiry and external immutable storage",
+    "owner research fitness or signed research admission"
+  ],
+  "parquet_final_has_exact_source_row": true,
+  "protected_2023plus_accessed": false,
+  "research_admitted": false,
+  "result": "PINNED_STATISTICS_SOURCE_TO_FINAL_VALUE_DIAGNOSTIC",
+  "schema_version": 1,
+  "scope": "raw dated source statistics to final table at exact instrument, date, type, availability, event and value",
+  "source_manifest_sha256": "8a86789673c8458c5745f14b550f3c16b6e4885cac026578cb2989cbc80e5240",
+  "source_policy_by_type": {
+    "cleared_volume": {
+      "non_settlement": 344245
+    },
+    "open_interest": {
+      "non_settlement": 344245
+    },
+    "settle": {
+      "eligible_final_bit": 316506,
+      "eligible_legacy": 173235,
+      "rejected_missing_final_bit": 661151,
+      "rejected_preliminary_or_intraday": 443315
+    }
+  },
+  "source_rows": 2282697,
+  "source_rows_by_type": {
+    "cleared_volume": 344245,
+    "open_interest": 344245,
+    "settle": 1594207
+  },
+  "source_sha256": "18990effe305c19b80ebc2fbfb29aa6f7752f440b68c9eb9d2cbef33a784377e",
+  "source_side_different_event_time_retransmissions": 371,
+  "source_side_economic_equivalent_retransmissions": 531,
+  "source_side_exact_full_tuple_retransmissions": 160,
+  "source_side_exclusion_policy_rejected": 1104466,
+  "source_side_exclusion_total": 1104997,
+  "unmatched_final_by_type": {}
+}

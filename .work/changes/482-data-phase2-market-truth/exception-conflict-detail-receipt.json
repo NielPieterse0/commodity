@@ -1,0 +1,149 @@
+{
+  "by_source_year": {
+    "2010": {
+      "ambiguous_same_clock_settlement": 0,
+      "exception_cohort_sha256": {
+        "outside_1_4_day_lag": "2fa4fea63840b9e61c28a06bc6b970a2fb9fbfe108a2b131c1674a67cfe15b12"
+      },
+      "outside_1_4_day_lag": 190
+    },
+    "2011": {
+      "ambiguous_same_clock_settlement": 772,
+      "exception_cohort_sha256": {
+        "ambiguous_same_clock_settlement": "fc513665db3d02e458b6df91d39be485b1f692efd596f09fbb96a5440277ee85"
+      },
+      "outside_1_4_day_lag": 0
+    },
+    "2012": {
+      "ambiguous_same_clock_settlement": 636,
+      "exception_cohort_sha256": {
+        "ambiguous_same_clock_settlement": "6dab2e1434552da215e6c160c4ad8b259db25e4d86dbd0ee2c88414d30f6f919"
+      },
+      "outside_1_4_day_lag": 0
+    },
+    "2013": {
+      "ambiguous_same_clock_settlement": 174,
+      "exception_cohort_sha256": {
+        "ambiguous_same_clock_settlement": "b38ae26b672e5bc9910db007ad3b4c1670a15a49c9432fa09da2a1a6bffb96d2"
+      },
+      "outside_1_4_day_lag": 0
+    },
+    "2014": {
+      "ambiguous_same_clock_settlement": 204,
+      "exception_cohort_sha256": {
+        "ambiguous_same_clock_settlement": "4ae7766763e8e29f8484b35e9af253cf4f432a3d09d82a405b39780f298f90a2"
+      },
+      "outside_1_4_day_lag": 0
+    },
+    "2015": {
+      "ambiguous_same_clock_settlement": 84,
+      "exception_cohort_sha256": {
+        "ambiguous_same_clock_settlement": "101b03dc9c30ed8986e8fcf872de197a2707affffece4c1c048014c2d8feefae"
+      },
+      "outside_1_4_day_lag": 0
+    }
+  },
+  "by_statistic_type": {
+    "ambiguous_same_clock_settlement": {
+      "6": 935,
+      "9": 935
+    },
+    "outside_1_4_day_lag": {
+      "6": 95,
+      "9": 95
+    }
+  },
+  "exception_records": {
+    "outside_lag": 190,
+    "same_clock": 1870
+  },
+  "historical_dates_promoted": 0,
+  "independent_contract_date_confirmation": false,
+  "issue": 482,
+  "outside_calendar_lags": {
+    "0": 190
+  },
+  "protected_confirmation_accessed": false,
+  "publication_clocks_are_not_verified_original_exchange_reference_dates": true,
+  "same_clock_finality": [
+    {
+      "finality": [
+        ""
+      ],
+      "records": 1870
+    }
+  ],
+  "same_clock_flags": [
+    {
+      "flags": [
+        "0",
+        "100"
+      ],
+      "records": 1870
+    }
+  ],
+  "same_clock_shape_year_dates_versions": [
+    {
+      "distinct_reference_dates": 2,
+      "records": 30,
+      "settlement_versions": 3,
+      "year": 2011
+    },
+    {
+      "distinct_reference_dates": 2,
+      "records": 718,
+      "settlement_versions": 4,
+      "year": 2011
+    },
+    {
+      "distinct_reference_dates": 2,
+      "records": 24,
+      "settlement_versions": 5,
+      "year": 2011
+    },
+    {
+      "distinct_reference_dates": 2,
+      "records": 636,
+      "settlement_versions": 4,
+      "year": 2012
+    },
+    {
+      "distinct_reference_dates": 2,
+      "records": 156,
+      "settlement_versions": 4,
+      "year": 2013
+    },
+    {
+      "distinct_reference_dates": 2,
+      "records": 18,
+      "settlement_versions": 5,
+      "year": 2013
+    },
+    {
+      "distinct_reference_dates": 2,
+      "records": 90,
+      "settlement_versions": 4,
+      "year": 2014
+    },
+    {
+      "distinct_reference_dates": 2,
+      "records": 114,
+      "settlement_versions": 5,
+      "year": 2014
+    },
+    {
+      "distinct_reference_dates": 2,
+      "records": 24,
+      "settlement_versions": 4,
+      "year": 2015
+    },
+    {
+      "distinct_reference_dates": 2,
+      "records": 60,
+      "settlement_versions": 5,
+      "year": 2015
+    }
+  ],
+  "schema_version": 1,
+  "status": "source_pinned_diagnostic_only_no_reference_dates_promoted"
+}

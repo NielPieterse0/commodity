@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "issue": 482,
+  "original_blocker": "integrated_security_and_release",
+  "observed_date": "2026-10-17",
+  "project": "commodity-phase1",
+  "project_ref": "qbugfnuzjbmdtgrqznxw",
+  "project_status": "ACTIVE_HEALTHY",
+  "inspection": "read_only_public_catalog_private_schema_and_security_advisors",
+  "public_schema_tables": 0,
+  "private_catalog": {
+    "schema": "commodity_control",
+    "tables": 17,
+    "rls_enabled_tables": 0,
+    "anon_or_authenticated_select_granted_tables": 0,
+    "comment": "No Data API SELECT grants observed. Private/unexposed schema without RLS is not automatically a release vulnerability; broader role and ingress qualification is outside this preflight."
+  },
+  "supabase_security_advisor_findings": 0,
+  "supabase_mutated": false,
+  "protected_2023plus_accessed": false,
+  "not_proven": [
+    "Immutable object retention",
+    "Source-owner signed catalog",
+    "Admitted historical V3",
+    "Integrated repository security signoff",
+    "Governed merge"
+  ],
+  "full_blocker_closed": false
+}

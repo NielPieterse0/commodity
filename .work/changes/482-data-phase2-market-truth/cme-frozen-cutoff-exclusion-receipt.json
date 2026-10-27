@@ -1,0 +1,22 @@
+{
+  "affected_source_contracts": 14,
+  "date_model_is_not_CME_exchange_proof": true,
+  "decision_dates_covered": 3088,
+  "issue": 482,
+  "nonterminal_source_known_pairs_flagged_unverified": 41172,
+  "production_sql_original_cutoffs_denied": 134,
+  "protected_confirmation_accessed": false,
+  "release_blocker_closed": false,
+  "research_admission": false,
+  "result": "PASS_ALL_3088_FROZEN_DECISION_CUTOFFS_SOURCE_FENCE",
+  "schema_version": 1,
+  "scope": "pre2023_development_only_not_research_admission",
+  "selected_rank12_contract_identity_recomputed": false,
+  "source_not_yet_available_pairs": 1926,
+  "source_pins": {
+    "definitions": "b803deb0b88d7c0f57625fd46cfa4537e902dd3951cf04aeeba84f95f5dbf4d8",
+    "features": "b14ae69bd6ec2910f0cf56fe62f481016801308cebc6ef69e536aa7e593d072e",
+    "manifest": "6d3093305c0ae2c6a313be13151b0810bf208c1cb8f429e1bbf58a17e7d89605"
+  },
+  "terminal_contract_decisions_denied": 134
+}

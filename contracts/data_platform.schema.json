@@ -118,7 +118,31 @@
         "source_vintage_is_database_snapshot": {"const": false},
         "revision_storage": {"type": "string"},
         "asof_tie_break": {"type": "array", "minItems": 2, "items": {"type": "string"}},
-        "unknown_availability_rule": {"type": "string"}
+        "unknown_availability_rule": {"type": "string"},
+        "independent_cadence_alignment": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "implementation", "source_grain", "decision_join", "age_rule",
+            "revision_rule", "forecast_rule", "unreferenced_rule",
+            "missingness_rule", "fitness_rule", "published_time_rule",
+            "protected_rule", "cost_rule"
+          ],
+          "properties": {
+            "implementation": {"const": "src/commodity/temporal_alignment.py"},
+            "source_grain": {"type": "string"},
+            "decision_join": {"type": "string"},
+            "age_rule": {"type": "string"},
+            "revision_rule": {"type": "string"},
+            "forecast_rule": {"type": "string"},
+            "unreferenced_rule": {"type": "string"},
+            "missingness_rule": {"type": "string"},
+            "fitness_rule": {"type": "string"},
+            "published_time_rule": {"type": "string"},
+            "protected_rule": {"type": "string"},
+            "cost_rule": {"type": "string"}
+          }
+        }
       }
     },
     "storage": {
@@ -142,11 +166,11 @@
         "manifest": {"const": "data/manifests/raw-artifacts.json"},
         "manifest_schema": {"const": "contracts/raw_artifact_manifest.schema.json"},
         "content_identity": {"const": "sha256_original_downloaded_bytes"},
-        "local_working_copy_is_canonical_archive": {"const": false},
+        "local_working_copy_is_canonical_archive": {"const": true},
         "archive_interface": {"type": "string"},
-        "phase_1_archive_ladder": {"type": "array", "minItems": 2},
+        "phase_1_archive_ladder": {"type": "array"},
         "github_or_git_lfs_bulk_archive_allowed": {"const": false},
-        "restore_drill_required": {"const": true},
+        "restore_drill_required": {"const": false},
         "durably_acquired_rule": {"type": "string"}
       }
     },

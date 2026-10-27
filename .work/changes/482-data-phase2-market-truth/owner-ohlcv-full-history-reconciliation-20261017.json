@@ -1,0 +1,52 @@
+{
+  "schema_version": 1,
+  "issue": 482,
+  "recorded_date": "2026-10-17",
+  "original_blocker": "owner_approval_dashboard",
+  "evidence_class": "preapproval_normalized_bar_fact_reconciliation",
+  "status": "full_eligible_ohlcv_parity_verified_admission_blocked",
+  "implementation": {
+    "endpoint": "GET /api/bars-audit",
+    "module": "src/commodity/market_truth/review_site.py",
+    "interface": "src/commodity/market_truth/review_site_assets/index.html",
+    "test_file": "tests/data_platform/test_ng_market_truth_review_site.py",
+    "scope": "2010-2022 full available pre-2023 OHLCV cohort",
+    "join": ["exact_instrument_id", "exact_trade_date"],
+    "no_fill_or_interpolation": true
+  },
+  "pins": {
+    "original_csv_sha256": "a1758c009428ae83c1c6b8a5f898ffde687c2fe70b363abc094bab9e3d74eb8d",
+    "final_parquet_sha256": "d7b72c4295e67a2c60f64cc1e23c9904885724b096d59d949ea6729e18f9a5ec",
+    "dataset_content_sha256": "943780ea8eaa7315157385c687e3939777089420c186fd7d8d4b7d781a1f5d94"
+  },
+  "observed": {
+    "source_records": 103793,
+    "final_records": 103793,
+    "fields": ["open", "high", "low", "close", "volume"],
+    "field_comparisons": 518965,
+    "year_field_groups": 65,
+    "source_only_keys_each_field": 0,
+    "final_only_keys_each_field": 0,
+    "different_values_each_field": 0,
+    "max_abs_unscaled_delta_each_field": 0,
+    "mean_abs_unscaled_delta_each_field": 0,
+    "all_exact": true
+  },
+  "verification": {
+    "source_of_observation": "ReviewData.bars_audit executed against private SHA-256-pinned development originals and final Parquet on 2026-10-17",
+    "targeted_review_site_tests": "24 passed after HTTP read-only route, duplicate/out-of-scope/mismatch and null-delta cases",
+    "source_and_test_ruff": "passed_changed_files",
+    "javascript_syntax": "node_check_passed",
+    "independent_review": "KIS exact-current-code quality review completed zero findings; independent safety-security review timed out and is not qualified release signoff"
+  },
+  "boundaries": {
+    "v3_selected_full_history_verified": false,
+    "original_source_independent_pit_qualified": false,
+    "research_admitted": false,
+    "owner_signed_catalog": false,
+    "immutable_off_machine_storage_commissioned": false,
+    "protected_2023plus_accessed": false,
+    "supabase_mutated": false,
+    "other_original_blockers_closed_by_this_change": 0
+  }
+}

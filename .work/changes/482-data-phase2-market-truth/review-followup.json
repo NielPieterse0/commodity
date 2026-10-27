@@ -1,0 +1,131 @@
+{
+  "schema_version": 1,
+  "temporal_cadence_and_undated_recovery_checkpoint": {
+    "commit_1": "ec82d10dc71697c87e7db7f2548e6bb0a25b3ce6",
+    "commit_2": "c7ea477f3e84316858a53944efb3a7f54076b5fd",
+    "commit_3_code_final": "4eccc3fbb348a495bb808d69d3f1f2a0c6742f4d",
+    "initial_independent_code_review": "two_MEDIUM_findings_revision_tie_break_and_retryable_atomic_quarantine_both_fixed",
+    "architecture_correction_review": "completed_zero_new_findings_on_included_alignment_source",
+    "extraction_followup_quality": "manual_exact_diff_fallback_after_CODEX_CLI_OUTPUT_LIMIT;script_not_in_security_review_projection",
+    "test_quality_finding": "same_clock_duplicate_check_UTC_equivalent_offset_test_added_and_implementation_UTC_normalized",
+    "final_UTC_patch_code_quality": "PASS_zero_findings",
+    "final_UTC_patch_test_quality": "PASS_zero_findings",
+    "reviewed_source_fingerprint": "867c222b4e281900444b7031827a131e1d45bf77de9eabf85b2f345fbd809a22",
+    "verification": "canonical_verify_ps1_1322_passed_16_skipped_13_subtests_ruff_git_whitespace_green",
+    "recovered_source_records": 807034,
+    "observation_dates_inferred": 0,
+    "record_of_truth": "temporal-source-resolution.json",
+    "whole_change_security_status": "BLOCKED_PREEXISTING_HIGH_ATTESTATION_AND_TOCTOU",
+    "protected_confirmation_accessed": false
+  },
+  "issue_number": 482,
+  "review_source": {
+    "base": "a1d8da618f4f1ebe60aa1a64802cdd89832254e5",
+    "head": "90835f10be81af3bf8287f1d29970a0e9b59d283",
+    "source_fingerprint": "abeebe6e038ab07e9f68bfbbfa0f9808a7c7d8f18ee49e0caf16f27486d27203",
+    "backend": "codex-cli",
+    "review_types": ["architecture", "safety-security"]
+  },
+  "followup_review_source": {
+    "base": "90835f10be81af3bf8287f1d29970a0e9b59d283",
+    "head": "fb5ae33475d96d8951fed368e7938e47fc3c4343",
+    "source_fingerprint": "0a0952ce375e8547a21e7b8bde0afe744d9534156102777f4aec736eca8177eb",
+    "backend": "codex-cli",
+    "review_types": ["code-quality", "safety-security"]
+  },
+  "findings": [
+    {"id": "ARCH-1", "severity": "high", "status": "fix_implemented_reverification_pending", "path": "src/commodity/market_truth/ng.py", "detail": "Scope non-NG bars and statistics inside NG adapter."},
+    {"id": "ARCH-2", "severity": "medium", "status": "open", "path": "src/commodity/market_truth/core.py", "detail": "Move fixed development date to validated injected evidence policy."},
+    {"id": "ARCH-3", "severity": "medium", "status": "partially_mitigated_scale_unproven", "path": "src/commodity/market_truth/query.py", "detail": "Removed broad fetchall, added version/rank pruning and bounded fetchmany; 21 repeated full-definition SQL scan costs still require batching and high-cardinality evidence."},
+    {"id": "SEC-1", "severity": "high", "status": "fix_implemented_reverification_pending", "path": "src/commodity/market_truth/query.py", "detail": "Remove public caller-controlled approved_root."},
+    {"id": "SEC-2", "severity": "high", "status": "partially_mitigated_open", "path": "src/commodity/market_truth/query.py", "detail": "Query-time integrity rechecks added; trusted immutable storage and race-free file handles remain required."},
+    {"id": "SEC-3", "severity": "medium", "status": "partial_fix_proven_ingestion_open", "path": "src/commodity/market_truth/query.py", "detail": "Bounded SQL result cardinality now fail-closed; eager CSV ingestion explicitly refuses inputs exceeding 16 MiB until streaming ingestion implemented."}
+  ],
+  "latest_query_review": {
+    "source_fingerprint": "10db436ae87380116f00b170a9dc7c1db6a01d6228b2dc470a21f894bdc9fec4",
+    "backend": "codex-cli",
+    "performance": "completed_with_real_high_cardinality_scan_and_repeated_IO_findings",
+    "security": "completed_no_new_source_bound_findings; earlier_immutable_storage_risks_open",
+    "quality": "output_limit_manual_exact_diff_fallback; independent_review_closure_pending",
+    "history_pruning_claim": "refuted_by_existing_sorted_unique_prior_date_normalization_before_history_slice_and_shuffled_future_duplicate_test",
+    "benchmarks": "30_synthetic_tests_passed_no_full_volume_evidence"
+  },
+  "latest_full_history_review": {
+    "source_commit": "80c561bf611e4a8b468776ba4d8cc83265dba6b1",
+    "source_fingerprint": "39430ee8cbc98fdf4aba06583f34b38bbd9cc648904aea71e3a24542e0d02be3",
+    "backend": "codex-cli",
+    "security": "one_explicit_nonfinal_legacy_settlement_finding_corrected_at_ef67d244_independently_re_reviewed_zero_findings_in_patch",
+    "architecture": "completed_three_open_design_findings: Databento settlement policy in generic core; duplicated eager_stream revision canonicalization; streaming manifest claims self-attested governance",
+    "review_scope": "bounded_projected_source_omits_some_review_files; not_full_security_closure",
+    "open_security_boundary": "immutable_filesystem_and_parquet_query_TOCTOU_not_cleared"
+  },
+  "finality_fix_exact_commit_review": {
+    "source_commit": "ef67d2444befa1d4ecc61a78028242d40d9fc6f7",
+    "source_fingerprint": "be0b5cbf9e487f321e09488da64e539a9a9c48f018592ae723561809ea4b3f97",
+    "backend": "codex-cli",
+    "review_type": "safety-security",
+    "result": "completed_zero_findings_prior_explicit_negative_finality_bypass_fixed_in_reviewed_change",
+    "whole_program_security_status": "not_closed_other_scope_and_immutable_storage_TOCTOU_pending"
+  },
+  "refactor_checkpoint_review": {
+    "source_commit": "9e8d81df05c52b922f5b5151dcfb630b0be735df",
+    "source_fingerprint": "d58df7fc0a9c34668ab0cab0c5edb43e8a8554b49fdea430ba99e5bb815b9b48",
+    "backend": "codex-cli",
+    "architecture_findings": [
+      "eager_streaming_missing_vs_null_semantic_divergence_fixed_in_current_tree",
+      "generic_writer_owned_development_governance_literally_fixed_in_current_tree"
+    ],
+    "security_finding": "caller_self_attested_digest_pair_replaced_by_typed_attestation_and_independent_manifest_file_hash",
+    "remediation_tests": "46_focused_tests_passed_including_sqlite_eager_missing_null_parity_and_untrusted_governance_rejection",
+    "independent_exact_remediation_review": "completed_on_4f3d618_high_attestation_preflight_trust_boundary_finding_open"
+  },
+  "post_commit_attestation_review": {
+    "reviewed_commit": "4f3d618a815853086a43cc832422201af9293a6e",
+    "reviewed_range_base": "9e8d81df05c52b922f5b5151dcfb630b0be735df",
+    "source_fingerprint": "4dec5b62e33b16112ee27bc25702493d5d95a74f4f226b42828292b3e5f15d24",
+    "architecture_review": "completed_high_source_preflight_provenance_finding_open",
+    "security_review": "completed_high_caller_self_attestation_finding_open",
+    "finding": "typed_SourceBuildAttestation_is_directly_constructible_and_does_not_prove_source_owner_preflight",
+    "independent_followup": "process_local_HMAC_prototype_also_reviewed_and_discarded_because_same_process_callers_can_forge_or_bypass_signing",
+    "required_design": "source_owner_validates_and_consumes_exact_immutable_inputs_in_one_controlled_operation_or_uses_external_verifiable_catalog_authority",
+    "residual_risks": ["immutable_source_storage", "source_manifest_and_parquet_TOCTOU", "full_source_review"],
+    "closeout": "BLOCKED",
+    "protected_confirmation_accessed": false
+  },
+  "streaming_csv_shape_parity_exact_range": {
+    "base_commit": "a2b2e3e2bea2452814ecb42e0bee2cb41bbfa76e",
+    "head_commit": "6f8a7476c39fc89ef7cec217ccf2ebaba069324d",
+    "source_fingerprint": "2afb83e5740b695e56dc3be6d163f0e309e2d1f8e3fa17cc5d4a83017a224e14",
+    "review_source": "immutable_range",
+    "review_backend": "codex-cli",
+    "code_quality_findings": 0,
+    "test_quality_findings": 0,
+    "safety_security_findings": 0,
+    "safety_security_scope": "CSV_shape_change_only_not_whole_issue_security_closeout",
+    "scope": "strict_DictReader_missing_values_duplicate_or_whitespace_headers_row_width_and_malformed_quote_rejection_in_streaming_to_match_eager",
+    "focused_tests": "58_passed_1_skipped_43_subtests",
+    "full_repository_verification": "2026-10-11_scripts_verify_ps1_exit0_1334_passed_17_skipped_43_subtests_1_existing_MISO_warning_Ruff_and_whitespace_green",
+    "source_owner_attempt": "generic_attestation_refactor_discarded_after_review_exposed_claims_authority_and_manifest_namespace_risks;_retained_existing_independent_reader_catalog_admission",
+    "source_owner_trust_boundary_closed": false,
+    "historical_date_values_promoted": 0,
+    "protected_confirmation_accessed": false
+  },
+  "original_archive_filename_exact_commit_review": {
+    "source_commit": "2e06f67ec592829b3fc5c8843846a16431b4fe72",
+    "source_fingerprint": "5450c84fd58faa26901cc71bd9805ae4c6eaf298eace0bd0f6ba73e73b713ed4",
+    "review_source": "commit",
+    "review_type": "code-quality",
+    "backend": "nvidia-nim",
+    "result": "completed_zero_findings",
+    "reviewed_files": [
+      ".work/changes/482-data-phase2-market-truth/audit_original_cohort.py",
+      ".work/changes/482-data-phase2-market-truth/test_original_cohort.py"
+    ],
+    "full_repository_verification": "2026-10-11_exit0_1333_passed_17_skipped_25_subtests",
+    "real_source_reaudit": "39_original_39_staged_3_curated_CSV_verified_no_date_promotion",
+    "earlier_review_fingerprints": "retained_as_historical_scope_bound_evidence_not_misattributed_to_the_latest_commit",
+    "remaining_release_gates": ["independent_reference_dates", "source_owner_immutable_storage", "full_source_security_review"]
+  },
+  "review_closure": "blocked_confirmed_high_attestation_trust_boundary_and_remaining_security_research_fitness_gates",
+  "protected_confirmation_accessed": false
+}

@@ -1,0 +1,292 @@
+{
+  "schema_version": 1,
+  "issue": 482,
+  "change_id": "482-data-phase2-market-truth",
+  "recorded_date": "2026-10-10",
+  "status": "temporal_policy_implemented_undated_source_values_quarantined_reference_repair_unproven",
+  "implementation_review_corrections": {
+    "source_review_commit": "ec82d10dc71697c87e7db7f2548e6bb0a25b3ce6",
+    "source_fingerprint": "22f93c143783607d58b92c6bc37d9704f91a381cff91efa8fb70d563e7c585b0",
+    "review_result": "two_medium_correctness_findings_fixed_in_followup",
+    "fixed": [
+      "revision asof tie-break now considers published issued ingested clocks before vintage ID, with conflicting same-clock values still fail-closed",
+      "private extractor now creates a unique incomplete stage, preserves failed evidence, and atomically promotes only complete six-year receipt; safe fresh retry when incomplete run fails"
+    ],
+    "focused_tests": "22_PASS_0_FAIL_after_review_fixes",
+    "post_fix_full_verification": "2026-10-10_scripts_verify_ps1_exit0_1322_pass_16_skip_13_subtests_ruff_git_whitespace_all_pass",
+    "whole_issue_security_review": "HIGH_market_truth_source_attestation_and_TOCTOU_from_prior_commits_still_OPEN",
+    "independent_re_review": "architecture_pass_at_c7ea477;corrective_UTC_range_c7ea477_to_4eccc3f_code_quality_PASS_zero_findings_test_quality_PASS_zero_findings;extractor_followup_manual_exact_diff;whole_issue_security_gates_open",
+    "review_backend_details": {
+      "architecture_range": "ec82d10..c7ea477",
+      "architecture_status": "completed_no_findings_in_included_alignment_source",
+      "code_quality_status": "backend_failed_CODEX_CLI_OUTPUT_LIMIT_manual_exact_diff_of_both_source_modules_and_changed_tests_completed",
+      "test_quality_range": "ec82d10..c7ea477",
+      "test_quality_status": "one_medium_offset_equivalent_clock_conflict_case_corrected_with_UTC_normalization_and_both_input_orders",
+      "focused_tests_after_offset_fix": "23_PASS_0_FAIL",
+      "full_change_security_status": "not_closed; extraction_script_excluded_from_security_projection_and_preexisting_HIGH_attestation_open",
+      "offset_normalization_verification": "23_new_focused_tests_PASS_and_full_repository_1322_PASS_16_SKIP",
+      "final_code_head_reviewed": "4eccc3fbb348a495bb808d69d3f1f2a0c6742f4d",
+      "final_review_source_fingerprint": "867c222b4e281900444b7031827a131e1d45bf77de9eabf85b2f345fbd809a22",
+      "final_code_quality_review": "PASS_zero_new_findings_on_UTC_normalization_exact_commit",
+      "final_test_quality_review": "PASS_zero_new_findings_on_offset_equivalent_clock_regression_exact_commit"
+    }
+  },
+  "owner_contract": "config/data_platform.json#temporal_contract.independent_cadence_alignment",
+  "implementation": "src/commodity/temporal_alignment.py",
+  "verification": [
+    "tests/data_platform/test_temporal_alignment.py",
+    "tests/data_platform/test_unreferenced_statistics_recovery.py",
+    "scripts/verify.ps1"
+  ],
+  "final_full_verification": {"passed": 1322, "skipped": 16, "failures": 0, "ruff": "PASS", "git_whitespace": "PASS", "preexisting_miso_duplicate_zip_warning": 1},
+  "independent_private_extraction_recheck": {"state": "PASS", "files": 6, "rows": 807034, "compressed_bytes": 7869273, "undated_values_excluded_from_model": true},
+  "protected_confirmation_accessed": false,
+  "new_paid_acquisition": false,
+  "historical_lineage": {
+    "275": "research/programmes/001-commodity-natural-gas/lines/008-next-defensible-edge/experiments/003-front-curve-history-admissibility-275/exploratory-result.json",
+    "279": "research/programmes/001-commodity-natural-gas/lines/008-next-defensible-edge/experiments/005-databento-history-redesign-279/exploratory-result.json",
+    "448": "research/programmes/004-v2-maximum-reproducible-one-month-return/issue448-source-pit-evidence-v1.json",
+    "full_v1": "src/commodity/full_v1.py is a 2024-08-13 through 2026-08-12 Massive data experiment; full_v1 means complete required families for THAT window, not 2010-2022 Databento OI",
+    "v2_v3": "V2/V3 pre2023 market-only reconstruction uses Databento definitions plus OHLCV daily trade bar semantics, not official final daily settlement completeness",
+    "market_parity": "3897/3897 selected session+contract+open and 12352/12352 per M1-M4 price/bar-volume/DTE, zero mismatches; broader derived-feature parity remains open"
+  },
+  "provider_release_reconciliation": {
+    "source": "https://databento.tech/docs/release-notes",
+    "release_2025_07_25": "Databento states its regenerated pre-May-2017 CME Globex data repaired missing ts_ref during 2015-11-20 through 2017-05-21, out-of-order pre-2017 statistics, historical expiration defects, and four empty historic trade dates.",
+    "release_2025_09_23": "Databento states it repaired missing CME Globex settlement-price ts_ref prior to 2015; this is a settlement repair, not evidence that 2010-2015 type 6/9 cleared-volume/open-interest trade dates were recovered.",
+    "independence_rule": "Compare exact pre-2023 acquisition and decoded source identities with corrected-release periods; do not infer any OI or cleared-volume trade date from publication clocks or settlement repairs.",
+    "next_evidence": "Audit per-contract stat_type 6/9 ts_ref presence and publication-date offset across both sides of 2015-11-20, validate source-era identity, and request Databento provider-native resolution for any missing type 6/9 trading-reference dates before promoting records.",
+    "status": "official_provider_release_history_verified;2015_hash_pinned_cohort_transition_verified;2014_and_2016_original_DBN_independently_inspected;2010_2013_source_identity_and_external_reference_matching_pending",
+    "audit": {
+      "script": ".work/changes/482-data-phase2-market-truth/audit_unreferenced_transition.py",
+      "rechecked_raw_statistics_sha256": "cfedaf6a088aca49d2c2060c41bdcab6a13c302bd4f989ca64f0b841c6b7cd4d",
+      "2015_missing_type6": 62277,
+      "2015_missing_type9": 62277,
+      "2015_dated_type6": 7306,
+      "2015_dated_type9": 7306,
+      "last_undated_publication_utc": "2015-11-19T15:01:03.639Z",
+      "first_dated_publication_utc": "2015-11-20T07:12:02.615473825Z",
+      "first_dated_ts_ref_utc": "2015-11-19T00:00:00Z",
+      "observed_valid_reference_publication_calendar_day_gaps": {"1": 5112, "2": 652, "3": 1299, "4": 243},
+      "offset_counts_apply_per_type": true,
+      "all_undated_values_remain_quarantined": true,
+      "inferred_dates": 0,
+      "independent_historical_reference_coverage": "not_proven",
+      "2014_2016_original_DBN_read_only_probe": {
+        "script": ".work/runtime/market_truth_development/audit_missing_ref_linkage.py",
+        "2014": {"type6_without_reference": 73560, "type9_without_reference": 73560, "type6_with_reference": 0, "type9_with_reference": 0},
+        "2016": {"type6_without_reference": 0, "type9_without_reference": 0, "type6_with_reference": 65034, "type9_with_reference": 65034},
+        "2016_valid_publication_to_reference_calendar_day_gaps_per_type": {"1": 48494, "2": 3977, "3": 10592, "4": 1971},
+        "note": "Read-only audit of exact staged original DBN files; does not imply publication clocks can supply missing pre-boundary trade dates."
+      }
+    },
+    "cost": "no_new_paid_acquisition"
+  },
+  "cross_year_contract_identity_probe": {
+    "state": "source_pinned_continuity_verified_but_reference_date_not_proven",
+    "audit": ".work/changes/482-data-phase2-market-truth/audit_cross_year_contract_identity.py",
+    "tests": ".work/changes/482-data-phase2-market-truth/test_cross_year_contract_identity.py",
+    "audit_result_sha256": "7928a75d9362cc7a029f755b92533d08fc4244a078802cd75df328d97ffd523a",
+    "source_provenance": "exact SHA-256 pinned 2010-2014 definition and 2010-2014 settlement/type6/type9 cohorts from isolated pre-2023 Databento acquisition",
+    "identity_contract": "as-of latest available <= candidate event by max(ts_event,ts_recv), same NG/XNYM futures instrument identity, raw_symbol, expiration, and nonambiguous time-valid version in consecutive yearly sources",
+    "candidate_records": 1130,
+    "unique_year_specific_instrument_ids": 193,
+    "by_year": {"2011": {"records": 14, "contracts": 7}, "2013": {"records": 546, "contracts": 91}, "2014": {"records": 570, "contracts": 95}},
+    "identity_mismatches": 0,
+    "synthetic_focused_tests": "7_passed_0_failures",
+    "source_audit_result": "PASS_1130_1130_continuous_contract_identity_zero_mismatch",
+    "canonical_verification": "2026-10-10_scripts_verify_ps1_exit0_1322_passed_16_skipped_13_subtests_ruff_git_whitespace_clean",
+    "independent_code_quality_review": "manual_exact_diff_required_review_backend_invalid_output",
+    "independent_test_quality_review": "manual_exact_diff_required_review_backend_invalid_output",
+    "historical_dates_promoted": 0,
+    "research_fitness_approved": false,
+    "publication_caveat": "MDP2 ts_recv not independently measured; identity match does not independently corroborate settlement reference date or official finality",
+    "open_gates": ["independent CME/provider date and contract-level quantity corroboration", "official preliminary versus final revision", "availability and exchange calendar", "source-attestation trust boundary and immutable storage"]
+  },
+  "year_boundary_exception_probe": {
+    "status": "source_pinned_diagnostic_only_not_independently_verified",
+    "audit_script": ".work/changes/482-data-phase2-market-truth/audit_settlement_reference_linkage.py",
+    "test_script": ".work/changes/482-data-phase2-market-truth/test_settlement_reference_linkage.py",
+    "audit_result_sha256": "cfea7a717cea6c749de3806ce59011eab1a8ab463ce1ec9b5afb086fe1f6f936",
+    "verification": {
+      "pinned_source_audit_exit": 0,
+      "focused_synthetic_tests": "7_passed_0_failed",
+      "canonical_repo_verification": "2026-10-10_exit0_1322_passed_16_skipped_13_subtests_ruff_and_git_whitespace_pass",
+      "code_quality_independent_review": "inconclusive_nvidia_qualified_routes_invalid_manual_exact_diff_inspected",
+      "test_quality_independent_review": "completed_low_or_lower_findings; lag_0_1_4_5_already_tested; absence_case_already_covered",
+      "whole_change_security_review": "OPEN_HIGH_source_attestation_and_immutable_storage"
+    },
+    "provider_context": {
+      "release_history": "https://databento.com/docs/release-notes",
+      "ts_ref_meaning": "https://databento.com/docs/knowledge-base/datasets/glbx-mdp3",
+      "cme_final_bulletin": "https://www.cmegroup.com/market-data/daily-bulletin.html",
+      "cme_preliminary_report": "https://www.cmegroup.com/market-data/volume-open-interest.html"
+    },
+    "baseline_undated_rows": 807034,
+    "known_dated_controls_exact": 144680,
+    "annual_only_candidate_rows": 803830,
+    "annual_only_exception_rows": 3204,
+    "same_clock_settlement_conflicts": 1870,
+    "annual_only_no_prior_settlement": 1144,
+    "annual_only_outside_lag": 190,
+    "year_boundary_candidate_links": {"2011": 14, "2013": 546, "2014": 570, "total": 1130},
+    "year_boundary_probe_unexplained_rows": 2074,
+    "2010_outside_lag_publication_day": "2010-11-16",
+    "2013_no_prior_publication_day": "2013-01-02",
+    "2014_no_prior_publication_day": "2014-01-02",
+    "evidence": "Exact hash-pinned previous-year settlement publication clocks produce 1-4 day candidate links for all 1130 affected source-year-edge observations; original 3204 exception denominator and nonpromotion remain unchanged.",
+    "caveats": ["Cross-year instrument_id continuity and global time-valid symbol mapping still require independent verification", "Matching settlement publication date cannot attest the trading date of a volume/OI statistic", "Legacy ts_recv is synthetic and preliminary-versus-final revision/publication truth is unresolved", "Known pre-2017 Databento archive corrections require independently pinned release/source reconciliation"],
+    "historical_dates_promoted": 0,
+    "protected_confirmation_accessed": false
+  },
+  "same_contract_settlement_linkage": {
+    "status": "validated_controls_updated_receive_time_safe_candidate_only_not_admissible_to_features",
+    "script": ".work/changes/482-data-phase2-market-truth/audit_settlement_reference_linkage.py",
+    "input_identity": "seven independently SHA256-pinned 2010-2016 statistics CSV and six SHA256-pinned original-value recovery GZ",
+    "join": "same instrument_id within source year; last non-conflicting settlement stat_type3 ts_ref with max(source ts_event, source ts_recv) <= statistic ts_event, and one-to-four calendar-day publication lag",
+    "MDP2_clock_limitation": "Databento documentation states pre-2017 MDP2 ts_recv is a copy of ts_event, marked F_BAD_TS_RECV, not an independently measured capture time. This test prevents known reversed ordering; it does not prove actual source dissemination or observation availability.",
+    "MDP2_clock_doc": "https://databento.com/docs/venues-and-datasets/glbx-mdp3",
+    "read_only_storage_caveat": "Source files are SHA256-checked before and after reading, not held in exclusive immutable handles; concurrent mutation/TOCTOU security gate remains open.",
+    "dated_control": {"2015_type6": 7306, "2015_type9": 7306, "2016_type6": 65034, "2016_type9": 65034, "total_exact_matches": 144680, "wrong_or_absent": 0},
+    "undated_counts_by_year_candidates": {"2010": 89880, "2011": 149312, "2012": 142736, "2013": 151086, "2014": 146346, "2015": 124470},
+    "undated_caveats_by_year": {"2010": {"no_prior": 14, "outside_lag": 190}, "2011": {"same_clock_conflicts": 772, "no_prior": 14}, "2012": {"same_clock_conflicts": 636}, "2013": {"same_clock_conflicts": 174, "no_prior": 546}, "2014": {"same_clock_conflicts": 204, "no_prior": 570}, "2015": {"same_clock_conflicts": 84}},
+    "undated_total": 807034,
+    "candidate_within_1_to_4_calendar_days": 803830,
+    "without_prior_settlement": 1144,
+    "conflicting_same_clock_settlement": 1870,
+    "outside_validated_gap_range": 190,
+    "promotion_allowed": false,
+    "historical_dates_promoted": 0,
+    "remaining_validation": ["independent CME contract/day/quantity confirmation", "global time-valid instrument symbol mapping", "preliminary-versus-final revision and true publication cutoff", "MDP2 synthetic ts_recv vs actual issue/publication lag", "excluded and ambiguous cohort review", "held-out temporal conflict testing"],
+    "interpretation": "A candidate match is not an independently established historical trading-reference date; the pre-2015 official OI quality gate remains blocked."
+  },
+  "observed_findings": {
+    "acquisition": "Original August 2026 Databento statistics download was fully SHA256 repaired, separate from missing reference fields",
+    "pre2023_39_raw_files": "sha256_verified_identical_to_historical_source_evidence",
+    "first_unreferenced_year": 2010,
+    "last_unreferenced_year": 2015,
+    "stat_type_6_cleared_volume_missing_ts_ref_per_year": {
+      "2010": 45042,
+      "2011": 75049,
+      "2012": 71686,
+      "2013": 75903,
+      "2014": 73560,
+      "2015": 62277
+    },
+    "stat_type_9_open_interest_missing_ts_ref_per_year": {
+      "2010": 45042,
+      "2011": 75049,
+      "2012": 71686,
+      "2013": 75903,
+      "2014": 73560,
+      "2015": 62277
+    },
+    "total_missing_ts_ref_fields": 807034,
+    "distinct_field_breakdown": {
+      "cleared_volume": 403517,
+      "open_interest": 403517
+    },
+    "date_inferred": 0,
+    "market_session_loss_from_this_missingness": 0,
+    "statistical_research_fitness": "blocked_for_undated_contract_day_OI_and_official_cleared_volume",
+    "historical_2011_settlement_disagreement": "2 conflicted rows retain quarantined; not silently rewritten"
+  },
+  "four_point_resolution": {
+    "1_preserve_market_timeline": {
+      "status": "completed_verified_existing_482_market_fields",
+      "rule": "Market session spine and OHLCV/curve preservation never require same timestamp or complete-case availability of EIA, OI, CFTC, weather or other sources."
+    },
+    "2_recover_original_undated_values": {
+      "status": "COMPLETE_private_extraction_807034_rows_hash_verified_sources_and_outputs_no_dates_inferred",
+      "executable": "scripts/data/recover_ng_unreferenced_statistics.py",
+      "destination": ".work/runtime/market_truth_development/unreferenced-statistics-2010-2015/",
+      "private_receipt_sha256": "9f2e825ef5eca900359eaafce28a4159da89cca0bef8ec473da860e59cc7112e",
+      "source_stage_receipt_sha256": "5b4ce1596964b81010fe06a5adcc7cb820ec642ed4ae618708e271e2ab7aeda8",
+      "extracted_rows": {"cleared_volume": 403517, "open_interest": 403517},
+      "verified_annual_counts_match_prior_issue448": true,
+      "compressed_artifact_count": 6,
+      "recovery_command": ".venv/Scripts/python.exe scripts/data/recover_ng_unreferenced_statistics.py",
+      "fields": [
+        "source_year",
+        "source_sha256",
+        "record_ordinal",
+        "instrument_id",
+        "stat_type",
+        "quantity",
+        "ts_event",
+        "ts_recv",
+        "ts_ref",
+        "stat_flags",
+        "missing_reason"
+      ],
+      "source_boundary": "exact SHA256 pinned 2010-2015 statistics DBN, year definitions, private runtime, no protected 2023+",
+      "model_admissibility": "quarantine_only_no_trade_date_inference"
+    },
+    "3_prove_observation_date": {
+      "status": "not_resolved_pending_independent_cme_or_provider_evidence",
+      "possible_sources": [
+        "Databento source normalization/support clarification on legacy FIX/FAST missing TradingReferenceDate, no new paid download without consent",
+        "CME product/contract-level dated daily VOI or Daily Bulletin with independent availability and licensing gates",
+        "CME historical VOI documentation: before 2010-11-01 open interest appears in preliminary but not final files; matching must explicitly preserve that historical source-vintage distinction",
+        "CME DataMine historical data requires a license and may incur purchase fees; no DataMine acquisition without explicit zero-dollar determination or operator authorization"
+      ],
+      "reference_docs": [
+        "https://www.databento.com/docs/venues-and-datasets/glbx-mdp3",
+        "https://www.cmegroup.com/market-data/daily-bulletin.html",
+        "https://cmegroupclientsite.atlassian.net/wiki/display/EPICSANDBOX/Volume+and+Open+Interest",
+        "https://www.cmegroup.com/datamine.html"
+      ],
+      "evidence_requirements": [
+        "source-native verified trade date or independent dated vendor/CME fact for same contract/quantity",
+        "global time-valid contract and symbol mapping",
+        "calendar including holidays, Sunday publication, and trading sessions",
+        "PIT decision availability and exchange publication delay, historical revision/finality",
+        "source-to-target coverage, ambiguity/conflict/quarantine accounting and independent holdout accuracy",
+        "zero unexplained false matches for any promoted value; no inferred ts_ref promoted without independently dated matching evidence"
+      ],
+      "prohibited": [
+        "blind next-day/back-one-day assignment",
+        "relabeling OHLCV volume as cleared volume",
+        "promoting weekly CFTC open interest as per-contract daily OI",
+        "pretending an issue is closed without upstream reference recovery"
+      ]
+    },
+    "4_preserve_legacy_lineage": {
+      "status": "documented_and_locked_as_a_distinct_coverage_claim",
+      "scope": "V1 2024-26 Massive vs V2/V3 2010-22 Databento trade-bar; use separate completeness labels, not blanket full-history parity"
+    }
+  },
+  "alignment_contract": {
+    "unit_of_alignment": "strategy decision timestamp and source/series key",
+    "distinct_clocks": [
+      "observed_for",
+      "published_at",
+      "issued_at",
+      "available_at",
+      "ingested_at",
+      "forecast_valid_at",
+      "source_vintage_id"
+    ],
+    "causal_rule": "available_at <= decision_time",
+    "publication_rule": "source adapter must not claim availability before published_at or issued_at",
+    "asof_rule": "latest observed period, then latest eligible revision per period; forecasts newest issued for an independently keyed target",
+    "freshness": "explicit max_age per series from availability; report stale separately; no unbounded silent forward fill",
+    "missingness": [
+      "source_missing",
+      "source_value_missing",
+      "not_yet_published",
+      "reference_unresolved",
+      "stale"
+    ],
+    "historical_ingest": "ingestion after historical decision does not disqualify retrospectively acquired PIT-valid data; optional knowledge_asof separately fences acquisition vintages",
+    "safety": "unresolved referenced timestamps never become dated facts; source adapters own time-zone and trading calendar semantics; do not access protected confirmations"
+  },
+  "remaining_release_gates": [
+    "HIGH preflight attestation trust-boundary vulnerability (previous independent architecture/security review)",
+    "source reference repair or explicit per-field unavailability disposition; historical settlement conflict",
+    "full V2/V3 derived feature and V1 applicable-scope parity",
+    "calendar/last-trade fidelity",
+    "high-volume performance, immutable storage/TOCTOU review and exact change-head independent approval",
+    "governed PR exact-head CI, merge, issue/work lifecycle closeout"
+  ]
+}

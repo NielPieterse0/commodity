@@ -1,0 +1,24 @@
+{
+  "schema_version": 1,
+  "issue": 482,
+  "recorded_date": "2026-10-17",
+  "reviewed_commit": "81d9507a02cc0cf193be8527530b3e3086588523",
+  "review_scope": "backblaze_b2_preflight_and_offline_regressions_only",
+  "review_method": "bounded_manual_exact_diff_fallback",
+  "independent_review_status": "not_qualified",
+  "independent_review_attempts": {
+    "safety_security": "deadline_exceeded",
+    "code_quality": "output_contract_invalid_or_deadline_exceeded"
+  },
+  "bounded_manual_inspection": {
+    "client_methods_only": ["head_bucket", "get_object_lock_configuration"],
+    "bucket_or_object_mutations": false,
+    "credential_values_in_outputs": false,
+    "remote_archive_research_admission_claimed": false,
+    "focused_offline_tests": "5_passed",
+    "ruff": "passed"
+  },
+  "remaining_security_release_gate": "independent_integrated_phase2_security_signoff",
+  "remote_immutability_verified": false,
+  "owner_admission_signed": false
+}

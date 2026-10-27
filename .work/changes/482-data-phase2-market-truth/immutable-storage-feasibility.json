@@ -1,0 +1,44 @@
+{
+  "schema_version": 1,
+  "issue": 482,
+  "recorded_date": "2026-10-13",
+  "status": "candidate_assessed_not_commissioned_not_verified",
+  "original_blocker": "independent_immutable_storage",
+  "candidate": {
+    "provider": "Backblaze B2 Cloud Storage",
+    "mechanism": "per-object Object Lock in compliance mode with exact version IDs",
+    "published_free_storage_cap_bytes": 10000000000,
+    "free_tier_source": "https://www.backblaze.com/cloud-storage/pricing",
+    "retention_source": "https://www.backblaze.com/docs/cloud-storage-object-lock",
+    "zero_incremental_spend": "conditional_not_verified_against_account_usage_and_request_egress",
+    "account_created": false,
+    "objects_uploaded": false,
+    "credentials_connected": false
+  },
+  "rejected_substitutes": {
+    "supabase_private_bucket": "RLS/private access is not WORM retention",
+    "sha256_digest_alone": "Detects change but does not prevent destruction or rollback",
+    "local_windows_file_handles": "Prevent live replacement during read, not durable off-machine immutable retention"
+  },
+  "acceptance_checks_required": [
+    "Confirm permitted private non-redistributive archive of exact Databento acquisition bytes",
+    "Verify existing capacity, project budget and B2 free-tier eligibility before external change",
+    "Separate owner-controlled archive administrative credentials from builder and V3 reader",
+    "Pin each approved source and final table SHA-256, object key and immutable version ID",
+    "Enable Object Lock on every exact version before recording any WORM assertion",
+    "Set enforceable compliance retention long enough for the agreed research evidence lifecycle",
+    "Demonstrate refused overwrite and deletion under all identities available to the builder",
+    "Demonstrate rollback/version-substitution rejection against externally pinned identity",
+    "Restore exact source and final versions, verify original hashes and content identity",
+    "Demonstrate V3 reader uses verified immutable versions or protected retained local handles",
+    "Verify retention policy and repeatable restore evidence independently of build outputs",
+    "Do not admit any dataset before independently controlled owner signature and security signoff"
+  ],
+  "technical_proofs_completed": [],
+  "independent_storage_verified": false,
+  "research_admission_granted": false,
+  "supabase_mutated": false,
+  "protected_2023plus_accessed": false,
+  "paid_acquisition": false,
+  "next_action": "Commission independently controlled account and immutable exact-version archive only after cost and licensing acceptance; verify adversarial tests before signed owner admission"
+}

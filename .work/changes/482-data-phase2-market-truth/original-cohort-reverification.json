@@ -1,0 +1,27 @@
+{
+  "archived_bytes_per_copy": 1211127256,
+  "independent_historical_trading_dates_verified": 0,
+  "independent_prior_archive_hash_reference": "research\\programmes\\004-v2-maximum-reproducible-one-month-return\\issue448-source-pit-evidence-v1.json",
+  "normalized_curated_inputs_sha256_verified": 3,
+  "normalized_input_bytes": {
+    "bars": 7340543,
+    "definitions": 54810284,
+    "statistics": 315317237
+  },
+  "normalized_input_manifest_sha256": "8a86789673c8458c5745f14b550f3c16b6e4885cac026578cb2989cbc80e5240",
+  "normalized_input_rows": {
+    "bars": 103793,
+    "definitions": 525810,
+    "statistics": 2282697
+  },
+  "original_archive_cohort_receipt_sha256": "5b4ce1596964b81010fe06a5adcc7cb820ec642ed4ae618708e271e2ab7aeda8",
+  "original_archive_files_verified": 39,
+  "protected_2023_plus_accessed": false,
+  "source_semantic_fitness_approved": false,
+  "staged_archive_files_verified": 39,
+  "status": "PASS_SOURCE_BYTES_NOT_INDEPENDENT_REFERENCE_DATES",
+  "years": [
+    2010,
+    2022
+  ]
+}

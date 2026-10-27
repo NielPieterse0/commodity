@@ -1,0 +1,31 @@
+{
+  "affected_rank12_selected_dates": 2564,
+  "affected_rank12_selected_slots": 3156,
+  "historical_parity_recomputed": false,
+  "independent_exchange_intraday_proven": false,
+  "issue": 482,
+  "model_output_invariant": {
+    "decision_clocks_with_rank_mask": 2495,
+    "decision_clocks_with_selected_terminal_fence": 69,
+    "excluded_unsafe_suffix_slots": 17918,
+    "nonterminal_decision_clocks": 3019,
+    "production_feature_evaluations": 3019,
+    "retained_unaffected_slots": 18310
+  },
+  "nonterminal_selected_slots_excluded_from_unsafe_rank_suffix": 3087,
+  "pre2023_frozen_cutoffs": 3088,
+  "prior_production_cutoff_denials_reused_not_reexecuted": 134,
+  "protected_2023plus_accessed": false,
+  "research_admitted": false,
+  "result": "PASS_CME_FROZEN_SOURCE_RANK_TO_MODEL_OUTPUT_EXCLUSION",
+  "schema_version": 1,
+  "source_pins": {
+    "definitions": "b803deb0b88d7c0f57625fd46cfa4537e902dd3951cf04aeeba84f95f5dbf4d8",
+    "features": "b14ae69bd6ec2910f0cf56fe62f481016801308cebc6ef69e536aa7e593d072e",
+    "manifest": "6d3093305c0ae2c6a313be13151b0810bf208c1cb8f429e1bbf58a17e7d89605"
+  },
+  "source_rank_slots": 37056,
+  "source_rank_to_model_numeric_values": "synthetic_sentinels_only",
+  "terminal_selected_slots_existing_source_fence": 69,
+  "underlying_source_prices_and_volumes_modified": false
+}
