@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "issue": 482,
+  "change_id": "482-data-phase2-market-truth",
+  "date": "2026-10-27",
+  "status": "targeted_security_patch_reviewed_not_phase2_approved",
+  "current_patch_scope": [
+    "src/commodity/market_truth/review_signing.py",
+    "src/commodity/market_truth/review_site.py",
+    "tests/data_platform/test_ng_market_truth_review_site.py"
+  ],
+  "changes": [
+    "Fail closed on pre-existing commissioning directory; verify effective Windows signing ACL ownership/allow ACEs",
+    "Lock signer directory and ancestors against renaming during key generation",
+    "Rotate previous approval code; short-lived 30 minute single-use dataset-bound factor; consume before signature",
+    "Reject spoofed Tailscale identity headers unless loopback TCP client is verified as pinned tailscaled executable, with process handle and second table confirmation"
+  ],
+  "evidence": {
+    "focused_suite": "31 passed, 2 deselected, 26 subtests passed; excludes pinned OpenSSL environment failure and separate loopback test",
+    "proxy_endpoint": "1 passed, 32 deselected; positive path uses mocked verified daemon, negative untrusted loopback spoof rejected",
+    "acl_tests": "owner key preexisting directory and unprotected ACL negative cases passed; deployed owner ACL check passed",
+    "ruff": "passed",
+    "git_diff_check": "passed",
+    "independent_review": {
+      "backend": "codex-cli",
+      "status": "completed",
+      "findings": 0,
+      "source_fingerprint": "6ee002a23e842c5444e3d918a7ee29aece5271ae1082ad820574062279839220"
+    }
+  },
+  "outstanding": [
+    "No real Tailscale daemon proxy-to-dashboard signing transaction yet verified",
+    "Synthetic OpenSSL subprocess test was blocked by Windows process exit 3221225794",
+    "Full integrated Phase 2 security/CI/release and admitted real V3 acceptance remain separate gates",
+    "Owner approval not performed and no new approval code commissioned"
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "schema_version": 1,
+  "issue": 482,
+  "change_id": "482-data-phase2-market-truth",
+  "recorded_date": "2026-10-27",
+  "scope": "windows_tailscale_serve_owner_review_trust_boundary",
+  "status": "local_authenticated_proxy_verified_owner_signoff_pending",
+  "fix": {
+    "root_cause": "Protected Tailscale Windows service denies unprivileged process queries; actual Serve loopback socket is owned by its service child process",
+    "identity_checks": [
+      "Windows SCM service must be running LocalSystem with pinned binary",
+      "PROCESS_CREATE_PROCESS for service must be denied to dashboard principal",
+      "Socket peer must be SCM service or direct same-name service child",
+      "SCM, child ancestry and exact kernel TCP row must match on recheck",
+      "Exact hostname and owner identity headers remain mandatory"
+    ]
+  },
+  "live_validation": {
+    "normal_service_local_root_http": 200,
+    "forged_local_owner_identity_http": 403,
+    "private_tailscale_https_root_http": 200,
+    "private_tailscale_https_meta_http": 200,
+    "remote_pixel_device_verified": false,
+    "owner_signature_created": false
+  },
+  "focused_verification": {
+    "targeted_tests_passed": 2,
+    "ruff": "passed",
+    "git_diff_check": "passed",
+    "independent_codex_security_review": "completed_zero_actionable_findings_on_two_file_patch"
+  },
+  "remaining_gates": [
+    "Remote Pixel validation when device online",
+    "Owner visual inspection and explicit owner signature",
+    "Separate governed dataset admission and admitted V3 validation",
+    "Final integrated release qualification and new exact-head CI",
+    "Governed PR publication, merge readiness and merge"
+  ]
+}

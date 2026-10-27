@@ -1,0 +1,150 @@
+{
+  "affected_rank_slots_already_qualified": 3156,
+  "closure_scope": "14 exact known pinned pre2023 CME expiry discrepancies",
+  "cohort_contracts": [
+    {
+      "calendar_days_expiry_to_delivery": 4,
+      "contract": "NGF1",
+      "delivery_first_day": "2011-01-01",
+      "first_unfenced_day": "2011-01-05",
+      "first_unfenced_day_after_delivery_start": true,
+      "source_expiration_utc": "2010-12-28T19:30:00+00:00"
+    },
+    {
+      "calendar_days_expiry_to_delivery": 6,
+      "contract": "NGJ3",
+      "delivery_first_day": "2013-04-01",
+      "first_unfenced_day": "2013-04-03",
+      "first_unfenced_day_after_delivery_start": true,
+      "source_expiration_utc": "2013-03-26T18:30:00+00:00"
+    },
+    {
+      "calendar_days_expiry_to_delivery": 5,
+      "contract": "NGJ8",
+      "delivery_first_day": "2018-04-01",
+      "first_unfenced_day": "2018-04-04",
+      "first_unfenced_day_after_delivery_start": true,
+      "source_expiration_utc": "2018-03-27T18:30:00+00:00"
+    },
+    {
+      "calendar_days_expiry_to_delivery": 6,
+      "contract": "NGM1",
+      "delivery_first_day": "2011-06-01",
+      "first_unfenced_day": "2011-06-03",
+      "first_unfenced_day_after_delivery_start": true,
+      "source_expiration_utc": "2011-05-26T18:30:00+00:00"
+    },
+    {
+      "calendar_days_expiry_to_delivery": 6,
+      "contract": "NGM1",
+      "delivery_first_day": "2021-06-01",
+      "first_unfenced_day": "2021-06-03",
+      "first_unfenced_day_after_delivery_start": true,
+      "source_expiration_utc": "2021-05-26T18:30:00+00:00"
+    },
+    {
+      "calendar_days_expiry_to_delivery": 6,
+      "contract": "NGM2",
+      "delivery_first_day": "2022-06-01",
+      "first_unfenced_day": "2022-06-03",
+      "first_unfenced_day_after_delivery_start": true,
+      "source_expiration_utc": "2022-05-26T18:30:00+00:00"
+    },
+    {
+      "calendar_days_expiry_to_delivery": 6,
+      "contract": "NGM6",
+      "delivery_first_day": "2016-06-01",
+      "first_unfenced_day": "2016-06-03",
+      "first_unfenced_day_after_delivery_start": true,
+      "source_expiration_utc": "2016-05-26T18:30:00+00:00"
+    },
+    {
+      "calendar_days_expiry_to_delivery": 6,
+      "contract": "NGM7",
+      "delivery_first_day": "2017-06-01",
+      "first_unfenced_day": "2017-06-03",
+      "first_unfenced_day_after_delivery_start": true,
+      "source_expiration_utc": "2017-05-26T18:30:00+00:00"
+    },
+    {
+      "calendar_days_expiry_to_delivery": 7,
+      "contract": "NGZ0",
+      "delivery_first_day": "2010-12-01",
+      "first_unfenced_day": "2010-12-02",
+      "first_unfenced_day_after_delivery_start": true,
+      "source_expiration_utc": "2010-11-24T19:30:00+00:00"
+    },
+    {
+      "calendar_days_expiry_to_delivery": 6,
+      "contract": "NGZ0",
+      "delivery_first_day": "2020-12-01",
+      "first_unfenced_day": "2020-12-03",
+      "first_unfenced_day_after_delivery_start": true,
+      "source_expiration_utc": "2020-11-25T19:30:00+00:00"
+    },
+    {
+      "calendar_days_expiry_to_delivery": 5,
+      "contract": "NGZ3",
+      "delivery_first_day": "2013-12-01",
+      "first_unfenced_day": "2013-12-04",
+      "first_unfenced_day_after_delivery_start": true,
+      "source_expiration_utc": "2013-11-26T19:30:00+00:00"
+    },
+    {
+      "calendar_days_expiry_to_delivery": 6,
+      "contract": "NGZ4",
+      "delivery_first_day": "2014-12-01",
+      "first_unfenced_day": "2014-12-03",
+      "first_unfenced_day_after_delivery_start": true,
+      "source_expiration_utc": "2014-11-25T19:30:00+00:00"
+    },
+    {
+      "calendar_days_expiry_to_delivery": 6,
+      "contract": "NGZ5",
+      "delivery_first_day": "2015-12-01",
+      "first_unfenced_day": "2015-12-03",
+      "first_unfenced_day_after_delivery_start": true,
+      "source_expiration_utc": "2015-11-25T19:30:00+00:00"
+    },
+    {
+      "calendar_days_expiry_to_delivery": 5,
+      "contract": "NGZ9",
+      "delivery_first_day": "2019-12-01",
+      "first_unfenced_day": "2019-12-04",
+      "first_unfenced_day_after_delivery_start": true,
+      "source_expiration_utc": "2019-11-26T19:30:00+00:00"
+    }
+  ],
+  "exact_historical_exchange_holiday_versions_verified": false,
+  "exchange_rule": "NYMEX 220102.F",
+  "exchange_rule_scope": "no trading after third business day before delivery month",
+  "exchange_rule_url": "https://www.cmegroup.com/rulebook/NYMEX/2/220.pdf",
+  "expiry_source_provisionally_verified": false,
+  "historic_exchange_filing_url": "https://www.cftc.gov/sites/default/files/stellent/groups/public/@rulesandproducts/documents/ifdocs/rul111412nymex001.pdf",
+  "historical_frozen_decisions_already_qualified": 3088,
+  "historical_rank_slots_already_qualified": 37056,
+  "intraday_expiry_times_independently_verified": false,
+  "issue": 482,
+  "model_unsafe_post_delivery_source_pruning": false,
+  "new_historical_numeric_replay": false,
+  "pre_delivery_after_expiry_unfenced_days": 0,
+  "previous_model_masked_suffix_slots_not_rerun": 17918,
+  "previous_parquet_cutoff_denials_not_rerun": 134,
+  "prior_receipt_sha256_pins_verified": {
+    "cme-expiry-exposure-receipt.json": "8d888e80abd491995b406cecd12972451d46e4ffabc6db55eea6d7fb8ca75bc6",
+    "cme-frozen-cutoff-exclusion-receipt.json": "b1ad4ca7612091ad5db9ec8503b738caffea2fcd08b3c18834c546b0aa4448c4",
+    "cme-model-output-history-receipt.json": "d936e49d5be4cf2aecdf88370dbba8c93e357a53cf42f924a4ba652632a20cf6",
+    "cme-rank-output-safety-receipt.json": "e0a7343a8275869ae2bd3a6fe9e17dc89be14c2eca0edb88f8ff64f861af9d72"
+  },
+  "protected_2023plus_accessed": false,
+  "research_admission": false,
+  "result": "PASS_CME_ROUTE_B_DELIVERY_UPPER_BOUND_AND_MODEL_EXCLUSION",
+  "route_B_fully_excludes_unsupported_model_rank_decisions": true,
+  "schema_version": 1,
+  "source_owner_approval": false,
+  "source_pins_reused_not_rehashed": {
+    "definitions": "b803deb0b88d7c0f57625fd46cfa4537e902dd3951cf04aeeba84f95f5dbf4d8",
+    "features": "b14ae69bd6ec2910f0cf56fe62f481016801308cebc6ef69e536aa7e593d072e",
+    "manifest": "6d3093305c0ae2c6a313be13151b0810bf208c1cb8f429e1bbf58a17e7d89605"
+  }
+}

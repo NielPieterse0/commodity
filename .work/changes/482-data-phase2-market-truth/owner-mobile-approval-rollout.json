@@ -1,0 +1,44 @@
+{
+  "schema_version": 1,
+  "issue": 482,
+  "change_id": "482-data-phase2-market-truth",
+  "component": "owner_mobile_review_and_approval",
+  "state": "superseded_by_2026_10_27_targeted_security_closeout",
+  "access": {
+    "binding": "127.0.0.1:8765",
+    "transport": "Tailscale Serve private HTTPS",
+    "host_authorization": "exact configured ts.net hostname, injected Tailscale-User-Login owner allowlist, and Windows verified tailscaled loopback process",
+    "browser_write_controls": [
+      "same-origin",
+      "per-process X-Review-Token"
+    ]
+  },
+  "signing": {
+    "algorithm": "Ed25519 via existing fixed OpenSSL verifier",
+    "key_storage": "persistent ignored repository-local .work/runtime/market_truth_development/owner-signing; Windows owner-ACL-protected; outside disposable worktrees",
+    "decision": "signed candidate bound to exact dataset/source/Parquet manifests and review identity",
+    "owner_approval_second_factor": "192-bit single-use, 30-minute, exact-dataset-bound code minted on owner laptop; salted hash only in owner ACL directory; old codes revoked on rotation",
+    "code_commissioning": "python -m commodity.market_truth.review_site --commission-approval-code (owner runs locally; code shown only to owner)",
+    "windows_acl_utility": "C:/Windows/System32/icacls.exe fixed absolute path",
+    "research_admission": false,
+    "independent_trusted_catalog_pin": "pending governance"
+  },
+  "verification": {
+    "unit_tests": "30 passed; one real-inventory test intentionally omitted to avoid repeat audit",
+    "subtests": 26,
+    "ruff": "passed",
+    "git_diff_check": "passed",
+    "live_local_http": "200 with key commissioned",
+    "independent_review": "single exact-range Codex security review found identity-header spoofing and unqualified ACL executable; remediated by second factor and pinned utility; independent re-review required"
+  },
+  "remaining": [
+    "Configure Tailscale Serve via authorized network action",
+    "Connect Pixel to Tailscale",
+    "Owner privately commissions mobile approval code once on laptop",
+    "Owner inspect evidence and tap Sign approval",
+    "Independently promote signed catalog and public-key/trusted catalog digest through governed review",
+    "Run admitted real-history V3 acceptance and release security verification",
+    "Complete exact-head CI and governed merge"
+  ],
+  "notes": "Supabase schema was not changed; protected 2023+ dataset was not accessed."
+}

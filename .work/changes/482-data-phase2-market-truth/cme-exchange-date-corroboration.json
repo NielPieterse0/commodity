@@ -1,0 +1,165 @@
+{
+  "schema_version": 1,
+  "issue": 482,
+  "recorded_date": "2026-10-14",
+  "blocker": "historical_CME_expiry_exchange_date",
+  "evidence_class": "external_official_CME_notice_or_adjudication_date_only",
+  "publication_status": "independently_corroborated_but_external_bytes_not_content_hash_pinned",
+  "source_queue": "cme-official-evidence-queue.json",
+  "source_sha256": "dfd96778a31399c950425171c970ca1d0ccff6a933415a69412679499217fa23",
+  "exchange_day_matched_count": 14,
+  "not_yet_independently_row_verified_count": 0,
+  "direct_official_document_rows_read": 10,
+  "index_only_not_directly_retrieved": 4,
+  "direct_read_evidence_issue_comment": "https://github.com/NielPieterse0/commodity/issues/482#issuecomment-6198974179",
+  "historical_intraday_context": {
+    "source": "https://www.ferc.gov/sites/default/files/2020-05/120FERC61085.pdf",
+    "location": "2007-07-26 Amaranth order, paragraph 14",
+    "reported_last_30_minutes": "14:00-14:30 Eastern except holiday schedules",
+    "contract_specific_2010_to_2022_expiry_time_certified": false
+  },
+  "original_blocker_closed": false,
+  "exchange_notice_raw_bytes_immutably_pinned": false,
+  "source_expiry_intraday_time_exchange_verified": false,
+  "research_admission_granted": false,
+  "protected_2023plus_accessed": false,
+  "verified_dates": [
+    {
+      "delivery_month": "2010-12",
+      "official_last_trade_date": "2010-11-24",
+      "source_url": "https://www.cmegroup.com/tools-information/lookups/advisories/clearing/files/Chadv10-475.pdf",
+      "notice_id": "10-475",
+      "official_row_context": "NYMEX Natural Gas December Energy Contracts last trade",
+      "verification_basis": "CME issuer's dated, product-specific historical record",
+      "external_archive_sha256": null
+    },
+    {
+      "delivery_month": "2011-01",
+      "official_last_trade_date": "2010-12-28",
+      "source_url": "https://www.cmegroup.com/tools-information/lookups/advisories/clearing/files/Chadv10-516.pdf",
+      "notice_id": "10-516",
+      "official_row_context": "NYMEX January 2011 Natural Gas - Last Trade Dec 28",
+      "verification_basis": "CME issuer's dated, product-specific historical record",
+      "external_archive_sha256": null,
+      "evidence_access": "indexed_CME_PDF_text_only_direct_PDF_not_retrieved",
+      "independent_pdf_bytes_verified": false
+    },
+    {
+      "delivery_month": "2011-06",
+      "official_last_trade_date": "2011-05-26",
+      "source_url": "https://www.cmegroup.com/tools-information/lookups/advisories/clearing/files/Chadv11-182.pdf",
+      "notice_id": "11-182",
+      "official_row_context": "NYMEX June 2011 Natural Gas - Last Trade May 26",
+      "verification_basis": "CME issuer's dated, product-specific historical record",
+      "external_archive_sha256": null,
+      "evidence_access": "indexed_CME_PDF_text_only_direct_PDF_not_retrieved",
+      "independent_pdf_bytes_verified": false
+    },
+    {
+      "delivery_month": "2013-04",
+      "official_last_trade_date": "2013-03-26",
+      "source_url": "https://www.cmegroup.com/tools-information/lookups/advisories/clearing/files/Chadv13-146.pdf",
+      "notice_id": "13-146",
+      "official_row_context": "NYMEX Natural Gas April Energy Contracts last trade",
+      "verification_basis": "CME issuer's dated, product-specific historical record",
+      "external_archive_sha256": null
+    },
+    {
+      "delivery_month": "2013-12",
+      "official_last_trade_date": "2013-11-26",
+      "source_url": "https://www.cmegroup.com/tools-information/lookups/advisories/clearing/files/Chadv13-539.pdf",
+      "notice_id": "13-539",
+      "official_row_context": "NYMEX Natural Gas December Energy Contracts last trade",
+      "verification_basis": "CME issuer's dated, product-specific historical record",
+      "external_archive_sha256": null
+    },
+    {
+      "delivery_month": "2014-12",
+      "official_last_trade_date": "2014-11-25",
+      "source_url": "https://www.cmegroup.com/tools-information/lookups/advisories/clearing/files/Chadv14-445.pdf",
+      "notice_id": "14-445",
+      "official_row_context": "CME Clearing November 19 2014 NYMEX December Energy Contracts: Natural Gas (NG) / Henry Hub Nat Gas Last Day Physically-Delivered (MNG), Last Trade Nov 25",
+      "verification_basis": "CME issuer's dated, product-specific historical record",
+      "external_archive_sha256": null,
+      "evidence_access": "indexed_CME_PDF_text_only_direct_PDF_not_retrieved",
+      "independent_pdf_bytes_verified": false
+    },
+    {
+      "delivery_month": "2015-12",
+      "official_last_trade_date": "2015-11-25",
+      "source_url": "https://www.cmegroup.com/tools-information/lookups/advisories/clearing/files/Chadv15-272.pdf",
+      "notice_id": "15-272",
+      "official_row_context": "NYMEX Natural Gas December Energy Contracts last trade",
+      "verification_basis": "CME issuer's dated, product-specific historical record",
+      "external_archive_sha256": null
+    },
+    {
+      "delivery_month": "2016-06",
+      "official_last_trade_date": "2016-05-26",
+      "source_url": "https://www.cmegroup.com/notices/clearing/2016/05/Chadv16-207.pdf",
+      "notice_id": "16-207",
+      "official_row_context": "NYMEX Natural Gas June Energy Contracts last trade",
+      "verification_basis": "CME issuer's dated, product-specific historical record",
+      "external_archive_sha256": null
+    },
+    {
+      "delivery_month": "2017-06",
+      "official_last_trade_date": "2017-05-26",
+      "source_url": "https://www.cmegroup.com/notices/disciplinary/2018/06/NYMEX-17-0716-BC-JP-MORGAN-CHASE-BANK-NA.html",
+      "notice_id": "NYMEX-17-0716-BC",
+      "official_row_context": "Disciplinary determination specifically identifies June 2017 Henry Hub Natural Gas (NG) last trade date",
+      "verification_basis": "CME issuer's dated, product-specific historical record",
+      "external_archive_sha256": null
+    },
+    {
+      "delivery_month": "2018-04",
+      "official_last_trade_date": "2018-03-27",
+      "source_url": "https://www.cmegroup.com/notices/clearing/2018/03/Chadv18-121.pdf",
+      "notice_id": "18-121",
+      "official_row_context": "NYMEX April 2018 Natural Gas (NG) - Last Trade Mar 27",
+      "verification_basis": "CME issuer's dated, product-specific historical record",
+      "external_archive_sha256": null,
+      "evidence_access": "indexed_CME_PDF_text_only_direct_PDF_not_retrieved",
+      "independent_pdf_bytes_verified": false
+    },
+    {
+      "delivery_month": "2019-12",
+      "official_last_trade_date": "2019-11-26",
+      "source_url": "https://www.cmegroup.com/notices/clearing/2019/10/Chadv19-353.pdf",
+      "notice_id": "19-353",
+      "official_row_context": "NYMEX Natural Gas December Energy Contracts last trade",
+      "verification_basis": "CME issuer's dated, product-specific historical record",
+      "external_archive_sha256": null
+    },
+    {
+      "delivery_month": "2020-12",
+      "official_last_trade_date": "2020-11-25",
+      "source_url": "https://www.cmegroup.com/content/dam/cmegroup/notices/clearing/2020/11/Chadv20-406.pdf",
+      "notice_id": "20-406",
+      "official_row_context": "NYMEX Natural Gas December Energy Contracts last trade",
+      "verification_basis": "CME issuer's dated, product-specific historical record",
+      "external_archive_sha256": null
+    },
+    {
+      "delivery_month": "2021-06",
+      "official_last_trade_date": "2021-05-26",
+      "source_url": "https://www.cmegroup.com/notices/clearing/2021/05/Chadv21-180R.pdf",
+      "notice_id": "21-180R",
+      "official_row_context": "NYMEX Natural Gas June Energy Contracts last trade",
+      "verification_basis": "CME issuer's dated, product-specific historical record",
+      "external_archive_sha256": null
+    },
+    {
+      "delivery_month": "2022-06",
+      "official_last_trade_date": "2022-05-26",
+      "source_url": "https://www.cmegroup.com/notices/clearing/2022/05/Chadv22-199.pdf",
+      "notice_id": "22-199",
+      "official_row_context": "NYMEX Henry Hub Natural Gas June Energy Contracts last trade",
+      "verification_basis": "CME issuer's dated, product-specific historical record",
+      "external_archive_sha256": null
+    }
+  ],
+  "open_cases": [],
+  "indexed_pdf_row_matches_without_download": 4,
+  "date_corroboration_basis": "CME-issued historical date-only rows (four from search-indexed PDFs); original PDFs not downloaded, hash-pinned or independently preserved"
+}

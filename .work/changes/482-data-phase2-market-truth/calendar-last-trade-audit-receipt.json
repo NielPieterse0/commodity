@@ -1,0 +1,58 @@
+{
+  "schema_version": 1,
+  "issue": 482,
+  "audit": "historical_ng_last_trade_source_metadata",
+  "status": "diagnostic_only_not_research_admitted",
+  "date_utc": "2026-10-11",
+  "source_scope": "source_pinned_pre2023_definition_versions",
+  "input_sha256": {
+    "dataset_manifest": "6d3093305c0ae2c6a313be13151b0810bf208c1cb8f429e1bbf58a17e7d89605",
+    "source_manifest": "8a86789673c8458c5745f14b550f3c16b6e4885cac026578cb2989cbc80e5240",
+    "definitions_csv": "dfd96778a31399c950425171c970ca1d0ccff6a933415a69412679499217fa23",
+    "definitions_parquet": "b803deb0b88d7c0f57625fd46cfa4537e902dd3951cf04aeeba84f95f5dbf4d8"
+  },
+  "canonical_sorted_compact_json_report_sha256": "e2342abdf9126f6f1d8515d6db7ada9b36a31b81bd718c2c99b1b706255d10d5",
+  "definition_versions": 525810,
+  "distinct_venue_symbol_expiration_contracts": 307,
+  "distinct_instrument_ids": 306,
+  "source_explicit_last_trade_at_populated": 0,
+  "source_expiration_timestamp_populated": 525810,
+  "weekday_only_exact_matches": 280,
+  "weekday_only_comparator_mismatches": 27,
+  "cohorts_by_source_expiration_date": {
+    "expired_before_2023": {"contracts": 152, "weekday_only_exact_matches": 138, "weekday_only_differences": 14, "nonstandard_clock": 1},
+    "forward_listed_expiration_2023_plus": {"contracts": 155, "weekday_only_exact_matches": 142, "weekday_only_differences": 13, "nonstandard_clock": 0}
+  },
+  "weekday_only_deviation_days": {"-1": 22, "-2": 1, "-3": 4},
+  "expiration_time_local_1430_contracts": 306,
+  "expiration_time_local_1330_contracts": 1,
+  "expiration_time_1330_year": 2021,
+  "future_expirations_appear_in_historical_definition_versions": true,
+  "weekday_comparator_is_official_exchange_calendar": false,
+  "independent_per_contract_cme_expiry_verified": false,
+  "independent_provider_trading_reference_date_verified": false,
+  "source_owner_attestation_approved": false,
+  "immutable_storage_approved": false,
+  "undated_statistics_quarantined": 807034,
+  "candidate_exceptions_unresolved": 3204,
+  "official_dates_promoted": 0,
+  "protected_2023plus_confirmation_accessed": false,
+  "verification": {
+    "focused_regression_and_integration_tests_passed": 27,
+    "ruff": "pass",
+    "real_pinned_source_audit": "pass"
+  },
+  "cme_rule_220_102_f": {
+    "url": "https://www.cmegroup.com/rulebook/NYMEX/2/220.pdf",
+    "rule": "third_exchange_business_day_before_first_delivery_month_day; originally_listed_expiry_retained_after_holiday_schedule_change_unless_listed_expiry_declared_holiday",
+    "source_type": "official_exchange_rule_not_contract_level_historical_date_evidence",
+    "historical_official_holiday_schedule_or_listed_expiry_cohorts_proved": false
+  },
+  "cme_2010_calendar_change_reference": "https://www.cmegroup.com/tools-information/lookups/advisories/clearing/ChAdv09141.html",
+  "external_rule_context": [
+    "https://www.cmegroup.com/markets/energy/natural-gas/natural-gas.calendar.html",
+    "https://www.cmegroup.com/trading-hours.html",
+    "https://www.eia.gov/dnav/ng/TblDefs/ng_pri_fut_tbldef2.asp"
+  ],
+  "external_rule_context_does_not_verify_each_historical_contract": true
+}

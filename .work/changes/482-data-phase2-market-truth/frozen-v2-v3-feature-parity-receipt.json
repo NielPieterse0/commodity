@@ -1,0 +1,51 @@
+{
+  "schema_version": 1,
+  "issue": 482,
+  "recorded_date": "2026-10-11",
+  "verification_result": "PASS_ALL_29_FROZEN_V2_V3_NUMERIC_FEATURE_COLUMNS_SOURCE_RECONSTRUCTED",
+  "dataset_scope": "pre2023_2010_2022_frozen_development_only",
+  "frozen_feature_dates": 3088,
+  "numeric_feature_columns": 29,
+  "numeric_feature_comparisons": 89552,
+  "matches": 89552,
+  "mismatches": 0,
+  "provenance": {
+    "frozen_feature_parquet_sha256": "b14ae69bd6ec2910f0cf56fe62f481016801308cebc6ef69e536aa7e593d072e",
+    "frozen_session_path_parquet_sha256": "0fe87ea79a56f98fb9d445e89e3d65b48ae7bb1175e06ba9b97da68ebe6b01e8",
+    "normalized_market_dataset": "market-truth-full-2010-2022-refactor-v3",
+    "normalized_dataset_manifest_sha256": "6d3093305c0ae2c6a313be13151b0810bf208c1cb8f429e1bbf58a17e7d89605",
+    "normalized_dataset_content_sha256": "943780ea8eaa7315157385c687e3939777089420c186fd7d8d4b7d781a1f5d94"
+  },
+  "audit_script_sha256": {
+    "audit_derived_parity.py": "bfe919031f96b6fcd9ae69f2e8ed1a7e78171c6faaf4201a7d428250df55ba8f",
+    "audit_calendar_parity.py": "4ed28bbbd46d34e8f73375691d820c09179f939252b04cc3addf14cc87e29ade",
+    "audit_technical_parity.py": "599b10e0b7cb67872a30e8b5012e11dcc64d32874872fcbeb5ee528ce5a2ba14",
+    "run_parity_audits.ps1": "a3c182b7af92c3f0c9d808a6a4e8face21772ce6e15c3c01461c0d152ad2fe64"
+  },
+  "verification": {
+    "environment": "offline_Docker_with_read_only_repository_and_frozen_checkpoint_mounts",
+    "network_access": false,
+    "cpu_limit": 2,
+    "memory_limit_gib": 2,
+    "curve_base_fields": {"columns": 12, "rows": 3088, "comparisons": 37056, "matches": 37056},
+    "curve_derived_fields": {"columns": 5, "rows": 3088, "comparisons": 15440, "matches": 15440},
+    "calendar_roll_fields": {"columns": 4, "rows": 3088, "comparisons": 12352, "matches": 12352},
+    "technical_rolling_fields": {"columns": 8, "rows": 3088, "comparisons": 24704, "matches": 24704},
+    "calendar_max_delta": 1.1102230246251565e-16,
+    "technical_max_delta": 6.670011765130823e-16,
+    "result": "PASS",
+    "exit_code": 0
+  },
+  "excluded_from_this_parity_claim": [
+    "new V3 snapshot API field-by-field interface equivalence",
+    "pre-warmup excluded dates and missingness policy",
+    "source historical type6/type9 TradingReferenceDate values before 2015",
+    "CME official trading calendar and last-trade audit",
+    "OS-level immutable storage and source-owner independent admission",
+    "protected 2023+ confirmation"
+  ],
+  "research_fitness_approved": false,
+  "protected_confirmation_accessed": false,
+  "historical_date_candidates_promoted": 0,
+  "new_paid_acquisition": false
+}

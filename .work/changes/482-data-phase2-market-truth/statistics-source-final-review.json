@@ -1,0 +1,47 @@
+{
+  "schema_version": 1,
+  "issue": 482,
+  "review_date": "2026-10-14",
+  "scope": "four-file statistics source/final reconciliation checkpoint",
+  "source_commits": [
+    "dd18ef1df0d9b03116bcb8228665df2d08025033",
+    "637aea8c0224be86750df9032c1701f7f83ed40c"
+  ],
+  "kis_code_review_fingerprint": "b6402b349891f6553b7311146ea9ede98e960895e727d47b7c234362f1187a27",
+  "automated_review": {
+    "code_quality": "failed_invalid_review_contract",
+    "test_quality": "failed_invalid_review_contract",
+    "manual_fallback_mode": "exact-diff",
+    "independent_signoff": false
+  },
+  "manual_exact_diff_inspection": {
+    "status": "performed_self_check_not_independent",
+    "validated_logic": [
+      "Four SHA-256 pins checked before and after read-only query",
+      "Exact instrument/trade-date/stat-type/event/availability/value original-versus-final tuple match",
+      "Final natural-grain uniqueness and multiset occurrence containment",
+      "Expected per-type counts plus physical manifest counts fail closed",
+      "Receipt explicitly distinguishes table lineage from V3-selected facts and owner research admission"
+    ],
+    "known_limits": [
+      "Source-side exclusion reasons and all excluded source occurrences not adjudicated",
+      "Full V3-selected historical owner plots not qualified",
+      "Source-owner signature, external immutable storage, CME intraday expiry, integrated security approval remain open"
+    ]
+  },
+  "verification": {
+    "linux_docker_image_id": "sha256:156e6fae2a95aa9cda91c567a842f0439473ae1093a7e94b661a0aba10103bbd",
+    "docker_network": "none",
+    "docker_mount": "read_only",
+    "full_statistics_audit": "exit_0",
+    "linux_unittest": "5_passed_0_failed_after_receipt_correction",
+    "windows_pytest": "4_passed_1_platform_skip",
+    "ruff": "passed",
+    "git_diff_check": "passed_before_followup"
+  },
+  "discovered_and_fixed": "Initial saved receipt omitted zero-valued duplicate_final_natural_grains and excess_final_source_occurrences; full Linux equality test caught mismatch; both fields restored and explicitly asserted",
+  "release_gate": "not_merge_ready",
+  "research_admitted": false,
+  "protected_2023plus_accessed": false,
+  "supabase_mutated": false
+}
